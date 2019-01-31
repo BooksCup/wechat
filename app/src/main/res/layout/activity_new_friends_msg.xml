@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -58,7 +58,6 @@
             android:textSize="16sp" />
 
         <View
-            android:id="@+id/view_temp2"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
@@ -75,7 +74,7 @@
         android:background="#fff">
 
         <TextView
-            android:id="@+id/et_search"
+            android:id="@+id/tv_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -94,8 +93,8 @@
         <ImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_alignLeft="@id/et_search"
-            android:layout_alignBottom="@id/et_search"
+            android:layout_alignLeft="@id/tv_search"
+            android:layout_alignBottom="@id/tv_search"
             android:layout_margin="8dp"
             android:src="@mipmap/search" />
     </RelativeLayout>
@@ -110,7 +109,7 @@
         android:textSize="12sp" />
 
     <ListView
-        android:id="@+id/listview"
+        android:id="@+id/lv_new_friends_msg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
