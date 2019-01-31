@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.entity.User;
@@ -50,6 +52,14 @@ public class FriendsFragment extends Fragment {
         mFriendsLv.addFooterView(footerView);
 
         mFriendsCountTv = footerView.findViewById(R.id.tv_total);
+
+        RelativeLayout mNewFriendsRl = headerView.findViewById(R.id.rl_new_friends);
+        mNewFriendsRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
+            }
+        });
 
         friendsList = new ArrayList<>();
         User user1 = new User();

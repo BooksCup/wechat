@@ -59,6 +59,9 @@
         <activity
             android:name=".activity.UpdateWxIdActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NewFriendsMsgActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 自定义的alertdialog -->
         <activity
