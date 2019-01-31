@@ -41,7 +41,10 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_loading"
                 android:background="@android:color/transparent"
+                android:cacheColorHint="@color/divider_list"
                 android:descendantFocusability="afterDescendants"
+                android:divider="@color/divider_list"
+                android:dividerHeight="0.5dp"
                 android:fastScrollEnabled="false"
                 android:footerDividersEnabled="false" />
 
