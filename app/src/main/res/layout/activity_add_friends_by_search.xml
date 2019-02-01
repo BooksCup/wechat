@@ -40,7 +40,7 @@
                 android:layout_toRightOf="@+id/iv_back"
                 android:background="@null"
                 android:gravity="bottom"
-                android:hint="微信号/手机号"
+                android:hint="@string/wx_id_or_phone"
                 android:paddingLeft="46dp"
                 android:paddingBottom="10dp"
                 android:singleLine="true"

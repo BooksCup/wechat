@@ -99,4 +99,5 @@
     <string name="my_sign">个性签名</string>
 
     <string name="saving">正在保存</string>
+    <string name="wx_id_or_phone">微信号/手机号</string>
 </resources>
