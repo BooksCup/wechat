@@ -62,7 +62,9 @@
         <activity
             android:name=".activity.NewFriendsMsgActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.AddFriendsBySearchActivity"
+            android:screenOrientation="portrait" />
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"
