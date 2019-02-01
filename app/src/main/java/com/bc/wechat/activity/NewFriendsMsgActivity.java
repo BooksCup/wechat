@@ -22,7 +22,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
         mAddTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(NewFriendsMsgActivity.this, AddFriendsActivity.class));
             }
         });
 
