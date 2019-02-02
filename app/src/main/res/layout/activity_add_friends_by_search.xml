@@ -105,7 +105,7 @@
                 android:layout_toRightOf="@id/tv_temp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="13830140218"
+                android:text=""
                 android:textColor="#3FB838"
                 android:textSize="16sp" />
         </RelativeLayout>

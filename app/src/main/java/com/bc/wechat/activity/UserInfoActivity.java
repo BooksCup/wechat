@@ -40,7 +40,9 @@ public class UserInfoActivity extends Activity {
         final String sex = getIntent().getStringExtra("sex");
 
         mNickNameTv.setText(nickName);
-        mAvatarSdv.setImageURI(Uri.parse(avatar));
+        if (null != avatar && !"".equals(avatar)) {
+            mAvatarSdv.setImageURI(Uri.parse(avatar));
+        }
         if (Constant.USER_SEX_MALE.equals(sex)) {
             mSexIv.setImageResource(R.mipmap.ic_sex_male);
         } else if (Constant.USER_SEX_FEMALE.equals(sex)) {
