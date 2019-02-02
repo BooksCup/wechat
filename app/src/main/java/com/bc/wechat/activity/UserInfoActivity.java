@@ -61,8 +61,16 @@ public class UserInfoActivity extends Activity {
         mSendMsgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
-                startActivity(intent);
+                if (Constant.IS_FRIEND.equals(isFriend)) {
+                    // 是好友，发消息
+                    Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
+                    startActivity(intent);
+                } else {
+                    // 非好友，添加到通讯录
+                    Intent intent = new Intent(UserInfoActivity.this, AddFriendsFinalActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
     }
