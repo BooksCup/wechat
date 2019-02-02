@@ -80,13 +80,12 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginBottom="8dp"
-            android:background="@mipmap/wp"
+            android:layout_marginBottom="5dp"
             android:gravity="bottom"
             android:paddingLeft="46dp"
             android:paddingBottom="10dp"
             android:singleLine="true"
-            android:text="微信号/QQ号/手机号"
+            android:text="微信号/手机号"
             android:textColor="#484c4c"
             android:textSize="16sp" />
 
@@ -97,6 +96,15 @@
             android:layout_alignBottom="@id/tv_search"
             android:layout_margin="8dp"
             android:src="@mipmap/search" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="5dp"
+            android:background="#45c01a" />
     </RelativeLayout>
 
     <TextView
