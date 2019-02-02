@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
 public class AddFriendsBySearchActivity extends FragmentActivity {
@@ -39,6 +40,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends_by_search);
         initView();
+        PreferencesUtil.getInstance().init(this);
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(AddFriendsBySearchActivity.this);
         mSearchRl.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +93,8 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     }
 
     private void searchUser(String keyword) {
-        String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword;
+        String userId = PreferencesUtil.getInstance().getUserId();
+        String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword + "&userId=" + userId;
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -102,6 +105,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                 intent.putExtra("nickName", user.getUserNickName());
                 intent.putExtra("avatar", user.getUserAvatar());
                 intent.putExtra("sex", user.getUserSex());
+                intent.putExtra("isFriend", user.getIsFriend());
                 startActivity(intent);
                 dialog.dismiss();
             }

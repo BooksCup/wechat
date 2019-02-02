@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -136,7 +136,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/btn_sendmsg"
+            android:id="@+id/btn_operate"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="12dp"

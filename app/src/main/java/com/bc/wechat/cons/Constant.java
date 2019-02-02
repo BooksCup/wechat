@@ -8,4 +8,7 @@ public class Constant {
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";
+
+    public static final String IS_NOT_FRIEND = "0";
+    public static final String IS_FRIEND = "1";
 }
