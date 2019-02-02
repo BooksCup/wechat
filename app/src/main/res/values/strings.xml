@@ -100,4 +100,6 @@
 
     <string name="saving">正在保存</string>
     <string name="wx_id_or_phone">微信号/手机号</string>
+    <string name="new_friends">新的朋友</string>
+    <string name="add_friends">添加朋友</string>
 </resources>

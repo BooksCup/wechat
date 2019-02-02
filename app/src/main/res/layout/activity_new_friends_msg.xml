@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/view_temp"
-            android:text="新的朋友"
+            android:text="@string/new_friends"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
@@ -53,7 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:gravity="center"
-            android:text="添加朋友"
+            android:text="@string/add_friends"
             android:textColor="#fff"
             android:textSize="16sp" />
 
@@ -85,7 +85,7 @@
             android:paddingLeft="46dp"
             android:paddingBottom="10dp"
             android:singleLine="true"
-            android:text="微信号/手机号"
+            android:text="@string/wx_id_or_phone"
             android:textColor="#484c4c"
             android:textSize="16sp" />
 
@@ -113,7 +113,7 @@
         android:gravity="bottom"
         android:paddingLeft="12dp"
         android:paddingBottom="4dp"
-        android:text="新的朋友"
+        android:text="@string/new_friends"
         android:textSize="12sp" />
 
     <ListView
