@@ -38,4 +38,9 @@ public class NewFriendsMsgActivity extends FragmentActivity {
         mAddTv = findViewById(R.id.tv_add);
         mSearchTv = findViewById(R.id.tv_search);
     }
+
+    public void back(View view) {
+        finish();
+    }
+
 }
