@@ -10,6 +10,7 @@ import android.view.animation.AlphaAnimation;
 import com.bc.wechat.R;
 import com.bc.wechat.utils.PreferencesUtil;
 
+
 public class SplashActivity extends FragmentActivity {
 
     private static final int sleepTime = 2000;
@@ -19,6 +20,7 @@ public class SplashActivity extends FragmentActivity {
         final View view = View.inflate(this, R.layout.activity_splash, null);
         setContentView(view);
         super.onCreate(savedInstanceState);
+
         PreferencesUtil.getInstance().init(this);
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(1500);

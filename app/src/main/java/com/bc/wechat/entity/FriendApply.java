@@ -1,6 +1,8 @@
 package com.bc.wechat.entity;
 
-public class FriendApply {
+import com.orm.SugarRecord;
+
+public class FriendApply extends SugarRecord {
     private String fromNickName;
     private long timeStamp;
 

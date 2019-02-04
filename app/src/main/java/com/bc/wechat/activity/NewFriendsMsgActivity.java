@@ -12,7 +12,6 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.NewFriendsMsgAdapter;
 import com.bc.wechat.entity.FriendApply;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NewFriendsMsgActivity extends FragmentActivity {
@@ -41,11 +40,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
             }
         });
 
-        List<FriendApply> friendApplyList = new ArrayList<>();
-        FriendApply friendApply1 = new FriendApply();
-        FriendApply friendApply2 = new FriendApply();
-        friendApplyList.add(friendApply1);
-        friendApplyList.add(friendApply2);
+        List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class);
 
 
         newFriendsMsgAdapter = new NewFriendsMsgAdapter(this, friendApplyList);
