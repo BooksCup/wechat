@@ -76,5 +76,6 @@
             android:name=".activity.WechatAlertDialog"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle"></activity>
+
     </application>
 </manifest>
