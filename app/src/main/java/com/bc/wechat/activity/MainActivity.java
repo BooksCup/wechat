@@ -130,9 +130,9 @@ public class MainActivity extends FragmentActivity {
         isForeground = false;
     }
 
-    //for receive customer msg from jpush server
     private MessageReceiver mMessageReceiver;
-    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS = "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS";
+    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN = "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN";
+    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG = "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
 
@@ -140,7 +140,7 @@ public class MainActivity extends FragmentActivity {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS);
+        filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
@@ -149,7 +149,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS.equals(intent.getAction())) {
+                if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN.equals(intent.getAction())) {
                     String messge = intent.getStringExtra(KEY_MESSAGE);
                     String extras = intent.getStringExtra(KEY_EXTRAS);
                     StringBuilder showMsg = new StringBuilder();

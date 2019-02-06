@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bc.wechat.activity.MainActivity;
+import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -119,7 +120,7 @@ public class NotifyReceiver extends BroadcastReceiver {
         if (MainActivity.isForeground) {
             String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
             String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS);
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
             if (!ExampleUtil.isEmpty(extras)) {
                 try {
@@ -135,6 +136,26 @@ public class NotifyReceiver extends BroadcastReceiver {
             FriendApply friendApply = new FriendApply();
             FriendApply.save(friendApply);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
+        } else if (NewFriendsMsgActivity.isForeground) {
+            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG);
+            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+            if (!ExampleUtil.isEmpty(extras)) {
+                try {
+                    JSONObject extraJson = new JSONObject(extras);
+                    if (extraJson.length() > 0) {
+                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
+                    }
+                } catch (JSONException e) {
+
+                }
+
+            }
+            FriendApply friendApply = new FriendApply();
+            FriendApply.save(friendApply);
+            PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         } else {
             FriendApply friendApply = new FriendApply();

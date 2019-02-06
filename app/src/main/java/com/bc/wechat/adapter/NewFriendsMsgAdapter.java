@@ -21,6 +21,11 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
         total = friendApplyList.size();
     }
 
+    public void setData(List<FriendApply> friendApplyList) {
+        this.friendApplyList = friendApplyList;
+        total = friendApplyList.size();
+    }
+
     @Override
     public int getCount() {
         return friendApplyList.size();
