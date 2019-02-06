@@ -18,6 +18,7 @@ import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,8 @@ public class FriendsFragment extends Fragment {
 
     // 好友总数
     private TextView mFriendsCountTv;
+
+    TextView mNewFriendsUnreadNumTv;
 
     // 好友列表
     private List<User> friendsList;
@@ -44,6 +47,7 @@ public class FriendsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        PreferencesUtil.getInstance().init(getActivity());
         mFriendsLv = getView().findViewById(R.id.lv_friends);
         inflater = LayoutInflater.from(getActivity());
         View headerView = inflater.inflate(R.layout.item_friends_header, null);
@@ -58,8 +62,12 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
+                PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);
             }
         });
+
+        mNewFriendsUnreadNumTv = headerView.findViewById(R.id.tv_new_friends_unread);
+
 
         friendsList = new ArrayList<>();
         User user1 = new User();
@@ -109,5 +117,16 @@ public class FriendsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void refreshNewFriendsUnreadNum() {
+        int newFriendsUnreadNum = PreferencesUtil.getInstance().getNewFriendsUnreadNumber();
+        if (newFriendsUnreadNum > 0) {
+            mNewFriendsUnreadNumTv.setVisibility(View.VISIBLE);
+            mNewFriendsUnreadNumTv.setText(String.valueOf(newFriendsUnreadNum));
+        } else {
+            mNewFriendsUnreadNumTv.setVisibility(View.GONE);
+        }
+
     }
 }

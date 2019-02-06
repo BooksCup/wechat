@@ -191,6 +191,14 @@ public class PreferencesUtil {
         return (String) getParam("userNickName", "");
     }
 
+    public void setNewFriendsUnreadNumber(int newFriendsUnreadNumber) {
+        saveParam("newFriendsUnreadNumber", newFriendsUnreadNumber);
+    }
+
+    public Integer getNewFriendsUnreadNumber() {
+        return (Integer) getParam("newFriendsUnreadNumber", 0);
+    }
+
     public Object getObject(String key) {
         String wordBase64 = preferences.getString(key, "");
         byte[] base64 = Base64.decode(wordBase64.getBytes(), Base64.DEFAULT);

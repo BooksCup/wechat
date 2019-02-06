@@ -1,10 +1,15 @@
 package com.bc.wechat.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,8 +19,12 @@ import com.bc.wechat.fragment.ConversationFragment;
 import com.bc.wechat.fragment.FindFragment;
 import com.bc.wechat.fragment.FriendsFragment;
 import com.bc.wechat.fragment.ProfileFragment;
+import com.bc.wechat.utils.ExampleUtil;
+import com.bc.wechat.utils.PreferencesUtil;
 
 public class MainActivity extends FragmentActivity {
+
+    public static boolean isForeground = false;
 
     private Fragment[] fragments;
     private ConversationFragment conversationFragment;
@@ -29,11 +38,16 @@ public class MainActivity extends FragmentActivity {
     // 当前fragment的index
     private int currentTabIndex;
 
+    private TextView mUnreadNewFriendsNumTv;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        PreferencesUtil.getInstance().init(this);
+        registerMessageReceiver();
+        refreshNewFriendsUnreadNum();
     }
 
     private void initView() {
@@ -65,6 +79,8 @@ public class MainActivity extends FragmentActivity {
                 .add(R.id.fragment_container, profileFragment)
                 .hide(friendsFragment).hide(findFragment).hide(profileFragment)
                 .show(conversationFragment).commit();
+
+        mUnreadNewFriendsNumTv = findViewById(R.id.unread_address_number);
     }
 
     public void onTabClicked(View view) {
@@ -98,5 +114,64 @@ public class MainActivity extends FragmentActivity {
         textviews[currentTabIndex].setTextColor(0xFF999999);
         textviews[index].setTextColor(0xFF45C01A);
         currentTabIndex = index;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isForeground = true;
+        refreshNewFriendsUnreadNum();
+        friendsFragment.refreshNewFriendsUnreadNum();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isForeground = false;
+    }
+
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS = "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS.equals(intent.getAction())) {
+                    String messge = intent.getStringExtra(KEY_MESSAGE);
+                    String extras = intent.getStringExtra(KEY_EXTRAS);
+                    StringBuilder showMsg = new StringBuilder();
+                    showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                    if (!ExampleUtil.isEmpty(extras)) {
+                        showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+                    }
+                    refreshNewFriendsUnreadNum();
+                    friendsFragment.refreshNewFriendsUnreadNum();
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    private void refreshNewFriendsUnreadNum() {
+        int newFriendsUnreadNum = PreferencesUtil.getInstance().getNewFriendsUnreadNumber();
+        if (newFriendsUnreadNum > 0) {
+            mUnreadNewFriendsNumTv.setVisibility(View.VISIBLE);
+            mUnreadNewFriendsNumTv.setText(String.valueOf(newFriendsUnreadNum));
+        } else {
+            mUnreadNewFriendsNumTv.setVisibility(View.GONE);
+        }
     }
 }

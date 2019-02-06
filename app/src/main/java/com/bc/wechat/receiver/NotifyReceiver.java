@@ -4,8 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.bc.wechat.activity.MainActivity;
+import com.bc.wechat.entity.FriendApply;
+import com.bc.wechat.utils.ExampleUtil;
+import com.bc.wechat.utils.PreferencesUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +22,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class NotifyReceiver extends BroadcastReceiver {
     private static final String TAG = "NotifyReceiver";
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,6 +43,7 @@ public class NotifyReceiver extends BroadcastReceiver {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
                 int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
+                processAddFriendsMessage(context, bundle);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
@@ -99,23 +107,39 @@ public class NotifyReceiver extends BroadcastReceiver {
 
     //send msg to MainActivity
     private void processCustomMessage(Context context, Bundle bundle) {
-//        if (MainActivity.isForeground) {
-//            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-//            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-//            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
-//            if (!ExampleUtil.isEmpty(extras)) {
-//                try {
-//                    JSONObject extraJson = new JSONObject(extras);
-//                    if (extraJson.length() > 0) {
-//                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-//                    }
-//                } catch (JSONException e) {
-//
-//                }
-//
-//            }
-//            LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
-//        }
+    }
+
+    /**
+     * 处理加好友消息
+     *
+     * @param context
+     * @param bundle
+     */
+    private void processAddFriendsMessage(Context context, Bundle bundle) {
+        if (MainActivity.isForeground) {
+            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS);
+            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+            if (!ExampleUtil.isEmpty(extras)) {
+                try {
+                    JSONObject extraJson = new JSONObject(extras);
+                    if (extraJson.length() > 0) {
+                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
+                    }
+                } catch (JSONException e) {
+
+                }
+
+            }
+            FriendApply friendApply = new FriendApply();
+            FriendApply.save(friendApply);
+            PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
+        } else {
+            FriendApply friendApply = new FriendApply();
+            FriendApply.save(friendApply);
+            PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
+        }
     }
 }
