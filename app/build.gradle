@@ -9,6 +9,15 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: "com.bc.wechat",
+                JPUSH_APPKEY : "ca0d8c20ceee0476b6e74831", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
     }
     buildTypes {
         release {
@@ -28,4 +37,7 @@ dependencies {
     implementation 'com.github.satyan:sugar:1.5'
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.alibaba:fastjson:1.2.55'
+
+    implementation 'cn.jiguang.sdk:jpush:3.3.4'
+    implementation 'cn.jiguang.sdk:jcore:2.1.2'
 }
