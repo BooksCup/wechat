@@ -24,9 +24,12 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
+    public static int sequence = 1;
 
     private VolleyUtil volleyUtil;
 
@@ -114,6 +117,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 PreferencesUtil.getInstance().setUserNickName(user.getUserNickName());
                 PreferencesUtil.getInstance().setUserWxId(user.getUserWxId());
                 PreferencesUtil.getInstance().setLogin(true);
+                JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 dialog.dismiss();
             }
