@@ -8,8 +8,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.NewFriendsMsgActivity;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -17,7 +19,9 @@ import com.bc.wechat.utils.PreferencesUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -44,7 +48,7 @@ public class NotifyReceiver extends BroadcastReceiver {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
                 int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-                processAddFriendsMessage(context, bundle);
+                messageProcessEntrance(context, bundle);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
@@ -67,7 +71,7 @@ public class NotifyReceiver extends BroadcastReceiver {
                 Log.d(TAG, "[MyReceiver] Unhandled intent - " + intent.getAction());
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }
@@ -111,55 +115,42 @@ public class NotifyReceiver extends BroadcastReceiver {
     }
 
     /**
+     * 消息处理总入口
+     *
+     * @param context
+     * @param bundle
+     */
+    private void messageProcessEntrance(Context context, Bundle bundle) {
+        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        Map<String, String> extrasMap = new HashMap<>();
+        extrasMap = JSON.parseObject(extras, extrasMap.getClass());
+        String serviceType = extrasMap.get("serviceType");
+        if (Constant.PUSH_SERVICE_TYPE_ADD_FRIENDS_APPLY.equals(serviceType)) {
+            processAddFriendsMessage(context, bundle, extrasMap);
+        }
+    }
+
+    /**
      * 处理加好友消息
      *
      * @param context
      * @param bundle
      */
-    private void processAddFriendsMessage(Context context, Bundle bundle) {
+    private void processAddFriendsMessage(Context context, Bundle bundle, Map<String, String> extrasMap) {
+        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        FriendApply friendApply = com.alibaba.fastjson.JSONObject.parseObject(extrasMap.get("friendApply"), FriendApply.class);
+        FriendApply.save(friendApply);
         if (MainActivity.isForeground) {
-            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
-            if (!ExampleUtil.isEmpty(extras)) {
-                try {
-                    JSONObject extraJson = new JSONObject(extras);
-                    if (extraJson.length() > 0) {
-                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-                    }
-                } catch (JSONException e) {
-
-                }
-
-            }
-            FriendApply friendApply = new FriendApply();
-            FriendApply.save(friendApply);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         } else if (NewFriendsMsgActivity.isForeground) {
-            String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-            String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
             Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
-            if (!ExampleUtil.isEmpty(extras)) {
-                try {
-                    JSONObject extraJson = new JSONObject(extras);
-                    if (extraJson.length() > 0) {
-                        msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
-                    }
-                } catch (JSONException e) {
-
-                }
-
-            }
-            FriendApply friendApply = new FriendApply();
-            FriendApply.save(friendApply);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         } else {
-            FriendApply friendApply = new FriendApply();
-            FriendApply.save(friendApply);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
         }
     }

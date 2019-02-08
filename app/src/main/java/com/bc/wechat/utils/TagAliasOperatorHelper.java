@@ -255,7 +255,7 @@ public class TagAliasOperatorHelper {
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = (TagAliasBean) setActionCache.get(sequence);
         if (tagAliasBean == null) {
-            ExampleUtil.showToast("获取缓存记录失败", context);
+//            ExampleUtil.showToast("获取缓存记录失败", context);
             return;
         }
         if (jPushMessage.getErrorCode() == 0) {
@@ -285,7 +285,7 @@ public class TagAliasOperatorHelper {
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = (TagAliasBean) setActionCache.get(sequence);
         if (tagAliasBean == null) {
-            ExampleUtil.showToast("获取缓存记录失败", context);
+//            ExampleUtil.showToast("获取缓存记录失败", context);
             return;
         }
         if (jPushMessage.getErrorCode() == 0) {
@@ -310,7 +310,7 @@ public class TagAliasOperatorHelper {
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = (TagAliasBean) setActionCache.get(sequence);
         if (tagAliasBean == null) {
-            ExampleUtil.showToast("获取缓存记录失败", context);
+//            ExampleUtil.showToast("获取缓存记录失败", context);
             return;
         }
         if (jPushMessage.getErrorCode() == 0) {
