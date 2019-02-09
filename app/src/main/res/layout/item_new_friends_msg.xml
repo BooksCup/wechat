@@ -19,26 +19,26 @@
             android:src="@mipmap/default_useravatar" />
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="14dp"
             android:layout_toRightOf="@id/iv_avatar"
-            android:text="黄方意"
+            android:text=""
             android:textColor="#353535"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_reason"
+            android:id="@+id/tv_apply_remark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginBottom="14dp"
             android:layout_toRightOf="@id/iv_avatar"
-            android:text="请求加你为好友"
+            android:text=""
             android:textColor="#aaaaaa"
             android:textSize="14sp" />
 
@@ -58,7 +58,8 @@
                 android:paddingRight="20dp"
                 android:text="已添加"
                 android:textColor="#AAAAAA"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_add"
