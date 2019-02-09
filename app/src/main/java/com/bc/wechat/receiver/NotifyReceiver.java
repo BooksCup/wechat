@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
@@ -139,7 +140,14 @@ public class NotifyReceiver extends BroadcastReceiver {
     private void processAddFriendsMessage(Context context, Bundle bundle, Map<String, String> extrasMap) {
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         FriendApply friendApply = com.alibaba.fastjson.JSONObject.parseObject(extrasMap.get("friendApply"), FriendApply.class);
-        FriendApply.save(friendApply);
+        List<FriendApply> friendApplyList = FriendApply.find(FriendApply.class, "from_user_id = ?", friendApply.getFromUserId());
+        if (null != friendApplyList && friendApplyList.size() > 0) {
+            // 已存在,更新时间戳
+        } else {
+            // 不存在,插入sqlite
+            FriendApply.save(friendApply);
+        }
+
         if (MainActivity.isForeground) {
             Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
