@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendApply;
@@ -45,6 +46,13 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final FriendApply friendApply = friendApplyList.get(total - 1 - position);
         convertView = View.inflate(mContext, R.layout.item_new_friends_msg, null);
+
+        TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
+        TextView mApplyReasonTv = convertView.findViewById(R.id.tv_apply_remark);
+
+        mNickNameTv.setText(friendApply.getFromUserNickName());
+        mApplyReasonTv.setText(friendApply.getApplyRemark());
+
         return convertView;
     }
 }
