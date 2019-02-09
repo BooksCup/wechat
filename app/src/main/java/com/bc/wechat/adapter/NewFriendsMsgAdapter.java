@@ -1,6 +1,7 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendApply;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -49,10 +51,13 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
 
         TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
         TextView mApplyReasonTv = convertView.findViewById(R.id.tv_apply_remark);
+        SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
 
         mNickNameTv.setText(friendApply.getFromUserNickName());
         mApplyReasonTv.setText(friendApply.getApplyRemark());
-
+        if (null != friendApply.getFromUserAvatar() && !"".equals(friendApply.getFromUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(friendApply.getFromUserAvatar()));
+        }
         return convertView;
     }
 }

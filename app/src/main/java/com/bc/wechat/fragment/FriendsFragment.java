@@ -17,6 +17,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
+import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
@@ -63,6 +64,14 @@ public class FriendsFragment extends Fragment {
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
                 PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);
+            }
+        });
+
+        RelativeLayout mChatRoomRl = headerView.findViewById(R.id.re_chatroom);
+        mChatRoomRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FriendApply.deleteAll(FriendApply.class);
             }
         });
 

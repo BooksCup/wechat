@@ -12,6 +12,7 @@ public class FriendApply extends SugarRecord {
     private String fromUserNickName;
     private String fromUserAvatar;
 
+    private Long timeStamp;
 
     public String getApplyId() {
         return applyId;
@@ -67,5 +68,13 @@ public class FriendApply extends SugarRecord {
 
     public void setFromUserAvatar(String fromUserAvatar) {
         this.fromUserAvatar = fromUserAvatar;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

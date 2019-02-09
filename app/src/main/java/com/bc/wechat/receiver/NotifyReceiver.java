@@ -143,6 +143,7 @@ public class NotifyReceiver extends BroadcastReceiver {
         List<FriendApply> friendApplyList = FriendApply.find(FriendApply.class, "from_user_id = ?", friendApply.getFromUserId());
         if (null != friendApplyList && friendApplyList.size() > 0) {
             // 已存在,更新时间戳
+            FriendApply.update(friendApply);
         } else {
             // 不存在,插入sqlite
             FriendApply.save(friendApply);
