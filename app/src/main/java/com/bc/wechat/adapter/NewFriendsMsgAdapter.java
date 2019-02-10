@@ -46,7 +46,7 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final FriendApply friendApply = friendApplyList.get(total - 1 - position);
+        final FriendApply friendApply = friendApplyList.get(position);
         convertView = View.inflate(mContext, R.layout.item_new_friends_msg, null);
 
         TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);

@@ -11,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.NewFriendsMsgAdapter;
@@ -51,7 +50,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
             }
         });
 
-        List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class);
+        List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
 
 
         newFriendsMsgAdapter = new NewFriendsMsgAdapter(this, friendApplyList);
@@ -101,7 +100,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
                     if (!ExampleUtil.isEmpty(extras)) {
                         showMsg.append(MainActivity.KEY_EXTRAS + " : " + extras + "\n");
                     }
-                    List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class);
+                    List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
                     newFriendsMsgAdapter.setData(friendApplyList);
                     newFriendsMsgAdapter.notifyDataSetChanged();
                 }
