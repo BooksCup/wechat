@@ -66,6 +66,7 @@
                 android:layout_width="48dp"
                 android:layout_height="32dp"
                 android:background="@drawable/btn_register_bg"
+                android:focusable="false"
                 android:text="接受"
                 android:textColor="#fff"
                 android:textSize="12sp" />

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,11 +51,22 @@ public class NewFriendsMsgActivity extends FragmentActivity {
             }
         });
 
-        List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
+        final List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
 
 
         newFriendsMsgAdapter = new NewFriendsMsgAdapter(this, friendApplyList);
         mNewFriendsMsgLv.setAdapter(newFriendsMsgAdapter);
+
+        mNewFriendsMsgLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FriendApply friendApply = friendApplyList.get(position);
+                startActivity(new Intent(NewFriendsMsgActivity.this, NewFriendsAcceptActivity.class).
+                        putExtra("nickName", friendApply.getFromUserNickName()).
+                        putExtra("avatar", friendApply.getFromUserAvatar()).
+                        putExtra("sex", "2"));
+            }
+        });
     }
 
     private void initView() {

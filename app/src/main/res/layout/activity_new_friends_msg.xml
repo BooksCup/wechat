@@ -121,6 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
+        android:descendantFocusability="blocksDescendants"
         android:divider="#DADADA"
         android:dividerHeight="0.1dp" />
 
