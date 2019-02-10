@@ -102,6 +102,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                 User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
                 Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoActivity.class);
+                intent.putExtra("userId", user.getUserId());
                 intent.putExtra("nickName", user.getUserNickName());
                 intent.putExtra("avatar", user.getUserAvatar());
                 intent.putExtra("sex", user.getUserSex());

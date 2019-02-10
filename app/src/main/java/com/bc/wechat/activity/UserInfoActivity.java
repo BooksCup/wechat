@@ -20,6 +20,10 @@ public class UserInfoActivity extends Activity {
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private ImageView mSexIv;
+
+    // 操作按钮  根据是否好友关系分为如下两种
+    // 是好友: 发送消息
+    // 非好友: 添加到通讯录
     private Button mSendMsgBtn;
 
     @Override
@@ -35,6 +39,7 @@ public class UserInfoActivity extends Activity {
         mSexIv = findViewById(R.id.iv_sex);
         mSendMsgBtn = findViewById(R.id.btn_operate);
 
+        final String userId = getIntent().getStringExtra("userId");
         final String nickName = getIntent().getStringExtra("nickName");
         final String avatar = getIntent().getStringExtra("avatar");
         final String sex = getIntent().getStringExtra("sex");
@@ -68,6 +73,7 @@ public class UserInfoActivity extends Activity {
                 } else {
                     // 非好友，添加到通讯录
                     Intent intent = new Intent(UserInfoActivity.this, AddFriendsFinalActivity.class);
+                    intent.putExtra("userId", userId);
                     startActivity(intent);
                 }
 
