@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +28,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
     private EditText mReasonEt;
     private TextView mSendTv;
     private VolleyUtil volleyUtil;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
 
         PreferencesUtil.getInstance().init(this);
         volleyUtil = VolleyUtil.getInstance(this);
+        dialog = new ProgressDialog(AddFriendsFinalActivity.this);
         initView();
     }
 
@@ -58,6 +61,9 @@ public class AddFriendsFinalActivity extends FragmentActivity {
         mSendTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.setMessage("正在发送...");
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.show();
                 addFriendApply(fromUserId, toUserId, applyRemark);
             }
         });
@@ -80,6 +86,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
             public void onResponse(String response) {
                 Toast.makeText(AddFriendsFinalActivity.this, "已发送", Toast.LENGTH_SHORT).show();
                 finish();
+                dialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -88,6 +95,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
                     Toast.makeText(AddFriendsFinalActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                dialog.dismiss();
             }
         });
     }
