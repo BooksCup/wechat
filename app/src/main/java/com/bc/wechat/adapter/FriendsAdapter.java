@@ -12,21 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-public class FriendsAdapter extends ArrayAdapter<User> {
+public class FriendsAdapter extends ArrayAdapter<Friend> {
 
-    List<User> userList;
+    List<Friend> friendList;
     int resource;
     private LayoutInflater layoutInflater;
 
-    public FriendsAdapter(Context context, int resource, List<User> userList) {
-        super(context, resource, userList);
+    public FriendsAdapter(Context context, int resource, List<Friend> friendList) {
+        super(context, resource, friendList);
         this.resource = resource;
-        this.userList = userList;
+        this.friendList = friendList;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -43,9 +44,9 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         View mTempView = convertView.findViewById(R.id.view_header);
 
 
-        User user = getItem(position);
-        String header = user.getUserHeader();
-        String avatar = user.getUserAvatar();
+        Friend friend = getItem(position);
+        String header = friend.getUserHeader();
+        String avatar = friend.getUserAvatar();
         if (0 == position || null != header && !header.equals(getItem(position - 1).getUserHeader())) {
             if ("".equals(header)) {
                 mHeaderTv.setVisibility(View.GONE);
@@ -60,19 +61,23 @@ public class FriendsAdapter extends ArrayAdapter<User> {
             mTempView.setVisibility(View.VISIBLE);
         }
 
-        mNameTv.setText(user.getUserNickName());
+        mNameTv.setText(friend.getUserNickName());
         mAvatarSdv.setImageURI(Uri.parse(avatar));
 
         return convertView;
     }
 
     @Override
-    public User getItem(int position) {
-        return super.getItem(position);
+    public Friend getItem(int position) {
+        return friendList.get(position);
     }
 
     @Override
     public int getCount() {
-        return super.getCount();
+        return friendList.size();
+    }
+
+    public void setData(List<Friend> friendList) {
+        this.friendList = friendList;
     }
 }

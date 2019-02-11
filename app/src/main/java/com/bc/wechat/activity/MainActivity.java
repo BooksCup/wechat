@@ -120,8 +120,10 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         isForeground = true;
+        // 通讯录
         refreshNewFriendsUnreadNum();
         friendsFragment.refreshNewFriendsUnreadNum();
+        friendsFragment.refreshFriendsList();
     }
 
     @Override
@@ -174,4 +176,5 @@ public class MainActivity extends FragmentActivity {
             mUnreadNewFriendsNumTv.setVisibility(View.GONE);
         }
     }
+
 }

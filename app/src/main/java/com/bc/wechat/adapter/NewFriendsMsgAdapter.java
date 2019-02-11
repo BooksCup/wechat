@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -100,6 +101,11 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
                 Toast.makeText(mContext, "通过验证", Toast.LENGTH_SHORT).show();
                 friendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
                 FriendApply.save(friendApply);
+                Friend friend = new Friend();
+                friend.setUserId(friendApply.getFromUserId());
+                friend.setUserNickName(friendApply.getFromUserNickName());
+                friend.setUserAvatar(friendApply.getFromUserAvatar());
+                Friend.save(friend);
                 notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
