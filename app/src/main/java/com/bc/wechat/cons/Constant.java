@@ -12,6 +12,8 @@ public class Constant {
     public static final String IS_NOT_FRIEND = "0";
     public static final String IS_FRIEND = "1";
 
+    public static final String FRIEND_APPLY_STATUS_ACCEPT = "1";
+
     // 用于推送的业务类型
     /**
      * 好友申请

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.NewFriendsMsgAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.ExampleUtil;
 
@@ -61,10 +62,22 @@ public class NewFriendsMsgActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FriendApply friendApply = friendApplyList.get(position);
-                startActivity(new Intent(NewFriendsMsgActivity.this, NewFriendsAcceptActivity.class).
-                        putExtra("nickName", friendApply.getFromUserNickName()).
-                        putExtra("avatar", friendApply.getFromUserAvatar()).
-                        putExtra("sex", "2"));
+                if (Constant.FRIEND_APPLY_STATUS_ACCEPT.equals(friendApply.getStatus())) {
+                    // 如果已通过申请
+                    // 进入用户详情页
+                    startActivity(new Intent(NewFriendsMsgActivity.this, UserInfoActivity.class).
+                            putExtra("nickName", friendApply.getFromUserNickName()).
+                            putExtra("avatar", friendApply.getFromUserAvatar()).
+                            putExtra("sex", "2").
+                            putExtra("isFriend", Constant.IS_FRIEND));
+                } else {
+                    // 未通过申请
+                    // 进入好友申请处理页面
+                    startActivity(new Intent(NewFriendsMsgActivity.this, NewFriendsAcceptActivity.class).
+                            putExtra("nickName", friendApply.getFromUserNickName()).
+                            putExtra("avatar", friendApply.getFromUserAvatar()).
+                            putExtra("sex", "2"));
+                }
             }
         });
     }
