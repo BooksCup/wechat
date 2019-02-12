@@ -20,10 +20,8 @@ import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendApply;
-import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
@@ -79,36 +77,6 @@ public class FriendsFragment extends Fragment {
         });
 
         mNewFriendsUnreadNumTv = headerView.findViewById(R.id.tv_new_friends_unread);
-
-//        friendsList = new ArrayList<>();
-//        User user1 = new User();
-//        user1.setUserNickName("张三");
-//        user1.setUserHeader("Z");
-//        user1.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
-//        user1.setUserSex("1");
-//
-//        User user2 = new User();
-//        user2.setUserNickName("杖撸");
-//        user2.setUserHeader("Z");
-//        user2.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
-//        user2.setUserSex("2");
-//
-//        User user3 = new User();
-//        user3.setUserNickName("李四");
-//        user3.setUserHeader("L");
-//        user3.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
-//        user3.setUserSex("1");
-//
-//        User user4 = new User();
-//        user4.setUserNickName("力王");
-//        user4.setUserHeader("L");
-//        user4.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
-//        user4.setUserSex("2");
-//
-//        friendsList.add(user1);
-//        friendsList.add(user2);
-//        friendsList.add(user3);
-//        friendsList.add(user4);
 
         friendsList = Friend.listAll(Friend.class);
 
