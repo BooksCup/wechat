@@ -114,5 +114,6 @@ public class FriendsFragment extends Fragment {
         friendsList = Friend.listAll(Friend.class);
         friendsAdapter.setData(friendsList);
         friendsAdapter.notifyDataSetChanged();
+        mFriendsCountTv.setText(friendsList.size() + "位联系人");
     }
 }
