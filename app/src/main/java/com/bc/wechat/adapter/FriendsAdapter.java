@@ -62,7 +62,9 @@ public class FriendsAdapter extends ArrayAdapter<Friend> {
         }
 
         mNameTv.setText(friend.getUserNickName());
-        mAvatarSdv.setImageURI(Uri.parse(avatar));
+        if (null != avatar && !"".equals(avatar)) {
+            mAvatarSdv.setImageURI(Uri.parse(avatar));
+        }
 
         return convertView;
     }
