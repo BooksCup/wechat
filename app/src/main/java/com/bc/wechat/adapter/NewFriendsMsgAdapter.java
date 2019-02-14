@@ -2,6 +2,7 @@ package com.bc.wechat.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -75,7 +76,7 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
 
         mNickNameTv.setText(friendApply.getFromUserNickName());
         mApplyReasonTv.setText(friendApply.getApplyRemark());
-        if (null != friendApply.getFromUserAvatar() && !"".equals(friendApply.getFromUserAvatar())) {
+        if (!TextUtils.isEmpty(friendApply.getFromUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(friendApply.getFromUserAvatar()));
         }
         if (Constant.FRIEND_APPLY_STATUS_ACCEPT.equals(friendApply.getStatus())) {
