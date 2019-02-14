@@ -108,10 +108,12 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
                 friendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
                 FriendApply.save(friendApply);
                 Friend friend = new Friend();
+
                 friend.setUserId(friendApply.getFromUserId());
                 friend.setUserNickName(friendApply.getFromUserNickName());
                 friend.setUserAvatar(friendApply.getFromUserAvatar());
                 friend.setUserHeader(setUserHeader(friendApply.getFromUserNickName()));
+                friend.setUserSex(friendApply.getFromUserSex());
                 Friend.save(friend);
                 notifyDataSetChanged();
             }
