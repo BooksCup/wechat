@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.github.satyan:sugar:1.5'
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.alibaba:fastjson:1.2.55'
+    implementation 'com.github.open-android:pinyin4j:2.5.0'
 
     implementation 'cn.jiguang.sdk:jpush:3.3.4'
     implementation 'cn.jiguang.sdk:jcore:2.1.2'

@@ -22,6 +22,8 @@ import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.PreferencesUtil;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
@@ -79,6 +81,9 @@ public class FriendsFragment extends Fragment {
         mNewFriendsUnreadNumTv = headerView.findViewById(R.id.tv_new_friends_unread);
 
         friendsList = Friend.listAll(Friend.class);
+        // 对list进行排序
+        Collections.sort(friendsList, new PinyinComparator() {
+        });
 
         friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, friendsList);
         mFriendsLv.setAdapter(friendsAdapter);
@@ -112,8 +117,40 @@ public class FriendsFragment extends Fragment {
 
     public void refreshFriendsList() {
         friendsList = Friend.listAll(Friend.class);
+        // 对list进行排序
+        Collections.sort(friendsList, new PinyinComparator() {
+        });
         friendsAdapter.setData(friendsList);
         friendsAdapter.notifyDataSetChanged();
         mFriendsCountTv.setText(friendsList.size() + "位联系人");
+    }
+
+    public class PinyinComparator implements Comparator<Friend> {
+
+        @Override
+        public int compare(Friend o1, Friend o2) {
+            String py1 = o1.getUserHeader();
+            String py2 = o2.getUserHeader();
+            // 判断是否为空""
+            if (isEmpty(py1) && isEmpty(py2))
+                return 0;
+            if (isEmpty(py1))
+                return -1;
+            if (isEmpty(py2))
+                return 1;
+            String str1 = "";
+            String str2 = "";
+            try {
+                str1 = ((o1.getUserHeader()).toUpperCase()).substring(0, 1);
+                str2 = ((o2.getUserHeader()).toUpperCase()).substring(0, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return str1.compareTo(str2);
+        }
+
+        private boolean isEmpty(String str) {
+            return "".equals(str.trim());
+        }
     }
 }
