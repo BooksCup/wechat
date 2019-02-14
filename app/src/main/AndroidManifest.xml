@@ -97,6 +97,11 @@
         <activity
             android:name=".activity.NewFriendsAcceptActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.BigImageActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"

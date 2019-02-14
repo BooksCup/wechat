@@ -79,6 +79,15 @@ public class UserInfoActivity extends Activity {
 
             }
         });
+
+        mAvatarSdv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
+                intent.putExtra("imgUrl", avatar);
+                startActivity(intent);
+            }
+        });
     }
 
     public void back(View view) {
