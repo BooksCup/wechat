@@ -107,14 +107,20 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
                 Toast.makeText(mContext, "通过验证", Toast.LENGTH_SHORT).show();
                 friendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
                 FriendApply.save(friendApply);
-                Friend friend = new Friend();
 
-                friend.setUserId(friendApply.getFromUserId());
-                friend.setUserNickName(friendApply.getFromUserNickName());
-                friend.setUserAvatar(friendApply.getFromUserAvatar());
-                friend.setUserHeader(setUserHeader(friendApply.getFromUserNickName()));
-                friend.setUserSex(friendApply.getFromUserSex());
-                Friend.save(friend);
+                List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", friendApply.getFromUserId());
+                if (null != friendList && friendList.size() > 0) {
+                    // 好友已存在，忽略
+                } else {
+                    // 不存在,插入sqlite
+                    Friend friend = new Friend();
+                    friend.setUserId(friendApply.getFromUserId());
+                    friend.setUserNickName(friendApply.getFromUserNickName());
+                    friend.setUserAvatar(friendApply.getFromUserAvatar());
+                    friend.setUserHeader(setUserHeader(friendApply.getFromUserNickName()));
+                    friend.setUserSex(friendApply.getFromUserSex());
+                    Friend.save(friend);
+                }
                 notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
