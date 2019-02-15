@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="45dp"
             android:layout_marginRight="8dp"
 
             android:layout_toLeftOf="@id/iv_userhead"
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="这是发送消息"
+                android:text="发送到发大水发送到发送到发斯蒂芬发送到发斯蒂芬"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp" />
         </com.cxd.chatview.moudle.ChatView>
