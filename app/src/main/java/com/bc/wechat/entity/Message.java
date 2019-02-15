@@ -8,6 +8,7 @@ public class Message extends SugarRecord{
     private String fromUserId;
     private String fromUserName;
     private String fromUserAvatar;
+    private long timestamp;
 
     public String getContent() {
         return content;
@@ -47,5 +48,13 @@ public class Message extends SugarRecord{
 
     public void setFromUserAvatar(String fromUserAvatar) {
         this.fromUserAvatar = fromUserAvatar;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }

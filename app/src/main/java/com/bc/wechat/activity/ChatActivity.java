@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -21,8 +22,10 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.widget.PasteEditText;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +82,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private View buttonSetModeVoice;
     private View buttonPressToSpeak;
 
-    private PasteEditText mEditTextContent;
+    private EditText mEditTextContent;
     private RelativeLayout mEditTextRl;
 
     private ListView mMessageLv;
@@ -162,10 +165,25 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void setUpView() {
-        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         messageList = new ArrayList<>();
+        Message message1 = new Message();
+        message1.setFromUserId("1");
+        message1.setFromUserName("张三");
+        message1.setContent("这是一哥测试是实打实的");
+        Date date;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2018-12-20 13:14:20");
+        } catch (ParseException e) {
+            date = new Date();
+            e.printStackTrace();
+        }
+
+        message1.setCreateTime(TimeUtil.getTimeStringAutoShort2(date.getTime(), true));
+        messageList.add(message1);
+
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
     }
@@ -222,6 +240,21 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 mMoreLl.setVisibility(View.GONE);
             }
         }
+    }
+
+    /**
+     * 点击文字输入框
+     *
+     * @param v
+     */
+    public void editClick(View v) {
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
+        if (mMoreLl.getVisibility() == View.VISIBLE) {
+            mMoreLl.setVisibility(View.GONE);
+            mEmoticonsNormalIv.setVisibility(View.VISIBLE);
+            mEmoticonsCheckedIv.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     /**
