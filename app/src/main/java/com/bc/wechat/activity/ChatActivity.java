@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bc.wechat.R;
@@ -70,6 +71,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
     private InputMethodManager manager;
 
+    private TextView mFromNickNameTv;
+
     private LinearLayout mMoreLl;
     private LinearLayout mEmojiIconContainerLl;
     private LinearLayout mBtnContainerLl;
@@ -99,6 +102,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initView() {
+        mFromNickNameTv = findViewById(R.id.tv_from_nick_name);
+
         mMessageLv = findViewById(R.id.list);
 
         mMoreLl = findViewById(R.id.more);
@@ -168,11 +173,16 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 //        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        String fromUserId = getIntent().getStringExtra("fromUserId");
+        String fromUserNickName = getIntent().getStringExtra("fromUserNickName");
+        String fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
+        mFromNickNameTv.setText(fromUserNickName);
         messageList = new ArrayList<>();
         Message message1 = new Message();
-        message1.setFromUserId("1");
-        message1.setFromUserName("张三");
+        message1.setFromUserId(fromUserId);
+        message1.setFromUserName(fromUserNickName);
         message1.setContent("这是一哥测试是实打实的");
+        message1.setFromUserAvatar(fromUserAvatar);
         Date date;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2018-12-20 13:14:20");

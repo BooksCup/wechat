@@ -36,7 +36,7 @@
             android:background="#14191A" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/tv_from_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
