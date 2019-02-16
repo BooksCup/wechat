@@ -1,6 +1,8 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -54,9 +57,13 @@ public class MessageAdapter extends BaseAdapter {
         }
         TextView mTimeStampTv = convertView.findViewById(R.id.timestamp);
         TextView mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+        SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
 
         mTimeStampTv.setText(message.getCreateTime());
         mContentTv.setText(message.getContent());
+        if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+        }
 
         if (position != 0) {
             Message lastMessage = messageList.get(position - 1);
