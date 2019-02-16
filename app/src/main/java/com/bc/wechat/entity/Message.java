@@ -8,6 +8,9 @@ public class Message extends SugarRecord{
     private String fromUserId;
     private String fromUserName;
     private String fromUserAvatar;
+    private String toUserId;
+    private String toUserName;
+    private String toUserAvatar;
     private long timestamp;
 
     public String getContent() {
@@ -48,6 +51,30 @@ public class Message extends SugarRecord{
 
     public void setFromUserAvatar(String fromUserAvatar) {
         this.fromUserAvatar = fromUserAvatar;
+    }
+
+    public String getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
+    }
+
+    public String getToUserName() {
+        return toUserName;
+    }
+
+    public void setToUserName(String toUserName) {
+        this.toUserName = toUserName;
+    }
+
+    public String getToUserAvatar() {
+        return toUserAvatar;
+    }
+
+    public void setToUserAvatar(String toUserAvatar) {
+        this.toUserAvatar = toUserAvatar;
     }
 
     public long getTimestamp() {

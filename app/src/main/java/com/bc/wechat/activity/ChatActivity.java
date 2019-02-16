@@ -92,6 +92,11 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private MessageAdapter messageAdapter;
     List<Message> messageList;
 
+    // intent传值
+    private String fromUserId;
+    private String fromUserNickName;
+    private String fromUserAvatar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,26 +178,27 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 //        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        String fromUserId = getIntent().getStringExtra("fromUserId");
-        String fromUserNickName = getIntent().getStringExtra("fromUserNickName");
-        String fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
+        fromUserId = getIntent().getStringExtra("fromUserId");
+        fromUserNickName = getIntent().getStringExtra("fromUserNickName");
+        fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
         mFromNickNameTv.setText(fromUserNickName);
-        messageList = new ArrayList<>();
-        Message message1 = new Message();
-        message1.setFromUserId(fromUserId);
-        message1.setFromUserName(fromUserNickName);
-        message1.setContent("这是一哥测试是实打实的");
-        message1.setFromUserAvatar(fromUserAvatar);
-        Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2018-12-20 13:14:20");
-        } catch (ParseException e) {
-            date = new Date();
-            e.printStackTrace();
-        }
-
-        message1.setCreateTime(TimeUtil.getTimeStringAutoShort2(date.getTime(), true));
-        messageList.add(message1);
+//        messageList = new ArrayList<>();
+//        Message message1 = new Message();
+//        message1.setFromUserId(fromUserId);
+//        message1.setFromUserName(fromUserNickName);
+//        message1.setContent("这是一哥测试是实打实的");
+//        message1.setFromUserAvatar(fromUserAvatar);
+//        Date date;
+//        try {
+//            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2018-12-20 13:14:20");
+//        } catch (ParseException e) {
+//            date = new Date();
+//            e.printStackTrace();
+//        }
+//
+//        message1.setCreateTime(TimeUtil.getTimeStringAutoShort2(date.getTime(), true));
+//        messageList.add(message1);
+        messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp desc", fromUserId, fromUserId);
 
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
@@ -288,7 +294,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setContent(content);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(PreferencesUtil.getInstance().getUserId());
+        message.setToUserId(fromUserId);
+        message.setToUserName(fromUserNickName);
+        message.setToUserAvatar(fromUserAvatar);
         messageList.add(message);
+
+        Message.save(message);
+
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
         mEditTextContent.setText("");

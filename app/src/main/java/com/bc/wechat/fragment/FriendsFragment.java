@@ -96,6 +96,7 @@ public class FriendsFragment extends Fragment {
                 if (position != 0 && position != friendsList.size() + 1) {
                     Friend friend = friendsList.get(position - 1);
                     startActivity(new Intent(getActivity(), UserInfoActivity.class).
+                            putExtra("userId", friend.getUserId()).
                             putExtra("nickName", friend.getUserNickName()).
                             putExtra("avatar", friend.getUserAvatar()).
                             putExtra("sex", friend.getUserSex()).
