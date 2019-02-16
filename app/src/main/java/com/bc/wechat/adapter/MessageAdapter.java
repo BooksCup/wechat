@@ -46,6 +46,7 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = messageList.get(position);
+
         if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
             convertView = inflater.inflate(R.layout.row_sent_message, null);
         } else {
@@ -56,6 +57,13 @@ public class MessageAdapter extends BaseAdapter {
 
         mTimeStampTv.setText(message.getCreateTime());
         mContentTv.setText(message.getContent());
+
+        if (position != 0) {
+            Message lastMessage = messageList.get(position - 1);
+            if (message.getCreateTime().equals(lastMessage.getCreateTime())) {
+                mTimeStampTv.setVisibility(View.GONE);
+            }
+        }
 
         return convertView;
     }

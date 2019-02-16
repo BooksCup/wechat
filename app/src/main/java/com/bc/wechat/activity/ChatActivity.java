@@ -274,10 +274,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
      * @param content 消息内容
      */
     private void sendTextMsg(String content) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Message message = new Message();
         message.setContent(content);
-        message.setCreateTime(sdf.format(new Date()));
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(PreferencesUtil.getInstance().getUserId());
         messageList.add(message);
         messageAdapter.notifyDataSetChanged();
