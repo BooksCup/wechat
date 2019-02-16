@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -17,18 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
-import com.bc.wechat.widget.PasteEditText;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -182,22 +176,6 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         fromUserNickName = getIntent().getStringExtra("fromUserNickName");
         fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
         mFromNickNameTv.setText(fromUserNickName);
-//        messageList = new ArrayList<>();
-//        Message message1 = new Message();
-//        message1.setFromUserId(fromUserId);
-//        message1.setFromUserName(fromUserNickName);
-//        message1.setContent("这是一哥测试是实打实的");
-//        message1.setFromUserAvatar(fromUserAvatar);
-//        Date date;
-//        try {
-//            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2018-12-20 13:14:20");
-//        } catch (ParseException e) {
-//            date = new Date();
-//            e.printStackTrace();
-//        }
-//
-//        message1.setCreateTime(TimeUtil.getTimeStringAutoShort2(date.getTime(), true));
-//        messageList.add(message1);
         messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp desc", fromUserId, fromUserId);
 
         messageAdapter = new MessageAdapter(this, messageList);
