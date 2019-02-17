@@ -31,6 +31,10 @@ public class MessageAdapter extends BaseAdapter {
         this.messageList = messageList;
     }
 
+    public void setData(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
     @Override
     public int getCount() {
         return messageList.size();

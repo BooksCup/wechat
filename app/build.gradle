@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.github.open-android:pinyin4j:2.5.0'
     implementation 'com.github.bigdongdong:ChatView:1.1' //添加依赖
 
+    implementation 'cn.jiguang.sdk:jmessage:2.9.0'
     implementation 'cn.jiguang.sdk:jpush:3.3.4'
     implementation 'cn.jiguang.sdk:jcore:2.1.2'
 }
