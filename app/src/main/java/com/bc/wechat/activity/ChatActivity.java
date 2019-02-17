@@ -191,6 +191,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
+
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
     }
 
     @Override
@@ -312,8 +314,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         if (fromUserInfo.getUserName().equals(fromUserId)) {
             messageList.add(message);
             messageAdapter.setData(messageList);
+            mMessageLv.post(new Runnable() {
+                @Override
+                public void run() {
+                    mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+                }
+            });
             messageAdapter.notifyDataSetChanged();
-            mMessageLv.setSelection(mMessageLv.getCount() - 1);
         }
     }
 }
