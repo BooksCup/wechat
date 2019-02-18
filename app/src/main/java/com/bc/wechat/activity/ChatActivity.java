@@ -302,7 +302,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     public void onEvent(MessageEvent event) {
         final cn.jpush.im.android.api.model.Message msg = event.getMessage();
         Message message = new Message();
-        message.setId(Long.valueOf(msg.getId()));
+//        message.setId(Long.valueOf(msg.getId()));
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         UserInfo fromUserInfo = (UserInfo) msg.getTargetInfo();
         message.setFromUserId(fromUserInfo.getUserName());
@@ -313,11 +313,11 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setContent(messageContent.getText());
         message.setTimestamp(new Date().getTime());
         List<Message> checkList = Message.find(Message.class, "id = ?", String.valueOf(message.getId()));
-        if (null != checkList && checkList.size() > 0) {
-            // donothing
-        } else {
+//        if (null != checkList && checkList.size() > 0) {
+//            // donothing
+//        } else {
             Message.save(message);
-        }
+//        }
 
         // 如果是当前会话
         if (fromUserInfo.getUserName().equals(fromUserId)) {
@@ -334,4 +334,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JMessageClient.unRegisterEventReceiver(this);
+    }
 }
