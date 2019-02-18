@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -176,7 +177,6 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
             }
         });
-
     }
 
     private void setUpView() {
@@ -187,7 +187,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         fromUserNickName = getIntent().getStringExtra("fromUserNickName");
         fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
         mFromNickNameTv.setText(fromUserNickName);
-        messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp desc", fromUserId, fromUserId);
+        messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp asc", fromUserId, fromUserId);
 
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
@@ -288,6 +288,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setToUserId(fromUserId);
         message.setToUserName(fromUserNickName);
         message.setToUserAvatar(fromUserAvatar);
+        message.setTimestamp(new Date().getTime());
         messageList.add(message);
 
         Message.save(message);
@@ -301,6 +302,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     public void onEvent(MessageEvent event) {
         final cn.jpush.im.android.api.model.Message msg = event.getMessage();
         Message message = new Message();
+        message.setId(Long.valueOf(msg.getId()));
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         UserInfo fromUserInfo = (UserInfo) msg.getTargetInfo();
         message.setFromUserId(fromUserInfo.getUserName());
@@ -309,18 +311,27 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setToUserId(PreferencesUtil.getInstance().getUserId());
         TextContent messageContent = (TextContent) msg.getContent();
         message.setContent(messageContent.getText());
-        Message.save(message);
+        message.setTimestamp(new Date().getTime());
+        List<Message> checkList = Message.find(Message.class, "id = ?", String.valueOf(message.getId()));
+        if (null != checkList && checkList.size() > 0) {
+            // donothing
+        } else {
+            Message.save(message);
+        }
+
         // 如果是当前会话
         if (fromUserInfo.getUserName().equals(fromUserId)) {
             messageList.add(message);
-            messageAdapter.setData(messageList);
             mMessageLv.post(new Runnable() {
                 @Override
                 public void run() {
+                    messageAdapter.setData(messageList);
+                    messageAdapter.notifyDataSetChanged();
                     mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
                 }
             });
-            messageAdapter.notifyDataSetChanged();
+
         }
     }
+
 }

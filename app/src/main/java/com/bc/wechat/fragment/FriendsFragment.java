@@ -20,6 +20,7 @@ import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendApply;
+import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.Collections;
@@ -75,6 +76,7 @@ public class FriendsFragment extends Fragment {
             public void onClick(View view) {
                 FriendApply.deleteAll(FriendApply.class);
                 Friend.deleteAll(Friend.class);
+                Message.deleteAll(Message.class);
             }
         });
 
