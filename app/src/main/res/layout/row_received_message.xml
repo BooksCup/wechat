@@ -50,7 +50,7 @@
             chat:arrow_width="5dp"
             chat:conner_radius="6dp"
             chat:fill_color="#FFFFFF"
-            chat:is_arrow_center="true"
+            chat:is_arrow_center="false"
             chat:stroke_color="#FFFFFF"
             chat:stroke_width="1dp">
 
