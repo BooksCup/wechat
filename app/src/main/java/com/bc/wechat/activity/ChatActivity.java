@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -17,22 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
+import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import cn.jmessage.biz.httptask.task.GetEventNotificationTaskMng;
 import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.UserInfo;
@@ -302,22 +297,21 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     public void onEvent(MessageEvent event) {
         final cn.jpush.im.android.api.model.Message msg = event.getMessage();
         Message message = new Message();
-//        message.setId(Long.valueOf(msg.getId()));
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         UserInfo fromUserInfo = (UserInfo) msg.getTargetInfo();
         message.setFromUserId(fromUserInfo.getUserName());
         message.setFromUserName(fromUserNickName);
-        message.setFromUserAvatar(fromUserAvatar);
+
+        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", message.getFromUserId());
+        if (null != friendList && friendList.size() > 0) {
+            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
+        }
+
         message.setToUserId(PreferencesUtil.getInstance().getUserId());
         TextContent messageContent = (TextContent) msg.getContent();
         message.setContent(messageContent.getText());
         message.setTimestamp(new Date().getTime());
-        List<Message> checkList = Message.find(Message.class, "id = ?", String.valueOf(message.getId()));
-//        if (null != checkList && checkList.size() > 0) {
-//            // donothing
-//        } else {
-            Message.save(message);
-//        }
+        Message.save(message);
 
         // 如果是当前会话
         if (fromUserInfo.getUserName().equals(fromUserId)) {
