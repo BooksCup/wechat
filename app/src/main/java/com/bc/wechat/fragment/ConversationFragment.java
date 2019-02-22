@@ -11,15 +11,14 @@ import android.widget.ListView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.ConversationAdapter;
-import com.bc.wechat.entity.Conversation;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.Conversation;
 
 public class ConversationFragment extends Fragment {
 
-    private List<Conversation> normalList = new ArrayList<>();
-    private List<Conversation> topList = new ArrayList<>();
     private ListView listView;
     private ConversationAdapter conversationAdapter;
 
@@ -27,6 +26,7 @@ public class ConversationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_conversation, container, false);
     }
 
@@ -34,18 +34,8 @@ public class ConversationFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         listView = getView().findViewById(R.id.list);
-        Conversation conversation = new Conversation();
-        Conversation conversation1 = new Conversation();
-        Conversation conversation2 = new Conversation();
-        Conversation conversation3 = new Conversation();
-
-        normalList.add(conversation);
-        normalList.add(conversation1);
-        normalList.add(conversation2);
-        normalList.add(conversation3);
-        topList.add(conversation);
-        topList.add(conversation1);
-        conversationAdapter = new ConversationAdapter(getActivity(), normalList, topList);
+        List<Conversation> conversationList = JMessageClient.getConversationList();
+        conversationAdapter = new ConversationAdapter(getActivity(), conversationList);
         listView.setAdapter(conversationAdapter);
     }
 }

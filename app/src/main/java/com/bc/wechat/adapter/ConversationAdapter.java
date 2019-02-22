@@ -5,41 +5,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.Conversation;
 
 import java.util.List;
+
+import cn.jpush.im.android.api.enums.ConversationType;
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.UserInfo;
 
 public class ConversationAdapter extends BaseAdapter {
 
 
-    private List<Conversation> normalList;
-    private List<Conversation> topList;
+    private List<Conversation> conversationList;
     private Context mContext;
     private LayoutInflater inflater;
 
 
-    public ConversationAdapter(Context context, List<Conversation> normalList,
-                               List<Conversation> topList) {
+    public ConversationAdapter(Context context, List<Conversation> conversationList) {
         this.mContext = context;
-        this.normalList = normalList;
-        this.topList = topList;
+        this.conversationList = conversationList;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return normalList.size() + topList.size();
+        return conversationList.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        if (position < topList.size()) {
-            return topList.get(position);
-        } else {
-            return normalList.get(position - topList.size());
-        }
+    public Conversation getItem(int position) {
+        return conversationList.get(position);
     }
 
     @Override
@@ -49,8 +46,20 @@ public class ConversationAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        int size = 0;
-        convertView = creatConvertView(position);
+        Conversation conversation = conversationList.get(position);
+        // 单聊
+        if (conversation.getType().equals(ConversationType.single)) {
+            convertView = creatConvertView(0);
+            TextView mNickNameTv = convertView.findViewById(R.id.tv_name);
+            TextView mContentTv = convertView.findViewById(R.id.tv_content);
+            UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
+            mNickNameTv.setText(userInfo.getNickname());
+            mContentTv.setText(conversation.getLatestText());
+
+        } else {
+            convertView = creatConvertView(1);
+        }
+
         return convertView;
     }
 
@@ -60,6 +69,7 @@ public class ConversationAdapter extends BaseAdapter {
         if (size == 0) {
             convertView = inflater.inflate(R.layout.item_conversation_single,
                     null, false);
+
         } else if (size == 1) {
             convertView = inflater.inflate(R.layout.item_conversation_group1,
                     null, false);
@@ -85,7 +95,6 @@ public class ConversationAdapter extends BaseAdapter {
                     null, false);
 
         }
-
         return convertView;
     }
 }
