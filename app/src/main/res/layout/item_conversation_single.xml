@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/re_parent"
+        android:id="@+id/rl_parent"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
         <RelativeLayout
-            android:id="@+id/re_avatar"
+            android:id="@+id/rl_avatar"
             android:layout_width="72dp"
             android:layout_height="64dp"
             android:layout_alignParentLeft="true"
@@ -26,17 +26,17 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_toRightOf="@id/re_avatar"
+            android:layout_toRightOf="@id/rl_avatar"
             android:text="爱久见人心"
             android:textColor="#353535"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/re_avatar"
+            android:layout_toRightOf="@id/rl_avatar"
             android:orientation="horizontal"
             android:paddingRight="30dp">
 
@@ -62,7 +62,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tv_content"
+                android:id="@+id/tv_last_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -76,8 +76,8 @@
             android:id="@+id/tv_unread"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_alignTop="@id/re_avatar"
-            android:layout_alignRight="@id/re_avatar"
+            android:layout_alignTop="@id/rl_avatar"
+            android:layout_alignRight="@id/rl_avatar"
             android:layout_marginTop="3dp"
             android:layout_marginRight="7dp"
             android:background="@mipmap/unread_count_bg"

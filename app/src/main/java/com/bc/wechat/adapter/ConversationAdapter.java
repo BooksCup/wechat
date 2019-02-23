@@ -51,15 +51,15 @@ public class ConversationAdapter extends BaseAdapter {
         // 单聊
         if (conversation.getType().equals(ConversationType.single)) {
             convertView = creatConvertView(0);
-            TextView mNickNameTv = convertView.findViewById(R.id.tv_name);
-            TextView mContentTv = convertView.findViewById(R.id.tv_content);
+            TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
+            TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
             UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
             List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
             if (null != friendList && friendList.size() > 0) {
                 Friend friend = friendList.get(0);
                 mNickNameTv.setText(friend.getUserNickName());
             }
-            mContentTv.setText(conversation.getLatestText());
+            mLastMsgTv.setText(conversation.getLatestText());
 
         } else {
             convertView = creatConvertView(1);
