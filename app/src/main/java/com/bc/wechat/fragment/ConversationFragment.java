@@ -49,7 +49,12 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Conversation conversation = conversationList.get(position);
+
+                // 清除未读
+                conversation.resetUnreadCount();
+
                 UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
+
                 List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
                 if (null != friendList && friendList.size() > 0) {
                     Friend friend = friendList.get(0);
@@ -63,5 +68,11 @@ public class ConversationFragment extends Fragment {
 
             }
         });
+    }
+
+    public void refreshConversationList() {
+        conversationList = JMessageClient.getConversationList();
+        conversationAdapter.setData(conversationList);
+        conversationAdapter.notifyDataSetChanged();
     }
 }

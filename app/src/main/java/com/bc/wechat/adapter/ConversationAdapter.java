@@ -26,11 +26,14 @@ public class ConversationAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
 
-
     public ConversationAdapter(Context context, List<Conversation> conversationList) {
         this.mContext = context;
         this.conversationList = conversationList;
         inflater = LayoutInflater.from(context);
+    }
+
+    public void setData(List<Conversation> conversationList) {
+        this.conversationList = conversationList;
     }
 
     @Override

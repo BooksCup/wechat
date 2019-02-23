@@ -124,6 +124,9 @@ public class MainActivity extends FragmentActivity {
         refreshNewFriendsUnreadNum();
         friendsFragment.refreshNewFriendsUnreadNum();
         friendsFragment.refreshFriendsList();
+
+        // 会话
+        conversationFragment.refreshConversationList();
     }
 
     @Override
