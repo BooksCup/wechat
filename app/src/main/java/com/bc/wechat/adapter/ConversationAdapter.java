@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.entity.Friend;
 
 import java.util.List;
 
@@ -53,7 +54,11 @@ public class ConversationAdapter extends BaseAdapter {
             TextView mNickNameTv = convertView.findViewById(R.id.tv_name);
             TextView mContentTv = convertView.findViewById(R.id.tv_content);
             UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
-            mNickNameTv.setText(userInfo.getNickname());
+            List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
+            if (null != friendList && friendList.size() > 0) {
+                Friend friend = friendList.get(0);
+                mNickNameTv.setText(friend.getUserNickName());
+            }
             mContentTv.setText(conversation.getLatestText());
 
         } else {
