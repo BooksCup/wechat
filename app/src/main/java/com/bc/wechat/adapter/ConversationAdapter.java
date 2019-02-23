@@ -1,6 +1,8 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Friend;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
@@ -53,11 +56,15 @@ public class ConversationAdapter extends BaseAdapter {
             convertView = creatConvertView(0);
             TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
+            SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
             UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
             List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
             if (null != friendList && friendList.size() > 0) {
                 Friend friend = friendList.get(0);
                 mNickNameTv.setText(friend.getUserNickName());
+                if (!TextUtils.isEmpty(friend.getUserAvatar())) {
+                    mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
+                }
             }
             mLastMsgTv.setText(conversation.getLatestText());
 
