@@ -57,6 +57,7 @@ public class ConversationAdapter extends BaseAdapter {
             TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
             SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+            TextView mUnreadTv = convertView.findViewById(R.id.tv_unread);
             UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
             List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
             if (null != friendList && friendList.size() > 0) {
@@ -67,7 +68,14 @@ public class ConversationAdapter extends BaseAdapter {
                 }
             }
             mLastMsgTv.setText(conversation.getLatestText());
-
+            int unReadMsgCnt = conversation.getUnReadMsgCnt();
+            if (unReadMsgCnt <= 0) {
+                mUnreadTv.setVisibility(View.GONE);
+            } else if (unReadMsgCnt > 99) {
+                mUnreadTv.setText("99+");
+            } else {
+                mUnreadTv.setText(String.valueOf(conversation.getUnReadMsgCnt()));
+            }
         } else {
             convertView = creatConvertView(1);
         }
