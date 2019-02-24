@@ -12,9 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.activity.UserInfoActivity;
+import com.bc.wechat.activity.ChatActivity;
 import com.bc.wechat.adapter.ConversationAdapter;
-import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 
 import java.util.List;
@@ -49,7 +48,6 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Conversation conversation = conversationList.get(position);
-
                 // 清除未读
                 conversation.resetUnreadCount();
 
@@ -58,12 +56,11 @@ public class ConversationFragment extends Fragment {
                 List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
                 if (null != friendList && friendList.size() > 0) {
                     Friend friend = friendList.get(0);
-                    startActivity(new Intent(getActivity(), UserInfoActivity.class).
-                            putExtra("userId", friend.getUserId()).
-                            putExtra("nickName", friend.getUserNickName()).
-                            putExtra("avatar", friend.getUserAvatar()).
-                            putExtra("sex", friend.getUserSex()).
-                            putExtra("isFriend", Constant.IS_FRIEND));
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("fromUserId", friend.getUserId());
+                    intent.putExtra("fromUserNickName", friend.getUserNickName());
+                    intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                    startActivity(intent);
                 }
 
             }
