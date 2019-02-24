@@ -30,6 +30,7 @@ import java.util.List;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.event.MessageEvent;
+import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class ChatActivity extends FragmentActivity implements View.OnClickListener {
@@ -313,6 +314,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setTimestamp(new Date().getTime());
         Message.save(message);
 
+        // 获取会话
+        Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
         // 如果是当前会话
         if (fromUserInfo.getUserName().equals(fromUserId)) {
             messageList.add(message);
@@ -324,8 +327,14 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                     mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
                 }
             });
-
+            // 清除未读数
+            conversation.resetUnreadCount();
+        } else {
+            // 未读数++
+//            conversation.setUnReadMessageCnt(conversation.getUnReadMsgCnt() + 1);
         }
+
+
     }
 
     @Override
