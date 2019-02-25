@@ -2,6 +2,8 @@ package com.bc.wechat.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,7 +34,6 @@ public class ConversationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_conversation, container, false);
     }
 
@@ -68,8 +69,29 @@ public class ConversationFragment extends Fragment {
     }
 
     public void refreshConversationList() {
-        conversationList = JMessageClient.getConversationList();
-        conversationAdapter.setData(conversationList);
-        conversationAdapter.notifyDataSetChanged();
+        Message message = new Message();
+        message.what = 1;
+        handler.sendMessage(message);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                List<Conversation> newConversationList = JMessageClient.getConversationList();
+                conversationAdapter.setData(newConversationList);
+                conversationAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 }

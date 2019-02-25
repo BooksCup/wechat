@@ -333,8 +333,6 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             // 未读数++
 //            conversation.setUnReadMessageCnt(conversation.getUnReadMsgCnt() + 1);
         }
-
-
     }
 
     @Override

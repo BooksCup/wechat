@@ -16,5 +16,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:cacheColorHint="#00000000"
-        android:divider="@null" />
+        android:descendantFocusability="blocksDescendants"
+        android:divider="@null"
+        android:dividerHeight="0dp" />
 </LinearLayout>

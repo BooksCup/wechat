@@ -15,12 +15,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.Message;
 import com.bc.wechat.fragment.ConversationFragment;
 import com.bc.wechat.fragment.FindFragment;
 import com.bc.wechat.fragment.FriendsFragment;
 import com.bc.wechat.fragment.ProfileFragment;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.TimeUtil;
+
+import java.util.Date;
+import java.util.List;
+
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.TextContent;
+import cn.jpush.im.android.api.event.MessageEvent;
+import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.UserInfo;
 
 public class MainActivity extends FragmentActivity {
 
@@ -45,6 +57,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
         registerMessageReceiver();
         refreshNewFriendsUnreadNum();
@@ -120,19 +133,23 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         isForeground = true;
+        JMessageClient.registerEventReceiver(this);
         // 通讯录
         refreshNewFriendsUnreadNum();
         friendsFragment.refreshNewFriendsUnreadNum();
         friendsFragment.refreshFriendsList();
 
         // 会话
-        conversationFragment.refreshConversationList();
+        if (currentTabIndex == 0) {
+            conversationFragment.refreshConversationList();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         isForeground = false;
+        JMessageClient.unRegisterEventReceiver(this);
     }
 
     private MessageReceiver mMessageReceiver;
@@ -180,4 +197,33 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JMessageClient.unRegisterEventReceiver(this);
+    }
+
+    /*接收到的消息*/
+    public void onEvent(MessageEvent event) {
+        final cn.jpush.im.android.api.model.Message msg = event.getMessage();
+        Message message = new Message();
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
+        UserInfo fromUserInfo = (UserInfo) msg.getTargetInfo();
+        message.setFromUserId(fromUserInfo.getUserName());
+
+        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", message.getFromUserId());
+        if (null != friendList && friendList.size() > 0) {
+            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
+        }
+
+        message.setToUserId(PreferencesUtil.getInstance().getUserId());
+        TextContent messageContent = (TextContent) msg.getContent();
+        message.setContent(messageContent.getText());
+        message.setTimestamp(new Date().getTime());
+        Message.save(message);
+
+        if (currentTabIndex == 0) {
+            conversationFragment.refreshConversationList();
+        }
+    }
 }

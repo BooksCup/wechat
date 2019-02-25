@@ -33,7 +33,8 @@ public class ConversationAdapter extends BaseAdapter {
     }
 
     public void setData(List<Conversation> conversationList) {
-        this.conversationList = conversationList;
+        this.conversationList.clear();
+        this.conversationList.addAll(conversationList);
     }
 
     @Override
