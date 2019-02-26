@@ -10,12 +10,12 @@
         android:id="@+id/rl_myinfo"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginBottom="18dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="18dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_avatar"
@@ -55,8 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginBottom="10dp"
             android:layout_toRightOf="@id/sdv_avatar"
             android:text="微信号:"
             android:textColor="#AAAAAA"
