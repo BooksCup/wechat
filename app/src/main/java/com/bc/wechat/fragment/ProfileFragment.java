@@ -14,8 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.activity.BigImageActivity;
 import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
+import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -55,6 +57,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         mMyInfoRl.setOnClickListener(this);
         mSettingRl.setOnClickListener(this);
+        mAvatarSdv.setOnClickListener(this);
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
@@ -74,6 +77,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             // 设置页面
             case R.id.rl_setting:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+            // 头像点击放大
+            case R.id.sdv_avatar:
+                Intent intent = new Intent(getActivity(), BigImageActivity.class);
+                intent.putExtra("imgUrl", PreferencesUtil.getInstance().getUserAvatar());
+                startActivity(intent);
                 break;
 
         }
