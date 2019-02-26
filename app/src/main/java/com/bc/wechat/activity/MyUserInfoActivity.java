@@ -1,15 +1,18 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -17,6 +20,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private TextView mNickNameTv;
     private RelativeLayout mWxIdRl;
     private TextView mWxIdTv;
+    private SimpleDraweeView mAvatarSdv;
 
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
@@ -36,8 +40,15 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mWxIdRl = findViewById(R.id.rl_wx_id);
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
+        mAvatarSdv = findViewById(R.id.sdv_avatar);
+
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
+        String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
+        if (!TextUtils.isEmpty(userAvatar)) {
+            mAvatarSdv.setImageURI(Uri.parse(userAvatar));
+        }
+
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
     }
