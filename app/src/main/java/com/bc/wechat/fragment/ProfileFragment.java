@@ -1,10 +1,12 @@
 package com.bc.wechat.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 /**
  * tab - "我"
@@ -23,6 +26,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private RelativeLayout mMyInfoRl;
     private RelativeLayout mSettingRl;
+    private SimpleDraweeView mAvatarSdv;
     private TextView mNickNameTv;
     private TextView mWxIdTv;
 
@@ -45,6 +49,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private void initView() {
         mMyInfoRl = getView().findViewById(R.id.rl_myinfo);
         mSettingRl = getView().findViewById(R.id.rl_setting);
+        mAvatarSdv = getView().findViewById(R.id.sdv_avatar);
         mNickNameTv = getView().findViewById(R.id.tv_name);
         mWxIdTv = getView().findViewById(R.id.tv_wxid);
 
@@ -53,6 +58,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
+        String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
+        if (!TextUtils.isEmpty(userAvatar)) {
+            mAvatarSdv.setImageURI(Uri.parse(userAvatar));
+        }
     }
 
     @Override
