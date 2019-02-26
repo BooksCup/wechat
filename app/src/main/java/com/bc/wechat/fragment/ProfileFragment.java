@@ -17,7 +17,6 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.BigImageActivity;
 import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
-import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
