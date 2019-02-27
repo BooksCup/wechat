@@ -55,9 +55,9 @@ public class MessageAdapter extends BaseAdapter {
         Message message = messageList.get(position);
 
         if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
-            convertView = inflater.inflate(R.layout.row_sent_message, null);
+            convertView = inflater.inflate(R.layout.item_sent_message, null);
         } else {
-            convertView = inflater.inflate(R.layout.row_received_message, null);
+            convertView = inflater.inflate(R.layout.item_received_message, null);
         }
         TextView mTimeStampTv = convertView.findViewById(R.id.timestamp);
         TextView mContentTv = convertView.findViewById(R.id.tv_chatcontent);
