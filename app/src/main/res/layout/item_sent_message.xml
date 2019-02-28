@@ -33,7 +33,6 @@
             android:layout_gravity="right"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="8dp"
-
             android:layout_toLeftOf="@id/iv_userhead"
             android:clickable="true"
             android:focusable="true"
@@ -41,7 +40,6 @@
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:paddingRight="15dp"
-
             android:paddingBottom="10dp"
             chat:arrow_direction="right"
             chat:arrow_height="12dp"
@@ -54,22 +52,7 @@
             chat:press_stroke_color="@color/btn_green_pressed"
             chat:stroke_color="#33cc00"
             chat:stroke_width="1px">
-            <!--        <TextView-->
-            <!--            android:id="@+id/tv_chatcontent"-->
-            <!--            style="@style/chat_content_date_style"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginRight="@dimen/margin_chat_activity"-->
-            <!--            android:layout_toLeftOf="@id/iv_userhead"-->
-            <!--            android:autoLink="web"-->
-            <!--            android:gravity="left|center"-->
-            <!--            android:lineSpacingExtra="2dp"-->
-            <!--            android:maxWidth="225.0dip"-->
-            <!--            android:paddingLeft="16dip"-->
-            <!--            android:paddingTop="16dip"-->
-            <!--            android:paddingRight="26dip"-->
-            <!--            android:paddingBottom="16dip"-->
-            <!--            android:textSize="15sp" />-->
+
             <TextView
                 android:id="@+id/tv_chatcontent"
                 android:layout_width="wrap_content"
@@ -79,46 +62,6 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16dp" />
         </com.cxd.chatview.moudle.ChatView>
-
-        <!--        <ImageView-->
-        <!--            android:id="@+id/msg_status"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_toLeftOf="@id/tv_chatcontent"-->
-        <!--            android:clickable="true"-->
-        <!--            android:src="@drawable/msg_state_failed_resend"-->
-        <!--            android:visibility="gone" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv_ack"-->
-        <!--            style="@style/chat_text_name_style"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_toLeftOf="@id/tv_chatcontent"-->
-        <!--            android:text="@string/text_ack_msg"-->
-        <!--            android:textSize="12sp"-->
-        <!--            android:visibility="invisible" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/tv_delivered"-->
-        <!--            style="@style/chat_text_name_style"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_toLeftOf="@id/tv_chatcontent"-->
-        <!--            android:text="@string/text_delivered_msg"-->
-        <!--            android:textSize="12sp"-->
-        <!--            android:visibility="invisible" />-->
-
-        <!--        <ProgressBar-->
-        <!--            android:id="@+id/pb_sending"-->
-        <!--            android:layout_width="25dp"-->
-        <!--            android:layout_height="25dp"-->
-        <!--            android:layout_centerVertical="true"-->
-        <!--            android:layout_toLeftOf="@id/tv_chatcontent"-->
-        <!--            android:visibility="gone" />-->
     </RelativeLayout>
 
 </LinearLayout>
