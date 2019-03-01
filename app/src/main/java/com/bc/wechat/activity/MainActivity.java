@@ -138,6 +138,8 @@ public class MainActivity extends FragmentActivity {
         super.onResume();
         isForeground = true;
         JMessageClient.registerEventReceiver(this);
+        // 消息
+        refreshNewMsgsUnreadNum();
         // 通讯录
         refreshNewFriendsUnreadNum();
         friendsFragment.refreshNewFriendsUnreadNum();

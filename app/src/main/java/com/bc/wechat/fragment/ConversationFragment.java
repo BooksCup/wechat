@@ -56,9 +56,9 @@ public class ConversationFragment extends Fragment {
                     newMsgsUnreadNum = 0;
                 }
                 PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum);
-                if (MainActivity.isForeground) {
-                    ((MainActivity) getActivity()).refreshNewMsgsUnreadNum();
-                }
+//                if (MainActivity.isForeground) {
+//                    ((MainActivity) getActivity()).refreshNewMsgsUnreadNum();
+//                }
                 // 清除未读
                 conversation.resetUnreadCount();
 
