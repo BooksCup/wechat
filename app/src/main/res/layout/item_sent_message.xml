@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -17,15 +18,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_chat_activity">
 
-        <ImageView
-            android:id="@+id/iv_userhead"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:scaleType="fitXY"
-            android:src="@mipmap/default_useravatar" />
+            fresco:placeholderImage="@mipmap/default_useravatar" />
 
         <com.cxd.chatview.moudle.ChatView xmlns:chat="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
@@ -33,7 +34,7 @@
             android:layout_gravity="right"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@id/iv_userhead"
+            android:layout_toLeftOf="@id/sdv_avatar"
             android:clickable="true"
             android:focusable="true"
             android:minHeight="35dp"
@@ -58,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="发送到发大水发送到发送到发斯蒂芬发送到发斯蒂芬"
+                android:text=""
                 android:textColor="#FFFFFF"
                 android:textSize="16dp" />
         </com.cxd.chatview.moudle.ChatView>

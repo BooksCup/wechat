@@ -65,8 +65,15 @@ public class MessageAdapter extends BaseAdapter {
 
         mTimeStampTv.setText(message.getCreateTime());
         mContentTv.setText(message.getContent());
-        if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
-            mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+
+        if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
+            if (!TextUtils.isEmpty(PreferencesUtil.getInstance().getUserAvatar())) {
+                mAvatarSdv.setImageURI(Uri.parse(PreferencesUtil.getInstance().getUserAvatar()));
+            }
+        } else {
+            if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
+                mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+            }
         }
 
         if (position != 0) {
