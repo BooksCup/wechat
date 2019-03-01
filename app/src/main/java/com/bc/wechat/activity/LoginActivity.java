@@ -131,7 +131,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     return;
                 }
 
-                int errorCode = volleyError.networkResponse.statusCode;
+                int errorCode = volleyError.networkResponse == null ? 400 : volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
                         Toast.makeText(LoginActivity.this,

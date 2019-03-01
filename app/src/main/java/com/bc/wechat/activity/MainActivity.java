@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -50,6 +51,7 @@ public class MainActivity extends FragmentActivity {
     // 当前fragment的index
     private int currentTabIndex;
 
+    private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
 
     @Override
@@ -60,6 +62,7 @@ public class MainActivity extends FragmentActivity {
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
         registerMessageReceiver();
+        refreshNewMsgsUnreadNum();
         refreshNewFriendsUnreadNum();
     }
 
@@ -93,6 +96,7 @@ public class MainActivity extends FragmentActivity {
                 .hide(friendsFragment).hide(findFragment).hide(profileFragment)
                 .show(conversationFragment).commit();
 
+        mUnreadNewMsgsNumTv = findViewById(R.id.unread_msg_number);
         mUnreadNewFriendsNumTv = findViewById(R.id.unread_address_number);
     }
 
@@ -187,6 +191,12 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public void refreshNewMsgsUnreadNum() {
+        android.os.Message message = new android.os.Message();
+        message.what = 1;
+        handler.sendMessage(message);
+    }
+
     private void refreshNewFriendsUnreadNum() {
         int newFriendsUnreadNum = PreferencesUtil.getInstance().getNewFriendsUnreadNumber();
         if (newFriendsUnreadNum > 0) {
@@ -225,5 +235,23 @@ public class MainActivity extends FragmentActivity {
         if (currentTabIndex == 0) {
             conversationFragment.refreshConversationList();
         }
+        int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber();
+        PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum + 1);
+        refreshNewMsgsUnreadNum();
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            if (msg.what == 1) {
+                int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber();
+                if (newMsgsUnreadNum > 0) {
+                    mUnreadNewMsgsNumTv.setVisibility(View.VISIBLE);
+                    mUnreadNewMsgsNumTv.setText(String.valueOf(newMsgsUnreadNum));
+                } else {
+                    mUnreadNewMsgsNumTv.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
 }

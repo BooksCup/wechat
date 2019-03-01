@@ -15,8 +15,10 @@ import android.widget.ListView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.ChatActivity;
+import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.adapter.ConversationAdapter;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.List;
 
@@ -49,6 +51,14 @@ public class ConversationFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Conversation conversation = conversationList.get(position);
+                int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber() - conversation.getUnReadMsgCnt();
+                if (newMsgsUnreadNum < 0) {
+                    newMsgsUnreadNum = 0;
+                }
+                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum);
+                if (MainActivity.isForeground) {
+                    ((MainActivity) getActivity()).refreshNewMsgsUnreadNum();
+                }
                 // 清除未读
                 conversation.resetUnreadCount();
 

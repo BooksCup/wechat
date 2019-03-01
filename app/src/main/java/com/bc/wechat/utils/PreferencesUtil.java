@@ -199,6 +199,14 @@ public class PreferencesUtil {
         return (String) getParam("userAvatar", "");
     }
 
+    public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
+        saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
+    }
+
+    public Integer getNewMsgsUnreadNumber() {
+        return (Integer) getParam("newMsgsUnreadNumber", 0);
+    }
+
     public void setNewFriendsUnreadNumber(int newFriendsUnreadNumber) {
         saveParam("newFriendsUnreadNumber", newFriendsUnreadNumber);
     }
