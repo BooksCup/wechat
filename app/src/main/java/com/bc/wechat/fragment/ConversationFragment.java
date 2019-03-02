@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.ChatActivity;
-import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.adapter.ConversationAdapter;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -56,9 +55,6 @@ public class ConversationFragment extends Fragment {
                     newMsgsUnreadNum = 0;
                 }
                 PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum);
-//                if (MainActivity.isForeground) {
-//                    ((MainActivity) getActivity()).refreshNewMsgsUnreadNum();
-//                }
                 // 清除未读
                 conversation.resetUnreadCount();
 
