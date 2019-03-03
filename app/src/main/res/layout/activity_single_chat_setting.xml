@@ -93,7 +93,7 @@
                 android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                android:src="@mipmap/jy_drltsz_btn_addperson" />
+                android:src="@mipmap/icon_add_user_to_group" />
 
             <TextView
                 android:layout_width="56dp"
