@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -69,7 +69,7 @@
                 android:src="@mipmap/default_useravatar" />
 
             <TextView
-                android:id="@+id/tv_username"
+                android:id="@+id/tv_nick_name"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_avatar"
@@ -88,7 +88,7 @@
             android:background="#ffffff">
 
             <ImageView
-                android:id="@+id/iv_avatar2"
+                android:id="@+id/iv_add_user_to_group"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_avatar2"
+                android:layout_below="@+id/iv_add_user_to_group"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
@@ -109,7 +109,7 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_switch_chattotop"
+        android:id="@+id/rl_switch_chat_to_top"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -127,7 +127,7 @@
             android:typeface="serif" />
 
         <ImageView
-            android:id="@+id/iv_switch_chattotop"
+            android:id="@+id/iv_switch_chat_to_top"
             android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -136,7 +136,7 @@
             android:visibility="invisible" />
 
         <ImageView
-            android:id="@+id/iv_switch_unchattotop"
+            android:id="@+id/iv_switch_cancel_chat_to_top"
             android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -151,7 +151,7 @@
         android:background="#dadada" />
 
     <RelativeLayout
-        android:id="@+id/rl_switch_block_groupmsg"
+        android:id="@+id/rl_switch_block_group_msg"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -168,7 +168,7 @@
             android:typeface="serif" />
 
         <ImageView
-            android:id="@+id/iv_switch_block_groupmsg"
+            android:id="@+id/iv_switch_block_group_msg"
             android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -177,7 +177,7 @@
             android:visibility="invisible" />
 
         <ImageView
-            android:id="@+id/iv_switch_unblock_groupmsg"
+            android:id="@+id/iv_switch_unblock_group_msg"
             android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -187,7 +187,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_clear"
+        android:id="@+id/rl_clear"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
