@@ -332,6 +332,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         } else {
             // 未读数++
 //            conversation.setUnReadMessageCnt(conversation.getUnReadMsgCnt() + 1);
+            PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
         }
     }
 
