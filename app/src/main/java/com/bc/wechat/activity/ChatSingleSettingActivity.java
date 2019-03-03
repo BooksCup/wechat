@@ -10,6 +10,6 @@ public class ChatSingleSettingActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_singlechat_setting);
+        setContentView(R.layout.activity_single_chat_setting);
     }
 }
