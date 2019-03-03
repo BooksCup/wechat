@@ -102,4 +102,9 @@
     <string name="wx_id_or_phone">微信号/手机号</string>
     <string name="new_friends">新的朋友</string>
     <string name="add_friends">添加朋友</string>
+
+    <string name="chat_setting_title">聊天信息</string>
+    <string name="set_chat_to_top">置顶聊天</string>
+    <string name="block_chat_msg">免打扰</string>
+    <string name="clear_chat_msg">清空聊天记录</string>
 </resources>

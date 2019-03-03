@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/view_temp"
-            android:text="聊天信息"
+            android:text="@string/chat_setting_title"
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="置顶聊天"
+            android:text="@string/set_chat_to_top"
             android:textColor="#353535"
             android:textSize="16sp"
             android:typeface="serif" />
@@ -162,13 +162,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="免打扰"
+            android:text="@string/block_chat_msg"
             android:textColor="#353535"
             android:textSize="16sp"
             android:typeface="serif" />
 
         <ImageView
-            android:id="@+id/iv_switch_block_group_msg"
+            android:id="@+id/iv_switch_block_chat_msg"
             android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -177,7 +177,7 @@
             android:visibility="invisible" />
 
         <ImageView
-            android:id="@+id/iv_switch_unblock_group_msg"
+            android:id="@+id/iv_switch_unblock_chat_msg"
             android:layout_width="70dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
@@ -187,7 +187,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_clear"
+        android:id="@+id/rl_clear_chat_msg"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -199,7 +199,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="清空聊天记录"
+            android:text="@string/clear_chat_msg"
             android:textColor="#353535"
             android:textSize="16sp"
             android:typeface="serif" />
