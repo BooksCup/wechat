@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -89,6 +90,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private EditText mEditTextContent;
     private RelativeLayout mEditTextRl;
 
+    private ImageView mSingleChatSettingIv;
+
     private ListView mMessageLv;
     private MessageAdapter messageAdapter;
     List<Message> messageList;
@@ -126,6 +129,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
         mEditTextContent = findViewById(R.id.et_sendmessage);
         mEditTextRl = findViewById(R.id.edittext_layout);
+
+        mSingleChatSettingIv = findViewById(R.id.iv_setting);
 
         mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -173,6 +178,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
             }
         });
+
+        mSingleChatSettingIv.setOnClickListener(this);
     }
 
     private void setUpView() {
@@ -197,6 +204,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             case R.id.btn_send:
                 String content = mEditTextContent.getText().toString();
                 sendTextMsg(content);
+                break;
+            case R.id.iv_setting:
+                Intent intent = new Intent(ChatActivity.this, ChatSingleSettingActivity.class);
+                startActivity(intent);
                 break;
         }
     }
