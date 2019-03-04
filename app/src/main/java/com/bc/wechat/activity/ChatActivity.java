@@ -207,6 +207,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.iv_setting:
                 Intent intent = new Intent(ChatActivity.this, ChatSingleSettingActivity.class);
+                intent.putExtra("userId", fromUserId);
+                intent.putExtra("userNickName", fromUserNickName);
+                intent.putExtra("userAvatar", fromUserAvatar);
                 startActivity(intent);
                 break;
         }
