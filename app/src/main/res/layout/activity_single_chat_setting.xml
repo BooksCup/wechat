@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebebeb"
@@ -60,19 +61,19 @@
             android:layout_weight="1"
             android:background="#ffffff">
 
-            <ImageView
-                android:id="@+id/iv_avatar"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_avatar"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                android:src="@mipmap/default_useravatar" />
+                fresco:placeholderImage="@mipmap/default_useravatar" />
 
             <TextView
                 android:id="@+id/tv_nick_name"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_avatar"
+                android:layout_below="@+id/sdv_avatar"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
