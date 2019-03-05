@@ -199,6 +199,14 @@ public class PreferencesUtil {
         return (String) getParam("userAvatar", "");
     }
 
+    public void setUserSex(String userSex) {
+        saveParam("userSex", userSex);
+    }
+
+    public String getUserSex() {
+        return (String) getParam("userSex", "");
+    }
+
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }

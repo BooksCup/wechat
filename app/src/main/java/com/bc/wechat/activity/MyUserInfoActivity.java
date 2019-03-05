@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -56,6 +57,12 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
+        }
+        String userSex = PreferencesUtil.getInstance().getUserSex();
+        if (Constant.USER_SEX_MALE.equals(userSex)) {
+            mSexTv.setText("男");
+        } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
+            mSexTv.setText("女");
         }
 
         mNickNameRl.setOnClickListener(this);
@@ -112,6 +119,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 mSexTv.setText("男");
+                PreferencesUtil.getInstance().setUserSex(Constant.USER_SEX_MALE);
                 sexDialog.dismiss();
             }
         });
@@ -121,6 +129,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 mSexTv.setText("女");
+                PreferencesUtil.getInstance().setUserSex(Constant.USER_SEX_FEMALE);
                 sexDialog.dismiss();
             }
         });
