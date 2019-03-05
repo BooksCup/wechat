@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +22,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private RelativeLayout mNickNameRl;
     private TextView mNickNameTv;
     private RelativeLayout mWxIdRl;
+    private RelativeLayout mSexRl;
+
     private TextView mWxIdTv;
     private SimpleDraweeView mAvatarSdv;
 
@@ -40,6 +45,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mWxIdRl = findViewById(R.id.rl_wx_id);
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
+        mSexRl = findViewById(R.id.rl_sex);
+
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
@@ -51,6 +58,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
+        mSexRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -67,6 +75,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             case R.id.rl_wx_id:
                 startActivityForResult(new Intent(this, UpdateWxIdActivity.class), UPDATE_USER_WX_ID);
                 break;
+            case R.id.rl_sex:
+                showSexDialog();
+                break;
         }
     }
 
@@ -82,5 +93,20 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                     break;
             }
         }
+    }
+
+    private void showSexDialog() {
+        final AlertDialog sexDialog = new AlertDialog.Builder(this).create();
+        sexDialog.show();
+        Window window = sexDialog.getWindow();
+        window.setContentView(R.layout.dialog_alert);
+        LinearLayout mTitleLl = window.findViewById(R.id.ll_title);
+        mTitleLl.setVisibility(View.VISIBLE);
+        TextView mTitleTv = window.findViewById(R.id.tv_title);
+        mTitleTv.setText("性别");
+        TextView mMaleTv = window.findViewById(R.id.tv_content1);
+        mMaleTv.setText("男");
+        TextView mFemaleTv = window.findViewById(R.id.tv_content2);
+        mFemaleTv.setText("女");
     }
 }
