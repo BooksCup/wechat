@@ -12,11 +12,19 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -29,6 +37,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private TextView mSexTv;
     private SimpleDraweeView mAvatarSdv;
 
+    private VolleyUtil volleyUtil;
+
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
 
@@ -36,6 +46,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
+        volleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
         initView();
     }
@@ -119,7 +130,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 mSexTv.setText("男");
-                PreferencesUtil.getInstance().setUserSex(Constant.USER_SEX_MALE);
+                updateUserSex(PreferencesUtil.getInstance().getUserId(), Constant.USER_SEX_MALE);
                 sexDialog.dismiss();
             }
         });
@@ -129,8 +140,32 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 mSexTv.setText("女");
-                PreferencesUtil.getInstance().setUserSex(Constant.USER_SEX_FEMALE);
+                updateUserSex(PreferencesUtil.getInstance().getUserId(), Constant.USER_SEX_FEMALE);
                 sexDialog.dismiss();
+            }
+        });
+    }
+
+    private void updateUserSex(String userId, final String userSex) {
+        String url = Constant.BASE_URL + "users/" + userId + "/userSex";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userSex", userSex);
+
+        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                PreferencesUtil.getInstance().setUserSex(userSex);
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(MyUserInfoActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
             }
         });
     }
