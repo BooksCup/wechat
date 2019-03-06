@@ -20,11 +20,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
 
     private RelativeLayout mNickNameRl;
-    private TextView mNickNameTv;
     private RelativeLayout mWxIdRl;
     private RelativeLayout mSexRl;
 
+    private TextView mNickNameTv;
     private TextView mWxIdTv;
+    private TextView mSexTv;
     private SimpleDraweeView mAvatarSdv;
 
     private static final int UPDATE_USER_NICK_NAME = 3;
@@ -46,6 +47,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
         mSexRl = findViewById(R.id.rl_sex);
+        mSexTv = findViewById(R.id.tv_sex);
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
@@ -106,7 +108,19 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mTitleTv.setText("性别");
         TextView mMaleTv = window.findViewById(R.id.tv_content1);
         mMaleTv.setText("男");
+        mMaleTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSexTv.setText("男");
+            }
+        });
         TextView mFemaleTv = window.findViewById(R.id.tv_content2);
         mFemaleTv.setText("女");
+        mFemaleTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSexTv.setText("女");
+            }
+        });
     }
 }
