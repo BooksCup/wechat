@@ -112,6 +112,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 mSexTv.setText("男");
+                sexDialog.dismiss();
             }
         });
         TextView mFemaleTv = window.findViewById(R.id.tv_content2);
@@ -120,6 +121,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 mSexTv.setText("女");
+                sexDialog.dismiss();
             }
         });
     }
