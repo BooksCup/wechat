@@ -155,7 +155,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onResponse(String s) {
                 PreferencesUtil.getInstance().setUserSex(userSex);
-                finish();
             }
         }, new Response.ErrorListener() {
             @Override
