@@ -85,6 +85,9 @@
             android:name=".activity.UpdateWxIdActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.UpdateSignActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.NewFriendsMsgActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -31,6 +31,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private RelativeLayout mNickNameRl;
     private RelativeLayout mWxIdRl;
     private RelativeLayout mSexRl;
+    private RelativeLayout mSignRl;
 
     private TextView mNickNameTv;
     private TextView mWxIdTv;
@@ -61,6 +62,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mSexRl = findViewById(R.id.rl_sex);
         mSexTv = findViewById(R.id.tv_sex);
 
+        mSignRl = findViewById(R.id.rl_sign);
+
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
@@ -79,6 +82,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
         mSexRl.setOnClickListener(this);
+        mSignRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -97,6 +101,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 break;
             case R.id.rl_sex:
                 showSexDialog();
+                break;
+            case R.id.rl_sign:
+                startActivity(new Intent(this, UpdateSignActivity.class));
                 break;
         }
     }
