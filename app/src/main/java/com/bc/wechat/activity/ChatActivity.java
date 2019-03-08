@@ -258,11 +258,18 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 sendTextMsg(content);
                 break;
             case R.id.iv_setting:
-                Intent intent = new Intent(ChatActivity.this, ChatSingleSettingActivity.class);
-                intent.putExtra("userId", fromUserId);
-                intent.putExtra("userNickName", fromUserNickName);
-                intent.putExtra("userAvatar", fromUserAvatar);
-                startActivity(intent);
+                if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+                    // 单聊设置
+                    Intent intent = new Intent(ChatActivity.this, ChatSingleSettingActivity.class);
+                    intent.putExtra("userId", fromUserId);
+                    intent.putExtra("userNickName", fromUserNickName);
+                    intent.putExtra("userAvatar", fromUserAvatar);
+                    startActivity(intent);
+                } else {
+                    // 群聊设置
+                    Intent intent = new Intent(ChatActivity.this, ChatGroupSettingActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

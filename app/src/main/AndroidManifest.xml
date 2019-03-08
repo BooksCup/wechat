@@ -113,6 +113,9 @@
         <activity
             android:name=".activity.ChatSingleSettingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatGroupSettingActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.CreateChatRoomActivity"
