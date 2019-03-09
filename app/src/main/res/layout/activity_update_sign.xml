@@ -61,13 +61,16 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/et_nick"
+        android:id="@+id/et_sign"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="46dp"
         android:background="@null"
+        android:inputType="textMultiLine"
+        android:maxLength="28"
+        android:minLines="1"
         android:paddingLeft="1dp"
         android:singleLine="true"
         android:textColor="#353535"
@@ -80,4 +83,5 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:background="#45c01a" />
+
 </LinearLayout>
