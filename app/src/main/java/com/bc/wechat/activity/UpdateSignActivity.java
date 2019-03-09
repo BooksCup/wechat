@@ -18,6 +18,8 @@ public class UpdateSignActivity extends FragmentActivity {
 
     private EditText mSignEt;
     private TextView mSaveTv;
+    private TextView mSignLengthTv;
+    final int maxSignLenth = 30;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class UpdateSignActivity extends FragmentActivity {
     private void initView() {
         mSignEt = findViewById(R.id.et_sign);
         mSaveTv = findViewById(R.id.tv_save);
+        mSignLengthTv = findViewById(R.id.tv_sign_length);
 
         mSignEt.setText(PreferencesUtil.getInstance().getUserSign());
         // 光标移至最后
@@ -37,7 +40,7 @@ public class UpdateSignActivity extends FragmentActivity {
             Spannable spanText = (Spannable) charSequence;
             Selection.setSelection(spanText, charSequence.length());
         }
-        mSignEt.addTextChangedListener(new  TextChange());
+        mSignEt.addTextChangedListener(new TextChange());
     }
 
     class TextChange implements TextWatcher {
@@ -63,11 +66,20 @@ public class UpdateSignActivity extends FragmentActivity {
                 mSaveTv.setTextColor(0xFFD0EFC6);
                 mSaveTv.setEnabled(false);
             }
+
+            int leftSignLenth = maxSignLenth - mSignEt.length();
+            if (leftSignLenth >= 0) {
+                mSignLengthTv.setText(String.valueOf(leftSignLenth));
+            }
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-
+            // 是否填写
+            int leftSignLenth = maxSignLenth - mSignEt.length();
+            if (leftSignLenth >= 0) {
+                mSignLengthTv.setText(String.valueOf(leftSignLenth));
+            }
         }
     }
 
