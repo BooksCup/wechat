@@ -30,7 +30,7 @@ public class UpdateSignActivity extends FragmentActivity {
         mSignEt = findViewById(R.id.et_sign);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mSignEt.setText(PreferencesUtil.getInstance().getUserWxId());
+        mSignEt.setText(PreferencesUtil.getInstance().getUserSign());
         // 光标移至最后
         CharSequence charSequence = mSignEt.getText();
         if (charSequence instanceof Spannable) {
@@ -49,14 +49,14 @@ public class UpdateSignActivity extends FragmentActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String newWxId = mSignEt.getText().toString();
-            String oldWxId = PreferencesUtil.getInstance().getUserNickName();
+            String newSign = mSignEt.getText().toString();
+            String oldSign = PreferencesUtil.getInstance().getUserSign();
             // 是否填写
-            boolean isNickNameHasText = mSignEt.length() > 0;
+            boolean isSignHasText = mSignEt.length() > 0;
             // 是否修改
-            boolean isNickNameChanged = !oldWxId.equals(newWxId);
+            boolean isSignChanged = !oldSign.equals(newSign);
 
-            if (isNickNameHasText && isNickNameChanged) {
+            if (isSignHasText && isSignChanged) {
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {

@@ -207,6 +207,14 @@ public class PreferencesUtil {
         return (String) getParam("userSex", "");
     }
 
+    public void setUserSign(String userSign) {
+        saveParam("userSign", userSign);
+    }
+
+    public String getUserSign() {
+        return (String) getParam("userSign", "");
+    }
+
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }
