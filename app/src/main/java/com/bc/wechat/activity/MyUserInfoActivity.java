@@ -79,9 +79,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         }
         String userSex = PreferencesUtil.getInstance().getUserSex();
         if (Constant.USER_SEX_MALE.equals(userSex)) {
-            mSexTv.setText("男");
+            mSexTv.setText(getString(R.string.sex_male));
         } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
-            mSexTv.setText("女");
+            mSexTv.setText(getString(R.string.sex_female));
         }
 
         mNickNameRl.setOnClickListener(this);
@@ -135,13 +135,12 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         LinearLayout mTitleLl = window.findViewById(R.id.ll_title);
         mTitleLl.setVisibility(View.VISIBLE);
         TextView mTitleTv = window.findViewById(R.id.tv_title);
-        mTitleTv.setText("性别");
+        mTitleTv.setText(getString(R.string.sex));
         TextView mMaleTv = window.findViewById(R.id.tv_content1);
-        mMaleTv.setText("男");
+        mMaleTv.setText(getString(R.string.sex_male));
         mMaleTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mSexTv.setText("男");
                 dialog.setMessage(getString(R.string.saving));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
@@ -150,11 +149,10 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             }
         });
         TextView mFemaleTv = window.findViewById(R.id.tv_content2);
-        mFemaleTv.setText("女");
+        mFemaleTv.setText(getString(R.string.sex_female));
         mFemaleTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mSexTv.setText("女");
                 dialog.setMessage(getString(R.string.saving));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
@@ -174,9 +172,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             public void onResponse(String s) {
                 PreferencesUtil.getInstance().setUserSex(userSex);
                 if (Constant.USER_SEX_MALE.equals(userSex)) {
-                    mSexTv.setText("男");
+                    mSexTv.setText(getString(R.string.sex_male));
                 } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
-                    mSexTv.setText("女");
+                    mSexTv.setText(getString(R.string.sex_female));
                 }
                 dialog.dismiss();
             }

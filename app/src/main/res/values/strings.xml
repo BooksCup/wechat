@@ -108,4 +108,7 @@
     <string name="set_chat_to_top">置顶聊天</string>
     <string name="block_chat_msg">免打扰</string>
     <string name="clear_chat_msg">清空聊天记录</string>
+
+    <string name="sex_male">男</string>
+    <string name="sex_female">女</string>
 </resources>
