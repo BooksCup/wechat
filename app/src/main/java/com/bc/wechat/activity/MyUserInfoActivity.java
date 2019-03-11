@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -43,12 +45,15 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
 
+    ProgressDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
         volleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
+        dialog = new ProgressDialog(MyUserInfoActivity.this);
         initView();
     }
 
@@ -136,7 +141,10 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mMaleTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSexTv.setText("男");
+//                mSexTv.setText("男");
+                dialog.setMessage(getString(R.string.saving));
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.show();
                 updateUserSex(PreferencesUtil.getInstance().getUserId(), Constant.USER_SEX_MALE);
                 sexDialog.dismiss();
             }
@@ -146,7 +154,10 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mFemaleTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSexTv.setText("女");
+//                mSexTv.setText("女");
+                dialog.setMessage(getString(R.string.saving));
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.show();
                 updateUserSex(PreferencesUtil.getInstance().getUserId(), Constant.USER_SEX_FEMALE);
                 sexDialog.dismiss();
             }
@@ -162,16 +173,24 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onResponse(String s) {
                 PreferencesUtil.getInstance().setUserSex(userSex);
+                if (Constant.USER_SEX_MALE.equals(userSex)) {
+                    mSexTv.setText("男");
+                } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
+                    mSexTv.setText("女");
+                }
+                dialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                dialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(MyUserInfoActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(MyUserInfoActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
                 }
-
             }
         });
     }
