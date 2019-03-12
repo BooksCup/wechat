@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -10,9 +11,18 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateSignActivity extends FragmentActivity {
 
@@ -21,11 +31,31 @@ public class UpdateSignActivity extends FragmentActivity {
     private TextView mSignLengthTv;
     final int maxSignLenth = 30;
 
+    private VolleyUtil volleyUtil;
+    ProgressDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_sign);
+
+        PreferencesUtil.getInstance().init(this);
+        volleyUtil = VolleyUtil.getInstance(this);
+        dialog = new ProgressDialog(UpdateSignActivity.this);
         initView();
+
+        mSaveTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.setMessage(getString(R.string.saving));
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.show();
+                String userId = PreferencesUtil.getInstance().getUserId();
+                String userNickName = mSignEt.getText().toString();
+                updateUserSign(userId, userNickName);
+            }
+        });
+
     }
 
     private void initView() {
@@ -85,5 +115,30 @@ public class UpdateSignActivity extends FragmentActivity {
 
     public void back(View view) {
         finish();
+    }
+
+    private void updateUserSign(final String userId, final String userSign) {
+        String url = Constant.BASE_URL + "users/" + userId + "/userSign";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userSign", userSign);
+
+        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                dialog.dismiss();
+                setResult(RESULT_OK);
+                PreferencesUtil.getInstance().setUserSign(userSign);
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                dialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(UpdateSignActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 }
