@@ -38,12 +38,15 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private TextView mNickNameTv;
     private TextView mWxIdTv;
     private TextView mSexTv;
+    private TextView mSignTv;
+
     private SimpleDraweeView mAvatarSdv;
 
     private VolleyUtil volleyUtil;
 
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
+    private static final int UPDATE_USER_SIGN = 5;
 
     ProgressDialog dialog;
 
@@ -68,6 +71,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mSexTv = findViewById(R.id.tv_sex);
 
         mSignRl = findViewById(R.id.rl_sign);
+        mSignTv = findViewById(R.id.tv_sign);
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
@@ -108,7 +112,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 showSexDialog();
                 break;
             case R.id.rl_sign:
-                startActivity(new Intent(this, UpdateSignActivity.class));
+                startActivityForResult(new Intent(this, UpdateSignActivity.class), UPDATE_USER_SIGN);
                 break;
         }
     }
@@ -122,6 +126,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                     break;
                 case UPDATE_USER_WX_ID:
                     mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
+                    break;
+                case UPDATE_USER_SIGN:
+                    mSignTv.setText(PreferencesUtil.getInstance().getUserSign());
                     break;
             }
         }
