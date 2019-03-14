@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -125,13 +126,17 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                dialog.dismiss();
+
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(LoginActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(LoginActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                int errorCode = volleyError.networkResponse == null ? 400 : volleyError.networkResponse.statusCode;
+                int errorCode = volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
                         Toast.makeText(LoginActivity.this,
@@ -139,7 +144,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                 .show();
                         break;
                 }
-                dialog.dismiss();
             }
         });
     }
