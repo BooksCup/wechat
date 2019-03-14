@@ -39,6 +39,11 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                 // 清除sharedpreferences中存储信息
                 PreferencesUtil.getInstance().setLogin(false);
                 PreferencesUtil.getInstance().setUserId("");
+                PreferencesUtil.getInstance().setUserNickName("");
+                PreferencesUtil.getInstance().setUserWxId("");
+                PreferencesUtil.getInstance().setUserAvatar("");
+                PreferencesUtil.getInstance().setUserSex("");
+                PreferencesUtil.getInstance().setUserSign("");
 
                 // 跳转至登录页
                 Intent intent = new Intent(this, LoginActivity.class);
