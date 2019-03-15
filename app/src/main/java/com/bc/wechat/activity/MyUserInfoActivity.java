@@ -53,7 +53,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myinfo);
+        setContentView(R.layout.activity_my_info);
         volleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
         dialog = new ProgressDialog(MyUserInfoActivity.this);
