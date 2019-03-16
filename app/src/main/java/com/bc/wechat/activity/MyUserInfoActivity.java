@@ -87,6 +87,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
             mSexTv.setText(getString(R.string.sex_female));
         }
+        mSignTv.setText(PreferencesUtil.getInstance().getUserSign());
 
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
