@@ -2,6 +2,8 @@ package com.bc.wechat.entity;
 
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 public class User extends SugarRecord {
     private String userId;
     private String userWxId;
@@ -13,6 +15,8 @@ public class User extends SugarRecord {
     private String userSex;
     private String userSign;
     private String isFriend;
+
+    private List<User> friendList;
 
     public String getUserId() {
         return userId;
@@ -92,5 +96,13 @@ public class User extends SugarRecord {
 
     public void setIsFriend(String isFriend) {
         this.isFriend = isFriend;
+    }
+
+    public List<User> getFriendList() {
+        return friendList;
+    }
+
+    public void setFriendList(List<User> friendList) {
+        this.friendList = friendList;
     }
 }
