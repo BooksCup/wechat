@@ -17,14 +17,9 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendApply;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import java.util.HashMap;
 import java.util.List;
@@ -118,7 +113,7 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
                     friend.setUserId(friendApply.getFromUserId());
                     friend.setUserNickName(friendApply.getFromUserNickName());
                     friend.setUserAvatar(friendApply.getFromUserAvatar());
-                    friend.setUserHeader(setUserHeader(friendApply.getFromUserNickName()));
+                    friend.setUserHeader(CommonUtil.setUserHeader(friendApply.getFromUserNickName()));
                     friend.setUserSex(friendApply.getFromUserSex());
                     Friend.save(friend);
                 }
@@ -133,47 +128,5 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
                 }
             }
         });
-    }
-
-    /**
-     * 获取用户header
-     * 如: "张三"的header就是"Z"，用于用户默认分组
-     *
-     * @param userNickName 用户昵称
-     * @return 用户header
-     */
-    private static String setUserHeader(String userNickName) {
-        StringBuffer stringBuffer = new StringBuffer();
-        // 将汉字拆分成一个个的char
-        char[] chars = userNickName.toCharArray();
-        // 遍历汉字的每一个char
-        for (int i = 0; i < chars.length; i++) {
-
-            try {
-                HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-
-                // UPPERCASE：大写  (ZHONG)
-                format.setCaseType(HanyuPinyinCaseType.UPPERCASE);//输出大写
-
-                // WITHOUT_TONE：无音标  (zhong)
-                format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-                // 汉字的所有读音放在一个pinyins数组
-                String[] pinyins = PinyinHelper.toHanyuPinyinStringArray(chars[i], format);
-                if (pinyins == null) {
-                    stringBuffer.append(chars[i]);
-                } else {
-                    stringBuffer.append(pinyins[0]);
-                }
-            } catch (BadHanyuPinyinOutputFormatCombination badHanyuPinyinOutputFormatCombination) {
-                badHanyuPinyinOutputFormatCombination.printStackTrace();
-            }
-        }
-        char firstChar = stringBuffer.toString().toUpperCase().charAt(0);
-        // 不是A-Z字母
-        if (firstChar > 90 || firstChar < 65) {
-            return "#";
-        } else { // 代表是A-Z
-            return String.valueOf(firstChar);
-        }
     }
 }
