@@ -65,6 +65,12 @@ public class UpdateSignActivity extends FragmentActivity {
         mSignLengthTv = findViewById(R.id.tv_sign_length);
 
         mSignEt.setText(PreferencesUtil.getInstance().getUserSign());
+        // 剩余可编辑字数
+        int leftSignLenth = maxSignLenth - mSignEt.length();
+        if (leftSignLenth >= 0) {
+            mSignLengthTv.setText(String.valueOf(leftSignLenth));
+        }
+
         // 光标移至最后
         CharSequence charSequence = mSignEt.getText();
         if (charSequence instanceof Spannable) {
