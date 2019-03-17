@@ -122,7 +122,7 @@ public class UpdateNickNameActivity extends FragmentActivity {
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(UpdateNickNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
-                }else if (volleyError instanceof TimeoutError) {
+                } else if (volleyError instanceof TimeoutError) {
                     Toast.makeText(UpdateNickNameActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
