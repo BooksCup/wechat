@@ -69,9 +69,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ChatActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:launchMode="singleTask"
+            />
         <activity
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
