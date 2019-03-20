@@ -234,9 +234,9 @@ public class MainActivity extends FragmentActivity {
         message.setTimestamp(new Date().getTime());
         Message.save(message);
 
-        if (currentTabIndex == 0) {
-            conversationFragment.refreshConversationList();
-        }
+//        if (currentTabIndex == 0) {
+        conversationFragment.refreshConversationList();
+//        }
         int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber();
         PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum + 1);
         refreshNewMsgsUnreadNum();
