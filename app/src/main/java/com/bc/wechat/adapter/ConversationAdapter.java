@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public class ConversationAdapter extends BaseAdapter {
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
             SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
             TextView mUnreadTv = convertView.findViewById(R.id.tv_unread);
+            TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
+
             UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
             List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
             if (null != friendList && friendList.size() > 0) {
@@ -80,6 +83,8 @@ public class ConversationAdapter extends BaseAdapter {
             } else {
                 mUnreadTv.setText(String.valueOf(conversation.getUnReadMsgCnt()));
             }
+            mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLatestMessage().getCreateTime()));
+
         } else {
             convertView = creatConvertView(1);
         }
