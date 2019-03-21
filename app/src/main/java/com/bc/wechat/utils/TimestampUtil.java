@@ -20,7 +20,7 @@ public class TimestampUtil {
         pointText = "1970-01-01";
     }
 
-    //获得当天0点时间
+    // 获得当天0点时间
     public static Long getTimesMorning() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -30,7 +30,7 @@ public class TimestampUtil {
         return cal.getTimeInMillis();
     }
 
-    //获取星期几
+    // 获取星期几
     public static String getWeekOfDate(Date dt) {
         String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
         Calendar cal = Calendar.getInstance();
@@ -42,36 +42,54 @@ public class TimestampUtil {
         return weekDays[w];
     }
 
-    //获取时间点
+    // 获取时间点
     public static String getTimePoint(Long time) {
-        //现在时间
+        // 现在时间
         now = new Date().getTime();
 
-        //时间点比当天零点早
+        // 时间点比当天零点早
         if (time <= now && time != null) {
             date = new Date(time);
             if (time < getTimesMorning()) {
-                if (time >= getTimesMorning() - day) {//比昨天零点晚
+                if (time >= getTimesMorning() - day) {
+                    // 比昨天零点晚
                     pointText = "昨天";
                     return pointText;
                 } else {
-                    //比昨天零点早
-                    if (time >= getTimesMorning() - 6 * day) {//比七天前的零点晚，显示星期几
-
+                    // 比昨天零点早
+                    if (time >= getTimesMorning() - 6 * day) {
+                        // 比七天前的零点晚，显示星期几
                         return getWeekOfDate(date);
                     } else {
-                        //显示具体日期
+                        // 显示具体日期
                         df = new SimpleDateFormat("yyyy-MM-dd");
                         pointText = df.format(date);
                         return pointText;
                     }
                 }
-
             } else {
-                //无日期时间,当天内具体时间
+                // 无日期时间,当天内具体时间
                 df = new SimpleDateFormat("HH:mm");
                 pointText = df.format(date);
-                return pointText;
+                int hour = Integer.parseInt(pointText.split(":")[0]);
+                String period = "";
+                if (hour >= 0 && hour <= 6) {
+                    period = "凌晨";
+                }
+                if (hour > 6 && hour <= 12) {
+                    period = "上午";
+                }
+                if (hour > 12 && hour <= 13) {
+                    period = "中午";
+                }
+                if (hour > 13 && hour <= 18) {
+                    period = "下午";
+                }
+                if (hour > 18 && hour <= 24) {
+                    period = "晚上";
+                }
+
+                return period + pointText;
             }
         }
         return pointText;
