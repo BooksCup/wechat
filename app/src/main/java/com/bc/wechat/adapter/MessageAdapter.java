@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView mContentTv = convertView.findViewById(R.id.tv_chatcontent);
         SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
 
-        mTimeStampTv.setText(message.getCreateTime());
+        mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
         mContentTv.setText(message.getContent());
 
         if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
@@ -78,9 +79,11 @@ public class MessageAdapter extends BaseAdapter {
 
         if (position != 0) {
             Message lastMessage = messageList.get(position - 1);
-            if (message.getCreateTime().equals(lastMessage.getCreateTime())) {
+
+            if (message.getTimestamp() - lastMessage.getTimestamp() < 10 * 60 * 1000) {
                 mTimeStampTv.setVisibility(View.GONE);
             }
+
         }
 
         return convertView;
