@@ -26,9 +26,9 @@
         <item name="android:paddingBottom">2dip</item>
         <item name="android:paddingLeft">12dip</item>
         <item name="android:paddingRight">12dip</item>
-        <item name="android:textColor">@color/btn_gray_normal</item>
+        <item name="android:textColor">@color/btn_gray_pressed_status</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:background">@drawable/timestampe_bg</item>
+<!--        <item name="android:background">@drawable/timestampe_bg</item>-->
     </style>
 
     <style name="MyDialogStyle">
