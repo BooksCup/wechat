@@ -47,11 +47,11 @@
             chat:arrow_up_distance="15dp"
             chat:arrow_width="5dp"
             chat:conner_radius="6dp"
-            chat:fill_color="#33cc00"
+            chat:fill_color="#45c01a"
             chat:is_arrow_center="false"
             chat:press_fill_color="@color/btn_green_pressed"
             chat:press_stroke_color="@color/btn_green_pressed"
-            chat:stroke_color="#33cc00"
+            chat:stroke_color="#45c01a"
             chat:stroke_width="1px">
 
             <TextView
