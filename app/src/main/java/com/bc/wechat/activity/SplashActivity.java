@@ -10,6 +10,8 @@ import android.view.animation.AlphaAnimation;
 import com.bc.wechat.R;
 import com.bc.wechat.utils.PreferencesUtil;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 
 public class SplashActivity extends FragmentActivity {
 
@@ -25,6 +27,8 @@ public class SplashActivity extends FragmentActivity {
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(1500);
         view.setAnimation(animation);
+
+        ShortcutBadger.removeCount(this);
     }
 
     @Override

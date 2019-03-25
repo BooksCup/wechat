@@ -44,4 +44,6 @@ dependencies {
     implementation 'cn.jiguang.sdk:jmessage:2.9.0'
     implementation 'cn.jiguang.sdk:jpush:3.3.4'
     implementation 'cn.jiguang.sdk:jcore:2.1.2'
+
+    implementation "me.leolin:ShortcutBadger:1.1.22@aar"
 }
