@@ -223,7 +223,6 @@
             android:visibility="gone">
 
             <!-- 表情图片 -->
-
             <LinearLayout
                 android:id="@+id/ll_face_container"
                 android:layout_width="match_parent"
@@ -238,7 +237,6 @@
             </LinearLayout>
 
             <!-- 图片，表情，名片等按钮 -->
-
             <LinearLayout
                 android:id="@+id/ll_btn_container"
                 android:layout_width="match_parent"
@@ -266,8 +264,8 @@
 
                             <ImageView
                                 android:id="@+id/btn_take_picture"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
                                 android:layout_centerInParent="true"
                                 android:background="@mipmap/icon_chat_photo"
                                 android:clickable="true"
@@ -296,8 +294,8 @@
 
                             <ImageView
                                 android:id="@+id/btn_picture"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
                                 android:layout_centerInParent="true"
                                 android:background="@mipmap/icon_chat_pic"
                                 android:clickable="true"
@@ -326,8 +324,8 @@
 
                             <ImageView
                                 android:id="@+id/btn_location"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
                                 android:layout_centerInParent="true"
                                 android:clickable="true"
                                 android:onClick="onClick"
@@ -356,8 +354,8 @@
 
                             <ImageView
                                 android:id="@+id/btn_video"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
                                 android:layout_centerInParent="true"
                                 android:clickable="true"
                                 android:onClick="onClick"
