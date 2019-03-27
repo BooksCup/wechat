@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebebeb">
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ScrollView>
+        android:layout_height="match_parent"></ScrollView>
+
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -248,7 +249,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="6dp"
                     android:weightSum="4">
 
                     <LinearLayout
@@ -259,8 +260,8 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp">
+                            android:layout_width="56dp"
+                            android:layout_height="56dp">
 
                             <ImageView
                                 android:id="@+id/btn_take_picture"
@@ -278,7 +279,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="拍照"
-                            android:textColor="#727171" />
+                            android:textColor="#727171"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -289,8 +291,8 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp">
+                            android:layout_width="56dp"
+                            android:layout_height="56dp">
 
                             <ImageView
                                 android:id="@+id/btn_picture"
@@ -308,7 +310,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="图片"
-                            android:textColor="#727171" />
+                            android:textColor="#727171"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -319,8 +322,8 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp">
+                            android:layout_width="56dp"
+                            android:layout_height="56dp">
 
                             <ImageView
                                 android:id="@+id/btn_location"
@@ -338,7 +341,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="位置"
-                            android:textColor="#727171" />
+                            android:textColor="#727171"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -349,8 +353,8 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp">
+                            android:layout_width="56dp"
+                            android:layout_height="56dp">
 
                             <ImageView
                                 android:id="@+id/btn_video"
@@ -368,7 +372,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="视频"
-                            android:textColor="#727171" />
+                            android:textColor="#727171"
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -467,10 +472,9 @@
             android:divider="@null"
             android:dividerHeight="5dp"
             android:listSelector="#00000000"
-            android:scrollbars="none"
-            android:transcriptMode="normal"
             android:paddingBottom="12dp"
-            />
+            android:scrollbars="none"
+            android:transcriptMode="normal" />
 
         <RelativeLayout
             android:id="@+id/recording_container"
