@@ -19,6 +19,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
@@ -64,7 +65,9 @@ public class UpdateSignActivity extends FragmentActivity {
         mSaveTv = findViewById(R.id.tv_save);
         mSignLengthTv = findViewById(R.id.tv_sign_length);
 
-        mSignEt.setText(PreferencesUtil.getInstance().getUserSign());
+        User user = PreferencesUtil.getInstance().getUser();
+
+        mSignEt.setText(user.getUserSign());
         // 剩余可编辑字数
         int leftSignLenth = maxSignLenth - mSignEt.length();
         if (leftSignLenth >= 0) {
@@ -134,7 +137,9 @@ public class UpdateSignActivity extends FragmentActivity {
             public void onResponse(String s) {
                 dialog.dismiss();
                 setResult(RESULT_OK);
-                PreferencesUtil.getInstance().setUserSign(userSign);
+                User user = PreferencesUtil.getInstance().getUser();
+                user.setUserSign(userSign);
+                PreferencesUtil.getInstance().setUser(user);
                 finish();
             }
         }, new Response.ErrorListener() {

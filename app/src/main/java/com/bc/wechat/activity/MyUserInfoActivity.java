@@ -21,6 +21,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -75,6 +76,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
+        User user = PreferencesUtil.getInstance().getUser();
+
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
         String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
@@ -87,7 +90,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
             mSexTv.setText(getString(R.string.sex_female));
         }
-        mSignTv.setText(PreferencesUtil.getInstance().getUserSign());
+        mSignTv.setText(user.getUserSign());
 
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
@@ -121,6 +124,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
+            User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
                 case UPDATE_USER_NICK_NAME:
                     mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
@@ -129,7 +133,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                     mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
                     break;
                 case UPDATE_USER_SIGN:
-                    mSignTv.setText(PreferencesUtil.getInstance().getUserSign());
+                    // 个性签名
+                    mSignTv.setText(user.getUserSign());
                     break;
             }
         }

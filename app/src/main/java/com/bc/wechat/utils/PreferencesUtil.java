@@ -6,6 +6,9 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.bc.wechat.entity.User;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -217,6 +220,20 @@ public class PreferencesUtil {
 
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
+    }
+
+    public void setUser(User user) {
+        saveParam("user", JSON.toJSONString(user));
+    }
+
+    public User getUser() {
+        User user;
+        try {
+            user = JSON.parseObject((String) getParam("user", ""), User.class);
+        } catch (Exception e) {
+            user = new User();
+        }
+        return user;
     }
 
     public Integer getNewMsgsUnreadNumber() {

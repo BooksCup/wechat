@@ -123,8 +123,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 PreferencesUtil.getInstance().setUserWxId(user.getUserWxId());
                 PreferencesUtil.getInstance().setUserAvatar(user.getUserAvatar());
                 PreferencesUtil.getInstance().setUserSex(user.getUserSex());
-                PreferencesUtil.getInstance().setUserSign(user.getUserSign());
                 PreferencesUtil.getInstance().setLogin(true);
+                PreferencesUtil.getInstance().setUser(user);
                 JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
 
                 List<User> friendList = user.getFriendList();
