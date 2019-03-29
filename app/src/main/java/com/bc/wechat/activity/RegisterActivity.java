@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -48,11 +49,14 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
     Button mRegisterBtn;
 
+    ProgressDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         volleyUtil = VolleyUtil.getInstance(this);
+        dialog = new ProgressDialog(RegisterActivity.this);
         initView();
     }
 
@@ -117,10 +121,15 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 break;
 
             case R.id.btn_register:
+                dialog.setMessage(getString(R.string.logging_in));
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.show();
+
                 String nickName = mNickNameEt.getText().toString();
                 String phone = mPhoneEt.getText().toString();
                 String password = mPasswordEt.getText().toString();
                 if (!validatePassword(password)) {
+                    dialog.dismiss();
                     Toast.makeText(RegisterActivity.this, R.string.password_rules,
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -168,15 +177,16 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
             @Override
             public void onResponse(String s) {
                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                dialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                dialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(RegisterActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
-                }else if (volleyError instanceof TimeoutError) {
+                } else if (volleyError instanceof TimeoutError) {
                     Toast.makeText(RegisterActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
