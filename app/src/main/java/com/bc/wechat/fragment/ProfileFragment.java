@@ -17,6 +17,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.BigImageActivity;
 import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -30,7 +31,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private SimpleDraweeView mAvatarSdv;
     private TextView mNickNameTv;
     private TextView mWxIdTv;
-
+    User user;
 
     @Nullable
     @Override
@@ -43,6 +44,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         PreferencesUtil.getInstance().init(getActivity());
+        user = PreferencesUtil.getInstance().getUser();
         initView();
 
     }
@@ -60,7 +62,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
-        String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
+        String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
         }
@@ -80,7 +82,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             // 头像点击放大
             case R.id.sdv_avatar:
                 Intent intent = new Intent(getActivity(), BigImageActivity.class);
-                intent.putExtra("imgUrl", PreferencesUtil.getInstance().getUserAvatar());
+                intent.putExtra("imgUrl", user.getUserAvatar());
                 startActivity(intent);
                 break;
 

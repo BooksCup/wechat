@@ -80,7 +80,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
-        String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
+        String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
         }

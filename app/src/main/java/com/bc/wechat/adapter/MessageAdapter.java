@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Message;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -26,9 +27,12 @@ public class MessageAdapter extends BaseAdapter {
 
     private List<Message> messageList;
 
+    User user;
+
     public MessageAdapter(Context context, List<Message> messageList) {
         inflater = LayoutInflater.from(context);
         PreferencesUtil.getInstance().init(context);
+        user = PreferencesUtil.getInstance().getUser();
         this.messageList = messageList;
     }
 
@@ -68,8 +72,8 @@ public class MessageAdapter extends BaseAdapter {
         mContentTv.setText(message.getContent());
 
         if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
-            if (!TextUtils.isEmpty(PreferencesUtil.getInstance().getUserAvatar())) {
-                mAvatarSdv.setImageURI(Uri.parse(PreferencesUtil.getInstance().getUserAvatar()));
+            if (!TextUtils.isEmpty(user.getUserAvatar())) {
+                mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
             }
         } else {
             if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
