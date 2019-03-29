@@ -194,14 +194,6 @@ public class PreferencesUtil {
         return (String) getParam("userNickName", "");
     }
 
-    public void setUserAvatar(String userAvatar) {
-        saveParam("userAvatar", userAvatar);
-    }
-
-    public String getUserAvatar() {
-        return (String) getParam("userAvatar", "");
-    }
-
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }
