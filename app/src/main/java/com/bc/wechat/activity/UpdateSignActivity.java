@@ -35,6 +35,7 @@ public class UpdateSignActivity extends FragmentActivity {
 
     private VolleyUtil volleyUtil;
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class UpdateSignActivity extends FragmentActivity {
         mSaveTv = findViewById(R.id.tv_save);
         mSignLengthTv = findViewById(R.id.tv_sign_length);
 
-        User user = PreferencesUtil.getInstance().getUser();
+        user = PreferencesUtil.getInstance().getUser();
 
         mSignEt.setText(user.getUserSign());
         // 剩余可编辑字数
@@ -93,7 +94,7 @@ public class UpdateSignActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newSign = mSignEt.getText().toString();
-            String oldSign = PreferencesUtil.getInstance().getUserSign();
+            String oldSign = user.getUserSign();
             // 是否填写
             boolean isSignHasText = mSignEt.length() > 0;
             // 是否修改
@@ -137,7 +138,6 @@ public class UpdateSignActivity extends FragmentActivity {
             public void onResponse(String s) {
                 dialog.dismiss();
                 setResult(RESULT_OK);
-                User user = PreferencesUtil.getInstance().getUser();
                 user.setUserSign(userSign);
                 PreferencesUtil.getInstance().setUser(user);
                 finish();
