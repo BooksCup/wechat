@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -174,6 +175,9 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(RegisterActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(RegisterActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
