@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
@@ -29,6 +30,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
     private TextView mSendTv;
     private VolleyUtil volleyUtil;
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
         setContentView(R.layout.activity_add_friends_final);
 
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(AddFriendsFinalActivity.this);
         initView();
@@ -45,7 +48,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
         mReasonEt = findViewById(R.id.et_reason);
         mSendTv = findViewById(R.id.tv_send);
 
-        String nickName = PreferencesUtil.getInstance().getUserNickName();
+        String nickName = user.getUserNickName();
         mReasonEt.setText("我是" + nickName);
         // 光标移至最后
         CharSequence charSequence = mReasonEt.getText();

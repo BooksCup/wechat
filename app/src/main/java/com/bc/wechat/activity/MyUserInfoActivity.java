@@ -78,7 +78,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
-        mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+        mNickNameTv.setText(user.getUserNickName());
         mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
         String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
@@ -129,7 +129,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
                 case UPDATE_USER_NICK_NAME:
-                    mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+                    mNickNameTv.setText(user.getUserNickName());
                     break;
                 case UPDATE_USER_WX_ID:
                     mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());

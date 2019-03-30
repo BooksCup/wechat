@@ -19,6 +19,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
@@ -30,12 +31,14 @@ public class UpdateNickNameActivity extends FragmentActivity {
     private TextView mSaveTv;
     private VolleyUtil volleyUtil;
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_nick_name);
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(UpdateNickNameActivity.this);
         initView();
@@ -57,7 +60,7 @@ public class UpdateNickNameActivity extends FragmentActivity {
         mNickNameEt = findViewById(R.id.et_nick);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mNickNameEt.setText(PreferencesUtil.getInstance().getUserNickName());
+        mNickNameEt.setText(user.getUserNickName());
         // 光标移至最后
         CharSequence charSequence = mNickNameEt.getText();
         if (charSequence instanceof Spannable) {
@@ -81,7 +84,7 @@ public class UpdateNickNameActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newNickName = mNickNameEt.getText().toString();
-            String oldNickName = PreferencesUtil.getInstance().getUserNickName();
+            String oldNickName = user.getUserNickName();
             // 是否填写
             boolean isNickNameHasText = newNickName.length() > 0;
             // 是否修改
@@ -112,7 +115,8 @@ public class UpdateNickNameActivity extends FragmentActivity {
             public void onResponse(String s) {
                 dialog.dismiss();
                 setResult(RESULT_OK);
-                PreferencesUtil.getInstance().setUserNickName(userNickName);
+                user.setUserNickName(userNickName);
+                PreferencesUtil.getInstance().setUser(user);
                 finish();
             }
         }, new Response.ErrorListener() {

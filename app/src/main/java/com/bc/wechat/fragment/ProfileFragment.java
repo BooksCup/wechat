@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mSettingRl.setOnClickListener(this);
         mAvatarSdv.setOnClickListener(this);
 
-        mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+        mNickNameTv.setText(user.getUserNickName());
         mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
         String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+        mNickNameTv.setText(user.getUserNickName());
         mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
     }
 }
