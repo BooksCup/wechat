@@ -19,6 +19,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
@@ -30,6 +31,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
     private TextView mSaveTv;
     private VolleyUtil volleyUtil;
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         setContentView(R.layout.activity_update_wx_id);
 
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(UpdateWxIdActivity.this);
         initView();
@@ -58,7 +61,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         mWxIdEt = findViewById(R.id.et_wx_id);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mWxIdEt.setText(PreferencesUtil.getInstance().getUserWxId());
+        mWxIdEt.setText(user.getUserWxId());
         // 光标移至最后
         CharSequence charSequence = mWxIdEt.getText();
         if (charSequence instanceof Spannable) {
@@ -78,7 +81,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newWxId = mWxIdEt.getText().toString();
-            String oldWxId = PreferencesUtil.getInstance().getUserWxId();
+            String oldWxId = user.getUserWxId();
             // 是否填写
             boolean isWxIdHasText = mWxIdEt.length() > 0;
             // 是否修改
@@ -113,7 +116,8 @@ public class UpdateWxIdActivity extends FragmentActivity {
             public void onResponse(String s) {
                 dialog.dismiss();
                 setResult(RESULT_OK);
-                PreferencesUtil.getInstance().setUserWxId(userWxId);
+                user.setUserWxId(userWxId);
+                PreferencesUtil.getInstance().setUser(user);
                 finish();
             }
         }, new Response.ErrorListener() {

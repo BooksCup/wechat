@@ -79,7 +79,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
         mNickNameTv.setText(user.getUserNickName());
-        mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
+        mWxIdTv.setText(user.getUserWxId());
         String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
@@ -129,10 +129,12 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
                 case UPDATE_USER_NICK_NAME:
+                    // 昵称
                     mNickNameTv.setText(user.getUserNickName());
                     break;
                 case UPDATE_USER_WX_ID:
-                    mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
+                    // 微信号
+                    mWxIdTv.setText(user.getUserWxId());
                     break;
                 case UPDATE_USER_SIGN:
                     // 个性签名
