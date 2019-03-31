@@ -186,14 +186,6 @@ public class PreferencesUtil {
         return (String) getParam("userWxId", "");
     }
 
-    public void setUserNickName(String userNickName) {
-        saveParam("userNickName", userNickName);
-    }
-
-    public String getUserNickName() {
-        return (String) getParam("userNickName", "");
-    }
-
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }
