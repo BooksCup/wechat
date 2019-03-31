@@ -80,11 +80,11 @@ public class UpdateWxIdActivity extends FragmentActivity {
             String newWxId = mWxIdEt.getText().toString();
             String oldWxId = PreferencesUtil.getInstance().getUserWxId();
             // 是否填写
-            boolean isNickNameHasText = mWxIdEt.length() > 0;
+            boolean isWxIdHasText = mWxIdEt.length() > 0;
             // 是否修改
-            boolean isNickNameChanged = !oldWxId.equals(newWxId);
+            boolean isWxIdChanged = !oldWxId.equals(newWxId);
 
-            if (isNickNameHasText && isNickNameChanged) {
+            if (isWxIdHasText && isWxIdChanged) {
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
