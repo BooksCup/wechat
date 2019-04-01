@@ -178,14 +178,6 @@ public class PreferencesUtil {
         return (String) getParam("userId", "");
     }
 
-//    public void setUserWxId(String userWxId) {
-//        saveParam("userWxId", userWxId);
-//    }
-//
-//    public String getUserWxId() {
-//        return (String) getParam("userWxId", "");
-//    }
-
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }
