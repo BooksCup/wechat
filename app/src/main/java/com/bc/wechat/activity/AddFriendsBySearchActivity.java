@@ -34,6 +34,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
 
     private VolleyUtil volleyUtil;
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         setContentView(R.layout.activity_add_friends_by_search);
         initView();
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(AddFriendsBySearchActivity.this);
         mSearchRl.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +95,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     }
 
     private void searchUser(String keyword) {
-        String userId = PreferencesUtil.getInstance().getUserId();
+        String userId = user.getUserId();
         String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword + "&userId=" + userId;
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override

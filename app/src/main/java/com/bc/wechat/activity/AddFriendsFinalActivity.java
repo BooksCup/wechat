@@ -57,7 +57,7 @@ public class AddFriendsFinalActivity extends FragmentActivity {
             Selection.setSelection(spanText, charSequence.length());
         }
 
-        final String fromUserId = PreferencesUtil.getInstance().getUserId();
+        final String fromUserId = user.getUserId();
         final String toUserId = getIntent().getStringExtra("userId");
         final String applyRemark = mReasonEt.getText().toString().trim();
 

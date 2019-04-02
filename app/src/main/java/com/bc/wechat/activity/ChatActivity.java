@@ -24,6 +24,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 
@@ -103,12 +104,15 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private String fromUserNickName;
     private String fromUserAvatar;
 
+    User user;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         initView();
         setUpView();
     }
@@ -304,7 +308,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         Message message = new Message();
         message.setContent(content);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        message.setFromUserId(PreferencesUtil.getInstance().getUserId());
+        message.setFromUserId(user.getUserId());
         message.setToUserId(fromUserId);
         message.setToUserName(fromUserNickName);
         message.setToUserAvatar(fromUserAvatar);
@@ -332,7 +336,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             message.setFromUserAvatar(friendList.get(0).getUserAvatar());
         }
 
-        message.setToUserId(PreferencesUtil.getInstance().getUserId());
+        message.setToUserId(user.getUserId());
         TextContent messageContent = (TextContent) msg.getContent();
         message.setContent(messageContent.getText());
         message.setTimestamp(new Date().getTime());

@@ -49,7 +49,7 @@ public class UpdateNickNameActivity extends FragmentActivity {
                 dialog.setMessage(getString(R.string.saving));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
-                String userId = PreferencesUtil.getInstance().getUserId();
+                String userId = user.getUserId();
                 String userNickName = mNickNameEt.getText().toString();
                 updateUserNickName(userId, userNickName);
             }

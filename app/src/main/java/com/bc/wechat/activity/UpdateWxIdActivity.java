@@ -50,7 +50,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
                 dialog.setMessage(getString(R.string.saving));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
-                String userId = PreferencesUtil.getInstance().getUserId();
+                String userId = user.getUserId();
                 String userWxId = mWxIdEt.getText().toString();
                 updateUserWxId(userId, userWxId);
             }

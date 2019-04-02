@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.fragment.ConversationFragment;
 import com.bc.wechat.fragment.FindFragment;
 import com.bc.wechat.fragment.FriendsFragment;
@@ -53,6 +54,8 @@ public class MainActivity extends FragmentActivity {
     private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
 
+    User user;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,7 @@ public class MainActivity extends FragmentActivity {
         initView();
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         registerMessageReceiver();
         refreshNewMsgsUnreadNum();
         refreshNewFriendsUnreadNum();
@@ -227,7 +231,7 @@ public class MainActivity extends FragmentActivity {
             message.setFromUserAvatar(friendList.get(0).getUserAvatar());
         }
 
-        message.setToUserId(PreferencesUtil.getInstance().getUserId());
+        message.setToUserId(user.getUserId());
         TextContent messageContent = (TextContent) msg.getContent();
         message.setContent(messageContent.getText());
         message.setTimestamp(new Date().getTime());

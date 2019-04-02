@@ -161,7 +161,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 dialog.setMessage(getString(R.string.saving));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
-                updateUserSex(PreferencesUtil.getInstance().getUserId(), Constant.USER_SEX_MALE);
+                updateUserSex(user.getUserId(), Constant.USER_SEX_MALE);
                 sexDialog.dismiss();
             }
         });
@@ -173,7 +173,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 dialog.setMessage(getString(R.string.saving));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
-                updateUserSex(PreferencesUtil.getInstance().getUserId(), Constant.USER_SEX_FEMALE);
+                updateUserSex(user.getUserId(), Constant.USER_SEX_FEMALE);
                 sexDialog.dismiss();
             }
         });

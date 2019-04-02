@@ -38,7 +38,6 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
             case R.id.btn_logout:
                 // 清除sharedpreferences中存储信息
                 PreferencesUtil.getInstance().setLogin(false);
-                PreferencesUtil.getInstance().setUserId("");
 
                 // 跳转至登录页
                 Intent intent = new Intent(this, LoginActivity.class);

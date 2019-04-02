@@ -59,7 +59,7 @@ public class MessageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = messageList.get(position);
 
-        if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
+        if (user.getUserId().equals(message.getFromUserId())) {
             convertView = inflater.inflate(R.layout.item_sent_message, null);
         } else {
             convertView = inflater.inflate(R.layout.item_received_message, null);
@@ -71,7 +71,7 @@ public class MessageAdapter extends BaseAdapter {
         mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
         mContentTv.setText(message.getContent());
 
-        if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
+        if (user.getUserId().equals(message.getFromUserId())) {
             if (!TextUtils.isEmpty(user.getUserAvatar())) {
                 mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
             }
