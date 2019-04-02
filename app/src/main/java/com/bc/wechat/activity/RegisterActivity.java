@@ -177,6 +177,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
             @Override
             public void onResponse(String s) {
                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                finish();
                 dialog.dismiss();
             }
         }, new Response.ErrorListener() {

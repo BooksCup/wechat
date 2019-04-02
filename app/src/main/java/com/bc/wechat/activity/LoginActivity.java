@@ -146,6 +146,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 }
 
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
                 dialog.dismiss();
             }
         }, new Response.ErrorListener() {
