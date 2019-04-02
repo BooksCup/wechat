@@ -170,14 +170,6 @@ public class PreferencesUtil {
         saveParam("isLogin", isLogin);
     }
 
-    public void setUserId(String userId) {
-        saveParam("userId", userId);
-    }
-
-    public String getUserId() {
-        return (String) getParam("userId", "");
-    }
-
     public void setNewMsgsUnreadNumber(int newMsgsUnreadNumber) {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }

@@ -117,10 +117,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 Log.d(TAG, "server response: " + response);
                 User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
-                // 登录成功后设置userId和isLogin至sharedpreferences中
-//                PreferencesUtil.getInstance().setUserId(user.getUserId());
-                PreferencesUtil.getInstance().setLogin(true);
+                // 登录成功后设置user和isLogin至sharedpreferences中
                 PreferencesUtil.getInstance().setUser(user);
+                PreferencesUtil.getInstance().setLogin(true);
                 JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
 
                 List<User> friendList = user.getFriendList();
