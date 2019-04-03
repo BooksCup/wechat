@@ -19,6 +19,7 @@ import com.bc.wechat.adapter.ConversationAdapter;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.PreferencesUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -43,6 +44,9 @@ public class ConversationFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         listView = getView().findViewById(R.id.list);
         conversationList = JMessageClient.getConversationList();
+        if (null == conversationList) {
+            conversationList = new ArrayList<>();
+        }
         conversationAdapter = new ConversationAdapter(getActivity(), conversationList);
         listView.setAdapter(conversationAdapter);
 

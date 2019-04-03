@@ -12,6 +12,7 @@ import android.text.Spannable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,18 +20,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 
 /**
  * 注册
@@ -38,6 +49,10 @@ import java.util.regex.Pattern;
  * @author zhou
  */
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
+
+    private static final String TAG = "RegisterActivity";
+    public static int sequence = 1;
+
     private VolleyUtil volleyUtil;
     TextView mAgreementTv;
     EditText mNickNameEt;
@@ -175,7 +190,47 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(String response) {
+                Log.d(TAG, "server response: " + response);
+                User user = JSON.parseObject(response, User.class);
+                Log.d(TAG, "userId:" + user.getUserId());
+                // 登录成功后设置user和isLogin至sharedpreferences中
+                PreferencesUtil.getInstance().setUser(user);
+                PreferencesUtil.getInstance().setLogin(true);
+                // 注册jpush
+                JPushInterface.setAlias(RegisterActivity.this, sequence, user.getUserId());
+                // 注册jim
+                JMessageClient.login(user.getUserPhone(), "123456", new BasicCallback() {
+                    @Override
+                    public void gotResult(int i, String s) {
+                    }
+                });
+
+                List<User> friendList = user.getFriendList();
+                if (null != friendList && friendList.size() > 0) {
+                    for (User userFriend : friendList) {
+                        List<Friend> checkList = Friend.find(Friend.class, "user_id = ?", userFriend.getUserId());
+                        if (null != checkList && checkList.size() > 0) {
+                            // 好友已存在，更新基本信息
+                            Friend friend = checkList.get(0);
+                            friend.setUserNickName(userFriend.getUserNickName());
+                            friend.setUserAvatar(userFriend.getUserAvatar());
+                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
+                            friend.setUserSex(userFriend.getUserSex());
+                            Friend.save(friend);
+                        } else {
+                            // 不存在,插入sqlite
+                            Friend friend = new Friend();
+                            friend.setUserId(userFriend.getUserId());
+                            friend.setUserNickName(userFriend.getUserNickName());
+                            friend.setUserAvatar(userFriend.getUserAvatar());
+                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
+                            friend.setUserSex(userFriend.getUserSex());
+                            Friend.save(friend);
+                        }
+                    }
+                }
+
                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                 finish();
                 dialog.dismiss();

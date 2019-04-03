@@ -30,6 +30,8 @@ import com.bc.wechat.utils.VolleyUtil;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -120,7 +122,14 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 // 登录成功后设置user和isLogin至sharedpreferences中
                 PreferencesUtil.getInstance().setUser(user);
                 PreferencesUtil.getInstance().setLogin(true);
+                // 注册jpush
                 JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
+                // 注册jim
+                JMessageClient.login(user.getUserPhone(), "123456", new BasicCallback() {
+                    @Override
+                    public void gotResult(int i, String s) {
+                    }
+                });
 
                 List<User> friendList = user.getFriendList();
                 for (User userFriend : friendList) {

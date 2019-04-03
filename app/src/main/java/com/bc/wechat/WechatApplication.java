@@ -23,11 +23,5 @@ public class WechatApplication extends Application {
         // 极光IM
         JMessageClient.setDebugMode(true);
         JMessageClient.init(this);
-
-        JMessageClient.login("13770519290", "123456", new BasicCallback() {
-            @Override
-            public void gotResult(int i, String s) {
-            }
-        });
     }
 }

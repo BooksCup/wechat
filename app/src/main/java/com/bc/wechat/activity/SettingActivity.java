@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.bc.wechat.R;
+import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.PreferencesUtil;
 
 public class SettingActivity extends FragmentActivity implements View.OnClickListener {
@@ -39,6 +40,8 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                 // 清除sharedpreferences中存储信息
                 PreferencesUtil.getInstance().setLogin(false);
                 PreferencesUtil.getInstance().setUser(null);
+
+                Friend.deleteAll(Friend.class);
 
                 // 跳转至登录页
                 Intent intent = new Intent(this, LoginActivity.class);
