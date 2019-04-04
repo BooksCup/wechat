@@ -61,7 +61,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mAvatarSdv.setOnClickListener(this);
 
         mNickNameTv.setText(user.getUserNickName());
-        mWxIdTv.setText("微信号:" + user.getUserWxId());
+        String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
+        mWxIdTv.setText("微信号:" + userWxId);
         String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
@@ -93,6 +94,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         mNickNameTv.setText(user.getUserNickName());
-        mWxIdTv.setText("微信号:" + user.getUserWxId());
+        String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
+        mWxIdTv.setText("微信号:" + userWxId);
     }
 }
