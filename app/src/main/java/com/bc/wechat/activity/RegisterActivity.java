@@ -200,7 +200,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 // 注册jpush
                 JPushInterface.setAlias(RegisterActivity.this, sequence, user.getUserId());
                 // 注册jim
-                JMessageClient.login(user.getUserPhone(), "123456", new BasicCallback() {
+                JMessageClient.login(user.getUserId(), "123456", new BasicCallback() {
                     @Override
                     public void gotResult(int i, String s) {
                     }
