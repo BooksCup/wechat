@@ -81,7 +81,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newWxId = mWxIdEt.getText().toString();
-            String oldWxId = user.getUserWxId();
+            String oldWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
             // 是否填写
             boolean isWxIdHasText = mWxIdEt.length() > 0;
             // 是否修改
