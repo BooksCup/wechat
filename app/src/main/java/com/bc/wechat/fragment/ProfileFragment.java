@@ -93,6 +93,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        user = PreferencesUtil.getInstance().getUser();
         mNickNameTv.setText(user.getUserNickName());
         String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
         mWxIdTv.setText("微信号:" + userWxId);
