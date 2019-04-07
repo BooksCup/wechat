@@ -19,17 +19,27 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
+import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.TextContent;
@@ -105,11 +115,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private String fromUserAvatar;
 
     User user;
+    private VolleyUtil volleyUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        volleyUtil = VolleyUtil.getInstance(this);
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
         user = PreferencesUtil.getInstance().getUser();
@@ -316,6 +328,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         messageList.add(message);
 
         Message.save(message);
+        Map<String, Object> body = new HashMap<>();
+        body.put("extras", new HashMap<>());
+        body.put("text", content);
+        sendMessage("single", fromUserId, user.getUserId(), "text", JSON.toJSONString(body));
 
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
@@ -368,5 +384,33 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         JMessageClient.unRegisterEventReceiver(this);
+    }
+
+    private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body) {
+        String url = Constant.BASE_URL + "messages";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("targetType", targetType);
+        paramMap.put("targetId", targetId);
+        paramMap.put("fromId", fromId);
+        paramMap.put("msgType", msgType);
+        paramMap.put("body", body);
+
+        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(ChatActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(ChatActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+            }
+        });
     }
 }
