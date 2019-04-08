@@ -29,10 +29,11 @@
             fresco:placeholderImage="@mipmap/default_useravatar" />
 
         <com.cxd.chatview.moudle.ChatView xmlns:chat="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/cv_chat_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/sdv_avatar"
             android:clickable="true"
@@ -59,10 +60,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text=""
+                android:maxWidth="216dp"
                 android:textColor="#FFFFFF"
                 android:textSize="16dp" />
         </com.cxd.chatview.moudle.ChatView>
+
+        <ProgressBar
+            android:id="@+id/pb_sending"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/cv_chat_content"
+            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -117,6 +117,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     User user;
     private VolleyUtil volleyUtil;
 
+    private int messageIndex;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -326,12 +328,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setToUserAvatar(fromUserAvatar);
         message.setTimestamp(new Date().getTime());
         messageList.add(message);
+        messageIndex = messageList.size() - 1;
 
         Message.save(message);
         Map<String, Object> body = new HashMap<>();
         body.put("extras", new HashMap<>());
         body.put("text", content);
-        sendMessage("single", fromUserId, user.getUserId(), "text", JSON.toJSONString(body));
+        sendMessage("single", fromUserId, user.getUserId(), "text", JSON.toJSONString(body), messageIndex);
 
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
@@ -343,7 +346,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         final cn.jpush.im.android.api.model.Message msg = event.getMessage();
         Message message = new Message();
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        UserInfo fromUserInfo = (UserInfo) msg.getTargetInfo();
+        UserInfo fromUserInfo = msg.getFromUser();
+
         message.setFromUserId(fromUserInfo.getUserName());
         message.setFromUserName(fromUserNickName);
 
@@ -386,7 +390,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         JMessageClient.unRegisterEventReceiver(this);
     }
 
-    private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body) {
+    private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body, final int messageIndex) {
         String url = Constant.BASE_URL + "messages";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("targetType", targetType);
@@ -398,6 +402,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Message message = messageList.get(messageIndex);
+                message.setStatus("1");
+                messageList.set(messageIndex, message);
+                messageAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override

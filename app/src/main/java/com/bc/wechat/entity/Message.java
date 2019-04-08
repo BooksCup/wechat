@@ -11,6 +11,7 @@ public class Message extends SugarRecord{
     private String toUserId;
     private String toUserName;
     private String toUserAvatar;
+    private String status;
     private long timestamp;
 
     public String getContent() {
@@ -75,6 +76,14 @@ public class Message extends SugarRecord{
 
     public void setToUserAvatar(String toUserAvatar) {
         this.toUserAvatar = toUserAvatar;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public long getTimestamp() {

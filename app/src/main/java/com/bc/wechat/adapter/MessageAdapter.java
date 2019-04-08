@@ -67,6 +67,12 @@ public class MessageAdapter extends BaseAdapter {
         TextView mTimeStampTv = convertView.findViewById(R.id.timestamp);
         TextView mContentTv = convertView.findViewById(R.id.tv_chatcontent);
         SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+        ProgressBar mSendingPb = convertView.findViewById(R.id.pb_sending);
+
+        if ("1".equals(message.getStatus())) {
+            mSendingPb.setVisibility(View.INVISIBLE);
+        }
+
 
         mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
         mContentTv.setText(message.getContent());
