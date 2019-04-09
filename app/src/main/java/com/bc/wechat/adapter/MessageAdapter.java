@@ -56,34 +56,54 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        Message message = messageList.get(position);
+        if (user.getUserId().equals(message.getFromUserId())) {
+            return 0;
+        } else{
+            return 1;
+        }
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = messageList.get(position);
-
-        if (user.getUserId().equals(message.getFromUserId())) {
-            convertView = inflater.inflate(R.layout.item_sent_message, null);
-        } else {
-            convertView = inflater.inflate(R.layout.item_received_message, null);
+        ViewHolder viewHolder;
+        if (convertView == null){
+            viewHolder = new ViewHolder();
+            if (getItemViewType(position) == 0) {
+                convertView = inflater.inflate(R.layout.item_sent_message, null);
+            } else {
+                convertView = inflater.inflate(R.layout.item_received_message, null);
+            }
+            viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
+            viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+            viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+            viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
+            convertView.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        TextView mTimeStampTv = convertView.findViewById(R.id.timestamp);
-        TextView mContentTv = convertView.findViewById(R.id.tv_chatcontent);
-        SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
-        ProgressBar mSendingPb = convertView.findViewById(R.id.pb_sending);
 
         if ("1".equals(message.getStatus())) {
-            mSendingPb.setVisibility(View.INVISIBLE);
+            viewHolder.mSendingPb.setVisibility(View.INVISIBLE);
         }
 
-
-        mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
-        mContentTv.setText(message.getContent());
+        viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
+        viewHolder.mContentTv.setText(message.getContent());
 
         if (user.getUserId().equals(message.getFromUserId())) {
             if (!TextUtils.isEmpty(user.getUserAvatar())) {
-                mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
             }
         } else {
             if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
-                mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
             }
         }
 
@@ -91,34 +111,17 @@ public class MessageAdapter extends BaseAdapter {
             Message lastMessage = messageList.get(position - 1);
 
             if (message.getTimestamp() - lastMessage.getTimestamp() < 10 * 60 * 1000) {
-                mTimeStampTv.setVisibility(View.GONE);
+                viewHolder.mTimeStampTv.setVisibility(View.GONE);
             }
-
         }
 
         return convertView;
     }
 
-    public static class ViewHolder {
-        ImageView iv;
-        TextView tv;
-        ProgressBar pb;
-        ImageView staus_iv;
-        ImageView head_iv;
-        TextView tv_userId;
-        ImageView playBtn;
-        TextView timeLength;
-        TextView size;
-        LinearLayout container_status_btn;
-        LinearLayout ll_container;
-        ImageView iv_read_status;
-        // 显示已读回执状态
-        TextView tv_ack;
-        // 显示送达回执状态
-        TextView tv_delivered;
-
-        TextView tv_file_name;
-        TextView tv_file_size;
-        TextView tv_file_download_state;
+    class ViewHolder {
+        TextView mTimeStampTv;
+        TextView mContentTv;
+        SimpleDraweeView mAvatarSdv;
+        ProgressBar mSendingPb;
     }
 }

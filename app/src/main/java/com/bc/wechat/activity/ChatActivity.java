@@ -405,6 +405,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 Message message = messageList.get(messageIndex);
                 message.setStatus("1");
                 messageList.set(messageIndex, message);
+                messageAdapter.setData(messageList);
                 messageAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
