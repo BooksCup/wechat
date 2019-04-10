@@ -106,6 +106,9 @@ public class MainActivity extends FragmentActivity {
     public void onTabClicked(View view) {
         switch (view.getId()) {
             case R.id.re_weixin:
+                // 会话列表
+                // 主动加载一次会话
+                conversationFragment.refreshConversationList();
                 index = 0;
                 break;
             case R.id.re_contact_list:
