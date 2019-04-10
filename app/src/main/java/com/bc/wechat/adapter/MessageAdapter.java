@@ -11,31 +11,46 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_SENT_TEXT = 0;
     private static final int MESSAGE_TYPE_RECV_TEXT = 1;
 
+    private Context mContext;
     private LayoutInflater inflater;
 
     private List<Message> messageList;
 
     User user;
+    private VolleyUtil volleyUtil;
+    MessageDao messageDao;
 
     public MessageAdapter(Context context, List<Message> messageList) {
+        mContext = context;
         inflater = LayoutInflater.from(context);
         PreferencesUtil.getInstance().init(context);
         user = PreferencesUtil.getInstance().getUser();
+        volleyUtil = VolleyUtil.getInstance(mContext);
+        messageDao = new MessageDao();
         this.messageList = messageList;
     }
 
@@ -74,8 +89,8 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Message message = messageList.get(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Message message = messageList.get(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -126,6 +141,23 @@ public class MessageAdapter extends BaseAdapter {
             }
         }
 
+        if (null != viewHolder.mStatusIv) {
+            viewHolder.mStatusIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Map<String, Object> body = new HashMap<>();
+                    body.put("extras", new HashMap<>());
+                    body.put("text", message.getContent());
+                    Message resendMessage = messageDao.getMessageByMessageId(message.getMessageId());
+                    resendMessage.setStatus(MessageStatus.SENDING.value());
+                    Message.save(resendMessage);
+                    messageList.set(position, resendMessage);
+                    notifyDataSetChanged();
+                    sendMessage("single", message.getFromUserId(), user.getUserId(), "text", JSON.toJSONString(body), position);
+                }
+            });
+        }
+
         return convertView;
     }
 
@@ -135,5 +167,38 @@ public class MessageAdapter extends BaseAdapter {
         SimpleDraweeView mAvatarSdv;
         ProgressBar mSendingPb;
         ImageView mStatusIv;
+    }
+
+    private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body, final int messageIndex) {
+        Toast.makeText(mContext, messageList.get(messageIndex).getContent(), Toast.LENGTH_SHORT).show();
+        String url = Constant.BASE_URL + "messages";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("targetType", targetType);
+        paramMap.put("targetId", targetId);
+        paramMap.put("fromId", fromId);
+        paramMap.put("msgType", msgType);
+        paramMap.put("body", body);
+
+        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Message message = messageList.get(messageIndex);
+                message = messageDao.getMessageByMessageId(message.getMessageId());
+                message.setStatus(MessageStatus.SEND_SUCCESS.value());
+                messageList.set(messageIndex, message);
+                Message.save(message);
+                notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Message message = messageList.get(messageIndex);
+                message = messageDao.getMessageByMessageId(message.getMessageId());
+                message.setStatus(MessageStatus.SEND_FAIL.value());
+                messageList.set(messageIndex, message);
+                Message.save(message);
+                notifyDataSetChanged();
+            }
+        });
     }
 }
