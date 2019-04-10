@@ -88,6 +88,7 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
             viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
             viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
+            viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -95,10 +96,13 @@ public class MessageAdapter extends BaseAdapter {
 
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);
+            viewHolder.mStatusIv.setVisibility(View.GONE);
         } else if (message.getStatus() == MessageStatus.SEND_SUCCESS.value()) {
             viewHolder.mSendingPb.setVisibility(View.GONE);
+            viewHolder.mStatusIv.setVisibility(View.GONE);
         } else if (message.getStatus() == MessageStatus.SEND_FAIL.value()) {
             viewHolder.mSendingPb.setVisibility(View.GONE);
+            viewHolder.mStatusIv.setVisibility(View.VISIBLE);
         }
 
         viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
@@ -130,5 +134,6 @@ public class MessageAdapter extends BaseAdapter {
         TextView mContentTv;
         SimpleDraweeView mAvatarSdv;
         ProgressBar mSendingPb;
+        ImageView mStatusIv;
     }
 }

@@ -72,6 +72,15 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/cv_chat_content"
             android:visibility="gone" />
+        <ImageView
+            android:id="@+id/iv_msg_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/cv_chat_content"
+            android:clickable="true"
+            android:src="@drawable/msg_state_failed_resend"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -422,14 +422,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(ChatActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(ChatActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
+                Message message = messageList.get(messageIndex);
+                message = messageDao.getMessageByMessageId(message.getMessageId());
+                message.setStatus(MessageStatus.SEND_FAIL.value());
+                messageList.set(messageIndex, message);
+                Message.save(message);
+                messageAdapter.setData(messageList);
+                messageAdapter.notifyDataSetChanged();
             }
         });
     }
