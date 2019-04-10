@@ -6,6 +6,8 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.util.UUID;
+
 public class CommonUtil {
     /**
      * 获取用户header
@@ -48,4 +50,14 @@ public class CommonUtil {
             return String.valueOf(firstChar);
         }
     }
+
+    /**
+     * 生成主键
+     *
+     * @return 主键
+     */
+    public static String generateId() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
 }

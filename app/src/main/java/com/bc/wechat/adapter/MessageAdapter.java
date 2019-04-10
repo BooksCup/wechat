@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -62,7 +63,7 @@ public class MessageAdapter extends BaseAdapter {
         Message message = messageList.get(position);
         if (user.getUserId().equals(message.getFromUserId())) {
             return MESSAGE_TYPE_SENT_TEXT;
-        } else{
+        } else {
             return MESSAGE_TYPE_RECV_TEXT;
         }
     }
@@ -76,7 +77,7 @@ public class MessageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = messageList.get(position);
         ViewHolder viewHolder;
-        if (convertView == null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             if (getItemViewType(position) == 0) {
                 convertView = inflater.inflate(R.layout.item_sent_message, null);
@@ -88,12 +89,16 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
             viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if ("1".equals(message.getStatus())) {
-            viewHolder.mSendingPb.setVisibility(View.INVISIBLE);
+        if (message.getStatus() == MessageStatus.SENDING.value()) {
+            viewHolder.mSendingPb.setVisibility(View.VISIBLE);
+        } else if (message.getStatus() == MessageStatus.SEND_SUCCESS.value()) {
+            viewHolder.mSendingPb.setVisibility(View.GONE);
+        } else if (message.getStatus() == MessageStatus.SEND_FAIL.value()) {
+            viewHolder.mSendingPb.setVisibility(View.GONE);
         }
 
         viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));

@@ -71,7 +71,7 @@
             android:layout_height="18dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/cv_chat_content"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

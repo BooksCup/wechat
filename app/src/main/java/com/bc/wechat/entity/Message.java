@@ -3,6 +3,7 @@ package com.bc.wechat.entity;
 import com.orm.SugarRecord;
 
 public class Message extends SugarRecord{
+    private String messageId;
     private String content;
     private String createTime;
     private String fromUserId;
@@ -11,8 +12,16 @@ public class Message extends SugarRecord{
     private String toUserId;
     private String toUserName;
     private String toUserAvatar;
-    private String status;
+    private int status;
     private long timestamp;
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
 
     public String getContent() {
         return content;
@@ -78,11 +87,11 @@ public class Message extends SugarRecord{
         this.toUserAvatar = toUserAvatar;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

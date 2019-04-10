@@ -29,9 +29,12 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.entity.enums.MessageStatus;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -119,6 +122,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
     private int messageIndex;
 
+    MessageDao messageDao;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +132,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
         user = PreferencesUtil.getInstance().getUser();
+        messageDao = new MessageDao();
         initView();
         setUpView();
     }
@@ -320,6 +326,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
      */
     private void sendTextMsg(String content) {
         Message message = new Message();
+        message.setMessageId(CommonUtil.generateId());
         message.setContent(content);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(user.getUserId());
@@ -327,6 +334,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setToUserName(fromUserNickName);
         message.setToUserAvatar(fromUserAvatar);
         message.setTimestamp(new Date().getTime());
+        message.setStatus(MessageStatus.SENDING.value());
         messageList.add(message);
         messageIndex = messageList.size() - 1;
 
@@ -403,8 +411,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onResponse(String response) {
                 Message message = messageList.get(messageIndex);
-                message.setStatus("1");
+                message = messageDao.getMessageByMessageId(message.getMessageId());
+                message.setStatus(MessageStatus.SEND_SUCCESS.value());
                 messageList.set(messageIndex, message);
+                Message.save(message);
                 messageAdapter.setData(messageList);
                 messageAdapter.notifyDataSetChanged();
             }
