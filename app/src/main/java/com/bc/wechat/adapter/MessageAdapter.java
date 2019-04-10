@@ -22,6 +22,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
+    private static final int MESSAGE_TYPE_SENT_TEXT = 0;
+    private static final int MESSAGE_TYPE_RECV_TEXT = 1;
 
     private LayoutInflater inflater;
 
@@ -59,9 +61,9 @@ public class MessageAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
         if (user.getUserId().equals(message.getFromUserId())) {
-            return 0;
+            return MESSAGE_TYPE_SENT_TEXT;
         } else{
-            return 1;
+            return MESSAGE_TYPE_RECV_TEXT;
         }
     }
 
