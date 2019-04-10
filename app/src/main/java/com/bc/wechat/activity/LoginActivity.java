@@ -133,24 +133,26 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
                 List<User> friendList = user.getFriendList();
                 for (User userFriend : friendList) {
-                    List<Friend> checkList = Friend.find(Friend.class, "user_id = ?", userFriend.getUserId());
-                    if (null != checkList && checkList.size() > 0) {
-                        // 好友已存在，更新基本信息
-                        Friend friend = checkList.get(0);
-                        friend.setUserNickName(userFriend.getUserNickName());
-                        friend.setUserAvatar(userFriend.getUserAvatar());
-                        friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
-                        friend.setUserSex(userFriend.getUserSex());
-                        Friend.save(friend);
-                    } else {
-                        // 不存在,插入sqlite
-                        Friend friend = new Friend();
-                        friend.setUserId(userFriend.getUserId());
-                        friend.setUserNickName(userFriend.getUserNickName());
-                        friend.setUserAvatar(userFriend.getUserAvatar());
-                        friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
-                        friend.setUserSex(userFriend.getUserSex());
-                        Friend.save(friend);
+                    if (null != userFriend) {
+                        List<Friend> checkList = Friend.find(Friend.class, "user_id = ?", userFriend.getUserId());
+                        if (null != checkList && checkList.size() > 0) {
+                            // 好友已存在，更新基本信息
+                            Friend friend = checkList.get(0);
+                            friend.setUserNickName(userFriend.getUserNickName());
+                            friend.setUserAvatar(userFriend.getUserAvatar());
+                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
+                            friend.setUserSex(userFriend.getUserSex());
+                            Friend.save(friend);
+                        } else {
+                            // 不存在,插入sqlite
+                            Friend friend = new Friend();
+                            friend.setUserId(userFriend.getUserId());
+                            friend.setUserNickName(userFriend.getUserNickName());
+                            friend.setUserAvatar(userFriend.getUserAvatar());
+                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
+                            friend.setUserSex(userFriend.getUserSex());
+                            Friend.save(friend);
+                        }
                     }
                 }
 
