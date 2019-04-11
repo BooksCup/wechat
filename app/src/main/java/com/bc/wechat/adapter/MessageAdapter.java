@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +26,7 @@ import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,10 +150,17 @@ public class MessageAdapter extends BaseAdapter {
                     body.put("text", message.getContent());
                     Message resendMessage = messageDao.getMessageByMessageId(message.getMessageId());
                     resendMessage.setStatus(MessageStatus.SENDING.value());
+                    resendMessage.setTimestamp(new Date().getTime());
+                    Message.delete(resendMessage);
+                    resendMessage.setId(null);
                     Message.save(resendMessage);
-                    messageList.set(position, resendMessage);
+                    // 重发消息移至最后
+                    messageList.remove(position);
+                    messageList.add(resendMessage);
+
                     notifyDataSetChanged();
-                    sendMessage("single", message.getFromUserId(), user.getUserId(), "text", JSON.toJSONString(body), position);
+                    sendMessage("single", message.getToUserId(),
+                            user.getUserId(), "text", JSON.toJSONString(body), messageList.size() - 1);
                 }
             });
         }
@@ -185,7 +192,11 @@ public class MessageAdapter extends BaseAdapter {
                 Message message = messageList.get(messageIndex);
                 message = messageDao.getMessageByMessageId(message.getMessageId());
                 message.setStatus(MessageStatus.SEND_SUCCESS.value());
+                message.setTimestamp(new Date().getTime());
                 messageList.set(messageIndex, message);
+
+                Message.delete(message);
+                message.setId(null);
                 Message.save(message);
                 notifyDataSetChanged();
             }
@@ -195,7 +206,11 @@ public class MessageAdapter extends BaseAdapter {
                 Message message = messageList.get(messageIndex);
                 message = messageDao.getMessageByMessageId(message.getMessageId());
                 message.setStatus(MessageStatus.SEND_FAIL.value());
+                message.setTimestamp(new Date().getTime());
                 messageList.set(messageIndex, message);
+
+                Message.delete(message);
+                message.setId(null);
                 Message.save(message);
                 notifyDataSetChanged();
             }
