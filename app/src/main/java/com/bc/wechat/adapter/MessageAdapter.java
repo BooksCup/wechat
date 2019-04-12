@@ -40,9 +40,9 @@ public class MessageAdapter extends BaseAdapter {
 
     private List<Message> messageList;
 
-    User user;
+    private User user;
     private VolleyUtil volleyUtil;
-    MessageDao messageDao;
+    private MessageDao messageDao;
 
     public MessageAdapter(Context context, List<Message> messageList) {
         mContext = context;
