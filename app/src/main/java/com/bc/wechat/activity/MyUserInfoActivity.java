@@ -1,11 +1,18 @@
 package com.bc.wechat.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -31,6 +38,8 @@ import java.util.Map;
 
 public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
 
+    private static final int WRITE_PERMISSION = 0x01;
+    private RelativeLayout mAvatarRl;
     private RelativeLayout mNickNameRl;
     private RelativeLayout mWxIdRl;
     private RelativeLayout mSexRl;
@@ -45,6 +54,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
     private VolleyUtil volleyUtil;
 
+    private static final int UPDATE_AVATAR_BY_ALBUM = 2;
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
     private static final int UPDATE_USER_SIGN = 5;
@@ -60,10 +70,13 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         PreferencesUtil.getInstance().init(this);
         user = PreferencesUtil.getInstance().getUser();
         dialog = new ProgressDialog(MyUserInfoActivity.this);
+        requestWritePermission();
         initView();
     }
 
     private void initView() {
+        mAvatarRl = findViewById(R.id.rl_avatar);
+
         mNickNameRl = findViewById(R.id.rl_nick_name);
         mNickNameTv = findViewById(R.id.tv_nick_name);
 
@@ -93,6 +106,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         }
         mSignTv.setText(user.getUserSign());
 
+        mAvatarRl.setOnClickListener(this);
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
         mSexRl.setOnClickListener(this);
@@ -106,6 +120,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_avatar:
+                showPhotoDialog();
+                break;
             case R.id.rl_nick_name:
                 // 昵称
                 startActivityForResult(new Intent(this, UpdateNickNameActivity.class), UPDATE_USER_NICK_NAME);
@@ -128,6 +145,12 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         if (resultCode == RESULT_OK) {
             User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
+                case UPDATE_AVATAR_BY_ALBUM:
+                    if (data != null) {
+                        Uri uri = data.getData();
+                        mAvatarSdv.setImageURI(uri);
+                    }
+                    break;
                 case UPDATE_USER_NICK_NAME:
                     // 昵称
                     mNickNameTv.setText(user.getUserNickName());
@@ -179,6 +202,34 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         });
     }
 
+    private void showPhotoDialog() {
+        final AlertDialog photoDialog = new AlertDialog.Builder(this).create();
+        photoDialog.show();
+        Window window = photoDialog.getWindow();
+        window.setContentView(R.layout.dialog_alert);
+        TextView mTakePicTv = window.findViewById(R.id.tv_content1);
+        TextView mAlbumTv = window.findViewById(R.id.tv_content2);
+        mTakePicTv.setText("拍照");
+        mTakePicTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        mAlbumTv.setText("相册");
+        mAlbumTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, UPDATE_AVATAR_BY_ALBUM);
+                photoDialog.dismiss();
+            }
+        });
+
+    }
+
     private void updateUserSex(String userId, final String userSex) {
         String url = Constant.BASE_URL + "users/" + userId + "/userSex";
         Map<String, String> paramMap = new HashMap<>();
@@ -209,5 +260,18 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 }
             }
         });
+    }
+
+
+    // 运行时添加权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void requestWritePermission() {
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
+        }
     }
 }
