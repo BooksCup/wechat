@@ -94,7 +94,7 @@ public class UpdateSignActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newSign = mSignEt.getText().toString();
-            String oldSign = user.getUserSign();
+            String oldSign = user.getUserSign() == null ? "" : user.getUserSign();
             // 是否填写
             boolean isSignHasText = mSignEt.length() > 0;
             // 是否修改
