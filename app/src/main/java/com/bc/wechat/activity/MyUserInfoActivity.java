@@ -5,10 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +28,7 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -148,6 +148,15 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 case UPDATE_AVATAR_BY_ALBUM:
                     if (data != null) {
                         Uri uri = data.getData();
+                        final String filePath = FileUtil.getFilePathByUri(this, uri);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FileUtil.uploadFile(Constant.FILE_UPLOAD_URL, filePath);
+                            }
+                        }).start();
+
                         mAvatarSdv.setImageURI(uri);
                     }
                     break;
@@ -261,7 +270,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             }
         });
     }
-
 
     // 运行时添加权限
     @Override
