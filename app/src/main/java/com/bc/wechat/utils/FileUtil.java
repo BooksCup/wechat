@@ -9,11 +9,15 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import com.alibaba.fastjson.JSONArray;
+
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileUtil {
     /**
@@ -149,7 +153,8 @@ public class FileUtil {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-    public static void uploadFile(String serverUrl, String filePath) {
+    public static List<String> uploadFile(String serverUrl, String filePath) {
+        List<String> imageList = new ArrayList<>();
         String end = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
@@ -200,11 +205,18 @@ public class FileUtil {
             while ((ch = is.read()) != -1) {
                 b.append((char) ch);
             }
+            try {
+                imageList = JSONArray.parseArray(b.toString(), String.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                imageList = new ArrayList<>();
+            }
             /* 关闭DataOutputStream */
             ds.close();
             is.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return imageList;
     }
 }

@@ -4,8 +4,9 @@ package com.bc.wechat.cons;
  * 常量类
  */
 public class Constant {
-    public static final String BASE_URL = "http://192.168.0.129:8080/";
+    public static final String BASE_URL = "http://192.168.0.129:8081/";
     public static final String FILE_UPLOAD_URL = BASE_URL + "files";
+    public static final String FILE_BASE_URL = "http://192.168.0.129:8080/wechat_file/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";

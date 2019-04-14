@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +34,9 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
@@ -143,7 +146,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
-            User user = PreferencesUtil.getInstance().getUser();
+            final User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
                 case UPDATE_AVATAR_BY_ALBUM:
                     if (data != null) {
@@ -153,7 +156,11 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                FileUtil.uploadFile(Constant.FILE_UPLOAD_URL, filePath);
+                                List<String> imageList = FileUtil.uploadFile(Constant.FILE_UPLOAD_URL, filePath);
+                                if (null != imageList && imageList.size() > 0) {
+                                    String newAvatar = Constant.FILE_BASE_URL + imageList.get(0);
+                                    updateUserAvatar(user.getUserId(), newAvatar);
+                                }
                             }
                         }).start();
 
@@ -260,6 +267,31 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 dialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(MyUserInfoActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(MyUserInfoActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
+    }
+
+    private void updateUserAvatar(String userId, final String userAvatar) {
+        String url = Constant.BASE_URL + "users/" + userId + "/userAvatar";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userAvatar", userAvatar);
+
+        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                user.setUserAvatar(userAvatar);
+                PreferencesUtil.getInstance().setUser(user);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(MyUserInfoActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
