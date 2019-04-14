@@ -97,5 +97,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mNickNameTv.setText(user.getUserNickName());
         String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
         mWxIdTv.setText("微信号:" + userWxId);
+        if (!TextUtils.isEmpty(user.getUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+        }
     }
 }
