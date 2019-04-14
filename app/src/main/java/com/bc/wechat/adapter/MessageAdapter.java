@@ -144,14 +144,14 @@ public class MessageAdapter extends BaseAdapter {
 
     private View createViewByMessageType(String messageType, boolean isSender) {
         if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
-            return isSender ? inflater.inflate(R.layout.item_sent_message, null) :
-                    inflater.inflate(R.layout.item_received_message, null);
+            return isSender ? inflater.inflate(R.layout.item_sent_text, null) :
+                    inflater.inflate(R.layout.item_received_text, null);
         } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
-            return isSender ? inflater.inflate(R.layout.item_sent_picture, null) :
-                    inflater.inflate(R.layout.item_received_picture, null);
+            return isSender ? inflater.inflate(R.layout.item_sent_image, null) :
+                    inflater.inflate(R.layout.item_received_image, null);
         } else {
-            return isSender ? inflater.inflate(R.layout.item_sent_message, null) :
-                    inflater.inflate(R.layout.item_received_message, null);
+            return isSender ? inflater.inflate(R.layout.item_sent_text, null) :
+                    inflater.inflate(R.layout.item_received_text, null);
         }
     }
 
