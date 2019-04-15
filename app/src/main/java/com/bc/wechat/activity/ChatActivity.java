@@ -337,6 +337,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setStatus(MessageStatus.SENDING.value());
         messageList.add(message);
         messageIndex = messageList.size() - 1;
+        message.setMessageType(Constant.MSG_TYPE_IMAGE);
 
         Message.save(message);
         Map<String, Object> body = new HashMap<>();
@@ -368,6 +369,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         TextContent messageContent = (TextContent) msg.getContent();
         message.setContent(messageContent.getText());
         message.setTimestamp(new Date().getTime());
+        message.setMessageType(Constant.MSG_TYPE_IMAGE);
         Message.save(message);
 
         // 获取会话

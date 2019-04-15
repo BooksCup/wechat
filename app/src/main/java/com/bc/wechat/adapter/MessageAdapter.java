@@ -44,6 +44,8 @@ public class MessageAdapter extends BaseAdapter {
     private VolleyUtil volleyUtil;
     private MessageDao messageDao;
 
+    boolean isSender;
+
     public MessageAdapter(Context context, List<Message> messageList) {
         mContext = context;
         inflater = LayoutInflater.from(context);
@@ -92,23 +94,109 @@ public class MessageAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Message message = messageList.get(position);
         ViewHolder viewHolder;
+        isSender = user.getUserId().equals(message.getFromUserId());
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            if (getItemViewType(position) == 0) {
-                convertView = inflater.inflate(R.layout.item_sent_message, null);
+            convertView = createViewByMessageType(message.getMessageType(), isSender);
+            if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
+                viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+                viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+                viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
+                viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
+
+            } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+
             } else {
-                convertView = inflater.inflate(R.layout.item_received_message, null);
+                // 默认文字信息
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
+                viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+                viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+                viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
+                viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
             }
-            viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
-            viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
-            viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
-            viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
-            viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
+//            viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
+//            viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+//            viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+//            viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
+//            viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            handlerTextMessage(message, viewHolder, position);
+        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
 
+        } else {
+            handlerTextMessage(message, viewHolder, position);
+        }
+        return convertView;
+    }
+
+    class ViewHolder {
+        TextView mTimeStampTv;
+        TextView mContentTv;
+        SimpleDraweeView mAvatarSdv;
+        ProgressBar mSendingPb;
+        ImageView mStatusIv;
+    }
+
+    private View createViewByMessageType(String messageType, boolean isSender) {
+        if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
+            return isSender ? inflater.inflate(R.layout.item_sent_message, null) :
+                    inflater.inflate(R.layout.item_received_message, null);
+        } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
+            return isSender ? inflater.inflate(R.layout.item_sent_picture, null) :
+                    inflater.inflate(R.layout.item_received_picture, null);
+        } else {
+            return isSender ? inflater.inflate(R.layout.item_sent_message, null) :
+                    inflater.inflate(R.layout.item_received_message, null);
+        }
+    }
+
+    private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body, final int messageIndex) {
+        Toast.makeText(mContext, messageList.get(messageIndex).getContent(), Toast.LENGTH_SHORT).show();
+        String url = Constant.BASE_URL + "messages";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("targetType", targetType);
+        paramMap.put("targetId", targetId);
+        paramMap.put("fromId", fromId);
+        paramMap.put("msgType", msgType);
+        paramMap.put("body", body);
+
+        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Message message = messageList.get(messageIndex);
+                message = messageDao.getMessageByMessageId(message.getMessageId());
+                message.setStatus(MessageStatus.SEND_SUCCESS.value());
+                message.setTimestamp(new Date().getTime());
+                messageList.set(messageIndex, message);
+
+                Message.delete(message);
+                message.setId(null);
+                Message.save(message);
+                notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Message message = messageList.get(messageIndex);
+                message = messageDao.getMessageByMessageId(message.getMessageId());
+                message.setStatus(MessageStatus.SEND_FAIL.value());
+                message.setTimestamp(new Date().getTime());
+                messageList.set(messageIndex, message);
+
+                Message.delete(message);
+                message.setId(null);
+                Message.save(message);
+                notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void handlerTextMessage(final Message message, ViewHolder viewHolder, final int position) {
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);
             viewHolder.mStatusIv.setVisibility(View.GONE);
@@ -164,56 +252,5 @@ public class MessageAdapter extends BaseAdapter {
                 }
             });
         }
-
-        return convertView;
-    }
-
-    class ViewHolder {
-        TextView mTimeStampTv;
-        TextView mContentTv;
-        SimpleDraweeView mAvatarSdv;
-        ProgressBar mSendingPb;
-        ImageView mStatusIv;
-    }
-
-    private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body, final int messageIndex) {
-        Toast.makeText(mContext, messageList.get(messageIndex).getContent(), Toast.LENGTH_SHORT).show();
-        String url = Constant.BASE_URL + "messages";
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("targetType", targetType);
-        paramMap.put("targetId", targetId);
-        paramMap.put("fromId", fromId);
-        paramMap.put("msgType", msgType);
-        paramMap.put("body", body);
-
-        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Message message = messageList.get(messageIndex);
-                message = messageDao.getMessageByMessageId(message.getMessageId());
-                message.setStatus(MessageStatus.SEND_SUCCESS.value());
-                message.setTimestamp(new Date().getTime());
-                messageList.set(messageIndex, message);
-
-                Message.delete(message);
-                message.setId(null);
-                Message.save(message);
-                notifyDataSetChanged();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Message message = messageList.get(messageIndex);
-                message = messageDao.getMessageByMessageId(message.getMessageId());
-                message.setStatus(MessageStatus.SEND_FAIL.value());
-                message.setTimestamp(new Date().getTime());
-                messageList.set(messageIndex, message);
-
-                Message.delete(message);
-                message.setId(null);
-                Message.save(message);
-                notifyDataSetChanged();
-            }
-        });
     }
 }

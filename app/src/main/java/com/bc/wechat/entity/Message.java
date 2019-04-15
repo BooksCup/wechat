@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 
 public class Message extends SugarRecord{
     private String messageId;
+    private String messageType;
     private String content;
     private String createTime;
     private String fromUserId;
@@ -21,6 +22,14 @@ public class Message extends SugarRecord{
 
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
     }
 
     public String getContent() {
