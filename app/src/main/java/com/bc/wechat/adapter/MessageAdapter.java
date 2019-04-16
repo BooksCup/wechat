@@ -106,6 +106,9 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
 
             } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
+                viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+                viewHolder.mImageContentSdv = convertView.findViewById(R.id.sdv_image_content);
 
             } else {
                 // 默认文字信息
@@ -115,31 +118,30 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
             }
-//            viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
-//            viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
-//            viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
-//            viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
-//            viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
-            handlerTextMessage(message, viewHolder, position);
+            handleTextMessage(message, viewHolder, position);
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
-
+            handleImageMessage(message, viewHolder, position);
         } else {
-            handlerTextMessage(message, viewHolder, position);
+            handleTextMessage(message, viewHolder, position);
         }
         return convertView;
     }
 
     class ViewHolder {
+        // text
         TextView mTimeStampTv;
         TextView mContentTv;
         SimpleDraweeView mAvatarSdv;
         ProgressBar mSendingPb;
         ImageView mStatusIv;
+
+        // image
+        SimpleDraweeView mImageContentSdv;
     }
 
     private View createViewByMessageType(String messageType, boolean isSender) {
@@ -196,7 +198,7 @@ public class MessageAdapter extends BaseAdapter {
         });
     }
 
-    private void handlerTextMessage(final Message message, ViewHolder viewHolder, final int position) {
+    private void handleTextMessage(final Message message, ViewHolder viewHolder, final int position) {
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);
             viewHolder.mStatusIv.setVisibility(View.GONE);
@@ -251,6 +253,27 @@ public class MessageAdapter extends BaseAdapter {
                             user.getUserId(), "text", JSON.toJSONString(body), messageList.size() - 1);
                 }
             });
+        }
+    }
+
+    private void handleImageMessage(final Message message, ViewHolder viewHolder, final int position) {
+        viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
+        if (user.getUserId().equals(message.getFromUserId())) {
+            if (!TextUtils.isEmpty(user.getUserAvatar())) {
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+            }
+        } else {
+            if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+            }
+        }
+
+        if (position != 0) {
+            Message lastMessage = messageList.get(position - 1);
+
+            if (message.getTimestamp() - lastMessage.getTimestamp() < 10 * 60 * 1000) {
+                viewHolder.mTimeStampTv.setVisibility(View.GONE);
+            }
         }
     }
 }

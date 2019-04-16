@@ -8,7 +8,7 @@
     android:paddingTop="13dp">
 
     <TextView
-        android:id="@+id/timestamp"
+        android:id="@+id/tv_timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -27,7 +27,6 @@
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:scaleType="fitXY"
             fresco:placeholderImage="@mipmap/default_useravatar" />
-
 
         <com.cxd.chatview.moudle.ChatView xmlns:chat="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cv_chat_content"
@@ -51,7 +50,7 @@
             chat:stroke_width="1px">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/iv_sendPicture"
+                android:id="@+id/sdv_image_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@mipmap/a_20318bf3e16d43a8b1e7ae150fdd4919"
@@ -69,13 +68,13 @@
             android:orientation="vertical">
 
             <ProgressBar
-                android:id="@+id/progressBar"
+                android:id="@+id/pb_loading"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/percentage"
+                android:id="@+id/tv_loading_percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0%"
