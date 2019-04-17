@@ -8,7 +8,7 @@
     android:paddingTop="13dp">
 
     <TextView
-        android:id="@+id/timestamp"
+        android:id="@+id/tv_timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -56,7 +56,7 @@
             chat:stroke_width="1px">
 
             <TextView
-                android:id="@+id/tv_chatcontent"
+                android:id="@+id/tv_chat_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

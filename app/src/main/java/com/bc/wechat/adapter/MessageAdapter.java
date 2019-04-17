@@ -99,8 +99,8 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = createViewByMessageType(message.getMessageType(), isSender);
             if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
-                viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
-                viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
+                viewHolder.mContentTv = convertView.findViewById(R.id.tv_chat_content);
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
                 viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
@@ -112,8 +112,8 @@ public class MessageAdapter extends BaseAdapter {
 
             } else {
                 // 默认文字信息
-                viewHolder.mTimeStampTv = convertView.findViewById(R.id.timestamp);
-                viewHolder.mContentTv = convertView.findViewById(R.id.tv_chatcontent);
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
+                viewHolder.mContentTv = convertView.findViewById(R.id.tv_chat_content);
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
                 viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);

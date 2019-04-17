@@ -7,7 +7,7 @@
     android:paddingTop="13dp">
 
     <TextView
-        android:id="@+id/timestamp"
+        android:id="@+id/tv_timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             fresco:placeholderImage="@mipmap/default_useravatar" />
 
         <com.cxd.chatview.moudle.ChatView xmlns:chat="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/firstView"
+            android:id="@+id/cv_chat_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -53,7 +53,7 @@
             chat:stroke_width="1dp">
 
             <TextView
-                android:id="@+id/tv_chatcontent"
+                android:id="@+id/tv_chat_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
