@@ -34,6 +34,8 @@ import java.util.Map;
 public class MessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_SENT_TEXT = 0;
     private static final int MESSAGE_TYPE_RECV_TEXT = 1;
+    private static final int MESSAGE_TYPE_SENT_IMAGE = 2;
+    private static final int MESSAGE_TYPE_RECV_IMAGE = 3;
 
     private Context mContext;
     private LayoutInflater inflater;
@@ -78,16 +80,19 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
-        if (user.getUserId().equals(message.getFromUserId())) {
-            return MESSAGE_TYPE_SENT_TEXT;
-        } else {
-            return MESSAGE_TYPE_RECV_TEXT;
+        isSender = user.getUserId().equals(message.getFromUserId());
+        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            return isSender ? MESSAGE_TYPE_SENT_TEXT : MESSAGE_TYPE_RECV_TEXT;
+        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            return isSender ? MESSAGE_TYPE_SENT_IMAGE : MESSAGE_TYPE_RECV_IMAGE;
         }
+        // invalid
+        return -1;
     }
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 4;
     }
 
     @Override
