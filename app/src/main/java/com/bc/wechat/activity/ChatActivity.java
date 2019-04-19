@@ -19,12 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.NetworkError;
 import com.android.volley.Response;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
@@ -45,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
@@ -123,6 +121,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private int messageIndex;
 
     MessageDao messageDao;
+    String imageUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -366,10 +365,20 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         }
 
         message.setToUserId(user.getUserId());
-        TextContent messageContent = (TextContent) msg.getContent();
-        message.setContent(messageContent.getText());
+
+        String messageType = msg.getContentType().name();
+        message.setMessageType(messageType);
         message.setTimestamp(new Date().getTime());
-        message.setMessageType(Constant.MSG_TYPE_IMAGE);
+
+        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            TextContent messageContent = (TextContent) msg.getContent();
+            message.setContent(messageContent.getText());
+        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            ImageContent imageContent = ((ImageContent) msg.getContent());
+            String imageUrl = imageContent.getLocalThumbnailPath();
+            message.setImageUrl(imageUrl);
+        }
+
         Message.save(message);
 
         // 获取会话
@@ -431,6 +440,21 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 Message.save(message);
                 messageAdapter.setData(messageList);
                 messageAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void downloadFile(String mediaId) {
+        String url = Constant.BASE_URL + "resources?mediaId=" + mediaId;
+        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                imageUrl = Constant.FILE_BASE_URL + response;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                imageUrl = "";
             }
         });
     }

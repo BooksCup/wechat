@@ -26,6 +26,7 @@ import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ public class MessageAdapter extends BaseAdapter {
     private VolleyUtil volleyUtil;
     private MessageDao messageDao;
 
-    boolean isSender;
+    private boolean isSender;
 
     public MessageAdapter(Context context, List<Message> messageList) {
         mContext = context;
@@ -272,7 +273,9 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
             }
         }
-
+        Uri uri = Uri.fromFile(new File(message.getImageUrl()));
+//        viewHolder.mImageContentSdv.setImageURI(message.getImageUrl());
+        viewHolder.mImageContentSdv.setImageURI(uri);
         if (position != 0) {
             Message lastMessage = messageList.get(position - 1);
 
@@ -280,5 +283,7 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mTimeStampTv.setVisibility(View.GONE);
             }
         }
+
+
     }
 }

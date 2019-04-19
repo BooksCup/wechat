@@ -13,6 +13,8 @@ public class Message extends SugarRecord{
     private String toUserId;
     private String toUserName;
     private String toUserAvatar;
+    private String messageBody;
+    private String imageUrl;
     private int status;
     private long timestamp;
 
@@ -94,6 +96,22 @@ public class Message extends SugarRecord{
 
     public void setToUserAvatar(String toUserAvatar) {
         this.toUserAvatar = toUserAvatar;
+    }
+
+    public String getMessageBody() {
+        return messageBody;
+    }
+
+    public void setMessageBody(String messageBody) {
+        this.messageBody = messageBody;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getStatus() {
