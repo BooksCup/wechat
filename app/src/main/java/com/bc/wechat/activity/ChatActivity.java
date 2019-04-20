@@ -336,13 +336,14 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setStatus(MessageStatus.SENDING.value());
         messageList.add(message);
         messageIndex = messageList.size() - 1;
-        message.setMessageType(Constant.MSG_TYPE_IMAGE);
+        message.setMessageType(Constant.MSG_TYPE_TEXT);
 
         Message.save(message);
         Map<String, Object> body = new HashMap<>();
         body.put("extras", new HashMap<>());
         body.put("text", content);
-        sendMessage("single", fromUserId, user.getUserId(), "text", JSON.toJSONString(body), messageIndex);
+        sendMessage("single", fromUserId, user.getUserId(),
+                message.getMessageType(), JSON.toJSONString(body), messageIndex);
 
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
