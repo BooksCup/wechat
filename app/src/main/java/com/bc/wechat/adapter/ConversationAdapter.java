@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -76,7 +77,14 @@ public class ConversationAdapter extends BaseAdapter {
                     mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
                 }
             }
-            mLastMsgTv.setText(conversation.getLatestText());
+            String messageType = conversation.getLatestMessage().getContentType().name();
+            if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
+                mLastMsgTv.setText(conversation.getLatestText());
+            } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
+                mLastMsgTv.setText("[图片]");
+            } else {
+                mLastMsgTv.setText(conversation.getLatestText());
+            }
             int unReadMsgCnt = conversation.getUnReadMsgCnt();
             if (unReadMsgCnt <= 0) {
                 mUnreadTv.setVisibility(View.GONE);
