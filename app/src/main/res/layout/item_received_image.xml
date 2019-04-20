@@ -49,8 +49,8 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_image_content"
-                android:layout_width="100dp"
-                android:layout_height="96dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@mipmap/a_cdc4d5691439dab9584dc9087c22472c_b"
                 android:scaleType="fitXY" />
         </com.cxd.chatview.moudle.ChatView>

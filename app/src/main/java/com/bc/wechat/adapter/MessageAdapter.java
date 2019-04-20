@@ -1,6 +1,7 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
+import com.bc.wechat.utils.CalculateUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -33,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MessageAdapter extends BaseAdapter {
+    private static final int DEFAULT_WIDTH = 300;
+
     private static final int MESSAGE_TYPE_SENT_TEXT = 0;
     private static final int MESSAGE_TYPE_RECV_TEXT = 1;
     private static final int MESSAGE_TYPE_SENT_IMAGE = 2;
@@ -274,8 +278,22 @@ public class MessageAdapter extends BaseAdapter {
             }
         }
         Uri uri = Uri.fromFile(new File(message.getImageUrl()));
-//        viewHolder.mImageContentSdv.setImageURI(message.getImageUrl());
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        BitmapFactory.decodeFile(message.getImageUrl(), options);
+
+        //获取图片的宽高
+        int height = options.outHeight;
+        int width = options.outWidth;
+
         viewHolder.mImageContentSdv.setImageURI(uri);
+        ViewGroup.LayoutParams params = viewHolder.mImageContentSdv.getLayoutParams();
+        params.width = DEFAULT_WIDTH;
+        Double resetHeight = CalculateUtil.mul(CalculateUtil.div(height, width, 5), DEFAULT_WIDTH);
+        params.height = resetHeight.intValue();
+
+        viewHolder.mImageContentSdv.setLayoutParams(params);
+
         if (position != 0) {
             Message lastMessage = messageList.get(position - 1);
 
