@@ -1,6 +1,7 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -17,6 +18,8 @@ import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.activity.BigImageActivity;
+import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Message;
@@ -138,6 +141,21 @@ public class MessageAdapter extends BaseAdapter {
             handleImageMessage(message, viewHolder, position);
         } else {
             handleTextMessage(message, viewHolder, position);
+        }
+
+        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+
+        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            viewHolder.mImageContentSdv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, MessageBigImageActivity.class);
+                    intent.putExtra("imgUrl", message.getImageUrl());
+                    mContext.startActivity(intent);
+                }
+            });
+        } else {
+
         }
         return convertView;
     }
