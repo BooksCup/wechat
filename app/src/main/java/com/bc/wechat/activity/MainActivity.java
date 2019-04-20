@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
@@ -31,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.UserInfo;
@@ -234,15 +236,22 @@ public class MainActivity extends FragmentActivity {
             message.setFromUserAvatar(friendList.get(0).getUserAvatar());
         }
 
+        String messageType = msg.getContentType().name();
         message.setToUserId(user.getUserId());
-        TextContent messageContent = (TextContent) msg.getContent();
-        message.setContent(messageContent.getText());
         message.setTimestamp(new Date().getTime());
+        message.setMessageType(messageType);
+
+        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            TextContent messageContent = (TextContent) msg.getContent();
+            message.setContent(messageContent.getText());
+        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            ImageContent imageContent = ((ImageContent) msg.getContent());
+            String imageUrl = imageContent.getLocalThumbnailPath();
+            message.setImageUrl(imageUrl);
+        }
         Message.save(message);
 
-//        if (currentTabIndex == 0) {
         conversationFragment.refreshConversationList();
-//        }
         int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber();
         PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum + 1);
         refreshNewMsgsUnreadNum();
