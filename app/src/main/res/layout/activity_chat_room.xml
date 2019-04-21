@@ -115,12 +115,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F9F9F9"
-
         android:cacheColorHint="@color/divider_list"
         android:divider="@color/divider_list"
         android:dividerHeight="0.5dp"
         android:descendantFocusability="afterDescendants"
-        
         android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false" />

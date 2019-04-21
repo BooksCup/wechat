@@ -53,7 +53,7 @@
         android:layout_marginTop="20dp"
         android:background="#ffffff"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <RelativeLayout
             android:layout_width="0dp"

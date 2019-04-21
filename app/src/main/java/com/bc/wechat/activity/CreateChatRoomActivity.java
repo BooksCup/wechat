@@ -26,7 +26,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         friendList.add(new Friend());
         listView = findViewById(R.id.list);
         contactAdapter = new PickContactAdapter(this,
-                R.layout.item_contactlist_listview_checkbox, friendList);
+                R.layout.item_pick_contact_list, friendList);
         listView.setAdapter(contactAdapter);
 
     }
