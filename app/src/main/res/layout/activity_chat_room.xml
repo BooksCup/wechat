@@ -66,6 +66,8 @@
         android:layout_height="56dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingBottom="15dp">
 
 
@@ -116,9 +118,9 @@
         android:layout_height="match_parent"
         android:background="#F9F9F9"
         android:cacheColorHint="@color/divider_list"
+        android:descendantFocusability="afterDescendants"
         android:divider="@color/divider_list"
         android:dividerHeight="0.5dp"
-        android:descendantFocusability="afterDescendants"
         android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false" />
