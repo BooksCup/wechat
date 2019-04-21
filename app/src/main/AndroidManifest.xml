@@ -114,6 +114,10 @@
             android:name=".activity.ChatSingleSettingActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.CreateChatRoomActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"
