@@ -33,8 +33,8 @@ public class PickContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public Friend getItem(int position) {
+        return friendList.get(position);
     }
 
     @Override
@@ -49,12 +49,30 @@ public class PickContactAdapter extends BaseAdapter {
         if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = layoutInflater.inflate(resource, null);
+            viewHolder.mHeaderTv = convertView.findViewById(R.id.tv_header);
+            viewHolder.mTempView = convertView.findViewById(R.id.view_temp);
             viewHolder.mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
             viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        String header = friend.getUserHeader();
+        if (0 == position || null != header && !header.equals(getItem(position - 1).getUserHeader())) {
+            if ("".equals(header)) {
+                viewHolder.mHeaderTv.setVisibility(View.GONE);
+                viewHolder.mTempView.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.mHeaderTv.setVisibility(View.VISIBLE);
+                viewHolder.mHeaderTv.setText(header);
+                viewHolder.mTempView.setVisibility(View.GONE);
+            }
+        } else {
+            viewHolder.mHeaderTv.setVisibility(View.GONE);
+            viewHolder.mTempView.setVisibility(View.VISIBLE);
+        }
+
         if (!TextUtils.isEmpty(friend.getUserAvatar())) {
             viewHolder.mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
         }
@@ -64,6 +82,8 @@ public class PickContactAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        TextView mHeaderTv;
+        View mTempView;
         TextView mNickNameTv;
         SimpleDraweeView mAvatarSdv;
     }
