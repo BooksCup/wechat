@@ -3,6 +3,7 @@ package com.bc.wechat.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.ListView;
 
 import com.bc.wechat.R;
@@ -28,5 +29,9 @@ public class CreateChatRoomActivity extends FragmentActivity {
                 R.layout.item_contactlist_listview_checkbox, friendList);
         listView.setAdapter(contactAdapter);
 
+    }
+
+    public void back(View view) {
+        finish();
     }
 }

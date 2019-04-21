@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/header"
+        android:id="@+id/tv_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E0E0E0"
@@ -46,7 +46,7 @@
             android:layout_toRightOf="@id/iv_avatar">
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -57,14 +57,13 @@
                 android:textSize="16sp" />
 
             <CheckBox
-                android:id="@+id/checkbox"
+                android:id="@+id/cb_select_friend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleX="0.6"
                 android:scaleY="0.6"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:checked="true"
                 android:layout_marginRight="20dp"
                 android:focusable="false" />
         </RelativeLayout>
