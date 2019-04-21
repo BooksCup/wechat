@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff"
@@ -30,20 +31,20 @@
         android:layout_width="match_parent"
         android:layout_height="52dp">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_avatar"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_useravatar" />
+            fresco:placeholderImage="@mipmap/default_useravatar" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_avatar">
+            android:layout_toRightOf="@id/sdv_avatar">
 
             <TextView
                 android:id="@+id/tv_nick_name"
@@ -52,7 +53,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
-                android:text="微信客服"
+                android:text=""
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
@@ -60,12 +61,12 @@
                 android:id="@+id/cb_pick_friend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
-                android:focusable="false" />
+                android:focusable="false"
+                android:scaleX="0.6"
+                android:scaleY="0.6" />
         </RelativeLayout>
     </RelativeLayout>
 

@@ -22,8 +22,6 @@ public class CreateChatRoomActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         List<Friend> friendList = Friend.listAll(Friend.class);
-        friendList.add(new Friend());
-        friendList.add(new Friend());
         listView = findViewById(R.id.list);
         contactAdapter = new PickContactAdapter(this,
                 R.layout.item_pick_contact_list, friendList);
