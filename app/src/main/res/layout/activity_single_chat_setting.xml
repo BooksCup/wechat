@@ -130,7 +130,7 @@
 
         <ImageView
             android:id="@+id/iv_switch_chat_to_top"
-            android:layout_width="70dp"
+            android:layout_width="42dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -139,7 +139,7 @@
 
         <ImageView
             android:id="@+id/iv_switch_cancel_chat_to_top"
-            android:layout_width="70dp"
+            android:layout_width="42dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -171,7 +171,7 @@
 
         <ImageView
             android:id="@+id/iv_switch_block_chat_msg"
-            android:layout_width="70dp"
+            android:layout_width="42dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -180,7 +180,7 @@
 
         <ImageView
             android:id="@+id/iv_switch_unblock_chat_msg"
-            android:layout_width="70dp"
+            android:layout_width="42dp"
             android:layout_height="22dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
