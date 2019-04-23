@@ -81,7 +81,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_open_notification"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -90,7 +90,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_close_notification"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -122,7 +122,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_open_sound"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -131,7 +131,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_close_sound"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -163,7 +163,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_open_vibrate"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -172,7 +172,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_close_vibrate"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -200,7 +200,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_open_speaker"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
@@ -209,7 +209,7 @@
 
                     <ImageView
                         android:id="@+id/iv_switch_close_speaker"
-                        android:layout_width="70dp"
+                        android:layout_width="42dp"
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
