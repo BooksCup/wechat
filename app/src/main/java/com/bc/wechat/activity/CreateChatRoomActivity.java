@@ -18,20 +18,21 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
     private PickContactAdapter contactAdapter;
     private ListView listView;
+    String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        userId = getIntent().getStringExtra("userId");
         List<Friend> friendList = Friend.listAll(Friend.class);
         // 对list进行排序
         Collections.sort(friendList, new PinyinComparator() {
         });
         listView = findViewById(R.id.list);
         contactAdapter = new PickContactAdapter(this,
-                R.layout.item_pick_contact_list, friendList);
+                R.layout.item_pick_contact_list, friendList, userId);
         listView.setAdapter(contactAdapter);
-
     }
 
     public void back(View view) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -20,11 +21,13 @@ public class PickContactAdapter extends BaseAdapter {
     private int resource;
 
     private List<Friend> friendList;
+    String userId;
 
-    public PickContactAdapter(Context context, int resource, List<Friend> friendList) {
+    public PickContactAdapter(Context context, int resource, List<Friend> friendList, String userId) {
         layoutInflater = LayoutInflater.from(context);
         this.resource = resource;
         this.friendList = friendList;
+        this.userId = userId;
     }
 
     @Override
@@ -53,6 +56,7 @@ public class PickContactAdapter extends BaseAdapter {
             viewHolder.mTempView = convertView.findViewById(R.id.view_temp);
             viewHolder.mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
             viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+            viewHolder.mPickFriendCb = convertView.findViewById(R.id.cb_pick_friend);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -78,6 +82,11 @@ public class PickContactAdapter extends BaseAdapter {
         }
         viewHolder.mNickNameTv.setText(friend.getUserNickName());
 
+        if (userId.equals(friend.getUserId())) {
+            viewHolder.mPickFriendCb.setChecked(true);
+            viewHolder.mPickFriendCb.setEnabled(false);
+        }
+
         return convertView;
     }
 
@@ -86,5 +95,6 @@ public class PickContactAdapter extends BaseAdapter {
         View mTempView;
         TextView mNickNameTv;
         SimpleDraweeView mAvatarSdv;
+        CheckBox mPickFriendCb;
     }
 }
