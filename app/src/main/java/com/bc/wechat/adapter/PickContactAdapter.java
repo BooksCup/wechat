@@ -83,7 +83,6 @@ public class PickContactAdapter extends BaseAdapter {
         viewHolder.mNickNameTv.setText(friend.getUserNickName());
 
         if (userId.equals(friend.getUserId())) {
-            viewHolder.mPickFriendCb.setChecked(true);
             viewHolder.mPickFriendCb.setEnabled(false);
         }
 

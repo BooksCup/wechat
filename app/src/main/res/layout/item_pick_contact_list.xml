@@ -65,8 +65,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:focusable="false"
-                android:scaleX="0.6"
-                android:scaleY="0.6" />
+                android:button="@drawable/check_box_style"
+                android:scaleX="0.5"
+                android:scaleY="0.5" />
         </RelativeLayout>
     </RelativeLayout>
 
