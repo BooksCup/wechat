@@ -67,8 +67,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:paddingBottom="15dp">
+        android:focusableInTouchMode="true">
 
 
         <HorizontalScrollView
@@ -91,6 +90,7 @@
                     android:id="@+id/iv_search"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
+                    android:layout_marginBottom="15dp"
                     android:src="@mipmap/search" />
             </LinearLayout>
         </HorizontalScrollView>
@@ -105,6 +105,7 @@
             android:background="@null"
             android:gravity="bottom"
             android:hint="搜索"
+            android:layout_marginBottom="15dp"
             android:singleLine="true"
             android:textColor="#353535"
             android:textColorHint="#484c4c"
