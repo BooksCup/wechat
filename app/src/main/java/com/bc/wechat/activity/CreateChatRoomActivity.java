@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
 import com.bc.wechat.entity.Friend;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,9 +62,10 @@ public class CreateChatRoomActivity extends FragmentActivity {
                 if (isEnabled) {
                     if (isChecked) {
                         mPickFriendCb.setChecked(false);
+                        removeCheckedImage(friend.getUserId());
                     } else {
                         mPickFriendCb.setChecked(true);
-                        showCheckedImage(friend.getUserAvatar(), friend.getUserId());
+                        addCheckedImage(friend.getUserAvatar(), friend.getUserId());
                     }
                 }
             }
@@ -73,14 +76,21 @@ public class CreateChatRoomActivity extends FragmentActivity {
         finish();
     }
 
-    private void showCheckedImage(String userAvatar, String userId) {
+    private void addCheckedImage(String userAvatar, String userId) {
+        // 是否已包含
+        if (checkedUserIdList.contains(userId)) {
+            return;
+        }
         totalCount++;
+        checkedUserIdList.add(userId);
         // 包含TextView的LinearLayout
         // 参数设置
         android.widget.LinearLayout.LayoutParams menuLinerLayoutParames = new LinearLayout.LayoutParams(
                 108, 108, 1);
         View view = LayoutInflater.from(this).inflate(
                 R.layout.item_chatroom_header_item, null);
+        SimpleDraweeView mAvatarSdv = view.findViewById(R.id.sdv_avatar);
+        mAvatarSdv.setImageURI(Uri.parse(userAvatar));
         menuLinerLayoutParames.setMargins(6, 0, 6, 15);
 
         // 设置id，方便后面删除
@@ -89,6 +99,18 @@ public class CreateChatRoomActivity extends FragmentActivity {
         if (totalCount > 0) {
             if (mSearchIv.getVisibility() == View.VISIBLE) {
                 mSearchIv.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void removeCheckedImage(String userId) {
+        View view = menuLinerLayout.findViewWithTag(userId);
+        menuLinerLayout.removeView(view);
+        totalCount--;
+        checkedUserIdList.remove(userId);
+        if (totalCount <= 0) {
+            if (mSearchIv.getVisibility() == View.GONE) {
+                mSearchIv.setVisibility(View.VISIBLE);
             }
         }
     }

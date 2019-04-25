@@ -64,8 +64,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
-                android:focusable="false"
                 android:button="@drawable/check_box_style"
+                android:clickable="false"
+                android:focusable="false"
                 android:scaleX="0.5"
                 android:scaleY="0.5" />
         </RelativeLayout>
