@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -46,7 +46,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_checked"
+            android:id="@+id/tv_save"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
@@ -71,7 +71,7 @@
 
 
         <HorizontalScrollView
-            android:id="@+id/horizonMenu"
+            android:id="@+id/hsv_avatar_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -80,7 +80,7 @@
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/linearLayoutMenu"
+                android:id="@+id/ll_avatar_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
@@ -101,11 +101,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/horizonMenu"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/hsv_avatar_list"
             android:background="@null"
             android:gravity="bottom"
             android:hint="搜索"
-            android:layout_marginBottom="10dp"
             android:singleLine="true"
             android:textColor="#353535"
             android:textColorHint="#484c4c"
@@ -114,7 +114,7 @@
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/lv_friends"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F9F9F9"

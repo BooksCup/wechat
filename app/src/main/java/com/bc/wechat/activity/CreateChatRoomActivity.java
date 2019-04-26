@@ -29,7 +29,8 @@ public class CreateChatRoomActivity extends FragmentActivity {
     String userId;
 
     // 可滑动的显示选中用户的View
-    private LinearLayout menuLinerLayout;
+    private LinearLayout mAvatarListLl;
+    ;
     private ImageView mSearchIv;
 
     private List<String> checkedUserIdList = new ArrayList<>();
@@ -44,10 +45,10 @@ public class CreateChatRoomActivity extends FragmentActivity {
         // 对list进行排序
         Collections.sort(friendList, new PinyinComparator() {
         });
-        menuLinerLayout = findViewById(R.id.linearLayoutMenu);
+        mAvatarListLl = findViewById(R.id.ll_avatar_list);
         mSearchIv = findViewById(R.id.iv_search);
 
-        listView = findViewById(R.id.list);
+        listView = findViewById(R.id.lv_friends);
         contactAdapter = new PickContactAdapter(this,
                 R.layout.item_pick_contact_list, friendList, userId);
         listView.setAdapter(contactAdapter);
@@ -95,7 +96,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         // 设置id，方便后面删除
         view.setTag(userId);
-        menuLinerLayout.addView(view, menuLinerLayoutParames);
+        mAvatarListLl.addView(view, menuLinerLayoutParames);
         if (totalCount > 0) {
             if (mSearchIv.getVisibility() == View.VISIBLE) {
                 mSearchIv.setVisibility(View.GONE);
@@ -104,8 +105,8 @@ public class CreateChatRoomActivity extends FragmentActivity {
     }
 
     private void removeCheckedImage(String userId) {
-        View view = menuLinerLayout.findViewWithTag(userId);
-        menuLinerLayout.removeView(view);
+        View view = mAvatarListLl.findViewWithTag(userId);
+        mAvatarListLl.removeView(view);
         totalCount--;
         checkedUserIdList.remove(userId);
         if (totalCount <= 0) {
