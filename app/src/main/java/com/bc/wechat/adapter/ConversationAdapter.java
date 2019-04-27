@@ -59,8 +59,9 @@ public class ConversationAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Conversation conversation = conversationList.get(position);
-        // 单聊
+
         if (conversation.getType().equals(ConversationType.single)) {
+            // 单聊
             convertView = creatConvertView(0);
             TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
@@ -96,7 +97,8 @@ public class ConversationAdapter extends BaseAdapter {
             mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLatestMessage().getCreateTime()));
 
         } else {
-            convertView = creatConvertView(1);
+            // 群聊
+            convertView = creatConvertView(3);
         }
 
         return convertView;
