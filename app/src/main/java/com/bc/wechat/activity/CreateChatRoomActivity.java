@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,8 +31,9 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
     // 可滑动的显示选中用户的View
     private LinearLayout mAvatarListLl;
-    ;
     private ImageView mSearchIv;
+    private Button mSaveBtn;
+
 
     private List<String> checkedUserIdList = new ArrayList<>();
     private int totalCount = 0;
@@ -47,6 +49,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         });
         mAvatarListLl = findViewById(R.id.ll_avatar_list);
         mSearchIv = findViewById(R.id.iv_search);
+        mSaveBtn = findViewById(R.id.btn_save);
 
         listView = findViewById(R.id.lv_friends);
         contactAdapter = new PickContactAdapter(this,
@@ -101,6 +104,10 @@ public class CreateChatRoomActivity extends FragmentActivity {
             if (mSearchIv.getVisibility() == View.VISIBLE) {
                 mSearchIv.setVisibility(View.GONE);
             }
+
+            mSaveBtn.setText("确定(" + totalCount + ")");
+            mSaveBtn.setEnabled(true);
+            mSaveBtn.setTextColor(0xFFFFFFFF);
         }
     }
 
@@ -109,10 +116,14 @@ public class CreateChatRoomActivity extends FragmentActivity {
         mAvatarListLl.removeView(view);
         totalCount--;
         checkedUserIdList.remove(userId);
+        mSaveBtn.setText("确定(" + totalCount + ")");
         if (totalCount <= 0) {
             if (mSearchIv.getVisibility() == View.GONE) {
                 mSearchIv.setVisibility(View.VISIBLE);
             }
+            mSaveBtn.setText("确定");
+            mSaveBtn.setEnabled(false);
+            mSaveBtn.setTextColor(0xFFD0EFC6);
         }
     }
 
