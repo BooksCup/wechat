@@ -12,16 +12,27 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CreateChatRoomActivity extends FragmentActivity {
 
@@ -38,10 +49,13 @@ public class CreateChatRoomActivity extends FragmentActivity {
     private List<String> checkedUserIdList = new ArrayList<>();
     private int totalCount = 0;
 
+    private VolleyUtil volleyUtil;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
+        volleyUtil = VolleyUtil.getInstance(this);
         userId = getIntent().getStringExtra("userId");
         final List<Friend> friendList = Friend.listAll(Friend.class);
         // 对list进行排序
@@ -72,6 +86,13 @@ public class CreateChatRoomActivity extends FragmentActivity {
                         addCheckedImage(friend.getUserAvatar(), friend.getUserId());
                     }
                 }
+            }
+        });
+
+        mSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createGroup();
             }
         });
     }
@@ -162,5 +183,44 @@ public class CreateChatRoomActivity extends FragmentActivity {
         private boolean isEmpty(String str) {
             return "".equals(str.trim());
         }
+    }
+
+    private void createGroup() {
+        String url = Constant.BASE_URL + "groups";
+        Map<String, String> paramMap = new HashMap<>();
+        User user = PreferencesUtil.getInstance().getUser();
+        List<String> pickedUserIdList = new ArrayList<>();
+        pickedUserIdList.addAll(checkedUserIdList);
+        pickedUserIdList.add(userId);
+        StringBuffer pickedUserIdBuffer = new StringBuffer();
+        if (null != pickedUserIdList && pickedUserIdList.size() > 0) {
+            for (String pickedUserId : pickedUserIdList) {
+                pickedUserIdBuffer.append(pickedUserId);
+                pickedUserIdBuffer.append(",");
+            }
+            pickedUserIdBuffer.deleteCharAt(pickedUserIdBuffer.length() - 1);
+        }
+        String userIds = pickedUserIdBuffer.toString();
+        paramMap.put("owner", user.getUserId());
+        paramMap.put("groupName", "创建群聊");
+        paramMap.put("desc", "创建群聊");
+        paramMap.put("userIds", userIds);
+
+        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(CreateChatRoomActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(CreateChatRoomActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 }
