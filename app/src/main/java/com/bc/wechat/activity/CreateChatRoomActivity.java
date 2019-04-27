@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
