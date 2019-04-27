@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
@@ -53,7 +54,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         listView = findViewById(R.id.lv_friends);
         contactAdapter = new PickContactAdapter(this,
-                R.layout.item_pick_contact_list, friendList, userId);
+                R.layout.item_pick_contact_list, friendList, checkedUserIdList, userId);
         listView.setAdapter(contactAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,7 +81,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         finish();
     }
 
-    private void addCheckedImage(String userAvatar, String userId) {
+    private void addCheckedImage(String userAvatar, final String userId) {
         // 是否已包含
         if (checkedUserIdList.contains(userId)) {
             return;
@@ -99,6 +100,14 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         // 设置id，方便后面删除
         view.setTag(userId);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeCheckedImage(userId);
+                contactAdapter.notifyDataSetChanged();
+            }
+        });
         mAvatarListLl.addView(view, menuLinerLayoutParames);
         if (totalCount > 0) {
             if (mSearchIv.getVisibility() == View.VISIBLE) {

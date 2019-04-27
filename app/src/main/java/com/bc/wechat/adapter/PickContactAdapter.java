@@ -21,12 +21,14 @@ public class PickContactAdapter extends BaseAdapter {
     private int resource;
 
     private List<Friend> friendList;
+    private List<String> checkedUserIdList;
     String userId;
 
-    public PickContactAdapter(Context context, int resource, List<Friend> friendList, String userId) {
+    public PickContactAdapter(Context context, int resource, List<Friend> friendList, List<String> checkedUserIdList, String userId) {
         layoutInflater = LayoutInflater.from(context);
         this.resource = resource;
         this.friendList = friendList;
+        this.checkedUserIdList = checkedUserIdList;
         this.userId = userId;
     }
 
@@ -84,6 +86,12 @@ public class PickContactAdapter extends BaseAdapter {
 
         if (userId.equals(friend.getUserId())) {
             viewHolder.mPickFriendCb.setEnabled(false);
+        } else {
+            if (checkedUserIdList.contains(friend.getUserId())) {
+                viewHolder.mPickFriendCb.setChecked(true);
+            } else {
+                viewHolder.mPickFriendCb.setChecked(false);
+            }
         }
 
         return convertView;
