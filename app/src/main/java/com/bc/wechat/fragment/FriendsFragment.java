@@ -27,6 +27,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.model.Conversation;
+
 public class FriendsFragment extends Fragment {
     private FriendsAdapter friendsAdapter;
 
@@ -74,9 +77,6 @@ public class FriendsFragment extends Fragment {
         mChatRoomRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FriendApply.deleteAll(FriendApply.class);
-                Friend.deleteAll(Friend.class);
-                Message.deleteAll(Message.class);
             }
         });
 

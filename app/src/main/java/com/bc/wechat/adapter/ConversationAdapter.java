@@ -11,12 +11,15 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.GroupDao;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.GroupInfo;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.UserInfo;
@@ -27,11 +30,13 @@ public class ConversationAdapter extends BaseAdapter {
     private List<Conversation> conversationList;
     private Context mContext;
     private LayoutInflater inflater;
+    private GroupDao groupDao;
 
     public ConversationAdapter(Context context, List<Conversation> conversationList) {
         this.mContext = context;
         this.conversationList = conversationList;
         inflater = LayoutInflater.from(context);
+        groupDao = new GroupDao();
     }
 
     public void setData(List<Conversation> conversationList) {
@@ -99,6 +104,22 @@ public class ConversationAdapter extends BaseAdapter {
         } else {
             // 群聊
             convertView = creatConvertView(3);
+            GroupInfo group = groupDao.getGroupByjId(conversation.getTargetId());
+//            JMessageClient.deleteGroupConversation(Long.valueOf(conversation.getTargetId()));
+            TextView mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
+            TextView mUnreadTv = convertView.findViewById(R.id.tv_unread);
+            TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
+
+            mGroupNameTv.setText(conversation.getTitle());
+            int unReadMsgCnt = conversation.getUnReadMsgCnt();
+            if (unReadMsgCnt <= 0) {
+                mUnreadTv.setVisibility(View.GONE);
+            } else if (unReadMsgCnt > 99) {
+                mUnreadTv.setText("99+");
+            } else {
+                mUnreadTv.setText(String.valueOf(conversation.getUnReadMsgCnt()));
+            }
+            mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLastMsgDate()));
         }
 
         return convertView;

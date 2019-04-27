@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
@@ -22,6 +23,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.GroupInfo;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -47,6 +49,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
 
     private List<String> checkedUserIdList = new ArrayList<>();
+    private List<Friend> checkedUserList = new ArrayList<>();
     private int totalCount = 0;
 
     private VolleyUtil volleyUtil;
@@ -80,10 +83,10 @@ public class CreateChatRoomActivity extends FragmentActivity {
                 if (isEnabled) {
                     if (isChecked) {
                         mPickFriendCb.setChecked(false);
-                        removeCheckedImage(friend.getUserId());
+                        removeCheckedImage(friend.getUserId(), friend);
                     } else {
                         mPickFriendCb.setChecked(true);
-                        addCheckedImage(friend.getUserAvatar(), friend.getUserId());
+                        addCheckedImage(friend.getUserAvatar(), friend.getUserId(), friend);
                     }
                 }
             }
@@ -101,13 +104,14 @@ public class CreateChatRoomActivity extends FragmentActivity {
         finish();
     }
 
-    private void addCheckedImage(String userAvatar, final String userId) {
+    private void addCheckedImage(String userAvatar, final String userId, final Friend friend) {
         // 是否已包含
         if (checkedUserIdList.contains(userId)) {
             return;
         }
         totalCount++;
         checkedUserIdList.add(userId);
+        checkedUserList.add(friend);
         // 包含TextView的LinearLayout
         // 参数设置
         android.widget.LinearLayout.LayoutParams menuLinerLayoutParames = new LinearLayout.LayoutParams(
@@ -124,7 +128,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeCheckedImage(userId);
+                removeCheckedImage(userId, friend);
                 contactAdapter.notifyDataSetChanged();
             }
         });
@@ -140,11 +144,12 @@ public class CreateChatRoomActivity extends FragmentActivity {
         }
     }
 
-    private void removeCheckedImage(String userId) {
+    private void removeCheckedImage(String userId, Friend friend) {
         View view = mAvatarListLl.findViewWithTag(userId);
         mAvatarListLl.removeView(view);
         totalCount--;
         checkedUserIdList.remove(userId);
+        checkedUserList.remove(friend);
         mSaveBtn.setText("确定(" + totalCount + ")");
         if (totalCount <= 0) {
             if (mSearchIv.getVisibility() == View.GONE) {
@@ -192,6 +197,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         List<String> pickedUserIdList = new ArrayList<>();
         pickedUserIdList.addAll(checkedUserIdList);
         pickedUserIdList.add(userId);
+
         StringBuffer pickedUserIdBuffer = new StringBuffer();
         if (null != pickedUserIdList && pickedUserIdList.size() > 0) {
             for (String pickedUserId : pickedUserIdList) {
@@ -200,7 +206,18 @@ public class CreateChatRoomActivity extends FragmentActivity {
             }
             pickedUserIdBuffer.deleteCharAt(pickedUserIdBuffer.length() - 1);
         }
+
+        final StringBuffer pickedUserAvatarBuffer = new StringBuffer();
+        if (null != checkedUserList && checkedUserList.size() > 0) {
+            for (Friend checkedUser : checkedUserList) {
+                pickedUserAvatarBuffer.append(checkedUser.getUserAvatar());
+                pickedUserAvatarBuffer.append(",");
+            }
+            pickedUserAvatarBuffer.deleteCharAt(pickedUserAvatarBuffer.length() - 1);
+        }
+
         String userIds = pickedUserIdBuffer.toString();
+        final String groupAvatars = pickedUserAvatarBuffer.toString();
         paramMap.put("owner", user.getUserId());
         paramMap.put("groupName", "创建群聊");
         paramMap.put("desc", "创建群聊");
@@ -208,7 +225,11 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(String response) {
+                GroupInfo group = JSON.parseObject(response, GroupInfo.class);
+                group.setGroupAvatars(groupAvatars);
+                GroupInfo.save(group);
+                Toast.makeText(CreateChatRoomActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
