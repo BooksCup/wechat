@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.GroupDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -30,13 +29,11 @@ public class ConversationAdapter extends BaseAdapter {
     private List<Conversation> conversationList;
     private Context mContext;
     private LayoutInflater inflater;
-    private GroupDao groupDao;
 
     public ConversationAdapter(Context context, List<Conversation> conversationList) {
         this.mContext = context;
         this.conversationList = conversationList;
         inflater = LayoutInflater.from(context);
-        groupDao = new GroupDao();
     }
 
     public void setData(List<Conversation> conversationList) {

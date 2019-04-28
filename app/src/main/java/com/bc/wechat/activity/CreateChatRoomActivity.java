@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
@@ -23,7 +22,6 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
-import com.bc.wechat.entity.GroupInfo;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -211,22 +209,17 @@ public class CreateChatRoomActivity extends FragmentActivity {
             pickedUserIdBuffer.deleteCharAt(pickedUserIdBuffer.length() - 1);
         }
 
-        final StringBuffer pickedUserAvatarBuffer = new StringBuffer();
         final StringBuffer pickedUserNickNameBuffer = new StringBuffer();
         if (null != checkedUserList && checkedUserList.size() > 0) {
             for (Friend checkedUser : checkedUserList) {
-                pickedUserAvatarBuffer.append(checkedUser.getUserAvatar());
-                pickedUserAvatarBuffer.append(",");
                 pickedUserNickNameBuffer.append(checkedUser.getUserNickName());
                 pickedUserNickNameBuffer.append("、");
             }
 
-            pickedUserAvatarBuffer.append(user.getUserAvatar()).append(",").append(firstUserAvatar);
             pickedUserNickNameBuffer.append(firstUserNickName);
         }
 
         String userIds = pickedUserIdBuffer.toString();
-        final String groupAvatars = pickedUserAvatarBuffer.toString();
         final String groupName = pickedUserNickNameBuffer.toString();
         final String groupDesc = "你邀请" + groupName + "加入了群聊";
         paramMap.put("owner", user.getUserId());
@@ -237,9 +230,6 @@ public class CreateChatRoomActivity extends FragmentActivity {
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                GroupInfo group = JSON.parseObject(response, GroupInfo.class);
-                group.setGroupAvatars(groupAvatars);
-                GroupInfo.save(group);
                 Toast.makeText(CreateChatRoomActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
