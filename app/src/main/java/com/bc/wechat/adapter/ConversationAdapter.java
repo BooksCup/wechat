@@ -153,27 +153,27 @@ public class ConversationAdapter extends BaseAdapter {
                     null, false);
 
         } else if (size == 1) {
-            convertView = inflater.inflate(R.layout.item_conversation_group1,
+            convertView = inflater.inflate(R.layout.item_conversation_group_1,
                     null, false);
 
         } else if (size == 2) {
-            convertView = inflater.inflate(R.layout.item_conversation_group2,
+            convertView = inflater.inflate(R.layout.item_conversation_group_2,
                     null, false);
 
         } else if (size == 3) {
-            convertView = inflater.inflate(R.layout.item_conversation_group3,
+            convertView = inflater.inflate(R.layout.item_conversation_group_3,
                     null, false);
 
         } else if (size == 4) {
-            convertView = inflater.inflate(R.layout.item_conversation_group4,
+            convertView = inflater.inflate(R.layout.item_conversation_group_4,
                     null, false);
 
         } else if (size > 4) {
-            convertView = inflater.inflate(R.layout.item_conversation_group5,
+            convertView = inflater.inflate(R.layout.item_conversation_group_5,
                     null, false);
 
         } else {
-            convertView = inflater.inflate(R.layout.item_conversation_group5,
+            convertView = inflater.inflate(R.layout.item_conversation_group_5,
                     null, false);
 
         }
