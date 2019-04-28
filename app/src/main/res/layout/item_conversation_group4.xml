@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/re_parent"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@drawable/btn_list_item_bg"
-        android:clickable="true" >
+        android:clickable="true">
 
         <RelativeLayout
             android:id="@+id/re_avatar"
             android:layout_width="72dp"
             android:layout_height="64dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" >
+            android:layout_centerVertical="true">
 
             <RelativeLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerInParent="true"
                 android:background="#DBDFE0"
-                android:padding="1dp" >
+                android:padding="1dp">
 
                 <ImageView
                     android:id="@+id/iv_avatar1"
@@ -45,8 +45,8 @@
                     android:id="@+id/iv_avatar3"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_below="@id/iv_avatar1"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginTop="2dp"
                     android:src="@mipmap/default_useravatar" />
 
@@ -54,8 +54,8 @@
                     android:id="@+id/iv_avatar4"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@id/iv_avatar2"
+                    android:layout_alignParentRight="true"
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_toRightOf="@id/iv_avatar3"
@@ -64,19 +64,19 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_toRightOf="@id/re_avatar"
-              android:singleLine="true"
-        android:maxWidth="200dp"
-        android:ellipsize="end"
+            android:ellipsize="end"
+            android:maxWidth="200dp"
+            android:singleLine="true"
             android:textColor="#353535"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -92,7 +92,7 @@
             android:layout_marginBottom="12dp"
             android:layout_toRightOf="@id/re_avatar"
             android:orientation="horizontal"
-            android:paddingRight="30dp" >
+            android:paddingRight="30dp">
 
             <ImageView
                 android:id="@+id/msg_state"
@@ -102,7 +102,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tv_content"
+                android:id="@+id/tv_last_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -116,10 +116,10 @@
             android:id="@+id/tv_unread"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_alignRight="@id/re_avatar"
             android:layout_alignTop="@id/re_avatar"
-            android:layout_marginRight="7dp"
+            android:layout_alignRight="@id/re_avatar"
             android:layout_marginTop="3dp"
+            android:layout_marginRight="7dp"
             android:background="@mipmap/unread_count_bg"
             android:gravity="center"
             android:text="7"

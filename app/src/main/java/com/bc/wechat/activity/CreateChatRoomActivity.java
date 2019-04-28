@@ -40,7 +40,9 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
     private PickContactAdapter contactAdapter;
     private ListView listView;
-    String userId;
+    String firstUserId;
+    String firstUserNickName;
+    String firstUserAvatar;
 
     // 可滑动的显示选中用户的View
     private LinearLayout mAvatarListLl;
@@ -59,7 +61,9 @@ public class CreateChatRoomActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         volleyUtil = VolleyUtil.getInstance(this);
-        userId = getIntent().getStringExtra("userId");
+        firstUserId = getIntent().getStringExtra("userId");
+        firstUserNickName = getIntent().getStringExtra("userNickName");
+        firstUserAvatar = getIntent().getStringExtra("userAvatar");
         final List<Friend> friendList = Friend.listAll(Friend.class);
         // 对list进行排序
         Collections.sort(friendList, new PinyinComparator() {
@@ -70,7 +74,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         listView = findViewById(R.id.lv_friends);
         contactAdapter = new PickContactAdapter(this,
-                R.layout.item_pick_contact_list, friendList, checkedUserIdList, userId);
+                R.layout.item_pick_contact_list, friendList, checkedUserIdList, firstUserId);
         listView.setAdapter(contactAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -196,7 +200,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         User user = PreferencesUtil.getInstance().getUser();
         List<String> pickedUserIdList = new ArrayList<>();
         pickedUserIdList.addAll(checkedUserIdList);
-        pickedUserIdList.add(userId);
+        pickedUserIdList.add(firstUserId);
 
         StringBuffer pickedUserIdBuffer = new StringBuffer();
         if (null != pickedUserIdList && pickedUserIdList.size() > 0) {
@@ -208,19 +212,26 @@ public class CreateChatRoomActivity extends FragmentActivity {
         }
 
         final StringBuffer pickedUserAvatarBuffer = new StringBuffer();
+        final StringBuffer pickedUserNickNameBuffer = new StringBuffer();
         if (null != checkedUserList && checkedUserList.size() > 0) {
             for (Friend checkedUser : checkedUserList) {
                 pickedUserAvatarBuffer.append(checkedUser.getUserAvatar());
                 pickedUserAvatarBuffer.append(",");
+                pickedUserNickNameBuffer.append(checkedUser.getUserNickName());
+                pickedUserNickNameBuffer.append("、");
             }
-            pickedUserAvatarBuffer.deleteCharAt(pickedUserAvatarBuffer.length() - 1);
+
+            pickedUserAvatarBuffer.append(user.getUserAvatar()).append(",").append(firstUserAvatar);
+            pickedUserNickNameBuffer.append(firstUserNickName);
         }
 
         String userIds = pickedUserIdBuffer.toString();
         final String groupAvatars = pickedUserAvatarBuffer.toString();
+        final String groupName = pickedUserNickNameBuffer.toString();
+        final String groupDesc = "你邀请" + groupName + "加入了群聊";
         paramMap.put("owner", user.getUserId());
-        paramMap.put("groupName", "创建群聊");
-        paramMap.put("desc", "创建群聊");
+        paramMap.put("groupName", groupName);
+        paramMap.put("desc", groupDesc);
         paramMap.put("userIds", userIds);
 
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {

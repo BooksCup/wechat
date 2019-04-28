@@ -13,15 +13,15 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.GroupDao;
 import com.bc.wechat.entity.Friend;
-import com.bc.wechat.entity.GroupInfo;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.GroupInfo;
+import cn.jpush.im.android.api.model.GroupMemberInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class ConversationAdapter extends BaseAdapter {
@@ -103,14 +103,37 @@ public class ConversationAdapter extends BaseAdapter {
 
         } else {
             // 群聊
-            convertView = creatConvertView(3);
-            GroupInfo group = groupDao.getGroupByjId(conversation.getTargetId());
+            GroupInfo jGroupInfo = (GroupInfo) conversation.getTargetInfo();
+
+            List<GroupMemberInfo> groupMemberInfoList = jGroupInfo.getGroupMemberInfos();
+            int memberCount = groupMemberInfoList.size();
+            convertView = creatConvertView(memberCount);
+            if (memberCount == 3){
+                SimpleDraweeView mAvatar1Sdv = convertView.findViewById(R.id.sdv_avatar1);
+                SimpleDraweeView mAvatar2Sdv = convertView.findViewById(R.id.sdv_avatar2);
+                SimpleDraweeView mAvatar3Sdv = convertView.findViewById(R.id.sdv_avatar3);
+                String avatar1 = groupMemberInfoList.get(0).getUserInfo().getAvatar();
+                String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
+                String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
+                if (!TextUtils.isEmpty(avatar1)){
+                    mAvatar1Sdv.setImageURI(avatar1);
+                }
+                if (!TextUtils.isEmpty(avatar2)){
+                    mAvatar2Sdv.setImageURI(avatar2);
+                }
+                if (!TextUtils.isEmpty(avatar3)){
+                    mAvatar3Sdv.setImageURI(avatar3);
+                }
+            }
+
 //            JMessageClient.deleteGroupConversation(Long.valueOf(conversation.getTargetId()));
             TextView mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
             TextView mUnreadTv = convertView.findViewById(R.id.tv_unread);
             TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
+            TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
 
-            mGroupNameTv.setText(conversation.getTitle());
+            mGroupNameTv.setText(jGroupInfo.getGroupName());
+            mLastMsgTv.setText(jGroupInfo.getGroupDescription());
             int unReadMsgCnt = conversation.getUnReadMsgCnt();
             if (unReadMsgCnt <= 0) {
                 mUnreadTv.setVisibility(View.GONE);
