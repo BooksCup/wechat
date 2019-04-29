@@ -105,21 +105,42 @@ public class ConversationAdapter extends BaseAdapter {
             List<GroupMemberInfo> groupMemberInfoList = jGroupInfo.getGroupMemberInfos();
             int memberCount = groupMemberInfoList.size();
             convertView = creatConvertView(memberCount);
-            if (memberCount == 3){
+            if (memberCount == 3) {
                 SimpleDraweeView mAvatar1Sdv = convertView.findViewById(R.id.sdv_avatar1);
                 SimpleDraweeView mAvatar2Sdv = convertView.findViewById(R.id.sdv_avatar2);
                 SimpleDraweeView mAvatar3Sdv = convertView.findViewById(R.id.sdv_avatar3);
                 String avatar1 = groupMemberInfoList.get(0).getUserInfo().getAvatar();
                 String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
                 String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
-                if (!TextUtils.isEmpty(avatar1)){
+                if (!TextUtils.isEmpty(avatar1)) {
                     mAvatar1Sdv.setImageURI(avatar1);
                 }
-                if (!TextUtils.isEmpty(avatar2)){
+                if (!TextUtils.isEmpty(avatar2)) {
                     mAvatar2Sdv.setImageURI(avatar2);
                 }
-                if (!TextUtils.isEmpty(avatar3)){
+                if (!TextUtils.isEmpty(avatar3)) {
                     mAvatar3Sdv.setImageURI(avatar3);
+                }
+            } else if (memberCount == 4) {
+                SimpleDraweeView mAvatar1Sdv = convertView.findViewById(R.id.sdv_avatar1);
+                SimpleDraweeView mAvatar2Sdv = convertView.findViewById(R.id.sdv_avatar2);
+                SimpleDraweeView mAvatar3Sdv = convertView.findViewById(R.id.sdv_avatar3);
+                SimpleDraweeView mAvatar4Sdv = convertView.findViewById(R.id.sdv_avatar4);
+                String avatar1 = groupMemberInfoList.get(0).getUserInfo().getAvatar();
+                String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
+                String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
+                String avatar4 = groupMemberInfoList.get(3).getUserInfo().getAvatar();
+                if (!TextUtils.isEmpty(avatar1)) {
+                    mAvatar1Sdv.setImageURI(avatar1);
+                }
+                if (!TextUtils.isEmpty(avatar2)) {
+                    mAvatar2Sdv.setImageURI(avatar2);
+                }
+                if (!TextUtils.isEmpty(avatar3)) {
+                    mAvatar3Sdv.setImageURI(avatar3);
+                }
+                if (!TextUtils.isEmpty(avatar4)) {
+                    mAvatar4Sdv.setImageURI(avatar4);
                 }
             }
 
