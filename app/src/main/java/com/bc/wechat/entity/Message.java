@@ -2,7 +2,7 @@ package com.bc.wechat.entity;
 
 import com.orm.SugarRecord;
 
-public class Message extends SugarRecord{
+public class Message extends SugarRecord {
     private String messageId;
     private String messageType;
     private String content;
@@ -17,6 +17,9 @@ public class Message extends SugarRecord{
     private String imageUrl;
     private int status;
     private long timestamp;
+
+    private String targetType;
+    private String groupId;
 
     public String getMessageId() {
         return messageId;
@@ -128,5 +131,21 @@ public class Message extends SugarRecord{
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getTargetType() {
+        return targetType;
+    }
+
+    public void setTargetType(String targetType) {
+        this.targetType = targetType;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

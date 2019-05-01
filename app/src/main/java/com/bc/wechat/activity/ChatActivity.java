@@ -111,9 +111,11 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     List<Message> messageList;
 
     // intent传值
+    private String targetType;
     private String fromUserId;
     private String fromUserNickName;
     private String fromUserAvatar;
+    private String groupId;
 
     User user;
     private VolleyUtil volleyUtil;
@@ -219,12 +221,18 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        fromUserId = getIntent().getStringExtra("fromUserId");
-        fromUserNickName = getIntent().getStringExtra("fromUserNickName");
-        fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
-        mFromNickNameTv.setText(fromUserNickName);
-        messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp asc", fromUserId, fromUserId);
 
+        targetType = getIntent().getStringExtra("targetType");
+        if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+            fromUserId = getIntent().getStringExtra("fromUserId");
+            fromUserNickName = getIntent().getStringExtra("fromUserNickName");
+            fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
+            mFromNickNameTv.setText(fromUserNickName);
+            messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp asc", fromUserId, fromUserId);
+        } else {
+            groupId = getIntent().getStringExtra("groupId");
+            messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
+        }
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
 

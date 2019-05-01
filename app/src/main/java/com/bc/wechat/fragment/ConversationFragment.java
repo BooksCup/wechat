@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.ChatActivity;
 import com.bc.wechat.adapter.ConversationAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.PreferencesUtil;
 
@@ -23,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class ConversationFragment extends Fragment {
@@ -62,18 +65,26 @@ public class ConversationFragment extends Fragment {
                 // 清除未读
                 conversation.resetUnreadCount();
 
-                UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
+                if (conversation.getType().equals(ConversationType.single)) {
+                    UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
 
-                List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
-                if (null != friendList && friendList.size() > 0) {
-                    Friend friend = friendList.get(0);
+                    List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
+                    if (null != friendList && friendList.size() > 0) {
+                        Friend friend = friendList.get(0);
+                        Intent intent = new Intent(getActivity(), ChatActivity.class);
+                        intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
+                        intent.putExtra("fromUserId", friend.getUserId());
+                        intent.putExtra("fromUserNickName", friend.getUserNickName());
+                        intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                        startActivity(intent);
+                    }
+                } else {
+                    GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    intent.putExtra("fromUserId", friend.getUserId());
-                    intent.putExtra("fromUserNickName", friend.getUserNickName());
-                    intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                    intent.putExtra("targetType", Constant.TARGET_TYPE_GROUP);
+                    intent.putExtra("groupId", String.valueOf(groupInfo.getGroupID()));
                     startActivity(intent);
                 }
-
             }
         });
     }

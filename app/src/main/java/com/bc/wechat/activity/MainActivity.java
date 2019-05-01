@@ -34,7 +34,9 @@ import java.util.List;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.TextContent;
+import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.event.MessageEvent;
+import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class MainActivity extends FragmentActivity {
@@ -228,14 +230,6 @@ public class MainActivity extends FragmentActivity {
         final cn.jpush.im.android.api.model.Message msg = event.getMessage();
         Message message = new Message();
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        UserInfo fromUserInfo = (UserInfo) msg.getTargetInfo();
-        message.setFromUserId(fromUserInfo.getUserName());
-
-        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", message.getFromUserId());
-        if (null != friendList && friendList.size() > 0) {
-            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
-        }
-
         String messageType = msg.getContentType().name();
         message.setToUserId(user.getUserId());
         message.setTimestamp(new Date().getTime());
@@ -249,8 +243,28 @@ public class MainActivity extends FragmentActivity {
             String imageUrl = imageContent.getLocalThumbnailPath();
             message.setImageUrl(imageUrl);
         }
-        Message.save(message);
+        UserInfo fromUserInfo = msg.getFromUser();
+        message.setFromUserId(fromUserInfo.getUserName());
 
+        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", message.getFromUserId());
+        if (null != friendList && friendList.size() > 0) {
+            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
+        }
+
+        if (msg.getTargetType().equals(ConversationType.single)) {
+            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
+
+        } else {
+            message.setTargetType(Constant.TARGET_TYPE_GROUP);
+            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
+            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
+        }
+
+        try {
+            Message.save(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         conversationFragment.refreshConversationList();
         int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber();
         PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum + 1);
