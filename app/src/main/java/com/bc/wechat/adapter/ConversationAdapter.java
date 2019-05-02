@@ -144,14 +144,27 @@ public class ConversationAdapter extends BaseAdapter {
                 }
             }
 
-//            JMessageClient.deleteGroupConversation(Long.valueOf(conversation.getTargetId()));
             TextView mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
             TextView mUnreadTv = convertView.findViewById(R.id.tv_unread);
             TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
 
             mGroupNameTv.setText(jGroupInfo.getGroupName());
-            mLastMsgTv.setText(jGroupInfo.getGroupDescription());
+            String messageType = conversation.getLatestMessage().getContentType().name();
+            String lastMsg = conversation.getLatestText();
+            if (TextUtils.isEmpty(lastMsg)) {
+                mLastMsgTv.setText(jGroupInfo.getGroupDescription());
+            } else {
+                UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
+                if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
+                    mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
+                    mLastMsgTv.setText(lastestFromUser.getNickname() + ": [图片]");
+                } else {
+                    mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                }
+            }
+
             int unReadMsgCnt = conversation.getUnReadMsgCnt();
             if (unReadMsgCnt <= 0) {
                 mUnreadTv.setVisibility(View.GONE);
