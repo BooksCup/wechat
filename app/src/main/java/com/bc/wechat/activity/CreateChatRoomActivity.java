@@ -221,7 +221,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         String userIds = pickedUserIdBuffer.toString();
         final String groupName = pickedUserNickNameBuffer.toString();
-        final String groupDesc = "你邀请" + groupName + "加入了群聊";
+        final String groupDesc = "群聊";
         paramMap.put("owner", user.getUserId());
         paramMap.put("groupName", groupName);
         paramMap.put("desc", groupDesc);

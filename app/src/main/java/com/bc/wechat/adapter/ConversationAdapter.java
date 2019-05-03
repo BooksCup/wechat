@@ -153,7 +153,7 @@ public class ConversationAdapter extends BaseAdapter {
             String messageType = conversation.getLatestMessage().getContentType().name();
             String lastMsg = conversation.getLatestText();
             if (TextUtils.isEmpty(lastMsg)) {
-                mLastMsgTv.setText(jGroupInfo.getGroupDescription());
+                mLastMsgTv.setText("你邀请" + jGroupInfo.getGroupName() + "加入了群聊");
             } else {
                 UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
                 if (Constant.MSG_TYPE_TEXT.equals(messageType)) {

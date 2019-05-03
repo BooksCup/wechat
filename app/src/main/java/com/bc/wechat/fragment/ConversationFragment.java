@@ -83,6 +83,8 @@ public class ConversationFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("targetType", Constant.TARGET_TYPE_GROUP);
                     intent.putExtra("groupId", String.valueOf(groupInfo.getGroupID()));
+                    intent.putExtra("groupDesc", groupInfo.getGroupDescription());
+                    intent.putExtra("memberNum", String.valueOf(groupInfo.getGroupMemberInfos().size()));
                     startActivity(intent);
                 }
             }

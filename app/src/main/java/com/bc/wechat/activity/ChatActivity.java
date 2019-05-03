@@ -111,11 +111,16 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     List<Message> messageList;
 
     // intent传值
+    // 单聊
     private String targetType;
     private String fromUserId;
     private String fromUserNickName;
     private String fromUserAvatar;
+
+    // 群聊
     private String groupId;
+    private String groupDesc;
+    private String memberNum;
 
     User user;
     private VolleyUtil volleyUtil;
@@ -231,6 +236,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp asc", fromUserId, fromUserId);
         } else {
             groupId = getIntent().getStringExtra("groupId");
+            groupDesc = getIntent().getStringExtra("groupDesc");
+            memberNum = getIntent().getStringExtra("memberNum");
+            mFromNickNameTv.setText(groupDesc + "(" + memberNum + ")");
             messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
         }
         messageAdapter = new MessageAdapter(this, messageList);
