@@ -69,6 +69,7 @@ public class UserInfoActivity extends Activity {
                 if (Constant.IS_FRIEND.equals(isFriend)) {
                     // 是好友，发消息
                     Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
+                    intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
                     intent.putExtra("fromUserId", userId);
                     intent.putExtra("fromUserNickName", nickName);
                     intent.putExtra("fromUserAvatar", avatar);
