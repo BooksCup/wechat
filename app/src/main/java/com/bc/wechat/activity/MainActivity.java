@@ -260,15 +260,15 @@ public class MainActivity extends FragmentActivity {
             message.setGroupId(String.valueOf(groupInfo.getGroupID()));
         }
 
-        try {
-            Message.save(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Message.save(message);
         conversationFragment.refreshConversationList();
-        int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber();
-        PreferencesUtil.getInstance().setNewMsgsUnreadNumber(newMsgsUnreadNum + 1);
-        refreshNewMsgsUnreadNum();
+        // 如果发送者是自己，不更新
+        if (fromUserInfo.getUserName().equals(user.getUserId())) {
+        } else {
+            // 未读数++
+            PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            refreshNewMsgsUnreadNum();
+        }
     }
 
     private Handler handler = new Handler() {
