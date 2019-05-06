@@ -44,8 +44,10 @@ import java.util.Map;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.TextContent;
+import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class ChatActivity extends FragmentActivity implements View.OnClickListener {
@@ -233,7 +235,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             fromUserNickName = getIntent().getStringExtra("fromUserNickName");
             fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
             mFromNickNameTv.setText(fromUserNickName);
-            messageList = Message.findWithQuery(Message.class, "select * from message where from_user_id = ? or to_user_id = ? order by timestamp asc", fromUserId, fromUserId);
+            messageList = Message.findWithQuery(Message.class,
+                    "select * from message where (from_user_id = ? or to_user_id = ?) and target_type = ? order by timestamp asc", fromUserId, fromUserId, Constant.TARGET_TYPE_SINGLE);
         } else {
             groupId = getIntent().getStringExtra("groupId");
             groupDesc = getIntent().getStringExtra("groupDesc");
@@ -381,6 +384,15 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             message.setFromUserAvatar(friendList.get(0).getUserAvatar());
         }
 
+        if (msg.getTargetType().equals(ConversationType.single)) {
+            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
+
+        } else {
+            message.setTargetType(Constant.TARGET_TYPE_GROUP);
+            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
+            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
+        }
+
         message.setToUserId(user.getUserId());
 
         String messageType = msg.getContentType().name();
@@ -398,25 +410,50 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
         Message.save(message);
 
-        // 获取会话
-        Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
-        // 如果是当前会话
-        if (fromUserInfo.getUserName().equals(fromUserId)) {
-            messageList.add(message);
-            mMessageLv.post(new Runnable() {
-                @Override
-                public void run() {
-                    messageAdapter.setData(messageList);
-                    messageAdapter.notifyDataSetChanged();
-                    mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
-                }
-            });
-            // 清除未读数
-            conversation.resetUnreadCount();
-        } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
+        if (msg.getTargetType().equals(ConversationType.single)) {
+            // 单聊
+            // 如果是当前会话
+            Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
+            if (fromUserInfo.getUserName().equals(fromUserId)) {
+                messageList.add(message);
+                mMessageLv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageAdapter.setData(messageList);
+                        messageAdapter.notifyDataSetChanged();
+                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+                    }
+                });
+                // 清除未读数
+                conversation.resetUnreadCount();
+            } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
+            } else {
+                // 未读数++
+                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            }
         } else {
-            // 未读数++
-            PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
+
+            // 群聊
+            // 如果是当前会话
+            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
+            if (String.valueOf(groupInfo.getGroupID()).equals(groupId)) {
+                messageList.add(message);
+                mMessageLv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageAdapter.setData(messageList);
+                        messageAdapter.notifyDataSetChanged();
+                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+                    }
+                });
+                // 清除未读数
+                conversation.resetUnreadCount();
+            } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
+            } else {
+                // 未读数++
+                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            }
         }
     }
 
