@@ -277,8 +277,15 @@ public class MessageAdapter extends BaseAdapter {
                     messageList.add(resendMessage);
 
                     notifyDataSetChanged();
-                    sendMessage("single", message.getToUserId(),
-                            user.getUserId(), "text", JSON.toJSONString(body), messageList.size() - 1);
+                    String targetType = message.getTargetType();
+                    if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+                        sendMessage(targetType, message.getToUserId(),
+                                user.getUserId(), "text", JSON.toJSONString(body), messageList.size() - 1);
+                    } else {
+                        // 群聊
+                        sendMessage(targetType, message.getGroupId(), user.getUserId(),
+                                message.getMessageType(), JSON.toJSONString(body), messageList.size() - 1);
+                    }
                 }
             });
         }

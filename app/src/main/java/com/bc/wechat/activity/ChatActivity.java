@@ -345,6 +345,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private void sendTextMsg(String content) {
         Message message = new Message();
         message.setMessageId(CommonUtil.generateId());
+        message.setTargetType(targetType);
         message.setContent(content);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(user.getUserId());
@@ -353,6 +354,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setToUserAvatar(fromUserAvatar);
         message.setTimestamp(new Date().getTime());
         message.setStatus(MessageStatus.SENDING.value());
+
+        // 群组
+        message.setGroupId(groupId);
+
         messageList.add(message);
         messageIndex = messageList.size() - 1;
         message.setMessageType(Constant.MSG_TYPE_TEXT);
@@ -361,9 +366,15 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         Map<String, Object> body = new HashMap<>();
         body.put("extras", new HashMap<>());
         body.put("text", content);
-        sendMessage("single", fromUserId, user.getUserId(),
-                message.getMessageType(), JSON.toJSONString(body), messageIndex);
-
+        if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+            // 单聊
+            sendMessage(targetType, fromUserId, user.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+        } else {
+            // 群聊
+            sendMessage(targetType, groupId, user.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+        }
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
         mEditTextContent.setText("");
@@ -408,7 +419,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             message.setImageUrl(imageUrl);
         }
 
-        Message.save(message);
+        // 发送者也会收到监听消息，屏蔽
+        if (!fromUserInfo.getUserName().equals(user.getUserId())) {
+            Message.save(message);
+        }
 
         if (msg.getTargetType().equals(ConversationType.single)) {
             // 单聊
@@ -437,7 +451,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             // 群聊
             // 如果是当前会话
             GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
-            if (String.valueOf(groupInfo.getGroupID()).equals(groupId)) {
+            if (String.valueOf(groupInfo.getGroupID()).equals(groupId) && !fromUserInfo.getUserName().equals(user.getUserId())) {
                 messageList.add(message);
                 mMessageLv.post(new Runnable() {
                     @Override
@@ -449,7 +463,6 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 });
                 // 清除未读数
                 conversation.resetUnreadCount();
-            } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
             } else {
                 // 未读数++
                 PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);

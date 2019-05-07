@@ -150,7 +150,13 @@ public class ConversationAdapter extends BaseAdapter {
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
 
             mGroupNameTv.setText(jGroupInfo.getGroupName());
-            String messageType = conversation.getLatestMessage().getContentType().name();
+
+            String messageType;
+            try {
+                messageType = conversation.getLatestMessage().getContentType().name();
+            } catch (Exception e) {
+                messageType = Constant.MSG_TYPE_TEXT;
+            }
             String lastMsg = conversation.getLatestText();
             if (TextUtils.isEmpty(lastMsg)) {
                 mLastMsgTv.setText("你邀请" + jGroupInfo.getGroupName() + "加入了群聊");
