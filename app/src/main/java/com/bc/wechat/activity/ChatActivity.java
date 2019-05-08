@@ -268,6 +268,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 } else {
                     // 群聊设置
                     Intent intent = new Intent(ChatActivity.this, ChatGroupSettingActivity.class);
+                    intent.putExtra("groupId", groupId);
                     startActivity(intent);
                 }
                 break;

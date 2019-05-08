@@ -75,7 +75,7 @@
                 android:columnWidth="56dp"
                 android:gravity="start"
                 android:listSelector="@android:color/transparent"
-                android:numColumns="4" />
+                android:numColumns="5" />
 
             <RelativeLayout
                 android:id="@+id/rl_change_group_name"
