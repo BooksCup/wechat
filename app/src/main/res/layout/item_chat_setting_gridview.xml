@@ -19,10 +19,10 @@
             fresco:placeholderImage="@mipmap/default_useravatar" />
 
         <TextView
-            android:id="@+id/tv_username"
+            android:id="@+id/tv_nick_name"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_avatar"
+            android:layout_below="@+id/sdv_avatar"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"

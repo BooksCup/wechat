@@ -42,14 +42,14 @@ public class GroupSettingGridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_setting_gridview, null);
         SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
-        TextView mNickNameTv = convertView.findViewById(R.id.tv_username);
+        TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
         if (position == getCount() - 2) {
             // 加人
-            mAvatarSdv.setImageResource(R.mipmap.jy_drltsz_btn_addperson);
+            mAvatarSdv.setImageResource(R.mipmap.ic_add_person_to_group);
             mNickNameTv.setVisibility(View.INVISIBLE);
         } else if (position == getCount() - 1) {
             // 减人
-            mAvatarSdv.setImageResource(R.mipmap.icon_btn_deleteperson);
+            mAvatarSdv.setImageResource(R.mipmap.ic_del_person_from_group);
             mNickNameTv.setVisibility(View.INVISIBLE);
         }
         return convertView;
