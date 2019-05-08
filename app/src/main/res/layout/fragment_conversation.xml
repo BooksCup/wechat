@@ -18,5 +18,6 @@
         android:cacheColorHint="#00000000"
         android:descendantFocusability="blocksDescendants"
         android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="0dp"
+        android:scrollbars="none" />
 </LinearLayout>
