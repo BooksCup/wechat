@@ -1,6 +1,7 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class GroupSettingGridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.item_chat_setting_gridview, null);
+
         SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
         TextView mNickNameTv = convertView.findViewById(R.id.tv_nick_name);
         if (position == getCount() - 2) {
@@ -51,6 +53,10 @@ public class GroupSettingGridAdapter extends BaseAdapter {
             // 减人
             mAvatarSdv.setImageResource(R.mipmap.ic_del_person_from_group);
             mNickNameTv.setVisibility(View.INVISIBLE);
+        } else {
+            User user = getItem(position);
+            mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+            mNickNameTv.setText(user.getUserNickName());
         }
         return convertView;
     }

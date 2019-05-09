@@ -8,6 +8,7 @@ import android.view.View;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.GroupSettingGridAdapter;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.JimBeanUtil;
 import com.bc.wechat.widget.ExpandGridView;
 
 
@@ -23,7 +24,7 @@ import cn.jpush.im.android.api.model.GroupMemberInfo;
 public class ChatGroupSettingActivity extends FragmentActivity {
     private String groupId;
 
-    private ExpandGridView mAvatarsGv;
+    private ExpandGridView mAvatarsEgv;
     private GroupSettingGridAdapter mGroupSettingGridAdapter;
 
     @Override
@@ -34,26 +35,20 @@ public class ChatGroupSettingActivity extends FragmentActivity {
     }
 
     private void initView() {
-        mAvatarsGv = findViewById(R.id.egd_avatars);
+        mAvatarsEgv = findViewById(R.id.egv_avatars);
 
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
         GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
         List<GroupMemberInfo> groupMemberInfoList = groupInfo.getGroupMemberInfos();
+        List<User> userList = new ArrayList<>();
         for (GroupMemberInfo groupMemberInfo : groupMemberInfoList) {
+            User user = JimBeanUtil.transferGroupMemberInfoToUser(groupMemberInfo);
+            userList.add(user);
         }
 
-        List<User> userList = new ArrayList<>();
-        userList.add(new User());
-        userList.add(new User());
-        userList.add(new User());
-        userList.add(new User());
-        userList.add(new User());
-        userList.add(new User());
-        userList.add(new User());
-
         mGroupSettingGridAdapter = new GroupSettingGridAdapter(this, userList);
-        mAvatarsGv.setAdapter(mGroupSettingGridAdapter);
+        mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
     }
 
     public void back(View view) {
