@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.GroupSettingGridAdapter;
@@ -24,6 +25,7 @@ import cn.jpush.im.android.api.model.GroupMemberInfo;
 public class ChatGroupSettingActivity extends FragmentActivity {
     private String groupId;
 
+    private TextView mMemberNumTv;
     private ExpandGridView mAvatarsEgv;
     private GroupSettingGridAdapter mGroupSettingGridAdapter;
 
@@ -35,6 +37,8 @@ public class ChatGroupSettingActivity extends FragmentActivity {
     }
 
     private void initView() {
+
+        mMemberNumTv = findViewById(R.id.tv_member_num);
         mAvatarsEgv = findViewById(R.id.egv_avatars);
 
         groupId = getIntent().getStringExtra("groupId");
@@ -46,6 +50,8 @@ public class ChatGroupSettingActivity extends FragmentActivity {
             User user = JimBeanUtil.transferGroupMemberInfoToUser(groupMemberInfo);
             userList.add(user);
         }
+
+        mMemberNumTv.setText("(" + userList.size() + ")");
 
         mGroupSettingGridAdapter = new GroupSettingGridAdapter(this, userList);
         mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
