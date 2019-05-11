@@ -28,6 +28,7 @@ public class ChatGroupSettingActivity extends FragmentActivity {
     private TextView mMemberNumTv;
     private ExpandGridView mAvatarsEgv;
     private GroupSettingGridAdapter mGroupSettingGridAdapter;
+    private TextView mGroupNameTv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class ChatGroupSettingActivity extends FragmentActivity {
 
         mMemberNumTv = findViewById(R.id.tv_member_num);
         mAvatarsEgv = findViewById(R.id.egv_avatars);
+        mGroupNameTv = findViewById(R.id.tv_group_name);
 
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
@@ -52,7 +54,7 @@ public class ChatGroupSettingActivity extends FragmentActivity {
         }
 
         mMemberNumTv.setText("(" + userList.size() + ")");
-
+        mGroupNameTv.setText(groupInfo.getGroupName());
         mGroupSettingGridAdapter = new GroupSettingGridAdapter(this, userList);
         mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
     }

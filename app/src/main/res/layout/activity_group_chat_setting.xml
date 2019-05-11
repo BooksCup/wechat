@@ -95,7 +95,7 @@
                     android:typeface="serif" />
 
                 <TextView
-                    android:id="@+id/tv_groupname"
+                    android:id="@+id/tv_group_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -105,7 +105,7 @@
                     android:maxWidth="200dp"
                     android:singleLine="true"
                     android:textColor="#AAAAAA"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <View
