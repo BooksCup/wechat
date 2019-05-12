@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -20,15 +21,18 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.GroupMemberInfo;
+import cn.jpush.im.api.BasicCallback;
 
 
-public class ChatGroupSettingActivity extends FragmentActivity {
+public class ChatGroupSettingActivity extends FragmentActivity implements View.OnClickListener {
     private String groupId;
 
     private TextView mMemberNumTv;
     private ExpandGridView mAvatarsEgv;
     private GroupSettingGridAdapter mGroupSettingGridAdapter;
     private TextView mGroupNameTv;
+
+    private RelativeLayout mExitGroupRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class ChatGroupSettingActivity extends FragmentActivity {
         mMemberNumTv = findViewById(R.id.tv_member_num);
         mAvatarsEgv = findViewById(R.id.egv_avatars);
         mGroupNameTv = findViewById(R.id.tv_group_name);
+        mExitGroupRl = findViewById(R.id.rl_exit_group);
 
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
@@ -57,9 +62,31 @@ public class ChatGroupSettingActivity extends FragmentActivity {
         mGroupNameTv.setText(groupInfo.getGroupName());
         mGroupSettingGridAdapter = new GroupSettingGridAdapter(this, userList);
         mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
+
+        mExitGroupRl.setOnClickListener(this);
+
     }
 
     public void back(View view) {
         finish();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_exit_group:
+                JMessageClient.deleteGroupConversation(Long.valueOf(groupId));
+                JMessageClient.exitGroup(Long.valueOf(groupId), new BasicCallback() {
+                    @Override
+                    public void gotResult(int responseCode, String responseDesc) {
+                        if (responseCode == 0) {
+                            // 退群成功
+                        } else {
+                            // 退群失败
+                        }
+                    }
+                });
+                break;
+        }
     }
 }
