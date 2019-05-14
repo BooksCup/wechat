@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -230,7 +231,9 @@ public class CreateChatRoomActivity extends FragmentActivity {
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(CreateChatRoomActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CreateChatRoomActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override
