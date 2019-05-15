@@ -64,7 +64,7 @@
                 android:layout_height="@dimen/height_top_bar"
                 android:padding="9dp"
                 android:scaleType="centerInside"
-                android:src="@mipmap/icon_single_setting" />
+                android:src="@mipmap/ic_setting" />
 
             <ImageView
                 android:id="@+id/iv_setting_group"
