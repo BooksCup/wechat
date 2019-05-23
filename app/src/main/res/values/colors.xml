@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="common_top_bar_grey">#ebebeb</color>
     <color name="common_top_bar_blue">#22292c</color>
     <color name="btn_login_normal">#007086</color>
     <color name="btn_login_pressed">#303744</color>

@@ -26,22 +26,13 @@
             android:scaleType="centerInside"
             android:src="@drawable/top_bar_back" />
 
-        <View
-            android:id="@+id/view_temp"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/iv_back"
-            android:background="#14191A" />
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/view_temp"
+            android:layout_toRightOf="@id/iv_back"
             android:text="@string/chat_setting_title"
             android:textColor="#ffffff"
             android:textSize="18sp" />
