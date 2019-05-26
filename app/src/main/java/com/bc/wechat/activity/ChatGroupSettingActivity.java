@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +23,7 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.GroupMemberInfo;
+import cn.jpush.im.api.BasicCallback;
 
 
 public class ChatGroupSettingActivity extends FragmentActivity implements View.OnClickListener {
@@ -47,6 +49,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mAvatarsEgv = findViewById(R.id.egv_avatars);
         mGroupNameTv = findViewById(R.id.tv_group_name);
         mExitGroupRl = findViewById(R.id.rl_exit_group);
+
 
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
@@ -81,6 +84,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                     @Override
                     public void onOKClick() {
                         confirmDialog.dismiss();
+                        exitGroup(groupId);
                     }
 
                     @Override
@@ -88,26 +92,28 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                         confirmDialog.dismiss();
                     }
                 });
-
-                confirmDialog.setCancelable(true);//点击空白处不消失
+                // 点击空白处消失
+                confirmDialog.setCancelable(true);
                 confirmDialog.show();
-
-//                JMessageClient.exitGroup(Long.valueOf(groupId), new BasicCallback() {
-//                    @Override
-//                    public void gotResult(int responseCode, String responseDesc) {
-//                        if (responseCode == 0) {
-//                            // 退群成功
-//                        } else {
-//                            // 退群失败
-//                        }
-//                    }
-//                });
-//                JMessageClient.deleteGroupConversation(Long.valueOf(groupId));
-//
-//                Intent intent = new Intent(this, MainActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
                 break;
         }
+    }
+
+    private void exitGroup(String groupId) {
+        JMessageClient.exitGroup(Long.valueOf(groupId), new BasicCallback() {
+            @Override
+            public void gotResult(int responseCode, String responseDesc) {
+                if (responseCode == 0) {
+                    // 退群成功
+                } else {
+                    // 退群失败
+                }
+            }
+        });
+        JMessageClient.deleteGroupConversation(Long.valueOf(groupId));
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

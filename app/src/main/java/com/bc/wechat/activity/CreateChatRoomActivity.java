@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -26,6 +28,7 @@ import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -54,12 +57,14 @@ public class CreateChatRoomActivity extends FragmentActivity {
     private int totalCount = 0;
 
     private VolleyUtil volleyUtil;
+    LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         volleyUtil = VolleyUtil.getInstance(this);
+        loadingDialog = new LoadingDialog(CreateChatRoomActivity.this);
         firstUserId = getIntent().getStringExtra("userId");
         firstUserNickName = getIntent().getStringExtra("userNickName");
         firstUserAvatar = getIntent().getStringExtra("userAvatar");
@@ -98,7 +103,8 @@ public class CreateChatRoomActivity extends FragmentActivity {
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createGroup();
+//                createGroup();
+                loadingDialog.show();
             }
         });
     }
@@ -194,6 +200,10 @@ public class CreateChatRoomActivity extends FragmentActivity {
     }
 
     private void createGroup() {
+
+        loadingDialog = new LoadingDialog(CreateChatRoomActivity.this);
+        loadingDialog.show();
+
         String url = Constant.BASE_URL + "groups";
         Map<String, String> paramMap = new HashMap<>();
         User user = PreferencesUtil.getInstance().getUser();
@@ -231,6 +241,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+//                loadingDialog.dismiss();
                 Intent intent = new Intent(CreateChatRoomActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -238,6 +249,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+//                loadingDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(CreateChatRoomActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
