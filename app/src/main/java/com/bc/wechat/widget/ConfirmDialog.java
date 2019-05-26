@@ -3,25 +3,37 @@ package com.bc.wechat.widget;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 
 public class ConfirmDialog extends Dialog {
     private Context mContext;
-    private TextView mTitleTv, mContentTv;
-    private View okBtn, cancelBtn;
+    private TextView mTitleTv;
+    private Button mOkBtn;
+    private Button mCancelBtn;
     private OnDialogClickListener dialogClickListener;
 
-    public ConfirmDialog(Context context) {
+
+    private String title;
+    private String confirm;
+    private String cancel;
+
+    public ConfirmDialog(Context context, String title,
+                         String confirm, String cancel) {
         super(context);
         this.mContext = context;
+        this.title = title;
+        this.confirm = confirm;
+        this.cancel = cancel;
         initalize();
     }
 
@@ -32,11 +44,23 @@ public class ConfirmDialog extends Dialog {
         setContentView(view);
         initWindow();
 
-        mTitleTv = (TextView) findViewById(R.id.title_name);
-        mContentTv = (TextView) findViewById(R.id.text_view);
-        okBtn = findViewById(R.id.btn_ok);
-        cancelBtn = findViewById(R.id.btn_cancel);
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        mTitleTv = findViewById(R.id.tv_title);
+        mOkBtn = findViewById(R.id.btn_ok);
+        mCancelBtn = findViewById(R.id.btn_cancel);
+
+        if (!TextUtils.isEmpty(title)) {
+            mTitleTv.setText(title);
+        }
+
+        if (!TextUtils.isEmpty(confirm)) {
+            mOkBtn.setText(confirm);
+        }
+
+        if (!TextUtils.isEmpty(cancel)) {
+            mCancelBtn.setText(cancel);
+        }
+
+        mOkBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -46,7 +70,7 @@ public class ConfirmDialog extends Dialog {
                 }
             }
         });
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

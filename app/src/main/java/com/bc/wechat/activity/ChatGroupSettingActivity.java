@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -23,7 +22,6 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.GroupMemberInfo;
-import cn.jpush.im.api.BasicCallback;
 
 
 public class ChatGroupSettingActivity extends FragmentActivity implements View.OnClickListener {
@@ -77,7 +75,8 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_exit_group:
-                final ConfirmDialog confirmDialog = new ConfirmDialog(this);
+                final ConfirmDialog confirmDialog = new ConfirmDialog(this,
+                        "", "", "");
                 confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
                     public void onOKClick() {

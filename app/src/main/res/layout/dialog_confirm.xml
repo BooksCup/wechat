@@ -9,38 +9,19 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingTop="15dp"
-            android:paddingBottom="10dp"
-            android:text="退出操作"
-            android:textColor="#0a0909"
-            android:textSize="20sp"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/transparent"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_view"
+            android:id="@+id/tv_title"
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
-            android:text="是否退出当前账号?"
             android:gravity="center"
+            android:text="是否退出当前账号?"
             android:textColor="@android:color/black"
             android:textSize="16dip" />
 
@@ -70,7 +51,6 @@
                 android:textStyle="bold" />
 
             <!-- 确认按钮 -->
-
             <View
                 android:layout_width="1px"
                 android:layout_height="match_parent"
