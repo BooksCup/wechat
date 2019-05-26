@@ -76,7 +76,6 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_exit_group:
-                JMessageClient.deleteGroupConversation(Long.valueOf(groupId));
                 JMessageClient.exitGroup(Long.valueOf(groupId), new BasicCallback() {
                     @Override
                     public void gotResult(int responseCode, String responseDesc) {
@@ -87,6 +86,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                         }
                     }
                 });
+                JMessageClient.deleteGroupConversation(Long.valueOf(groupId));
 
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
