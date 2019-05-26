@@ -76,7 +76,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         switch (view.getId()) {
             case R.id.rl_exit_group:
                 final ConfirmDialog confirmDialog = new ConfirmDialog(this,
-                        "", "", "");
+                        "是否删除群聊并退出?", "删除", "");
                 confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
                     public void onOKClick() {
@@ -89,7 +89,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                     }
                 });
 
-                confirmDialog.setCancelable(false);//点击空白处不消失
+                confirmDialog.setCancelable(true);//点击空白处不消失
                 confirmDialog.show();
 
 //                JMessageClient.exitGroup(Long.valueOf(groupId), new BasicCallback() {
