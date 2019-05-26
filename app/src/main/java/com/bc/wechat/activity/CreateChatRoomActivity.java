@@ -104,6 +104,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
 //                createGroup();
+                loadingDialog.setMessage("cherry...");
                 loadingDialog.show();
             }
         });

@@ -9,20 +9,27 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 
 public class LoadingDialog extends Dialog {
-    private TextView tv;
+    private TextView mLoadingTv;
+    private String loadingText;
+
     /**
      * style很关键
      */
     public LoadingDialog(Context context) {
-        super(context, R.style.loadingDialogStyle);
+        super(context, R.style.loading_dialog_style);
     }
+
+    public void setMessage(String loadingText){
+        this.loadingText = loadingText;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_loading);
-        tv = (TextView) findViewById(R.id.tv);
-        tv.setText("正在发起群聊.....");
-        LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.LinearLayout);
+        mLoadingTv = findViewById(R.id.tv_loading);
+        mLoadingTv.setText(loadingText);
+        LinearLayout linearLayout = findViewById(R.id.ll_loading);
         linearLayout.getBackground().setAlpha(210);
     }
 }
