@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -103,9 +101,9 @@ public class CreateChatRoomActivity extends FragmentActivity {
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                createGroup();
-                loadingDialog.setMessage("cherry...");
+                loadingDialog.setMessage("正在创建群聊...");
                 loadingDialog.show();
+                createGroup();
             }
         });
     }
@@ -201,10 +199,6 @@ public class CreateChatRoomActivity extends FragmentActivity {
     }
 
     private void createGroup() {
-
-        loadingDialog = new LoadingDialog(CreateChatRoomActivity.this);
-        loadingDialog.show();
-
         String url = Constant.BASE_URL + "groups";
         Map<String, String> paramMap = new HashMap<>();
         User user = PreferencesUtil.getInstance().getUser();
@@ -242,7 +236,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-//                loadingDialog.dismiss();
+                loadingDialog.dismiss();
                 Intent intent = new Intent(CreateChatRoomActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -250,7 +244,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-//                loadingDialog.dismiss();
+                loadingDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(CreateChatRoomActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
