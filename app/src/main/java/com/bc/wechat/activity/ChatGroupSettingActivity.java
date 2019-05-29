@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +38,13 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
 
     private RelativeLayout mExitGroupRl;
 
+    private boolean isTop = false;
+    private LinearLayout mSwitchChatToTopLl;
+    // 置顶
+    private ImageView mSwitchChatToTopIv;
+    // 非置顶
+    private ImageView mUnSwitchChatToTopIv;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +59,9 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mGroupNameTv = findViewById(R.id.tv_group_name);
         mExitGroupRl = findViewById(R.id.rl_exit_group);
 
+        mSwitchChatToTopLl = findViewById(R.id.ll_switch_chat_to_top);
+        mSwitchChatToTopIv = findViewById(R.id.iv_switch_chat_to_top);
+        mUnSwitchChatToTopIv = findViewById(R.id.iv_switch_unchat_to_top);
 
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
@@ -66,6 +78,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mGroupSettingGridAdapter = new GroupSettingGridAdapter(this, userList);
         mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
 
+        mSwitchChatToTopLl.setOnClickListener(this);
         mExitGroupRl.setOnClickListener(this);
 
     }
@@ -95,6 +108,17 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                 // 点击空白处消失
                 confirmDialog.setCancelable(true);
                 confirmDialog.show();
+                break;
+            case R.id.ll_switch_chat_to_top:
+                if (isTop) {
+                    mSwitchChatToTopIv.setVisibility(View.GONE);
+                    mUnSwitchChatToTopIv.setVisibility(View.VISIBLE);
+                    isTop = false;
+                } else {
+                    mSwitchChatToTopIv.setVisibility(View.VISIBLE);
+                    mUnSwitchChatToTopIv.setVisibility(View.GONE);
+                    isTop = true;
+                }
                 break;
         }
     }
