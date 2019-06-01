@@ -59,15 +59,16 @@
             android:textColor="#fff"
             android:textSize="14sp" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="群聊名称"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
-        />
+        android:text="群聊名称" />
+
     <EditText
-        android:id="@+id/et_nick"
+        android:id="@+id/et_group_name"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginLeft="16dp"
@@ -86,6 +87,4 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:background="#45c01a" />
-
-
 </LinearLayout>
