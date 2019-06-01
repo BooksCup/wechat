@@ -241,7 +241,12 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             groupId = getIntent().getStringExtra("groupId");
             groupDesc = getIntent().getStringExtra("groupDesc");
             memberNum = getIntent().getStringExtra("memberNum");
-            mFromNickNameTv.setText(groupDesc + "(" + memberNum + ")");
+            if (TextUtils.isEmpty(groupDesc)) {
+                mFromNickNameTv.setText("群聊(" + memberNum + ")");
+            } else {
+                mFromNickNameTv.setText(groupDesc + "(" + memberNum + ")");
+            }
+
             messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? and message_type <> 'eventNotification' order by timestamp asc", groupId);
         }
         messageAdapter = new MessageAdapter(this, messageList);
