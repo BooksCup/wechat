@@ -39,6 +39,8 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
 
     private RelativeLayout mExitGroupRl;
 
+    private RelativeLayout mUpdateGroupNameRl;
+
     private boolean isTop = false;
     private LinearLayout mSwitchChatToTopLl;
     // 置顶
@@ -69,6 +71,8 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mGroupNameTv = findViewById(R.id.tv_group_name);
         mExitGroupRl = findViewById(R.id.rl_exit_group);
 
+        mUpdateGroupNameRl = findViewById(R.id.rl_change_group_name);
+
         mSwitchChatToTopLl = findViewById(R.id.ll_switch_chat_to_top);
         mSwitchChatToTopIv = findViewById(R.id.iv_switch_chat_to_top);
         mSwitchUnChatToTopIv = findViewById(R.id.iv_switch_unchat_to_top);
@@ -80,6 +84,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
         GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
+
         List<GroupMemberInfo> groupMemberInfoList = groupInfo.getGroupMemberInfos();
         List<User> userList = new ArrayList<>();
         for (GroupMemberInfo groupMemberInfo : groupMemberInfoList) {
@@ -103,6 +108,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mSwitchBlockGroupMsgLl.setOnClickListener(this);
         mExitGroupRl.setOnClickListener(this);
 
+        mUpdateGroupNameRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -112,6 +118,11 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_change_group_name:
+                Intent intent = new Intent(this, UpdateGroupNameActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.rl_exit_group:
                 final ConfirmDialog confirmDialog = new ConfirmDialog(this,
                         "是否删除群聊并退出?", "删除", "");
