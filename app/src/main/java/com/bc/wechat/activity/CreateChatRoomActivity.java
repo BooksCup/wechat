@@ -227,10 +227,11 @@ public class CreateChatRoomActivity extends FragmentActivity {
 
         String userIds = pickedUserIdBuffer.toString();
         final String groupName = pickedUserNickNameBuffer.toString();
-        final String groupDesc = "群聊";
+//        final String groupDesc = "群聊";
         paramMap.put("owner", user.getUserId());
         paramMap.put("groupName", groupName);
-        paramMap.put("desc", groupDesc);
+//        paramMap.put("desc", groupDesc);
+        paramMap.put("desc", "");
         paramMap.put("userIds", userIds);
 
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {

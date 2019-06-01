@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -101,6 +102,7 @@ public class ConversationAdapter extends BaseAdapter {
         } else {
             // 群聊
             GroupInfo jGroupInfo = (GroupInfo) conversation.getTargetInfo();
+            String groupDesc = "";
 
             List<GroupMemberInfo> groupMemberInfoList = jGroupInfo.getGroupMemberInfos();
             int memberCount = groupMemberInfoList.size();
@@ -112,6 +114,11 @@ public class ConversationAdapter extends BaseAdapter {
                 String avatar1 = groupMemberInfoList.get(0).getUserInfo().getAvatar();
                 String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
                 String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
+
+                String userNickName1 = groupMemberInfoList.get(0).getUserInfo().getNickname();
+                String userNickName2 = groupMemberInfoList.get(1).getUserInfo().getNickname();
+                String userNickName3 = groupMemberInfoList.get(2).getUserInfo().getNickname();
+
                 if (!TextUtils.isEmpty(avatar1)) {
                     mAvatar1Sdv.setImageURI(avatar1);
                 }
@@ -121,6 +128,9 @@ public class ConversationAdapter extends BaseAdapter {
                 if (!TextUtils.isEmpty(avatar3)) {
                     mAvatar3Sdv.setImageURI(avatar3);
                 }
+                groupDesc = generateGroupDesc(PreferencesUtil.getInstance().getUser().getUserNickName(),
+                        userNickName1, userNickName2, userNickName3);
+
             } else if (memberCount == 4) {
                 SimpleDraweeView mAvatar1Sdv = convertView.findViewById(R.id.sdv_avatar1);
                 SimpleDraweeView mAvatar2Sdv = convertView.findViewById(R.id.sdv_avatar2);
@@ -130,6 +140,12 @@ public class ConversationAdapter extends BaseAdapter {
                 String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
                 String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
                 String avatar4 = groupMemberInfoList.get(3).getUserInfo().getAvatar();
+
+                String userNickName1 = groupMemberInfoList.get(0).getUserInfo().getNickname();
+                String userNickName2 = groupMemberInfoList.get(1).getUserInfo().getNickname();
+                String userNickName3 = groupMemberInfoList.get(2).getUserInfo().getNickname();
+                String userNickName4 = groupMemberInfoList.get(3).getUserInfo().getNickname();
+
                 if (!TextUtils.isEmpty(avatar1)) {
                     mAvatar1Sdv.setImageURI(avatar1);
                 }
@@ -142,6 +158,9 @@ public class ConversationAdapter extends BaseAdapter {
                 if (!TextUtils.isEmpty(avatar4)) {
                     mAvatar4Sdv.setImageURI(avatar4);
                 }
+
+                groupDesc = generateGroupDesc(PreferencesUtil.getInstance().getUser().getUserNickName(),
+                        userNickName1, userNickName2, userNickName3, userNickName4);
             }
 
             TextView mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
@@ -149,8 +168,12 @@ public class ConversationAdapter extends BaseAdapter {
             TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
             TextView mLastMsgTv = convertView.findViewById(R.id.tv_last_msg);
 
-            mGroupNameTv.setText(jGroupInfo.getGroupName());
-
+            // 极光群组误删此处会有异常
+            try {
+                mGroupNameTv.setText(jGroupInfo.getGroupName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String messageType;
             try {
                 messageType = conversation.getLatestMessage().getContentType().name();
@@ -159,7 +182,7 @@ public class ConversationAdapter extends BaseAdapter {
             }
             String lastMsg = conversation.getLatestText();
             if (TextUtils.isEmpty(lastMsg)) {
-                mLastMsgTv.setText("你邀请" + jGroupInfo.getGroupName() + "加入了群聊");
+                mLastMsgTv.setText("你邀请" + groupDesc + "加入了群聊");
             } else {
                 UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
                 if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
@@ -218,5 +241,18 @@ public class ConversationAdapter extends BaseAdapter {
 
         }
         return convertView;
+    }
+
+    private String generateGroupDesc(String myNickName, String... userNickNames) {
+        StringBuffer groupDescBuffer = new StringBuffer();
+        for (String userNickName : userNickNames) {
+            if (!userNickName.equals(myNickName)) {
+                groupDescBuffer.append(userNickName).append("、");
+            }
+        }
+        if (groupDescBuffer.length() > 1) {
+            groupDescBuffer.deleteCharAt(groupDescBuffer.length() - 1);
+        }
+        return groupDescBuffer.toString();
     }
 }
