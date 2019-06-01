@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,7 +88,14 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         }
 
         mMemberNumTv.setText("(" + userList.size() + ")");
-        mGroupNameTv.setText(groupInfo.getGroupName());
+        // 通过groupDesc是否为空判断有没有设置过群名
+        // 本来应该直接通过groupName去做这个逻辑，但是极光新建群组时groupName不能为空
+        if (TextUtils.isEmpty(groupInfo.getGroupDescription())) {
+            mGroupNameTv.setText("未命名");
+        } else {
+            mGroupNameTv.setText(groupInfo.getGroupName());
+        }
+
         mGroupSettingGridAdapter = new GroupSettingGridAdapter(this, userList);
         mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
 
