@@ -43,7 +43,16 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     // 置顶
     private ImageView mSwitchChatToTopIv;
     // 非置顶
-    private ImageView mUnSwitchChatToTopIv;
+    private ImageView mSwitchUnChatToTopIv;
+
+
+    private boolean isBlock = false;
+    private LinearLayout mSwitchBlockGroupMsgLl;
+    // 屏蔽
+    private ImageView mSwitchBlockGroupMsgIv;
+    // 解除屏蔽
+    private ImageView mSwitchUnBlockGroupMsgIv;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +70,11 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
 
         mSwitchChatToTopLl = findViewById(R.id.ll_switch_chat_to_top);
         mSwitchChatToTopIv = findViewById(R.id.iv_switch_chat_to_top);
-        mUnSwitchChatToTopIv = findViewById(R.id.iv_switch_unchat_to_top);
+        mSwitchUnChatToTopIv = findViewById(R.id.iv_switch_unchat_to_top);
+
+        mSwitchBlockGroupMsgLl = findViewById(R.id.ll_switch_block_group_msg);
+        mSwitchBlockGroupMsgIv = findViewById(R.id.iv_switch_block_group_msg);
+        mSwitchUnBlockGroupMsgIv = findViewById(R.id.iv_switch_unblock_group_msg);
 
         groupId = getIntent().getStringExtra("groupId");
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
@@ -79,6 +92,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mAvatarsEgv.setAdapter(mGroupSettingGridAdapter);
 
         mSwitchChatToTopLl.setOnClickListener(this);
+        mSwitchBlockGroupMsgLl.setOnClickListener(this);
         mExitGroupRl.setOnClickListener(this);
 
     }
@@ -112,12 +126,24 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
             case R.id.ll_switch_chat_to_top:
                 if (isTop) {
                     mSwitchChatToTopIv.setVisibility(View.GONE);
-                    mUnSwitchChatToTopIv.setVisibility(View.VISIBLE);
+                    mSwitchUnChatToTopIv.setVisibility(View.VISIBLE);
                     isTop = false;
                 } else {
                     mSwitchChatToTopIv.setVisibility(View.VISIBLE);
-                    mUnSwitchChatToTopIv.setVisibility(View.GONE);
+                    mSwitchUnChatToTopIv.setVisibility(View.GONE);
                     isTop = true;
+                }
+                break;
+
+            case R.id.ll_switch_block_group_msg:
+                if (isBlock) {
+                    mSwitchBlockGroupMsgIv.setVisibility(View.GONE);
+                    mSwitchUnBlockGroupMsgIv.setVisibility(View.VISIBLE);
+                    isBlock = false;
+                } else {
+                    mSwitchBlockGroupMsgIv.setVisibility(View.VISIBLE);
+                    mSwitchUnBlockGroupMsgIv.setVisibility(View.GONE);
+                    isBlock = true;
                 }
                 break;
         }
