@@ -120,6 +120,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         switch (view.getId()) {
             case R.id.rl_change_group_name:
                 Intent intent = new Intent(this, UpdateGroupNameActivity.class);
+                intent.putExtra("groupId", groupId);
                 startActivity(intent);
                 break;
 
