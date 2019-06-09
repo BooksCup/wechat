@@ -524,18 +524,20 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         });
     }
 
-    private void downloadFile(String mediaId) {
-        String url = Constant.BASE_URL + "resources?mediaId=" + mediaId;
-        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                imageUrl = Constant.FILE_BASE_URL + response;
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                imageUrl = "";
-            }
-        });
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+            messageList = Message.findWithQuery(Message.class,
+                    "select * from message where (from_user_id = ? or to_user_id = ?) and target_type = ? order by timestamp asc", fromUserId, fromUserId, Constant.TARGET_TYPE_SINGLE);
+        } else if (Constant.TARGET_TYPE_GROUP.equals(targetType)) {
+            // and message_type <> 'eventNotification'
+            messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
+        }
+        messageAdapter = new MessageAdapter(this, messageList);
+        mMessageLv.setAdapter(messageAdapter);
+
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
     }
 }

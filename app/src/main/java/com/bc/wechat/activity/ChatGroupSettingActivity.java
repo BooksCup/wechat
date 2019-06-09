@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.GroupSettingGridAdapter;
+import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.JimBeanUtil;
 import com.bc.wechat.widget.ConfirmDialog;
@@ -56,11 +57,16 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     // 解除屏蔽
     private ImageView mSwitchUnBlockGroupMsgIv;
 
+    // 清空聊天记录
+    private RelativeLayout mClearRl;
+
+    private MessageDao messageDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat_setting);
+        messageDao = new MessageDao();
         initView();
     }
 
@@ -72,6 +78,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mExitGroupRl = findViewById(R.id.rl_exit_group);
 
         mUpdateGroupNameRl = findViewById(R.id.rl_change_group_name);
+        mClearRl = findViewById(R.id.rl_clear);
 
         mSwitchChatToTopLl = findViewById(R.id.ll_switch_chat_to_top);
         mSwitchChatToTopIv = findViewById(R.id.iv_switch_chat_to_top);
@@ -109,6 +116,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         mExitGroupRl.setOnClickListener(this);
 
         mUpdateGroupNameRl.setOnClickListener(this);
+        mClearRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -123,25 +131,45 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                 intent.putExtra("groupId", groupId);
                 startActivity(intent);
                 break;
-
-            case R.id.rl_exit_group:
-                final ConfirmDialog confirmDialog = new ConfirmDialog(this,
-                        "是否删除群聊并退出?", "删除", "");
-                confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+            case R.id.rl_clear:
+                final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this,
+                        "确定删除群的聊天记录吗?", "清空", "");
+                clearConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
                     public void onOKClick() {
-                        confirmDialog.dismiss();
+                        // 清除本地message
+                        messageDao.deleteMessageByGroupId(groupId);
+                        clearConfirmDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        clearConfirmDialog.dismiss();
+                    }
+                });
+                // 点击空白处消失
+                clearConfirmDialog.setCancelable(true);
+                clearConfirmDialog.show();
+                break;
+
+            case R.id.rl_exit_group:
+                final ConfirmDialog exitConfirmDialog = new ConfirmDialog(this,
+                        "是否删除群聊并退出?", "删除", "");
+                exitConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOKClick() {
+                        exitConfirmDialog.dismiss();
                         exitGroup(groupId);
                     }
 
                     @Override
                     public void onCancelClick() {
-                        confirmDialog.dismiss();
+                        exitConfirmDialog.dismiss();
                     }
                 });
                 // 点击空白处消失
-                confirmDialog.setCancelable(true);
-                confirmDialog.show();
+                exitConfirmDialog.setCancelable(true);
+                exitConfirmDialog.show();
                 break;
             case R.id.ll_switch_chat_to_top:
                 if (isTop) {
