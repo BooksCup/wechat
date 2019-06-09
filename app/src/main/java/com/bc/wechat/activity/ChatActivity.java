@@ -247,7 +247,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 mFromNickNameTv.setText(groupDesc + "(" + memberNum + ")");
             }
 
-            messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? and message_type <> 'eventNotification' order by timestamp asc", groupId);
+            // and message_type <> 'eventNotification'
+            messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
         }
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);

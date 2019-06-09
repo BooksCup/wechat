@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +19,6 @@ import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
-import com.bc.wechat.activity.BigImageActivity;
 import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
@@ -123,6 +123,10 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
                 viewHolder.mImageContentSdv = convertView.findViewById(R.id.sdv_image_content);
 
+            } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
+                viewHolder.mSystemMessageTv = convertView.findViewById(R.id.tv_system_message);
+                viewHolder.mMessageRl = convertView.findViewById(R.id.rl_message);
             } else {
                 // 默认文字信息
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
@@ -139,6 +143,8 @@ public class MessageAdapter extends BaseAdapter {
             handleTextMessage(message, viewHolder, position);
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
             handleImageMessage(message, viewHolder, position);
+        } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
+            handleEventNotificationMessage(message, viewHolder, position);
         } else {
             handleTextMessage(message, viewHolder, position);
         }
@@ -167,6 +173,11 @@ public class MessageAdapter extends BaseAdapter {
         SimpleDraweeView mAvatarSdv;
         ProgressBar mSendingPb;
         ImageView mStatusIv;
+
+        RelativeLayout mMessageRl;
+
+        // sys
+        TextView mSystemMessageTv;
 
         // image
         SimpleDraweeView mImageContentSdv;
@@ -326,7 +337,20 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mTimeStampTv.setVisibility(View.GONE);
             }
         }
+    }
 
+    private void handleEventNotificationMessage(final Message message, ViewHolder viewHolder, final int position) {
+        viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
+        viewHolder.mSystemMessageTv.setVisibility(View.VISIBLE);
+        viewHolder.mSystemMessageTv.setText(message.getContent());
+        viewHolder.mMessageRl.setVisibility(View.GONE);
 
+        if (position != 0) {
+            Message lastMessage = messageList.get(position - 1);
+
+            if (message.getTimestamp() - lastMessage.getTimestamp() < 10 * 60 * 1000) {
+                viewHolder.mTimeStampTv.setVisibility(View.GONE);
+            }
+        }
     }
 }

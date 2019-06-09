@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.EventNotificationContent;
 import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ConversationType;
@@ -242,6 +243,19 @@ public class MainActivity extends FragmentActivity {
             ImageContent imageContent = ((ImageContent) msg.getContent());
             String imageUrl = imageContent.getLocalThumbnailPath();
             message.setImageUrl(imageUrl);
+        } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
+            EventNotificationContent eventNotificationContent = (EventNotificationContent) msg.getContent();
+
+            // 群加人
+            if (EventNotificationContent.EventNotificationType.group_member_added == eventNotificationContent.getEventNotificationType()) {
+                List<String> userNickNameList = eventNotificationContent.getUserDisplayNames();
+                StringBuffer stringBuffer = new StringBuffer();
+                for (String userNickName : userNickNameList) {
+                    stringBuffer.append(userNickName).append("、");
+                }
+                stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+                message.setContent("你邀请" + stringBuffer.toString() + "加入了群聊");
+            }
         }
         UserInfo fromUserInfo = msg.getFromUser();
         message.setFromUserId(fromUserInfo.getUserName());
@@ -262,8 +276,11 @@ public class MainActivity extends FragmentActivity {
 
         Message.save(message);
         conversationFragment.refreshConversationList();
-        // 如果发送者是自己，不更新
+
         if (fromUserInfo.getUserName().equals(user.getUserId())) {
+            // 如果发送者是自己，不更新
+        } else if (fromUserInfo.getUserID() == 0) {
+            // 系统管理员，通知类消息，不更新
         } else {
             // 未读数++
             PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
