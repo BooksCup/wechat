@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
@@ -30,11 +31,13 @@ public class ConversationAdapter extends BaseAdapter {
     private List<Conversation> conversationList;
     private Context mContext;
     private LayoutInflater inflater;
+    private MessageDao messageDao;
 
     public ConversationAdapter(Context context, List<Conversation> conversationList) {
         this.mContext = context;
         this.conversationList = conversationList;
         inflater = LayoutInflater.from(context);
+        messageDao = new MessageDao();
     }
 
     public void setData(List<Conversation> conversationList) {
@@ -180,20 +183,24 @@ public class ConversationAdapter extends BaseAdapter {
             } catch (Exception e) {
                 messageType = Constant.MSG_TYPE_TEXT;
             }
-            String lastMsg = conversation.getLatestText();
-            if (TextUtils.isEmpty(lastMsg)) {
-                mLastMsgTv.setText("你邀请" + groupDesc + "加入了群聊");
+            long messageCount = messageDao.getMessageCountByGroupId(String.valueOf(jGroupInfo.getGroupID()));
+            if (messageCount == 0) {
+                mLastMsgTv.setText("");
             } else {
-                UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
-                if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
-                    mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
-                } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
-                    mLastMsgTv.setText(lastestFromUser.getNickname() + ": [图片]");
+                String lastMsg = conversation.getLatestText();
+                if (TextUtils.isEmpty(lastMsg)) {
+                    mLastMsgTv.setText("你邀请" + groupDesc + "加入了群聊");
                 } else {
-                    mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                    UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
+                    if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
+                        mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                    } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
+                        mLastMsgTv.setText(lastestFromUser.getNickname() + ": [图片]");
+                    } else {
+                        mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                    }
                 }
             }
-
             int unReadMsgCnt = conversation.getUnReadMsgCnt();
             if (unReadMsgCnt <= 0) {
                 mUnreadTv.setVisibility(View.GONE);
@@ -202,6 +209,7 @@ public class ConversationAdapter extends BaseAdapter {
             } else {
                 mUnreadTv.setText(String.valueOf(conversation.getUnReadMsgCnt()));
             }
+
             mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLastMsgDate()));
         }
 

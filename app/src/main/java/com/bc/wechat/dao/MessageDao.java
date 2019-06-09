@@ -17,4 +17,9 @@ public class MessageDao {
         String sql = "delete from message where group_id = ?";
         Message.executeQuery(sql, groupId);
     }
+
+    public long getMessageCountByGroupId(String groupId) {
+        long count = Message.count(Message.class, "group_id = ?", new String[]{groupId});
+        return count;
+    }
 }
