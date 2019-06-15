@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/re_parent"
+        android:id="@+id/rl_parent"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
         <RelativeLayout
-            android:id="@+id/re_avatar"
+            android:id="@+id/rl_avatar"
             android:layout_width="72dp"
             android:layout_height="64dp"
             android:layout_alignParentLeft="true"
@@ -32,63 +33,63 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp" />
 
-                <ImageView
-                    android:id="@+id/iv_avatar1"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_avatar1"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="8dp"
                     android:layout_toLeftOf="@id/view_temp"
-                    android:src="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_useravatar" />
 
-                <ImageView
-                    android:id="@+id/iv_avatar2"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_avatar2"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_marginTop="8dp"
                     android:layout_toRightOf="@id/view_temp"
-                    android:src="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_useravatar" />
 
-                <ImageView
-                    android:id="@+id/iv_avatar3"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_avatar3"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_below="@id/iv_avatar1"
+                    android:layout_below="@id/sdv_avatar1"
                     android:layout_alignParentLeft="true"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_useravatar" />
 
-                <ImageView
-                    android:id="@+id/iv_avatar4"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_avatar4"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_below="@id/iv_avatar2"
+                    android:layout_below="@id/sdv_avatar2"
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_toRightOf="@id/iv_avatar3"
-                    android:src="@mipmap/default_useravatar" />
+                    android:layout_toRightOf="@id/sdv_avatar3"
+                    fresco:placeholderImage="@mipmap/default_useravatar" />
 
-                <ImageView
-                    android:id="@+id/iv_avatar5"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_avatar5"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:layout_below="@id/iv_avatar2"
+                    android:layout_below="@id/sdv_avatar2"
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_toRightOf="@id/iv_avatar4"
-                    android:src="@mipmap/default_useravatar" />
+                    android:layout_toRightOf="@id/sdv_avatar4"
+                    fresco:placeholderImage="@mipmap/default_useravatar" />
             </RelativeLayout>
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_toRightOf="@id/re_avatar"
+            android:layout_toRightOf="@id/rl_avatar"
             android:ellipsize="end"
             android:maxWidth="200dp"
             android:singleLine="true"
@@ -96,7 +97,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -110,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/re_avatar"
+            android:layout_toRightOf="@id/rl_avatar"
             android:orientation="horizontal"
             android:paddingRight="30dp">
 
@@ -122,7 +123,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/tv_content"
+                android:id="@+id/tv_last_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -136,8 +137,8 @@
             android:id="@+id/tv_unread"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_alignTop="@id/re_avatar"
-            android:layout_alignRight="@id/re_avatar"
+            android:layout_alignTop="@id/rl_avatar"
+            android:layout_alignRight="@id/rl_avatar"
             android:layout_marginTop="3dp"
             android:layout_marginRight="7dp"
             android:background="@mipmap/unread_count_bg"
