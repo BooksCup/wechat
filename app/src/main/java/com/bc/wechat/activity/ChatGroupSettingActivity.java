@@ -1,25 +1,23 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.GroupSettingGridAdapter;
-import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.JimBeanUtil;
-import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.ExpandGridView;
 
@@ -98,7 +96,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
         GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
 
-        List<GroupMemberInfo> groupMemberInfoList = groupInfo.getGroupMemberInfos();
+        final List<GroupMemberInfo> groupMemberInfoList = groupInfo.getGroupMemberInfos();
         List<User> userList = new ArrayList<>();
         for (GroupMemberInfo groupMemberInfo : groupMemberInfoList) {
             User user = JimBeanUtil.transferGroupMemberInfoToUser(groupMemberInfo);
@@ -123,6 +121,17 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
 
         mUpdateGroupNameRl.setOnClickListener(this);
         mClearRl.setOnClickListener(this);
+
+        mAvatarsEgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == groupMemberInfoList.size()) {
+                    Toast.makeText(ChatGroupSettingActivity.this, "+", Toast.LENGTH_SHORT).show();
+                } else if (position == groupMemberInfoList.size() + 1) {
+                    Toast.makeText(ChatGroupSettingActivity.this, "-", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void back(View view) {
