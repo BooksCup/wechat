@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -122,6 +123,9 @@ public class UpdateGroupNameActivity extends FragmentActivity {
             @Override
             public void onResponse(String s) {
                 loadingDialog.dismiss();
+                Intent intent = new Intent();
+                intent.putExtra("groupName", groupName);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         }, new Response.ErrorListener() {

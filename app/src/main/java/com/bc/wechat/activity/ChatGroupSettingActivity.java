@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.GroupSettingGridAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.JimBeanUtil;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.ExpandGridView;
 
@@ -61,6 +65,8 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     private RelativeLayout mClearRl;
 
     private MessageDao messageDao;
+
+    private static final int UPDATE_GROUP_NAME = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,7 +135,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
             case R.id.rl_change_group_name:
                 Intent intent = new Intent(this, UpdateGroupNameActivity.class);
                 intent.putExtra("groupId", groupId);
-                startActivity(intent);
+                startActivityForResult(intent, UPDATE_GROUP_NAME);
                 break;
             case R.id.rl_clear:
                 final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this,
@@ -213,5 +219,17 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case UPDATE_GROUP_NAME:
+                    String groupName = data.getStringExtra("groupName");
+                    mGroupNameTv.setText(groupName);
+                    break;
+            }
+        }
     }
 }
