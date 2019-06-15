@@ -200,6 +200,48 @@ public class ConversationAdapter extends BaseAdapter {
 
                 groupDesc = generateGroupDesc(PreferencesUtil.getInstance().getUser().getUserNickName(),
                         userNickName1, userNickName2, userNickName3, userNickName4, userNickName5);
+            } else if (memberCount == 6) {
+                SimpleDraweeView mAvatar1Sdv = convertView.findViewById(R.id.sdv_avatar1);
+                SimpleDraweeView mAvatar2Sdv = convertView.findViewById(R.id.sdv_avatar2);
+                SimpleDraweeView mAvatar3Sdv = convertView.findViewById(R.id.sdv_avatar3);
+                SimpleDraweeView mAvatar4Sdv = convertView.findViewById(R.id.sdv_avatar4);
+                SimpleDraweeView mAvatar5Sdv = convertView.findViewById(R.id.sdv_avatar5);
+                SimpleDraweeView mAvatar6Sdv = convertView.findViewById(R.id.sdv_avatar6);
+                String avatar1 = groupMemberInfoList.get(0).getUserInfo().getAvatar();
+                String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
+                String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
+                String avatar4 = groupMemberInfoList.get(3).getUserInfo().getAvatar();
+                String avatar5 = groupMemberInfoList.get(4).getUserInfo().getAvatar();
+                String avatar6 = groupMemberInfoList.get(5).getUserInfo().getAvatar();
+
+                String userNickName1 = groupMemberInfoList.get(0).getUserInfo().getNickname();
+                String userNickName2 = groupMemberInfoList.get(1).getUserInfo().getNickname();
+                String userNickName3 = groupMemberInfoList.get(2).getUserInfo().getNickname();
+                String userNickName4 = groupMemberInfoList.get(3).getUserInfo().getNickname();
+                String userNickName5 = groupMemberInfoList.get(4).getUserInfo().getNickname();
+                String userNickName6 = groupMemberInfoList.get(5).getUserInfo().getNickname();
+
+                if (!TextUtils.isEmpty(avatar1)) {
+                    mAvatar1Sdv.setImageURI(avatar1);
+                }
+                if (!TextUtils.isEmpty(avatar2)) {
+                    mAvatar2Sdv.setImageURI(avatar2);
+                }
+                if (!TextUtils.isEmpty(avatar3)) {
+                    mAvatar3Sdv.setImageURI(avatar3);
+                }
+                if (!TextUtils.isEmpty(avatar4)) {
+                    mAvatar4Sdv.setImageURI(avatar4);
+                }
+                if (!TextUtils.isEmpty(avatar5)) {
+                    mAvatar5Sdv.setImageURI(avatar5);
+                }
+                if (!TextUtils.isEmpty(avatar6)) {
+                    mAvatar6Sdv.setImageURI(avatar6);
+                }
+
+                groupDesc = generateGroupDesc(PreferencesUtil.getInstance().getUser().getUserNickName(),
+                        userNickName1, userNickName2, userNickName3, userNickName4, userNickName5, userNickName6);
             }
 
             TextView mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
@@ -277,10 +319,13 @@ public class ConversationAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_conversation_group_4,
                     null, false);
 
-        } else if (size > 4) {
+        } else if (size == 5) {
             convertView = inflater.inflate(R.layout.item_conversation_group_5,
                     null, false);
 
+        } else if (size == 6) {
+            convertView = inflater.inflate(R.layout.item_conversation_group_6,
+                    null, false);
         } else {
             convertView = inflater.inflate(R.layout.item_conversation_group_5,
                     null, false);
