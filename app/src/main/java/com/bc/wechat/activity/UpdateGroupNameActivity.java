@@ -11,8 +11,19 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
@@ -24,10 +35,15 @@ public class UpdateGroupNameActivity extends FragmentActivity {
     private EditText mGroupNameEt;
     private TextView mSaveTv;
 
+    private VolleyUtil volleyUtil;
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_group_name);
+        volleyUtil = VolleyUtil.getInstance(this);
+        loadingDialog = new LoadingDialog(this);
         initView();
     }
 
@@ -51,6 +67,16 @@ public class UpdateGroupNameActivity extends FragmentActivity {
             }
         }
         mGroupNameEt.addTextChangedListener(new TextChange());
+
+        mSaveTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadingDialog.setMessage("正在保存");
+                loadingDialog.show();
+                final String groupName = mGroupNameEt.getText().toString();
+                updateGroupName(groupId, groupName);
+            }
+        });
     }
 
     public void back(View view) {
@@ -85,5 +111,32 @@ public class UpdateGroupNameActivity extends FragmentActivity {
         public void afterTextChanged(Editable editable) {
 
         }
+    }
+
+    private void updateGroupName(String groupId, final String groupName) {
+        String url = Constant.BASE_URL + "groups/" + groupId + "/groupName";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("groupName", groupName);
+
+        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                loadingDialog.dismiss();
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                loadingDialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(UpdateGroupNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(UpdateGroupNameActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+            }
+        });
     }
 }
