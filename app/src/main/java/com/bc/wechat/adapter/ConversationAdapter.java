@@ -192,12 +192,14 @@ public class ConversationAdapter extends BaseAdapter {
                     mLastMsgTv.setText("你邀请" + groupDesc + "加入了群聊");
                 } else {
                     UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
+                    String lastestFromUserName = lastestFromUser.getUserName().equals(PreferencesUtil.getInstance().getUser().getUserId()) ? "" :
+                            lastestFromUser.getNickname() + ": ";
                     if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
-                        mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                        mLastMsgTv.setText(lastestFromUserName + conversation.getLatestText());
                     } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
-                        mLastMsgTv.setText(lastestFromUser.getNickname() + ": [图片]");
+                        mLastMsgTv.setText(lastestFromUserName + "[图片]");
                     } else {
-                        mLastMsgTv.setText(lastestFromUser.getNickname() + ": " + conversation.getLatestText());
+                        mLastMsgTv.setText(lastestFromUserName + conversation.getLatestText());
                     }
                 }
             }
