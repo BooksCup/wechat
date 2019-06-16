@@ -115,6 +115,7 @@
         android:divider="@color/divider_list"
         android:dividerHeight="0.5dp"
         android:fastScrollEnabled="false"
+        android:scrollbars="none"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false" />
 
