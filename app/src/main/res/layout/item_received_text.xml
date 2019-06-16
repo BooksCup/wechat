@@ -15,14 +15,14 @@
 
     <TextView
         android:id="@+id/tv_system_message"
-        style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="8dp"
-        android:text="你邀请FATMAN、魑魅魍魉加入了群聊"
+        android:layout_marginRight="15dp"
         android:textSize="14dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/rl_message"
