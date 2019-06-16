@@ -233,14 +233,17 @@
                 android:id="@+id/ll_btn_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/common_top_bar_grey"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
                     android:weightSum="4">
 
                     <LinearLayout
@@ -256,10 +259,10 @@
 
                             <ImageView
                                 android:id="@+id/btn_take_picture"
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_chat_photo"
+                                android:background="@mipmap/icon_chat_photo_2"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -287,10 +290,10 @@
 
                             <ImageView
                                 android:id="@+id/btn_picture"
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_chat_pic"
+                                android:background="@mipmap/icon_chat_pic_2"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -318,13 +321,13 @@
 
                             <ImageView
                                 android:id="@+id/btn_location"
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter"
-                                android:src="@mipmap/icon_chat_location" />
+                                android:src="@mipmap/icon_chat_location_2" />
                         </RelativeLayout>
 
                         <TextView
@@ -349,13 +352,13 @@
 
                             <ImageView
                                 android:id="@+id/btn_video"
-                                android:layout_width="42dp"
-                                android:layout_height="42dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter"
-                                android:src="@mipmap/icon_chat_vedio" />
+                                android:src="@mipmap/icon_chat_vedio_2" />
                         </RelativeLayout>
 
                         <TextView
@@ -371,9 +374,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="4dp"
-                    android:visibility="gone"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="30dp"
                     android:weightSum="4">
 
                     <LinearLayout
@@ -389,10 +392,10 @@
 
                             <ImageView
                                 android:id="@+id/btn_file"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@drawable/chat_file_selector"
+                                android:background="@mipmap/icon_red_packet"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -402,8 +405,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="文件"
-                            android:textColor="#727171" />
+                            android:text="红包"
+                            android:textColor="#727171"
+                            android:textSize="12sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -420,10 +424,10 @@
 
                             <ImageView
                                 android:id="@+id/btn_voice_call"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@drawable/chat_voice_call_selector"
+                                android:background="@mipmap/icon_zhuanzhang"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -433,8 +437,71 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="语音电话"
-                            android:textColor="#727171" />
+                            android:text="转账"
+                            android:textColor="#727171"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/container_voice_call2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="64dp"
+                            android:layout_height="64dp">
+
+                            <ImageView
+                                android:id="@+id/btn_voice_call2"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:background="@mipmap/icon_yuyinshuru"
+                                android:clickable="true"
+                                android:onClick="onClick"
+                                android:scaleType="fitCenter" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="语音输入"
+                            android:textColor="#727171"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/container_voice_call3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="64dp"
+                            android:layout_height="64dp">
+
+                            <ImageView
+                                android:id="@+id/btn_voice_call3"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerInParent="true"
+                                android:background="@mipmap/icon_shoucang"
+                                android:clickable="true"
+                                android:onClick="onClick"
+                                android:scaleType="fitCenter" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="我的收藏"
+                            android:textColor="#727171"
+                            android:textSize="12sp"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
