@@ -289,7 +289,62 @@ public class ConversationAdapter extends BaseAdapter {
                 }
                 groupDesc = generateGroupDesc(PreferencesUtil.getInstance().getUser().getUserNickName(),
                         userNickName1, userNickName2, userNickName3, userNickName4, userNickName5, userNickName6, userNickName7);
+            } else if (memberCount == 8) {
+                SimpleDraweeView mAvatar1Sdv = convertView.findViewById(R.id.sdv_avatar1);
+                SimpleDraweeView mAvatar2Sdv = convertView.findViewById(R.id.sdv_avatar2);
+                SimpleDraweeView mAvatar3Sdv = convertView.findViewById(R.id.sdv_avatar3);
+                SimpleDraweeView mAvatar4Sdv = convertView.findViewById(R.id.sdv_avatar4);
+                SimpleDraweeView mAvatar5Sdv = convertView.findViewById(R.id.sdv_avatar5);
+                SimpleDraweeView mAvatar6Sdv = convertView.findViewById(R.id.sdv_avatar6);
+                SimpleDraweeView mAvatar7Sdv = convertView.findViewById(R.id.sdv_avatar7);
+                SimpleDraweeView mAvatar8Sdv = convertView.findViewById(R.id.sdv_avatar8);
+                String avatar1 = groupMemberInfoList.get(0).getUserInfo().getAvatar();
+                String avatar2 = groupMemberInfoList.get(1).getUserInfo().getAvatar();
+                String avatar3 = groupMemberInfoList.get(2).getUserInfo().getAvatar();
+                String avatar4 = groupMemberInfoList.get(3).getUserInfo().getAvatar();
+                String avatar5 = groupMemberInfoList.get(4).getUserInfo().getAvatar();
+                String avatar6 = groupMemberInfoList.get(5).getUserInfo().getAvatar();
+                String avatar7 = groupMemberInfoList.get(6).getUserInfo().getAvatar();
+                String avatar8 = groupMemberInfoList.get(7).getUserInfo().getAvatar();
+
+                String userNickName1 = groupMemberInfoList.get(0).getUserInfo().getNickname();
+                String userNickName2 = groupMemberInfoList.get(1).getUserInfo().getNickname();
+                String userNickName3 = groupMemberInfoList.get(2).getUserInfo().getNickname();
+                String userNickName4 = groupMemberInfoList.get(3).getUserInfo().getNickname();
+                String userNickName5 = groupMemberInfoList.get(4).getUserInfo().getNickname();
+                String userNickName6 = groupMemberInfoList.get(5).getUserInfo().getNickname();
+                String userNickName7 = groupMemberInfoList.get(6).getUserInfo().getNickname();
+                String userNickName8 = groupMemberInfoList.get(7).getUserInfo().getNickname();
+
+                if (!TextUtils.isEmpty(avatar1)) {
+                    mAvatar1Sdv.setImageURI(avatar1);
+                }
+                if (!TextUtils.isEmpty(avatar2)) {
+                    mAvatar2Sdv.setImageURI(avatar2);
+                }
+                if (!TextUtils.isEmpty(avatar3)) {
+                    mAvatar3Sdv.setImageURI(avatar3);
+                }
+                if (!TextUtils.isEmpty(avatar4)) {
+                    mAvatar4Sdv.setImageURI(avatar4);
+                }
+                if (!TextUtils.isEmpty(avatar5)) {
+                    mAvatar5Sdv.setImageURI(avatar5);
+                }
+                if (!TextUtils.isEmpty(avatar6)) {
+                    mAvatar6Sdv.setImageURI(avatar6);
+                }
+                if (!TextUtils.isEmpty(avatar7)) {
+                    mAvatar7Sdv.setImageURI(avatar7);
+                }
+                if (!TextUtils.isEmpty(avatar8)) {
+                    mAvatar8Sdv.setImageURI(avatar8);
+                }
+                groupDesc = generateGroupDesc(PreferencesUtil.getInstance().getUser().getUserNickName(),
+                        userNickName1, userNickName2, userNickName3, userNickName4,
+                        userNickName5, userNickName6, userNickName7, userNickName8);
             }
+
             TextView mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
             TextView mUnreadTv = convertView.findViewById(R.id.tv_unread);
             TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
@@ -377,6 +432,9 @@ public class ConversationAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_conversation_group_7,
                     null, false);
 
+        } else if (size == 8) {
+            convertView = inflater.inflate(R.layout.item_conversation_group_8,
+                    null, false);
         } else {
             convertView = inflater.inflate(R.layout.item_conversation_group_5,
                     null, false);
