@@ -241,8 +241,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginRight="12dp"
                     android:layout_marginBottom="20dp"
                     android:weightSum="4">
 
@@ -258,11 +258,11 @@
                             android:layout_height="56dp">
 
                             <ImageView
-                                android:id="@+id/btn_take_picture"
+                                android:id="@+id/iv_chat_photo_album"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_chat_photo_2"
+                                android:background="@mipmap/icon_chat_photo_album"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -272,7 +272,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="拍照"
+                            android:text="相册"
                             android:textColor="#727171"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -289,11 +289,11 @@
                             android:layout_height="56dp">
 
                             <ImageView
-                                android:id="@+id/btn_picture"
+                                android:id="@+id/iv_chat_shoot"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_chat_pic_2"
+                                android:background="@mipmap/icon_chat_shoot"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -303,7 +303,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="图片"
+                            android:text="拍摄"
                             android:textColor="#727171"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -407,7 +407,7 @@
                             android:gravity="center"
                             android:text="红包"
                             android:textColor="#727171"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -439,8 +439,9 @@
                             android:gravity="center"
                             android:text="转账"
                             android:textColor="#727171"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/container_voice_call2"
                         android:layout_width="0dp"
@@ -470,8 +471,9 @@
                             android:gravity="center"
                             android:text="语音输入"
                             android:textColor="#727171"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/container_voice_call3"
                         android:layout_width="0dp"
@@ -501,7 +503,7 @@
                             android:gravity="center"
                             android:text="我的收藏"
                             android:textColor="#727171"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
