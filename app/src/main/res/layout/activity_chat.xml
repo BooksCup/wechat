@@ -392,11 +392,11 @@
                             android:layout_height="64dp">
 
                             <ImageView
-                                android:id="@+id/btn_file"
+                                android:id="@+id/iv_chat_red_packet"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_red_packet"
+                                android:background="@mipmap/icon_chat_red_packet"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
