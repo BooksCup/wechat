@@ -62,7 +62,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 break;
             case R.id.tv_register:
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                LoginActivity.this.finish();
                 break;
         }
     }
