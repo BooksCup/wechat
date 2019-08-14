@@ -40,7 +40,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/view_temp"
-            android:text="填写手机号"
+            android:text="@string/register_title_phone"
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -71,7 +71,7 @@
                 android:layout_toLeftOf="@id/iv_photo"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="例如：陈晨"
+                android:hint="@string/nick_name_example"
                 android:paddingLeft="90dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
@@ -85,7 +85,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="昵称"
+                android:text="@string/nick_name"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="国家和地区"
+                android:text="@string/country_and_area"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
@@ -115,7 +115,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:text="中国"
+                android:text="@string/country_china"
                 android:textColor="#45c01a"
                 android:textSize="16sp" />
 
@@ -136,7 +136,7 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:hint="你的手机号码"
+                android:hint="@string/login_hint_phone"
                 android:inputType="phone"
                 android:paddingLeft="90dp"
                 android:singleLine="true"
@@ -170,7 +170,7 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:hint="填写密码"
+                android:hint="@string/login_hint_password"
                 android:paddingLeft="90dp"
                 android:password="true"
                 android:singleLine="true"
@@ -184,7 +184,7 @@
                 android:layout_alignLeft="@id/et_password"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="密码"
+                android:text="@string/password"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
@@ -227,7 +227,7 @@
             android:enabled="false"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
-            android:text="注册"
+            android:text="@string/register"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
