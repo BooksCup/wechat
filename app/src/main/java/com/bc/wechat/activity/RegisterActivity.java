@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,10 +59,15 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 // 点击显示密码
                 mHidePasswordIv.setVisibility(View.GONE);
                 mShowPasswordIv.setVisibility(View.VISIBLE);
+
+                mPasswordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 break;
             case R.id.iv_password_show:
+                // 点击隐藏密码
                 mHidePasswordIv.setVisibility(View.VISIBLE);
                 mShowPasswordIv.setVisibility(View.GONE);
+
+                mPasswordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 break;
         }
     }
