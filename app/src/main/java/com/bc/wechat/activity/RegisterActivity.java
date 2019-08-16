@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -61,6 +63,12 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 mShowPasswordIv.setVisibility(View.VISIBLE);
 
                 mPasswordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                // 光标移至最后
+                CharSequence charSequence = mPasswordEt.getText();
+                if (charSequence instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence;
+                    Selection.setSelection(spanText, charSequence.length());
+                }
                 break;
             case R.id.iv_password_show:
                 // 点击隐藏密码
@@ -68,6 +76,12 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 mShowPasswordIv.setVisibility(View.GONE);
 
                 mPasswordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                // 光标移至最后
+                charSequence = mPasswordEt.getText();
+                if (charSequence instanceof Spannable) {
+                    Spannable spanText = (Spannable) charSequence;
+                    Selection.setSelection(spanText, charSequence.length());
+                }
                 break;
         }
     }
