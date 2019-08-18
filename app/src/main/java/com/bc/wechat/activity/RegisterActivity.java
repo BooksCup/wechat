@@ -29,6 +29,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 注册
+ *
+ * @author zhou
+ */
 public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
     private VolleyUtil volleyUtil;
     TextView mAgreementTv;
@@ -114,7 +119,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 String phone = mPhoneEt.getText().toString();
                 String password = mPasswordEt.getText().toString();
                 if (!validatePassword(password)) {
-                    Toast.makeText(RegisterActivity.this, "密码必须是8-16位的数字、字符组合(不能是纯数字)",
+                    Toast.makeText(RegisterActivity.this, R.string.password_rules,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -169,7 +174,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 switch (errorCode) {
                     case 400:
                         Toast.makeText(RegisterActivity.this,
-                                "账号或密码错误，请重新填写。", Toast.LENGTH_SHORT)
+                                R.string.username_or_password_error, Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }
