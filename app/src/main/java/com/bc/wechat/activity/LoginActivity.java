@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,9 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.VolleyUtil;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
+
+    private static final String TAG = "LoginActivity";
+
     private VolleyUtil volleyUtil;
 
     EditText mPhoneEt;
@@ -98,6 +102,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
+                Log.d(TAG, s);
+
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 dialog.dismiss();
             }
