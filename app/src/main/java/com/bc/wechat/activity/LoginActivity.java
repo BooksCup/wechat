@@ -54,7 +54,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                dialog.setMessage("正在登录...");
+                dialog.setMessage(getString(R.string.logging_in));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
                 final String phone = mPhoneEt.getText().toString().trim();
@@ -105,7 +105,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(LoginActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     return;
                 }
@@ -114,7 +114,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 switch (errorCode) {
                     case 400:
                         Toast.makeText(LoginActivity.this,
-                                "账号或密码错误，请重新填写。", Toast.LENGTH_SHORT)
+                                R.string.username_or_password_error, Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }

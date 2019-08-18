@@ -8,6 +8,8 @@
     <string name="login_meet_problem">登录遇到问题？</string>
     <string name="account">账号</string>
     <string name="login">登录</string>
+    <string name="logging_in">正在登录...</string>
+    <string name="username_or_password_error">账号或密码错误，请重新填写。</string>
     <string name="register">注册</string>
     <string name="register_hint">没有账号？注册一个</string>
     <string name="register_title_phone">填写手机号</string>
