@@ -115,4 +115,5 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
             }
         });
     }
+
 }
