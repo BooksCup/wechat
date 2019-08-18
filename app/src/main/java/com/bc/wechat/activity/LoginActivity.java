@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
@@ -103,6 +104,12 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(LoginActivity.this, "请检查网络", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    return;
+                }
+
                 int errorCode = volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
