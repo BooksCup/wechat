@@ -3,85 +3,67 @@ package com.bc.wechat.entity;
 import com.orm.SugarRecord;
 
 public class User extends SugarRecord {
-    private String header;
-    private String nickName;
-    private String sex;
-    private String phone;
-    private String region;
-    private String avatar;
-    private String sign;
-    private String remark;
-    private int unreadMsgCount;
+    private String userId;
+    private String userNickName;
+    private String userPhone;
+    private String userPassword;
+    private String userAvatar;
+    private String userHeader;
+    private String userSex;
 
-    public String getHeader() {
-        return header;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setHeader(String header) {
-        this.header = header;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getUserNickName() {
+        return userNickName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setUserNickName(String userNickName) {
+        this.userNickName = userNickName;
     }
 
-    public String getSex() {
-        return sex;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public String getRegion() {
-        return region;
+    public String getUserAvatar() {
+        return userAvatar;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getUserHeader() {
+        return userHeader;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setUserHeader(String userHeader) {
+        this.userHeader = userHeader;
     }
 
-    public String getSign() {
-        return sign;
+    public String getUserSex() {
+        return userSex;
     }
 
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public int getUnreadMsgCount() {
-        return unreadMsgCount;
-    }
-
-    public void setUnreadMsgCount(int unreadMsgCount) {
-        this.unreadMsgCount = unreadMsgCount;
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
     }
 }

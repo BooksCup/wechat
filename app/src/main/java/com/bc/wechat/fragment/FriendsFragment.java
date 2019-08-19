@@ -53,28 +53,28 @@ public class FriendsFragment extends Fragment {
 
         friendsList = new ArrayList<>();
         User user1 = new User();
-        user1.setNickName("张三");
-        user1.setHeader("Z");
-        user1.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
-        user1.setSex("1");
+        user1.setUserNickName("张三");
+        user1.setUserHeader("Z");
+        user1.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+        user1.setUserSex("1");
 
         User user2 = new User();
-        user2.setNickName("杖撸");
-        user2.setHeader("Z");
-        user2.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
-        user2.setSex("2");
+        user2.setUserNickName("杖撸");
+        user2.setUserHeader("Z");
+        user2.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+        user2.setUserSex("2");
 
         User user3 = new User();
-        user3.setNickName("李四");
-        user3.setHeader("L");
-        user3.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
-        user3.setSex("1");
+        user3.setUserNickName("李四");
+        user3.setUserHeader("L");
+        user3.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+        user3.setUserSex("1");
 
         User user4 = new User();
-        user4.setNickName("力王");
-        user4.setHeader("L");
-        user4.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
-        user4.setSex("2");
+        user4.setUserNickName("力王");
+        user4.setUserHeader("L");
+        user4.setUserAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+        user4.setUserSex("2");
 
         friendsList.add(user1);
         friendsList.add(user2);
@@ -93,9 +93,9 @@ public class FriendsFragment extends Fragment {
                     User user = friendsList.get(position - 1);
                     user.save();
                     startActivity(new Intent(getActivity(), UserInfoActivity.class).
-                            putExtra("nickName", user.getNickName()).
-                            putExtra("avatar", user.getAvatar()).
-                            putExtra("sex", user.getSex()));
+                            putExtra("nickName", user.getUserNickName()).
+                            putExtra("avatar", user.getUserAvatar()).
+                            putExtra("sex", user.getUserSex()));
                 }
             }
         });

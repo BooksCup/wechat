@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.VolleyUtil;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
@@ -101,9 +103,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         String url = Constant.BASE_URL + "users/login?phone=" + phone + "&password=" + password;
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
-            public void onResponse(String s) {
-                Log.d(TAG, s);
-
+            public void onResponse(String response) {
+                Log.d(TAG, "server response: " + response);
+                User user = JSON.parseObject(response, User.class);
+                Log.d(TAG, "userId:" + user.getUserId());
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 dialog.dismiss();
             }
