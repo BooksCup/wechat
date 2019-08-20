@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
@@ -39,6 +40,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        PreferencesUtil.getInstance().init(this);
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(LoginActivity.this);
         initView();
@@ -107,6 +109,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 Log.d(TAG, "server response: " + response);
                 User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
+                PreferencesUtil.getInstance().setUserId(user.getUserId());
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 dialog.dismiss();
             }
