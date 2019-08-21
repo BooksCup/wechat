@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 
 import com.bc.wechat.R;
+import com.bc.wechat.utils.PreferencesUtil;
 
 public class SplashActivity extends FragmentActivity {
 
@@ -18,7 +19,7 @@ public class SplashActivity extends FragmentActivity {
         final View view = View.inflate(this, R.layout.activity_splash, null);
         setContentView(view);
         super.onCreate(savedInstanceState);
-
+        PreferencesUtil.getInstance().init(this);
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(1500);
         view.setAnimation(animation);
@@ -36,9 +37,15 @@ public class SplashActivity extends FragmentActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish();
+                if (PreferencesUtil.getInstance().isLogin()) {
+                    // 已登录，跳至主页面
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    // 未登录，跳至登录页
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    finish();
+                }
             }
         }).start();
     }
