@@ -45,17 +45,17 @@ public class MainActivity extends FragmentActivity {
         fragments = new Fragment[]{conversationFragment, friendsFragment, findFragment, profileFragment};
 
         imagebuttons = new ImageView[4];
-        imagebuttons[0] = (ImageView) findViewById(R.id.ib_weixin);
-        imagebuttons[1] = (ImageView) findViewById(R.id.ib_contact_list);
-        imagebuttons[2] = (ImageView) findViewById(R.id.ib_find);
-        imagebuttons[3] = (ImageView) findViewById(R.id.ib_profile);
+        imagebuttons[0] = findViewById(R.id.ib_weixin);
+        imagebuttons[1] = findViewById(R.id.ib_contact_list);
+        imagebuttons[2] = findViewById(R.id.ib_find);
+        imagebuttons[3] = findViewById(R.id.ib_profile);
 
         imagebuttons[0].setSelected(true);
         textviews = new TextView[4];
-        textviews[0] = (TextView) findViewById(R.id.tv_weixin);
-        textviews[1] = (TextView) findViewById(R.id.tv_contact_list);
-        textviews[2] = (TextView) findViewById(R.id.tv_find);
-        textviews[3] = (TextView) findViewById(R.id.tv_profile);
+        textviews[0] = findViewById(R.id.tv_weixin);
+        textviews[1] = findViewById(R.id.tv_contact_list);
+        textviews[2] = findViewById(R.id.tv_find);
+        textviews[3] = findViewById(R.id.tv_profile);
         textviews[0].setTextColor(0xFF45C01A);
 
         getSupportFragmentManager().beginTransaction()
@@ -65,7 +65,6 @@ public class MainActivity extends FragmentActivity {
                 .add(R.id.fragment_container, profileFragment)
                 .hide(friendsFragment).hide(findFragment).hide(profileFragment)
                 .show(conversationFragment).commit();
-
     }
 
     public void onTabClicked(View view) {
@@ -82,7 +81,6 @@ public class MainActivity extends FragmentActivity {
             case R.id.re_profile:
                 index = 3;
                 break;
-
         }
 
         if (currentTabIndex != index) {
