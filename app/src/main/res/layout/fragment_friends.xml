@@ -5,7 +5,6 @@
     android:background="#EBEBEB"
     android:orientation="vertical">
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,15 +36,13 @@
             </LinearLayout>
 
             <ListView
-                android:id="@+id/list"
+                android:id="@+id/lv_friends"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_loading"
                 android:background="@android:color/transparent"
                 android:descendantFocusability="afterDescendants"
                 android:fastScrollEnabled="false"
-
-
                 android:footerDividersEnabled="false" />
 
             <!--<com.fanxin.app.widget.Sidebar-->
@@ -70,6 +67,7 @@
                 android:visibility="invisible" />
 
         </RelativeLayout>
+
     </FrameLayout>
 
 </LinearLayout>
