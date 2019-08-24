@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.FriendsAdapter;
@@ -22,7 +23,10 @@ public class FriendsFragment extends Fragment {
     private ListView mFriendsLv;
     private LayoutInflater inflater;
 
-    // 联系人列表
+    // 好友总数
+    private TextView mFriendsCountTv;
+
+    // 好友列表
     private List<User> friendsList;
 
     @Nullable
@@ -42,6 +46,8 @@ public class FriendsFragment extends Fragment {
         View footerView = inflater.inflate(R.layout.item_friends_footer, null);
         mFriendsLv.addFooterView(footerView);
 
+        mFriendsCountTv = footerView.findViewById(R.id.tv_total);
+
         friendsList = new ArrayList<>();
         User user1 = new User();
         user1.setNickName("张三");
@@ -57,6 +63,6 @@ public class FriendsFragment extends Fragment {
         friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, friendsList);
         mFriendsLv.setAdapter(friendsAdapter);
 
-
+        mFriendsCountTv.setText(friendsList.size() + "位联系人");
     }
 }
