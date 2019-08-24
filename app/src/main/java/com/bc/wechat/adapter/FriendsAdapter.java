@@ -37,10 +37,10 @@ public class FriendsAdapter extends ArrayAdapter<User> {
             convertView = layoutInflater.inflate(resource, null);
         }
 
-        SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.iv_avatar);
+        SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
         TextView mNameTv = convertView.findViewById(R.id.tv_name);
         TextView mHeaderTv = convertView.findViewById(R.id.tv_header);
-        View mTempView = convertView.findViewById(R.id.view_temp);
+        View mTempView = convertView.findViewById(R.id.view_header);
 
 
         User user = getItem(position);
