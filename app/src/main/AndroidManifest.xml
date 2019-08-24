@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bc.wechat">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".WechatApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo_wechat"
         android:label="@string/app_name"

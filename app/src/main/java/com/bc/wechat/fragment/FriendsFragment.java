@@ -43,7 +43,20 @@ public class FriendsFragment extends Fragment {
         mFriendsLv.addFooterView(footerView);
 
         friendsList = new ArrayList<>();
+        User user1 = new User();
+        user1.setNickName("张三");
+        user1.setHeader("Z");
+        user1.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+        User user2 = new User();
+        user2.setNickName("李四");
+        user2.setHeader("L");
+        user2.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+        friendsList.add(user1);
+        friendsList.add(user2);
+
         friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, friendsList);
         mFriendsLv.setAdapter(friendsAdapter);
+
+
     }
 }
