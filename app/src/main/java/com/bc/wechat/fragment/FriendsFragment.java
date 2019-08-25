@@ -1,5 +1,6 @@
 package com.bc.wechat.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,10 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bc.wechat.R;
+import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.entity.User;
 
@@ -53,16 +57,43 @@ public class FriendsFragment extends Fragment {
         user1.setNickName("张三");
         user1.setHeader("Z");
         user1.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+
         User user2 = new User();
-        user2.setNickName("李四");
-        user2.setHeader("L");
-        user2.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+        user2.setNickName("杖撸");
+        user2.setHeader("Z");
+        user2.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+
+        User user3 = new User();
+        user3.setNickName("李四");
+        user3.setHeader("L");
+        user3.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+
+        User user4 = new User();
+        user4.setNickName("力王");
+        user4.setHeader("L");
+        user4.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+
         friendsList.add(user1);
         friendsList.add(user2);
+        friendsList.add(user3);
+        friendsList.add(user4);
 
         friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, friendsList);
         mFriendsLv.setAdapter(friendsAdapter);
 
         mFriendsCountTv.setText(friendsList.size() + "位联系人");
+
+        mFriendsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0 && position != friendsList.size() + 1) {
+                    User user = friendsList.get(position - 1);
+                    startActivity(new Intent(getActivity(), UserInfoActivity.class).
+                            putExtra("nickName", user.getNickName()).
+                            putExtra("avatar", user.getAvatar()).
+                            putExtra("sex", user.getSex()));
+                }
+            }
+        });
     }
 }

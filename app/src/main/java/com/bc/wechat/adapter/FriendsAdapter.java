@@ -46,7 +46,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         User user = getItem(position);
         String header = user.getHeader();
         String avatar = user.getAvatar();
-        if (0 == position || (null != header && !header.equals(getItem(position - 1).getHeader()))) {
+        if (0 == position || null != header && !header.equals(getItem(position - 1).getHeader())) {
             if ("".equals(header)) {
                 mHeaderTv.setVisibility(View.GONE);
                 mTempView.setVisibility(View.VISIBLE);
