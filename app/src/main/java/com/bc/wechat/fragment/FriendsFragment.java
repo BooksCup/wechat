@@ -92,6 +92,7 @@ public class FriendsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0 && position != friendsList.size() + 1) {
                     User user = friendsList.get(position - 1);
+                    user.save();
                     startActivity(new Intent(getActivity(), UserInfoActivity.class).
                             putExtra("nickName", user.getNickName()).
                             putExtra("avatar", user.getAvatar()).

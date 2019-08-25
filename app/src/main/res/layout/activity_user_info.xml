@@ -148,7 +148,7 @@
             android:background="@drawable/btn_register_bg"
             android:paddingBottom="7dp"
             android:paddingTop="7dp"
-            android:text="添加到通讯录"
+            android:text="发消息"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
     </LinearLayout>

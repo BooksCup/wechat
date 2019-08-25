@@ -1,7 +1,8 @@
 package com.bc.wechat.entity;
 
-public class User {
-    private String id;
+import com.orm.SugarRecord;
+
+public class User extends SugarRecord {
     private String header;
     private String nickName;
     private String sex;
@@ -11,14 +12,6 @@ public class User {
     private String sign;
     private String remark;
     private int unreadMsgCount;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getHeader() {
         return header;
