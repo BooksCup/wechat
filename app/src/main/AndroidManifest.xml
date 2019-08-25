@@ -2,10 +2,19 @@
     package="com.bc.wechat">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <meta-data android:name="DATABASE" android:value="wechat.db"/>
-    <meta-data android:name="VERSION" android:value="3"/>
-    <meta-data android:name="QUERY_LOG" android:value="true"/>
-    <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.bc.wechat"/>
+
+    <meta-data
+        android:name="DATABASE"
+        android:value="wechat.db" />
+    <meta-data
+        android:name="VERSION"
+        android:value="3" />
+    <meta-data
+        android:name="QUERY_LOG"
+        android:value="true" />
+    <meta-data
+        android:name="DOMAIN_PACKAGE_NAME"
+        android:value="com.bc.wechat" />
 
     <application
         android:name=".WechatApplication"
@@ -31,6 +40,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.UserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChatActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>
