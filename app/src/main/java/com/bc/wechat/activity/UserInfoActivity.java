@@ -4,6 +4,7 @@ package com.bc.wechat.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -28,5 +29,9 @@ public class UserInfoActivity extends Activity {
         final String sex = getIntent().getStringExtra("sex");
 
         mNickNameTv.setText(nickName);
+    }
+
+    public void back(View view) {
+        finish();
     }
 }
