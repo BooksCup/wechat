@@ -38,6 +38,13 @@ public class UserInfoActivity extends Activity {
 
         mNickNameTv.setText(nickName);
         mAvatarSdv.setImageURI(Uri.parse(avatar));
+        if (Constant.USER_SEX_MALE.equals(sex)) {
+            mSexIv.setImageResource(R.mipmap.ic_sex_male);
+        } else if (Constant.USER_SEX_FEMALE.equals(sex)) {
+            mSexIv.setImageResource(R.mipmap.ic_sex_female);
+        } else {
+            mSexIv.setVisibility(View.GONE);
+        }
     }
 
     public void back(View view) {

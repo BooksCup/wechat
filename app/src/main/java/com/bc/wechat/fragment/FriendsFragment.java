@@ -57,21 +57,25 @@ public class FriendsFragment extends Fragment {
         user1.setNickName("张三");
         user1.setHeader("Z");
         user1.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+        user1.setSex("1");
 
         User user2 = new User();
         user2.setNickName("杖撸");
         user2.setHeader("Z");
         user2.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/6971f1ff7cab4daca6fe5011406cec3e.jpg");
+        user2.setSex("2");
 
         User user3 = new User();
         user3.setNickName("李四");
         user3.setHeader("L");
         user3.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+        user3.setSex("1");
 
         User user4 = new User();
         user4.setNickName("力王");
         user4.setHeader("L");
         user4.setAvatar("http://erp-cfpu-com.oss-cn-hangzhou.aliyuncs.com/a7d913e78cd04682bad50ad90e81ae29.png");
+        user4.setSex("2");
 
         friendsList.add(user1);
         friendsList.add(user2);
