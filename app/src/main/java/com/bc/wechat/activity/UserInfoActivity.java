@@ -2,10 +2,12 @@ package com.bc.wechat.activity;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +20,12 @@ public class UserInfoActivity extends Activity {
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private ImageView mSexIv;
+    private Button mSendMsgBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-
         initView();
     }
 
@@ -31,6 +33,7 @@ public class UserInfoActivity extends Activity {
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
+        mSendMsgBtn = findViewById(R.id.btn_sendmsg);
 
         final String nickName = getIntent().getStringExtra("nickName");
         final String avatar = getIntent().getStringExtra("avatar");
@@ -45,6 +48,14 @@ public class UserInfoActivity extends Activity {
         } else {
             mSexIv.setVisibility(View.GONE);
         }
+
+        mSendMsgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void back(View view) {

@@ -98,8 +98,6 @@
                     android:layout_marginLeft="8dp"
                     android:src="@mipmap/ic_sex_male" />
             </LinearLayout>
-
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -136,7 +134,6 @@
                 android:layout_alignParentBottom="true"
                 android:background="#DBDBDB" />
         </RelativeLayout>
-
 
         <Button
             android:id="@+id/btn_sendmsg"

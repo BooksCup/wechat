@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
-import com.bc.wechat.activity.ChatActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.entity.User;
@@ -94,12 +92,10 @@ public class FriendsFragment extends Fragment {
                 if (position != 0 && position != friendsList.size() + 1) {
                     User user = friendsList.get(position - 1);
                     user.save();
-//                    startActivity(new Intent(getActivity(), UserInfoActivity.class).
-//                            putExtra("nickName", user.getNickName()).
-//                            putExtra("avatar", user.getAvatar()).
-//                            putExtra("sex", user.getSex()));
-
-                    startActivity(new Intent(getActivity(), ChatActivity.class));
+                    startActivity(new Intent(getActivity(), UserInfoActivity.class).
+                            putExtra("nickName", user.getNickName()).
+                            putExtra("avatar", user.getAvatar()).
+                            putExtra("sex", user.getSex()));
                 }
             }
         });
