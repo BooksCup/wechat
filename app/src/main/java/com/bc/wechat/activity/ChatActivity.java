@@ -54,4 +54,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
 
     }
+
+    public void back(View view) {
+        finish();
+    }
 }
