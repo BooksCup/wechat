@@ -44,5 +44,12 @@
         <activity
             android:name=".activity.ChatActivity"
             android:screenOrientation="portrait" />
+
+        <!-- 自定义的alertdialog -->
+        <activity
+            android:name=".activity.AlertDialog"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyle" >
+        </activity>
     </application>
 </manifest>
