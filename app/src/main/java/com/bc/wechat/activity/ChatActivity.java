@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.bc.wechat.R;
+import com.bc.wechat.widget.PasteEditText;
 
 public class ChatActivity extends FragmentActivity implements View.OnClickListener {
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
@@ -60,11 +63,14 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     private ImageView mEmoticonsNormalIv;
     private ImageView mEmoticonsCheckedIv;
 
-    private RelativeLayout edittext_layout;
+    private Button mMoreBtn;
+    private Button mSendBtn;
+
     private View buttonSetModeVoice;
-    private View buttonSend;
-    private Button btnMore;
     private View buttonPressToSpeak;
+
+    private PasteEditText mEditTextContent;
+    private RelativeLayout mEditTextRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,11 +86,62 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         mBtnContainerLl = findViewById(R.id.ll_btn_container);
         mEmoticonsNormalIv = findViewById(R.id.iv_emoticons_normal);
         mEmoticonsCheckedIv = findViewById(R.id.iv_emoticons_checked);
-        edittext_layout = (RelativeLayout) findViewById(R.id.edittext_layout);
+
+        mMoreBtn = findViewById(R.id.btn_more);
+        mSendBtn = findViewById(R.id.btn_send);
+
         buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
         buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
-        buttonSend = findViewById(R.id.btn_send);
-        btnMore = findViewById(R.id.btn_more);
+        mEditTextContent = findViewById(R.id.et_sendmessage);
+        mEditTextRl = findViewById(R.id.edittext_layout);
+
+        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
+                } else {
+                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_normal);
+                }
+            }
+        });
+
+        mEditTextContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
+                mMoreLl.setVisibility(View.GONE);
+                mEmoticonsNormalIv.setVisibility(View.VISIBLE);
+                mEmoticonsCheckedIv.setVisibility(View.GONE);
+                mEmojiIconContainerLl.setVisibility(View.GONE);
+                mBtnContainerLl.setVisibility(View.GONE);
+            }
+        });
+
+        mEditTextContent.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int count, int after) {
+                if (TextUtils.isEmpty(charSequence)) {
+                    mMoreBtn.setVisibility(View.VISIBLE);
+                    mSendBtn.setVisibility(View.GONE);
+                } else {
+                    mMoreBtn.setVisibility(View.GONE);
+                    mSendBtn.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     private void setUpView() {
@@ -109,16 +166,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
      * @param view
      */
     public void setModeKeyboard(View view) {
-        // mEditTextContent.setOnFocusChangeListener(new OnFocusChangeListener()
-        // {
-        // @Override
-        // public void onFocusChange(View v, boolean hasFocus) {
-        // if(hasFocus){
-        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        // }
-        // }
-        // });
-        edittext_layout.setVisibility(View.VISIBLE);
+        mEditTextRl.setVisibility(View.VISIBLE);
         mMoreLl.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
         buttonSetModeVoice.setVisibility(View.VISIBLE);
