@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.bc.wechat.R;
 
-public class AlertDialog extends FragmentActivity {
+public class WechatAlertDialog extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

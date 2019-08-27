@@ -47,7 +47,7 @@
 
         <!-- 自定义的alertdialog -->
         <activity
-            android:name=".activity.AlertDialog"
+            android:name=".activity.WechatAlertDialog"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyle" >
         </activity>

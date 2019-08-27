@@ -20,9 +20,8 @@ import android.content.Intent;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
-import com.bc.wechat.activity.AlertDialog;
+import com.bc.wechat.activity.WechatAlertDialog;
 import com.bc.wechat.activity.ChatActivity;
 
 /**
@@ -58,7 +57,7 @@ public class PasteEditText extends android.support.v7.widget.AppCompatEditText {
             if (text.startsWith(ChatActivity.COPY_IMAGE)) {
 //                intent.setDataAndType(Uri.fromFile(new File("/sdcard/mn1.jpg")), "image/*");
                 text = text.replace(ChatActivity.COPY_IMAGE, "");
-                Intent intent = new Intent(context, AlertDialog.class);
+                Intent intent = new Intent(context, WechatAlertDialog.class);
                 intent.putExtra("title", "发送以下图片？");
                 intent.putExtra("forwardImage", text);
                 intent.putExtra("cancel", true);
