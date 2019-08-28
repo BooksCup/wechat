@@ -43,14 +43,16 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Message message = messageList.get(position);
         if (null == convertView) {
-            convertView = inflater
-                    .inflate(R.layout.row_received_message, null);
+            if ("11111".equals(message.getFromUserId())) {
+                convertView = inflater.inflate(R.layout.row_sent_message, null);
+            } else {
+                convertView = inflater.inflate(R.layout.row_received_message, null);
+            }
         }
         TextView mTimeStampTv = convertView.findViewById(R.id.timestamp);
         TextView mContentTv = convertView.findViewById(R.id.tv_chatcontent);
-
-        Message message = messageList.get(position);
 
         mTimeStampTv.setText(message.getCreateTime());
         mContentTv.setText(message.getContent());
