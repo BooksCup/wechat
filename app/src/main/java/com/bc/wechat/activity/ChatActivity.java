@@ -163,7 +163,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         List<Message> messageList = new ArrayList<>();
 
         Message message1 = new Message();
-        message1.setContent("hello");
+        message1.setContent("hello3123123123dsfasdfadfasdfadsf314134fasdfasdgasdgfasdfasdfasdfadfasdfasdfsdfadsfasdfasdf测试中文ad发送到发");
         message1.setCreateTime("2019-08-27 12:00:01");
         Message message2 = new Message();
         message2.setContent("中文");
