@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Message;
+import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class MessageAdapter extends BaseAdapter {
 
     public MessageAdapter(Context context, List<Message> messageList) {
         inflater = LayoutInflater.from(context);
+        PreferencesUtil.getInstance().init(context);
         this.messageList = messageList;
     }
 
@@ -44,7 +46,7 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Message message = messageList.get(position);
-        if ("11111".equals(message.getFromUserId())) {
+        if (PreferencesUtil.getInstance().getUserId().equals(message.getFromUserId())) {
             convertView = inflater.inflate(R.layout.row_sent_message, null);
         } else {
             convertView = inflater.inflate(R.layout.row_received_message, null);
