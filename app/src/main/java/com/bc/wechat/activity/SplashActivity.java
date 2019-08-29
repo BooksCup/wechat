@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 
 import com.bc.wechat.R;
+import com.bc.wechat.utils.PreferencesUtil;
 
 public class SplashActivity extends FragmentActivity {
 
@@ -18,6 +19,8 @@ public class SplashActivity extends FragmentActivity {
         final View view = View.inflate(this, R.layout.activity_splash, null);
         setContentView(view);
         super.onCreate(savedInstanceState);
+        PreferencesUtil.getInstance().init(this);
+        PreferencesUtil.getInstance().setUserId("91791323caf811e9a2a10235d2b38928");
 
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(1500);

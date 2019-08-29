@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.entity.Message;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.PasteEditText;
 
 import java.text.SimpleDateFormat;
@@ -89,6 +90,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        PreferencesUtil.getInstance().init(this);
         initView();
         setUpView();
     }
@@ -169,14 +171,14 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         Message message1 = new Message();
         message1.setContent("hello3123123123dsfasdfadfasdfadsf314134fasdfasdgasdgfasdfasdfasdfadfasdfasdfsdfadsfasdfasdf测试中文ad发送到发");
         message1.setCreateTime("2019-08-27 12:00:01");
-        message1.setFromUserId("11111");
+        message1.setFromUserId(PreferencesUtil.getInstance().getUserId());
         Message message2 = new Message();
         message2.setContent("中文");
         message2.setCreateTime("2019-08-27 12:22:22");
         Message message3 = new Message();
         message3.setContent("are you kidding me?");
         message3.setCreateTime("2019-08-27 12:22:22");
-        message3.setFromUserId("11111");
+        message3.setFromUserId(PreferencesUtil.getInstance().getUserId());
         messageList.add(message1);
         messageList.add(message2);
         messageList.add(message3);
@@ -260,7 +262,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         Message message = new Message();
         message.setContent(content);
         message.setCreateTime(sdf.format(new Date()));
-        message.setFromUserId("11111");
+        message.setFromUserId(PreferencesUtil.getInstance().getUserId());
         messageList.add(message);
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
