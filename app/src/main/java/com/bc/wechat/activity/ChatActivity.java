@@ -165,24 +165,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         messageList = new ArrayList<>();
-
-        Message message1 = new Message();
-        message1.setContent("hello3123123123dsfasdfadfasdfadsf314134fasdfasdgasdgfasdfasdfasdfadfasdfasdfsdfadsfasdfasdf测试中文ad发送到发");
-        message1.setCreateTime("2019-08-27 12:00:01");
-        message1.setFromUserId(PreferencesUtil.getInstance().getUserId());
-        Message message2 = new Message();
-        message2.setContent("中文");
-        message2.setCreateTime("2019-08-27 12:22:22");
-        Message message3 = new Message();
-        message3.setContent("are you kidding me?");
-        message3.setCreateTime("2019-08-27 12:22:22");
-        message3.setFromUserId(PreferencesUtil.getInstance().getUserId());
-        messageList.add(message1);
-        messageList.add(message2);
-        messageList.add(message3);
-
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
     }
