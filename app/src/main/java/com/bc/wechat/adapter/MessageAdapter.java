@@ -37,8 +37,8 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override

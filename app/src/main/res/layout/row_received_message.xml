@@ -47,7 +47,6 @@
             android:paddingLeft="26dip"
             android:paddingRight="16dip"
             android:paddingTop="16dip"
-            android:backgroundTint=""
             />
 
         <TextView

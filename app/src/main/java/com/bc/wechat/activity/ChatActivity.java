@@ -15,13 +15,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.widget.PasteEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChatActivity extends FragmentActivity implements View.OnClickListener {
@@ -80,6 +83,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
     private ListView mMessageLv;
     private MessageAdapter messageAdapter;
+    List<Message> messageList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -160,7 +164,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        List<Message> messageList = new ArrayList<>();
+        messageList = new ArrayList<>();
 
         Message message1 = new Message();
         message1.setContent("hello3123123123dsfasdfadfasdfadsf314134fasdfasdgasdgfasdfasdfasdfadfasdfasdfsdfadsfasdfasdf测试中文ad发送到发");
@@ -169,8 +173,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         Message message2 = new Message();
         message2.setContent("中文");
         message2.setCreateTime("2019-08-27 12:22:22");
+        Message message3 = new Message();
+        message3.setContent("are you kidding me?");
+        message3.setCreateTime("2019-08-27 12:22:22");
+        message3.setFromUserId("11111");
         messageList.add(message1);
         messageList.add(message2);
+        messageList.add(message3);
 
         messageAdapter = new MessageAdapter(this, messageList);
         mMessageLv.setAdapter(messageAdapter);
@@ -178,7 +187,12 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.btn_send:
+                String content = mEditTextContent.getText().toString();
+                sendTextMsg(content);
+                break;
+        }
     }
 
 
@@ -234,5 +248,22 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 manager.hideSoftInputFromWindow(getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * 发送文字消息
+     *
+     * @param content 消息内容
+     */
+    private void sendTextMsg(String content) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Message message = new Message();
+        message.setContent(content);
+        message.setCreateTime(sdf.format(new Date()));
+        message.setFromUserId("11111");
+        messageList.add(message);
+        messageAdapter.notifyDataSetChanged();
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
+        mEditTextContent.setText("");
     }
 }
