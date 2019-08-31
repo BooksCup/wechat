@@ -36,6 +36,9 @@
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -49,7 +52,6 @@
         <activity
             android:name=".activity.WechatAlertDialog"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle" >
-        </activity>
+            android:theme="@style/MyDialogStyle"></activity>
     </application>
 </manifest>
