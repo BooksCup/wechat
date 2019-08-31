@@ -26,4 +26,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.facebook.fresco:fresco:1.13.0'
     implementation 'com.github.satyan:sugar:1.5'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
 }
