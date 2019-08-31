@@ -8,7 +8,7 @@
     <string name="login_meet_problem">登录遇到问题？</string>
     <string name="account">账号</string>
     <string name="login">登录</string>
-    <string name="register">注册</string>
+    <string name="register">没有账号？注册一个</string>
     <string name="password">密码</string>
     <string name="text_ack_msg">已读</string>
     <string name="text_delivered_msg">送达</string>
