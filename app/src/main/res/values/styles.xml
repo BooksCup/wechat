@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="AppTheme" parent="@android:style/Theme.NoTitleBar" />
 
     <style name="chat_content_date_style">
         <item name="android:minHeight">50dp</item>
