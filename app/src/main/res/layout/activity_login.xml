@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
-        android:background="@color/common_top_bar_blue" >
+        android:background="@color/common_top_bar_blue">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -18,10 +18,10 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
-            android:paddingBottom="5dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
             android:scaleType="centerInside"
             android:src="@drawable/top_bar_back" />
 
@@ -29,8 +29,8 @@
             android:id="@+id/view_temp"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_toRightOf="@id/iv_back"
             android:background="#14191A" />
 
@@ -49,11 +49,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp" >
+        android:padding="12dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp" >
+            android:layout_height="48dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp" >
+            android:layout_height="48dp">
 
             <EditText
                 android:id="@+id/et_user_phone"
@@ -117,7 +117,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp" >
+            android:layout_height="48dp">
 
             <EditText
                 android:id="@+id/et_password"
@@ -126,8 +126,8 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:hint="@string/login_hint_password"
-                android:paddingLeft="90dp"
                 android:inputType="textPassword"
+                android:paddingLeft="90dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
                 android:textSize="16sp" />
@@ -157,14 +157,14 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/btn_register_bg"
             android:enabled="false"
-            android:paddingBottom="7dp"
             android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:text="@string/login"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_problem"
+            android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

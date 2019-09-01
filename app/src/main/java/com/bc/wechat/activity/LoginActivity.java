@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -24,6 +25,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     EditText mPhoneEt;
     EditText mPasswordEt;
     Button mLoginBtn;
+    TextView mRegisterTv;
     ProgressDialog dialog;
 
     @Override
@@ -39,10 +41,12 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         mPhoneEt = findViewById(R.id.et_user_phone);
         mPasswordEt = findViewById(R.id.et_password);
         mLoginBtn = findViewById(R.id.btn_login);
+        mRegisterTv = findViewById(R.id.tv_register);
 
         mPhoneEt.addTextChangedListener(new TextChange());
         mPasswordEt.addTextChangedListener(new TextChange());
         mLoginBtn.setOnClickListener(this);
+        mRegisterTv.setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +59,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 final String phone = mPhoneEt.getText().toString().trim();
                 final String password = mPasswordEt.getText().toString().trim();
                 login(phone, password);
+                break;
+            case R.id.tv_register:
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                LoginActivity.this.finish();
                 break;
         }
     }
