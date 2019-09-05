@@ -83,4 +83,5 @@
     <string name="collect">收藏</string>
     <string name="wallet">钱包</string>
     <string name="card_holder">卡包</string>
+    <string name="setting">设置</string>
 </resources>
