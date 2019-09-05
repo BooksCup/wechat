@@ -78,4 +78,6 @@
     <string name="exit_group">退出</string>
     <string name="connect_conflict">同一帐号已在其他设备登录</string>
     <string name="em_user_remove">此用户已被移除</string>
+
+    <string name="album">相册</string>
 </resources>

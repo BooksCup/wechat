@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/re_myinfo"
+        android:id="@+id/rl_myinfo"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="18dp"
@@ -50,7 +50,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_fxid"
+            android:id="@+id/tv_wxid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -73,7 +73,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_xiangce"
+        android:id="@+id/rl_album"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -81,21 +81,21 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_xiangce"
+            android:id="@+id/iv_album"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/akb" />
+            android:src="@mipmap/album" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_xiangce"
-            android:text="相册"
+            android:layout_toRightOf="@id/iv_album"
+            android:text="@string/album"
             android:textColor="#353535"
             android:textSize="16sp" />
 
