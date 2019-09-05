@@ -80,4 +80,5 @@
     <string name="em_user_remove">此用户已被移除</string>
 
     <string name="album">相册</string>
+    <string name="collect">收藏</string>
 </resources>
