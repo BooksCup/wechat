@@ -172,7 +172,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_card_bag"
+        android:id="@+id/rl_card_holder"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -180,21 +180,21 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_card_bag"
+            android:id="@+id/iv_card_holder"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/akd" />
+            android:src="@mipmap/card_holder" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_card_bag"
-            android:text="卡包"
+            android:layout_toRightOf="@id/iv_card_holder"
+            android:text="@string/card_holder"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>
