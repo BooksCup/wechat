@@ -30,7 +30,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSettingRl = getView().findViewById(R.id.re_setting);
+        mSettingRl = getView().findViewById(R.id.rl_setting);
         mSettingRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
