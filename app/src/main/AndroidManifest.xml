@@ -50,6 +50,9 @@
         <activity
             android:name=".activity.SettingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyUserInfoActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 自定义的alertdialog -->
         <activity
