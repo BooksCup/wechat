@@ -11,14 +11,17 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.bc.wechat.R;
+import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
 
 /**
  * tab - "我"
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
+    private RelativeLayout mMyInfoRl;
     private RelativeLayout mSettingRl;
+
 
     @Nullable
     @Override
@@ -30,15 +33,30 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSettingRl = getView().findViewById(R.id.rl_setting);
-        mSettingRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), SettingActivity.class);
-                startActivity(intent);
-            }
-        });
+        initView();
 
     }
 
+    private void initView() {
+        mMyInfoRl = getView().findViewById(R.id.rl_myinfo);
+        mSettingRl = getView().findViewById(R.id.rl_setting);
+
+        mMyInfoRl.setOnClickListener(this);
+        mSettingRl.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            // 个人页面
+            case R.id.rl_myinfo:
+                startActivity(new Intent(getActivity(), MyUserInfoActivity.class));
+                break;
+            // 设置页面
+            case R.id.rl_setting:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+
+        }
+    }
 }
