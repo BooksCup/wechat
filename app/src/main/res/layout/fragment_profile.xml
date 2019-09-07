@@ -67,7 +67,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="32dp"
-            android:src="@mipmap/a_5"
+            android:src="@mipmap/qr_code"
 
             />
     </RelativeLayout>
