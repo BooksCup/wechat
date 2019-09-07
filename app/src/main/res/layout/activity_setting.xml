@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/view_temp"
-            android:text="设置"
+            android:text="@string/setting"
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </RelativeLayout>
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="接收新消息通知"
+                        android:text="@string/switch_notification"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="声音"
+                        android:text="@string/switch_sound"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="震动"
+                        android:text="@string/switch_vibrate"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="使用扬声器播放语音"
+                        android:text="@string/switch_speaker"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
@@ -217,7 +217,6 @@
                         android:visibility="invisible" />
                 </RelativeLayout>
             </LinearLayout>
-
 
             <Button
                 android:id="@+id/btn_logout"

@@ -84,4 +84,8 @@
     <string name="wallet">钱包</string>
     <string name="card_holder">卡包</string>
     <string name="setting">设置</string>
+    <string name="switch_notification">接收新消息通知</string>
+    <string name="switch_sound">声音</string>
+    <string name="switch_vibrate">震动</string>
+    <string name="switch_speaker">使用扬声器播放语音</string>
 </resources>
