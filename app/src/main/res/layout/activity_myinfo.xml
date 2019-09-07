@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -40,15 +40,13 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/view_temp"
-            android:text="个人信息"
+            android:text="@string/personal_info"
             android:textColor="#ffffff"
             android:textSize="18sp" />
-
-
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_avatar"
+        android:id="@+id/rl_avatar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="20dp"
@@ -69,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="头像"
+            android:text="@string/avatar"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -83,7 +81,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_name"
+        android:id="@+id/rl_nick_name"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -125,7 +123,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_fxid"
+        android:id="@+id/rl_wxid"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -167,7 +165,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_erweima"
+        android:id="@+id/rl_qr_code"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"

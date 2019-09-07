@@ -88,4 +88,7 @@
     <string name="switch_sound">声音</string>
     <string name="switch_vibrate">震动</string>
     <string name="switch_speaker">使用扬声器播放语音</string>
+
+    <string name="personal_info">个人信息</string>
+    <string name="avatar">头像</string>
 </resources>
