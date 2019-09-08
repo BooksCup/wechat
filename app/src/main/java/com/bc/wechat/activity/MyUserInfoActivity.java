@@ -19,6 +19,10 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
     }
 
+    public void back(View view) {
+        finish();
+    }
+
     @Override
     public void onClick(View view) {
 
