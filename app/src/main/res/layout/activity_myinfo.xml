@@ -172,13 +172,13 @@
         android:clickable="true">
 
         <TextView
-            android:id="@+id/tv_temp_erweima"
+            android:id="@+id/tv_temp_qr_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="二维码名片"
+            android:text="@string/qr_code"
             android:textColor="#353535"
             android:textSize="16sp" />
 
