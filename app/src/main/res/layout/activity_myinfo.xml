@@ -200,7 +200,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_address"
+        android:id="@+id/rl_address"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -213,13 +213,13 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="我的地址"
+            android:text="@string/my_address"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_sex"
+        android:id="@+id/rl_sex"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -233,7 +233,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="性别"
+            android:text="@string/sex"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -248,7 +248,7 @@
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
-            android:text="男"
+            android:text=""
             android:textColor="#AAAAAA"
             android:textSize="14sp" />
 
@@ -262,10 +262,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_region"
+        android:id="@+id/rl_region"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -276,7 +275,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="地区"
+            android:text="@string/region"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -290,7 +289,7 @@
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
-            android:text="安徽合肥"
+            android:text=""
             android:textColor="#AAAAAA"
             android:textSize="14sp" />
 
@@ -304,10 +303,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_sign"
+        android:id="@+id/rl_sign"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -318,7 +316,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="个性签名"
+            android:text="@string/my_sign"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -333,10 +331,8 @@
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
-            android:text="志存高远，脚踏实地"
+            android:text=""
             android:textColor="#AAAAAA"
             android:textSize="14sp" />
-
-
     </RelativeLayout>
 </LinearLayout>
