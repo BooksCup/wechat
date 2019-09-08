@@ -88,28 +88,28 @@
         android:clickable="true">
 
         <TextView
-            android:id="@+id/tv_temp_name"
+            android:id="@+id/tv_temp_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="昵称"
+            android:text="@string/nick_name"
             android:textColor="#353535"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_nick_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toRightOf="@id/tv_temp_name"
+            android:layout_toRightOf="@id/tv_temp_nick_name"
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
-            android:text="黄方意"
+            android:text=""
             android:textColor="#AAAAAA"
             android:textSize="14sp" />
 
