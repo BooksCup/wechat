@@ -53,6 +53,9 @@
         <activity
             android:name=".activity.MyUserInfoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UpdateNickNameActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 自定义的alertdialog -->
         <activity
