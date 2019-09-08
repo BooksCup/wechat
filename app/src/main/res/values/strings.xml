@@ -91,4 +91,5 @@
 
     <string name="personal_info">个人信息</string>
     <string name="avatar">头像</string>
+    <string name="wx_id">微信号</string>
 </resources>
