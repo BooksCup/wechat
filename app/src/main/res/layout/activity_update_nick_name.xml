@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -66,18 +66,26 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/edittext_login"
+        android:background="@null"
         android:singleLine="true"
-
         android:textColor="#353535"
         android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#45c01a" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:text="好名字可以让你的好朋友更容易记得你"
+        android:layout_marginTop="12dp"
+        android:text="好名字可以让你的朋友更容易记住你。"
         android:textColor="#AAAAAA"
         android:textSize="14sp" />
 
