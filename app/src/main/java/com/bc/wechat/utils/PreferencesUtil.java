@@ -175,6 +175,14 @@ public class PreferencesUtil {
         return (String) getParam("userId", "");
     }
 
+    public void setUserNickName(String userNickName) {
+        saveParam("userNickName", userNickName);
+    }
+
+    public String getUserNickName() {
+        return (String) getParam("userNickName", "");
+    }
+
     public Object getObject(String key) {
         String wordBase64 = preferences.getString(key, "");
         byte[] base64 = Base64.decode(wordBase64.getBytes(), Base64.DEFAULT);
