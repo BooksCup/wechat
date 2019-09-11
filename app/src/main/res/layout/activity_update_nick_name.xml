@@ -67,6 +67,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="16dp"
         android:background="@null"
+        android:paddingLeft="1dp"
         android:singleLine="true"
         android:textColor="#353535"
         android:textSize="16sp" />
@@ -83,8 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
+        android:layout_marginRight="20dp"
         android:text="好名字可以让你的朋友更容易记住你。"
         android:textColor="#AAAAAA"
         android:textSize="14sp" />
