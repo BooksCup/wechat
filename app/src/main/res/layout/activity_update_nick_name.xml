@@ -53,6 +53,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:background="@drawable/btn_register_bg"
+            android:enabled="false"
             android:gravity="center"
             android:text="保存"
             android:textColor="#fff"
