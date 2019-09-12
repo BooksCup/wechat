@@ -3,6 +3,8 @@ package com.bc.wechat.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.Selection;
+import android.text.Spannable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +35,12 @@ public class UpdateNickNameActivity extends FragmentActivity {
         mSaveTv = findViewById(R.id.tv_save);
 
         mNickNameEt.setText(PreferencesUtil.getInstance().getUserNickName());
+        // 光标移至最后
+        CharSequence charSequence = mNickNameEt.getText();
+        if (charSequence instanceof Spannable) {
+            Spannable spanText = (Spannable) charSequence;
+            Selection.setSelection(spanText, charSequence.length());
+        }
     }
 
     public void back(View view) {
