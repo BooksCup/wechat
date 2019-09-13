@@ -13,7 +13,6 @@ import com.android.volley.toolbox.Volley;
 import java.util.Map;
 
 public class VolleyUtil {
-    private String url = "http://www.xxx.com";
     private static VolleyUtil volleyUtil;
     private RequestQueue requestQueue;
 
@@ -59,6 +58,16 @@ public class VolleyUtil {
      */
     public void httpPostRequest(String url, final Map<String, String> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, listener, errorListener) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    public void httpPutRequest(String url, final Map<String, String> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, listener, errorListener) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return params;
