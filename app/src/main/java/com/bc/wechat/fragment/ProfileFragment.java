@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
+import com.bc.wechat.utils.PreferencesUtil;
 
 /**
  * tab - "我"
@@ -21,6 +23,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private RelativeLayout mMyInfoRl;
     private RelativeLayout mSettingRl;
+    private TextView mNickNameTv;
 
 
     @Nullable
@@ -33,6 +36,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        PreferencesUtil.getInstance().init(getActivity());
         initView();
 
     }
@@ -40,9 +44,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private void initView() {
         mMyInfoRl = getView().findViewById(R.id.rl_myinfo);
         mSettingRl = getView().findViewById(R.id.rl_setting);
+        mNickNameTv = getView().findViewById(R.id.tv_name);
 
         mMyInfoRl.setOnClickListener(this);
         mSettingRl.setOnClickListener(this);
+
+        mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
     }
 
     @Override
@@ -58,5 +65,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
     }
 }
