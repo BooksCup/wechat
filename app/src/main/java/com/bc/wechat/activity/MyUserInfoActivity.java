@@ -30,6 +30,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mNickNameRl = findViewById(R.id.rl_nick_name);
         mNickNameTv = findViewById(R.id.tv_nick_name);
 
+        mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mNickNameRl.setOnClickListener(this);
     }
 
