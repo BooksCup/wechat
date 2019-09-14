@@ -15,6 +15,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
     private RelativeLayout mNickNameRl;
     private TextView mNickNameTv;
+    private RelativeLayout mWxIdRl;
 
     private static final int UPDATE_USER_NICK_NAME = 3;
 
@@ -30,8 +31,11 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mNickNameRl = findViewById(R.id.rl_nick_name);
         mNickNameTv = findViewById(R.id.tv_nick_name);
 
+        mWxIdRl = findViewById(R.id.rl_wx_id);
+
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mNickNameRl.setOnClickListener(this);
+        mWxIdRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -44,6 +48,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             case R.id.rl_nick_name:
                 // 昵称
                 startActivityForResult(new Intent(this, UpdateNickNameActivity.class), UPDATE_USER_NICK_NAME);
+                break;
+            case R.id.rl_wx_id:
+                startActivity(new Intent(this, UpdateWxIdActivity.class));
                 break;
         }
     }

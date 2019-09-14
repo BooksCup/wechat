@@ -56,6 +56,9 @@
         <activity
             android:name=".activity.UpdateNickNameActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UpdateWxIdActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 自定义的alertdialog -->
         <activity
