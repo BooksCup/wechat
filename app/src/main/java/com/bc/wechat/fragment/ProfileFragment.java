@@ -24,6 +24,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout mMyInfoRl;
     private RelativeLayout mSettingRl;
     private TextView mNickNameTv;
+    private TextView mWxIdTv;
 
 
     @Nullable
@@ -45,11 +46,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mMyInfoRl = getView().findViewById(R.id.rl_myinfo);
         mSettingRl = getView().findViewById(R.id.rl_setting);
         mNickNameTv = getView().findViewById(R.id.tv_name);
+        mWxIdTv = getView().findViewById(R.id.tv_wxid);
 
         mMyInfoRl.setOnClickListener(this);
         mSettingRl.setOnClickListener(this);
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+        mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
     }
 
     @Override
@@ -71,5 +74,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+        mWxIdTv.setText("微信号:" + PreferencesUtil.getInstance().getUserWxId());
     }
 }
