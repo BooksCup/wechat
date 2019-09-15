@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 
 public class User extends SugarRecord {
     private String userId;
+    private String userWxId;
     private String userNickName;
     private String userPhone;
     private String userPassword;
@@ -17,6 +18,14 @@ public class User extends SugarRecord {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserWxId() {
+        return userWxId;
+    }
+
+    public void setUserWxId(String userWxId) {
+        this.userWxId = userWxId;
     }
 
     public String getUserNickName() {

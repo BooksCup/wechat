@@ -57,7 +57,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         mWxIdEt = findViewById(R.id.et_wx_id);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mWxIdEt.setText(PreferencesUtil.getInstance().getUserNickName());
+        mWxIdEt.setText(PreferencesUtil.getInstance().getUserWxId());
         // 光标移至最后
         CharSequence charSequence = mWxIdEt.getText();
         if (charSequence instanceof Spannable) {
