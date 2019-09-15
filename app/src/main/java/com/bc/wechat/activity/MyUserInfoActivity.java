@@ -37,6 +37,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
+        mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
     }
