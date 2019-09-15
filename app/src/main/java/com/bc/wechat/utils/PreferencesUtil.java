@@ -175,6 +175,14 @@ public class PreferencesUtil {
         return (String) getParam("userId", "");
     }
 
+    public void setUserWxId(String userWxId) {
+        saveParam("userWxId", userWxId);
+    }
+
+    public String getUserWxId() {
+        return (String) getParam("userWxId", "");
+    }
+
     public void setUserNickName(String userNickName) {
         saveParam("userNickName", userNickName);
     }
