@@ -101,7 +101,7 @@ public class UpdateNickNameActivity extends FragmentActivity {
         }
     }
 
-    private void updateUserNickName(String userId, String userNickName) {
+    private void updateUserNickName(String userId, final String userNickName) {
         String url = Constant.BASE_URL + "users/" + userId + "/userNickName";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userNickName", userNickName);
@@ -110,6 +110,8 @@ public class UpdateNickNameActivity extends FragmentActivity {
             @Override
             public void onResponse(String s) {
                 dialog.dismiss();
+                setResult(RESULT_OK);
+                PreferencesUtil.getInstance().setUserNickName(userNickName);
                 finish();
             }
         }, new Response.ErrorListener() {
