@@ -412,7 +412,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/container_voice_call"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -424,11 +423,11 @@
                             android:layout_height="64dp">
 
                             <ImageView
-                                android:id="@+id/btn_voice_call"
+                                android:id="@+id/iv_chat_transfer"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_zhuanzhang"
+                                android:background="@mipmap/icon_chat_transfer"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
@@ -444,7 +443,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/container_voice_call2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -476,7 +474,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/container_voice_call3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
