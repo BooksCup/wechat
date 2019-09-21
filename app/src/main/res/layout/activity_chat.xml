@@ -485,11 +485,11 @@
                             android:layout_height="64dp">
 
                             <ImageView
-                                android:id="@+id/btn_voice_call3"
+                                android:id="@+id/iv_chat_collect"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
-                                android:background="@mipmap/icon_shoucang"
+                                android:background="@mipmap/icon_chat_collect"
                                 android:clickable="true"
                                 android:onClick="onClick"
                                 android:scaleType="fitCenter" />
