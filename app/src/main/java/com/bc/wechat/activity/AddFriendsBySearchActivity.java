@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -115,9 +116,12 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                dialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(AddFriendsBySearchActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(AddFriendsBySearchActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -129,7 +133,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                                 .show();
                         break;
                 }
-                dialog.dismiss();
+
             }
         });
     }
