@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +23,7 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 
 public class AddFriendsBySearchActivity extends FragmentActivity {
 
@@ -34,7 +34,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     private TextView mSearchTv;
 
     private VolleyUtil volleyUtil;
-    ProgressDialog dialog;
+    LoadingDialog dialog;
     User user;
 
     @Override
@@ -45,12 +45,11 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         PreferencesUtil.getInstance().init(this);
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new ProgressDialog(AddFriendsBySearchActivity.this);
+        dialog = new LoadingDialog(AddFriendsBySearchActivity.this);
         mSearchRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.setMessage("正在查找联系人...");
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
                 String keyword = mSearchEt.getText().toString().trim();
                 searchUser(keyword);
