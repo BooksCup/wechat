@@ -46,7 +46,8 @@
                 android:divider="@color/divider_list"
                 android:dividerHeight="0.5dp"
                 android:fastScrollEnabled="false"
-                android:footerDividersEnabled="false" />
+                android:footerDividersEnabled="false"
+                android:scrollbars="none" />
 
             <!--<com.fanxin.app.widget.Sidebar-->
             <!--android:id="@+id/sidebar"-->
