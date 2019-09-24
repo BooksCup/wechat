@@ -111,4 +111,7 @@
 
     <string name="sex_male">男</string>
     <string name="sex_female">女</string>
+
+    <string name="searching_for_user">正在查找联系人...</string>
+    <string name="user_not_exists">该用户不存在</string>
 </resources>

@@ -49,7 +49,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         mSearchRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.setMessage("正在查找联系人...");
+                dialog.setMessage(getString(R.string.searching_for_user));
                 dialog.show();
                 String keyword = mSearchEt.getText().toString().trim();
                 searchUser(keyword);
@@ -128,7 +128,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                 switch (errorCode) {
                     case 400:
                         Toast.makeText(AddFriendsBySearchActivity.this,
-                                "该用户不存在", Toast.LENGTH_SHORT)
+                                R.string.user_not_exists, Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }
