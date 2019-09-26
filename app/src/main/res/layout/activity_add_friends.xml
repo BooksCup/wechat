@@ -59,7 +59,7 @@
                 android:paddingLeft="46dp"
                 android:paddingBottom="8dp"
                 android:singleLine="true"
-                android:text="微信号/QQ号/手机号"
+                android:text="微信号/手机号"
                 android:textColor="#C5C5C5"
                 android:textSize="14sp" />
 
@@ -101,7 +101,6 @@
             android:orientation="vertical">
 
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
@@ -112,19 +111,19 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_leida"
+                    android:id="@+id/iv_radar"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/a__" />
+                    android:src="@mipmap/icon_add_friend_radar" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_leida"
+                    android:layout_toRightOf="@id/iv_radar"
                     android:text="雷达加朋友"
                     android:textColor="#353535"
                     android:textSize="16sp" />
@@ -134,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_leida"
+                    android:layout_toRightOf="@id/iv_radar"
                     android:text="添加身边的朋友"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -270,7 +269,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@id/iv_lianxiren"
-                    android:text="QQ/手机联系人"
+                    android:text="手机联系人"
                     android:textColor="#353535"
                     android:textSize="16sp" />
 
