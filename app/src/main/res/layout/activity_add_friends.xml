@@ -101,6 +101,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_radar"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
