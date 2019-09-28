@@ -14,6 +14,8 @@ import com.bc.wechat.utils.PreferencesUtil;
 
 public class AddFriendsActivity extends FragmentActivity implements View.OnClickListener {
 
+    private RelativeLayout mSearchRl;
+
     private RelativeLayout mRadarRl;
     private TextView mWxIdTv;
 
@@ -28,10 +30,12 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     }
 
     private void initView() {
+        mSearchRl = findViewById(R.id.rl_search);
         mRadarRl = findViewById(R.id.rl_radar);
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
         mWxIdTv.setText("我的微信号：" + user.getUserWxId());
+        mSearchRl.setOnClickListener(this);
         mRadarRl.setOnClickListener(this);
     }
 
@@ -42,6 +46,10 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_search:
+                startActivity(new Intent(this, AddFriendsBySearchActivity.class));
+                break;
+
             case R.id.rl_radar:
                 startActivity(new Intent(this, AddFriendsByRadarActivity.class));
                 break;
