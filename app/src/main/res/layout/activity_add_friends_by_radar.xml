@@ -11,14 +11,15 @@
         android:layout_height="fill_parent"></com.bc.wechat.widget.RadarView>
 
     <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_avatar"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
-        fresco:roundAsCircle="true"
-        fresco:placeholderImageScaleType="centerCrop"
         fresco:actualImageScaleType="centerCrop"
-        fresco:placeholderImage="@mipmap/default_useravatar" />
+        fresco:placeholderImage="@mipmap/default_useravatar"
+        fresco:placeholderImageScaleType="centerCrop"
+        fresco:roundAsCircle="true" />
 
     <Button
         android:layout_width="60dp"
