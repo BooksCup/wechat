@@ -38,7 +38,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            fresco:placeholderImage="@mipmap/default_useravatar" />
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <RelativeLayout
             android:layout_width="match_parent"

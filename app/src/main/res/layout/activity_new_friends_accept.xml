@@ -71,7 +71,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginLeft="15dp"
-                fresco:placeholderImage="@mipmap/default_useravatar" />
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <LinearLayout
                 android:id="@+id/ll_name"

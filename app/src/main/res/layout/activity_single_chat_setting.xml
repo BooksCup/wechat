@@ -58,7 +58,7 @@
                 android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                fresco:placeholderImage="@mipmap/default_useravatar" />
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <TextView
                 android:id="@+id/tv_nick_name"

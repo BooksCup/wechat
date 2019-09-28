@@ -31,7 +31,7 @@
                     android:layout_height="22dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    fresco:placeholderImage="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_user_avatar" />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sdv_avatar2"
@@ -40,7 +40,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="2dp"
                     android:layout_toRightOf="@id/sdv_avatar1"
-                    fresco:placeholderImage="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_user_avatar" />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sdv_avatar3"
@@ -49,7 +49,7 @@
                     android:layout_below="@id/sdv_avatar1"
                     android:layout_alignParentLeft="true"
                     android:layout_marginTop="2dp"
-                    fresco:placeholderImage="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_user_avatar" />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sdv_avatar4"
@@ -60,7 +60,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="2dp"
                     android:layout_toRightOf="@id/sdv_avatar3"
-                    fresco:placeholderImage="@mipmap/default_useravatar" />
+                    fresco:placeholderImage="@mipmap/default_user_avatar" />
             </RelativeLayout>
         </RelativeLayout>
 

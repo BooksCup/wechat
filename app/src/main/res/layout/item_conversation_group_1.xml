@@ -29,7 +29,7 @@
                     android:id="@+id/iv_avatar1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@mipmap/default_useravatar" />
+                    android:src="@mipmap/default_user_avatar" />
             </RelativeLayout>
         </RelativeLayout>
 

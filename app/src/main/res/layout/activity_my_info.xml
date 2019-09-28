@@ -61,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
-            fresco:placeholderImage="@mipmap/default_useravatar" />
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <TextView
             android:layout_width="wrap_content"

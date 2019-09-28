@@ -23,7 +23,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerInParent="true"
-                fresco:placeholderImage="@mipmap/default_useravatar" />
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
         </RelativeLayout>
 
         <TextView
