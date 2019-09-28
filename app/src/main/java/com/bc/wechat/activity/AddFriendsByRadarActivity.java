@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.User;
@@ -21,5 +22,9 @@ public class AddFriendsByRadarActivity extends FragmentActivity {
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         User user = PreferencesUtil.getInstance().getUser();
         mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+    }
+
+    public void back(View view) {
+        finish();
     }
 }

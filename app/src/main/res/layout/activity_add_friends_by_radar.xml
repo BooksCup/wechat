@@ -28,6 +28,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_radar_bg"
+        android:onClick="back"
         android:text="退出"
         android:textColor="#ffffff" />
 </FrameLayout>
