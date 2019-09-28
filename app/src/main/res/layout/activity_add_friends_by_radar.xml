@@ -10,17 +10,20 @@
         android:layout_height="fill_parent"></com.bc.wechat.widget.RadarView>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="center"
+        android:layout_marginTop="12dp"
         android:background="@mipmap/ic_launcher" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="30dp"
-        android:text="退出" />
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_gravity="top"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_radar_bg"
+        android:text="退出"
+        android:textColor="#ffffff" />
 </FrameLayout>
 
