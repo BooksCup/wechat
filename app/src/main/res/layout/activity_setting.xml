@@ -216,7 +216,7 @@
                 android:layout_marginTop="40dp"
                 android:background="@drawable/btn_list_item_bg"
                 android:gravity="center_vertical|left"
-                android:paddingLeft="10dip"
+                android:paddingLeft="20dip"
                 android:text="@string/button_logout"
                 android:textColor="#353535"
                 android:textSize="16sp" />
