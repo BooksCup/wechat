@@ -27,6 +27,7 @@ import com.bc.wechat.fragment.ProfileFragment;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
+import com.bc.wechat.widget.AddPopupWindow;
 
 import java.util.Date;
 import java.util.List;
@@ -58,6 +59,8 @@ public class MainActivity extends FragmentActivity {
 
     private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
+
+    private ImageView mAddIv;
 
     User user;
 
@@ -96,6 +99,8 @@ public class MainActivity extends FragmentActivity {
         textviews[3] = findViewById(R.id.tv_profile);
         textviews[0].setTextColor(0xFF45C01A);
 
+        mAddIv = findViewById(R.id.iv_add);
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, conversationFragment)
                 .add(R.id.fragment_container, friendsFragment)
@@ -106,6 +111,14 @@ public class MainActivity extends FragmentActivity {
 
         mUnreadNewMsgsNumTv = findViewById(R.id.unread_msg_number);
         mUnreadNewFriendsNumTv = findViewById(R.id.unread_address_number);
+
+        mAddIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddPopupWindow addPopupWindow = new AddPopupWindow(MainActivity.this);
+                addPopupWindow.showPopupWindow(mAddIv);
+            }
+        });
     }
 
     public void onTabClicked(View view) {

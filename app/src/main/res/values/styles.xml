@@ -54,4 +54,10 @@
         <item name="android:backgroundDimEnabled">false</item><!--背景是否模糊显示-->
         <item name="android:backgroundDimAmount">0.6</item><!--背景的灰度-->
     </style>
+
+    <!-- 右上角popupwindow -->
+    <style name="AnimationPreview">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
 </resources>
