@@ -477,6 +477,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 });
                 // 清除未读数
                 conversation.resetUnreadCount();
+            } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
             } else {
                 // 未读数++
                 PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
