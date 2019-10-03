@@ -217,6 +217,17 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideKeyboard();
+
+                // 隐藏更多
+                if (mEmojiIconContainerLl.getVisibility() == View.VISIBLE) {
+                    mEmojiIconContainerLl.setVisibility(View.GONE);
+                    mBtnContainerLl.setVisibility(View.VISIBLE);
+                    mEmoticonsNormalIv.setVisibility(View.VISIBLE);
+                    mEmoticonsCheckedIv.setVisibility(View.INVISIBLE);
+                } else {
+                    mMoreLl.setVisibility(View.GONE);
+                }
+
                 return false;
             }
         });
