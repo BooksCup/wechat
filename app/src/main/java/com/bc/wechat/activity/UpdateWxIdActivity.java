@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +21,7 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
     private EditText mWxIdEt;
     private TextView mSaveTv;
     private VolleyUtil volleyUtil;
-    ProgressDialog dialog;
+    LoadingDialog dialog;
     User user;
 
     @Override
@@ -41,14 +41,13 @@ public class UpdateWxIdActivity extends FragmentActivity {
         PreferencesUtil.getInstance().init(this);
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new ProgressDialog(UpdateWxIdActivity.this);
+        dialog = new LoadingDialog(UpdateWxIdActivity.this);
         initView();
 
         mSaveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.setMessage(getString(R.string.saving));
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
                 String userId = user.getUserId();
                 String userWxId = mWxIdEt.getText().toString();
