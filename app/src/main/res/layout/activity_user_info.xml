@@ -19,10 +19,10 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
-            android:paddingBottom="5dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
             android:scaleType="centerInside"
             android:src="@drawable/top_bar_back" />
 
@@ -30,8 +30,8 @@
             android:id="@+id/view_temp"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_toRightOf="@id/iv_back"
             android:background="#14191A" />
 
@@ -63,8 +63,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:layout_marginBottom="18dp"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="18dp">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_avatar"
@@ -77,9 +77,8 @@
                 android:id="@+id/ll_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="2dp"
                 android:layout_toRightOf="@id/sdv_avatar"
                 android:orientation="horizontal">
 
@@ -87,9 +86,9 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/iv_sex"
@@ -98,6 +97,25 @@
                     android:layout_marginLeft="8dp"
                     android:src="@mipmap/ic_sex_male" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_wx_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/sdv_avatar"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_wx_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信号：123456"
+                    android:textColor="#aaaaaa"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -105,28 +123,25 @@
             android:layout_height="48dp"
             android:background="#ffffff"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:paddingRight="8dp">
 
             <TextView
-                android:id="@+id/tv_region_temp"
-                android:layout_width="96dp"
+                android:id="@+id/tv_remark_and_tag_setting"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
-                android:text="地区"
+                android:text="设置备注和标签"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_region"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tv_region_temp"
-                android:text="安徽  合肥"
-                android:textColor="#AAAAAA"
-                android:textSize="14sp" />
+                android:src="@mipmap/right_arrow_icon" />
 
             <View
                 android:layout_width="match_parent"
@@ -135,19 +150,176 @@
                 android:background="#DBDBDB" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_operate"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp">
+
+            <TextView
+                android:id="@+id/tv_moment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="朋友圈"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_moment_photo_1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/tv_moment"
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_moment_photo_2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/sdv_moment_photo_1"
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_moment_photo_3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/sdv_moment_photo_2"
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_moment_photo_4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/sdv_moment_photo_3"
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/right_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/btn_register_bg"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp"
-            android:text="发消息"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp">
+
+            <TextView
+                android:id="@+id/tv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="更多信息"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/right_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_operate"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <ImageView
+                android:id="@+id/iv_operate"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_operate"
+                android:src="@mipmap/ic_sex_male" />
+
+            <TextView
+                android:id="@+id/tv_operate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="发消息"
+                android:textColor="#336699"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_audio_vedio_call"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <ImageView
+                android:id="@+id/iv_audio_vedio_call"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_audio_vedio_call"
+                android:src="@mipmap/ic_sex_male" />
+
+            <TextView
+                android:id="@+id/tv_audio_vedio_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="音视频通话"
+                android:textColor="#336699"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>

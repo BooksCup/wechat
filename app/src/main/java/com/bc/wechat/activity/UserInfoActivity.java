@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -24,7 +25,7 @@ public class UserInfoActivity extends Activity {
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
     // 非好友: 添加到通讯录
-    private Button mSendMsgBtn;
+    private RelativeLayout mOperateRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class UserInfoActivity extends Activity {
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
-        mSendMsgBtn = findViewById(R.id.btn_operate);
+        mOperateRl = findViewById(R.id.rl_operate);
 
         final String userId = getIntent().getStringExtra("userId");
         final String nickName = getIntent().getStringExtra("nickName");
@@ -57,13 +58,13 @@ public class UserInfoActivity extends Activity {
             mSexIv.setVisibility(View.GONE);
         }
 
-        if (Constant.IS_FRIEND.equals(isFriend)) {
-            mSendMsgBtn.setText("发消息");
-        } else {
-            mSendMsgBtn.setText("添加到通讯录");
-        }
+//        if (Constant.IS_FRIEND.equals(isFriend)) {
+//            mSendMsgBtn.setText("发消息");
+//        } else {
+//            mSendMsgBtn.setText("添加到通讯录");
+//        }
 
-        mSendMsgBtn.setOnClickListener(new View.OnClickListener() {
+        mOperateRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Constant.IS_FRIEND.equals(isFriend)) {
