@@ -32,6 +32,7 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
@@ -62,7 +63,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private static final int UPDATE_USER_WX_ID = 4;
     private static final int UPDATE_USER_SIGN = 5;
 
-    ProgressDialog dialog;
+    LoadingDialog dialog;
     User user;
 
     @Override
@@ -72,7 +73,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         volleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
         user = PreferencesUtil.getInstance().getUser();
-        dialog = new ProgressDialog(MyUserInfoActivity.this);
+        dialog = new LoadingDialog(MyUserInfoActivity.this);
         requestWritePermission();
         initView();
     }
@@ -198,7 +199,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 dialog.setMessage(getString(R.string.saving));
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
                 updateUserSex(user.getUserId(), Constant.USER_SEX_MALE);
                 sexDialog.dismiss();
@@ -210,7 +210,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 dialog.setMessage(getString(R.string.saving));
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
                 updateUserSex(user.getUserId(), Constant.USER_SEX_FEMALE);
                 sexDialog.dismiss();
