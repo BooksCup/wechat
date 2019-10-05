@@ -141,7 +141,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/right_arrow_icon" />
+                android:src="@mipmap/icon_right_arrow" />
 
             <View
                 android:layout_width="match_parent"
@@ -210,7 +210,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/right_arrow_icon" />
+                android:src="@mipmap/icon_right_arrow" />
 
             <View
                 android:layout_width="match_parent"
@@ -242,7 +242,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/right_arrow_icon" />
+                android:src="@mipmap/icon_right_arrow" />
 
             <View
                 android:layout_width="match_parent"
@@ -276,7 +276,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
                 android:text="发消息"
-                android:textColor="#336699"
+                android:textColor="#5B6784"
                 android:textSize="17sp" />
 
             <View
@@ -310,7 +310,7 @@
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
                 android:text="音视频通话"
-                android:textColor="#336699"
+                android:textColor="#5B6784"
                 android:textSize="17sp" />
 
             <View
