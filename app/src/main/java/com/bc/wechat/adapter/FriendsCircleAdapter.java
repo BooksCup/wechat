@@ -38,7 +38,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(mContext).inflate(
-                R.layout.item_circle, null);
+                R.layout.item_friends_circle, null);
         return convertView;
     }
 }

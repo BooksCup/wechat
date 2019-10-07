@@ -70,11 +70,11 @@
                 android:textSize="12sp" />
 
             <ImageButton
-                android:id="@+id/imgButton"
+                android:id="@+id/ib_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/coment"
+                android:background="@mipmap/icon_comment"
                 android:focusable="true" />
         </RelativeLayout>
 
