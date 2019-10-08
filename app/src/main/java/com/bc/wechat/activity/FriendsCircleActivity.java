@@ -3,7 +3,11 @@ package com.bc.wechat.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.FriendsCircleAdapter;
@@ -21,11 +25,26 @@ public class FriendsCircleActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_circle);
         listView = findViewById(R.id.ll_friends_circle);
+        View headView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
+
         List<FriendsCircle> list = new ArrayList<>();
         list.add(new FriendsCircle());
         list.add(new FriendsCircle());
         FriendsCircleAdapter adapter = new FriendsCircleAdapter(list, this);
         listView.setAdapter(adapter);
+        listView.addHeaderView(headView, null, false);
+        listView.setHeaderDividersEnabled(false);
+
+        ImageView fengmianIv = headView.findViewById(R.id.imageView1);
+        fengmianIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+    }
+
+    public void back(View view) {
+        finish();
     }
 
 }

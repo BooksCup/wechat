@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:scrollY="24dip">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="240dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/x01" />
+
+    <ImageView
+        android:id="@+id/circleprogress"
+        android:layout_width="24dip"
+        android:layout_height="24dip"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="40dip"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/progress" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView1"
+        android:layout_marginRight="14dp"
+        android:layout_toLeftOf="@+id/imageView2"
+        android:paddingTop="40dp"
+        android:paddingBottom="5dp"
+        android:text="张刚"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/w002" />
+
+</RelativeLayout>
