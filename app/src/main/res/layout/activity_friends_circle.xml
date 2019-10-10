@@ -49,6 +49,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="@color/divider_list"
-        android:dividerHeight="0.5dp" />
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none" />
 
 </LinearLayout>
