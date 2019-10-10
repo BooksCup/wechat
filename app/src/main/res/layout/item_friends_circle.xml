@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="显示更多"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <GridView
             android:id="@+id/gv_friends_circle_photo"

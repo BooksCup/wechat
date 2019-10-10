@@ -45,8 +45,6 @@ public class FriendsCircleActivity extends FragmentActivity {
         listView = findViewById(R.id.ll_friends_circle);
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
-        friendsCircleList.add(new FriendsCircle());
-        friendsCircleList.add(new FriendsCircle());
         mAdapter = new FriendsCircleAdapter(friendsCircleList, this);
         listView.setAdapter(mAdapter);
         listView.addHeaderView(headerView, null, false);
