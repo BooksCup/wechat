@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SomeBody"
-            android:textColor="#576b95" />
+            android:textColor="#576b95"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/tv_content"
@@ -38,7 +39,8 @@
             android:paddingTop="5dip"
             android:paddingBottom="5dip"
             android:text="今个真是一个好日子"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/tv_more"
