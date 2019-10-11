@@ -5,12 +5,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendsCircle;
-import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -43,7 +43,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         FriendsCircle friendsCircle = dataList.get(position);
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(
                     R.layout.item_friends_circle, null);
@@ -61,6 +61,32 @@ public class FriendsCircleAdapter extends BaseAdapter {
         viewHolder.mNickNameTv.setText(friendsCircle.getUserNickName());
         viewHolder.mContentTv.setText(friendsCircle.getCircleContent());
         viewHolder.mCreateTimeTv.setText(TimestampUtil.getTimePoint(friendsCircle.getTimestamp()));
+
+        viewHolder.mMoreTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if (viewHolder.mContentTv.getLineCount() > 4) {
+                    viewHolder.mMoreTv.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.mMoreTv.setVisibility(View.GONE);
+                }
+                return true;
+            }
+        });
+
+        viewHolder.mMoreTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (viewHolder.mContentTv.getMaxLines() <= 4) {
+                    viewHolder.mMoreTv.setText("收起");
+                    viewHolder.mContentTv.setMaxLines(viewHolder.mContentTv.getLineCount());
+                } else {
+                    viewHolder.mMoreTv.setText("全文");
+                    viewHolder.mContentTv.setMaxLines(4);
+                }
+
+            }
+        });
 
         return convertView;
     }

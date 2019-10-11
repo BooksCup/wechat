@@ -35,11 +35,11 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
             android:maxLines="4"
             android:paddingTop="5dip"
             android:paddingBottom="5dip"
-            android:text="阿发士大夫撒旦法士大夫撒旦发送到发送到发送到发送到发送到发送到发斯蒂芬"
-            android:layout_marginRight="16dp"
+            android:text=""
             android:textColor="#000000"
             android:textSize="16dp" />
 
@@ -47,7 +47,9 @@
             android:id="@+id/tv_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="显示更多"
+            android:text="全文"
+            android:textColor="#576b95"
+            android:textSize="16dp"
             android:visibility="gone" />
 
         <GridView
