@@ -17,22 +17,26 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 public class FriendsCircleAdapter extends BaseAdapter {
-    private List<FriendsCircle> dataList;
+    private List<FriendsCircle> friendsCircleList;
     private Context mContext;
 
-    public FriendsCircleAdapter(List<FriendsCircle> dataList, Context context) {
-        this.dataList = dataList;
+    public FriendsCircleAdapter(List<FriendsCircle> friendsCircleList, Context context) {
+        this.friendsCircleList = friendsCircleList;
         this.mContext = context;
+    }
+
+    public void setData(List<FriendsCircle> dataList) {
+        this.friendsCircleList = dataList;
     }
 
     @Override
     public int getCount() {
-        return dataList.size();
+        return friendsCircleList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dataList.get(position);
+        return friendsCircleList.get(position);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        FriendsCircle friendsCircle = dataList.get(position);
+        FriendsCircle friendsCircle = friendsCircleList.get(position);
         final ViewHolder viewHolder;
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(

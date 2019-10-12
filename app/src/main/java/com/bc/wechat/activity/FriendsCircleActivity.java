@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.FriendsCircleAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.FriendsCircleDao;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -30,6 +31,7 @@ public class FriendsCircleActivity extends FragmentActivity {
     private ListView listView;
     private User user;
     private VolleyUtil volleyUtil;
+    private FriendsCircleDao friendsCircleDao;
     private List<FriendsCircle> friendsCircleList = new ArrayList<>();
     FriendsCircleAdapter mAdapter;
 
@@ -39,9 +41,11 @@ public class FriendsCircleActivity extends FragmentActivity {
         setContentView(R.layout.activity_friends_circle);
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
+        friendsCircleDao = new FriendsCircleDao();
         listView = findViewById(R.id.ll_friends_circle);
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
+        friendsCircleList = friendsCircleDao.getFriendsCircleList();
         mAdapter = new FriendsCircleAdapter(friendsCircleList, this);
         listView.setAdapter(mAdapter);
         listView.addHeaderView(headerView, null, false);
@@ -75,7 +79,19 @@ public class FriendsCircleActivity extends FragmentActivity {
             @Override
             public void onResponse(String response) {
                 List<FriendsCircle> list = JSONArray.parseArray(response, FriendsCircle.class);
-                friendsCircleList.addAll(list);
+                for (FriendsCircle friendsCircle : list) {
+                    FriendsCircle checkFriendsCircle = friendsCircleDao.getFriendsCircleByCircleId(friendsCircle.getCircleId());
+                    if (null == checkFriendsCircle) {
+                        // 不存在,插入
+                        friendsCircleDao.addFriendsCircle(friendsCircle);
+                    } else {
+                        // 存在,修改
+                        friendsCircle.setId(checkFriendsCircle.getId());
+                        friendsCircleDao.addFriendsCircle(friendsCircle);
+                    }
+                }
+                friendsCircleList = friendsCircleDao.getFriendsCircleList();
+                mAdapter.setData(friendsCircleList);
                 mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
