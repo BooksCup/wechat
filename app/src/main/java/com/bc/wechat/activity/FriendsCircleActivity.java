@@ -124,7 +124,7 @@ public class FriendsCircleActivity extends FragmentActivity {
                             friendsCircleDao.addFriendsCircle(friendsCircle);
                         }
                     }
-                    friendsCircleList = friendsCircleDao.getFriendsCircleList(pageSize, timeStamp);
+                    List<FriendsCircle> friendsCircleList = friendsCircleDao.getFriendsCircleList(pageSize, timeStamp);
                     if (isAdd) {
                         // 上拉加载
                         mAdapter.addData(friendsCircleList);
@@ -145,6 +145,19 @@ public class FriendsCircleActivity extends FragmentActivity {
                 } else {
                     // 下拉刷新
                     refreshLayout.finishRefresh();
+                }
+                // 网络错误，从本地读取
+                List<FriendsCircle> friendsCircleList = friendsCircleDao.getFriendsCircleList(pageSize, timeStamp);
+                if (null != friendsCircleList && friendsCircleList.size() > 0) {
+                    if (isAdd) {
+                        // 上拉加载
+                        mAdapter.addData(friendsCircleList);
+                    } else {
+                        // 下拉刷新
+                        mAdapter.setData(friendsCircleList);
+                    }
+                    timeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
+                    mAdapter.notifyDataSetChanged();
                 }
             }
         });
