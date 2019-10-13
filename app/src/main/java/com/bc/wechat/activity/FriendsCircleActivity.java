@@ -47,7 +47,7 @@ public class FriendsCircleActivity extends FragmentActivity {
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
         friendsCircleDao = new FriendsCircleDao();
-        timeStamp = System.currentTimeMillis();
+        timeStamp = 0L;
         listView = findViewById(R.id.ll_friends_circle);
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
@@ -97,7 +97,7 @@ public class FriendsCircleActivity extends FragmentActivity {
     }
 
     private void getFriendsCircleList(String userId, final int pageSize, final boolean isAdd) {
-        timeStamp = isAdd ? timeStamp : System.currentTimeMillis();
+        timeStamp = isAdd ? timeStamp : 0L;
         String url = Constant.BASE_URL + "friendsCircle?userId=" + userId + "&pageSize=" + pageSize + "&timestamp=" + timeStamp;
 
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {

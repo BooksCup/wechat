@@ -6,9 +6,14 @@ import java.util.List;
 
 public class FriendsCircleDao {
     public List<FriendsCircle> getFriendsCircleList(int pageSize, long timeStamp) {
-        return FriendsCircle.findWithQuery(FriendsCircle.class,
-                "select * from friends_circle where timestamp < ? order by timestamp desc limit ?",
-                String.valueOf(timeStamp), String.valueOf(pageSize));
+        if (0L == timeStamp) {
+            return FriendsCircle.findWithQuery(FriendsCircle.class,
+                    "select * from friends_circle order by timestamp desc limit ? offset 0", String.valueOf(pageSize));
+        } else {
+            return FriendsCircle.findWithQuery(FriendsCircle.class,
+                    "select * from friends_circle where timestamp < ? order by timestamp desc limit ?",
+                    String.valueOf(timeStamp), String.valueOf(pageSize));
+        }
     }
 
     public void addFriendsCircle(FriendsCircle friendsCircle) {
