@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.utils.TimestampUtil;
@@ -74,16 +75,12 @@ public class FriendsCircleAdapter extends BaseAdapter {
         viewHolder.mContentTv.setText(friendsCircle.getCircleContent());
         viewHolder.mCreateTimeTv.setText(TimestampUtil.getTimePoint(friendsCircle.getTimestamp()));
 
-        List<String> photoList = new ArrayList<>();
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201803/24/20180324081023_8FVre.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
-        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        List<String> photoList;
+        try {
+            photoList = JSONArray.parseArray(friendsCircle.getCirclePhotos(), String.class);
+        } catch (Exception e) {
+            photoList = new ArrayList<>();
+        }
 
         viewHolder.mPhotosGv.setAdapter(new FriendsCirclePhotoAdapter(photoList, mContext));
 
