@@ -7,13 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.utils.TimestampUtil;
+import com.bc.wechat.widget.FriendsCirclePhotoGridView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsCircleAdapter extends BaseAdapter {
@@ -61,6 +64,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
             viewHolder.mContentTv = convertView.findViewById(R.id.tv_content);
             viewHolder.mMoreTv = convertView.findViewById(R.id.tv_more);
             viewHolder.mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
+            viewHolder.mPhotosGv = convertView.findViewById(R.id.gv_friends_circle_photo);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -69,6 +73,19 @@ public class FriendsCircleAdapter extends BaseAdapter {
         viewHolder.mNickNameTv.setText(friendsCircle.getUserNickName());
         viewHolder.mContentTv.setText(friendsCircle.getCircleContent());
         viewHolder.mCreateTimeTv.setText(TimestampUtil.getTimePoint(friendsCircle.getTimestamp()));
+
+        List<String> photoList = new ArrayList<>();
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201803/24/20180324081023_8FVre.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+        photoList.add("https://c-ssl.duitang.com/uploads/item/201602/10/20160210211239_JCnsw.thumb.700_0.jpeg");
+
+        viewHolder.mPhotosGv.setAdapter(new FriendsCirclePhotoAdapter(photoList, mContext));
 
         viewHolder.mMoreTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -105,5 +122,6 @@ public class FriendsCircleAdapter extends BaseAdapter {
         TextView mContentTv;
         TextView mMoreTv;
         TextView mCreateTimeTv;
+        FriendsCirclePhotoGridView mPhotosGv;
     }
 }
