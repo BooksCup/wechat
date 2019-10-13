@@ -1,17 +1,20 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
+import com.bc.wechat.activity.ShowFriendsCircleBigImageActivity;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.widget.FriendsCirclePhotoGridView;
@@ -83,6 +86,13 @@ public class FriendsCircleAdapter extends BaseAdapter {
         }
 
         viewHolder.mPhotosGv.setAdapter(new FriendsCirclePhotoAdapter(photoList, mContext));
+
+        viewHolder.mPhotosGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mContext.startActivity(new Intent(mContext, ShowFriendsCircleBigImageActivity.class));
+            }
+        });
 
         viewHolder.mMoreTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override

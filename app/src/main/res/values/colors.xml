@@ -34,4 +34,7 @@
     <color name="grid_state_focused">#80000000</color>
     <color name="voip_interface_text_color">#bababa</color>
     <color name="black_deep">#FF000000</color>
+
+    <color name="item_nomar">#282d2c</color>
+    <color name="item_down">#1d1d20</color>
 </resources>
