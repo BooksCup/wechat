@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
-import com.bc.wechat.activity.ShowFriendsCircleBigImageActivity;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.widget.FriendsCirclePhotoGridView;
@@ -85,12 +83,19 @@ public class FriendsCircleAdapter extends BaseAdapter {
             photoList = new ArrayList<>();
         }
 
+        final ArrayList<String> photoArrayList = new ArrayList<>();
+        if (null != photoList && photoList.size() > 0) {
+            photoArrayList.addAll(photoList);
+        }
+
         viewHolder.mPhotosGv.setAdapter(new FriendsCirclePhotoAdapter(photoList, mContext));
 
         viewHolder.mPhotosGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mContext.startActivity(new Intent(mContext, ShowFriendsCircleBigImageActivity.class));
+//                Intent intent = new Intent(mContext, ShowFriendsCircleBigImageActivity.class);
+//                intent.putStringArrayListExtra("photoList", photoArrayList);
+//                mContext.startActivity(intent);
             }
         });
 

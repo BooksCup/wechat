@@ -132,10 +132,6 @@
             android:name=".activity.FriendsCircleActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".activity.ShowFriendsCircleBigImageActivity"
-            android:screenOrientation="portrait" />
-
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"

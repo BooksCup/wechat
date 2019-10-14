@@ -11,7 +11,7 @@
         android:paddingTop="20dp">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/guidePagers"
+            android:id="@+id/vp_photo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
 
@@ -19,7 +19,7 @@
             android:id="@+id/viewGroup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/guidePagers"
+            android:layout_below="@id/vp_photo"
             android:layout_marginTop="-25px"
             android:gravity="center"
             android:orientation="horizontal"></LinearLayout>
