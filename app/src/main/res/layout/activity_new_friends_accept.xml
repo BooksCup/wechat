@@ -26,21 +26,12 @@
             android:scaleType="centerInside"
             android:src="@drawable/top_bar_back" />
 
-        <View
-            android:id="@+id/view_temp"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/iv_back"
-            android:background="#14191A" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/view_temp"
+            android:layout_toRightOf="@id/iv_back"
             android:text="详细资料"
             android:textColor="#ffffff"
             android:textSize="18sp" />
@@ -138,11 +129,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="12dp"
             android:background="#ffffff"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:layout_marginTop="12dp"
-            >
+            android:paddingRight="12dp">
 
             <TextView
                 android:id="@+id/tv_source_temp"
