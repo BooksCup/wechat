@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +25,7 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     EditText mPasswordEt;
     Button mLoginBtn;
     TextView mRegisterTv;
-    ProgressDialog dialog;
+    LoadingDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         setContentView(R.layout.activity_login);
         PreferencesUtil.getInstance().init(this);
         volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new ProgressDialog(LoginActivity.this);
+        dialog = new LoadingDialog(LoginActivity.this);
         initView();
     }
 
@@ -73,7 +73,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_login:
                 dialog.setMessage(getString(R.string.logging_in));
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
                 final String phone = mPhoneEt.getText().toString().trim();
                 final String password = mPasswordEt.getText().toString().trim();
