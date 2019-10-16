@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -20,7 +21,7 @@ public class NewFriendsAcceptActivity extends Activity {
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private ImageView mSexIv;
-    private Button mAcceptBtn;
+    private RelativeLayout mAcceptRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class NewFriendsAcceptActivity extends Activity {
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
-        mAcceptBtn = findViewById(R.id.btn_accept);
+        mAcceptRl = findViewById(R.id.rl_accept);
 
         final String nickName = getIntent().getStringExtra("nickName");
         final String avatar = getIntent().getStringExtra("avatar");
