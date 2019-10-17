@@ -79,13 +79,12 @@ public class FriendsCircleAdapter extends BaseAdapter {
         List<String> photoList;
         try {
             photoList = JSONArray.parseArray(friendsCircle.getCirclePhotos(), String.class);
+            // 如果friendsCircle.getCirclePhotos为"", photoList == null
+            if (null == photoList) {
+                photoList = new ArrayList<>();
+            }
         } catch (Exception e) {
             photoList = new ArrayList<>();
-        }
-
-        final ArrayList<String> photoArrayList = new ArrayList<>();
-        if (null != photoList && photoList.size() > 0) {
-            photoArrayList.addAll(photoList);
         }
 
         viewHolder.mPhotosGv.setAdapter(new FriendsCirclePhotoAdapter(photoList, mContext));
