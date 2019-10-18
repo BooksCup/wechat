@@ -162,39 +162,43 @@
                 android:textSize="16sp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_moment_photo_1"
+                android:id="@+id/sdv_circle_photo_1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/tv_moment"
+                android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_moment_photo_2"
+                android:id="@+id/sdv_circle_photo_2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/sdv_moment_photo_1"
+                android:layout_toRightOf="@+id/sdv_circle_photo_1"
+                android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_moment_photo_3"
+                android:id="@+id/sdv_circle_photo_3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/sdv_moment_photo_2"
+                android:layout_toRightOf="@+id/sdv_circle_photo_2"
+                android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_moment_photo_4"
+                android:id="@+id/sdv_circle_photo_4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/sdv_moment_photo_3"
+                android:layout_toRightOf="@+id/sdv_circle_photo_3"
+                android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <ImageView

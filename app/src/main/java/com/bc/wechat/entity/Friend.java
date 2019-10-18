@@ -11,6 +11,7 @@ public class Friend extends SugarRecord {
     private String userSex;
     private String userAvatar;
     private String userHeader;
+    private String userLastestCirclePhotos;
 
     public String getUserId() {
         return userId;
@@ -50,5 +51,13 @@ public class Friend extends SugarRecord {
 
     public void setUserHeader(String userHeader) {
         this.userHeader = userHeader;
+    }
+
+    public String getUserLastestCirclePhotos() {
+        return userLastestCirclePhotos;
+    }
+
+    public void setUserLastestCirclePhotos(String userLastestCirclePhotos) {
+        this.userLastestCirclePhotos = userLastestCirclePhotos;
     }
 }

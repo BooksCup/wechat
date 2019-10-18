@@ -141,6 +141,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             friend.setUserAvatar(userFriend.getUserAvatar());
                             friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
                             friend.setUserSex(userFriend.getUserSex());
+                            friend.setUserLastestCirclePhotos(userFriend.getUserLastestCirclePhotos());
                             Friend.save(friend);
                         } else {
                             // 不存在,插入sqlite
@@ -150,6 +151,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             friend.setUserAvatar(userFriend.getUserAvatar());
                             friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
                             friend.setUserSex(userFriend.getUserSex());
+                            friend.setUserLastestCirclePhotos(userFriend.getUserLastestCirclePhotos());
                             Friend.save(friend);
                         }
                     }

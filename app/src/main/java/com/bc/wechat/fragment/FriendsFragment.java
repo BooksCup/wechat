@@ -102,6 +102,7 @@ public class FriendsFragment extends Fragment {
                             putExtra("nickName", friend.getUserNickName()).
                             putExtra("avatar", friend.getUserAvatar()).
                             putExtra("sex", friend.getUserSex()).
+                            putExtra("lastestCirclePhotos", friend.getUserLastestCirclePhotos()).
                             putExtra("isFriend", Constant.IS_FRIEND));
                 }
             }

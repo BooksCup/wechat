@@ -18,6 +18,8 @@ public class User extends SugarRecord {
 
     private List<User> friendList;
 
+    private String userLastestCirclePhotos;
+
     public String getUserId() {
         return userId;
     }
@@ -104,5 +106,13 @@ public class User extends SugarRecord {
 
     public void setFriendList(List<User> friendList) {
         this.friendList = friendList;
+    }
+
+    public String getUserLastestCirclePhotos() {
+        return userLastestCirclePhotos;
+    }
+
+    public void setUserLastestCirclePhotos(String userLastestCirclePhotos) {
+        this.userLastestCirclePhotos = userLastestCirclePhotos;
     }
 }
