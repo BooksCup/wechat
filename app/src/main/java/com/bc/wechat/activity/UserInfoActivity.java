@@ -15,14 +15,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.FriendDao;
+import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.utils.WechatBeanUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserInfoActivity extends Activity {
 
@@ -41,11 +54,15 @@ public class UserInfoActivity extends Activity {
     private SimpleDraweeView mCirclePhoto3Sdv;
     private SimpleDraweeView mCirclePhoto4Sdv;
 
+    private VolleyUtil volleyUtil;
+    private FriendDao friendDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        volleyUtil = VolleyUtil.getInstance(this);
+        friendDao = new FriendDao();
         initView();
     }
 
@@ -61,57 +78,21 @@ public class UserInfoActivity extends Activity {
         mCirclePhoto4Sdv = findViewById(R.id.sdv_circle_photo_4);
 
         final String userId = getIntent().getStringExtra("userId");
-        final String nickName = getIntent().getStringExtra("nickName");
-        final String avatar = getIntent().getStringExtra("avatar");
-        final String sex = getIntent().getStringExtra("sex");
-        final String isFriend = getIntent().getStringExtra("isFriend");
-        final String lastestCirclePhotos = getIntent().getStringExtra("lastestCirclePhotos");
 
-        if (!TextUtils.isEmpty(lastestCirclePhotos)) {
-            // 渲染朋友圈图片
-            List<String> circlePhotoList;
-            try {
-                circlePhotoList = JSON.parseArray(lastestCirclePhotos, String.class);
-                if (null == circlePhotoList) {
-                    circlePhotoList = new ArrayList<>();
-                }
-            } catch (Exception e) {
-                circlePhotoList = new ArrayList<>();
-            }
-            loadCirclePhotos(circlePhotoList);
-        }
+        final Friend friend = friendDao.getFriendById(userId);
+        loadData(friend);
 
-
-        mNickNameTv.setText(nickName);
-        if (null != avatar && !"".equals(avatar)) {
-            mAvatarSdv.setImageURI(Uri.parse(avatar));
-        }
-        if (Constant.USER_SEX_MALE.equals(sex)) {
-            mSexIv.setImageResource(R.mipmap.ic_sex_male);
-        } else if (Constant.USER_SEX_FEMALE.equals(sex)) {
-            mSexIv.setImageResource(R.mipmap.ic_sex_female);
-        } else {
-            mSexIv.setVisibility(View.GONE);
-        }
+        getUserFromServer(userId);
 
         mOperateRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Constant.IS_FRIEND.equals(isFriend)) {
-                    // 是好友，发消息
-                    Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
-                    intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                    intent.putExtra("fromUserId", userId);
-                    intent.putExtra("fromUserNickName", nickName);
-                    intent.putExtra("fromUserAvatar", avatar);
-                    startActivity(intent);
-                } else {
-                    // 非好友，添加到通讯录
-                    Intent intent = new Intent(UserInfoActivity.this, AddFriendsFinalActivity.class);
-                    intent.putExtra("userId", userId);
-                    startActivity(intent);
-                }
-
+                Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
+                intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
+                intent.putExtra("fromUserId", userId);
+                intent.putExtra("fromUserNickName", friend.getUserNickName());
+                intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                startActivity(intent);
             }
         });
 
@@ -119,7 +100,7 @@ public class UserInfoActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
-                intent.putExtra("imgUrl", avatar);
+                intent.putExtra("imgUrl", friend.getUserAvatar());
                 startActivity(intent);
             }
         });
@@ -129,38 +110,83 @@ public class UserInfoActivity extends Activity {
         finish();
     }
 
-    private void loadCirclePhotos(List<String> circlePhotoList) {
-        switch (circlePhotoList.size()) {
-            case 1:
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                break;
-            case 2:
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                break;
-            case 3:
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
-                break;
-            case 4:
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
-                mCirclePhoto4Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
-                break;
-            default:
-                break;
+    // 渲染数据
+    private void loadData(Friend friend) {
+        if (!TextUtils.isEmpty(friend.getUserLastestCirclePhotos())) {
+            // 渲染朋友圈图片
+            List<String> circlePhotoList;
+            try {
+                circlePhotoList = JSON.parseArray(friend.getUserLastestCirclePhotos(), String.class);
+                if (null == circlePhotoList) {
+                    circlePhotoList = new ArrayList<>();
+                }
+            } catch (Exception e) {
+                circlePhotoList = new ArrayList<>();
+            }
+            switch (circlePhotoList.size()) {
+                case 1:
+                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    break;
+                case 2:
+                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                    break;
+                case 3:
+                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                    mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                    break;
+                case 4:
+                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                    mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                    mCirclePhoto4Sdv.setVisibility(View.VISIBLE);
+                    mCirclePhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        mNickNameTv.setText(friend.getUserNickName());
+        if (null != friend.getUserAvatar() && !"".equals(friend.getUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
+        }
+        if (Constant.USER_SEX_MALE.equals(friend.getUserSex())) {
+            mSexIv.setImageResource(R.mipmap.ic_sex_male);
+        } else if (Constant.USER_SEX_FEMALE.equals(friend.getUserSex())) {
+            mSexIv.setImageResource(R.mipmap.ic_sex_female);
+        } else {
+            mSexIv.setVisibility(View.GONE);
         }
     }
+
+    public void getUserFromServer(final String userId) {
+        String url = Constant.BASE_URL + "users/" + userId;
+
+        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                User user = JSON.parseObject(response, User.class);
+                friendDao.saveFriendByUserInfo(user);
+                Friend friend = WechatBeanUtil.transferUserToFriend(user);
+                loadData(friend);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
+            }
+        });
+    }
+
 }
