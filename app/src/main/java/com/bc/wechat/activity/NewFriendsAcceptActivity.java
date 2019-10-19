@@ -2,12 +2,10 @@ package com.bc.wechat.activity;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +18,7 @@ public class NewFriendsAcceptActivity extends Activity {
 
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
+    private TextView mSignTv;
     private ImageView mSexIv;
     private RelativeLayout mAcceptRl;
 
@@ -34,11 +33,13 @@ public class NewFriendsAcceptActivity extends Activity {
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
+        mSignTv = findViewById(R.id.tv_sign);
         mAcceptRl = findViewById(R.id.rl_accept);
 
         final String nickName = getIntent().getStringExtra("nickName");
         final String avatar = getIntent().getStringExtra("avatar");
         final String sex = getIntent().getStringExtra("sex");
+        final String sign = getIntent().getStringExtra("sign");
 
         mNickNameTv.setText(nickName);
         if (null != avatar && !"".equals(avatar)) {
@@ -51,6 +52,8 @@ public class NewFriendsAcceptActivity extends Activity {
         } else {
             mSexIv.setVisibility(View.GONE);
         }
+
+        mSignTv.setText(sign);
     }
 
     public void back(View view) {

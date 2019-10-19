@@ -42,8 +42,8 @@
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:scaleType="centerInside"
             android:padding="9dp"
+            android:scaleType="centerInside"
             android:src="@mipmap/ic_setting" />
     </RelativeLayout>
 
@@ -78,7 +78,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="黄易"
+                    android:text=""
                     android:textColor="#353535"
                     android:textSize="16sp" />
 
@@ -119,7 +119,7 @@
             android:paddingRight="8dp">
 
             <TextView
-                android:id="@+id/tv_sign"
+                android:id="@+id/tv_temp_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -128,6 +128,21 @@
                 android:text="个性签名"
                 android:textColor="#353535"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@id/tv_temp_sign"
+                android:ellipsize="end"
+                android:gravity="right"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="#AAAAAA"
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="match_parent"

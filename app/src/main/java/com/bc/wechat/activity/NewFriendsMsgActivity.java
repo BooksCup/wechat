@@ -73,7 +73,9 @@ public class NewFriendsMsgActivity extends FragmentActivity {
                     startActivity(new Intent(NewFriendsMsgActivity.this, NewFriendsAcceptActivity.class).
                             putExtra("nickName", friendApply.getFromUserNickName()).
                             putExtra("avatar", friendApply.getFromUserAvatar()).
-                            putExtra("sex", "2"));
+                            putExtra("sex", friendApply.getFromUserSex()).
+                            putExtra("sign", friendApply.getFromUserSign()).
+                            putExtra("circlePhotos", friendApply.getFromUserLastestCirclePhotos()));
                 }
             }
         });

@@ -12,6 +12,8 @@ public class FriendApply extends SugarRecord {
     private String fromUserNickName;
     private String fromUserAvatar;
     private String fromUserSex;
+    private String fromUserSign;
+    private String fromUserLastestCirclePhotos;
 
     private String status;
     private Long timeStamp;
@@ -78,6 +80,22 @@ public class FriendApply extends SugarRecord {
 
     public void setFromUserSex(String fromUserSex) {
         this.fromUserSex = fromUserSex;
+    }
+
+    public String getFromUserSign() {
+        return fromUserSign;
+    }
+
+    public void setFromUserSign(String fromUserSign) {
+        this.fromUserSign = fromUserSign;
+    }
+
+    public String getFromUserLastestCirclePhotos() {
+        return fromUserLastestCirclePhotos;
+    }
+
+    public void setFromUserLastestCirclePhotos(String fromUserLastestCirclePhotos) {
+        this.fromUserLastestCirclePhotos = fromUserLastestCirclePhotos;
     }
 
     public String getStatus() {
