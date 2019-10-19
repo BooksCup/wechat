@@ -8,34 +8,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.NetworkError;
 import com.android.volley.Response;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.CommonUtil;
-import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.utils.WechatBeanUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class UserInfoActivity extends Activity {
 
