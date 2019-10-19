@@ -133,16 +133,16 @@
                 android:id="@+id/tv_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@id/tv_temp_sign"
                 android:ellipsize="end"
-                android:gravity="right"
-                android:singleLine="true"
+                android:maxLines="2"
+                android:singleLine="false"
                 android:text=""
                 android:textColor="#AAAAAA"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
