@@ -66,11 +66,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
                     // 如果已通过申请
                     // 进入用户详情页
                     startActivity(new Intent(NewFriendsMsgActivity.this, UserInfoActivity.class).
-                            putExtra("userId", friendApply.getFromUserId()).
-                            putExtra("nickName", friendApply.getFromUserNickName()).
-                            putExtra("avatar", friendApply.getFromUserAvatar()).
-                            putExtra("sex", "2").
-                            putExtra("isFriend", Constant.IS_FRIEND));
+                            putExtra("userId", friendApply.getFromUserId()));
                 } else {
                     // 未通过申请
                     // 进入好友申请处理页面
