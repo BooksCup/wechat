@@ -31,6 +31,8 @@ public class NewFriendsMsgActivity extends FragmentActivity {
 
     public static boolean isForeground = false;
 
+    private List<FriendApply> friendApplyList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
             }
         });
 
-        final List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
+        friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
 
 
         newFriendsMsgAdapter = new NewFriendsMsgAdapter(this, friendApplyList);
@@ -124,7 +126,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
                     if (!ExampleUtil.isEmpty(extras)) {
                         showMsg.append(MainActivity.KEY_EXTRAS + " : " + extras + "\n");
                     }
-                    List<FriendApply> friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
+                    friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
                     newFriendsMsgAdapter.setData(friendApplyList);
                     newFriendsMsgAdapter.notifyDataSetChanged();
                 }
