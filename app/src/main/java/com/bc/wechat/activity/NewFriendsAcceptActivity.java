@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,14 +9,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.FriendApplyDao;
+import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.FriendApply;
+import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NewFriendsAcceptActivity extends Activity {
 
@@ -33,10 +43,16 @@ public class NewFriendsAcceptActivity extends Activity {
     private SimpleDraweeView mCirclePhoto3Sdv;
     private SimpleDraweeView mCirclePhoto4Sdv;
 
+    private VolleyUtil volleyUtil;
+    private FriendApplyDao friendApplyDao;
+    private FriendApply friendApply;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept);
+        volleyUtil = VolleyUtil.getInstance(this);
+        friendApplyDao = new FriendApplyDao();
         initView();
     }
 
@@ -53,31 +69,28 @@ public class NewFriendsAcceptActivity extends Activity {
 
         mAcceptRl = findViewById(R.id.rl_accept);
 
-        final String nickName = getIntent().getStringExtra("nickName");
-        final String avatar = getIntent().getStringExtra("avatar");
-        final String sex = getIntent().getStringExtra("sex");
-        final String sign = getIntent().getStringExtra("sign");
-        final String circlePhotos = getIntent().getStringExtra("circlePhotos");
+        final String applyId = getIntent().getStringExtra("applyId");
+        friendApply = friendApplyDao.getFriendApplyByApplyId(applyId);
 
-        mNickNameTv.setText(nickName);
-        if (null != avatar && !"".equals(avatar)) {
-            mAvatarSdv.setImageURI(Uri.parse(avatar));
+        mNickNameTv.setText(friendApply.getFromUserNickName());
+        if (!TextUtils.isEmpty(friendApply.getFromUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(friendApply.getFromUserAvatar()));
         }
-        if (Constant.USER_SEX_MALE.equals(sex)) {
+        if (Constant.USER_SEX_MALE.equals(friendApply.getFromUserSex())) {
             mSexIv.setImageResource(R.mipmap.ic_sex_male);
-        } else if (Constant.USER_SEX_FEMALE.equals(sex)) {
+        } else if (Constant.USER_SEX_FEMALE.equals(friendApply.getFromUserSex())) {
             mSexIv.setImageResource(R.mipmap.ic_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
         }
 
-        mSignTv.setText(sign);
+        mSignTv.setText(friendApply.getFromUserSign());
 
-        if (!TextUtils.isEmpty(circlePhotos)) {
+        if (!TextUtils.isEmpty(friendApply.getFromUserLastestCirclePhotos())) {
             // 渲染朋友圈图片
             List<String> circlePhotoList;
             try {
-                circlePhotoList = JSON.parseArray(circlePhotos, String.class);
+                circlePhotoList = JSON.parseArray(friendApply.getFromUserLastestCirclePhotos(), String.class);
                 if (null == circlePhotoList) {
                     circlePhotoList = new ArrayList<>();
                 }
@@ -121,5 +134,45 @@ public class NewFriendsAcceptActivity extends Activity {
 
     public void back(View view) {
         finish();
+    }
+
+    private void acceptFriendApply(String applyId) {
+        String url = Constant.BASE_URL + "friendApplies";
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("applyId", applyId);
+
+        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(NewFriendsAcceptActivity.this, "通过验证", Toast.LENGTH_SHORT).show();
+                friendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
+                FriendApply.save(friendApply);
+
+                List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", friendApply.getFromUserId());
+                if (null != friendList && friendList.size() > 0) {
+                    // 好友已存在，忽略
+                } else {
+                    // 不存在,插入sqlite
+                    Friend friend = new Friend();
+                    friend.setUserId(friendApply.getFromUserId());
+                    friend.setUserNickName(friendApply.getFromUserNickName());
+                    friend.setUserAvatar(friendApply.getFromUserAvatar());
+                    friend.setUserHeader(CommonUtil.setUserHeader(friendApply.getFromUserNickName()));
+                    friend.setUserSex(friendApply.getFromUserSex());
+                    Friend.save(friend);
+                }
+
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(NewFriendsAcceptActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 }

@@ -73,11 +73,8 @@ public class NewFriendsMsgActivity extends FragmentActivity {
                     // 未通过申请
                     // 进入好友申请处理页面
                     startActivity(new Intent(NewFriendsMsgActivity.this, NewFriendsAcceptActivity.class).
-                            putExtra("nickName", friendApply.getFromUserNickName()).
-                            putExtra("avatar", friendApply.getFromUserAvatar()).
-                            putExtra("sex", friendApply.getFromUserSex()).
-                            putExtra("sign", friendApply.getFromUserSign()).
-                            putExtra("circlePhotos", friendApply.getFromUserLastestCirclePhotos()));
+                            putExtra("applyId", friendApply.getApplyId())
+                    );
                 }
             }
         });

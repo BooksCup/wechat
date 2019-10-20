@@ -85,7 +85,7 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acceptFriendApply(friendApply);
+//                acceptFriendApply(friendApply);
             }
         });
         return convertView;
