@@ -42,7 +42,6 @@ public class SettingActivity extends FragmentActivity implements View.OnClickLis
                 PreferencesUtil.getInstance().setUserNickName("");
                 PreferencesUtil.getInstance().setUserWxId("");
                 PreferencesUtil.getInstance().setUserAvatar("");
-                PreferencesUtil.getInstance().setUserSex("");
 
                 // 跳转至登录页
                 Intent intent = new Intent(this, LoginActivity.class);

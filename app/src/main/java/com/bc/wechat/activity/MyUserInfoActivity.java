@@ -50,6 +50,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private static final int UPDATE_USER_SIGN = 5;
 
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         setContentView(R.layout.activity_my_info);
         volleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
+        user = PreferencesUtil.getInstance().getUser();
         dialog = new ProgressDialog(MyUserInfoActivity.this);
         initView();
     }
@@ -76,15 +78,14 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
-        User user = PreferencesUtil.getInstance().getUser();
-
         mNickNameTv.setText(PreferencesUtil.getInstance().getUserNickName());
         mWxIdTv.setText(PreferencesUtil.getInstance().getUserWxId());
         String userAvatar = PreferencesUtil.getInstance().getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
         }
-        String userSex = PreferencesUtil.getInstance().getUserSex();
+        String userSex = user.getUserSex();
+
         if (Constant.USER_SEX_MALE.equals(userSex)) {
             mSexTv.setText(getString(R.string.sex_male));
         } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
@@ -116,6 +117,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 showSexDialog();
                 break;
             case R.id.rl_sign:
+                // 签名
                 startActivityForResult(new Intent(this, UpdateSignActivity.class), UPDATE_USER_SIGN);
                 break;
         }
@@ -183,7 +185,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                PreferencesUtil.getInstance().setUserSex(userSex);
+                user.setUserSex(userSex);
+                PreferencesUtil.getInstance().setUser(user);
                 if (Constant.USER_SEX_MALE.equals(userSex)) {
                     mSexTv.setText(getString(R.string.sex_male));
                 } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {

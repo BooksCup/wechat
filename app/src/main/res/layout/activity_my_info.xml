@@ -331,7 +331,6 @@
             android:layout_toRightOf="@id/tv_temp_sign"
             android:ellipsize="end"
             android:gravity="right"
-            android:singleLine="true"
             android:text=""
             android:inputType="textMultiLine"
             android:textColor="#AAAAAA"
