@@ -22,6 +22,7 @@ import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -47,10 +48,13 @@ public class NewFriendsAcceptActivity extends Activity {
     private FriendApplyDao friendApplyDao;
     private FriendApply friendApply;
 
+    private LoadingDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept);
+        dialog = new LoadingDialog(this);
         volleyUtil = VolleyUtil.getInstance(this);
         friendApplyDao = new FriendApplyDao();
         initView();
@@ -130,6 +134,15 @@ public class NewFriendsAcceptActivity extends Activity {
                     break;
             }
         }
+
+        mAcceptRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.setMessage("正在处理...");
+                dialog.show();
+                acceptFriendApply(applyId);
+            }
+        });
     }
 
     public void back(View view) {
@@ -145,7 +158,7 @@ public class NewFriendsAcceptActivity extends Activity {
         volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(NewFriendsAcceptActivity.this, "通过验证", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
                 friendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
                 FriendApply.save(friendApply);
 
@@ -168,6 +181,7 @@ public class NewFriendsAcceptActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                dialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(NewFriendsAcceptActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;

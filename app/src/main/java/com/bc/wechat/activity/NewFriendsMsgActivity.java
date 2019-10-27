@@ -94,6 +94,11 @@ public class NewFriendsMsgActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         isForeground = true;
+
+        // 刷新好友申请列表
+        friendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
+        newFriendsMsgAdapter.setData(friendApplyList);
+        newFriendsMsgAdapter.notifyDataSetChanged();
     }
 
     @Override
