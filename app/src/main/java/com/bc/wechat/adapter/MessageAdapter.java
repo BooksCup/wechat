@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
@@ -197,7 +196,6 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body, final int messageIndex) {
-        Toast.makeText(mContext, messageList.get(messageIndex).getContent(), Toast.LENGTH_SHORT).show();
         String url = Constant.BASE_URL + "messages";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("targetType", targetType);
