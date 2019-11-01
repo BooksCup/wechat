@@ -166,21 +166,21 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
         mSingleChatSettingIv = findViewById(R.id.iv_setting);
 
-        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
-                } else {
-                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_normal);
-                }
-            }
-        });
+//        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (hasFocus) {
+//                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
+//                } else {
+//                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_normal);
+//                }
+//            }
+//        });
 
         mEditTextContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
+//                mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
                 mMoreLl.setVisibility(View.GONE);
                 mEmoticonsNormalIv.setVisibility(View.VISIBLE);
                 mEmoticonsCheckedIv.setVisibility(View.GONE);
