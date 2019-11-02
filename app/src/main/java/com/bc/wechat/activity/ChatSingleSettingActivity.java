@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.dao.MessageDao;
+import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class ChatSingleSettingActivity extends FragmentActivity implements View.OnClickListener {
@@ -19,9 +21,13 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
     private SimpleDraweeView mAvatarSdv;
     private RelativeLayout mAddUserToGroupRl;
 
+    private RelativeLayout mClearRl;
+
     String userId;
     String userNickName;
     String userAvatar;
+
+    MessageDao messageDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +37,8 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
         userId = getIntent().getStringExtra("userId");
         userNickName = getIntent().getStringExtra("userNickName");
         userAvatar = getIntent().getStringExtra("userAvatar");
+
+        messageDao = new MessageDao();
         initView();
     }
 
@@ -39,12 +47,15 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mAddUserToGroupRl = findViewById(R.id.rl_add_user_to_group);
 
+        mClearRl = findViewById(R.id.rl_clear);
+
         mNickNameTv.setText(userNickName);
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
         }
 
         mAddUserToGroupRl.setOnClickListener(this);
+        mClearRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -60,6 +71,27 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
                 intent.putExtra("userNickName", userNickName);
                 intent.putExtra("userAvatar", userAvatar);
                 startActivity(intent);
+                break;
+
+            case R.id.rl_clear:
+                final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this,
+                        "确定删除和" + userNickName + "的聊天记录吗?", "清空", "");
+                clearConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOKClick() {
+                        // 清除本地message
+                        messageDao.deleteMessageByUserId(userId);
+                        clearConfirmDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        clearConfirmDialog.dismiss();
+                    }
+                });
+                // 点击空白处消失
+                clearConfirmDialog.setCancelable(true);
+                clearConfirmDialog.show();
                 break;
         }
     }

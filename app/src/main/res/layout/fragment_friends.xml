@@ -44,7 +44,7 @@
                 android:cacheColorHint="@color/divider_list"
                 android:descendantFocusability="afterDescendants"
                 android:divider="@color/divider_list"
-                android:dividerHeight="0.5dp"
+                android:dividerHeight="0.1dp"
                 android:fastScrollEnabled="false"
                 android:footerDividersEnabled="false"
                 android:scrollbars="none" />

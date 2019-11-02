@@ -180,7 +180,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_clear_chat_msg"
+        android:id="@+id/rl_clear"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
