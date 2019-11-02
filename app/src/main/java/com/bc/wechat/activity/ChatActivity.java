@@ -449,7 +449,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                     public void run() {
                         messageAdapter.setData(messageList);
                         messageAdapter.notifyDataSetChanged();
-                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+//                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+                        mMessageLv.setSelection(mMessageLv.getBottom());
                     }
                 });
                 // 清除未读数
@@ -472,7 +473,8 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                     public void run() {
                         messageAdapter.setData(messageList);
                         messageAdapter.notifyDataSetChanged();
-                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+//                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
+                        mMessageLv.setSelection(mMessageLv.getBottom());
                     }
                 });
                 // 清除未读数
