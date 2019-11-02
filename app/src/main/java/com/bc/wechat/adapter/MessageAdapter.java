@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.MessageBigImageActivity;
+import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Message;
@@ -162,6 +163,18 @@ public class MessageAdapter extends BaseAdapter {
         } else {
 
         }
+
+        // 点击头像进入用户详情页
+        viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 进入自己详情页
+                Intent intent = new Intent(mContext, UserInfoActivity.class);
+                intent.putExtra("userId", message.getFromUserId());
+                mContext.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
