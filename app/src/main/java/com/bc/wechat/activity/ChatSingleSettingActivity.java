@@ -15,6 +15,8 @@ import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import cn.jpush.im.android.api.JMessageClient;
+
 public class ChatSingleSettingActivity extends FragmentActivity implements View.OnClickListener {
 
     private TextView mNickNameTv;
@@ -81,6 +83,8 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
                     public void onOKClick() {
                         // 清除本地message
                         messageDao.deleteMessageByUserId(userId);
+                        // 清除会话消息(极光)
+                        JMessageClient.getSingleConversation(userId).deleteAllMessage();
                         clearConfirmDialog.dismiss();
                     }
 

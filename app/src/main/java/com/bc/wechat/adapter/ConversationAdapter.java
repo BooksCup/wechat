@@ -14,9 +14,11 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.Date;
 import java.util.List;
 
 import cn.jpush.im.android.api.enums.ConversationType;
@@ -84,7 +86,15 @@ public class ConversationAdapter extends BaseAdapter {
                     mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
                 }
             }
-            String messageType = conversation.getLatestMessage().getContentType().name();
+            // 如果消息被清除
+            // conversation.getLastestMessage() == null
+            String messageType;
+            if (null == conversation.getLatestMessage()) {
+                messageType = "";
+            } else {
+                messageType = conversation.getLatestMessage().getContentType().name();
+            }
+
             if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
                 mLastMsgTv.setText(conversation.getLatestText());
             } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
@@ -100,7 +110,15 @@ public class ConversationAdapter extends BaseAdapter {
             } else {
                 mUnreadTv.setText(String.valueOf(conversation.getUnReadMsgCnt()));
             }
-            mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLatestMessage().getCreateTime()));
+            // conversation由极光维护
+            // 如果消息被清除，conversation.getLastestMessage() == null
+            // 这个时间不好显示
+            if (null == conversation.getLatestMessage()) {
+                mCreateTimeTv.setText(TimestampUtil.getTimePoint(new Date().getTime()));
+            } else {
+                mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLatestMessage().getCreateTime()));
+            }
+
 
         } else {
             // 群聊
