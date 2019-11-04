@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.google.zxing.client.android"
+    android:versionCode="79"
+    android:versionName="4.0">
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="22" />
+
+    <application>
+        <activity
+            android:name="com.google.zxing.ISBNActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateVisible" />
+
+    </application>
+</manifest>

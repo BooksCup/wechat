@@ -1,19 +1,33 @@
 package com.bc.wechat.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -28,6 +42,7 @@ import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.widget.AddPopupWindow;
+import com.google.zxing.client.android.CaptureActivity2;
 
 import java.util.Date;
 import java.util.List;
@@ -42,6 +57,9 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class MainActivity extends FragmentActivity {
+
+    private static final int SCAN_REQUEST_CODE = 100;
+    private static final int CAMERA_PERMISSION = 110;
 
     public static boolean isForeground = false;
 
@@ -63,6 +81,10 @@ public class MainActivity extends FragmentActivity {
     private ImageView mAddIv;
 
     User user;
+
+    // 首页弹出框
+    private PopupWindow popupWindow;
+    private View popupView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,8 +137,15 @@ public class MainActivity extends FragmentActivity {
         mAddIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddPopupWindow addPopupWindow = new AddPopupWindow(MainActivity.this);
-                addPopupWindow.showPopupWindow(mAddIv);
+//                AddPopupWindow addPopupWindow = new AddPopupWindow(MainActivity.this);
+//                addPopupWindow.showPopupWindow(mAddIv);
+                initPopupWindow();
+                if (!popupWindow.isShowing()) {
+                    // 以下拉方式显示popupwindow
+                    popupWindow.showAsDropDown(mAddIv, 0, 0);
+                } else {
+                    popupWindow.dismiss();
+                }
             }
         });
     }
@@ -315,4 +344,101 @@ public class MainActivity extends FragmentActivity {
             }
         }
     };
+
+    /**
+     * 初始化首页弹出框
+     */
+    private void initPopupWindow() {
+        popupView = View.inflate(this, R.layout.popupwindow_add, null);
+        popupWindow = new PopupWindow();
+        // 设置SelectPicPopupWindow的View
+        popupWindow.setContentView(popupView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        // 刷新状态
+        popupWindow.update();
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        popupWindow.setBackgroundDrawable(dw);
+
+        // 设置SelectPicPopupWindow弹出窗体动画效果
+        popupWindow.setAnimationStyle(R.style.AnimationPreview);
+
+        // 发起群聊
+        RelativeLayout mCreateGroupRl = popupView.findViewById(R.id.rl_create_group);
+
+        // 添加朋友
+        RelativeLayout mAddFriendsRl = popupView.findViewById(R.id.rl_add_friends);
+
+        // 扫一扫
+        RelativeLayout mScanQrCodeRl = popupView.findViewById(R.id.rl_scan_qr_code);
+        mScanQrCodeRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT > 22) {
+                    if (ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+                    } else {
+                        startScanActivity();
+                    }
+                } else {
+                    startScanActivity();
+                }
+            }
+        });
+
+        // 帮助和反馈
+        RelativeLayout mHelpRl = popupView.findViewById(R.id.rl_help);
+
+    }
+
+    private void startScanActivity() {
+        Intent intent = new Intent(MainActivity.this, CaptureActivity2.class);
+        intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
+        startActivityForResult(intent, SCAN_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startScanActivity();
+                } else {
+                    Toast.makeText(MainActivity.this, "请手动打开摄像头权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public int checkSelfPermission(String permission) {
+        return super.checkSelfPermission(permission);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SCAN_REQUEST_CODE) {
+                String isbn = data.getStringExtra("CaptureIsbn");
+                if (!TextUtils.isEmpty(isbn)) {
+                    Toast.makeText(this, "解析到的内容为" + isbn, Toast.LENGTH_LONG).show();
+                    if (isbn.contains("http")) {
+                        Intent intent = new Intent(this, WebViewActivity.class);
+                        intent.putExtra(WebViewActivity.RESULT, isbn);
+                        startActivity(intent);
+                    }
+                }
+            }
+        }
+    }
 }

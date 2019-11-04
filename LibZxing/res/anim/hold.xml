@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 声明动画对象的水平和垂直移动量，本例使用水平移动方式，
+
+     android:interpolator:指定在设定时间内动画移动过程中插补器，用于改善动画的平滑度
+
+     android:fromXDelta:指定动画开始时，动画对象的水平位置，可以用像素智设定，也可以用
+
+             相对父窗口宽度的百分比来设定。
+
+     android:toXDelta:指定动画结束时，动画对象的水平位置，可以用像素值来设定，也可以用
+
+            相对父窗口宽度的百分比来设定。
+
+     android:duration:指定动画的播放时间
+
+-->
+
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:interpolator="@android:anim/accelerate_interpolator"
+
+    android:fromXDelta="0"
+    android:toXDelta="0"
+
+    android:duration="@android:integer/config_longAnimTime" />

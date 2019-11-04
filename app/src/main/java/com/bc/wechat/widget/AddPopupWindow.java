@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.AddFriendsActivity;
+import com.bc.wechat.activity.ScanQrCodeActivity;
 
 public class AddPopupWindow extends PopupWindow implements View.OnClickListener {
     private View convertView;
@@ -84,6 +85,7 @@ public class AddPopupWindow extends PopupWindow implements View.OnClickListener 
                 this.dismiss();
                 break;
             case R.id.rl_scan_qr_code:
+                mContext.startActivity(new Intent(mContext, ScanQrCodeActivity.class));
                 break;
             case R.id.rl_help:
                 break;

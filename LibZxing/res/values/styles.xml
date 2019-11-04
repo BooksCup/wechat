@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="theme_customer_progress_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>
