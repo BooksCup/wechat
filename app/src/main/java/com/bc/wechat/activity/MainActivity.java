@@ -41,7 +41,6 @@ import com.bc.wechat.fragment.ProfileFragment;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
-import com.bc.wechat.widget.AddPopupWindow;
 import com.google.zxing.client.android.CaptureActivity2;
 
 import java.util.Date;

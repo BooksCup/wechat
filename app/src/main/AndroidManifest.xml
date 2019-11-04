@@ -140,10 +140,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.ScanQrCodeActivity"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait" />
 
