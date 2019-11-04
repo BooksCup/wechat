@@ -68,7 +68,7 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_user_to_group:
-                Intent intent = new Intent(this, CreateChatRoomActivity.class);
+                Intent intent = new Intent(this, CreateGroupActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("userNickName", userNickName);
                 intent.putExtra("userAvatar", userAvatar);

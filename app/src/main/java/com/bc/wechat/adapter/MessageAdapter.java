@@ -165,15 +165,18 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         // 点击头像进入用户详情页
-        viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 进入自己详情页
-                Intent intent = new Intent(mContext, UserInfoActivity.class);
-                intent.putExtra("userId", message.getFromUserId());
-                mContext.startActivity(intent);
-            }
-        });
+        // 做非空判断防止通知类消息
+        if (null != viewHolder.mAvatarSdv) {
+            viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // 进入自己详情页
+                    Intent intent = new Intent(mContext, UserInfoActivity.class);
+                    intent.putExtra("userId", message.getFromUserId());
+                    mContext.startActivity(intent);
+                }
+            });
+        }
 
         return convertView;
     }

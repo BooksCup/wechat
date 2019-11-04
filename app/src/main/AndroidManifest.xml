@@ -126,7 +126,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.CreateChatRoomActivity"
+            android:name=".activity.CreateGroupActivity"
             android:screenOrientation="portrait" />
 
         <activity

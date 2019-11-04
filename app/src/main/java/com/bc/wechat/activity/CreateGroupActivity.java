@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreateChatRoomActivity extends FragmentActivity {
+public class CreateGroupActivity extends FragmentActivity {
 
     private PickContactAdapter contactAdapter;
     private ListView listView;
@@ -62,7 +62,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
         volleyUtil = VolleyUtil.getInstance(this);
-        loadingDialog = new LoadingDialog(CreateChatRoomActivity.this);
+        loadingDialog = new LoadingDialog(CreateGroupActivity.this);
         firstUserId = getIntent().getStringExtra("userId");
         firstUserNickName = getIntent().getStringExtra("userNickName");
         firstUserAvatar = getIntent().getStringExtra("userAvatar");
@@ -236,7 +236,7 @@ public class CreateChatRoomActivity extends FragmentActivity {
             @Override
             public void onResponse(String response) {
                 loadingDialog.dismiss();
-                Intent intent = new Intent(CreateChatRoomActivity.this, MainActivity.class);
+                Intent intent = new Intent(CreateGroupActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -245,10 +245,10 @@ public class CreateChatRoomActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError volleyError) {
                 loadingDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(CreateChatRoomActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateGroupActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(CreateChatRoomActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateGroupActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
