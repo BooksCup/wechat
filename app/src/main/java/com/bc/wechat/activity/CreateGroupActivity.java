@@ -36,6 +36,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 创建群组
+ * 进入此页面的三种场景
+ * 场景1: 首页发起群聊，此时所有friend都是unchecked状态
+ * 场景2: 单聊设置发起群聊, 此时有一个用户(单聊对象)处于checked状态，其他friend都是unchecked状态
+ * 场景3: 群聊设置拉人，此时此群里所有人都处于checked状态，其他friend都是unchecked状态
+ *
+ * @author zhou
+ */
 public class CreateGroupActivity extends FragmentActivity {
 
     private PickContactAdapter contactAdapter;
@@ -221,7 +230,6 @@ public class CreateGroupActivity extends FragmentActivity {
                 pickedUserNickNameBuffer.append(checkedUser.getUserNickName());
                 pickedUserNickNameBuffer.append("、");
             }
-
             pickedUserNickNameBuffer.append(firstUserNickName);
         }
 
