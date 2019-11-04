@@ -13,7 +13,7 @@
         android:paddingRight="12dp">
 
         <RelativeLayout
-            android:id="@+id/re_chatroom"
+            android:id="@+id/rl_create_group"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#22292C">
@@ -24,7 +24,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="13dp"
-                android:src="@mipmap/popwindow_add_icon1" />
+                android:src="@mipmap/icon_popupwindow_create_group" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
             android:background="#191B1C" />
 
         <RelativeLayout
-            android:id="@+id/re_addfriends"
+            android:id="@+id/rl_add_friends"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#22292C">
@@ -53,7 +53,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="13dp"
-                android:src="@mipmap/popwindow_add_icon2" />
+                android:src="@mipmap/icon_popupwindow_add_friends" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
             android:background="#191B1C" />
 
         <RelativeLayout
-            android:id="@+id/re_saoyisao"
+            android:id="@+id/rl_scan_qr_code"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#22292C">
@@ -82,7 +82,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="13dp"
-                android:src="@mipmap/popwindow_add_icon3" />
+                android:src="@mipmap/icon_popupwindow_scan_qr_code" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:background="#191B1C" />
 
         <RelativeLayout
-            android:id="@+id/re_help"
+            android:id="@+id/rl_help"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#22292C">
@@ -111,7 +111,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="13dp"
-                android:src="@mipmap/popwindow_add_icon4" />
+                android:src="@mipmap/icon_popupwindow_help" />
 
             <TextView
                 android:layout_width="wrap_content"
