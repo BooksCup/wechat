@@ -30,52 +30,52 @@
 
     <LinearLayout
         android:id="@+id/result_view"
-        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/result_view"
-        android:visibility="gone"
+        android:baselineAligned="false"
+        android:orientation="vertical"
         android:padding="4dip"
-        android:baselineAligned="false">
+        android:visibility="gone">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="top"
+            android:orientation="horizontal"
             android:padding="12dip">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:gravity="right">
+                android:gravity="right"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/barcode_image_view"
                     android:layout_width="150dip"
                     android:layout_height="wrap_content"
-                    android:maxWidth="150dip"
-                    android:maxHeight="150dip"
                     android:layout_marginBottom="4dip"
                     android:adjustViewBounds="true"
+                    android:maxWidth="150dip"
+                    android:maxHeight="150dip"
                     android:scaleType="centerInside" />
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/format_text_view_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="4dip"
                         android:text="@string/msg_default_format"
                         android:textColor="@color/result_minor_text"
-                        android:textStyle="bold"
                         android:textSize="14sp"
-                        android:paddingRight="4dip" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/format_text_view"
@@ -87,19 +87,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/type_text_view_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="4dip"
                         android:text="@string/msg_default_type"
                         android:textColor="@color/result_minor_text"
-                        android:textStyle="bold"
                         android:textSize="14sp"
-                        android:paddingRight="4dip" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/type_text_view"
@@ -111,19 +111,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/time_text_view_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="4dip"
                         android:text="@string/msg_default_time"
                         android:textColor="@color/result_minor_text"
-                        android:textStyle="bold"
                         android:textSize="14sp"
-                        android:paddingRight="4dip" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/time_text_view"
@@ -135,19 +135,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/meta_text_view_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingRight="4dip"
                         android:text="@string/msg_default_meta"
                         android:textColor="@color/result_minor_text"
-                        android:textStyle="bold"
                         android:textSize="14sp"
-                        android:paddingRight="4dip" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/meta_text_view"
@@ -165,30 +165,30 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/contents_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:paddingLeft="12dip"
                         android:textColor="@color/result_text"
                         android:textColorLink="@color/result_text"
-                        android:textSize="22sp"
-                        android:paddingLeft="12dip"
-                        android:autoLink="web" />
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/contents_supplement_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:autoLink="web"
+                        android:clickable="true"
+                        android:padding="24dip"
                         android:textColor="@color/result_text"
                         android:textColorLink="@color/result_text"
-                        android:textSize="14sp"
-                        android:padding="24dip"
-                        android:autoLink="web"
-                        android:clickable="true" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -198,10 +198,10 @@
 
         <LinearLayout
             android:id="@+id/result_button_view"
-            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dip"
@@ -236,10 +236,10 @@
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
                 android:drawableLeft="@drawable/shopper_icon"
                 android:drawablePadding="4dip"
                 android:text="@string/button_google_shopper"
+                android:textSize="14sp"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -260,25 +260,30 @@
         android:id="@+id/rlTitleBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:paddingLeft="16dp"
         android:layout_gravity="top|left|center_vertical"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:layout_centerInParent="true"
+            android:text="二维码/条码"
             android:textColor="@color/white"
-            android:text="@string/scan_and_scan" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/ivClose"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/scan_back_white" />
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/top_bar_back" />
 
     </RelativeLayout>
 

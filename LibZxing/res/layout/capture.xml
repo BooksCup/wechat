@@ -58,8 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dip"
                     android:adjustViewBounds="true"
-                    android:maxHeight="160dip"
                     android:maxWidth="160dip"
+                    android:maxHeight="160dip"
                     android:scaleType="centerInside" />
 
                 <LinearLayout
@@ -266,7 +266,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/scan_and_scan"
+            android:text="二维码/条码"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -276,8 +276,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:scaleType="fitCenter"
             android:paddingLeft="16dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/scan_back_white" />
 
     </RelativeLayout>

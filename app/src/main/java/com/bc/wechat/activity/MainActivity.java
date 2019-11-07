@@ -136,8 +136,6 @@ public class MainActivity extends FragmentActivity {
         mAddIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AddPopupWindow addPopupWindow = new AddPopupWindow(MainActivity.this);
-//                addPopupWindow.showPopupWindow(mAddIv);
                 initPopupWindow();
                 if (!popupWindow.isShowing()) {
                     // 以下拉方式显示popupwindow

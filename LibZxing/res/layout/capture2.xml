@@ -53,8 +53,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dip"
                         android:adjustViewBounds="true"
-                        android:maxHeight="150dip"
                         android:maxWidth="150dip"
+                        android:maxHeight="150dip"
                         android:scaleType="centerInside" />
 
                     <LinearLayout
@@ -248,8 +248,8 @@
         android:id="@+id/manualInputIsbn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/input_isbn_bg_white"
         android:layout_gravity="top|left|center_vertical"
+        android:background="@color/input_isbn_bg_white"
         android:baselineAligned="false"
         android:orientation="vertical"
         android:visibility="gone">
@@ -340,20 +340,27 @@
         android:baselineAligned="false"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
         <ImageView
             android:id="@+id/ivClose"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/scan_back_white" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/top_bar_back" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/scan_and_scan"
+            android:text="二维码/条码"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@id/ivClose"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

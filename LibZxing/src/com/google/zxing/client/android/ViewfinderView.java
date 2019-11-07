@@ -53,7 +53,7 @@ public final class ViewfinderView extends View {
     private static final int SPEED = 5;
     //手机的屏幕密度
     private static float density;
-    private static final int TEXT_SIZE = 12;
+    private static final int TEXT_SIZE = 15;
     private static final int TEXT_PADDING_TOP = 40;
     private Paint paint;
     private int slideTop;
