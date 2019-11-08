@@ -138,6 +138,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             // 好友已存在，更新基本信息
                             Friend friend = checkList.get(0);
                             friend.setUserNickName(userFriend.getUserNickName());
+                            friend.setUserWxId(userFriend.getUserWxId());
                             friend.setUserAvatar(userFriend.getUserAvatar());
                             friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
                             friend.setUserSex(userFriend.getUserSex());
@@ -148,6 +149,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             Friend friend = new Friend();
                             friend.setUserId(userFriend.getUserId());
                             friend.setUserNickName(userFriend.getUserNickName());
+                            friend.setUserWxId(userFriend.getUserWxId());
                             friend.setUserAvatar(userFriend.getUserAvatar());
                             friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
                             friend.setUserSex(userFriend.getUserSex());

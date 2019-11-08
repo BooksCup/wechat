@@ -104,7 +104,7 @@
                     android:id="@+id/tv_wx_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="微信号：123456"
+                    android:text="微信号："
                     android:textColor="#aaaaaa"
                     android:textSize="14sp" />
             </LinearLayout>

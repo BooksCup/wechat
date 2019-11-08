@@ -33,6 +33,7 @@ public class UserInfoActivity extends Activity {
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private ImageView mSexIv;
+    private TextView mWxIdTv;
 
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
@@ -61,6 +62,8 @@ public class UserInfoActivity extends Activity {
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
+        mWxIdTv = findViewById(R.id.tv_wx_id);
+
         mOperateRl = findViewById(R.id.rl_operate);
 
         mCirclePhoto1Sdv = findViewById(R.id.sdv_circle_photo_1);
@@ -158,6 +161,10 @@ public class UserInfoActivity extends Activity {
             mSexIv.setImageResource(R.mipmap.ic_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(friend.getUserWxId())) {
+            mWxIdTv.setText("微信号：" + friend.getUserWxId());
         }
     }
 

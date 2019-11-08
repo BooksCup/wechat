@@ -8,6 +8,7 @@ import com.orm.SugarRecord;
 public class Friend extends SugarRecord {
     private String userId;
     private String userNickName;
+    private String userWxId;
     private String userSex;
     private String userAvatar;
     private String userHeader;
@@ -27,6 +28,14 @@ public class Friend extends SugarRecord {
 
     public void setUserNickName(String userNickName) {
         this.userNickName = userNickName;
+    }
+
+    public String getUserWxId() {
+        return userWxId;
+    }
+
+    public void setUserWxId(String userWxId) {
+        this.userWxId = userWxId;
     }
 
     public String getUserSex() {
