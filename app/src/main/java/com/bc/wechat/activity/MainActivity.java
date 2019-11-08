@@ -429,7 +429,6 @@ public class MainActivity extends FragmentActivity {
             if (requestCode == SCAN_REQUEST_CODE) {
                 String isbn = data.getStringExtra("CaptureIsbn");
                 if (!TextUtils.isEmpty(isbn)) {
-                    Toast.makeText(this, "解析到的内容为" + isbn, Toast.LENGTH_LONG).show();
                     if (isbn.contains("http")) {
                         Intent intent = new Intent(this, WebViewActivity.class);
                         intent.putExtra(WebViewActivity.RESULT, isbn);

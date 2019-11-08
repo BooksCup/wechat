@@ -1,19 +1,15 @@
 package com.bc.wechat.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 
 import com.bc.wechat.R;
 
-/**
- * Created by sdj on 2017/11/24.
- */
-
-public class WebViewActivity extends AppCompatActivity {
-    private WebView webView;
+public class WebViewActivity extends Activity {
+    private WebView mContentWv;
     public static final String RESULT = "result_data";
 
     @Override
@@ -24,9 +20,9 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        webView = findViewById(R.id.webView);
+        mContentWv = findViewById(R.id.wv_content);
         Intent intent = getIntent();
         String result = intent.getStringExtra(RESULT);
-        webView.loadUrl(result);
+        mContentWv.loadUrl(result);
     }
 }
