@@ -21,7 +21,9 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.dao.MessageDao;
+import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
@@ -53,6 +55,7 @@ public class MessageAdapter extends BaseAdapter {
     private User user;
     private VolleyUtil volleyUtil;
     private MessageDao messageDao;
+    private FriendDao friendDao;
 
     private boolean isSender;
 
@@ -63,6 +66,7 @@ public class MessageAdapter extends BaseAdapter {
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(mContext);
         messageDao = new MessageDao();
+        friendDao = new FriendDao();
         this.messageList = messageList;
     }
 
@@ -252,6 +256,9 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     private void handleTextMessage(final Message message, ViewHolder viewHolder, final int position) {
+        // 好友头像和昵称从sqlite中读取，防止脏数据
+        Friend friend = friendDao.getFriendById(message.getFromUserId());
+
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);
             viewHolder.mStatusIv.setVisibility(View.GONE);
@@ -271,8 +278,8 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
             }
         } else {
-            if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
-                viewHolder.mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+            if (!TextUtils.isEmpty(friend.getUserAvatar())) {
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
             }
         }
 

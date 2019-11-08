@@ -99,6 +99,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AddFriendsBySearchActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AddFriendsActivity"
