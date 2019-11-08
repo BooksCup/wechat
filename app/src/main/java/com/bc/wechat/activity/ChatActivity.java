@@ -407,95 +407,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
 
     /*接收到的消息*/
     public void onEvent(MessageEvent event) {
-        final cn.jpush.im.android.api.model.Message msg = event.getMessage();
-        Message message = new Message();
-        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        UserInfo fromUserInfo = msg.getFromUser();
-
-        message.setFromUserId(fromUserInfo.getUserName());
-        message.setFromUserName(fromUserNickName);
-
-        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", message.getFromUserId());
-        if (null != friendList && friendList.size() > 0) {
-            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
-        }
-
-        if (msg.getTargetType().equals(ConversationType.single)) {
-            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
-
-        } else {
-            message.setTargetType(Constant.TARGET_TYPE_GROUP);
-            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
-            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
-        }
-
-        message.setToUserId(user.getUserId());
-
-        String messageType = msg.getContentType().name();
-        message.setMessageType(messageType);
-        message.setTimestamp(new Date().getTime());
-
-        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
-            TextContent messageContent = (TextContent) msg.getContent();
-            message.setContent(messageContent.getText());
-        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
-            ImageContent imageContent = ((ImageContent) msg.getContent());
-            String imageUrl = imageContent.getLocalThumbnailPath();
-            message.setImageUrl(imageUrl);
-        }
-
-        // 发送者也会收到监听消息，屏蔽
-        if (!fromUserInfo.getUserName().equals(user.getUserId())) {
-            Message.save(message);
-        }
-
-        if (msg.getTargetType().equals(ConversationType.single)) {
-            // 单聊
-            // 如果是当前会话
-            Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
-            if (fromUserInfo.getUserName().equals(fromUserId)) {
-                messageList.add(message);
-                mMessageLv.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        messageAdapter.setData(messageList);
-                        messageAdapter.notifyDataSetChanged();
-//                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
-                        mMessageLv.setSelection(mMessageLv.getBottom());
-                    }
-                });
-                // 清除未读数
-                conversation.resetUnreadCount();
-            } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
-            } else {
-                // 未读数++
-                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
-            }
-        } else {
-            Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
-
-            // 群聊
-            // 如果是当前会话
-            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
-            if (String.valueOf(groupInfo.getGroupID()).equals(groupId) && !fromUserInfo.getUserName().equals(user.getUserId())) {
-                messageList.add(message);
-                mMessageLv.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        messageAdapter.setData(messageList);
-                        messageAdapter.notifyDataSetChanged();
-//                        mMessageLv.smoothScrollToPosition(mMessageLv.getAdapter().getCount() - 1);
-                        mMessageLv.setSelection(mMessageLv.getBottom());
-                    }
-                });
-                // 清除未读数
-                conversation.resetUnreadCount();
-            } else if (fromUserInfo.getUserName().equals(user.getUserId())) {
-            } else {
-                // 未读数++
-                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
-            }
-        }
+        handleReceivedMessage(event.getMessage());
     }
 
     @Override
@@ -553,5 +465,101 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         mMessageLv.setAdapter(messageAdapter);
 
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
+    }
+
+    /**
+     * 监听极光收到的消息
+     *
+     * @param msg
+     */
+    private void handleReceivedMessage(cn.jpush.im.android.api.model.Message msg) {
+        // 自己发送出的消息(接收方非自己)自己也能收到
+        // 如果是自己发送的消息 则无需处理此条消息
+        // 发送者
+        UserInfo fromUserInfo = msg.getFromUser();
+        if (fromUserInfo.getUserName().equals(user.getUserId())) {
+            return;
+        }
+
+        Message message = new Message();
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(msg.getCreateTime(), true));
+
+        // 消息发送者信息
+        message.setFromUserId(fromUserInfo.getUserName());
+        message.setFromUserName(fromUserInfo.getNickname());
+        message.setFromUserAvatar(fromUserInfo.getAvatar());
+
+        // 群发 or 单发
+        if (msg.getTargetType().equals(ConversationType.single)) {
+            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
+
+        } else {
+            message.setTargetType(Constant.TARGET_TYPE_GROUP);
+            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
+            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
+        }
+
+        // 消息接收者信息
+        message.setToUserId(user.getUserId());
+
+        // 消息类型
+        String messageType = msg.getContentType().name();
+        message.setMessageType(messageType);
+        message.setTimestamp(msg.getCreateTime());
+
+        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            TextContent messageContent = (TextContent) msg.getContent();
+            message.setContent(messageContent.getText());
+        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            ImageContent imageContent = ((ImageContent) msg.getContent());
+            String imageUrl = imageContent.getLocalThumbnailPath();
+            message.setImageUrl(imageUrl);
+        }
+
+        Message.save(message);
+
+        if (msg.getTargetType().equals(ConversationType.single)) {
+            // 单聊
+            // 如果是当前会话
+            Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
+            if (fromUserInfo.getUserName().equals(fromUserId)) {
+                messageList.add(message);
+                mMessageLv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageAdapter.setData(messageList);
+                        messageAdapter.notifyDataSetChanged();
+                        mMessageLv.setSelection(mMessageLv.getBottom());
+                    }
+                });
+                // 清除未读数
+                conversation.resetUnreadCount();
+            } else {
+                // 未读数++
+                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            }
+        } else {
+            Conversation conversation = JMessageClient.getGroupConversation(Long.valueOf(groupId));
+
+            // 群聊
+            // 如果是当前会话
+            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
+            if (String.valueOf(groupInfo.getGroupID()).equals(groupId) && !fromUserInfo.getUserName().equals(user.getUserId())) {
+                messageList.add(message);
+                mMessageLv.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        messageAdapter.setData(messageList);
+                        messageAdapter.notifyDataSetChanged();
+                        mMessageLv.setSelection(mMessageLv.getBottom());
+                    }
+                });
+                // 清除未读数
+                conversation.resetUnreadCount();
+            } else {
+                // 未读数++
+                PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            }
+        }
     }
 }
