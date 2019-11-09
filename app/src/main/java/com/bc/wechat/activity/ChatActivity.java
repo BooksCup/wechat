@@ -482,7 +482,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         }
 
         Message message = new Message();
-        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(msg.getCreateTime(), true));
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
 
         // 消息发送者信息
         message.setFromUserId(fromUserInfo.getUserName());
@@ -505,7 +505,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         // 消息类型
         String messageType = msg.getContentType().name();
         message.setMessageType(messageType);
-        message.setTimestamp(msg.getCreateTime());
+        message.setTimestamp(new Date().getTime());
 
         if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
             TextContent messageContent = (TextContent) msg.getContent();
