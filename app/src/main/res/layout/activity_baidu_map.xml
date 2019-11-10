@@ -5,7 +5,6 @@
     android:background="#eee"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
@@ -26,28 +25,19 @@
             android:scaleType="centerInside"
             android:src="@drawable/top_bar_back" />
 
-        <View
-            android:id="@+id/view_temp"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/iv_back"
-            android:background="#14191A" />
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/view_temp"
+            android:layout_toRightOf="@id/iv_back"
             android:text="位置"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_location_send"
+            android:id="@+id/btn_send_location"
             android:layout_width="48dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
@@ -55,13 +45,14 @@
             android:layout_marginRight="8dp"
             android:background="@drawable/btn_register_bg"
             android:gravity="center"
+            android:onClick="sendLocation"
             android:text="保存"
             android:textColor="#fff"
             android:textSize="14sp" />
     </RelativeLayout>
 
     <com.baidu.mapapi.map.MapView
-        android:id="@+id/bmapView"
+        android:id="@+id/mv_map"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#fff"

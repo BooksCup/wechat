@@ -42,9 +42,11 @@ import com.bc.wechat.R;
 
 public class BaiduMapActivity extends FragmentActivity {
 
-    MapView mMapView;
+    private static final String TAG = "BaiduMapActivity";
+
+    MapView mMapMv;
     private BaiduMap mBaiduMap;
-    Button sendButton;
+    Button mSendLocationBtn;
     private LocationMode mCurrentMode;
     ProgressDialog progressDialog;
     BDLocation lastLocation;
@@ -76,25 +78,25 @@ public class BaiduMapActivity extends FragmentActivity {
         setContentView(R.layout.activity_baidu_map);
         requestWritePermission();
 
-        mMapView = findViewById(R.id.bmapView);
-        sendButton = findViewById(R.id.btn_location_send);
+        mMapMv = findViewById(R.id.mv_map);
+        mSendLocationBtn = findViewById(R.id.btn_send_location);
         Intent intent = getIntent();
         double latitude = intent.getDoubleExtra("latitude", 0);
         mCurrentMode = LocationMode.NORMAL;
-        mBaiduMap = mMapView.getMap();
+        mBaiduMap = mMapMv.getMap();
         MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
         mBaiduMap.setMapStatus(msu);
-        mMapView.setLongClickable(true);
+        mMapMv.setLongClickable(true);
         if (latitude == 0) {
-            mMapView = new MapView(this, new BaiduMapOptions());
-            mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
+            mMapMv = new MapView(this, new BaiduMapOptions());
+            mBaiduMap.setMyLocationConfiguration(new MyLocationConfiguration(
                     mCurrentMode, true, null));
             showMapWithLocationClient();
         } else {
             double longtitude = intent.getDoubleExtra("longitude", 0);
             String address = intent.getStringExtra("address");
             LatLng p = new LatLng(latitude, longtitude);
-            mMapView = new MapView(this,
+            mMapMv = new MapView(this,
                     new BaiduMapOptions().mapStatus(new MapStatus.Builder()
                             .target(p).build()));
             showMap(latitude, longtitude, address);
@@ -106,10 +108,11 @@ public class BaiduMapActivity extends FragmentActivity {
         iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
         mBaiduReceiver = new BaiduSDKReceiver();
         registerReceiver(mBaiduReceiver, iFilter);
+
     }
 
     private void showMap(double latitude, double longtitude, String address) {
-        sendButton.setVisibility(View.GONE);
+        mSendLocationBtn.setVisibility(View.GONE);
         LatLng llA = new LatLng(latitude, longtitude);
         CoordinateConverter converter = new CoordinateConverter();
         converter.coord(llA);
@@ -147,12 +150,11 @@ public class BaiduMapActivity extends FragmentActivity {
 
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true);// 打开gps
-        // option.setCoorType("bd09ll"); //设置坐标类型
         // Johnson change to use gcj02 coordination. chinese national standard
         // so need to conver to bd09 everytime when draw on baidu map
         option.setCoorType("gcj02");
         option.setScanSpan(30000);
-//        option.setAddrType("all");
+        option.setIsNeedAddress(true);
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
@@ -169,7 +171,7 @@ public class BaiduMapActivity extends FragmentActivity {
 
             Log.d("map", "On location change received:" + location);
             Log.d("map", "addr:" + location.getAddrStr());
-            sendButton.setEnabled(true);
+            mSendLocationBtn.setEnabled(true);
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
@@ -203,6 +205,16 @@ public class BaiduMapActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (null != mLocClient) {
+            mLocClient.stop();
+        }
+        mMapMv.onDestroy();
+        unregisterReceiver(mBaiduReceiver);
+        super.onDestroy();
+    }
+
     // 运行时添加权限
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -213,5 +225,20 @@ public class BaiduMapActivity extends FragmentActivity {
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
+    }
+
+    public void back(View view) {
+        finish();
+    }
+
+    public void sendLocation(View view) {
+        Intent intent = this.getIntent();
+        intent.putExtra("latitude", lastLocation.getLatitude());
+        intent.putExtra("longitude", lastLocation.getLongitude());
+        intent.putExtra("address", lastLocation.getAddrStr());
+        Log.d(TAG, "lastLocation.getAddress().address: " + lastLocation.getAddress().address);
+        this.setResult(RESULT_OK, intent);
+        finish();
+        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
     }
 }
