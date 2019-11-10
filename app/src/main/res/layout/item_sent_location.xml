@@ -52,11 +52,12 @@
             <TextView
                 android:id="@+id/tv_location"
                 style="@style/chat_content_date_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="120dp"
                 android:background="@drawable/location_msg"
                 android:gravity="center"
                 android:textColor="@android:color/white" />
+
         </com.cxd.chatview.moudle.ChatView>
 
         <ProgressBar
@@ -66,6 +67,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/cv_chat_content"
             android:visibility="gone" />
+
         <ImageView
             android:id="@+id/iv_msg_status"
             android:layout_width="wrap_content"

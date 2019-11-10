@@ -17,6 +17,17 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.BaiduMapActivity;
 import com.bc.wechat.activity.MessageBigImageActivity;
@@ -183,17 +194,7 @@ public class MessageAdapter extends BaseAdapter {
                 }
             });
         } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
-            viewHolder.mLocationTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent;
-                    intent = new Intent(mContext, BaiduMapActivity.class);
-                    intent.putExtra("latitude", 31.9327300000);
-                    intent.putExtra("longitude", 118.8274300000);
-                    intent.putExtra("address", "南京市江宁区庄排路109号");
-                    mContext.startActivity(intent);
-                }
-            });
+
         } else {
 
         }
@@ -443,15 +444,27 @@ public class MessageAdapter extends BaseAdapter {
 
         if (position != 0) {
             Message lastMessage = messageList.get(position - 1);
-
             if (message.getTimestamp() - lastMessage.getTimestamp() < 10 * 60 * 1000) {
                 viewHolder.mTimeStampTv.setVisibility(View.GONE);
             }
         }
 
         Map<String, Object> locationMap = JSON.parseObject(message.getMessageBody(), Map.class);
-        if (null != locationMap.get("address")) {
-            viewHolder.mLocationTv.setText(String.valueOf(locationMap.get("address")));
-        }
+        final String address = locationMap.get("address") == null ? "" : String.valueOf(locationMap.get("address"));
+        final double latitude = locationMap.get("latitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("latitude")));
+        final double longitude = locationMap.get("longitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("longitude")));
+        viewHolder.mLocationTv.setText(address);
+
+        viewHolder.mLocationTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                intent = new Intent(mContext, BaiduMapActivity.class);
+                intent.putExtra("latitude", latitude);
+                intent.putExtra("longitude", longitude);
+                intent.putExtra("address", address);
+                mContext.startActivity(intent);
+            }
+        });
     }
 }
