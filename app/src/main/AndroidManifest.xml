@@ -28,6 +28,13 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+
     <meta-data
         android:name="DATABASE"
         android:value="wechat.db" />
@@ -50,6 +57,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Bmug2opqgsCzgARv9CnDiGC7fVimMg8H" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -144,6 +155,10 @@
             android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.BaiduMapActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"
@@ -208,6 +223,12 @@
             android:name="cn.jpush.android.service.PushService"
             android:process=":multiprocess"
             tools:node="replace"></service>
+
+        <!-- 百度地图所需的service -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
 
         <!--极光推送接收消息-->
         <receiver

@@ -2,6 +2,7 @@ package com.bc.wechat;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orm.SugarContext;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
@@ -34,5 +35,7 @@ public class WechatApplication extends Application {
         ClassicsHeader.REFRESH_HEADER_FAILED = "";//"刷新失败";
         ClassicsHeader.REFRESH_HEADER_UPDATE = "";//"上次更新 M-d HH:mm";
 
+        // 百度地图
+        SDKInitializer.initialize(this);
     }
 }

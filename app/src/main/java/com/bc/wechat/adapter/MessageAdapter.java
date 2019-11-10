@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.activity.BaiduMapActivity;
 import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.cons.Constant;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class MessageAdapter extends BaseAdapter {
     private static final int DEFAULT_WIDTH = 300;
 
@@ -46,6 +48,8 @@ public class MessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_TEXT = 1;
     private static final int MESSAGE_TYPE_SENT_IMAGE = 2;
     private static final int MESSAGE_TYPE_RECV_IMAGE = 3;
+    private static final int MESSAGE_TYPE_SENT_LOCATION = 4;
+    private static final int MESSAGE_TYPE_RECV_LOCATION = 5;
 
     private Context mContext;
     private LayoutInflater inflater;
@@ -97,6 +101,8 @@ public class MessageAdapter extends BaseAdapter {
             return isSender ? MESSAGE_TYPE_SENT_TEXT : MESSAGE_TYPE_RECV_TEXT;
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
             return isSender ? MESSAGE_TYPE_SENT_IMAGE : MESSAGE_TYPE_RECV_IMAGE;
+        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+            return isSender ? MESSAGE_TYPE_SENT_LOCATION : MESSAGE_TYPE_RECV_LOCATION;
         }
         // invalid
         return -1;
@@ -104,7 +110,7 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return 6;
     }
 
     @Override
@@ -127,6 +133,11 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
                 viewHolder.mImageContentSdv = convertView.findViewById(R.id.sdv_image_content);
 
+            } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+                viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
+                viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+                viewHolder.mLocationTv = convertView.findViewById(R.id.tv_location);
+
             } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
                 viewHolder.mSystemMessageTv = convertView.findViewById(R.id.tv_system_message);
@@ -147,6 +158,8 @@ public class MessageAdapter extends BaseAdapter {
             handleTextMessage(message, viewHolder, position);
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
             handleImageMessage(message, viewHolder, position);
+        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+            handleLocationMessage(message, viewHolder, position);
         } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
             handleEventNotificationMessage(message, viewHolder, position);
         } else {
@@ -161,6 +174,18 @@ public class MessageAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, MessageBigImageActivity.class);
                     intent.putExtra("imgUrl", message.getImageUrl());
+                    mContext.startActivity(intent);
+                }
+            });
+        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+            viewHolder.mLocationTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent;
+                    intent = new Intent(mContext, BaiduMapActivity.class);
+                    intent.putExtra("latitude", 31.9327300000);
+                    intent.putExtra("longitude", 118.8274300000);
+                    intent.putExtra("address", "南京市江宁区庄排路109号");
                     mContext.startActivity(intent);
                 }
             });
@@ -200,6 +225,9 @@ public class MessageAdapter extends BaseAdapter {
 
         // image
         SimpleDraweeView mImageContentSdv;
+
+        // location
+        TextView mLocationTv;
     }
 
     private View createViewByMessageType(String messageType, boolean isSender) {
@@ -209,6 +237,9 @@ public class MessageAdapter extends BaseAdapter {
         } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
             return isSender ? inflater.inflate(R.layout.item_sent_image, null) :
                     inflater.inflate(R.layout.item_received_image, null);
+        } else if (Constant.MSG_TYPE_LOCATION.equals(messageType)) {
+            return isSender ? inflater.inflate(R.layout.item_sent_location, null) :
+                    inflater.inflate(R.layout.item_received_location, null);
         } else {
             return isSender ? inflater.inflate(R.layout.item_sent_text, null) :
                     inflater.inflate(R.layout.item_received_text, null);
@@ -373,5 +404,9 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mTimeStampTv.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void handleLocationMessage(final Message message, ViewHolder viewHolder, final int position) {
+
     }
 }

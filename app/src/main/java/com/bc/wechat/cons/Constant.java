@@ -24,6 +24,7 @@ public class Constant {
 
     public static final String MSG_TYPE_TEXT = "text";
     public static final String MSG_TYPE_IMAGE = "image";
+    public static final String MSG_TYPE_LOCATION = "location";
     public static final String MSG_TYPE_VOICE = "voice";
     public static final String MSG_TYPE_CUSTOM = "custom";
     public static final String MSG_TYPE_SYSTEM = "eventNotification";

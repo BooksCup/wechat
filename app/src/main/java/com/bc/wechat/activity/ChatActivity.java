@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
@@ -159,6 +160,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         mMoreBtn = findViewById(R.id.btn_more);
         mSendBtn = findViewById(R.id.btn_send);
 
+
         buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
         buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
         mEditTextContent = findViewById(R.id.et_sendmessage);
@@ -289,6 +291,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                     startActivity(intent);
                 }
                 break;
+            case R.id.iv_chat_location:
+                startActivityForResult(new Intent(ChatActivity.this, BaiduMapActivity.class), REQUEST_CODE_MAP);
+                break;
         }
     }
 
@@ -404,6 +409,50 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
         mEditTextContent.setText("");
     }
+
+    /**
+     * 发送位置消息
+     *
+     * @param content 消息内容
+     */
+    private void sendLocationMsg(double latitude, double longitude, String locationAddress) {
+        Message message = new Message();
+        message.setMessageId(CommonUtil.generateId());
+        message.setTargetType(targetType);
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
+        message.setFromUserId(user.getUserId());
+        message.setToUserId(fromUserId);
+        message.setToUserName(fromUserNickName);
+        message.setToUserAvatar(fromUserAvatar);
+        message.setTimestamp(new Date().getTime());
+        message.setStatus(MessageStatus.SENDING.value());
+
+        // 群组
+        message.setGroupId(groupId);
+
+        messageList.add(message);
+        messageIndex = messageList.size() - 1;
+        message.setMessageType(Constant.MSG_TYPE_LOCATION);
+
+        Message.save(message);
+        Map<String, Object> body = new HashMap<>();
+        body.put("latitude", latitude);
+        body.put("longitude", longitude);
+        body.put("locationAddress", locationAddress);
+        if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+            // 单聊
+            sendMessage(targetType, fromUserId, user.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+        } else {
+            // 群聊
+            sendMessage(targetType, groupId, user.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+        }
+        messageAdapter.notifyDataSetChanged();
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
+        mEditTextContent.setText("");
+    }
+
 
     /*接收到的消息*/
     public void onEvent(MessageEvent event) {
@@ -559,6 +608,25 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
             } else {
                 // 未读数++
                 PreferencesUtil.getInstance().setNewMsgsUnreadNumber(PreferencesUtil.getInstance().getNewMsgsUnreadNumber() + 1);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_MAP) {
+                double latitude = data.getDoubleExtra("latitude", 0);
+                double longitude = data.getDoubleExtra("longitude", 0);
+                String locationAddress = data.getStringExtra("address");
+                if (locationAddress != null && !locationAddress.equals("")) {
+                    Toast.makeText(this, latitude + " : " + longitude + " : " + locationAddress, Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Toast.makeText(this, "无法获取到您的位置信息！", Toast.LENGTH_SHORT)
+                            .show();
+                }
             }
         }
     }
