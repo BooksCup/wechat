@@ -413,9 +413,11 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 发送位置消息
      *
-     * @param content 消息内容
+     * @param latitude  纬度
+     * @param longitude 经度
+     * @param address   地址
      */
-    private void sendLocationMsg(double latitude, double longitude, String locationAddress) {
+    private void sendLocationMsg(double latitude, double longitude, String address) {
         Message message = new Message();
         message.setMessageId(CommonUtil.generateId());
         message.setTargetType(targetType);
@@ -433,20 +435,23 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         messageList.add(message);
         messageIndex = messageList.size() - 1;
         message.setMessageType(Constant.MSG_TYPE_LOCATION);
-
-        Message.save(message);
         Map<String, Object> body = new HashMap<>();
         body.put("latitude", latitude);
         body.put("longitude", longitude);
-        body.put("locationAddress", locationAddress);
+        body.put("address", address);
+        String messageBody = JSON.toJSONString(body);
+        message.setMessageBody(messageBody);
+
+        Message.save(message);
+
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
             sendMessage(targetType, fromUserId, user.getUserId(),
-                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+                    message.getMessageType(), messageBody, messageIndex);
         } else {
             // 群聊
             sendMessage(targetType, groupId, user.getUserId(),
-                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+                    message.getMessageType(), messageBody, messageIndex);
         }
         messageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
@@ -617,16 +622,11 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_MAP) {
+                // 获取经纬度，发送位置消息
                 double latitude = data.getDoubleExtra("latitude", 0);
                 double longitude = data.getDoubleExtra("longitude", 0);
-                String locationAddress = data.getStringExtra("address");
-                if (locationAddress != null && !locationAddress.equals("")) {
-                    Toast.makeText(this, latitude + " : " + longitude + " : " + locationAddress, Toast.LENGTH_SHORT)
-                            .show();
-                } else {
-                    Toast.makeText(this, "无法获取到您的位置信息！", Toast.LENGTH_SHORT)
-                            .show();
-                }
+                String address = data.getStringExtra("address");
+                sendLocationMsg(latitude, longitude, address);
             }
         }
     }

@@ -122,6 +122,7 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = createViewByMessageType(message.getMessageType(), isSender);
             if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+                // 文字消息
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
                 viewHolder.mContentTv = convertView.findViewById(R.id.tv_chat_content);
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
@@ -129,14 +130,18 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
 
             } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+                // 图片消息
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
                 viewHolder.mImageContentSdv = convertView.findViewById(R.id.sdv_image_content);
 
             } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+                // 定位消息
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
                 viewHolder.mLocationTv = convertView.findViewById(R.id.tv_location);
+                viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
+                viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
 
             } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
@@ -406,7 +411,47 @@ public class MessageAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * 处理位置消息
+     */
     private void handleLocationMessage(final Message message, ViewHolder viewHolder, final int position) {
+        // 好友头像和昵称从sqlite中读取，防止脏数据
+        Friend friend = friendDao.getFriendById(message.getFromUserId());
 
+        if (message.getStatus() == MessageStatus.SENDING.value()) {
+            viewHolder.mSendingPb.setVisibility(View.VISIBLE);
+            viewHolder.mStatusIv.setVisibility(View.GONE);
+        } else if (message.getStatus() == MessageStatus.SEND_SUCCESS.value()) {
+            viewHolder.mSendingPb.setVisibility(View.GONE);
+            viewHolder.mStatusIv.setVisibility(View.GONE);
+        } else if (message.getStatus() == MessageStatus.SEND_FAIL.value()) {
+            viewHolder.mSendingPb.setVisibility(View.GONE);
+            viewHolder.mStatusIv.setVisibility(View.VISIBLE);
+        }
+
+        viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
+
+        if (user.getUserId().equals(message.getFromUserId())) {
+            if (!TextUtils.isEmpty(user.getUserAvatar())) {
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+            }
+        } else {
+            if (!TextUtils.isEmpty(friend.getUserAvatar())) {
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
+            }
+        }
+
+        if (position != 0) {
+            Message lastMessage = messageList.get(position - 1);
+
+            if (message.getTimestamp() - lastMessage.getTimestamp() < 10 * 60 * 1000) {
+                viewHolder.mTimeStampTv.setVisibility(View.GONE);
+            }
+        }
+
+        Map<String, Object> locationMap = JSON.parseObject(message.getMessageBody(), Map.class);
+        if (null != locationMap.get("address")) {
+            viewHolder.mLocationTv.setText(String.valueOf(locationMap.get("address")));
+        }
     }
 }
