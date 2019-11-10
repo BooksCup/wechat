@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
@@ -151,7 +150,7 @@ public class BaiduMapActivity extends FragmentActivity {
         // option.setCoorType("bd09ll"); //设置坐标类型
         // Johnson change to use gcj02 coordination. chinese national standard
         // so need to conver to bd09 everytime when draw on baidu map
-        option.setCoorType("bd09ll");
+        option.setCoorType("gcj02");
         option.setScanSpan(30000);
 //        option.setAddrType("all");
         mLocClient.setLocOption(option);
