@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
@@ -20,11 +21,14 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.GroupMemberInfo;
+import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class ConversationAdapter extends BaseAdapter {
@@ -99,6 +103,17 @@ public class ConversationAdapter extends BaseAdapter {
                 mLastMsgTv.setText(conversation.getLatestText());
             } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
                 mLastMsgTv.setText("[图片]");
+            } else if (Constant.MSG_TYPE_CUSTOM.equals(messageType)) {
+                try {
+                    Map<String, String> latestMessageMap = JSON.parseObject(conversation.getLatestMessage().getContent().toJson(), Map.class);
+                    Map<String, Object> messageBodyMap = JSON.parseObject(latestMessageMap.get("text"), Map.class);
+                    String type = String.valueOf(messageBodyMap.get("type"));
+                    if (Constant.MSG_TYPE_LOCATION.equals(type)) {
+                        mLastMsgTv.setText("[位置]");
+                    }
+                } catch (Exception e) {
+                    mLastMsgTv.setText(conversation.getLatestText());
+                }
             } else {
                 mLastMsgTv.setText(conversation.getLatestText());
             }
