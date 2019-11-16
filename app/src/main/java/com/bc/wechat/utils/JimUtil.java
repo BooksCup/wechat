@@ -8,7 +8,7 @@ import java.util.Map;
 
 import cn.jpush.im.android.api.model.Conversation;
 
-public class ConversationUtil {
+public class JimUtil {
     final static String DEFAULT_LATEST_MESSAGE = "";
 
     public static String getLatestMessage(Conversation conversation) {
@@ -47,6 +47,18 @@ public class ConversationUtil {
             } else {
                 return DEFAULT_LATEST_MESSAGE;
             }
+        }
+    }
+
+    public static String getMessageType(cn.jpush.im.android.api.model.Message msg) {
+        String messageType = msg.getContentType().name();
+        if (Constant.MSG_TYPE_CUSTOM.equals(messageType)) {
+            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
+            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
+            String type = String.valueOf(messageBodyMap.get("type"));
+            return type;
+        } else {
+            return messageType;
         }
     }
 }

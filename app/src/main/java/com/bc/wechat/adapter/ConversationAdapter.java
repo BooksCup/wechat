@@ -9,27 +9,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Friend;
-import com.bc.wechat.utils.ConversationUtil;
+import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import cn.jpush.im.android.api.content.MessageContent;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.GroupMemberInfo;
-import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class ConversationAdapter extends BaseAdapter {
@@ -93,7 +88,7 @@ public class ConversationAdapter extends BaseAdapter {
             }
             // 如果消息被清除
             // conversation.getLastestMessage() == null
-            mLastMsgTv.setText(ConversationUtil.getLatestMessage(conversation));
+            mLastMsgTv.setText(JimUtil.getLatestMessage(conversation));
 
             int unReadMsgCnt = conversation.getUnReadMsgCnt();
             if (unReadMsgCnt <= 0) {

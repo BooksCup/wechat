@@ -33,6 +33,7 @@ import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -558,17 +559,23 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         message.setToUserId(user.getUserId());
 
         // 消息类型
-        String messageType = msg.getContentType().name();
-        message.setMessageType(messageType);
+        message.setMessageType(JimUtil.getMessageType(msg));
         message.setTimestamp(new Date().getTime());
 
         if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            // 文字
             TextContent messageContent = (TextContent) msg.getContent();
             message.setContent(messageContent.getText());
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            // 图片
             ImageContent imageContent = ((ImageContent) msg.getContent());
             String imageUrl = imageContent.getLocalThumbnailPath();
             message.setImageUrl(imageUrl);
+        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+            // 位置
+            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
+            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
+            message.setMessageBody(JSON.toJSONString(messageBodyMap));
         }
 
         Message.save(message);
