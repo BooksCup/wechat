@@ -14,6 +14,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Friend;
+import com.bc.wechat.utils.ConversationUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.TimestampUtil;
@@ -92,31 +93,8 @@ public class ConversationAdapter extends BaseAdapter {
             }
             // 如果消息被清除
             // conversation.getLastestMessage() == null
-            String messageType;
-            if (null == conversation.getLatestMessage()) {
-                messageType = "";
-            } else {
-                messageType = conversation.getLatestMessage().getContentType().name();
-            }
+            mLastMsgTv.setText(ConversationUtil.getLatestMessage(conversation));
 
-            if (Constant.MSG_TYPE_TEXT.equals(messageType)) {
-                mLastMsgTv.setText(conversation.getLatestText());
-            } else if (Constant.MSG_TYPE_IMAGE.equals(messageType)) {
-                mLastMsgTv.setText("[图片]");
-            } else if (Constant.MSG_TYPE_CUSTOM.equals(messageType)) {
-                try {
-                    Map<String, String> latestMessageMap = JSON.parseObject(conversation.getLatestMessage().getContent().toJson(), Map.class);
-                    Map<String, Object> messageBodyMap = JSON.parseObject(latestMessageMap.get("text"), Map.class);
-                    String type = String.valueOf(messageBodyMap.get("type"));
-                    if (Constant.MSG_TYPE_LOCATION.equals(type)) {
-                        mLastMsgTv.setText("[位置]");
-                    }
-                } catch (Exception e) {
-                    mLastMsgTv.setText(conversation.getLatestText());
-                }
-            } else {
-                mLastMsgTv.setText(conversation.getLatestText());
-            }
             int unReadMsgCnt = conversation.getUnReadMsgCnt();
             if (unReadMsgCnt <= 0) {
                 mUnreadTv.setVisibility(View.GONE);

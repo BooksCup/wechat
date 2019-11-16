@@ -436,6 +436,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         messageIndex = messageList.size() - 1;
         message.setMessageType(Constant.MSG_TYPE_LOCATION);
         Map<String, Object> body = new HashMap<>();
+        body.put("type", Constant.MSG_TYPE_LOCATION);
         body.put("latitude", latitude);
         body.put("longitude", longitude);
         body.put("address", address);
