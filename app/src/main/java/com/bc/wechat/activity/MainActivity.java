@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
@@ -37,12 +38,14 @@ import com.bc.wechat.fragment.FindFragment;
 import com.bc.wechat.fragment.FriendsFragment;
 import com.bc.wechat.fragment.ProfileFragment;
 import com.bc.wechat.utils.ExampleUtil;
+import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.google.zxing.client.android.CaptureActivity2;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.EventNotificationContent;
@@ -268,18 +271,25 @@ public class MainActivity extends FragmentActivity {
         final cn.jpush.im.android.api.model.Message msg = event.getMessage();
         Message message = new Message();
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        String messageType = msg.getContentType().name();
+        String messageType = JimUtil.getMessageType(msg);
         message.setToUserId(user.getUserId());
         message.setTimestamp(new Date().getTime());
         message.setMessageType(messageType);
 
         if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+            // 文字
             TextContent messageContent = (TextContent) msg.getContent();
             message.setContent(messageContent.getText());
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            // 图片
             ImageContent imageContent = ((ImageContent) msg.getContent());
             String imageUrl = imageContent.getLocalThumbnailPath();
             message.setImageUrl(imageUrl);
+        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+            // 位置
+            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
+            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
+            message.setMessageBody(JSON.toJSONString(messageBodyMap));
         } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
             EventNotificationContent eventNotificationContent = (EventNotificationContent) msg.getContent();
 
