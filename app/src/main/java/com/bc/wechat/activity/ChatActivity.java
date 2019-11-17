@@ -293,7 +293,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 }
                 break;
             case R.id.iv_chat_location:
-                startActivityForResult(new Intent(ChatActivity.this, BaiduMapActivity.class), REQUEST_CODE_MAP);
+                startActivityForResult(new Intent(ChatActivity.this, MapPickerActivity.class), REQUEST_CODE_MAP);
                 break;
         }
     }

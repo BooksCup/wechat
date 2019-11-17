@@ -159,6 +159,10 @@
             android:name=".activity.BaiduMapActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.MapPickerActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"

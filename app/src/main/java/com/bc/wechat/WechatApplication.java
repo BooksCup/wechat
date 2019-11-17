@@ -3,15 +3,17 @@ package com.bc.wechat;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.bc.wechat.service.LocationService;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orm.SugarContext;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 
 public class WechatApplication extends Application {
+    public static LocationService locationService;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,5 +39,6 @@ public class WechatApplication extends Application {
 
         // 百度地图
         SDKInitializer.initialize(this);
+        locationService = new LocationService(getApplicationContext());
     }
 }
