@@ -46,4 +46,9 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:2.1.2'
 
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'//没有使用特殊Header，可以不加这行
+    //注意版本与项目一致
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }

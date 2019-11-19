@@ -29,6 +29,10 @@ public class FriendsCircleAdapter extends BaseAdapter {
         this.friendsCircleList = dataList;
     }
 
+    public void addData(List<FriendsCircle> dataList) {
+        this.friendsCircleList.addAll(dataList);
+    }
+
     @Override
     public int getCount() {
         return friendsCircleList.size();

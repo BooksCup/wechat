@@ -22,6 +22,9 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,8 @@ public class FriendsCircleActivity extends FragmentActivity {
     private FriendsCircleDao friendsCircleDao;
     private List<FriendsCircle> friendsCircleList = new ArrayList<>();
     FriendsCircleAdapter mAdapter;
+    RefreshLayout refreshLayout;
+    long timeStamp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +47,11 @@ public class FriendsCircleActivity extends FragmentActivity {
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(this);
         friendsCircleDao = new FriendsCircleDao();
+        timeStamp = System.currentTimeMillis();
         listView = findViewById(R.id.ll_friends_circle);
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
-        friendsCircleList = friendsCircleDao.getFriendsCircleList();
+        friendsCircleList = friendsCircleDao.getFriendsCircleList(Constant.DEFAULT_PAGE_SIZE, timeStamp);
         mAdapter = new FriendsCircleAdapter(friendsCircleList, this);
         listView.setAdapter(mAdapter);
         listView.addHeaderView(headerView, null, false);
@@ -65,38 +71,81 @@ public class FriendsCircleActivity extends FragmentActivity {
         SimpleDraweeView mAvatarSdv = headerView.findViewById(R.id.sdv_avatar);
         mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
 
-        getFriendsCircleList(user.getUserId());
+        getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
+
+        // 上拉加载，下拉刷新
+        refreshLayout = findViewById(R.id.srl_friends_circle);
+        refreshLayout.setPrimaryColorsId(android.R.color.black, android.R.color.white);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                // 下拉刷新
+                getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                // 上拉加载
+                getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, true);
+            }
+        });
     }
 
     public void back(View view) {
         finish();
     }
 
-    private void getFriendsCircleList(String userId) {
-        String url = Constant.BASE_URL + "friendsCircle?userId=" + userId;
+    private void getFriendsCircleList(String userId, final int pageSize, final boolean isAdd) {
+        timeStamp = isAdd ? timeStamp : System.currentTimeMillis();
+        String url = Constant.BASE_URL + "friendsCircle?userId=" + userId + "&pageSize=" + pageSize + "&timestamp=" + timeStamp;
 
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                List<FriendsCircle> list = JSONArray.parseArray(response, FriendsCircle.class);
-                for (FriendsCircle friendsCircle : list) {
-                    FriendsCircle checkFriendsCircle = friendsCircleDao.getFriendsCircleByCircleId(friendsCircle.getCircleId());
-                    if (null == checkFriendsCircle) {
-                        // 不存在,插入
-                        friendsCircleDao.addFriendsCircle(friendsCircle);
-                    } else {
-                        // 存在,修改
-                        friendsCircle.setId(checkFriendsCircle.getId());
-                        friendsCircleDao.addFriendsCircle(friendsCircle);
-                    }
+                if (isAdd) {
+                    // 上拉加载
+                    refreshLayout.finishLoadMore();
+                } else {
+                    // 下拉刷新
+                    refreshLayout.finishRefresh();
                 }
-                friendsCircleList = friendsCircleDao.getFriendsCircleList();
-                mAdapter.setData(friendsCircleList);
-                mAdapter.notifyDataSetChanged();
+
+                List<FriendsCircle> list = JSONArray.parseArray(response, FriendsCircle.class);
+                if (null != list && list.size() > 0) {
+                    for (FriendsCircle friendsCircle : list) {
+                        FriendsCircle checkFriendsCircle = friendsCircleDao.getFriendsCircleByCircleId(friendsCircle.getCircleId());
+                        if (null == checkFriendsCircle) {
+                            // 不存在,插入
+                            friendsCircleDao.addFriendsCircle(friendsCircle);
+                        } else {
+                            // 存在,修改
+                            friendsCircle.setId(checkFriendsCircle.getId());
+                            friendsCircleDao.addFriendsCircle(friendsCircle);
+                        }
+                    }
+                    friendsCircleList = friendsCircleDao.getFriendsCircleList(pageSize, timeStamp);
+                    if (isAdd) {
+                        // 上拉加载
+                        mAdapter.addData(friendsCircleList);
+                    } else {
+                        // 下拉刷新
+                        mAdapter.setData(friendsCircleList);
+                    }
+                    timeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                if (isAdd) {
+                    // 上拉加载
+                    refreshLayout.finishLoadMore();
+                } else {
+                    // 下拉刷新
+                    refreshLayout.finishRefresh();
+                }
             }
         });
     }

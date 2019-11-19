@@ -19,9 +19,11 @@
         android:layout_width="24dip"
         android:layout_height="24dip"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="40dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="40dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/icon_friends_circle_progress" />
+        android:src="@mipmap/icon_friends_circle_progress"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_nick_name"

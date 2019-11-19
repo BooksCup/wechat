@@ -5,9 +5,10 @@ import com.bc.wechat.entity.FriendsCircle;
 import java.util.List;
 
 public class FriendsCircleDao {
-    public List<FriendsCircle> getFriendsCircleList() {
+    public List<FriendsCircle> getFriendsCircleList(int pageSize, long timeStamp) {
         return FriendsCircle.findWithQuery(FriendsCircle.class,
-                "select * from friends_circle order by timestamp desc");
+                "select * from friends_circle where timestamp < ? order by timestamp desc limit ?",
+                String.valueOf(timeStamp), String.valueOf(pageSize));
     }
 
     public void addFriendsCircle(FriendsCircle friendsCircle) {

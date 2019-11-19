@@ -31,4 +31,6 @@ public class Constant {
     public static final String TARGET_TYPE_SINGLE = "single";
     public static final String TARGET_TYPE_GROUP = "group";
     public static final String TARGET_TYPE_CHATROOM = "chatroom";
+
+    public static final int DEFAULT_PAGE_SIZE = 10;
 }
