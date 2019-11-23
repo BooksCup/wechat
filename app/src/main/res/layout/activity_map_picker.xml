@@ -77,6 +77,7 @@
                     android:background="#ffffff"
                     android:divider="@drawable/picker_map_nearby_divider"
                     android:dividerHeight="1px"
+                    android:listSelector="@android:color/transparent"
                     android:scrollbars="none" />
             </RelativeLayout>
         </LinearLayout>

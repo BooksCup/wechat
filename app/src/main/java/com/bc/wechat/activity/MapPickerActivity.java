@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -35,7 +36,7 @@ import com.bc.wechat.service.LocationService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapPickerActivity extends Activity {
+public class MapPickerActivity extends Activity implements AdapterView.OnItemClickListener {
 
     List<PoiInfo> mPoiInfoList;
     private Point mCenterPoint;
@@ -106,6 +107,7 @@ public class MapPickerActivity extends Activity {
         mGeoCoder.setOnGetGeoCodeResultListener(mGeoListener);
 
         mPoiLv = findViewById(R.id.list);
+        mPoiLv.setOnItemClickListener(this);
 
         mMapPickerAdapter = new MapPickerAdapter(MapPickerActivity.this, mPoiInfoList);
         mPoiLv.setAdapter(mMapPickerAdapter);
@@ -208,5 +210,11 @@ public class MapPickerActivity extends Activity {
         super.onResume();
         locationService.start();
         mMapView.onResume();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        mMapPickerAdapter.setNotifyTip(position);
+        mMapPickerAdapter.notifyDataSetChanged();
     }
 }
