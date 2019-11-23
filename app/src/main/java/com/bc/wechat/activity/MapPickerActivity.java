@@ -4,20 +4,21 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.ZoomControls;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -28,6 +29,7 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bc.wechat.R;
 import com.bc.wechat.WechatApplication;
+import com.bc.wechat.adapter.MapPickerAdapter;
 import com.bc.wechat.service.LocationService;
 
 import java.util.ArrayList;
@@ -40,19 +42,29 @@ public class MapPickerActivity extends Activity {
     // 地理编码
     private GeoCoder mGeoCoder;
 
+    PoiInfo mCurentInfo;
+
+
     // 当前经纬度和地理位置
     private LatLng mLocationLatLng;
-
     private MapView mMapView;
 
     private LocationService locationService;
     private BaiduMap mBaiduMap;
+
+    private RelativeLayout mMapHolderRl;
 
     private String mAddress;
     private String mStreet;
     private String mName;
     private String mCity;
 
+    private TextView mStatusTv;
+
+    private MapPickerAdapter mMapPickerAdapter;
+    private ListView mPoiLv;
+
+    private boolean mSendLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +74,7 @@ public class MapPickerActivity extends Activity {
         locationService = WechatApplication.locationService;
         locationService.registerListener(mListener);
 
+        initView();
         initMap();
     }
 
@@ -89,6 +102,25 @@ public class MapPickerActivity extends Activity {
             }
         }
 
+        mGeoCoder = GeoCoder.newInstance();
+        mGeoCoder.setOnGetGeoCodeResultListener(mGeoListener);
+
+        mPoiLv = findViewById(R.id.list);
+
+        mMapPickerAdapter = new MapPickerAdapter(MapPickerActivity.this, mPoiInfoList);
+        mPoiLv.setAdapter(mMapPickerAdapter);
+    }
+
+    private void initView() {
+        mStatusTv = findViewById(R.id.tv_status);
+        mMapHolderRl = findViewById(R.id.rl_map_holder);
+
+        mSendLocation = getIntent().getBooleanExtra("sendLocation", false);
+        if (mSendLocation) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    getResources().getDimensionPixelOffset(R.dimen.map_holder_height));
+            mMapHolderRl.setLayoutParams(params);
+        }
     }
 
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
@@ -116,9 +148,43 @@ public class MapPickerActivity extends Activity {
                 MapStatusUpdate u = MapStatusUpdateFactory
                         .newLatLng(currentLatLng);
                 mBaiduMap.animateMapStatus(u);
-//                    mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption())
-//                            .location(currentLatLng));
-                return;
+                mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption())
+                        .location(currentLatLng));
+            }
+        }
+    };
+
+    OnGetGeoCoderResultListener mGeoListener = new OnGetGeoCoderResultListener() {
+        @Override
+        public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
+
+        }
+
+        @Override
+        public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+            if (null == result || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                mStatusTv.setText("发生错误");
+                mStatusTv.setVisibility(View.VISIBLE);
+            } else {
+                mStatusTv.setVisibility(View.GONE);
+                // 当前位置信息
+                mLocationLatLng = result.getLocation();
+                mAddress = result.getAddress();
+                mStreet = result.getAddressDetail().street;
+                mCity = result.getAddressDetail().city;
+
+                mCurentInfo = new PoiInfo();
+                mCurentInfo.address = result.getAddress();
+                mCurentInfo.location = result.getLocation();
+                mCurentInfo.name = "[当前位置]";
+                mPoiInfoList.clear();
+                mPoiInfoList.add(mCurentInfo);
+
+                // 将周边信息加入列表
+                if (null != result.getPoiList()) {
+                    mPoiInfoList.addAll(result.getPoiList());
+                }
+                mMapPickerAdapter.notifyDataSetChanged();
             }
         }
     };

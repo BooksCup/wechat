@@ -293,7 +293,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 }
                 break;
             case R.id.iv_chat_location:
-                startActivityForResult(new Intent(ChatActivity.this, MapPickerActivity.class), REQUEST_CODE_MAP);
+                Intent intent = new Intent(ChatActivity.this, MapPickerActivity.class);
+                intent.putExtra("sendLocation", true);
+                startActivityForResult(intent, REQUEST_CODE_LOCATION);
                 break;
         }
     }
