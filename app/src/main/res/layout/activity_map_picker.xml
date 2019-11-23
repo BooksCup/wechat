@@ -74,8 +74,10 @@
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#ffffff"
                     android:divider="@drawable/picker_map_nearby_divider"
-                    android:dividerHeight="1px" />
+                    android:dividerHeight="1px"
+                    android:scrollbars="none" />
             </RelativeLayout>
         </LinearLayout>
 
