@@ -42,7 +42,7 @@ public class MapPickerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (null == convertView) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.picker_item_place, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_pick_place, null);
 
             viewHolder = new ViewHolder();
             viewHolder.mNameTv = convertView.findViewById(R.id.tv_name);
