@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -33,7 +33,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/subtitle"
+                android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -45,7 +45,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/iconView"
+            android:id="@+id/iv_checked_flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
