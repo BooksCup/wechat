@@ -51,6 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/conv_voice_rec" />
+            android:src="@mipmap/icon_correct" />
     </LinearLayout>
 </RelativeLayout>
