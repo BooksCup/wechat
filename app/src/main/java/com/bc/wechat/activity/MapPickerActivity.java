@@ -15,11 +15,15 @@ import android.widget.ZoomControls;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -216,5 +220,20 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         mMapPickerAdapter.setNotifyTip(position);
         mMapPickerAdapter.notifyDataSetChanged();
+
+        BitmapDescriptor mSelectIcon = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_pick_map_geo);
+
+        mBaiduMap.clear();
+
+        PoiInfo poiInfo = mMapPickerAdapter.getItem(position);
+        LatLng latLng = poiInfo.getLocation();
+        // 动画跳转
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng);
+        mBaiduMap.animateMapStatus(mapStatusUpdate);
+
+        // 添加覆盖物
+        OverlayOptions overlayOptions = new MarkerOptions().position(latLng).icon(mSelectIcon).anchor(0.5f, 0.5f);
+        mBaiduMap.addOverlay(overlayOptions);
     }
 }

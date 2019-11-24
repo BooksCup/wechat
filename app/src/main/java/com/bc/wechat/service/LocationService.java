@@ -58,7 +58,7 @@ public class LocationService {
             // 可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd0911
             mOption.setCoorType("bd09ll");
             // 可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才有效
-            mOption.setScanSpan(3000);
+//            mOption.setScanSpan(3000);
             // 可选，设置是否需要地址信息，默认不需要
             mOption.setIsNeedAddress(true);
             // 可选，设置是否需要地址描述

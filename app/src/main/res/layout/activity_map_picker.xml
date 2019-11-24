@@ -29,7 +29,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="10dp"
-                android:background="@mipmap/conv_location_icon"
+                android:background="@mipmap/icon_define_location"
                 android:scaleType="center" />
 
             <ImageView
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:paddingBottom="45dp"
-                android:src="@mipmap/picker_map_local_icon" />
+                android:src="@mipmap/icon_pick_location" />
 
         </RelativeLayout>
 
