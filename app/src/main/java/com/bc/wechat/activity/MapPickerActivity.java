@@ -80,7 +80,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     }
 
     private void initMap() {
-        mMapView = findViewById(R.id.bmapView);
+        mMapView = findViewById(R.id.mv_map);
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         mMapView.showZoomControls(false);
@@ -106,7 +106,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         mGeoCoder = GeoCoder.newInstance();
         mGeoCoder.setOnGetGeoCodeResultListener(mGeoListener);
 
-        mPoiLv = findViewById(R.id.list);
+        mPoiLv = findViewById(R.id.lv_near_by);
         mPoiLv.setOnItemClickListener(this);
 
         mMapPickerAdapter = new MapPickerAdapter(MapPickerActivity.this, mPoiInfoList);

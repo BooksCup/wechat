@@ -15,13 +15,13 @@
             android:layout_height="match_parent">
 
             <com.baidu.mapapi.map.MapView
-                android:id="@+id/bmapView"
+                android:id="@+id/mv_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true" />
 
             <ImageButton
-                android:id="@+id/define_my_location"
+                android:id="@+id/iv_define_location"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentLeft="false"
@@ -33,7 +33,7 @@
                 android:scaleType="center" />
 
             <ImageView
-                android:id="@+id/bmap_center_icon"
+                android:id="@+id/iv_map_center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -43,7 +43,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/listNearbyHolder"
+            android:id="@+id/ll_near_by_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/rl_map_holder"
@@ -55,7 +55,7 @@
                 android:layout_height="match_parent">
 
                 <ProgressBar
-                    android:id="@+id/loading"
+                    android:id="@+id/pb_loading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -71,7 +71,7 @@
                     android:visibility="gone" />
 
                 <ListView
-                    android:id="@+id/list"
+                    android:id="@+id/lv_near_by"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#ffffff"
