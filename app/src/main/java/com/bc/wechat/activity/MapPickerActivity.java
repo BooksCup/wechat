@@ -3,6 +3,7 @@ package com.bc.wechat.activity;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -127,6 +128,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                     getResources().getDimensionPixelOffset(R.dimen.map_holder_height));
             mMapHolderRl.setLayoutParams(params);
         }
+
     }
 
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
@@ -235,5 +237,9 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         // 添加覆盖物
         OverlayOptions overlayOptions = new MarkerOptions().position(latLng).icon(mSelectIcon).anchor(0.5f, 0.5f);
         mBaiduMap.addOverlay(overlayOptions);
+    }
+
+    public void back(View view) {
+        finish();
     }
 }
