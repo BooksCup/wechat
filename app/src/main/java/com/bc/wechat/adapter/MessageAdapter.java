@@ -463,9 +463,9 @@ public class MessageAdapter extends BaseAdapter {
         final double latitude = locationMap.get("latitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("latitude")));
         final double longitude = locationMap.get("longitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("longitude")));
 
-        final String district = locationMap.get("district") == null ? "" : String.valueOf(locationMap.get("district"));
-        final String street = locationMap.get("street") == null ? "" : String.valueOf(locationMap.get("street"));
-        final String streetNumber = locationMap.get("streetNumber") == null ? "" : String.valueOf(locationMap.get("streetNumber"));
+        final String addressDetail = locationMap.get("addressDetail") == null ? "" : String.valueOf(locationMap.get("addressDetail"));
+
+        final String path = locationMap.get("path") == null ? "" : String.valueOf(locationMap.get("path"));
 
         if (!TextUtils.isEmpty(address)) {
             if (address.length() > 15) {
@@ -474,7 +474,11 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mAddressTv.setText(address);
             }
         }
-        viewHolder.mAddressDetailTv.setText(district + street + streetNumber);
+        viewHolder.mAddressDetailTv.setText(addressDetail);
+
+        if (!TextUtils.isEmpty(path)) {
+            viewHolder.mLocationImgSdv.setImageURI(Uri.parse(path));
+        }
 
         viewHolder.mAddressTv.setOnClickListener(new View.OnClickListener() {
             @Override

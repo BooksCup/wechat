@@ -86,6 +86,10 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     // 地址
     // 类似于"江苏省南京市江宁区庄排路158号"
     private String mAddress;
+
+    // 详细地址
+    private String mAddressDetail;
+
     // 区，如:"江宁区"
     private String mDistrict;
     // 街道，如:"庄排路"
@@ -181,9 +185,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                                         intent.putExtra("latitude", mLatitude);
                                         intent.putExtra("longitude", mLongitude);
                                         intent.putExtra("address", mAddress);
-                                        intent.putExtra("district", mDistrict);
-                                        intent.putExtra("street", mStreet);
-                                        intent.putExtra("streetNumber", mStreetNumber);
+                                        intent.putExtra("addressDetail", mAddressDetail);
                                         intent.putExtra("path", Constant.FILE_BASE_URL + imageList.get(0));
                                         setResult(RESULT_OK, intent);
                                         finish();
@@ -250,6 +252,8 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                 mDistrict = result.getAddressDetail().district;
                 mStreet = result.getAddressDetail().street;
                 mStreetNumber = result.getAddressDetail().streetNumber;
+                mAddressDetail = mDistrict + mStreet + mStreetNumber;
+
                 mCity = result.getAddressDetail().city;
 
                 mLatitude = result.getLocation().latitude;
@@ -311,6 +315,9 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         // 添加覆盖物
         OverlayOptions overlayOptions = new MarkerOptions().position(latLng).icon(mSelectIcon).anchor(0.5f, 0.5f);
         mBaiduMap.addOverlay(overlayOptions);
+
+        mAddressDetail = poiInfo.address;
+        mAddress = poiInfo.name;
     }
 
     public void back(View view) {
