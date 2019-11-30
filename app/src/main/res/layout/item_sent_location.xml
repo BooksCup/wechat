@@ -50,14 +50,39 @@
             chat:stroke_width="1px">
 
             <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="200dp"
+                android:layout_height="20dp"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:text="江宁开发区胜太科技园(庄..."
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
                 android:id="@+id/tv_location"
-                style="@style/chat_content_date_style"
+                android:layout_width="200dp"
+                android:layout_height="20dp"
+                android:background="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:text="江宁区庄排路109号"
+                android:layout_below="@id/tv_address"
+                android:textColor="#bfbfbf"
+                android:textSize="12sp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_location_img"
                 android:layout_width="200dp"
                 android:layout_height="120dp"
-                android:background="@drawable/location_msg"
-                android:gravity="center"
-                android:textColor="@android:color/white" />
-
+                android:layout_below="@id/tv_location"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@mipmap/bg_default_location" />
         </com.cxd.chatview.moudle.ChatView>
 
         <ProgressBar

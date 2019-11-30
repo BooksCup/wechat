@@ -453,7 +453,7 @@ public class MessageAdapter extends BaseAdapter {
         final String address = locationMap.get("address") == null ? "" : String.valueOf(locationMap.get("address"));
         final double latitude = locationMap.get("latitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("latitude")));
         final double longitude = locationMap.get("longitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("longitude")));
-        viewHolder.mLocationTv.setText(address);
+//        viewHolder.mLocationTv.setText(address);
 
         viewHolder.mLocationTv.setOnClickListener(new View.OnClickListener() {
             @Override
