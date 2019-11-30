@@ -467,7 +467,13 @@ public class MessageAdapter extends BaseAdapter {
         final String street = locationMap.get("street") == null ? "" : String.valueOf(locationMap.get("street"));
         final String streetNumber = locationMap.get("streetNumber") == null ? "" : String.valueOf(locationMap.get("streetNumber"));
 
-        viewHolder.mAddressTv.setText(address);
+        if (!TextUtils.isEmpty(address)) {
+            if (address.length() > 15) {
+                viewHolder.mAddressTv.setText(address.substring(0, 11) + "...");
+            } else {
+                viewHolder.mAddressTv.setText(address);
+            }
+        }
         viewHolder.mAddressDetailTv.setText(district + street + streetNumber);
 
         viewHolder.mAddressTv.setOnClickListener(new View.OnClickListener() {
