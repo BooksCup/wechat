@@ -1,12 +1,16 @@
 package com.bc.wechat.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.Menu;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -36,10 +40,14 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.bc.wechat.R;
 import com.bc.wechat.WechatApplication;
 import com.bc.wechat.adapter.MapPickerAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.service.LocationService;
+import com.bc.wechat.utils.BitmapLoaderUtil;
+import com.bc.wechat.utils.FileUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MapPickerActivity extends Activity implements AdapterView.OnItemClickListener {
 
@@ -59,6 +67,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     private BaiduMap mBaiduMap;
 
     private RelativeLayout mMapHolderRl;
+    private Button mSendLocationBtn;
 
     private String mAddress;
     private String mStreet;
@@ -72,6 +81,14 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
 
     private boolean mSendLocation;
 
+    private int mWidth;
+    private int mHeight;
+    private float mDensity;
+    private int mDensityDpi;
+
+    private double mLatitude;
+    private double mLongitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +96,13 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
 
         locationService = WechatApplication.locationService;
         locationService.registerListener(mListener);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        mDensity = displayMetrics.density;
+        mDensityDpi = displayMetrics.densityDpi;
+        mWidth = displayMetrics.widthPixels;
+        mHeight = displayMetrics.heightPixels;
 
         initView();
         initMap();
@@ -121,6 +145,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     private void initView() {
         mStatusTv = findViewById(R.id.tv_status);
         mMapHolderRl = findViewById(R.id.rl_map_holder);
+        mSendLocationBtn = findViewById(R.id.btn_send_location);
 
         mSendLocation = getIntent().getBooleanExtra("sendLocation", false);
         if (mSendLocation) {
@@ -129,6 +154,40 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
             mMapHolderRl.setLayoutParams(params);
         }
 
+        mSendLocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != mLocationLatLng) {
+                    int left = mWidth / 8;
+                    int top = (int) (mHeight - 1.1 * mWidth);
+                    Rect rect = new Rect(left, top, mWidth - left, mHeight - (int) (0.8 * top));
+                    mBaiduMap.snapshotScope(rect, new BaiduMap.SnapshotReadyCallback() {
+                        @Override
+                        public void onSnapshotReady(Bitmap bitmap) {
+                            String fileName = UUID.randomUUID().toString();
+                            final String localPath = BitmapLoaderUtil.saveBitmapToLocal(bitmap, fileName);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    List<String> imageList = FileUtil.uploadFile(Constant.FILE_UPLOAD_URL, localPath);
+                                    if (null != imageList && imageList.size() > 0) {
+                                        Intent intent = new Intent();
+                                        intent.putExtra("latitude", mLatitude);
+                                        intent.putExtra("longitude", mLongitude);
+                                        intent.putExtra("path", Constant.FILE_BASE_URL + imageList.get(0));
+                                        setResult(RESULT_OK, intent);
+                                        finish();
+                                        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+
+                                    }
+                                }
+                            }).start();
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
@@ -180,6 +239,9 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                 mAddress = result.getAddress();
                 mStreet = result.getAddressDetail().street;
                 mCity = result.getAddressDetail().city;
+
+                mLatitude = result.getLocation().latitude;
+                mLongitude = result.getLocation().longitude;
 
                 mCurentInfo = new PoiInfo();
                 mCurentInfo.address = result.getAddress();

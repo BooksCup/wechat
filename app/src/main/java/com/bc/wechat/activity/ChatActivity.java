@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
@@ -28,7 +27,6 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
-import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
@@ -418,9 +416,9 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
      *
      * @param latitude  纬度
      * @param longitude 经度
-     * @param address   地址
+     * @param path      地图截图http地址
      */
-    private void sendLocationMsg(double latitude, double longitude, String address) {
+    private void sendLocationMsg(double latitude, double longitude, String path) {
         Message message = new Message();
         message.setMessageId(CommonUtil.generateId());
         message.setTargetType(targetType);
@@ -442,7 +440,7 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         body.put("type", Constant.MSG_TYPE_LOCATION);
         body.put("latitude", latitude);
         body.put("longitude", longitude);
-        body.put("address", address);
+        body.put("path", path);
         String messageBody = JSON.toJSONString(body);
         message.setMessageBody(messageBody);
 
@@ -631,12 +629,12 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_MAP) {
+            if (requestCode == REQUEST_CODE_LOCATION) {
                 // 获取经纬度，发送位置消息
                 double latitude = data.getDoubleExtra("latitude", 0);
                 double longitude = data.getDoubleExtra("longitude", 0);
-                String address = data.getStringExtra("address");
-                sendLocationMsg(latitude, longitude, address);
+                String path = data.getStringExtra("path");
+                sendLocationMsg(latitude, longitude, path);
             }
         }
     }
