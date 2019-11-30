@@ -69,11 +69,6 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     private RelativeLayout mMapHolderRl;
     private Button mSendLocationBtn;
 
-    private String mAddress;
-    private String mStreet;
-    private String mName;
-    private String mCity;
-
     private TextView mStatusTv;
 
     private MapPickerAdapter mMapPickerAdapter;
@@ -88,6 +83,17 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
 
     private double mLatitude;
     private double mLongitude;
+    // 地址
+    // 类似于"江苏省南京市江宁区庄排路158号"
+    private String mAddress;
+    // 区，如:"江宁区"
+    private String mDistrict;
+    // 街道，如:"庄排路"
+    private String mStreet;
+    // 门牌号，如"158号"
+    private String mStreetNumber;
+    private String mName;
+    private String mCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +180,10 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                                         Intent intent = new Intent();
                                         intent.putExtra("latitude", mLatitude);
                                         intent.putExtra("longitude", mLongitude);
+                                        intent.putExtra("address", mAddress);
+                                        intent.putExtra("district", mDistrict);
+                                        intent.putExtra("street", mStreet);
+                                        intent.putExtra("streetNumber", mStreetNumber);
                                         intent.putExtra("path", Constant.FILE_BASE_URL + imageList.get(0));
                                         setResult(RESULT_OK, intent);
                                         finish();
@@ -237,7 +247,9 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                 // 当前位置信息
                 mLocationLatLng = result.getLocation();
                 mAddress = result.getAddress();
+                mDistrict = result.getAddressDetail().district;
                 mStreet = result.getAddressDetail().street;
+                mStreetNumber = result.getAddressDetail().streetNumber;
                 mCity = result.getAddressDetail().city;
 
                 mLatitude = result.getLocation().latitude;

@@ -63,7 +63,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_location"
+                android:id="@+id/tv_address_detail"
                 android:layout_width="200dp"
                 android:layout_height="20dp"
                 android:background="#FFFFFF"
@@ -80,7 +80,7 @@
                 android:id="@+id/sdv_location_img"
                 android:layout_width="200dp"
                 android:layout_height="120dp"
-                android:layout_below="@id/tv_location"
+                android:layout_below="@id/tv_address_detail"
                 fresco:actualImageScaleType="fitXY"
                 fresco:placeholderImage="@mipmap/bg_default_location" />
         </com.cxd.chatview.moudle.ChatView>

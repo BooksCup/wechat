@@ -416,9 +416,12 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
      *
      * @param latitude  纬度
      * @param longitude 经度
+     * @param address   地址
+     * @param street    街道
      * @param path      地图截图http地址
      */
-    private void sendLocationMsg(double latitude, double longitude, String path) {
+    private void sendLocationMsg(double latitude, double longitude, String address, String district,
+                                 String street, String streetNumber, String path) {
         Message message = new Message();
         message.setMessageId(CommonUtil.generateId());
         message.setTargetType(targetType);
@@ -440,6 +443,10 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
         body.put("type", Constant.MSG_TYPE_LOCATION);
         body.put("latitude", latitude);
         body.put("longitude", longitude);
+        body.put("address", address);
+        body.put("district", district);
+        body.put("street", street);
+        body.put("streetNumber", streetNumber);
         body.put("path", path);
         String messageBody = JSON.toJSONString(body);
         message.setMessageBody(messageBody);
@@ -633,8 +640,13 @@ public class ChatActivity extends FragmentActivity implements View.OnClickListen
                 // 获取经纬度，发送位置消息
                 double latitude = data.getDoubleExtra("latitude", 0);
                 double longitude = data.getDoubleExtra("longitude", 0);
+                String address = data.getStringExtra("address");
+                String district = data.getStringExtra("district");
+                String street = data.getStringExtra("street");
+                String streetNumber = data.getStringExtra("streetNumber");
                 String path = data.getStringExtra("path");
-                sendLocationMsg(latitude, longitude, path);
+                sendLocationMsg(latitude, longitude, address, district,
+                        street, streetNumber, path);
             }
         }
     }

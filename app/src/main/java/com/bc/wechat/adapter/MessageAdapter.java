@@ -150,7 +150,10 @@ public class MessageAdapter extends BaseAdapter {
                 // 定位消息
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
                 viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
-                viewHolder.mLocationTv = convertView.findViewById(R.id.tv_location);
+                viewHolder.mAddressTv = convertView.findViewById(R.id.tv_address);
+                viewHolder.mAddressDetailTv = convertView.findViewById(R.id.tv_address_detail);
+                viewHolder.mLocationImgSdv = convertView.findViewById(R.id.sdv_location_img);
+
                 viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
 
@@ -233,7 +236,13 @@ public class MessageAdapter extends BaseAdapter {
         SimpleDraweeView mImageContentSdv;
 
         // location
-        TextView mLocationTv;
+//        TextView mLocationTv;
+        // 地址
+        TextView mAddressTv;
+        // 详细地址
+        TextView mAddressDetailTv;
+        SimpleDraweeView mLocationImgSdv;
+
     }
 
     private View createViewByMessageType(String messageType, boolean isSender) {
@@ -453,9 +462,15 @@ public class MessageAdapter extends BaseAdapter {
         final String address = locationMap.get("address") == null ? "" : String.valueOf(locationMap.get("address"));
         final double latitude = locationMap.get("latitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("latitude")));
         final double longitude = locationMap.get("longitude") == null ? 0L : Double.valueOf(String.valueOf(locationMap.get("longitude")));
-//        viewHolder.mLocationTv.setText(address);
 
-        viewHolder.mLocationTv.setOnClickListener(new View.OnClickListener() {
+        final String district = locationMap.get("district") == null ? "" : String.valueOf(locationMap.get("district"));
+        final String street = locationMap.get("street") == null ? "" : String.valueOf(locationMap.get("street"));
+        final String streetNumber = locationMap.get("streetNumber") == null ? "" : String.valueOf(locationMap.get("streetNumber"));
+
+        viewHolder.mAddressTv.setText(address);
+        viewHolder.mAddressDetailTv.setText(district + street + streetNumber);
+
+        viewHolder.mAddressTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;
