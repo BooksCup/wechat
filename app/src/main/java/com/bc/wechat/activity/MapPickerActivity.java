@@ -184,7 +184,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
             public void onClick(View view) {
                 if (null != mLocationLatLng) {
                     int left = mWidth / 8;
-                    int top = (int) (mHeight - 1.1 * mWidth);
+                    int top = (int) (mHeight - 1.5 * mWidth);
                     // 计算长宽
                     int width = mWidth - 2 * left;
                     int height = (int) (0.6 * width);
