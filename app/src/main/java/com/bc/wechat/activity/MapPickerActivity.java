@@ -170,7 +170,15 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                 if (null != mLocationLatLng) {
                     int left = mWidth / 8;
                     int top = (int) (mHeight - 1.1 * mWidth);
-                    Rect rect = new Rect(left, top, mWidth - left, mHeight - (int) (0.8 * top));
+                    // 计算长宽
+                    int width = mWidth - 2 * left;
+                    int height = (int) (0.6 * width);
+
+                    int right = mWidth - left;
+                    int bottom = top + height;
+
+
+                    Rect rect = new Rect(left, top, right, bottom);
                     mBaiduMap.snapshotScope(rect, new BaiduMap.SnapshotReadyCallback() {
                         @Override
                         public void onSnapshotReady(Bitmap bitmap) {
