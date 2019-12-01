@@ -30,6 +30,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.BaiduMapActivity;
+import com.bc.wechat.activity.MapPickerActivity;
 import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.cons.Constant;
@@ -484,10 +485,10 @@ public class MessageAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent;
-                intent = new Intent(mContext, BaiduMapActivity.class);
+                intent = new Intent(mContext, MapPickerActivity.class);
                 intent.putExtra("latitude", latitude);
                 intent.putExtra("longitude", longitude);
-                intent.putExtra("address", address);
+                intent.putExtra("sendLocation", false);
                 mContext.startActivity(intent);
             }
         });

@@ -115,8 +115,8 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         mWidth = displayMetrics.widthPixels;
         mHeight = displayMetrics.heightPixels;
 
-        initView();
         initMap();
+        initView();
     }
 
     private void initMap() {
@@ -177,6 +177,34 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     getResources().getDimensionPixelOffset(R.dimen.map_holder_height));
             mMapHolderRl.setLayoutParams(params);
+        } else {
+            // 取消监听
+            // 否则会一直定位当前位置
+            locationService.unregisterListener(mListener);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+            mMapHolderRl.setLayoutParams(params);
+
+            double latitude = getIntent().getDoubleExtra("latitude", 0);
+            double longitude = getIntent().getDoubleExtra("longitude", 0);
+
+            MyLocationData locationData = new MyLocationData.Builder()
+                    .accuracy(100).direction(90.f).latitude(latitude).longitude(longitude).build();
+            mBaiduMap.setMyLocationData(locationData);
+            mBaiduMap.setMyLocationEnabled(true);
+
+            LatLng ll = new LatLng(latitude, longitude);
+            BitmapDescriptor descriptor = BitmapDescriptorFactory.fromResource(R.mipmap.icon_current_location);
+            OverlayOptions options = new MarkerOptions().position(ll).icon(descriptor).zIndex(10);
+            mBaiduMap.addOverlay(options);
+
+            // 实现动画跳转
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(new LatLng(latitude, longitude));
+            mBaiduMap.animateMapStatus(u);
+            mBaiduMap.clear();
+            // 发起反地理编码检索
+            mGeoCoder.reverseGeoCode((new ReverseGeoCodeOption())
+                    .location(new LatLng(latitude, longitude)));
         }
 
         mSendLocationBtn.setOnClickListener(new View.OnClickListener() {
@@ -341,6 +369,9 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
 
         mAddressDetail = poiInfo.address;
         mAddress = poiInfo.name;
+
+        mLatitude = poiInfo.location.latitude;
+        mLongitude = poiInfo.location.longitude;
     }
 
     public void back(View view) {
