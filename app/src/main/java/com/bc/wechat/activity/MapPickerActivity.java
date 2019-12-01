@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -125,6 +126,20 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         mMapView.showZoomControls(false);
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.zoomTo(19.0f);
         mBaiduMap.setMapStatus(mapStatusUpdate);
+        mBaiduMap.setOnMapTouchListener(new BaiduMap.OnMapTouchListener() {
+            @Override
+            public void onTouch(MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (null == mCenterPoint) {
+                        return;
+                    }
+                    mCenterPoint = mBaiduMap.getMapStatus().targetScreen;
+                    LatLng currentLatLng = mBaiduMap.getProjection().fromScreenLocation(mCenterPoint);
+                    mGeoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(currentLatLng));
+                }
+            }
+        });
+
 //        mBaiduMap.setOnMapTouchListener(null);
         // 初始化POI信息列表
         mPoiInfoList = new ArrayList<>();
@@ -331,4 +346,5 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     public void back(View view) {
         finish();
     }
+
 }
