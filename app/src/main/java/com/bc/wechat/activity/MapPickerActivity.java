@@ -181,6 +181,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
             // 取消监听
             // 否则会一直定位当前位置
             locationService.unregisterListener(mListener);
+            mSendLocationBtn.setVisibility(View.GONE);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
             mMapHolderRl.setLayoutParams(params);
