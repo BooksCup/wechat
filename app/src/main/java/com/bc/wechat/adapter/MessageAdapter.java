@@ -17,19 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.CoordinateConverter;
 import com.bc.wechat.R;
-import com.bc.wechat.activity.BaiduMapActivity;
 import com.bc.wechat.activity.MapPickerActivity;
 import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.activity.UserInfoActivity;
@@ -44,6 +32,7 @@ import com.bc.wechat.utils.CalculateUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.cxd.chatview.moudle.ChatView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
@@ -158,6 +147,8 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mSendingPb = convertView.findViewById(R.id.pb_sending);
                 viewHolder.mStatusIv = convertView.findViewById(R.id.iv_msg_status);
 
+                viewHolder.mChatContentCv = convertView.findViewById(R.id.cv_chat_content);
+
             } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
                 viewHolder.mTimeStampTv = convertView.findViewById(R.id.tv_timestamp);
                 viewHolder.mSystemMessageTv = convertView.findViewById(R.id.tv_system_message);
@@ -237,12 +228,14 @@ public class MessageAdapter extends BaseAdapter {
         SimpleDraweeView mImageContentSdv;
 
         // location
-//        TextView mLocationTv;
         // 地址
         TextView mAddressTv;
         // 详细地址
         TextView mAddressDetailTv;
         SimpleDraweeView mLocationImgSdv;
+
+        // 聊天内容
+        ChatView mChatContentCv;
 
     }
 
@@ -481,7 +474,7 @@ public class MessageAdapter extends BaseAdapter {
             viewHolder.mLocationImgSdv.setImageURI(Uri.parse(path));
         }
 
-        viewHolder.mAddressTv.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mChatContentCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;
