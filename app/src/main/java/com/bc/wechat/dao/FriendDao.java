@@ -14,6 +14,7 @@ public class FriendDao {
             // 好友已存在，更新基本信息
             Friend friend = checkList.get(0);
             friend.setUserNickName(user.getUserNickName());
+            friend.setUserWxId(user.getUserWxId());
             friend.setUserAvatar(user.getUserAvatar());
             friend.setUserHeader(CommonUtil.setUserHeader(user.getUserNickName()));
             friend.setUserSex(user.getUserSex());
@@ -24,6 +25,7 @@ public class FriendDao {
             Friend friend = new Friend();
             friend.setUserId(user.getUserId());
             friend.setUserNickName(user.getUserNickName());
+            friend.setUserWxId(user.getUserWxId());
             friend.setUserAvatar(user.getUserAvatar());
             friend.setUserHeader(CommonUtil.setUserHeader(user.getUserNickName()));
             friend.setUserSex(user.getUserSex());

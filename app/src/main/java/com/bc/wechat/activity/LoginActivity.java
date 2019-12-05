@@ -20,9 +20,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
@@ -45,6 +44,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     Button mLoginBtn;
     TextView mRegisterTv;
     LoadingDialog dialog;
+    FriendDao friendDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         PreferencesUtil.getInstance().init(this);
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new LoadingDialog(LoginActivity.this);
+        friendDao = new FriendDao();
         initView();
     }
 
@@ -110,58 +111,50 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * 登录
+     *
+     * @param phone    手机号
+     * @param password 密码
+     */
     private void login(String phone, String password) {
         String url = Constant.BASE_URL + "users/login?phone=" + phone + "&password=" + password;
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                dialog.dismiss();
                 Log.d(TAG, "server response: " + response);
-                User user = JSON.parseObject(response, User.class);
+                final User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
-                // 登录成功后设置user和isLogin至sharedpreferences中
-                PreferencesUtil.getInstance().setUser(user);
-                PreferencesUtil.getInstance().setLogin(true);
-                // 注册jpush
-                JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
-                // 注册jim
+
+                // 登录极光im
                 JMessageClient.login(user.getUserId(), "123456", new BasicCallback() {
                     @Override
-                    public void gotResult(int i, String s) {
+                    public void gotResult(int responseCode, String responseMessage) {
+                        if (responseCode == 0) {
+                            // 极光im登录成功
+                            // 登录成功后设置user和isLogin至sharedpreferences中
+                            PreferencesUtil.getInstance().setUser(user);
+                            PreferencesUtil.getInstance().setLogin(true);
+                            // 注册jpush
+                            JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
+                            List<User> friendList = user.getFriendList();
+                            for (User userFriend : friendList) {
+                                if (null != userFriend) {
+                                    friendDao.saveFriendByUserInfo(userFriend);
+                                }
+                            }
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            // 极光im登录失败
+                            Toast.makeText(LoginActivity.this,
+                                    R.string.username_or_password_error, Toast.LENGTH_SHORT)
+                                    .show();
+                        }
                     }
                 });
 
-                List<User> friendList = user.getFriendList();
-                for (User userFriend : friendList) {
-                    if (null != userFriend) {
-                        List<Friend> checkList = Friend.find(Friend.class, "user_id = ?", userFriend.getUserId());
-                        if (null != checkList && checkList.size() > 0) {
-                            // 好友已存在，更新基本信息
-                            Friend friend = checkList.get(0);
-                            friend.setUserNickName(userFriend.getUserNickName());
-                            friend.setUserWxId(userFriend.getUserWxId());
-                            friend.setUserAvatar(userFriend.getUserAvatar());
-                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
-                            friend.setUserSex(userFriend.getUserSex());
-                            friend.setUserLastestCirclePhotos(userFriend.getUserLastestCirclePhotos());
-                            Friend.save(friend);
-                        } else {
-                            // 不存在,插入sqlite
-                            Friend friend = new Friend();
-                            friend.setUserId(userFriend.getUserId());
-                            friend.setUserNickName(userFriend.getUserNickName());
-                            friend.setUserWxId(userFriend.getUserWxId());
-                            friend.setUserAvatar(userFriend.getUserAvatar());
-                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
-                            friend.setUserSex(userFriend.getUserSex());
-                            friend.setUserLastestCirclePhotos(userFriend.getUserLastestCirclePhotos());
-                            Friend.save(friend);
-                        }
-                    }
-                }
-
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
-                dialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
