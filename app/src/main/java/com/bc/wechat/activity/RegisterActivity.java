@@ -27,6 +27,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
@@ -65,6 +66,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     Button mRegisterBtn;
 
     ProgressDialog dialog;
+    FriendDao friendDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         setContentView(R.layout.activity_register);
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new ProgressDialog(RegisterActivity.this);
+        friendDao = new FriendDao();
         initView();
     }
 
@@ -136,7 +139,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 break;
 
             case R.id.btn_register:
-                dialog.setMessage(getString(R.string.logging_in));
+                dialog.setMessage(getString(R.string.registering));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
 
@@ -191,49 +194,34 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                dialog.dismiss();
                 Log.d(TAG, "server response: " + response);
-                User user = JSON.parseObject(response, User.class);
+                final User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
                 // 登录成功后设置user和isLogin至sharedpreferences中
                 PreferencesUtil.getInstance().setUser(user);
                 PreferencesUtil.getInstance().setLogin(true);
                 // 注册jpush
                 JPushInterface.setAlias(RegisterActivity.this, sequence, user.getUserId());
-                // 注册jim
-                JMessageClient.login(user.getUserId(), "123456", new BasicCallback() {
-                    @Override
-                    public void gotResult(int i, String s) {
-                    }
-                });
-
                 List<User> friendList = user.getFriendList();
                 if (null != friendList && friendList.size() > 0) {
                     for (User userFriend : friendList) {
-                        List<Friend> checkList = Friend.find(Friend.class, "user_id = ?", userFriend.getUserId());
-                        if (null != checkList && checkList.size() > 0) {
-                            // 好友已存在，更新基本信息
-                            Friend friend = checkList.get(0);
-                            friend.setUserNickName(userFriend.getUserNickName());
-                            friend.setUserAvatar(userFriend.getUserAvatar());
-                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
-                            friend.setUserSex(userFriend.getUserSex());
-                            Friend.save(friend);
-                        } else {
-                            // 不存在,插入sqlite
-                            Friend friend = new Friend();
-                            friend.setUserId(userFriend.getUserId());
-                            friend.setUserNickName(userFriend.getUserNickName());
-                            friend.setUserAvatar(userFriend.getUserAvatar());
-                            friend.setUserHeader(CommonUtil.setUserHeader(userFriend.getUserNickName()));
-                            friend.setUserSex(userFriend.getUserSex());
-                            Friend.save(friend);
+                        if (null != userFriend) {
+                            friendDao.saveFriendByUserInfo(userFriend);
                         }
                     }
                 }
 
                 startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                 finish();
-                dialog.dismiss();
+                // 登录极光im
+                JMessageClient.login(user.getUserId(), user.getUserImPassword(), new BasicCallback() {
+                    @Override
+                    public void gotResult(int responseCode, String responseMessage) {
+                        Log.d(TAG, "responseCode: " + responseCode + ", responseMessage: " + responseMessage);
+                    }
+                });
+
             }
         }, new Response.ErrorListener() {
             @Override
