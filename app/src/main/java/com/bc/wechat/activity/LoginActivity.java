@@ -128,7 +128,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 Log.d(TAG, "userId:" + user.getUserId());
 
                 // 登录极光im
-                JMessageClient.login(user.getUserId(), "123456", new BasicCallback() {
+                JMessageClient.login(user.getUserId(), user.getUserImPassword(), new BasicCallback() {
                     @Override
                     public void gotResult(int responseCode, String responseMessage) {
                         if (responseCode == 0) {
