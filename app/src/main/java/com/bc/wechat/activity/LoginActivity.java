@@ -22,6 +22,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
@@ -118,7 +119,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
      * @param password 密码
      */
     private void login(String phone, String password) {
-        String url = Constant.BASE_URL + "users/login?phone=" + phone + "&password=" + password;
+        String url = Constant.BASE_URL + "users/login?phone=" + phone
+                + "&password=" + MD5Util.encode(password, "utf8");
         volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
