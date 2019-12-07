@@ -60,13 +60,10 @@
             android:id="@+id/tv_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="bottom"
             android:paddingLeft="36dp"
-            android:paddingBottom="8dp"
             android:singleLine="true"
             android:text="@string/wx_id_or_phone"
             android:textColor="#aaaaaa"
@@ -76,8 +73,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_alignLeft="@id/tv_search"
-            android:layout_alignBottom="@id/tv_search"
-            android:layout_margin="8dp"
+            android:layout_centerVertical="true"
             android:src="@mipmap/search" />
 
     </RelativeLayout>
