@@ -175,7 +175,12 @@ public class UserInfoActivity extends Activity {
             @Override
             public void onResponse(String response) {
                 User user = JSON.parseObject(response, User.class);
-                friendDao.saveFriendByUserInfo(user);
+                // 检查此人是否好友，
+                // 如果是好友则更新用户信息，非好友则不做任何操作
+                boolean isFriend = friendDao.checkFriendExists(userId);
+                if (isFriend) {
+                    friendDao.saveFriendByUserInfo(user);
+                }
                 Friend friend = WechatBeanUtil.transferUserToFriend(user);
                 loadData(friend);
             }

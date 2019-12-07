@@ -42,4 +42,19 @@ public class FriendDao {
             return new Friend();
         }
     }
+
+    /**
+     * 检查好友是否存在
+     *
+     * @param userId 用户ID/好友ID
+     * @return true: 存在  false: 不存在
+     */
+    public boolean checkFriendExists(String userId) {
+        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userId);
+        if (null != friendList && friendList.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
