@@ -28,9 +28,8 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendDao;
-import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
@@ -184,12 +183,19 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * 注册
+     *
+     * @param nickName 昵称
+     * @param phone    手机号
+     * @param password 密码
+     */
     private void register(String nickName, String phone, String password) {
         String url = Constant.BASE_URL + "users";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("nickName", nickName);
         paramMap.put("phone", phone);
-        paramMap.put("password", password);
+        paramMap.put("password", MD5Util.encode(password, "utf8"));
 
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
