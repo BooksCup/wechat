@@ -72,6 +72,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/cv_chat_content"
             android:visibility="gone" />
+
         <ImageView
             android:id="@+id/iv_msg_status"
             android:layout_width="wrap_content"
