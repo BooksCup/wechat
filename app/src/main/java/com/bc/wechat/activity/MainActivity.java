@@ -56,6 +56,7 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 public class MainActivity extends BaseActivity {
+    private static final String TAG = "MainActivity";
 
     private static final int SCAN_REQUEST_CODE = 100;
     private static final int CAMERA_PERMISSION = 110;
@@ -96,6 +97,8 @@ public class MainActivity extends BaseActivity {
         registerMessageReceiver();
         refreshNewMsgsUnreadNum();
         refreshNewFriendsUnreadNum();
+        // 进入强制刷新，防止离线消息
+        conversationFragment.refreshConversationList();
     }
 
     private void initView() {
