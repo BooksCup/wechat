@@ -382,6 +382,13 @@ public class MainActivity extends BaseActivity {
 
         // 添加朋友
         RelativeLayout mAddFriendsRl = popupView.findViewById(R.id.rl_add_friends);
+        mAddFriendsRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                startActivity(new Intent(MainActivity.this, AddFriendsActivity.class));
+            }
+        });
 
         // 扫一扫
         RelativeLayout mScanQrCodeRl = popupView.findViewById(R.id.rl_scan_qr_code);

@@ -12,8 +12,8 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_avatar"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
         fresco:actualImageScaleType="centerCrop"
         fresco:placeholderImage="@mipmap/default_user_avatar"

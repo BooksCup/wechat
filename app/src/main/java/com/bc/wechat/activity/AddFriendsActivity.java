@@ -19,13 +19,13 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     private RelativeLayout mRadarRl;
     private TextView mWxIdTv;
 
-    private User user;
+    private User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
-        user = PreferencesUtil.getInstance().getUser();
+        mUser = PreferencesUtil.getInstance().getUser();
         initView();
     }
 
@@ -34,7 +34,7 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
         mRadarRl = findViewById(R.id.rl_radar);
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
-        mWxIdTv.setText("我的微信号：" + user.getUserWxId());
+        mWxIdTv.setText("我的微信号：" + mUser.getUserWxId());
         mSearchRl.setOnClickListener(this);
         mRadarRl.setOnClickListener(this);
     }

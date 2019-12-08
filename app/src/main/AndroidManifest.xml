@@ -163,6 +163,10 @@
             android:name=".activity.MapPickerActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.QrCodeActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"

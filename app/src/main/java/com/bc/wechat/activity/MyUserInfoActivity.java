@@ -2,13 +2,10 @@ package com.bc.wechat.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,7 +32,6 @@ import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +44,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private RelativeLayout mWxIdRl;
     private RelativeLayout mSexRl;
     private RelativeLayout mSignRl;
+    private RelativeLayout mQrCodeRl;
 
     private TextView mNickNameTv;
     private TextView mWxIdTv;
@@ -93,6 +90,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mSignRl = findViewById(R.id.rl_sign);
         mSignTv = findViewById(R.id.tv_sign);
 
+        mQrCodeRl = findViewById(R.id.rl_qr_code);
+
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
         mNickNameTv.setText(user.getUserNickName());
@@ -115,6 +114,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mWxIdRl.setOnClickListener(this);
         mSexRl.setOnClickListener(this);
         mSignRl.setOnClickListener(this);
+        mQrCodeRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -140,6 +140,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             case R.id.rl_sign:
                 // 签名
                 startActivityForResult(new Intent(this, UpdateSignActivity.class), UPDATE_USER_SIGN);
+                break;
+            case R.id.rl_qr_code:
+                startActivity(new Intent(this, QrCodeActivity.class));
                 break;
         }
     }
