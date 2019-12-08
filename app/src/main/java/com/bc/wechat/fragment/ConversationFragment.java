@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,32 +29,32 @@ import cn.jpush.im.android.api.model.UserInfo;
 
 public class ConversationFragment extends Fragment {
 
-    private ListView listView;
-    private ConversationAdapter conversationAdapter;
-    List<Conversation> conversationList;
+    private ListView mConversationLv;
+    private ConversationAdapter mConversationAdapter;
+    List<Conversation> mConversationList;
 
-    @Nullable
+    private static final int REFRESH_CONVERSATION_LIST = 0x3000;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_conversation, container, false);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        listView = getView().findViewById(R.id.list);
-        conversationList = JMessageClient.getConversationList();
-        if (null == conversationList) {
-            conversationList = new ArrayList<>();
+        mConversationLv = getView().findViewById(R.id.lv_conversation);
+        mConversationList = JMessageClient.getConversationList();
+        if (null == mConversationList) {
+            mConversationList = new ArrayList<>();
         }
-        conversationAdapter = new ConversationAdapter(getActivity(), conversationList);
-        listView.setAdapter(conversationAdapter);
+        mConversationAdapter = new ConversationAdapter(getActivity(), mConversationList);
+        mConversationLv.setAdapter(mConversationAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mConversationLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Conversation conversation = conversationList.get(position);
+                Conversation conversation = mConversationList.get(position);
                 int newMsgsUnreadNum = PreferencesUtil.getInstance().getNewMsgsUnreadNumber() - conversation.getUnReadMsgCnt();
                 if (newMsgsUnreadNum < 0) {
                     newMsgsUnreadNum = 0;
@@ -92,9 +90,7 @@ public class ConversationFragment extends Fragment {
     }
 
     public void refreshConversationList() {
-        Message message = new Message();
-        message.what = 1;
-        handler.sendMessage(message);
+        mHandler.sendMessage(mHandler.obtainMessage(REFRESH_CONVERSATION_LIST));
     }
 
     @Override
@@ -107,13 +103,13 @@ public class ConversationFragment extends Fragment {
         super.onResume();
     }
 
-    private Handler handler = new Handler() {
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
+            if (msg.what == REFRESH_CONVERSATION_LIST) {
                 List<Conversation> newConversationList = JMessageClient.getConversationList();
-                conversationAdapter.setData(newConversationList);
-                conversationAdapter.notifyDataSetChanged();
+                mConversationAdapter.setData(newConversationList);
+                mConversationAdapter.notifyDataSetChanged();
             }
         }
     };
