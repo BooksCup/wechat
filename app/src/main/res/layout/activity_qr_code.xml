@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8EDF3"
+    android:background="#ebebeb"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/common_top_bar_blue">
@@ -32,70 +33,110 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_back"
-            android:text="二维码"
+            android:text="@string/qr_code"
             android:textColor="#ffffff"
             android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btn_send_location"
-            android:layout_width="48dp"
-            android:layout_height="32dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/btn_register_bg"
-            android:gravity="center"
-            android:onClick="sendLocation"
-            android:text="保存"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="@dimen/height_top_bar"
+                android:layout_height="@dimen/height_top_bar"
+                android:padding="9dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_setting" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_copy"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="45.17dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="25dp"
         android:background="#fff"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+            <LinearLayout
+                android:id="@+id/ll_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@id/sdv_avatar"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="zhou"
+                    android:textColor="#353535"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_sex"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:src="@mipmap/ic_sex_male" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/sdv_avatar"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="江苏 南京"
+                    android:textColor="#aaaaaa"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_qr_code"
+            android:layout_width="270dp"
+            android:layout_height="270dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:src="@mipmap/default_user_avatar" />
+            android:layout_marginTop="35dp"
+            fresco:placeholderImage="@mipmap/icon_default_qr_code_big"
+            fresco:placeholderImageScaleType="fitXY" />
 
         <TextView
-            android:id="@+id/tv_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="7.67dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="18dp"
+            android:text="@string/scan_qr_code_and_add_friends"
             android:textColor="#999999"
-            android:textSize="15sp" />
-
-        <ImageView
-            android:id="@+id/iv_erWeiMa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="42dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="3.33dp"
-            android:layout_marginBottom="30dp"
-            android:text="扫一扫上面二维码,加我好友吧!"
-            android:textColor="#999999"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

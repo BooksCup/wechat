@@ -95,6 +95,7 @@
     <string name="avatar">头像</string>
     <string name="wx_id">微信号</string>
     <string name="qr_code">二维码名片</string>
+    <string name="scan_qr_code_and_add_friends">扫一扫上面的二维码图案，加我微信</string>
     <string name="my_address">我的地址</string>
     <string name="sex">性别</string>
     <string name="region">地区</string>
