@@ -115,4 +115,6 @@
 
     <string name="searching_for_user">正在查找联系人...</string>
     <string name="user_not_exists">该用户不存在</string>
+
+    <string name="connect_to_server_error">不能连接到服务器</string>
 </resources>

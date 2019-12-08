@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/rl_error_item"
-        layout="@layout/chat_neterror_item"
+        layout="@layout/item_chat_net_error"
         android:visibility="gone" />
 
     <ListView
