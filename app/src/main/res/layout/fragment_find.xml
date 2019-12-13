@@ -32,6 +32,14 @@
             android:text="朋友圈"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,7 +58,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_scan" />
+            android:src="@mipmap/icon_find_scan" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,6 +70,14 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
@@ -71,7 +87,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_yaoyiyao"
+        android:id="@+id/rl_shake"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -79,27 +95,35 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_yaoyiyao"
+            android:id="@+id/iv_shake"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/find_yaoyiyao" />
+            android:src="@mipmap/icon_find_shake" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_yaoyiyao"
+            android:layout_toRightOf="@id/iv_shake"
             android:text="摇一摇"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_fujin"
+        android:id="@+id/re_nearby"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -108,24 +132,32 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_fujin"
+            android:id="@+id/iv_nearby"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/find_fujin" />
+            android:src="@mipmap/icon_find_nearby" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_fujin"
+            android:layout_toRightOf="@id/iv_nearby"
             android:text="附近的人"
             android:textColor="#353535"
             android:textSize="16sp" />
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
@@ -135,7 +167,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_piaoliuping"
+        android:id="@+id/rl_drift_bottle"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -143,27 +175,35 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_piaoliuping"
+            android:id="@+id/iv_drift_bottle"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/find_piaoliuping" />
+            android:src="@mipmap/icon_find_drift_bottle" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_piaoliuping"
+            android:layout_toRightOf="@id/iv_drift_bottle"
             android:text="漂流瓶"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_gouwu"
+        android:id="@+id/rl_shopping"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -172,23 +212,31 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_gouwu"
+            android:id="@+id/iv_shopping"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/find_gouwu" />
+            android:src="@mipmap/icon_find_shopping" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_gouwu"
+            android:layout_toRightOf="@id/iv_shopping"
             android:text="购物"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
 
         <View
             android:layout_width="match_parent"
@@ -199,7 +247,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_youxi"
+        android:id="@+id/rl_game"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -207,23 +255,31 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_youxi"
+            android:id="@+id/iv_game"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/find_youxi" />
+            android:src="@mipmap/icon_find_game" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_youxi"
+            android:layout_toRightOf="@id/iv_game"
             android:text="游戏"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
 </LinearLayout>
