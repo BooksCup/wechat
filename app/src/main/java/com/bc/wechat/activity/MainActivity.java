@@ -31,6 +31,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
+import com.bc.wechat.entity.QrCodeContent;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.fragment.ConversationFragment;
 import com.bc.wechat.fragment.FindFragment;
@@ -450,6 +451,16 @@ public class MainActivity extends BaseActivity {
                         Intent intent = new Intent(this, WebViewActivity.class);
                         intent.putExtra(WebViewActivity.RESULT, isbn);
                         startActivity(intent);
+                    } else {
+                        try {
+                            QrCodeContent qrCodeContent = JSON.parseObject(isbn, QrCodeContent.class);
+                            if (QrCodeContent.QR_CODE_TYPE_USER.equals(qrCodeContent.getType())) {
+                                startActivity(new Intent(this, UserInfoActivity.class).
+                                        putExtra("userId", String.valueOf(qrCodeContent.getContentMap().get("userId"))));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

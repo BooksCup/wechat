@@ -15,6 +15,7 @@ public class User extends SugarRecord {
     private String userHeader;
     private String userSex;
     private String userSign;
+    private String userQrCode;
     private String isFriend;
 
     private List<User> friendList;
@@ -99,6 +100,14 @@ public class User extends SugarRecord {
 
     public void setUserSign(String userSign) {
         this.userSign = userSign;
+    }
+
+    public String getUserQrCode() {
+        return userQrCode;
+    }
+
+    public void setUserQrCode(String userQrCode) {
+        this.userQrCode = userQrCode;
     }
 
     public String getIsFriend() {

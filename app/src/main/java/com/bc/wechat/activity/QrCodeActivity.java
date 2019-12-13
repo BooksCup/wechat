@@ -17,6 +17,7 @@ public class QrCodeActivity extends BaseActivity {
     private SimpleDraweeView mAvatarSdv;
     private TextView mNickNameTv;
     private ImageView mSexIv;
+    private SimpleDraweeView mQrCodeSdv;
 
     private User mUser;
 
@@ -32,6 +33,7 @@ public class QrCodeActivity extends BaseActivity {
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mNickNameTv = findViewById(R.id.tv_nick_name);
         mSexIv = findViewById(R.id.iv_sex);
+        mQrCodeSdv = findViewById(R.id.sdv_qr_code);
 
         if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
@@ -44,6 +46,10 @@ public class QrCodeActivity extends BaseActivity {
             mSexIv.setImageResource(R.mipmap.ic_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(mUser.getUserQrCode())) {
+            mQrCodeSdv.setImageURI(Uri.parse(mUser.getUserQrCode()));
         }
     }
 
