@@ -200,7 +200,7 @@
                 android:background="#DBDBDB" />
 
             <RelativeLayout
-
+                android:id="@+id/rl_scan"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
@@ -211,19 +211,19 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_saoyisao"
+                    android:id="@+id/iv_scan"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/a_8" />
+                    android:src="@mipmap/icon_add_friends_scan" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_saoyisao"
+                    android:layout_toRightOf="@id/iv_scan"
                     android:text="扫一扫"
                     android:textColor="#353535"
                     android:textSize="16sp" />
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_saoyisao"
+                    android:layout_toRightOf="@id/iv_scan"
                     android:text="扫面二维码图片"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
