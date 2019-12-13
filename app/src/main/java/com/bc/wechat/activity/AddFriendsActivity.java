@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     private RelativeLayout mRadarRl;
     private RelativeLayout mScanRl;
 
+
+    private LinearLayout mMyInfoLl;
     private TextView mWxIdTv;
 
     private User mUser;
@@ -50,12 +53,15 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
         mRadarRl = findViewById(R.id.rl_radar);
         mScanRl = findViewById(R.id.rl_scan);
 
+        mMyInfoLl = findViewById(R.id.ll_my_info);
+
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
         mWxIdTv.setText("我的微信号：" + mUser.getUserWxId());
         mSearchRl.setOnClickListener(this);
         mRadarRl.setOnClickListener(this);
         mScanRl.setOnClickListener(this);
+        mMyInfoLl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -83,6 +89,10 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
                 } else {
                     startScanActivity();
                 }
+                break;
+
+            case R.id.ll_my_info:
+                startActivity(new Intent(this, QrCodeActivity.class));
                 break;
         }
     }
