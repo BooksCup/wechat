@@ -239,11 +239,10 @@ public class CreateGroupActivity extends FragmentActivity {
         User user = PreferencesUtil.getInstance().getUser();
         List<String> pickedUserIdList = new ArrayList<>();
         pickedUserIdList.addAll(checkedUserIdList);
-
+        pickedUserIdList.add(firstUserId);
 
         StringBuffer pickedUserIdBuffer = new StringBuffer();
         if (null != pickedUserIdList && pickedUserIdList.size() > 0) {
-            pickedUserIdList.add(firstUserId);
             for (String pickedUserId : pickedUserIdList) {
                 pickedUserIdBuffer.append(pickedUserId);
                 pickedUserIdBuffer.append(",");
@@ -253,12 +252,11 @@ public class CreateGroupActivity extends FragmentActivity {
 
         final StringBuffer pickedUserNickNameBuffer = new StringBuffer();
         if (null != checkedUserList && checkedUserList.size() > 0) {
-            pickedUserNickNameBuffer.append(firstUserNickName);
             for (Friend checkedUser : checkedUserList) {
                 pickedUserNickNameBuffer.append(checkedUser.getUserNickName());
                 pickedUserNickNameBuffer.append("、");
             }
-            pickedUserNickNameBuffer.deleteCharAt(pickedUserNickNameBuffer.length() - 1);
+            pickedUserNickNameBuffer.append(firstUserNickName);
         }
 
         String userIds = pickedUserIdBuffer.toString();
