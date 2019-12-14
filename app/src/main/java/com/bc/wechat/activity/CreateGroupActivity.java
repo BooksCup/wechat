@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -66,10 +67,14 @@ public class CreateGroupActivity extends FragmentActivity {
     private VolleyUtil volleyUtil;
     LoadingDialog loadingDialog;
 
+    // 遮罩
+    //https://www.jianshu.com/p/030fd07e01bd
+    // https://blog.csdn.net/oneRain88/article/details/6434208
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_room);
+        setContentView(R.layout.activity_create_group);
         volleyUtil = VolleyUtil.getInstance(this);
         loadingDialog = new LoadingDialog(CreateGroupActivity.this);
         firstUserId = getIntent().getStringExtra("userId");
@@ -132,12 +137,12 @@ public class CreateGroupActivity extends FragmentActivity {
         // 包含TextView的LinearLayout
         // 参数设置
         android.widget.LinearLayout.LayoutParams menuLinerLayoutParames = new LinearLayout.LayoutParams(
-                108, 108, 1);
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         View view = LayoutInflater.from(this).inflate(
-                R.layout.item_chatroom_header_item, null);
+                R.layout.item_create_group_header, null);
         SimpleDraweeView mAvatarSdv = view.findViewById(R.id.sdv_avatar);
         mAvatarSdv.setImageURI(Uri.parse(userAvatar));
-        menuLinerLayoutParames.setMargins(6, 0, 6, 15);
+        menuLinerLayoutParames.setMargins(6, 0, 6, 0);
 
         // 设置id，方便后面删除
         view.setTag(userId);

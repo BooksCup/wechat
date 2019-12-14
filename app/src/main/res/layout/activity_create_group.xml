@@ -55,7 +55,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:focusable="true"
@@ -67,8 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
             android:background="#ffffff"
+            android:layout_centerVertical="true"
             android:scrollbars="none">
 
             <LinearLayout
@@ -82,7 +82,6 @@
                     android:id="@+id/iv_search"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginBottom="10dp"
                     android:src="@mipmap/search" />
             </LinearLayout>
         </HorizontalScrollView>
@@ -91,12 +90,10 @@
             android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_toRightOf="@id/hsv_avatar_list"
             android:background="@null"
-            android:gravity="bottom"
             android:hint="搜索"
             android:singleLine="true"
             android:textColor="#353535"
