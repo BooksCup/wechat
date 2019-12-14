@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -69,9 +70,9 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
         switch (view.getId()) {
             case R.id.rl_add_user_to_group:
                 Intent intent = new Intent(this, CreateGroupActivity.class);
+                intent.putExtra("createType", Constant.CREATE_GROUP_TYPE_FROM_SINGLE);
                 intent.putExtra("userId", userId);
                 intent.putExtra("userNickName", userNickName);
-                intent.putExtra("userAvatar", userAvatar);
                 startActivity(intent);
                 break;
 

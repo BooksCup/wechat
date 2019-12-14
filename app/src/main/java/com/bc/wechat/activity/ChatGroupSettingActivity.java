@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.GroupSettingGridAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.JimBeanUtil;
@@ -97,7 +98,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
         GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
 
         final List<GroupMemberInfo> groupMemberInfoList = groupInfo.getGroupMemberInfos();
-        List<User> userList = new ArrayList<>();
+        final List<User> userList = new ArrayList<>();
         for (GroupMemberInfo groupMemberInfo : groupMemberInfoList) {
             User user = JimBeanUtil.transferGroupMemberInfoToUser(groupMemberInfo);
             userList.add(user);
@@ -126,7 +127,19 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == groupMemberInfoList.size()) {
-                    Toast.makeText(ChatGroupSettingActivity.this, "+", Toast.LENGTH_SHORT).show();
+                    // 群组拉人
+                    ArrayList<String> checkedUserIdList = new ArrayList<>();
+                    ArrayList<String> checkedUserNickNameList = new ArrayList<>();
+                    for (User user : userList) {
+                        checkedUserIdList.add(user.getUserId());
+                        checkedUserNickNameList.add(user.getUserNickName());
+                    }
+                    Intent intent = new Intent(ChatGroupSettingActivity.this, CreateGroupActivity.class);
+                    intent.putExtra("createType", Constant.CREATE_GROUP_TYPE_FROM_GROUP);
+                    intent.putStringArrayListExtra("userIdList", checkedUserIdList);
+                    intent.putStringArrayListExtra("userNickNameList", checkedUserNickNameList);
+                    startActivity(intent);
+
                 } else if (position == groupMemberInfoList.size() + 1) {
                     Toast.makeText(ChatGroupSettingActivity.this, "-", Toast.LENGTH_SHORT).show();
                 }

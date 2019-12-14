@@ -50,9 +50,20 @@ public class CreateGroupActivity extends FragmentActivity {
 
     private PickContactAdapter contactAdapter;
     private ListView listView;
+
+    // 创建群聊类型
+    // 1.首页发起群聊
+    // 2.单聊拉人
+    // 3.群聊拉人
+    String createType;
+
+    // 单聊拉人
     String firstUserId;
     String firstUserNickName;
-    String firstUserAvatar;
+
+    // 群聊拉人
+    List<String> firstUserIdList;
+    List<String> firstUserNickNameList;
 
     // 可滑动的显示选中用户的View
     private LinearLayout mAvatarListLl;
@@ -62,14 +73,12 @@ public class CreateGroupActivity extends FragmentActivity {
 
     private List<String> checkedUserIdList = new ArrayList<>();
     private List<Friend> checkedUserList = new ArrayList<>();
+
+    private List<String> initUserIdList = new ArrayList<>();
     private int totalCount = 0;
 
     private VolleyUtil volleyUtil;
     LoadingDialog loadingDialog;
-
-    // 遮罩
-    //https://www.jianshu.com/p/030fd07e01bd
-    // https://blog.csdn.net/oneRain88/article/details/6434208
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,9 +86,18 @@ public class CreateGroupActivity extends FragmentActivity {
         setContentView(R.layout.activity_create_group);
         volleyUtil = VolleyUtil.getInstance(this);
         loadingDialog = new LoadingDialog(CreateGroupActivity.this);
-        firstUserId = getIntent().getStringExtra("userId");
-        firstUserNickName = getIntent().getStringExtra("userNickName");
-        firstUserAvatar = getIntent().getStringExtra("userAvatar");
+        createType = getIntent().getStringExtra("createType");
+        if (Constant.CREATE_GROUP_TYPE_FROM_SINGLE.equals(createType)) {
+            firstUserId = getIntent().getStringExtra("userId");
+            firstUserNickName = getIntent().getStringExtra("userNickName");
+
+            initUserIdList.add(firstUserId);
+        } else if (Constant.CREATE_GROUP_TYPE_FROM_GROUP.equals(createType)) {
+            firstUserIdList = getIntent().getStringArrayListExtra("userIdList");
+            firstUserNickNameList = getIntent().getStringArrayListExtra("userIdNickNameList");
+
+            initUserIdList.addAll(firstUserIdList);
+        }
         final List<Friend> friendList = Friend.listAll(Friend.class);
         // 对list进行排序
         Collections.sort(friendList, new PinyinComparator() {
@@ -90,7 +108,7 @@ public class CreateGroupActivity extends FragmentActivity {
 
         listView = findViewById(R.id.lv_friends);
         contactAdapter = new PickContactAdapter(this,
-                R.layout.item_pick_contact_list, friendList, checkedUserIdList, firstUserId);
+                R.layout.item_pick_contact_list, friendList, checkedUserIdList, initUserIdList);
         listView.setAdapter(contactAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -190,12 +208,15 @@ public class CreateGroupActivity extends FragmentActivity {
             String py1 = o1.getUserHeader();
             String py2 = o2.getUserHeader();
             // 判断是否为空""
-            if (isEmpty(py1) && isEmpty(py2))
+            if (isEmpty(py1) && isEmpty(py2)) {
                 return 0;
-            if (isEmpty(py1))
+            }
+            if (isEmpty(py1)) {
                 return -1;
-            if (isEmpty(py2))
+            }
+            if (isEmpty(py2)) {
                 return 1;
+            }
             String str1 = "";
             String str2 = "";
             try {
@@ -218,10 +239,11 @@ public class CreateGroupActivity extends FragmentActivity {
         User user = PreferencesUtil.getInstance().getUser();
         List<String> pickedUserIdList = new ArrayList<>();
         pickedUserIdList.addAll(checkedUserIdList);
-        pickedUserIdList.add(firstUserId);
+
 
         StringBuffer pickedUserIdBuffer = new StringBuffer();
         if (null != pickedUserIdList && pickedUserIdList.size() > 0) {
+            pickedUserIdList.add(firstUserId);
             for (String pickedUserId : pickedUserIdList) {
                 pickedUserIdBuffer.append(pickedUserId);
                 pickedUserIdBuffer.append(",");
@@ -231,11 +253,12 @@ public class CreateGroupActivity extends FragmentActivity {
 
         final StringBuffer pickedUserNickNameBuffer = new StringBuffer();
         if (null != checkedUserList && checkedUserList.size() > 0) {
+            pickedUserNickNameBuffer.append(firstUserNickName);
             for (Friend checkedUser : checkedUserList) {
                 pickedUserNickNameBuffer.append(checkedUser.getUserNickName());
                 pickedUserNickNameBuffer.append("、");
             }
-            pickedUserNickNameBuffer.append(firstUserNickName);
+            pickedUserNickNameBuffer.deleteCharAt(pickedUserNickNameBuffer.length() - 1);
         }
 
         String userIds = pickedUserIdBuffer.toString();

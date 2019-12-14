@@ -22,14 +22,14 @@ public class PickContactAdapter extends BaseAdapter {
 
     private List<Friend> friendList;
     private List<String> checkedUserIdList;
-    String userId;
+    List<String> initUserIdList;
 
-    public PickContactAdapter(Context context, int resource, List<Friend> friendList, List<String> checkedUserIdList, String userId) {
+    public PickContactAdapter(Context context, int resource, List<Friend> friendList, List<String> checkedUserIdList, List<String> initUserIdList) {
         layoutInflater = LayoutInflater.from(context);
         this.resource = resource;
         this.friendList = friendList;
         this.checkedUserIdList = checkedUserIdList;
-        this.userId = userId;
+        this.initUserIdList = initUserIdList;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class PickContactAdapter extends BaseAdapter {
         }
         viewHolder.mNickNameTv.setText(friend.getUserNickName());
 
-        if (userId.equals(friend.getUserId())) {
+        if (initUserIdList.contains(friend.getUserId())) {
             viewHolder.mPickFriendCb.setEnabled(false);
         } else {
             if (checkedUserIdList.contains(friend.getUserId())) {
