@@ -78,6 +78,14 @@ public class ViewPagerImageActivity extends Activity {
                     hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
                     photoSdv.setImageURI(Uri.parse(mPhotoList.get(position)));
                     container.addView(photoSdv);
+
+                    photoSdv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    });
+
                     return photoSdv;
                 }
 
