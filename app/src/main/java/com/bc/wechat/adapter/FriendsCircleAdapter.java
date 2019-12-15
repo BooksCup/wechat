@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
+import com.bc.wechat.activity.ViewPagerImageActivity;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.widget.FriendsCirclePhotoGridView;
@@ -87,14 +88,18 @@ public class FriendsCircleAdapter extends BaseAdapter {
             photoList = new ArrayList<>();
         }
 
+        final ArrayList<String> photoArraylist = new ArrayList<>();
+        photoArraylist.addAll(photoList);
+
         viewHolder.mPhotosGv.setAdapter(new FriendsCirclePhotoAdapter(photoList, mContext));
 
         viewHolder.mPhotosGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(mContext, ShowFriendsCircleBigImageActivity.class);
-//                intent.putStringArrayListExtra("photoList", photoArrayList);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ViewPagerImageActivity.class);
+                intent.putStringArrayListExtra("photoList", photoArraylist);
+                intent.putExtra("position", position);
+                mContext.startActivity(intent);
             }
         });
 

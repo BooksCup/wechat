@@ -136,6 +136,7 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                     }
                     Intent intent = new Intent(ChatGroupSettingActivity.this, CreateGroupActivity.class);
                     intent.putExtra("createType", Constant.CREATE_GROUP_TYPE_FROM_GROUP);
+                    intent.putExtra("groupId", groupId);
                     intent.putStringArrayListExtra("userIdList", checkedUserIdList);
                     intent.putStringArrayListExtra("userNickNameList", checkedUserNickNameList);
                     startActivity(intent);

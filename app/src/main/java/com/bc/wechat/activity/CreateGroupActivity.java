@@ -62,6 +62,7 @@ public class CreateGroupActivity extends FragmentActivity {
     String firstUserNickName;
 
     // 群聊拉人
+    String groupId;
     List<String> firstUserIdList;
     List<String> firstUserNickNameList;
 
@@ -93,6 +94,7 @@ public class CreateGroupActivity extends FragmentActivity {
 
             initUserIdList.add(firstUserId);
         } else if (Constant.CREATE_GROUP_TYPE_FROM_GROUP.equals(createType)) {
+            groupId = getIntent().getStringExtra("groupId");
             firstUserIdList = getIntent().getStringArrayListExtra("userIdList");
             firstUserNickNameList = getIntent().getStringArrayListExtra("userIdNickNameList");
 
@@ -133,9 +135,15 @@ public class CreateGroupActivity extends FragmentActivity {
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingDialog.setMessage("正在创建群聊...");
-                loadingDialog.show();
-                createGroup();
+                if (Constant.CREATE_GROUP_TYPE_FROM_SINGLE.equals(createType)) {
+                    loadingDialog.setMessage("正在创建群聊...");
+                    loadingDialog.show();
+                    createGroup();
+                } else if (Constant.CREATE_GROUP_TYPE_FROM_GROUP.equals(createType)) {
+                    loadingDialog.setMessage("正在添加联系人...");
+                    loadingDialog.show();
+                    addGroupMembers(groupId);
+                }
             }
         });
     }
@@ -233,6 +241,9 @@ public class CreateGroupActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * 创建群组
+     */
     private void createGroup() {
         String url = Constant.BASE_URL + "groups";
         Map<String, String> paramMap = new HashMap<>();
@@ -265,6 +276,42 @@ public class CreateGroupActivity extends FragmentActivity {
         paramMap.put("groupName", groupName);
         paramMap.put("desc", "");
         paramMap.put("userIds", userIds);
+
+        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                loadingDialog.dismiss();
+                Intent intent = new Intent(CreateGroupActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                loadingDialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(CreateGroupActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(CreateGroupActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
+    }
+
+    private void addGroupMembers(final String groupId) {
+        String url = Constant.BASE_URL + "groups/" + groupId + "/members";
+        Map<String, String> paramMap = new HashMap<>();
+        StringBuffer pickedUserIdBuffer = new StringBuffer();
+        if (null != checkedUserIdList && checkedUserIdList.size() > 0) {
+            for (String checkedUserId : checkedUserIdList) {
+                pickedUserIdBuffer.append(checkedUserId);
+                pickedUserIdBuffer.append(",");
+            }
+            pickedUserIdBuffer.deleteCharAt(pickedUserIdBuffer.length() - 1);
+        }
+        paramMap.put("addUserIds", pickedUserIdBuffer.toString());
 
         volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
