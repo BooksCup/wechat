@@ -175,7 +175,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
      * 初始化首页弹出框
      */
     private void initPopupWindow() {
-        mPopupView = View.inflate(mContext, R.layout.popupwindow_friend_circle_interact, null);
+        mPopupView = View.inflate(mContext, R.layout.popup_window_friend_circle_interact, null);
         mPopupWindow = new PopupWindow();
         // 设置SelectPicPopupWindow的View
         mPopupWindow.setContentView(mPopupView);

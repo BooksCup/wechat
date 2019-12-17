@@ -357,7 +357,7 @@ public class MainActivity extends BaseActivity {
      * 初始化首页弹出框
      */
     private void initPopupWindow() {
-        popupView = View.inflate(this, R.layout.popupwindow_add, null);
+        popupView = View.inflate(this, R.layout.popup_window_add, null);
         popupWindow = new PopupWindow();
         // 设置SelectPicPopupWindow的View
         popupWindow.setContentView(popupView);
