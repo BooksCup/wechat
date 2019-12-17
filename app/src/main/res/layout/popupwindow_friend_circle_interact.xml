@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/rl_like"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:background="#22292C">
+
+        <ImageView
+            android:id="@+id/iv_like"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="23dp"
+            android:src="@mipmap/icon_popup_window_like" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="13dp"
+            android:layout_toRightOf="@id/iv_like"
+            android:text="赞"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_toRightOf="@id/rl_like"
+        android:background="#22292C">
+
+        <ImageView
+            android:id="@+id/iv_comment"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="13dp"
+            android:src="@mipmap/icon_popup_window_comment" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="23dp"
+            android:layout_toRightOf="@id/iv_comment"
+            android:text="评论"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

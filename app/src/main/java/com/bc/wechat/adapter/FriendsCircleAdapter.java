@@ -2,13 +2,17 @@ package com.bc.wechat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -25,6 +29,10 @@ import java.util.List;
 public class FriendsCircleAdapter extends BaseAdapter {
     private List<FriendsCircle> friendsCircleList;
     private Context mContext;
+
+    // 首页弹出框
+    private PopupWindow mPopupWindow;
+    private View mPopupView;
 
     public FriendsCircleAdapter(List<FriendsCircle> friendsCircleList, Context context) {
         this.friendsCircleList = friendsCircleList;
@@ -68,6 +76,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
             viewHolder.mMoreTv = convertView.findViewById(R.id.tv_more);
             viewHolder.mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
             viewHolder.mPhotosGv = convertView.findViewById(R.id.gv_friends_circle_photo);
+            viewHolder.mCommentIb = convertView.findViewById(R.id.ib_comment);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -129,6 +138,26 @@ public class FriendsCircleAdapter extends BaseAdapter {
             }
         });
 
+        viewHolder.mCommentIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initPopupWindow();
+                if (!mPopupWindow.isShowing()) {
+                    mPopupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                    int popupWidth = mPopupView.getMeasuredWidth();
+                    int popupHeight = mPopupView.getMeasuredHeight();
+                    int[] location = new int[2];
+                    viewHolder.mCommentIb.getLocationOnScreen(location);
+                    int x = location[0] - popupWidth - 10;
+                    int y = location[1] - popupHeight / 2 + viewHolder.mCommentIb.getHeight() / 2;
+
+                    mPopupWindow.showAtLocation(viewHolder.mCommentIb, Gravity.NO_GRAVITY, x, y);
+                } else {
+                    mPopupWindow.dismiss();
+                }
+            }
+        });
+
         return convertView;
     }
 
@@ -139,5 +168,32 @@ public class FriendsCircleAdapter extends BaseAdapter {
         TextView mMoreTv;
         TextView mCreateTimeTv;
         FriendsCirclePhotoGridView mPhotosGv;
+        ImageButton mCommentIb;
+    }
+
+    /**
+     * 初始化首页弹出框
+     */
+    private void initPopupWindow() {
+        mPopupView = View.inflate(mContext, R.layout.popupwindow_friend_circle_interact, null);
+        mPopupWindow = new PopupWindow();
+        // 设置SelectPicPopupWindow的View
+        mPopupWindow.setContentView(mPopupView);
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        mPopupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
+        // 刷新状态
+        mPopupWindow.update();
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0000000000);
+        // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
+        mPopupWindow.setBackgroundDrawable(dw);
+
+        // 设置SelectPicPopupWindow弹出窗体动画效果
+        mPopupWindow.setAnimationStyle(R.style.AnimationPreview);
     }
 }

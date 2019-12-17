@@ -84,8 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:background="@mipmap/icon_comment"
-                android:focusable="true" />
+                android:background="@mipmap/icon_comment" />
         </RelativeLayout>
 
         <LinearLayout
