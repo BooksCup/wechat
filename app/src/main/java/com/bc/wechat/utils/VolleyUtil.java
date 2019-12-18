@@ -66,13 +66,19 @@ public class VolleyUtil {
         requestQueue.add(stringRequest);
     }
 
-    public void httpPutRequest(String url, final Map<String, String> params, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    public void httpPutRequest(String url, final Map<String, String> params, Response.Listener<String> listener,
+                               Response.ErrorListener errorListener) {
         StringRequest stringRequest = new StringRequest(Request.Method.PUT, url, listener, errorListener) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 return params;
             }
         };
+        requestQueue.add(stringRequest);
+    }
+
+    public void httpDeleteRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url, listener, errorListener);
         requestQueue.add(stringRequest);
     }
 }

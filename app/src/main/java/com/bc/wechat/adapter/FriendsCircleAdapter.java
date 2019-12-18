@@ -269,23 +269,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
                 mPopupWindow.dismiss();
                 if (likeUserIdList.contains(mUser.getUserId())) {
                     // 已点赞，取消
-                    List<User> likeUserList;
-                    try {
-                        likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
-                        Iterator<User> iterator = likeUserList.iterator();
-                        while (iterator.hasNext()) {
-                            User likeUser = iterator.next();
-                            if (likeUser.getUserId().equals(mUser.getUserId())) {
-                                iterator.remove();
-                            }
-                        }
-                        friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
-                        FriendsCircle.save(friendsCircle);
-                        notifyDataSetChanged();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    unLikeFriendsCircle(friendsCircle);
                 } else {
                     // 未点赞，点赞
                     likeFriendsCircle(friendsCircle);
@@ -312,6 +296,41 @@ public class FriendsCircleAdapter extends BaseAdapter {
                 try {
                     likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
                     likeUserList.add(mUser);
+                    friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
+                    FriendsCircle.save(friendsCircle);
+                    notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+    }
+
+    /**
+     * 朋友圈取消点赞
+     *
+     * @param friendsCircle 朋友圈实体
+     */
+    private void unLikeFriendsCircle(final FriendsCircle friendsCircle) {
+        String url = Constant.BASE_URL + "friendsCircle/" + friendsCircle.getCircleId() + "/like?userId=" + mUser.getUserId();
+
+        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                List<User> likeUserList;
+                try {
+                    likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
+                    Iterator<User> iterator = likeUserList.iterator();
+                    while (iterator.hasNext()) {
+                        User likeUser = iterator.next();
+                        if (likeUser.getUserId().equals(mUser.getUserId())) {
+                            iterator.remove();
+                        }
+                    }
                     friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
                     FriendsCircle.save(friendsCircle);
                     notifyDataSetChanged();
