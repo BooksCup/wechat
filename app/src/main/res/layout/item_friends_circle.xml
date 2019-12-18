@@ -92,14 +92,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="#ebebeb"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_like"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sdv_like_icon"
@@ -121,19 +121,23 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/view_temp"
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:background="#c0c0c0" />
+                android:background="#c0c0c0"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:layout_marginTop="5dp"
                 android:paddingLeft="5dp"
                 android:paddingBottom="5dp"
-                android:layout_marginLeft="8dp"
+                android:textColor="#000000"
                 android:textSize="17dp"
-                android:textColor="#000000" />
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

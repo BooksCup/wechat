@@ -12,18 +12,24 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.ViewPagerImageActivity;
 import com.bc.wechat.entity.FriendsCircle;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.widget.FriendsCirclePhotoGridView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class FriendsCircleAdapter extends BaseAdapter {
@@ -34,9 +40,12 @@ public class FriendsCircleAdapter extends BaseAdapter {
     private PopupWindow mPopupWindow;
     private View mPopupView;
 
+    private User mUser;
+
     public FriendsCircleAdapter(List<FriendsCircle> friendsCircleList, Context context) {
         this.friendsCircleList = friendsCircleList;
         this.mContext = context;
+        this.mUser = PreferencesUtil.getInstance().getUser();
     }
 
     public void setData(List<FriendsCircle> dataList) {
@@ -64,7 +73,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        FriendsCircle friendsCircle = friendsCircleList.get(position);
+        final FriendsCircle friendsCircle = friendsCircleList.get(position);
         final ViewHolder viewHolder;
         if (null == convertView) {
             convertView = LayoutInflater.from(mContext).inflate(
@@ -77,6 +86,8 @@ public class FriendsCircleAdapter extends BaseAdapter {
             viewHolder.mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
             viewHolder.mPhotosGv = convertView.findViewById(R.id.gv_friends_circle_photo);
             viewHolder.mCommentIb = convertView.findViewById(R.id.ib_comment);
+            viewHolder.mLikeLl = convertView.findViewById(R.id.ll_like);
+            viewHolder.mLikeUserTv = convertView.findViewById(R.id.tv_like_user);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -141,7 +152,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
         viewHolder.mCommentIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initPopupWindow();
+                initPopupWindow(friendsCircle);
                 if (!mPopupWindow.isShowing()) {
                     mPopupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
                     int popupWidth = mPopupView.getMeasuredWidth();
@@ -158,6 +169,30 @@ public class FriendsCircleAdapter extends BaseAdapter {
             }
         });
 
+        List<User> likeUserList;
+        try {
+            likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
+            if (null == likeUserList) {
+                likeUserList = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            likeUserList = new ArrayList<>();
+        }
+
+        if (likeUserList.size() > 0) {
+            viewHolder.mLikeLl.setVisibility(View.VISIBLE);
+            StringBuffer likeUserBuffer = new StringBuffer();
+            for (User likeUser : likeUserList) {
+                likeUserBuffer.append(likeUser.getUserNickName());
+                likeUserBuffer.append("，");
+            }
+            likeUserBuffer.deleteCharAt(likeUserBuffer.length() - 1);
+            viewHolder.mLikeUserTv.setText(likeUserBuffer.toString());
+        } else {
+            viewHolder.mLikeLl.setVisibility(View.GONE);
+        }
+
+
         return convertView;
     }
 
@@ -169,12 +204,16 @@ public class FriendsCircleAdapter extends BaseAdapter {
         TextView mCreateTimeTv;
         FriendsCirclePhotoGridView mPhotosGv;
         ImageButton mCommentIb;
+
+        // 点赞相关
+        LinearLayout mLikeLl;
+        TextView mLikeUserTv;
     }
 
     /**
      * 初始化首页弹出框
      */
-    private void initPopupWindow() {
+    private void initPopupWindow(final FriendsCircle friendsCircle) {
         mPopupView = View.inflate(mContext, R.layout.popup_window_friend_circle_interact, null);
         mPopupWindow = new PopupWindow();
         // 设置SelectPicPopupWindow的View
@@ -195,5 +234,66 @@ public class FriendsCircleAdapter extends BaseAdapter {
 
         // 设置SelectPicPopupWindow弹出窗体动画效果
         mPopupWindow.setAnimationStyle(R.style.AnimationPreview);
+
+        // "点赞" or "取消"
+        TextView mLikeTv = mPopupView.findViewById(R.id.tv_like);
+        List<User> likeUserList;
+        final List<String> likeUserIdList = new ArrayList<>();
+        try {
+            likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
+            for (User likeUser : likeUserList) {
+                likeUserIdList.add(likeUser.getUserId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (likeUserIdList.contains(mUser.getUserId())) {
+            mLikeTv.setText("取消");
+        } else {
+            mLikeTv.setText("赞");
+        }
+
+        // 点赞
+        RelativeLayout mLikeRl = mPopupView.findViewById(R.id.rl_like);
+        mLikeRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+                if (likeUserIdList.contains(mUser.getUserId())) {
+                    // 已点赞，取消
+                    List<User> likeUserList;
+                    try {
+                        likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
+                        Iterator<User> iterator = likeUserList.iterator();
+                        while (iterator.hasNext()) {
+                            User likeUser = iterator.next();
+                            if (likeUser.getUserId().equals(mUser.getUserId())) {
+                                iterator.remove();
+                            }
+                        }
+                        friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
+                        FriendsCircle.save(friendsCircle);
+                        notifyDataSetChanged();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    // 未点赞，点赞
+                    List<User> likeUserList;
+                    try {
+                        likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
+                        likeUserList.add(mUser);
+                        friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
+                        FriendsCircle.save(friendsCircle);
+                        notifyDataSetChanged();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
     }
 }
+

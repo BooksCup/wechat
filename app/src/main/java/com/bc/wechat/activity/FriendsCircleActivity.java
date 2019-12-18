@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -115,6 +116,9 @@ public class FriendsCircleActivity extends FragmentActivity {
                 if (null != list && list.size() > 0) {
                     for (FriendsCircle friendsCircle : list) {
                         FriendsCircle checkFriendsCircle = friendsCircleDao.getFriendsCircleByCircleId(friendsCircle.getCircleId());
+                        if (null != friendsCircle.getLikeUserList()) {
+                            friendsCircle.setLikeUserJsonArray(JSON.toJSONString(friendsCircle.getLikeUserList()));
+                        }
                         if (null == checkFriendsCircle) {
                             // 不存在,插入
                             friendsCircleDao.addFriendsCircle(friendsCircle);

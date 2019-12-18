@@ -21,6 +21,7 @@
             android:src="@mipmap/icon_popup_window_like" />
 
         <TextView
+            android:id="@+id/tv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

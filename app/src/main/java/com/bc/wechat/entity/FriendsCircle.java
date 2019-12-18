@@ -2,6 +2,8 @@ package com.bc.wechat.entity;
 
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 public class FriendsCircle extends SugarRecord {
     private String circleId;
     private String userId;
@@ -11,6 +13,8 @@ public class FriendsCircle extends SugarRecord {
     private String circlePhotos;
     private String createTime;
     private Long timestamp;
+    private List<User> likeUserList;
+    private String likeUserJsonArray;
 
     public String getCircleId() {
         return circleId;
@@ -74,5 +78,21 @@ public class FriendsCircle extends SugarRecord {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public List<User> getLikeUserList() {
+        return likeUserList;
+    }
+
+    public void setLikeUserList(List<User> likeUserList) {
+        this.likeUserList = likeUserList;
+    }
+
+    public String getLikeUserJsonArray() {
+        return likeUserJsonArray;
+    }
+
+    public void setLikeUserJsonArray(String likeUserJsonArray) {
+        this.likeUserJsonArray = likeUserJsonArray;
     }
 }
