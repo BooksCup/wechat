@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -36,49 +36,58 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 朋友圈
+ *
+ * @author zhou
+ */
 public class FriendsCircleActivity extends FragmentActivity {
 
-    private ListView listView;
-    private User user;
-    private VolleyUtil volleyUtil;
-    private FriendsCircleDao friendsCircleDao;
-    private List<FriendsCircle> friendsCircleList = new ArrayList<>();
+    private ListView mFriendsCircleLv;
+    private User mUser;
+    private VolleyUtil mVolleyUtil;
+    private FriendsCircleDao mFriendsCircleDao;
+    private List<FriendsCircle> mFriendsCircleList = new ArrayList<>();
     FriendsCircleAdapter mAdapter;
-    RefreshLayout refreshLayout;
-    long timeStamp;
-    LinearLayout mBottonLl;
-    private InputMethodManager manager;
+    RefreshLayout mRefreshLayout;
+    long mTimeStamp;
+
+    private LinearLayout mBottomLl;
+    private EditText mCommentEt;
+
+    private InputMethodManager mManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_circle);
-        user = PreferencesUtil.getInstance().getUser();
-        volleyUtil = VolleyUtil.getInstance(this);
-        friendsCircleDao = new FriendsCircleDao();
-        timeStamp = 0L;
-        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        listView = findViewById(R.id.ll_friends_circle);
-        mBottonLl = findViewById(R.id.ll_bottom);
+        initView();
+        mUser = PreferencesUtil.getInstance().getUser();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mFriendsCircleDao = new FriendsCircleDao();
+        mTimeStamp = 0L;
+
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
-        friendsCircleList = friendsCircleDao.getFriendsCircleList(Constant.DEFAULT_PAGE_SIZE, timeStamp);
+        mFriendsCircleList = mFriendsCircleDao.getFriendsCircleList(Constant.DEFAULT_PAGE_SIZE, mTimeStamp);
 
         FriendsCircleAdapter.ClickListener clickListener = new FriendsCircleAdapter.ClickListener() {
             @Override
             public void onClick(Object... objects) {
                 String circleId = String.valueOf(objects[1]);
-                Toast.makeText(FriendsCircleActivity.this, circleId, Toast.LENGTH_SHORT).show();
-                mBottonLl.setVisibility(View.VISIBLE);
+                mBottomLl.setVisibility(View.VISIBLE);
+
+                mCommentEt.setFocusable(true);
+                mCommentEt.setFocusableInTouchMode(true);
+                mCommentEt.requestFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
         };
 
-        mAdapter = new FriendsCircleAdapter(friendsCircleList, this, clickListener);
-        listView.setAdapter(mAdapter);
-        listView.addHeaderView(headerView, null, false);
-        listView.setHeaderDividersEnabled(false);
+        mAdapter = new FriendsCircleAdapter(mFriendsCircleList, this, clickListener);
+        mFriendsCircleLv.setAdapter(mAdapter);
+        mFriendsCircleLv.addHeaderView(headerView, null, false);
+        mFriendsCircleLv.setHeaderDividersEnabled(false);
 
         // headerView
         ImageView mCoverIv = headerView.findViewById(R.id.iv_cover);
@@ -89,40 +98,52 @@ public class FriendsCircleActivity extends FragmentActivity {
         });
 
         TextView mNickNameTv = headerView.findViewById(R.id.tv_nick_name);
-        mNickNameTv.setText(user.getUserNickName());
+        mNickNameTv.setText(mUser.getUserNickName());
 
         SimpleDraweeView mAvatarSdv = headerView.findViewById(R.id.sdv_avatar);
-        mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+        mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
 
-        getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
+        getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
 
-        // 上拉加载，下拉刷新
-        refreshLayout = findViewById(R.id.srl_friends_circle);
-        refreshLayout.setPrimaryColorsId(android.R.color.black, android.R.color.white);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+        mRefreshLayout.setPrimaryColorsId(android.R.color.black, android.R.color.white);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 // 下拉刷新
-                getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
+                getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
             }
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
                 // 上拉加载
-                getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, true);
+                getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, true);
             }
         });
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
+        mFriendsCircleLv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 hideKeyboard();
-                mBottonLl.setVisibility(View.GONE);
+                mBottomLl.setVisibility(View.GONE);
                 return false;
             }
         });
     }
+
+    private void initView() {
+        mManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mFriendsCircleLv = findViewById(R.id.ll_friends_circle);
+
+        mBottomLl = findViewById(R.id.ll_bottom);
+        mCommentEt = findViewById(R.id.et_comment);
+
+        // 上拉加载，下拉刷新
+        mRefreshLayout = findViewById(R.id.srl_friends_circle);
+    }
+
 
     /**
      * 隐藏软键盘
@@ -130,7 +151,7 @@ public class FriendsCircleActivity extends FragmentActivity {
     private void hideKeyboard() {
         if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
             if (getCurrentFocus() != null)
-                manager.hideSoftInputFromWindow(getCurrentFocus()
+                mManager.hideSoftInputFromWindow(getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
@@ -140,37 +161,37 @@ public class FriendsCircleActivity extends FragmentActivity {
     }
 
     private void getFriendsCircleList(String userId, final int pageSize, final boolean isAdd) {
-        timeStamp = isAdd ? timeStamp : 0L;
-        String url = Constant.BASE_URL + "friendsCircle?userId=" + userId + "&pageSize=" + pageSize + "&timestamp=" + timeStamp;
+        mTimeStamp = isAdd ? mTimeStamp : 0L;
+        String url = Constant.BASE_URL + "friendsCircle?userId=" + userId + "&pageSize=" + pageSize + "&timestamp=" + mTimeStamp;
 
-        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (isAdd) {
                     // 上拉加载
-                    refreshLayout.finishLoadMore();
+                    mRefreshLayout.finishLoadMore();
                 } else {
                     // 下拉刷新
-                    refreshLayout.finishRefresh();
+                    mRefreshLayout.finishRefresh();
                 }
 
                 List<FriendsCircle> list = JSONArray.parseArray(response, FriendsCircle.class);
                 if (null != list && list.size() > 0) {
                     for (FriendsCircle friendsCircle : list) {
-                        FriendsCircle checkFriendsCircle = friendsCircleDao.getFriendsCircleByCircleId(friendsCircle.getCircleId());
+                        FriendsCircle checkFriendsCircle = mFriendsCircleDao.getFriendsCircleByCircleId(friendsCircle.getCircleId());
                         if (null != friendsCircle.getLikeUserList()) {
                             friendsCircle.setLikeUserJsonArray(JSON.toJSONString(friendsCircle.getLikeUserList()));
                         }
                         if (null == checkFriendsCircle) {
                             // 不存在,插入
-                            friendsCircleDao.addFriendsCircle(friendsCircle);
+                            mFriendsCircleDao.addFriendsCircle(friendsCircle);
                         } else {
                             // 存在,修改
                             friendsCircle.setId(checkFriendsCircle.getId());
-                            friendsCircleDao.addFriendsCircle(friendsCircle);
+                            mFriendsCircleDao.addFriendsCircle(friendsCircle);
                         }
                     }
-                    List<FriendsCircle> friendsCircleList = friendsCircleDao.getFriendsCircleList(pageSize, timeStamp);
+                    List<FriendsCircle> friendsCircleList = mFriendsCircleDao.getFriendsCircleList(pageSize, mTimeStamp);
                     if (isAdd) {
                         // 上拉加载
                         mAdapter.addData(friendsCircleList);
@@ -178,7 +199,7 @@ public class FriendsCircleActivity extends FragmentActivity {
                         // 下拉刷新
                         mAdapter.setData(friendsCircleList);
                     }
-                    timeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
+                    mTimeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
                     mAdapter.notifyDataSetChanged();
                 }
             }
@@ -187,13 +208,13 @@ public class FriendsCircleActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError volleyError) {
                 if (isAdd) {
                     // 上拉加载
-                    refreshLayout.finishLoadMore();
+                    mRefreshLayout.finishLoadMore();
                 } else {
                     // 下拉刷新
-                    refreshLayout.finishRefresh();
+                    mRefreshLayout.finishRefresh();
                 }
                 // 网络错误，从本地读取
-                List<FriendsCircle> friendsCircleList = friendsCircleDao.getFriendsCircleList(pageSize, timeStamp);
+                List<FriendsCircle> friendsCircleList = mFriendsCircleDao.getFriendsCircleList(pageSize, mTimeStamp);
                 if (null != friendsCircleList && friendsCircleList.size() > 0) {
                     if (isAdd) {
                         // 上拉加载
@@ -202,7 +223,7 @@ public class FriendsCircleActivity extends FragmentActivity {
                         // 下拉刷新
                         mAdapter.setData(friendsCircleList);
                     }
-                    timeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
+                    mTimeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
                     mAdapter.notifyDataSetChanged();
                 }
             }

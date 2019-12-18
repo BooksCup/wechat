@@ -77,10 +77,10 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
-            android:id="@+id/edittext_layout"
+            android:id="@+id/rl_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
@@ -89,7 +89,7 @@
             android:gravity="bottom">
 
             <EditText
-                android:id="@+id/et_sendmessage"
+                android:id="@+id/et_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="35dip"
