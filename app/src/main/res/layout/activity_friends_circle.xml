@@ -1,9 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f8f8f8"
-    android:orientation="vertical">
+    android:background="#f8f8f8">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ScrollView>
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
@@ -46,9 +48,10 @@
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/srl_friends_circle"
+        android:layout_below="@+id/rl_title"
+        android:layout_above="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -66,4 +69,70 @@
             android:layout_height="wrap_content" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/edittext_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:gravity="bottom">
+
+            <EditText
+                android:id="@+id/et_sendmessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="35dip"
+                android:background="@null"
+                android:hint="评论"
+                android:maxLines="3"
+                android:minHeight="40dp"
+                android:paddingLeft="1dp"
+                android:paddingTop="3dp"
+                android:paddingRight="1dp"
+                android:paddingBottom="3dp"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="28dip"
+                android:layout_height="28dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|right"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_chat_emoji_normal"
+                android:visibility="visible" />
+
+            <ImageView
+                android:layout_width="28dip"
+                android:layout_height="28dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|right"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon_chat_emoji_checked"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="52dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="4dp"
+            android:background="#cccccc"
+            android:layout_gravity="center_vertical"
+            android:text="发送"
+            android:textColor="#666667"
+            android:textSize="14sp" />
+    </LinearLayout>
+</RelativeLayout>

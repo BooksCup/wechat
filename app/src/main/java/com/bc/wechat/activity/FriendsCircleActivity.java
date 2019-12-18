@@ -1,14 +1,20 @@
 package com.bc.wechat.activity;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -40,6 +46,8 @@ public class FriendsCircleActivity extends FragmentActivity {
     FriendsCircleAdapter mAdapter;
     RefreshLayout refreshLayout;
     long timeStamp;
+    LinearLayout mBottonLl;
+    private InputMethodManager manager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,11 +57,25 @@ public class FriendsCircleActivity extends FragmentActivity {
         volleyUtil = VolleyUtil.getInstance(this);
         friendsCircleDao = new FriendsCircleDao();
         timeStamp = 0L;
+        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         listView = findViewById(R.id.ll_friends_circle);
+        mBottonLl = findViewById(R.id.ll_bottom);
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
         friendsCircleList = friendsCircleDao.getFriendsCircleList(Constant.DEFAULT_PAGE_SIZE, timeStamp);
-        mAdapter = new FriendsCircleAdapter(friendsCircleList, this);
+
+        FriendsCircleAdapter.ClickListener clickListener = new FriendsCircleAdapter.ClickListener() {
+            @Override
+            public void onClick(Object... objects) {
+                String circleId = String.valueOf(objects[1]);
+                Toast.makeText(FriendsCircleActivity.this, circleId, Toast.LENGTH_SHORT).show();
+                mBottonLl.setVisibility(View.VISIBLE);
+            }
+        };
+
+        mAdapter = new FriendsCircleAdapter(friendsCircleList, this, clickListener);
         listView.setAdapter(mAdapter);
         listView.addHeaderView(headerView, null, false);
         listView.setHeaderDividersEnabled(false);
@@ -91,6 +113,26 @@ public class FriendsCircleActivity extends FragmentActivity {
                 getFriendsCircleList(user.getUserId(), Constant.DEFAULT_PAGE_SIZE, true);
             }
         });
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                mBottonLl.setVisibility(View.GONE);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    private void hideKeyboard() {
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                manager.hideSoftInputFromWindow(getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     public void back(View view) {

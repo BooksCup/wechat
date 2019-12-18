@@ -67,7 +67,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -77,6 +77,7 @@
                 android:layout_alignParentLeft="true"
                 android:text="2天前"
                 android:textColor="#aaaaaa"
+                android:paddingTop="6dp"
                 android:textSize="12sp" />
 
             <ImageButton

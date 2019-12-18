@@ -49,9 +49,12 @@ public class FriendsCircleAdapter extends BaseAdapter {
     private User mUser;
     private VolleyUtil mVolleyUtil;
 
-    public FriendsCircleAdapter(List<FriendsCircle> friendsCircleList, Context context) {
+    private ClickListener mClickListener;
+
+    public FriendsCircleAdapter(List<FriendsCircle> friendsCircleList, Context context, ClickListener clickListener) {
         this.friendsCircleList = friendsCircleList;
         this.mContext = context;
+        this.mClickListener = clickListener;
         this.mUser = PreferencesUtil.getInstance().getUser();
         this.mVolleyUtil = VolleyUtil.getInstance(mContext);
     }
@@ -80,7 +83,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         final FriendsCircle friendsCircle = friendsCircleList.get(position);
         final ViewHolder viewHolder;
         if (null == convertView) {
@@ -276,6 +279,15 @@ public class FriendsCircleAdapter extends BaseAdapter {
                 }
             }
         });
+
+        RelativeLayout mCommentRl = mPopupView.findViewById(R.id.rl_comment);
+        mCommentRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+                mClickListener.onClick(view, friendsCircle.getCircleId());
+            }
+        });
     }
 
     /**
@@ -343,6 +355,10 @@ public class FriendsCircleAdapter extends BaseAdapter {
             public void onErrorResponse(VolleyError volleyError) {
             }
         });
+    }
+
+    public interface ClickListener {
+        void onClick(Object... objects);
     }
 }
 
