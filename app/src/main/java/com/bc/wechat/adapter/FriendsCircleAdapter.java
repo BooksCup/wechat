@@ -19,18 +19,24 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.ViewPagerImageActivity;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.FriendsCirclePhotoGridView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class FriendsCircleAdapter extends BaseAdapter {
     private List<FriendsCircle> friendsCircleList;
@@ -41,11 +47,13 @@ public class FriendsCircleAdapter extends BaseAdapter {
     private View mPopupView;
 
     private User mUser;
+    private VolleyUtil mVolleyUtil;
 
     public FriendsCircleAdapter(List<FriendsCircle> friendsCircleList, Context context) {
         this.friendsCircleList = friendsCircleList;
         this.mContext = context;
         this.mUser = PreferencesUtil.getInstance().getUser();
+        this.mVolleyUtil = VolleyUtil.getInstance(mContext);
     }
 
     public void setData(List<FriendsCircle> dataList) {
@@ -280,18 +288,40 @@ public class FriendsCircleAdapter extends BaseAdapter {
 
                 } else {
                     // 未点赞，点赞
-                    List<User> likeUserList;
-                    try {
-                        likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
-                        likeUserList.add(mUser);
-                        friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
-                        FriendsCircle.save(friendsCircle);
-                        notifyDataSetChanged();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    likeFriendsCircle(friendsCircle);
                 }
+            }
+        });
+    }
+
+    /**
+     * 朋友圈点赞
+     *
+     * @param friendsCircle 朋友圈实体
+     */
+    private void likeFriendsCircle(final FriendsCircle friendsCircle) {
+        String url = Constant.BASE_URL + "friendsCircle/" + friendsCircle.getCircleId() + "/like";
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userId", mUser.getUserId());
+
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                List<User> likeUserList;
+                try {
+                    likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
+                    likeUserList.add(mUser);
+                    friendsCircle.setLikeUserJsonArray(JSON.toJSONString(likeUserList));
+                    FriendsCircle.save(friendsCircle);
+                    notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
             }
         });
     }
