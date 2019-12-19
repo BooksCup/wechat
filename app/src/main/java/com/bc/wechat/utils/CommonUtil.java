@@ -1,11 +1,15 @@
 package com.bc.wechat.utils;
 
+import com.alibaba.fastjson.JSONArray;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CommonUtil {
@@ -60,4 +64,24 @@ public class CommonUtil {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    /**
+     * json字符串转泛型列表
+     *
+     * @param json  json字符串
+     * @param clazz 对象类型
+     * @param <T>   泛型
+     * @return 泛型列表
+     */
+    public static <T> List<T> getListFromJson(String json, Class<T> clazz) {
+        List<T> resultList;
+        try {
+            resultList = JSONArray.parseArray(json, clazz);
+            if (null == resultList) {
+                resultList = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            resultList = new ArrayList<>();
+        }
+        return resultList;
+    }
 }

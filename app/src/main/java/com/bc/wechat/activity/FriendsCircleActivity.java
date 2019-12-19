@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -75,6 +76,9 @@ public class FriendsCircleActivity extends FragmentActivity {
             @Override
             public void onClick(Object... objects) {
                 String circleId = String.valueOf(objects[1]);
+
+                Toast.makeText(FriendsCircleActivity.this, circleId, Toast.LENGTH_SHORT).show();
+
                 mBottomLl.setVisibility(View.VISIBLE);
 
                 mCommentEt.setFocusable(true);
@@ -182,6 +186,10 @@ public class FriendsCircleActivity extends FragmentActivity {
                         if (null != friendsCircle.getLikeUserList()) {
                             friendsCircle.setLikeUserJsonArray(JSON.toJSONString(friendsCircle.getLikeUserList()));
                         }
+                        if (null != friendsCircle.getFriendsCircleCommentList()) {
+                            friendsCircle.setFriendsCircleCommentJsonArray(JSON.toJSONString(friendsCircle.getFriendsCircleCommentList()));
+                        }
+
                         if (null == checkFriendsCircle) {
                             // 不存在,插入
                             mFriendsCircleDao.addFriendsCircle(friendsCircle);

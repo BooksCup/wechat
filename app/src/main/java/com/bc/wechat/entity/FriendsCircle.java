@@ -16,6 +16,9 @@ public class FriendsCircle extends SugarRecord {
     private List<User> likeUserList;
     private String likeUserJsonArray;
 
+    private List<FriendsCircleComment> friendsCircleCommentList;
+    private String friendsCircleCommentJsonArray;
+
     public String getCircleId() {
         return circleId;
     }
@@ -94,5 +97,21 @@ public class FriendsCircle extends SugarRecord {
 
     public void setLikeUserJsonArray(String likeUserJsonArray) {
         this.likeUserJsonArray = likeUserJsonArray;
+    }
+
+    public List<FriendsCircleComment> getFriendsCircleCommentList() {
+        return friendsCircleCommentList;
+    }
+
+    public void setFriendsCircleCommentList(List<FriendsCircleComment> friendsCircleCommentList) {
+        this.friendsCircleCommentList = friendsCircleCommentList;
+    }
+
+    public String getFriendsCircleCommentJsonArray() {
+        return friendsCircleCommentJsonArray;
+    }
+
+    public void setFriendsCircleCommentJsonArray(String friendsCircleCommentJsonArray) {
+        this.friendsCircleCommentJsonArray = friendsCircleCommentJsonArray;
     }
 }

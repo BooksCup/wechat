@@ -12,7 +12,6 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,7 +24,9 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.ViewPagerImageActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendsCircle;
+import com.bc.wechat.entity.FriendsCircleComment;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -97,8 +98,13 @@ public class FriendsCircleAdapter extends BaseAdapter {
             viewHolder.mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
             viewHolder.mPhotosGv = convertView.findViewById(R.id.gv_friends_circle_photo);
             viewHolder.mCommentIb = convertView.findViewById(R.id.ib_comment);
-            viewHolder.mLikeLl = convertView.findViewById(R.id.ll_like);
+            viewHolder.mLikeRl = convertView.findViewById(R.id.rl_like);
             viewHolder.mLikeUserTv = convertView.findViewById(R.id.tv_like_user);
+
+            viewHolder.mTempView = convertView.findViewById(R.id.view_temp);
+
+            viewHolder.mCommentTv = convertView.findViewById(R.id.tv_comment);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -108,16 +114,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
         viewHolder.mContentTv.setText(friendsCircle.getCircleContent());
         viewHolder.mCreateTimeTv.setText(TimestampUtil.getTimePoint(friendsCircle.getTimestamp()));
 
-        List<String> photoList;
-        try {
-            photoList = JSONArray.parseArray(friendsCircle.getCirclePhotos(), String.class);
-            // 如果friendsCircle.getCirclePhotos为"", photoList == null
-            if (null == photoList) {
-                photoList = new ArrayList<>();
-            }
-        } catch (Exception e) {
-            photoList = new ArrayList<>();
-        }
+        List<String> photoList = CommonUtil.getListFromJson(friendsCircle.getCirclePhotos(), String.class);
 
         final ArrayList<String> photoArraylist = new ArrayList<>();
         photoArraylist.addAll(photoList);
@@ -180,18 +177,10 @@ public class FriendsCircleAdapter extends BaseAdapter {
             }
         });
 
-        List<User> likeUserList;
-        try {
-            likeUserList = JSONArray.parseArray(friendsCircle.getLikeUserJsonArray(), User.class);
-            if (null == likeUserList) {
-                likeUserList = new ArrayList<>();
-            }
-        } catch (Exception e) {
-            likeUserList = new ArrayList<>();
-        }
+        List<User> likeUserList = CommonUtil.getListFromJson(friendsCircle.getLikeUserJsonArray(), User.class);
 
         if (likeUserList.size() > 0) {
-            viewHolder.mLikeLl.setVisibility(View.VISIBLE);
+            viewHolder.mLikeRl.setVisibility(View.VISIBLE);
             StringBuffer likeUserBuffer = new StringBuffer();
             for (User likeUser : likeUserList) {
                 likeUserBuffer.append(likeUser.getUserNickName());
@@ -200,14 +189,34 @@ public class FriendsCircleAdapter extends BaseAdapter {
             likeUserBuffer.deleteCharAt(likeUserBuffer.length() - 1);
             viewHolder.mLikeUserTv.setText(likeUserBuffer.toString());
         } else {
-            viewHolder.mLikeLl.setVisibility(View.GONE);
+            viewHolder.mLikeRl.setVisibility(View.GONE);
         }
 
+        List<FriendsCircleComment> commentList =
+                CommonUtil.getListFromJson(friendsCircle.getFriendsCircleCommentJsonArray(), FriendsCircleComment.class);
 
+        StringBuffer commentBuffer = new StringBuffer();
+        for (FriendsCircleComment friendsCircleComment : commentList) {
+            commentBuffer.append(friendsCircleComment.getCommentUserNickName()).append(":").
+                    append(friendsCircleComment.getCommentContent()).append("\n");
+        }
+        if (commentList.size() > 0) {
+            commentBuffer.deleteCharAt(commentBuffer.length() - 1);
+            viewHolder.mCommentTv.setVisibility(View.VISIBLE);
+            viewHolder.mCommentTv.setText(commentBuffer.toString());
+        } else {
+            viewHolder.mCommentTv.setVisibility(View.GONE);
+        }
+
+        if (likeUserList.size() > 0 && commentList.size() > 0) {
+            viewHolder.mTempView.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.mTempView.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
-    class ViewHolder {
+    private static class ViewHolder {
         SimpleDraweeView mAvatarSdv;
         TextView mNickNameTv;
         TextView mContentTv;
@@ -217,8 +226,14 @@ public class FriendsCircleAdapter extends BaseAdapter {
         ImageButton mCommentIb;
 
         // 点赞相关
-        LinearLayout mLikeLl;
+        RelativeLayout mLikeRl;
         TextView mLikeUserTv;
+
+        // 点赞和评论之间的分割线
+        View mTempView;
+
+        // 评论相关
+        TextView mCommentTv;
     }
 
     /**
