@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.FriendsCircleCommentListView;
 import com.bc.wechat.widget.FriendsCirclePhotoGridView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -104,6 +107,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
             viewHolder.mTempView = convertView.findViewById(R.id.view_temp);
 
             viewHolder.mCommentTv = convertView.findViewById(R.id.tv_comment);
+            viewHolder.mCommentLv = convertView.findViewById(R.id.lv_comment_list);
 
             convertView.setTag(viewHolder);
         } else {
@@ -195,18 +199,8 @@ public class FriendsCircleAdapter extends BaseAdapter {
         List<FriendsCircleComment> commentList =
                 CommonUtil.getListFromJson(friendsCircle.getFriendsCircleCommentJsonArray(), FriendsCircleComment.class);
 
-        StringBuffer commentBuffer = new StringBuffer();
-        for (FriendsCircleComment friendsCircleComment : commentList) {
-            commentBuffer.append(friendsCircleComment.getCommentUserNickName()).append(":").
-                    append(friendsCircleComment.getCommentContent()).append("\n");
-        }
-        if (commentList.size() > 0) {
-            commentBuffer.deleteCharAt(commentBuffer.length() - 1);
-            viewHolder.mCommentTv.setVisibility(View.VISIBLE);
-            viewHolder.mCommentTv.setText(commentBuffer.toString());
-        } else {
-            viewHolder.mCommentTv.setVisibility(View.GONE);
-        }
+        FriendsCircleCommentAdapter adapter = new FriendsCircleCommentAdapter(commentList, mContext);
+        viewHolder.mCommentLv.setAdapter(adapter);
 
         if (likeUserList.size() > 0 && commentList.size() > 0) {
             viewHolder.mTempView.setVisibility(View.VISIBLE);
@@ -214,26 +208,6 @@ public class FriendsCircleAdapter extends BaseAdapter {
             viewHolder.mTempView.setVisibility(View.GONE);
         }
         return convertView;
-    }
-
-    private static class ViewHolder {
-        SimpleDraweeView mAvatarSdv;
-        TextView mNickNameTv;
-        TextView mContentTv;
-        TextView mMoreTv;
-        TextView mCreateTimeTv;
-        FriendsCirclePhotoGridView mPhotosGv;
-        ImageButton mCommentIb;
-
-        // 点赞相关
-        RelativeLayout mLikeRl;
-        TextView mLikeUserTv;
-
-        // 点赞和评论之间的分割线
-        View mTempView;
-
-        // 评论相关
-        TextView mCommentTv;
     }
 
     /**
@@ -374,6 +348,27 @@ public class FriendsCircleAdapter extends BaseAdapter {
 
     public interface ClickListener {
         void onClick(Object... objects);
+    }
+
+    private static class ViewHolder {
+        SimpleDraweeView mAvatarSdv;
+        TextView mNickNameTv;
+        TextView mContentTv;
+        TextView mMoreTv;
+        TextView mCreateTimeTv;
+        FriendsCirclePhotoGridView mPhotosGv;
+        ImageButton mCommentIb;
+
+        // 点赞相关
+        RelativeLayout mLikeRl;
+        TextView mLikeUserTv;
+
+        // 点赞和评论之间的分割线
+        View mTempView;
+
+        // 评论相关
+        TextView mCommentTv;
+        FriendsCircleCommentListView mCommentLv;
     }
 }
 

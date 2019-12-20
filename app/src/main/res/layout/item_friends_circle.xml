@@ -141,6 +141,13 @@
                 android:textColor="#000000"
                 android:textSize="17dp"
                 android:visibility="gone" />
+
+            <com.bc.wechat.widget.FriendsCircleCommentListView
+                android:id="@+id/lv_comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"
+                android:scrollbars="none" />
         </LinearLayout>
     </LinearLayout>
 
