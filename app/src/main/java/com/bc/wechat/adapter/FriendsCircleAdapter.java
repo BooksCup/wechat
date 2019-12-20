@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +21,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.activity.ViewPagerImageActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendsCircle;
@@ -131,6 +130,26 @@ public class FriendsCircleAdapter extends BaseAdapter {
                 Intent intent = new Intent(mContext, ViewPagerImageActivity.class);
                 intent.putStringArrayListExtra("photoList", photoArraylist);
                 intent.putExtra("position", position);
+                mContext.startActivity(intent);
+            }
+        });
+
+        // 点击头像进入用户详情页
+        viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, UserInfoActivity.class);
+                intent.putExtra("userId", friendsCircle.getUserId());
+                mContext.startActivity(intent);
+            }
+        });
+
+        // 点击昵称进入用户详情页
+        viewHolder.mNickNameTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, UserInfoActivity.class);
+                intent.putExtra("userId", friendsCircle.getUserId());
                 mContext.startActivity(intent);
             }
         });
