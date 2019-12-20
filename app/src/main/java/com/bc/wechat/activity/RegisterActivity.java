@@ -32,6 +32,7 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +65,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
     Button mRegisterBtn;
 
-    ProgressDialog dialog;
+    LoadingDialog dialog;
     FriendDao friendDao;
 
     @Override
@@ -72,7 +73,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new ProgressDialog(RegisterActivity.this);
+        dialog = new LoadingDialog(RegisterActivity.this);
         friendDao = new FriendDao();
         initView();
     }
@@ -139,7 +140,6 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
             case R.id.btn_register:
                 dialog.setMessage(getString(R.string.registering));
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.show();
 
                 String nickName = mNickNameEt.getText().toString();
