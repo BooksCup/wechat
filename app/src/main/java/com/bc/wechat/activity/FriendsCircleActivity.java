@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -105,8 +106,9 @@ public class FriendsCircleActivity extends FragmentActivity {
         mNickNameTv.setText(mUser.getUserNickName());
 
         SimpleDraweeView mAvatarSdv = headerView.findViewById(R.id.sdv_avatar);
-        mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
-
+        if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
+        }
         getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
 
         mRefreshLayout.setPrimaryColorsId(android.R.color.black, android.R.color.white);
