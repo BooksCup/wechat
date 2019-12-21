@@ -1,22 +1,24 @@
 package com.bc.wechat.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -27,23 +29,29 @@ import com.bc.wechat.adapter.FriendsCircleAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendsCircleDao;
 import com.bc.wechat.entity.FriendsCircle;
+import com.bc.wechat.entity.FriendsCircleComment;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * 朋友圈
  *
  * @author zhou
  */
-public class FriendsCircleActivity extends FragmentActivity {
+public class FriendsCircleActivity extends BaseActivity {
 
     private ListView mFriendsCircleLv;
     private User mUser;
@@ -54,10 +62,15 @@ public class FriendsCircleActivity extends FragmentActivity {
     RefreshLayout mRefreshLayout;
     long mTimeStamp;
 
+    private LoadingDialog mDialog;
+
     private LinearLayout mBottomLl;
     private EditText mCommentEt;
+    private Button mSendBtn;
 
     private InputMethodManager mManager;
+    private String mCircleId;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +81,7 @@ public class FriendsCircleActivity extends FragmentActivity {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mFriendsCircleDao = new FriendsCircleDao();
         mTimeStamp = 0L;
+        mDialog = new LoadingDialog(FriendsCircleActivity.this);
 
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
 
@@ -77,17 +91,33 @@ public class FriendsCircleActivity extends FragmentActivity {
             @Override
             public void onClick(Object... objects) {
                 String circleId = String.valueOf(objects[1]);
-
-                Toast.makeText(FriendsCircleActivity.this, circleId, Toast.LENGTH_SHORT).show();
-
+                int position = Integer.parseInt(String.valueOf(objects[2]));
+                mCircleId = circleId;
                 mBottomLl.setVisibility(View.VISIBLE);
 
                 mCommentEt.setFocusable(true);
                 mCommentEt.setFocusableInTouchMode(true);
                 mCommentEt.requestFocus();
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
+                mFriendsCircleLv.smoothScrollToPosition(position);
             }
         };
+
+        mCommentEt.addTextChangedListener(new TextChange());
+        mSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog.setMessage("正在发表...");
+                mDialog.show();
+                String commentContent = mCommentEt.getText().toString();
+                addFriendsCircleComment(mCircleId, commentContent);
+
+                // 处理软键盘和编辑栏
+                mBottomLl.setVisibility(View.GONE);
+                mCommentEt.setText("");
+            }
+        });
 
         mAdapter = new FriendsCircleAdapter(mFriendsCircleList, this, clickListener);
         mFriendsCircleLv.setAdapter(mAdapter);
@@ -137,6 +167,33 @@ public class FriendsCircleActivity extends FragmentActivity {
         });
     }
 
+    class TextChange implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            boolean commentEtHasText = mCommentEt.getText().length() > 0;
+            if (commentEtHasText) {
+                mSendBtn.setBackgroundColor(Color.parseColor("#45c01a"));
+                mSendBtn.setTextColor(Color.parseColor("#ffffff"));
+                mSendBtn.setEnabled(true);
+            } else {
+                mSendBtn.setBackgroundColor(Color.parseColor("#cccccc"));
+                mSendBtn.setTextColor(Color.parseColor("#666667"));
+                mSendBtn.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    }
+
     private void initView() {
         mManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
@@ -145,6 +202,7 @@ public class FriendsCircleActivity extends FragmentActivity {
 
         mBottomLl = findViewById(R.id.ll_bottom);
         mCommentEt = findViewById(R.id.et_comment);
+        mSendBtn = findViewById(R.id.btn_send);
 
         // 上拉加载，下拉刷新
         mRefreshLayout = findViewById(R.id.srl_friends_circle);
@@ -236,6 +294,43 @@ public class FriendsCircleActivity extends FragmentActivity {
                     mTimeStamp = friendsCircleList.get(friendsCircleList.size() - 1).getTimestamp();
                     mAdapter.notifyDataSetChanged();
                 }
+            }
+        });
+    }
+
+    private void addFriendsCircleComment(final String circleId, final String content) {
+        String url = Constant.BASE_URL + "friendsCircle/" + circleId + "/comment";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("content", content);
+        paramMap.put("userId", mUser.getUserId());
+
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                List<FriendsCircle> friendsCircleList = mAdapter.getData();
+                for (FriendsCircle friendsCircle : friendsCircleList) {
+                    if (circleId.equals(friendsCircle.getCircleId())) {
+                        List<FriendsCircleComment> friendsCircleCommentList =
+                                CommonUtil.getListFromJson(friendsCircle.getFriendsCircleCommentJsonArray(), FriendsCircleComment.class);
+                        FriendsCircleComment friendsCircleComment = new FriendsCircleComment();
+                        friendsCircleComment.setCommentContent(content);
+                        friendsCircleComment.setCommentUserId(mUser.getUserId());
+                        friendsCircleComment.setCommentCircleId(circleId);
+                        friendsCircleCommentList.add(friendsCircleComment);
+                        friendsCircle.setFriendsCircleCommentList(friendsCircleCommentList);
+                        friendsCircle.setFriendsCircleCommentJsonArray(JSON.toJSONString(friendsCircleCommentList));
+                        FriendsCircle.save(friendsCircle);
+                    }
+                }
+                mAdapter.setData(friendsCircleList);
+                mAdapter.notifyDataSetChanged();
+
+                mDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
             }
         });
     }

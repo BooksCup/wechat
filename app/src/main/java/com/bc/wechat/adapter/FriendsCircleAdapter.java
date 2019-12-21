@@ -66,6 +66,10 @@ public class FriendsCircleAdapter extends BaseAdapter {
         this.friendsCircleList = dataList;
     }
 
+    public List<FriendsCircle> getData() {
+        return this.friendsCircleList;
+    }
+
     public void addData(List<FriendsCircle> dataList) {
         this.friendsCircleList.addAll(dataList);
     }
@@ -86,7 +90,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         final FriendsCircle friendsCircle = friendsCircleList.get(position);
         final ViewHolder viewHolder;
         if (null == convertView) {
@@ -183,7 +187,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
         viewHolder.mCommentIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initPopupWindow(friendsCircle);
+                initPopupWindow(friendsCircle, position);
                 if (!mPopupWindow.isShowing()) {
                     mPopupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
                     int popupWidth = mPopupView.getMeasuredWidth();
@@ -238,7 +242,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
     /**
      * 初始化首页弹出框
      */
-    private void initPopupWindow(final FriendsCircle friendsCircle) {
+    private void initPopupWindow(final FriendsCircle friendsCircle, final int position) {
         mPopupView = View.inflate(mContext, R.layout.popup_window_friend_circle_interact, null);
         mPopupWindow = new PopupWindow();
         // 设置SelectPicPopupWindow的View
@@ -299,7 +303,7 @@ public class FriendsCircleAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 mPopupWindow.dismiss();
-                mClickListener.onClick(view, friendsCircle.getCircleId());
+                mClickListener.onClick(view, friendsCircle.getCircleId(), position);
             }
         });
     }
