@@ -307,15 +307,13 @@ public class FriendsCircleActivity extends BaseActivity {
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                FriendsCircleComment friendsCircleComment = JSON.parseObject(response, FriendsCircleComment.class);
                 List<FriendsCircle> friendsCircleList = mAdapter.getData();
                 for (FriendsCircle friendsCircle : friendsCircleList) {
                     if (circleId.equals(friendsCircle.getCircleId())) {
                         List<FriendsCircleComment> friendsCircleCommentList =
                                 CommonUtil.getListFromJson(friendsCircle.getFriendsCircleCommentJsonArray(), FriendsCircleComment.class);
-                        FriendsCircleComment friendsCircleComment = new FriendsCircleComment();
-                        friendsCircleComment.setCommentContent(content);
-                        friendsCircleComment.setCommentUserId(mUser.getUserId());
-                        friendsCircleComment.setCommentCircleId(circleId);
+                        friendsCircleComment.setCommentUserNickName(mUser.getUserNickName());
                         friendsCircleCommentList.add(friendsCircleComment);
                         friendsCircle.setFriendsCircleCommentList(friendsCircleCommentList);
                         friendsCircle.setFriendsCircleCommentJsonArray(JSON.toJSONString(friendsCircleCommentList));
