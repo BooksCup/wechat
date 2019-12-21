@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="SomeBody"
             android:textColor="#576b95"
-            android:textSize="17dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_content"
@@ -41,7 +41,7 @@
             android:paddingBottom="5dip"
             android:text=""
             android:textColor="#000000"
-            android:textSize="17dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_more"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="全文"
             android:textColor="#576b95"
-            android:textSize="17dp"
+            android:textSize="15sp"
             android:visibility="gone" />
 
         <com.bc.wechat.widget.FriendsCirclePhotoGridView
@@ -106,8 +106,8 @@
                     android:id="@+id/sdv_like_icon"
                     android:layout_width="16dp"
                     android:layout_height="13dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
                     fresco:placeholderImage="@mipmap/icon_like"
                     fresco:placeholderImageScaleType="centerCrop" />
 
@@ -115,9 +115,9 @@
                     android:id="@+id/tv_like_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/sdv_like_icon"
                     android:paddingLeft="2dp"
-                    android:layout_centerVertical="true"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="#576b95" />
@@ -130,22 +130,12 @@
                 android:background="#c0c0c0"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingBottom="5dp"
-                android:textColor="#000000"
-                android:textSize="17dp"
-                android:visibility="gone" />
-
             <com.bc.wechat.widget.FriendsCircleCommentListView
                 android:id="@+id/lv_comment_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:divider="@null"
                 android:scrollbars="none" />
         </LinearLayout>

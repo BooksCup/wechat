@@ -221,6 +221,12 @@ public class FriendsCircleAdapter extends BaseAdapter {
         FriendsCircleCommentAdapter adapter = new FriendsCircleCommentAdapter(commentList, mContext);
         viewHolder.mCommentLv.setAdapter(adapter);
 
+        if (commentList.size() > 0) {
+            viewHolder.mCommentLv.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.mCommentLv.setVisibility(View.GONE);
+        }
+
         if (likeUserList.size() > 0 && commentList.size() > 0) {
             viewHolder.mTempView.setVisibility(View.VISIBLE);
         } else {
