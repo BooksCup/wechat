@@ -2,6 +2,7 @@ package com.bc.wechat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.view.Gravity;
@@ -29,6 +30,7 @@ import com.bc.wechat.entity.FriendsCircleComment;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.TextParser;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.FriendsCircleCommentListView;
@@ -208,16 +210,33 @@ public class FriendsCircleAdapter extends BaseAdapter {
 
         if (likeUserList.size() > 0) {
             viewHolder.mLikeRl.setVisibility(View.VISIBLE);
-            StringBuffer likeUserBuffer = new StringBuffer();
-            for (User likeUser : likeUserList) {
-                likeUserBuffer.append(likeUser.getUserNickName());
-                likeUserBuffer.append("，");
+            TextParser textParser = new TextParser();
+            int color = Color.rgb(87, 107, 149);
+            int index = 0;
+            for (final User likeUser : likeUserList) {
+                index++;
+                textParser.append(likeUser.getUserNickName(), 20, color, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mContext.startActivity(new Intent(mContext, UserInfoActivity.class).
+                                putExtra("userId", likeUser.getUserId()));
+                    }
+                });
+                if (index < likeUserList.size()) {
+                    textParser.append(",", 20, color, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mContext.startActivity(new Intent(mContext, UserInfoActivity.class).
+                                    putExtra("userId", likeUser.getUserId()));
+                        }
+                    });
+                }
             }
-            likeUserBuffer.deleteCharAt(likeUserBuffer.length() - 1);
-            viewHolder.mLikeUserTv.setText(likeUserBuffer.toString());
+            textParser.parse(viewHolder.mLikeUserTv);
         } else {
             viewHolder.mLikeRl.setVisibility(View.GONE);
         }
+
 
         List<FriendsCircleComment> commentList =
                 CommonUtil.getListFromJson(friendsCircle.getFriendsCircleCommentJsonArray(), FriendsCircleComment.class);
