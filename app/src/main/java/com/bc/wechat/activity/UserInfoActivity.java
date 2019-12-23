@@ -46,6 +46,8 @@ public class UserInfoActivity extends Activity {
     private SimpleDraweeView mCirclePhoto3Sdv;
     private SimpleDraweeView mCirclePhoto4Sdv;
 
+    private RelativeLayout mFriendsCircleRl;
+
     private VolleyUtil volleyUtil;
     private FriendDao friendDao;
 
@@ -66,6 +68,7 @@ public class UserInfoActivity extends Activity {
 
         mOperateRl = findViewById(R.id.rl_operate);
 
+        mFriendsCircleRl = findViewById(R.id.rl_friends_circle);
         mCirclePhoto1Sdv = findViewById(R.id.sdv_circle_photo_1);
         mCirclePhoto2Sdv = findViewById(R.id.sdv_circle_photo_2);
         mCirclePhoto3Sdv = findViewById(R.id.sdv_circle_photo_3);
@@ -96,6 +99,13 @@ public class UserInfoActivity extends Activity {
                 Intent intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
                 intent.putExtra("imgUrl", friend.getUserAvatar());
                 startActivity(intent);
+            }
+        });
+
+        mFriendsCircleRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class));
             }
         });
     }

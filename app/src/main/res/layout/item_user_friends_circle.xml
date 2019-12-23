@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#f8f8f8"
+    android:orientation="horizontal"
+    android:padding="8dip">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="13"
+        android:textColor="@color/black_deep"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:text="12月"
+        android:textColor="@color/black_deep"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_avatar"
+        android:layout_width="78dip"
+        android:layout_height="78dip"
+        android:scaleType="fitXY"
+        fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:maxLines="3"
+            android:text="这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，"
+            android:textColor="@color/black_deep"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="3dp"
+            android:text="共9张"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</LinearLayout>

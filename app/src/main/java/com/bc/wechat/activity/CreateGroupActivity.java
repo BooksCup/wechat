@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -81,6 +82,8 @@ public class CreateGroupActivity extends FragmentActivity {
     private VolleyUtil volleyUtil;
     LoadingDialog loadingDialog;
 
+    private EditText mSearchEt;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +110,7 @@ public class CreateGroupActivity extends FragmentActivity {
         mAvatarListLl = findViewById(R.id.ll_avatar_list);
         mSearchIv = findViewById(R.id.iv_search);
         mSaveBtn = findViewById(R.id.btn_save);
+        mSearchEt = findViewById(R.id.et_search);
 
         listView = findViewById(R.id.lv_friends);
         contactAdapter = new PickContactAdapter(this,
@@ -146,6 +150,7 @@ public class CreateGroupActivity extends FragmentActivity {
                 }
             }
         });
+
     }
 
     public void back(View view) {

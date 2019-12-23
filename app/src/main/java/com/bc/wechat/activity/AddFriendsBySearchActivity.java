@@ -33,9 +33,9 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     private RelativeLayout mSearchRl;
     private TextView mSearchTv;
 
-    private VolleyUtil volleyUtil;
-    LoadingDialog dialog;
-    User user;
+    private VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,14 +43,14 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         setContentView(R.layout.activity_add_friends_by_search);
         initView();
         PreferencesUtil.getInstance().init(this);
-        user = PreferencesUtil.getInstance().getUser();
-        volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new LoadingDialog(AddFriendsBySearchActivity.this);
+        mUser = PreferencesUtil.getInstance().getUser();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(AddFriendsBySearchActivity.this);
         mSearchRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.setMessage(getString(R.string.searching_for_user));
-                dialog.show();
+                mDialog.setMessage(getString(R.string.searching_for_user));
+                mDialog.show();
                 String keyword = mSearchEt.getText().toString().trim();
                 searchUser(keyword);
             }
@@ -95,9 +95,9 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     }
 
     private void searchUser(String keyword) {
-        String userId = user.getUserId();
+        String userId = mUser.getUserId();
         String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword + "&userId=" + userId;
-        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "server response: " + response);
@@ -105,17 +105,13 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                 Log.d(TAG, "userId:" + user.getUserId());
                 Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoActivity.class);
                 intent.putExtra("userId", user.getUserId());
-                intent.putExtra("nickName", user.getUserNickName());
-                intent.putExtra("avatar", user.getUserAvatar());
-                intent.putExtra("sex", user.getUserSex());
-                intent.putExtra("isFriend", user.getIsFriend());
                 startActivity(intent);
-                dialog.dismiss();
+                mDialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(AddFriendsBySearchActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;

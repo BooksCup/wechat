@@ -61,14 +61,13 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-
         <HorizontalScrollView
             android:id="@+id/hsv_avatar_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:background="#ffffff"
             android:layout_centerVertical="true"
+            android:background="#ffffff"
             android:scrollbars="none">
 
             <LinearLayout
@@ -112,8 +111,8 @@
         android:divider="@color/divider_list"
         android:dividerHeight="0.5dp"
         android:fastScrollEnabled="false"
-        android:scrollbars="none"
         android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false" />
+        android:headerDividersEnabled="false"
+        android:scrollbars="none" />
 
 </LinearLayout>
