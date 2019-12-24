@@ -105,7 +105,9 @@ public class UserInfoActivity extends Activity {
         mFriendsCircleRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class));
+                Intent intent = new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
             }
         });
     }
