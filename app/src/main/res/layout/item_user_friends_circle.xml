@@ -8,6 +8,7 @@
     android:padding="8dip">
 
     <TextView
+        android:id="@+id/tv_time_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -17,6 +18,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_time_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
@@ -25,13 +27,112 @@
         android:textSize="14sp"
         android:textStyle="bold" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_avatar"
-        android:layout_width="78dip"
-        android:layout_height="78dip"
-        android:scaleType="fitXY"
-        fresco:placeholderImage="@mipmap/default_user_avatar" />
+    <LinearLayout
+        android:id="@+id/ll_circle_photo_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_1"
+            android:layout_width="78dip"
+            android:layout_height="78dip"
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_circle_photo_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_2_1"
+            android:layout_width="39dip"
+            android:layout_height="78dip"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_2_2"
+            android:layout_width="39dip"
+            android:layout_height="78dip"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_circle_photo_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_3_1"
+            android:layout_width="39dip"
+            android:layout_height="78dip"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_3_2"
+            android:layout_width="39dip"
+            android:layout_height="39dip"
+            android:layout_toRightOf="@id/sdv_circle_photo_3_1"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_3_3"
+            android:layout_width="39dip"
+            android:layout_height="39dip"
+            android:layout_below="@id/sdv_circle_photo_3_2"
+            android:layout_toRightOf="@id/sdv_circle_photo_3_1"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_circle_photo_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_4_1"
+            android:layout_width="39dip"
+            android:layout_height="39dip"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_4_2"
+            android:layout_width="39dip"
+            android:layout_height="39dip"
+            android:layout_below="@id/sdv_circle_photo_4_1"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_4_3"
+            android:layout_width="39dip"
+            android:layout_height="39dip"
+            android:layout_toRightOf="@id/sdv_circle_photo_4_1"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_circle_photo_4_4"
+            android:layout_width="39dip"
+            android:layout_height="39dip"
+            android:layout_below="@id/sdv_circle_photo_4_3"
+            android:layout_toRightOf="@id/sdv_circle_photo_4_2"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            android:scaleType="fitXY" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -39,6 +140,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_circle_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -50,6 +152,7 @@
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/tv_circle_photo_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -58,4 +161,5 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
 </LinearLayout>

@@ -33,7 +33,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_back"
-            android:text="朋友圈"
+            android:text=""
             android:textColor="#ffffff"
             android:textSize="18sp" />
 

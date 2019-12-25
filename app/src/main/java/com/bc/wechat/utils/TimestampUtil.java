@@ -94,4 +94,21 @@ public class TimestampUtil {
         }
         return pointText;
     }
+
+    public static String[] getYearMonthAndDay(long timeStamp) {
+        try {
+            Date date = new Date(timeStamp);
+            String[] time = new SimpleDateFormat("yyyy-MM-dd").format(date).split("-");
+            return time;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getYearMonthAndDay(1574151206223L)[0]);
+        System.out.println(getYearMonthAndDay(1574151206223L)[1]);
+        System.out.println(getYearMonthAndDay(1574151206223L)[2]);
+    }
 }
