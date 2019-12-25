@@ -3,7 +3,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#f8f8f8"
+    android:background="@color/item_user_friends_circle"
     android:orientation="horizontal"
     android:padding="8dip">
 
@@ -52,15 +52,15 @@
             android:id="@+id/sdv_circle_photo_2_1"
             android:layout_width="39dip"
             android:layout_height="78dip"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_2_2"
             android:layout_width="39dip"
             android:layout_height="78dip"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
     </LinearLayout>
 
 
@@ -74,16 +74,16 @@
             android:id="@+id/sdv_circle_photo_3_1"
             android:layout_width="39dip"
             android:layout_height="78dip"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_3_2"
             android:layout_width="39dip"
             android:layout_height="39dip"
             android:layout_toRightOf="@id/sdv_circle_photo_3_1"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_3_3"
@@ -91,38 +91,38 @@
             android:layout_height="39dip"
             android:layout_below="@id/sdv_circle_photo_3_2"
             android:layout_toRightOf="@id/sdv_circle_photo_3_1"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_circle_photo_4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_4_1"
             android:layout_width="39dip"
             android:layout_height="39dip"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_4_2"
             android:layout_width="39dip"
             android:layout_height="39dip"
             android:layout_below="@id/sdv_circle_photo_4_1"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_4_3"
             android:layout_width="39dip"
             android:layout_height="39dip"
             android:layout_toRightOf="@id/sdv_circle_photo_4_1"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_circle_photo_4_4"
@@ -130,36 +130,65 @@
             android:layout_height="39dip"
             android:layout_below="@id/sdv_circle_photo_4_3"
             android:layout_toRightOf="@id/sdv_circle_photo_4_2"
-            fresco:placeholderImage="@mipmap/default_user_avatar"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_circle_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:maxLines="3"
-            android:text="这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，这是我的朋友圈，"
-            android:textColor="@color/black_deep"
-            android:textSize="14sp"
-            android:typeface="monospace" />
+        <RelativeLayout
+            android:id="@+id/rl_circle_content_with_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/tv_circle_photo_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="3dp"
-            android:text="共9张"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_circle_content_with_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:maxLines="3"
+                android:text="keyi"
+                android:textColor="@color/black_deep"
+                android:textSize="14sp"
+                android:typeface="monospace" />
 
+            <TextView
+                android:id="@+id/tv_circle_photo_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_circle_content_with_photo"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="3dp"
+                android:gravity="bottom"
+                android:text="共9张"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_circle_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/common_top_bar_grey">
+
+            <TextView
+                android:id="@+id/tv_circle_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:maxLines="3"
+                android:text="keyi"
+                android:textColor="@color/black_deep"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

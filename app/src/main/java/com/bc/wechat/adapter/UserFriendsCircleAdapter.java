@@ -66,7 +66,11 @@ public class UserFriendsCircleAdapter extends BaseAdapter {
             viewHolder.mTimeMonthTv = convertView.findViewById(R.id.tv_time_month);
             viewHolder.mTimeDayTv = convertView.findViewById(R.id.tv_time_day);
 
+            viewHolder.mCircleContentRl = convertView.findViewById(R.id.rl_circle_content);
             viewHolder.mCircleContentTv = convertView.findViewById(R.id.tv_circle_content);
+
+            viewHolder.mCircleContentWithPhotoRl = convertView.findViewById(R.id.rl_circle_content_with_photo);
+            viewHolder.mCircleContentWithPhotoTv = convertView.findViewById(R.id.tv_circle_content_with_photo);
             viewHolder.mCirclePhotoNumTv = convertView.findViewById(R.id.tv_circle_photo_num);
 
             viewHolder.mCirclePhoto1Ll = convertView.findViewById(R.id.ll_circle_photo_1);
@@ -94,6 +98,20 @@ public class UserFriendsCircleAdapter extends BaseAdapter {
         }
 
         List<String> photoList = CommonUtil.getListFromJson(userFriendsCircle.getCirclePhotos(), String.class);
+        if (0 == photoList.size()) {
+            // 纯文字
+            viewHolder.mCircleContentRl.setVisibility(View.VISIBLE);
+            viewHolder.mCircleContentWithPhotoRl.setVisibility(View.GONE);
+
+            viewHolder.mCircleContentTv.setText(userFriendsCircle.getCircleContent());
+        } else {
+            // 图文
+            viewHolder.mCircleContentRl.setVisibility(View.GONE);
+            viewHolder.mCircleContentWithPhotoRl.setVisibility(View.VISIBLE);
+
+            viewHolder.mCircleContentWithPhotoTv.setText(userFriendsCircle.getCircleContent());
+        }
+
 
         if (0 == photoList.size()) {
             viewHolder.mCirclePhoto1Ll.setVisibility(View.GONE);
@@ -164,8 +182,6 @@ public class UserFriendsCircleAdapter extends BaseAdapter {
             viewHolder.mCirclePhoto4_4Sdv.setImageURI(Uri.parse(photoList.get(3)));
         }
 
-        viewHolder.mCircleContentTv.setText(userFriendsCircle.getCircleContent());
-
         String[] time = TimestampUtil.getYearMonthAndDay(userFriendsCircle.getTimestamp());
         viewHolder.mTimeMonthTv.setVisibility(View.VISIBLE);
         viewHolder.mTimeMonthTv.setText(time[1] + "月");
@@ -191,6 +207,10 @@ public class UserFriendsCircleAdapter extends BaseAdapter {
         TextView mTimeMonthTv;
         TextView mTimeDayTv;
 
+        RelativeLayout mCircleContentWithPhotoRl;
+        TextView mCircleContentWithPhotoTv;
+
+        RelativeLayout mCircleContentRl;
         TextView mCircleContentTv;
         TextView mCirclePhotoNumTv;
 
