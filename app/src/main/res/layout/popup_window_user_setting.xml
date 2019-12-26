@@ -152,18 +152,18 @@
         android:background="#d9d9d9" />
 
     <RelativeLayout
-        android:id="@+id/rl_add_to_desktop"
+        android:id="@+id/rl_add_friend_to_desktop"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
         <TextView
-            android:id="@+id/tv_add_to_desktop"
+            android:id="@+id/tv_add_friend_to_desktop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="添加到桌面"
+            android:text="@string/add_to_desktop"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="删除"
+            android:text="@string/delete"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -210,7 +210,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="取消"
+            android:text="@string/cancel"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>

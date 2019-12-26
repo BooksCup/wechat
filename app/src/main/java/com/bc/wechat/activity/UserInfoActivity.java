@@ -2,10 +2,17 @@ package com.bc.wechat.activity;
 
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -32,13 +39,20 @@ import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.utils.WechatBeanUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoActivity extends Activity {
+
+    private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
 
     private LinearLayout mRootLl;
     private TextView mNickNameTv;
@@ -60,15 +74,18 @@ public class UserInfoActivity extends Activity {
 
     private RelativeLayout mFriendsCircleRl;
 
-    private VolleyUtil volleyUtil;
-    private FriendDao friendDao;
+    private VolleyUtil mVolleyUtil;
+    private FriendDao mFriendDao;
+
+    // 弹窗
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
-        volleyUtil = VolleyUtil.getInstance(this);
-        friendDao = new FriendDao();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mFriendDao = new FriendDao();
         initView();
     }
 
@@ -91,7 +108,7 @@ public class UserInfoActivity extends Activity {
 
         final String userId = getIntent().getStringExtra("userId");
 
-        final Friend friend = friendDao.getFriendById(userId);
+        final Friend friend = mFriendDao.getFriendById(userId);
         loadData(friend);
 
         getUserFromServer(userId);
@@ -105,28 +122,84 @@ public class UserInfoActivity extends Activity {
                 LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
                 view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
                 mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
-                // 设置popwindow的宽高，这里我直接获取了手机屏幕的宽，高设置了600DP
+                // 设置popwindow的宽高
                 DisplayMetrics dm = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(dm);
-                PopupWindow popupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
 
                 // 使其聚集
-                popupWindow.setFocusable(true);
+                mPopupWindow.setFocusable(true);
                 // 设置允许在外点击消失
-                popupWindow.setOutsideTouchable(true);
+                mPopupWindow.setOutsideTouchable(true);
 
                 // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
                 backgroundAlpha(0.5f);  //透明度
 
-                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
                         backgroundAlpha(1f);
                     }
                 });
-                //弹出的位置
-                popupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                // 弹出的位置
+                mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                RelativeLayout mAddFriendToDesktopRl = view.findViewById(R.id.rl_add_friend_to_desktop);
+                mAddFriendToDesktopRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                        final Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
+                        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                        intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
+                        intent.putExtra("fromUserId", friend.getUserId());
+                        intent.putExtra("fromUserNickName", friend.getUserNickName());
+                        intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Bitmap bitmap = getBitmapFromAvatarUrl(friend.getUserAvatar());
+                                addShortcut(UserInfoActivity.this, friend.getUserNickName(), bitmap, intent);
+                            }
+                        }).start();
+                    }
+                });
+
+                // 删除好友
+                RelativeLayout mDeleteFriendRl = view.findViewById(R.id.rl_delete_friend);
+                mDeleteFriendRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                        final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "删除联系人",
+                                "将联系人\"" + friend.getUserNickName() + "\"删除，将同时删除与该联系人的聊天记录",
+                                "删除", "取消");
+                        confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                            @Override
+                            public void onOkClick() {
+                                confirmDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onCancelClick() {
+                                confirmDialog.dismiss();
+                            }
+                        });
+                        // 点击空白处消失
+                        confirmDialog.setCancelable(true);
+                        confirmDialog.show();
+                    }
+                });
+
+                // 取消
+                RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
+                mCancelRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                    }
+                });
             }
         });
 
@@ -169,8 +242,50 @@ public class UserInfoActivity extends Activity {
      */
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
+        // 0.0-1.0
+        lp.alpha = bgAlpha;
         getWindow().setAttributes(lp);
+    }
+
+
+    /**
+     * 添加桌面图标快捷方式
+     *
+     * @param activity     Activity对象
+     * @param name         快捷方式名称
+     * @param icon         快捷方式图标
+     * @param actionIntent 快捷方式图标点击动作
+     */
+    public void addShortcut(Activity activity, String name, Bitmap icon, Intent actionIntent) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            // 创建快捷方式的intent广播
+            Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+            // 添加快捷名称
+            shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+            // 快捷图标是允许重复(不一定有效)
+            shortcut.putExtra("duplicate", false);
+            // 快捷图标
+            // 使用Bitmap对象模式
+            shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
+            // 添加携带的下次启动要用的Intent信息
+            shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);
+            // 发送广播
+            activity.sendBroadcast(shortcut);
+        } else {
+            ShortcutManager shortcutManager = (ShortcutManager) activity.getSystemService(Context.SHORTCUT_SERVICE);
+            if (null == shortcutManager) {
+                // 创建快捷方式失败
+                return;
+            }
+            ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(activity, name)
+                    .setShortLabel(name)
+                    .setIcon(Icon.createWithBitmap(icon))
+                    .setIntent(actionIntent)
+                    .setLongLabel(name)
+                    .build();
+            shortcutManager.requestPinShortcut(shortcutInfo, PendingIntent.getActivity(activity,
+                    REQUEST_CODE_ADD_FRIEND_TO_DESKTOP, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT).getIntentSender());
+        }
     }
 
     public void back(View view) {
@@ -244,15 +359,15 @@ public class UserInfoActivity extends Activity {
     public void getUserFromServer(final String userId) {
         String url = Constant.BASE_URL + "users/" + userId;
 
-        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 User user = JSON.parseObject(response, User.class);
                 // 检查此人是否好友，
                 // 如果是好友则更新用户信息，非好友则不做任何操作
-                boolean isFriend = friendDao.checkFriendExists(userId);
+                boolean isFriend = mFriendDao.checkFriendExists(userId);
                 if (isFriend) {
-                    friendDao.saveFriendByUserInfo(user);
+                    mFriendDao.saveFriendByUserInfo(user);
                 }
                 Friend friend = WechatBeanUtil.transferUserToFriend(user);
                 loadData(friend);
@@ -263,6 +378,22 @@ public class UserInfoActivity extends Activity {
 
             }
         });
+    }
+
+
+    private static Bitmap getBitmapFromAvatarUrl(final String avatarUrl) {
+        try {
+            URL url = new URL(avatarUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            return bitmap;
+        } catch (IOException e) {
+            return null;
+        }
+
     }
 
 }

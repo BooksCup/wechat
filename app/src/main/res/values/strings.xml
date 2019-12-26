@@ -118,4 +118,5 @@
     <string name="user_not_exists">该用户不存在</string>
 
     <string name="connect_to_server_error">不能连接到服务器</string>
+    <string name="add_to_desktop">添加到桌面</string>
 </resources>

@@ -15,25 +15,35 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 
+/**
+ * 确认弹窗
+ *
+ * @author zhou
+ */
 public class ConfirmDialog extends Dialog {
     private Context mContext;
+
     private TextView mTitleTv;
+    private TextView mContentTv;
     private Button mOkBtn;
     private Button mCancelBtn;
-    private OnDialogClickListener dialogClickListener;
+    private OnDialogClickListener mDialogClickListener;
 
+    // 标题
+    private String mTitle;
+    // 内容
+    private String mContent;
+    private String mConfirm;
+    private String mCancel;
 
-    private String title;
-    private String confirm;
-    private String cancel;
-
-    public ConfirmDialog(Context context, String title,
+    public ConfirmDialog(Context context, String title, String content,
                          String confirm, String cancel) {
         super(context);
         this.mContext = context;
-        this.title = title;
-        this.confirm = confirm;
-        this.cancel = cancel;
+        this.mTitle = title;
+        this.mContent = content;
+        this.mConfirm = confirm;
+        this.mCancel = cancel;
         initalize();
     }
 
@@ -44,20 +54,28 @@ public class ConfirmDialog extends Dialog {
         setContentView(view);
         initWindow();
 
+        mContentTv = findViewById(R.id.tv_content);
         mTitleTv = findViewById(R.id.tv_title);
         mOkBtn = findViewById(R.id.btn_ok);
         mCancelBtn = findViewById(R.id.btn_cancel);
 
-        if (!TextUtils.isEmpty(title)) {
-            mTitleTv.setText(title);
+        if (!TextUtils.isEmpty(mTitle)) {
+            mTitleTv.setVisibility(View.VISIBLE);
+            mTitleTv.setText(mTitle);
+        } else {
+            mTitleTv.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(confirm)) {
-            mOkBtn.setText(confirm);
+        if (!TextUtils.isEmpty(mContent)) {
+            mContentTv.setText(mContent);
         }
 
-        if (!TextUtils.isEmpty(cancel)) {
-            mCancelBtn.setText(cancel);
+        if (!TextUtils.isEmpty(mConfirm)) {
+            mOkBtn.setText(mConfirm);
+        }
+
+        if (!TextUtils.isEmpty(mCancel)) {
+            mCancelBtn.setText(mCancel);
         }
 
         mOkBtn.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +83,8 @@ public class ConfirmDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                if (dialogClickListener != null) {
-                    dialogClickListener.onOKClick();
+                if (mDialogClickListener != null) {
+                    mDialogClickListener.onOkClick();
                 }
             }
         });
@@ -75,8 +93,8 @@ public class ConfirmDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                if (dialogClickListener != null) {
-                    dialogClickListener.onCancelClick();
+                if (mDialogClickListener != null) {
+                    mDialogClickListener.onCancelClick();
                 }
             }
         });
@@ -87,26 +105,37 @@ public class ConfirmDialog extends Dialog {
      */
     private void initWindow() {
         Window dialogWindow = getWindow();
-        dialogWindow.setBackgroundDrawable(new ColorDrawable(0));//设置window背景
+        // 设置window背景
+        dialogWindow.setBackgroundDrawable(new ColorDrawable(0));
+        // 设置输入法显示模式
         dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);//设置输入法显示模式
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        DisplayMetrics d = mContext.getResources().getDisplayMetrics();//获取屏幕尺寸
-        lp.width = (int) (d.widthPixels * 0.8); //宽度为屏幕80%
-        lp.gravity = Gravity.CENTER;  //中央居中
-        dialogWindow.setAttributes(lp);
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+        // 获取屏幕尺寸
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        // 宽度为屏幕80%
+        layoutParams.width = (int) (displayMetrics.widthPixels * 0.8);
+        // 中央居中
+        layoutParams.gravity = Gravity.CENTER;
+        dialogWindow.setAttributes(layoutParams);
     }
 
     public void setOnDialogClickListener(OnDialogClickListener clickListener) {
-        dialogClickListener = clickListener;
+        mDialogClickListener = clickListener;
     }
 
     /**
      * 添加按钮点击事件
      */
     public interface OnDialogClickListener {
-        void onOKClick();
+        /**
+         * 确认
+         */
+        void onOkClick();
 
+        /**
+         * 取消
+         */
         void onCancelClick();
     }
 

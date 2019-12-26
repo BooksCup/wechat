@@ -33,6 +33,11 @@ import cn.jpush.im.android.api.model.GroupMemberInfo;
 import cn.jpush.im.api.BasicCallback;
 
 
+/**
+ * 群聊设置
+ *
+ * @author zhou
+ */
 public class ChatGroupSettingActivity extends FragmentActivity implements View.OnClickListener {
     private String groupId;
 
@@ -161,11 +166,11 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                 startActivityForResult(intent, UPDATE_GROUP_NAME);
                 break;
             case R.id.rl_clear:
-                final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this,
+                final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this, "",
                         "确定删除群的聊天记录吗?", "清空", "");
                 clearConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
-                    public void onOKClick() {
+                    public void onOkClick() {
                         // 清除本地message
                         messageDao.deleteMessageByGroupId(groupId);
                         clearConfirmDialog.dismiss();
@@ -182,11 +187,11 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
                 break;
 
             case R.id.rl_exit_group:
-                final ConfirmDialog exitConfirmDialog = new ConfirmDialog(this,
+                final ConfirmDialog exitConfirmDialog = new ConfirmDialog(this, "",
                         "是否删除群聊并退出?", "删除", "");
                 exitConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
-                    public void onOKClick() {
+                    public void onOkClick() {
                         exitConfirmDialog.dismiss();
                         exitGroup(groupId);
                     }

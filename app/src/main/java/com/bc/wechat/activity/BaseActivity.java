@@ -48,11 +48,11 @@ public class BaseActivity extends FragmentActivity {
                 // 去除登录标识
                 PreferencesUtil.getInstance().setLogin(false);
 
-                final ConfirmDialog logoutConfirmDialog = new ConfirmDialog(this,
+                final ConfirmDialog logoutConfirmDialog = new ConfirmDialog(this, "",
                         "您的账号在其他设备上登陆", "重新登录", "退出");
                 logoutConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
-                    public void onOKClick() {
+                    public void onOkClick() {
                         // 重新登录
                         logoutConfirmDialog.dismiss();
                         User user = PreferencesUtil.getInstance().getUser();

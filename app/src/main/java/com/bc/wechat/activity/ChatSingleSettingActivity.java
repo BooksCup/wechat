@@ -18,6 +18,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import cn.jpush.im.android.api.JMessageClient;
 
+/**
+ * 单聊设置
+ *
+ * @author zhou
+ */
 public class ChatSingleSettingActivity extends FragmentActivity implements View.OnClickListener {
 
     private TextView mNickNameTv;
@@ -77,11 +82,11 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
                 break;
 
             case R.id.rl_clear:
-                final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this,
+                final ConfirmDialog clearConfirmDialog = new ConfirmDialog(this, "",
                         "确定删除和" + userNickName + "的聊天记录吗?", "清空", "");
                 clearConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                     @Override
-                    public void onOKClick() {
+                    public void onOkClick() {
                         // 清除本地message
                         messageDao.deleteMessageByUserId(userId);
                         // 清除会话消息(极光)
