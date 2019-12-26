@@ -2,13 +2,23 @@ package com.bc.wechat.activity;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,10 +40,12 @@ import java.util.List;
 
 public class UserInfoActivity extends Activity {
 
+    private LinearLayout mRootLl;
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private ImageView mSexIv;
     private TextView mWxIdTv;
+    private ImageView mSettingIv;
 
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
@@ -61,10 +73,13 @@ public class UserInfoActivity extends Activity {
     }
 
     private void initView() {
+        mRootLl = findViewById(R.id.ll_root);
+
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
         mWxIdTv = findViewById(R.id.tv_wx_id);
+        mSettingIv = findViewById(R.id.iv_setting);
 
         mOperateRl = findViewById(R.id.rl_operate);
 
@@ -80,6 +95,40 @@ public class UserInfoActivity extends Activity {
         loadData(friend);
 
         getUserFromServer(userId);
+
+        mSettingIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(R.layout.popup_window_user_setting, null);
+                // 给popwindow加上动画效果
+                LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
+                view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
+                mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
+                // 设置popwindow的宽高，这里我直接获取了手机屏幕的宽，高设置了600DP
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                PopupWindow popupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                // 使其聚集
+                popupWindow.setFocusable(true);
+                // 设置允许在外点击消失
+                popupWindow.setOutsideTouchable(true);
+
+                // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                backgroundAlpha(0.5f);  //透明度
+
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        backgroundAlpha(1f);
+                    }
+                });
+                //弹出的位置
+                popupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            }
+        });
 
         mOperateRl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +159,18 @@ public class UserInfoActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * 1.0完全不透明，0.0f完全透明
+     *
+     * @param bgAlpha 透明度值
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getWindow().setAttributes(lp);
     }
 
     public void back(View view) {
