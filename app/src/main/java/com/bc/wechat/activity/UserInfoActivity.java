@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendDao;
+import com.bc.wechat.dao.FriendsCircleDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -86,6 +87,7 @@ public class UserInfoActivity extends Activity {
     private User mUser;
     private VolleyUtil mVolleyUtil;
     private FriendDao mFriendDao;
+    private FriendsCircleDao mFriendsCircleDao;
 
     // 弹窗
     private PopupWindow mPopupWindow;
@@ -99,6 +101,7 @@ public class UserInfoActivity extends Activity {
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mFriendDao = new FriendDao();
+        mFriendsCircleDao = new FriendsCircleDao();
         mDialog = new LoadingDialog(UserInfoActivity.this);
         initView();
     }
@@ -436,8 +439,11 @@ public class UserInfoActivity extends Activity {
             public void onResponse(String response) {
                 mDialog.dismiss();
                 // 清除本地记录
+                // 通讯录删除
                 Friend friend = mFriendDao.getFriendById(friendId);
                 Friend.delete(friend);
+                // 朋友圈清除记录
+                mFriendsCircleDao.deleteFriendsCircleByUserId(friendId);
 
                 // 删除会话
                 JMessageClient.deleteSingleConversation(friendId);

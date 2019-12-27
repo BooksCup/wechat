@@ -27,4 +27,14 @@ public class FriendsCircleDao {
         }
         return null;
     }
+
+    /**
+     * 删除某个用户发布的朋友圈
+     *
+     * @param userId 用户ID
+     */
+    public void deleteFriendsCircleByUserId(String userId) {
+        String sql = "delete from friends_circle where user_id = ?";
+        FriendsCircle.executeQuery(sql, userId);
+    }
 }
