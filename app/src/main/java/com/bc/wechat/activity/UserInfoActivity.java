@@ -37,9 +37,11 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.utils.WechatBeanUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
@@ -50,6 +52,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+
+/**
+ * 用户详情
+ *
+ * @author zhou
+ */
 public class UserInfoActivity extends Activity {
 
     private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
@@ -74,18 +83,23 @@ public class UserInfoActivity extends Activity {
 
     private RelativeLayout mFriendsCircleRl;
 
+    private User mUser;
     private VolleyUtil mVolleyUtil;
     private FriendDao mFriendDao;
 
     // 弹窗
     private PopupWindow mPopupWindow;
 
+    private LoadingDialog mDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mFriendDao = new FriendDao();
+        mDialog = new LoadingDialog(UserInfoActivity.this);
         initView();
     }
 
@@ -145,11 +159,31 @@ public class UserInfoActivity extends Activity {
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
+                // 添加好友至桌面
                 RelativeLayout mAddFriendToDesktopRl = view.findViewById(R.id.rl_add_friend_to_desktop);
                 mAddFriendToDesktopRl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
+
+                        final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "已尝试添加到桌面",
+                                "若添加失败，请前往系统设置，为微信打开\"创建桌面快捷方式\"的权限。",
+                                "了解详情", "返回");
+                        confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                            @Override
+                            public void onOkClick() {
+                                confirmDialog.dismiss();
+                            }
+
+                            @Override
+                            public void onCancelClick() {
+                                confirmDialog.dismiss();
+                            }
+                        });
+                        // 点击空白处消失
+                        confirmDialog.setCancelable(true);
+                        confirmDialog.show();
+
                         final Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
                         intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                         intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
@@ -174,11 +208,14 @@ public class UserInfoActivity extends Activity {
                         mPopupWindow.dismiss();
                         final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "删除联系人",
                                 "将联系人\"" + friend.getUserNickName() + "\"删除，将同时删除与该联系人的聊天记录",
-                                "删除", "取消");
+                                getString(R.string.delete), getString(R.string.cancel));
                         confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                             @Override
                             public void onOkClick() {
                                 confirmDialog.dismiss();
+                                mDialog.setMessage(getString(R.string.please_wait));
+                                mDialog.show();
+                                deleteFriend(mUser.getUserId(), friend.getUserId());
                             }
 
                             @Override
@@ -340,7 +377,7 @@ public class UserInfoActivity extends Activity {
         }
 
         mNickNameTv.setText(friend.getUserNickName());
-        if (null != friend.getUserAvatar() && !"".equals(friend.getUserAvatar())) {
+        if (!TextUtils.isEmpty(friend.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
         }
         if (Constant.USER_SEX_MALE.equals(friend.getUserSex())) {
@@ -356,6 +393,11 @@ public class UserInfoActivity extends Activity {
         }
     }
 
+    /**
+     * 从服务器获取用户最新信息
+     *
+     * @param userId 用户ID
+     */
     public void getUserFromServer(final String userId) {
         String url = Constant.BASE_URL + "users/" + userId;
 
@@ -378,6 +420,39 @@ public class UserInfoActivity extends Activity {
 
             }
         });
+    }
+
+    /**
+     * 删除好友
+     *
+     * @param userId   用户ID
+     * @param friendId 好友ID
+     */
+    private void deleteFriend(final String userId, final String friendId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/friends/" + friendId;
+
+        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                // 清除本地记录
+                Friend friend = mFriendDao.getFriendById(friendId);
+                Friend.delete(friend);
+
+                // 删除会话
+                JMessageClient.deleteSingleConversation(friendId);
+
+                finish();
+                // TODO
+                // 跳转到首页第二个tab并refresh
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
+            }
+        });
+
     }
 
 

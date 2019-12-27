@@ -33,28 +33,33 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
 
+/**
+ * 登录
+ *
+ * @author zhou
+ */
 public class LoginActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
     public static int sequence = 1;
 
-    private VolleyUtil volleyUtil;
+    private VolleyUtil mVolleyUtil;
 
     EditText mPhoneEt;
     EditText mPasswordEt;
     Button mLoginBtn;
     TextView mRegisterTv;
-    LoadingDialog dialog;
-    FriendDao friendDao;
+    LoadingDialog mDialog;
+    FriendDao mFriendDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         PreferencesUtil.getInstance().init(this);
-        volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new LoadingDialog(LoginActivity.this);
-        friendDao = new FriendDao();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(LoginActivity.this);
+        mFriendDao = new FriendDao();
         initView();
     }
 
@@ -74,8 +79,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                dialog.setMessage(getString(R.string.logging_in));
-                dialog.show();
+                mDialog.setMessage(getString(R.string.logging_in));
+                mDialog.show();
                 final String phone = mPhoneEt.getText().toString().trim();
                 final String password = mPasswordEt.getText().toString().trim();
                 login(phone, password);
@@ -121,10 +126,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private void login(String phone, String password) {
         String url = Constant.BASE_URL + "users/login?phone=" + phone
                 + "&password=" + MD5Util.encode(password, "utf8");
-        volleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                dialog.dismiss();
+
                 Log.d(TAG, "server response: " + response);
                 final User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
@@ -143,7 +148,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             List<User> friendList = user.getFriendList();
                             for (User userFriend : friendList) {
                                 if (null != userFriend) {
-                                    friendDao.saveFriendByUserInfo(userFriend);
+                                    mFriendDao.saveFriendByUserInfo(userFriend);
                                 }
                             }
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -157,11 +162,14 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     }
                 });
 
+                // 上面都是耗时操作
+                mDialog.dismiss();
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
 
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(LoginActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();

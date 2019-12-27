@@ -119,4 +119,5 @@
 
     <string name="connect_to_server_error">不能连接到服务器</string>
     <string name="add_to_desktop">添加到桌面</string>
+    <string name="please_wait">请稍候...</string>
 </resources>
