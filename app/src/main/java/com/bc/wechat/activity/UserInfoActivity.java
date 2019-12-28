@@ -38,6 +38,7 @@ import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.dao.FriendsCircleDao;
 import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.utils.WechatBeanUtil;
@@ -50,7 +51,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -336,46 +336,31 @@ public class UserInfoActivity extends Activity {
     private void loadData(Friend friend) {
         if (!TextUtils.isEmpty(friend.getUserLastestCirclePhotos())) {
             // 渲染朋友圈图片
-            List<String> circlePhotoList;
-            try {
-                circlePhotoList = JSON.parseArray(friend.getUserLastestCirclePhotos(), String.class);
-                if (null == circlePhotoList) {
-                    circlePhotoList = new ArrayList<>();
-                }
-            } catch (Exception e) {
-                circlePhotoList = new ArrayList<>();
-            }
-            switch (circlePhotoList.size()) {
-                case 1:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    break;
-                case 2:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                    break;
-                case 3:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                    mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
-                    break;
-                case 4:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                    mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
-                    mCirclePhoto4Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
-                    break;
-                default:
-                    break;
+            List<String> circlePhotoList = CommonUtil.getListFromJson(friend.getUserLastestCirclePhotos(), String.class);
+            if (circlePhotoList.size() == 1) {
+                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+            } else if (circlePhotoList.size() == 2) {
+                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+            } else if (circlePhotoList.size() == 3) {
+                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+            } else if (circlePhotoList.size() >= 4) {
+                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                mCirclePhoto4Sdv.setVisibility(View.VISIBLE);
+                mCirclePhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
             }
         }
 
