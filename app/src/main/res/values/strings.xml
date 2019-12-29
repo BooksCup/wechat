@@ -120,4 +120,14 @@
     <string name="connect_to_server_error">不能连接到服务器</string>
     <string name="add_to_desktop">添加到桌面</string>
     <string name="please_wait">请稍候...</string>
+
+    <string name="set_remark_and_tag">设置备注和标签</string>
+    <string name="complete">完成</string>
+    <string name="remark_name">备注名</string>
+    <string name="tag">标签</string>
+    <string name="sort_friend_by_tag">添加标签对联系人进行分类</string>
+    <string name="phone_num">电话号码</string>
+    <string name="add_phone_num">添加电话号码</string>
+    <string name="description">描述</string>
+    <string name="add_description">添加更多备注信息</string>
 </resources>
