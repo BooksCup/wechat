@@ -250,7 +250,9 @@ public class UserInfoActivity extends Activity {
         mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class));
+                Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                intent.putExtra("userNickName", friend.getUserNickName());
+                startActivity(intent);
             }
         });
 
