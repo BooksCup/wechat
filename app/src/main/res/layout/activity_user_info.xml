@@ -112,6 +112,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_set_remark_and_tag"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#ffffff"
@@ -119,7 +120,7 @@
             android:paddingRight="8dp">
 
             <TextView
-                android:id="@+id/tv_remark_and_tag_setting"
+                android:id="@+id/tv_set_remark_and_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"

@@ -71,6 +71,8 @@ public class UserInfoActivity extends Activity {
     private TextView mWxIdTv;
     private ImageView mSettingIv;
 
+    private RelativeLayout mSetRemarkAndTagRl;
+
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
     // 非好友: 添加到通讯录
@@ -108,6 +110,8 @@ public class UserInfoActivity extends Activity {
 
     private void initView() {
         mRootLl = findViewById(R.id.ll_root);
+
+        mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
 
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
@@ -240,6 +244,13 @@ public class UserInfoActivity extends Activity {
                         mPopupWindow.dismiss();
                     }
                 });
+            }
+        });
+
+        mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class));
             }
         });
 
