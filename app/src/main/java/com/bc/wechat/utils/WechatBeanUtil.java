@@ -13,6 +13,11 @@ public class WechatBeanUtil {
         friend.setUserHeader(CommonUtil.setUserHeader(user.getUserNickName()));
         friend.setUserSex(user.getUserSex());
         friend.setUserLastestCirclePhotos(user.getUserLastestCirclePhotos());
+
+        friend.setUserFriendRemark(user.getUserFriendRemark());
+        friend.setUserFriendPhone(user.getUserFriendPhone());
+        friend.setUserFriendDesc(user.getUserFriendDesc());
+
         return friend;
     }
 }

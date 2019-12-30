@@ -19,6 +19,11 @@ public class FriendDao {
             friend.setUserHeader(CommonUtil.setUserHeader(user.getUserNickName()));
             friend.setUserSex(user.getUserSex());
             friend.setUserLastestCirclePhotos(user.getUserLastestCirclePhotos());
+
+            friend.setUserFriendRemark(user.getUserFriendRemark());
+            friend.setUserFriendPhone(user.getUserFriendPhone());
+            friend.setUserFriendDesc(user.getUserFriendDesc());
+
             Friend.save(friend);
         } else {
             // 不存在,插入sqlite
@@ -30,6 +35,11 @@ public class FriendDao {
             friend.setUserHeader(CommonUtil.setUserHeader(user.getUserNickName()));
             friend.setUserSex(user.getUserSex());
             friend.setUserLastestCirclePhotos(user.getUserLastestCirclePhotos());
+
+            friend.setUserFriendRemark(user.getUserFriendRemark());
+            friend.setUserFriendPhone(user.getUserFriendPhone());
+            friend.setUserFriendDesc(user.getUserFriendDesc());
+
             Friend.save(friend);
         }
     }

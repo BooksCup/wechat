@@ -17,18 +17,13 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
-import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Friend;
-import com.bc.wechat.entity.FriendApply;
-import com.bc.wechat.entity.Message;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.model.Conversation;
 
 public class FriendsFragment extends Fragment {
     private FriendsAdapter friendsAdapter;

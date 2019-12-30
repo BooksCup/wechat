@@ -3,9 +3,10 @@ package com.bc.wechat.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.dao.FriendDao;
+import com.bc.wechat.entity.Friend;
 
 /**
  * 设置备注和标签
@@ -15,19 +16,22 @@ import com.bc.wechat.R;
 public class SetRemarkAndTagActivity extends BaseActivity {
 
     private EditText mRemarkEt;
+    private FriendDao mFriendDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_remark_and_tag);
+        mFriendDao = new FriendDao();
         initView();
     }
 
     private void initView() {
-        String userNickName = getIntent().getStringExtra("userNickName");
+        String userId = getIntent().getStringExtra("userId");
+        final Friend friend = mFriendDao.getFriendById(userId);
 
         mRemarkEt = findViewById(R.id.et_remark);
-        mRemarkEt.setText(userNickName);
+        mRemarkEt.setText(friend.getUserFriendRemark());
     }
 
     public void back(View view) {

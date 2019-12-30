@@ -132,7 +132,7 @@ public class UserInfoActivity extends Activity {
         final Friend friend = mFriendDao.getFriendById(userId);
         loadData(friend);
 
-        getUserFromServer(userId);
+        getFriendFromServer(mUser.getUserId(), userId);
 
         mSettingIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,7 +251,7 @@ public class UserInfoActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
-                intent.putExtra("userNickName", friend.getUserNickName());
+                intent.putExtra("userId", friend.getUserId());
                 startActivity(intent);
             }
         });
@@ -399,17 +399,17 @@ public class UserInfoActivity extends Activity {
      *
      * @param userId 用户ID
      */
-    public void getUserFromServer(final String userId) {
-        String url = Constant.BASE_URL + "users/" + userId;
+    public void getFriendFromServer(final String userId, final String friendId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/friends/" + friendId;
 
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 User user = JSON.parseObject(response, User.class);
+
                 // 检查此人是否好友，
                 // 如果是好友则更新用户信息，非好友则不做任何操作
-                boolean isFriend = mFriendDao.checkFriendExists(userId);
-                if (isFriend) {
+                if (Constant.IS_FRIEND.equals(user.getIsFriend())) {
                     mFriendDao.saveFriendByUserInfo(user);
                 }
                 Friend friend = WechatBeanUtil.transferUserToFriend(user);
