@@ -15,7 +15,8 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.ChatActivity;
 import com.bc.wechat.adapter.ConversationAdapter;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class ConversationFragment extends Fragment {
     List<Conversation> mConversationList;
 
     private static final int REFRESH_CONVERSATION_LIST = 0x3000;
+    private UserDao mUserDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class ConversationFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mUserDao = new UserDao();
         mConversationLv = getView().findViewById(R.id.lv_conversation);
         mConversationList = JMessageClient.getConversationList();
         if (null == mConversationList) {
@@ -66,16 +69,13 @@ public class ConversationFragment extends Fragment {
                 if (conversation.getType().equals(ConversationType.single)) {
                     UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
 
-                    List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
-                    if (null != friendList && friendList.size() > 0) {
-                        Friend friend = friendList.get(0);
-                        Intent intent = new Intent(getActivity(), ChatActivity.class);
-                        intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                        intent.putExtra("fromUserId", friend.getUserId());
-                        intent.putExtra("fromUserNickName", friend.getUserNickName());
-                        intent.putExtra("fromUserAvatar", friend.getUserAvatar());
-                        startActivity(intent);
-                    }
+                    User user = mUserDao.getUserById(userInfo.getUserName());
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
+                    intent.putExtra("fromUserId", user.getUserId());
+                    intent.putExtra("fromUserNickName", user.getUserNickName());
+                    intent.putExtra("fromUserAvatar", user.getUserAvatar());
+                    startActivity(intent);
                 } else {
                     GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
                     Intent intent = new Intent(getActivity(), ChatActivity.class);

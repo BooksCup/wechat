@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.FriendsCircle;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
@@ -42,7 +42,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 PreferencesUtil.getInstance().setUser(null);
 
                 // 清除通讯录
-                Friend.deleteAll(Friend.class);
+                User.deleteAll(User.class);
                 // 清除朋友圈
                 FriendsCircle.deleteAll(FriendsCircle.class);
 

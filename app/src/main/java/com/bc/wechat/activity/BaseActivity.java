@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import com.bc.wechat.dao.MessageDao;
-import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.ConfirmDialog;
@@ -69,7 +68,8 @@ public class BaseActivity extends FragmentActivity {
                         logoutConfirmDialog.dismiss();
                         // 清除本地记录
                         PreferencesUtil.getInstance().setUser(null);
-                        Friend.deleteAll(Friend.class);
+                        User.deleteAll(User.class);
+
                         // 跳转至登录页
                         Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
                         startActivity(intent);

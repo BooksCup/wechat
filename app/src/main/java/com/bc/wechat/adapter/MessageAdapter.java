@@ -22,9 +22,8 @@ import com.bc.wechat.activity.MapPickerActivity;
 import com.bc.wechat.activity.MessageBigImageActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.dao.MessageDao;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
@@ -60,7 +59,7 @@ public class MessageAdapter extends BaseAdapter {
     private User user;
     private VolleyUtil volleyUtil;
     private MessageDao messageDao;
-    private FriendDao friendDao;
+    private UserDao mUserDao;
 
     private boolean isSender;
 
@@ -71,7 +70,7 @@ public class MessageAdapter extends BaseAdapter {
         user = PreferencesUtil.getInstance().getUser();
         volleyUtil = VolleyUtil.getInstance(mContext);
         messageDao = new MessageDao();
-        friendDao = new FriendDao();
+        mUserDao = new UserDao();
         this.messageList = messageList;
     }
 
@@ -297,7 +296,7 @@ public class MessageAdapter extends BaseAdapter {
 
     private void handleTextMessage(final Message message, ViewHolder viewHolder, final int position) {
         // 好友头像和昵称从sqlite中读取，防止脏数据
-        Friend friend = friendDao.getFriendById(message.getFromUserId());
+        User friend = mUserDao.getUserById(message.getFromUserId());
 
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);
@@ -420,7 +419,7 @@ public class MessageAdapter extends BaseAdapter {
      */
     private void handleLocationMessage(final Message message, ViewHolder viewHolder, final int position) {
         // 好友头像和昵称从sqlite中读取，防止脏数据
-        Friend friend = friendDao.getFriendById(message.getFromUserId());
+        User friend = mUserDao.getUserById(message.getFromUserId());
 
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);

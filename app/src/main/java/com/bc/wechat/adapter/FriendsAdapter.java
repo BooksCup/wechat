@@ -18,13 +18,13 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-public class FriendsAdapter extends ArrayAdapter<Friend> {
+public class FriendsAdapter extends ArrayAdapter<User> {
 
-    List<Friend> friendList;
+    List<User> friendList;
     int resource;
     private LayoutInflater layoutInflater;
 
-    public FriendsAdapter(Context context, int resource, List<Friend> friendList) {
+    public FriendsAdapter(Context context, int resource, List<User> friendList) {
         super(context, resource, friendList);
         this.resource = resource;
         this.friendList = friendList;
@@ -44,7 +44,7 @@ public class FriendsAdapter extends ArrayAdapter<Friend> {
         View mTempView = convertView.findViewById(R.id.view_header);
 
 
-        Friend friend = getItem(position);
+        User friend = getItem(position);
         String header = friend.getUserHeader();
         String avatar = friend.getUserAvatar();
         if (0 == position || null != header && !header.equals(getItem(position - 1).getUserHeader())) {
@@ -70,7 +70,7 @@ public class FriendsAdapter extends ArrayAdapter<Friend> {
     }
 
     @Override
-    public Friend getItem(int position) {
+    public User getItem(int position) {
         return friendList.get(position);
     }
 
@@ -79,7 +79,7 @@ public class FriendsAdapter extends ArrayAdapter<Friend> {
         return friendList.size();
     }
 
-    public void setData(List<Friend> friendList) {
+    public void setData(List<User> friendList) {
         this.friendList = friendList;
     }
 }

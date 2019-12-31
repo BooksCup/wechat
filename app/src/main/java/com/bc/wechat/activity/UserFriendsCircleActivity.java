@@ -16,9 +16,9 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.UserFriendsCircleAdapter;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.FriendDao;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.dao.UserFriendsCircleDao;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.UserFriendsCircle;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -34,7 +34,7 @@ public class UserFriendsCircleActivity extends BaseActivity {
     private ListView mFriendsCircleLv;
     UserFriendsCircleAdapter mAdapter;
     RefreshLayout mRefreshLayout;
-    private FriendDao mFriendDao;
+    private UserDao mUserDao;
     long mTimeStamp;
     private VolleyUtil mVolleyUtil;
     private UserFriendsCircleDao mUserFriendsCircleDao;
@@ -45,7 +45,7 @@ public class UserFriendsCircleActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_friends_circle);
-        mFriendDao = new FriendDao();
+        mUserDao = new UserDao();
         mTimeStamp = 0L;
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUserFriendsCircleDao = new UserFriendsCircleDao();
@@ -54,7 +54,8 @@ public class UserFriendsCircleActivity extends BaseActivity {
 
     private void initView() {
         final String userId = getIntent().getStringExtra("userId");
-        final Friend friend = mFriendDao.getFriendById(userId);
+        final User friend = mUserDao.getUserById(userId);
+
         mFriendsCircleLv = findViewById(R.id.lv_friends_circle);
 
         mUserFriendsCircleList = mUserFriendsCircleDao.getUserFriendsCircleList(userId, Constant.DEFAULT_PAGE_SIZE, mTimeStamp);

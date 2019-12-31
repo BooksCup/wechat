@@ -34,14 +34,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.FriendDao;
 import com.bc.wechat.dao.FriendsCircleDao;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.bc.wechat.utils.WechatBeanUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -88,7 +86,7 @@ public class UserInfoActivity extends Activity {
 
     private User mUser;
     private VolleyUtil mVolleyUtil;
-    private FriendDao mFriendDao;
+    private UserDao mUserDao;
     private FriendsCircleDao mFriendsCircleDao;
 
     // 弹窗
@@ -102,7 +100,8 @@ public class UserInfoActivity extends Activity {
         setContentView(R.layout.activity_user_info);
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
-        mFriendDao = new FriendDao();
+        mUserDao = new UserDao();
+
         mFriendsCircleDao = new FriendsCircleDao();
         mDialog = new LoadingDialog(UserInfoActivity.this);
         initView();
@@ -129,7 +128,7 @@ public class UserInfoActivity extends Activity {
 
         final String userId = getIntent().getStringExtra("userId");
 
-        final Friend friend = mFriendDao.getFriendById(userId);
+        final User friend = mUserDao.getUserById(userId);
         loadData(friend);
 
         getFriendFromServer(mUser.getUserId(), userId);
@@ -346,10 +345,10 @@ public class UserInfoActivity extends Activity {
     }
 
     // 渲染数据
-    private void loadData(Friend friend) {
-        if (!TextUtils.isEmpty(friend.getUserLastestCirclePhotos())) {
+    private void loadData(User user) {
+        if (!TextUtils.isEmpty(user.getUserLastestCirclePhotos())) {
             // 渲染朋友圈图片
-            List<String> circlePhotoList = CommonUtil.getListFromJson(friend.getUserLastestCirclePhotos(), String.class);
+            List<String> circlePhotoList = CommonUtil.getListFromJson(user.getUserLastestCirclePhotos(), String.class);
             if (circlePhotoList.size() == 1) {
                 mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
                 mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
@@ -377,20 +376,20 @@ public class UserInfoActivity extends Activity {
             }
         }
 
-        mNickNameTv.setText(friend.getUserNickName());
-        if (!TextUtils.isEmpty(friend.getUserAvatar())) {
-            mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
+        mNickNameTv.setText(user.getUserNickName());
+        if (!TextUtils.isEmpty(user.getUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
         }
-        if (Constant.USER_SEX_MALE.equals(friend.getUserSex())) {
+        if (Constant.USER_SEX_MALE.equals(user.getUserSex())) {
             mSexIv.setImageResource(R.mipmap.ic_sex_male);
-        } else if (Constant.USER_SEX_FEMALE.equals(friend.getUserSex())) {
+        } else if (Constant.USER_SEX_FEMALE.equals(user.getUserSex())) {
             mSexIv.setImageResource(R.mipmap.ic_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(friend.getUserWxId())) {
-            mWxIdTv.setText("微信号：" + friend.getUserWxId());
+        if (!TextUtils.isEmpty(user.getUserWxId())) {
+            mWxIdTv.setText("微信号：" + user.getUserWxId());
         }
     }
 
@@ -407,13 +406,8 @@ public class UserInfoActivity extends Activity {
             public void onResponse(String response) {
                 User user = JSON.parseObject(response, User.class);
 
-                // 检查此人是否好友，
-                // 如果是好友则更新用户信息，非好友则不做任何操作
-                if (Constant.IS_FRIEND.equals(user.getIsFriend())) {
-                    mFriendDao.saveFriendByUserInfo(user);
-                }
-                Friend friend = WechatBeanUtil.transferUserToFriend(user);
-                loadData(friend);
+                mUserDao.saveUser(user);
+                loadData(user);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -438,8 +432,9 @@ public class UserInfoActivity extends Activity {
                 mDialog.dismiss();
                 // 清除本地记录
                 // 通讯录删除
-                Friend friend = mFriendDao.getFriendById(friendId);
-                Friend.delete(friend);
+                User user = mUserDao.getUserById(friendId);
+                User.delete(user);
+
                 // 朋友圈清除记录
                 mFriendsCircleDao.deleteFriendsCircleByUserId(friendId);
 

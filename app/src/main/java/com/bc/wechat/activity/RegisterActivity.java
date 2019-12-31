@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +26,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.FriendDao;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -66,7 +65,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     Button mRegisterBtn;
 
     LoadingDialog dialog;
-    FriendDao friendDao;
+    UserDao mUserDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         setContentView(R.layout.activity_register);
         volleyUtil = VolleyUtil.getInstance(this);
         dialog = new LoadingDialog(RegisterActivity.this);
-        friendDao = new FriendDao();
+        mUserDao = new UserDao();
         initView();
     }
 
@@ -213,7 +212,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 if (null != friendList && friendList.size() > 0) {
                     for (User userFriend : friendList) {
                         if (null != userFriend) {
-                            friendDao.saveFriendByUserInfo(userFriend);
+                            mUserDao.saveUser(userFriend);
                         }
                     }
                 }

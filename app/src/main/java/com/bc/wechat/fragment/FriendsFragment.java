@@ -17,7 +17,8 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.Collections;
@@ -37,7 +38,8 @@ public class FriendsFragment extends Fragment {
     TextView mNewFriendsUnreadNumTv;
 
     // 好友列表
-    private List<Friend> friendsList;
+    private List<User> mFriendList;
+    private UserDao mUserDao;
 
     @Nullable
     @Override
@@ -50,6 +52,7 @@ public class FriendsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         PreferencesUtil.getInstance().init(getActivity());
+        mUserDao = new UserDao();
         mFriendsLv = getView().findViewById(R.id.lv_friends);
         inflater = LayoutInflater.from(getActivity());
         View headerView = inflater.inflate(R.layout.item_friends_header, null);
@@ -77,21 +80,21 @@ public class FriendsFragment extends Fragment {
 
         mNewFriendsUnreadNumTv = headerView.findViewById(R.id.tv_new_friends_unread);
 
-        friendsList = Friend.listAll(Friend.class);
+        mFriendList = mUserDao.getAllFriendList();
         // 对list进行排序
-        Collections.sort(friendsList, new PinyinComparator() {
+        Collections.sort(mFriendList, new PinyinComparator() {
         });
 
-        friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, friendsList);
+        friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, mFriendList);
         mFriendsLv.setAdapter(friendsAdapter);
 
-        mFriendsCountTv.setText(friendsList.size() + "位联系人");
+        mFriendsCountTv.setText(mFriendList.size() + "位联系人");
 
         mFriendsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0 && position != friendsList.size() + 1) {
-                    Friend friend = friendsList.get(position - 1);
+                if (position != 0 && position != mFriendList.size() + 1) {
+                    User friend = mFriendList.get(position - 1);
                     startActivity(new Intent(getActivity(), UserInfoActivity.class).
                             putExtra("userId", friend.getUserId()));
                 }
@@ -110,28 +113,32 @@ public class FriendsFragment extends Fragment {
     }
 
     public void refreshFriendsList() {
-        friendsList = Friend.listAll(Friend.class);
+        mFriendList = mUserDao.getAllFriendList();
+
         // 对list进行排序
-        Collections.sort(friendsList, new PinyinComparator() {
+        Collections.sort(mFriendList, new PinyinComparator() {
         });
-        friendsAdapter.setData(friendsList);
+        friendsAdapter.setData(mFriendList);
         friendsAdapter.notifyDataSetChanged();
-        mFriendsCountTv.setText(friendsList.size() + "位联系人");
+        mFriendsCountTv.setText(mFriendList.size() + "位联系人");
     }
 
-    public class PinyinComparator implements Comparator<Friend> {
+    public class PinyinComparator implements Comparator<User> {
 
         @Override
-        public int compare(Friend o1, Friend o2) {
+        public int compare(User o1, User o2) {
             String py1 = o1.getUserHeader();
             String py2 = o2.getUserHeader();
             // 判断是否为空""
-            if (isEmpty(py1) && isEmpty(py2))
+            if (isEmpty(py1) && isEmpty(py2)) {
                 return 0;
-            if (isEmpty(py1))
+            }
+            if (isEmpty(py1)) {
                 return -1;
-            if (isEmpty(py2))
+            }
+            if (isEmpty(py2)) {
                 return 1;
+            }
             String str1 = "";
             String str2 = "";
             try {

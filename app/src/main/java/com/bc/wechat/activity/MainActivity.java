@@ -315,6 +315,7 @@ public class MainActivity extends BaseActivity {
             message.setFromUserAvatar(friendList.get(0).getUserAvatar());
         }
 
+
         if (msg.getTargetType().equals(ConversationType.single)) {
             message.setTargetType(Constant.TARGET_TYPE_SINGLE);
 

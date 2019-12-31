@@ -12,7 +12,8 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
@@ -34,12 +35,14 @@ public class ConversationAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private MessageDao messageDao;
+    private UserDao mUserDao;
 
     public ConversationAdapter(Context context, List<Conversation> conversationList) {
         this.mContext = context;
         this.conversationList = conversationList;
         inflater = LayoutInflater.from(context);
         messageDao = new MessageDao();
+        mUserDao = new UserDao();
     }
 
     public void setData(List<Conversation> conversationList) {
@@ -78,14 +81,12 @@ public class ConversationAdapter extends BaseAdapter {
             TextView mCreateTimeTv = convertView.findViewById(R.id.tv_create_time);
 
             UserInfo userInfo = (UserInfo) conversation.getTargetInfo();
-            List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", userInfo.getUserName());
-            if (null != friendList && friendList.size() > 0) {
-                Friend friend = friendList.get(0);
-                mNickNameTv.setText(friend.getUserNickName());
-                if (!TextUtils.isEmpty(friend.getUserAvatar())) {
-                    mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
-                }
+            User user = mUserDao.getUserById(userInfo.getUserName());
+            mNickNameTv.setText(user.getUserNickName());
+            if (!TextUtils.isEmpty(user.getUserAvatar())) {
+                mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
             }
+
             // 如果消息被清除
             // conversation.getLastestMessage() == null
             mLastMsgTv.setText(JimUtil.getLatestMessage(conversation));

@@ -20,7 +20,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.FriendDao;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -50,7 +50,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     Button mLoginBtn;
     TextView mRegisterTv;
     LoadingDialog mDialog;
-    FriendDao mFriendDao;
+    private UserDao mUserDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         PreferencesUtil.getInstance().init(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(LoginActivity.this);
-        mFriendDao = new FriendDao();
+        mUserDao = new UserDao();
         initView();
     }
 
@@ -148,7 +148,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             List<User> friendList = user.getFriendList();
                             for (User userFriend : friendList) {
                                 if (null != userFriend) {
-                                    mFriendDao.saveFriendByUserInfo(userFriend);
+                                    userFriend.setIsFriend(Constant.IS_FRIEND);
+//                                    mFriendDao.saveFriendByUserInfo(userFriend);
+                                    mUserDao.saveUser(userFriend);
                                 }
                             }
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
