@@ -18,8 +18,9 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendApplyDao;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.FriendApply;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
@@ -30,6 +31,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 好友申请
+ *
+ * @author zhou
+ */
 public class NewFriendsAcceptActivity extends Activity {
 
     private TextView mNickNameTv;
@@ -44,19 +50,21 @@ public class NewFriendsAcceptActivity extends Activity {
     private SimpleDraweeView mCirclePhoto3Sdv;
     private SimpleDraweeView mCirclePhoto4Sdv;
 
-    private VolleyUtil volleyUtil;
-    private FriendApplyDao friendApplyDao;
-    private FriendApply friendApply;
+    private VolleyUtil mVolleyUtil;
+    private FriendApplyDao mFriendApplyDao;
+    private UserDao mUserDao;
+    private FriendApply mFriendApply;
 
-    private LoadingDialog dialog;
+    private LoadingDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept);
-        dialog = new LoadingDialog(this);
-        volleyUtil = VolleyUtil.getInstance(this);
-        friendApplyDao = new FriendApplyDao();
+        mDialog = new LoadingDialog(this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mFriendApplyDao = new FriendApplyDao();
+        mUserDao = new UserDao();
         initView();
     }
 
@@ -74,27 +82,27 @@ public class NewFriendsAcceptActivity extends Activity {
         mAcceptRl = findViewById(R.id.rl_accept);
 
         final String applyId = getIntent().getStringExtra("applyId");
-        friendApply = friendApplyDao.getFriendApplyByApplyId(applyId);
+        mFriendApply = mFriendApplyDao.getFriendApplyByApplyId(applyId);
 
-        mNickNameTv.setText(friendApply.getFromUserNickName());
-        if (!TextUtils.isEmpty(friendApply.getFromUserAvatar())) {
-            mAvatarSdv.setImageURI(Uri.parse(friendApply.getFromUserAvatar()));
+        mNickNameTv.setText(mFriendApply.getFromUserNickName());
+        if (!TextUtils.isEmpty(mFriendApply.getFromUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(mFriendApply.getFromUserAvatar()));
         }
-        if (Constant.USER_SEX_MALE.equals(friendApply.getFromUserSex())) {
+        if (Constant.USER_SEX_MALE.equals(mFriendApply.getFromUserSex())) {
             mSexIv.setImageResource(R.mipmap.ic_sex_male);
-        } else if (Constant.USER_SEX_FEMALE.equals(friendApply.getFromUserSex())) {
+        } else if (Constant.USER_SEX_FEMALE.equals(mFriendApply.getFromUserSex())) {
             mSexIv.setImageResource(R.mipmap.ic_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
         }
 
-        mSignTv.setText(friendApply.getFromUserSign());
+        mSignTv.setText(mFriendApply.getFromUserSign());
 
-        if (!TextUtils.isEmpty(friendApply.getFromUserLastestCirclePhotos())) {
+        if (!TextUtils.isEmpty(mFriendApply.getFromUserLastestCirclePhotos())) {
             // 渲染朋友圈图片
             List<String> circlePhotoList;
             try {
-                circlePhotoList = JSON.parseArray(friendApply.getFromUserLastestCirclePhotos(), String.class);
+                circlePhotoList = JSON.parseArray(mFriendApply.getFromUserLastestCirclePhotos(), String.class);
                 if (null == circlePhotoList) {
                     circlePhotoList = new ArrayList<>();
                 }
@@ -138,8 +146,8 @@ public class NewFriendsAcceptActivity extends Activity {
         mAcceptRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.setMessage("正在处理...");
-                dialog.show();
+                mDialog.setMessage("正在处理...");
+                mDialog.show();
                 acceptFriendApply(applyId);
             }
         });
@@ -155,33 +163,28 @@ public class NewFriendsAcceptActivity extends Activity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("applyId", applyId);
 
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                dialog.dismiss();
-                friendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
-                FriendApply.save(friendApply);
+                mDialog.dismiss();
+                mFriendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
+                FriendApply.save(mFriendApply);
 
-                List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", friendApply.getFromUserId());
-                if (null != friendList && friendList.size() > 0) {
-                    // 好友已存在，忽略
-                } else {
-                    // 不存在,插入sqlite
-                    Friend friend = new Friend();
-                    friend.setUserId(friendApply.getFromUserId());
-                    friend.setUserNickName(friendApply.getFromUserNickName());
-                    friend.setUserAvatar(friendApply.getFromUserAvatar());
-                    friend.setUserHeader(CommonUtil.setUserHeader(friendApply.getFromUserNickName()));
-                    friend.setUserSex(friendApply.getFromUserSex());
-                    Friend.save(friend);
-                }
+                User user = new User();
+                user.setUserId(mFriendApply.getFromUserId());
+                user.setUserNickName(mFriendApply.getFromUserNickName());
+                user.setUserAvatar(mFriendApply.getFromUserAvatar());
+                user.setUserHeader(CommonUtil.setUserHeader(mFriendApply.getFromUserNickName()));
+                user.setUserSex(mFriendApply.getFromUserSex());
+                user.setIsFriend(Constant.IS_FRIEND);
+                mUserDao.saveUser(user);
 
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(NewFriendsAcceptActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;

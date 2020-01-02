@@ -4,38 +4,38 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.User;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
+
 public class FriendsAdapter extends ArrayAdapter<User> {
 
-    List<User> friendList;
-    int resource;
-    private LayoutInflater layoutInflater;
+    List<User> mFriendList;
+    int mResource;
+    private LayoutInflater mLayoutInflater;
 
     public FriendsAdapter(Context context, int resource, List<User> friendList) {
         super(context, resource, friendList);
-        this.resource = resource;
-        this.friendList = friendList;
-        layoutInflater = LayoutInflater.from(context);
+        this.mResource = resource;
+        this.mFriendList = friendList;
+        mLayoutInflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (null == convertView) {
-            convertView = layoutInflater.inflate(resource, null);
+            convertView = mLayoutInflater.inflate(mResource, null);
         }
 
         SimpleDraweeView mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
@@ -43,12 +43,11 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         TextView mHeaderTv = convertView.findViewById(R.id.tv_header);
         View mTempView = convertView.findViewById(R.id.view_header);
 
-
         User friend = getItem(position);
         String header = friend.getUserHeader();
         String avatar = friend.getUserAvatar();
         if (0 == position || null != header && !header.equals(getItem(position - 1).getUserHeader())) {
-            if ("".equals(header)) {
+            if (TextUtils.isEmpty(header)) {
                 mHeaderTv.setVisibility(View.GONE);
                 mTempView.setVisibility(View.VISIBLE);
             } else {
@@ -62,7 +61,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         }
 
         mNameTv.setText(friend.getUserNickName());
-        if (null != avatar && !"".equals(avatar)) {
+        if (!TextUtils.isEmpty(avatar)) {
             mAvatarSdv.setImageURI(Uri.parse(avatar));
         }
 
@@ -71,15 +70,15 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 
     @Override
     public User getItem(int position) {
-        return friendList.get(position);
+        return mFriendList.get(position);
     }
 
     @Override
     public int getCount() {
-        return friendList.size();
+        return mFriendList.size();
     }
 
     public void setData(List<User> friendList) {
-        this.friendList = friendList;
+        this.mFriendList = friendList;
     }
 }
