@@ -89,6 +89,9 @@
             android:name=".activity.UserInfoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.StrangerUserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

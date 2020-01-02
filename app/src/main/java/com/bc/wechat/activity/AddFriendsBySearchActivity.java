@@ -25,6 +25,11 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
+/**
+ * 搜索好友
+ *
+ * @author zhou
+ */
 public class AddFriendsBySearchActivity extends FragmentActivity {
 
     private static final String TAG = "AddFriendsBySearch";
@@ -96,16 +101,29 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
 
     private void searchUser(String keyword) {
         String userId = mUser.getUserId();
-        String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword + "&userId=" + userId;
+        final String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword + "&userId=" + userId;
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "server response: " + response);
                 User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
-                Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoActivity.class);
-                intent.putExtra("userId", user.getUserId());
-                startActivity(intent);
+                if (Constant.IS_FRIEND.equals(user.getIsFriend())) {
+                    // 好友，进入用户详情页
+                    Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoActivity.class);
+                    intent.putExtra("userId", user.getUserId());
+                    startActivity(intent);
+                } else {
+                    // 陌生人，进入陌生人详情页
+                    Intent intent = new Intent(AddFriendsBySearchActivity.this, StrangerUserInfoActivity.class);
+                    intent.putExtra("userId", user.getUserId());
+                    intent.putExtra("avatar", user.getUserAvatar());
+                    intent.putExtra("nickName", user.getUserNickName());
+                    intent.putExtra("sex", user.getUserSex());
+                    intent.putExtra("sign", user.getUserSign());
+                    intent.putExtra("source", user.getFriendSource());
+                    startActivity(intent);
+                }
                 mDialog.dismiss();
             }
         }, new Response.ErrorListener() {

@@ -22,6 +22,8 @@ public class User extends SugarRecord {
 
     private String userLastestCirclePhotos;
 
+    private String friendSource;
+
     // 好友相关
     private String userFriendPhone;
     private String userFriendRemark;
@@ -137,6 +139,14 @@ public class User extends SugarRecord {
 
     public void setUserLastestCirclePhotos(String userLastestCirclePhotos) {
         this.userLastestCirclePhotos = userLastestCirclePhotos;
+    }
+
+    public String getFriendSource() {
+        return friendSource;
+    }
+
+    public void setFriendSource(String friendSource) {
+        this.friendSource = friendSource;
     }
 
     public String getUserFriendPhone() {
