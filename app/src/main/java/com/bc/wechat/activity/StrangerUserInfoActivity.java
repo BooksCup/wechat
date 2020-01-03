@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,11 +35,11 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mSignTv = findViewById(R.id.tv_sign);
         mSourceTv = findViewById(R.id.tv_source);
 
-        String avatar = getIntent().getStringExtra("avatar");
-        String nickName = getIntent().getStringExtra("nickName");
-        String sex = getIntent().getStringExtra("sex");
-        String sign = getIntent().getStringExtra("sign");
-        String source = getIntent().getStringExtra("source");
+        final String avatar = getIntent().getStringExtra("avatar");
+        final String nickName = getIntent().getStringExtra("nickName");
+        final String sex = getIntent().getStringExtra("sex");
+        final String sign = getIntent().getStringExtra("sign");
+        final String source = getIntent().getStringExtra("source");
 
         if (!TextUtils.isEmpty(avatar)) {
             mAvatarSdv.setImageURI(Uri.parse(avatar));
@@ -56,10 +57,19 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mSignTv.setText(sign);
 
         if (Constant.FRIENDS_SOURCE_BY_PHONE.equals(source)) {
-            mSourceTv.setText("来自手机号搜索");
+            mSourceTv.setText(getString(R.string.search_friend_by_phone));
         } else if (Constant.FRIENDS_SOURCE_BY_WX_ID.equals(source)) {
-            mSourceTv.setText("来自微信号搜索");
+            mSourceTv.setText(getString(R.string.search_friend_by_wx_id));
         }
+
+        mAvatarSdv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StrangerUserInfoActivity.this, BigImageActivity.class);
+                intent.putExtra("imgUrl", avatar);
+                startActivity(intent);
+            }
+        });
     }
 
     public void back(View view) {
