@@ -122,6 +122,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                     intent.putExtra("sex", user.getUserSex());
                     intent.putExtra("sign", user.getUserSign());
                     intent.putExtra("source", user.getFriendSource());
+                    intent.putExtra("friendRemark", user.getUserFriendRemark());
                     startActivity(intent);
                 }
                 mDialog.dismiss();

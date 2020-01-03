@@ -132,6 +132,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_add_phone_tmp"
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="#DBDBDB"
@@ -149,6 +150,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_add_phone"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:background="#ffffff"

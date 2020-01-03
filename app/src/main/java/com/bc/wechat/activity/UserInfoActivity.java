@@ -251,6 +251,9 @@ public class UserInfoActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
                 intent.putExtra("userId", friend.getUserId());
+                intent.putExtra("nickName", friend.getUserNickName());
+                intent.putExtra("friendRemark", friend.getUserFriendRemark());
+                intent.putExtra("isFriend", friend.getIsFriend());
                 startActivity(intent);
             }
         });

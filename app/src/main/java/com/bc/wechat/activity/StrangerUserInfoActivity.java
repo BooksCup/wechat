@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -20,6 +21,8 @@ public class StrangerUserInfoActivity extends BaseActivity {
     private ImageView mSexIv;
     private TextView mSignTv;
     private TextView mSourceTv;
+
+    private RelativeLayout mSetRemarkAndTagRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,11 +38,15 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mSignTv = findViewById(R.id.tv_sign);
         mSourceTv = findViewById(R.id.tv_source);
 
+        mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
+
+        final String userId = getIntent().getStringExtra("userId");
         final String avatar = getIntent().getStringExtra("avatar");
         final String nickName = getIntent().getStringExtra("nickName");
         final String sex = getIntent().getStringExtra("sex");
         final String sign = getIntent().getStringExtra("sign");
         final String source = getIntent().getStringExtra("source");
+        final String friendRemark = getIntent().getStringExtra("friendRemark");
 
         if (!TextUtils.isEmpty(avatar)) {
             mAvatarSdv.setImageURI(Uri.parse(avatar));
@@ -67,6 +74,18 @@ public class StrangerUserInfoActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, BigImageActivity.class);
                 intent.putExtra("imgUrl", avatar);
+                startActivity(intent);
+            }
+        });
+
+        mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("nickName", nickName);
+                intent.putExtra("friendRemark", friendRemark);
+                intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
             }
         });
