@@ -145,6 +145,50 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_desc"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp">
+
+            <TextView
+                android:id="@+id/tv_desc_temp"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="描述"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_desc_temp"
+                android:paddingLeft="10dp"
+                android:text="这是土豪"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_right_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/rl_sign"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -168,8 +212,8 @@
                 android:id="@+id/tv_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_sign_temp"
                 android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_sign_temp"
                 android:paddingLeft="10dp"
                 android:text="有我的地方就有微笑"
                 android:textSize="16sp" />
@@ -203,8 +247,8 @@
                 android:id="@+id/tv_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_source_temp"
                 android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_source_temp"
                 android:paddingLeft="10dp"
                 android:text="来自手机号搜索"
                 android:textSize="16sp" />

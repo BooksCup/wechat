@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -39,8 +41,9 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     private TextView mSearchTv;
 
     private VolleyUtil mVolleyUtil;
-    LoadingDialog mDialog;
-    User mUser;
+    private LoadingDialog mDialog;
+    private User mUser;
+    private UserDao mUserDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(AddFriendsBySearchActivity.this);
+        mUserDao = new UserDao();
         mSearchRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +64,9 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                 searchUser(keyword);
             }
         });
+
+        // 初始化弹出软键盘
+        showKeyboard(mSearchEt);
     }
 
     private void initView() {
@@ -107,6 +114,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
             public void onResponse(String response) {
                 Log.d(TAG, "server response: " + response);
                 User user = JSON.parseObject(response, User.class);
+                mUserDao.saveUser(user);
                 Log.d(TAG, "userId:" + user.getUserId());
                 if (Constant.IS_FRIEND.equals(user.getIsFriend())) {
                     // 好友，进入用户详情页
@@ -117,12 +125,6 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                     // 陌生人，进入陌生人详情页
                     Intent intent = new Intent(AddFriendsBySearchActivity.this, StrangerUserInfoActivity.class);
                     intent.putExtra("userId", user.getUserId());
-                    intent.putExtra("avatar", user.getUserAvatar());
-                    intent.putExtra("nickName", user.getUserNickName());
-                    intent.putExtra("sex", user.getUserSex());
-                    intent.putExtra("sign", user.getUserSign());
-                    intent.putExtra("source", user.getFriendSource());
-                    intent.putExtra("friendRemark", user.getUserFriendRemark());
                     startActivity(intent);
                 }
                 mDialog.dismiss();
@@ -150,5 +152,16 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
 
             }
         });
+    }
+
+    /**
+     * 显示键盘
+     *
+     * @param editText 输入框
+     */
+    public void showKeyboard(final EditText editText) {
+        editText.requestFocus();
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
 }
