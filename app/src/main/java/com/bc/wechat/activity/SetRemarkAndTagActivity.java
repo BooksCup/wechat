@@ -55,9 +55,10 @@ public class SetRemarkAndTagActivity extends BaseActivity {
     private void initView() {
         final String userId = getIntent().getStringExtra("userId");
         final String isFriend = getIntent().getStringExtra("isFriend");
-        final String nickName = getIntent().getStringExtra("nickName");
-        final String friendRemark = getIntent().getStringExtra("friendRemark");
-        final String friendDesc = getIntent().getStringExtra("friendDesc");
+//        final String nickName = getIntent().getStringExtra("nickName");
+//        final String friendRemark = getIntent().getStringExtra("friendRemark");
+//        final String friendDesc = getIntent().getStringExtra("friendDesc");
+        User user = mUserDao.getUserById(userId);
 
         mRemarkEt = findViewById(R.id.et_remark);
         mPhoneEt = findViewById(R.id.et_phone);
@@ -67,15 +68,15 @@ public class SetRemarkAndTagActivity extends BaseActivity {
         mAddPhoneRl = findViewById(R.id.rl_add_phone);
         mSaveTv = findViewById(R.id.tv_save);
 
-        if (TextUtils.isEmpty(friendRemark)) {
+        if (TextUtils.isEmpty(user.getUserFriendRemark())) {
             // 无备注，展示昵称
-            mRemarkEt.setText(nickName);
+            mRemarkEt.setText(user.getUserNickName());
         } else {
             // 有备注，展示备注
-            mRemarkEt.setText(friendRemark);
+            mRemarkEt.setText(user.getUserFriendRemark());
         }
 
-        mDescEt.setText(friendDesc);
+        mDescEt.setText(user.getUserFriendDesc());
 
         if (Constant.IS_NOT_FRIEND.equals(isFriend)) {
             // 非好友不能添加电话

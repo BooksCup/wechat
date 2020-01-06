@@ -55,7 +55,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="18dp">
 
@@ -92,10 +92,30 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_area"
+                android:id="@+id/ll_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/sdv_avatar"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地区：江苏 南京"
+                    android:textColor="#aaaaaa"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_nick_name"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/sdv_avatar"

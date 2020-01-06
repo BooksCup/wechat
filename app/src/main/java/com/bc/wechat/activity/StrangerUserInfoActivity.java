@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
 
     private SimpleDraweeView mAvatarSdv;
     private TextView mNameTv;
+    private TextView mNickNameTv;
     private ImageView mSexIv;
     private TextView mSignTv;
     private TextView mSourceTv;
@@ -39,6 +41,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
     private RelativeLayout mSignRl;
     private RelativeLayout mSetRemarkAndTagRl;
     private RelativeLayout mDescRl;
+    private LinearLayout mNickNameLl;
 
     private UserDao mUserDao;
     private VolleyUtil mVolleyUtil;
@@ -58,6 +61,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
     private void initView() {
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mNameTv = findViewById(R.id.tv_name);
+        mNickNameTv = findViewById(R.id.tv_nick_name);
         mSexIv = findViewById(R.id.iv_sex);
         mSignTv = findViewById(R.id.tv_sign);
         mSourceTv = findViewById(R.id.tv_source);
@@ -66,6 +70,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mSignRl = findViewById(R.id.rl_sign);
         mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
         mDescRl = findViewById(R.id.rl_desc);
+        mNickNameLl = findViewById(R.id.ll_nick_name);
 
         userId = getIntent().getStringExtra("userId");
         final User user = mUserDao.getUserById(userId);
@@ -87,9 +92,9 @@ public class StrangerUserInfoActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
                 intent.putExtra("userId", userId);
-                intent.putExtra("nickName", user.getUserNickName());
-                intent.putExtra("friendRemark", user.getUserFriendRemark());
-                intent.putExtra("friendDesc", user.getUserFriendDesc());
+//                intent.putExtra("nickName", user.getUserNickName());
+//                intent.putExtra("friendRemark", user.getUserFriendRemark());
+//                intent.putExtra("friendDesc", user.getUserFriendDesc());
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
             }
@@ -114,7 +119,6 @@ public class StrangerUserInfoActivity extends BaseActivity {
             mSexIv.setVisibility(View.GONE);
         }
 
-        mNameTv.setText(user.getUserNickName());
         if (TextUtils.isEmpty(user.getUserSign())) {
             mSignRl.setVisibility(View.GONE);
         } else {
@@ -133,6 +137,16 @@ public class StrangerUserInfoActivity extends BaseActivity {
             mDescTv.setText(user.getUserFriendDesc());
         } else {
             mDescRl.setVisibility(View.GONE);
+        }
+
+        // 备注
+        if (!TextUtils.isEmpty(user.getUserFriendRemark())) {
+            mNameTv.setText(user.getUserFriendRemark());
+            mNickNameLl.setVisibility(View.VISIBLE);
+            mNickNameTv.setText("昵称：" + user.getUserNickName());
+        } else {
+            mNickNameLl.setVisibility(View.GONE);
+            mNameTv.setText(user.getUserNickName());
         }
     }
 
