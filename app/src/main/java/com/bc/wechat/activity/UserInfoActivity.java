@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -63,13 +62,20 @@ public class UserInfoActivity extends Activity {
     private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
 
     private LinearLayout mRootLl;
+    private LinearLayout mNickNameLl;
     private TextView mNickNameTv;
+    private TextView mNameTv;
     private SimpleDraweeView mAvatarSdv;
     private ImageView mSexIv;
     private TextView mWxIdTv;
     private ImageView mSettingIv;
+    private TextView mDescTv;
+    private TextView mPhoneTempTv;
+    private TextView mPhoneTv;
 
     private RelativeLayout mSetRemarkAndTagRl;
+    private RelativeLayout mDescRl;
+    private RelativeLayout mPhoneRl;
 
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
@@ -87,6 +93,8 @@ public class UserInfoActivity extends Activity {
     private User mUser;
     private VolleyUtil mVolleyUtil;
     private UserDao mUserDao;
+    private String userId;
+
     private FriendsCircleDao mFriendsCircleDao;
 
     // 弹窗
@@ -111,12 +119,19 @@ public class UserInfoActivity extends Activity {
         mRootLl = findViewById(R.id.ll_root);
 
         mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
+        mDescRl = findViewById(R.id.rl_desc);
+        mPhoneRl = findViewById(R.id.rl_phone);
 
-        mNickNameTv = findViewById(R.id.tv_name);
+        mNickNameLl = findViewById(R.id.ll_nick_name);
+        mNameTv = findViewById(R.id.tv_name);
+        mNickNameTv = findViewById(R.id.tv_nick_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);
         mWxIdTv = findViewById(R.id.tv_wx_id);
         mSettingIv = findViewById(R.id.iv_setting);
+        mDescTv = findViewById(R.id.tv_desc);
+        mPhoneTempTv = findViewById(R.id.tv_phone_temp);
+        mPhoneTv = findViewById(R.id.tv_phone);
 
         mOperateRl = findViewById(R.id.rl_operate);
 
@@ -126,7 +141,7 @@ public class UserInfoActivity extends Activity {
         mCirclePhoto3Sdv = findViewById(R.id.sdv_circle_photo_3);
         mCirclePhoto4Sdv = findViewById(R.id.sdv_circle_photo_4);
 
-        final String userId = getIntent().getStringExtra("userId");
+        userId = getIntent().getStringExtra("userId");
 
         final User friend = mUserDao.getUserById(userId);
         loadData(friend);
@@ -251,8 +266,26 @@ public class UserInfoActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
                 intent.putExtra("userId", friend.getUserId());
-                intent.putExtra("nickName", friend.getUserNickName());
-                intent.putExtra("friendRemark", friend.getUserFriendRemark());
+                intent.putExtra("isFriend", friend.getIsFriend());
+                startActivity(intent);
+            }
+        });
+
+        mDescRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                intent.putExtra("userId", friend.getUserId());
+                intent.putExtra("isFriend", friend.getIsFriend());
+                startActivity(intent);
+            }
+        });
+
+        mPhoneTempTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                intent.putExtra("userId", friend.getUserId());
                 intent.putExtra("isFriend", friend.getIsFriend());
                 startActivity(intent);
             }
@@ -379,7 +412,6 @@ public class UserInfoActivity extends Activity {
             }
         }
 
-        mNickNameTv.setText(user.getUserNickName());
         if (!TextUtils.isEmpty(user.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
         }
@@ -393,6 +425,38 @@ public class UserInfoActivity extends Activity {
 
         if (!TextUtils.isEmpty(user.getUserWxId())) {
             mWxIdTv.setText("微信号：" + user.getUserWxId());
+        }
+
+        // 电话号码
+        if (!TextUtils.isEmpty(user.getUserFriendPhone())) {
+            mPhoneRl.setVisibility(View.VISIBLE);
+            mPhoneTv.setText(user.getUserFriendPhone());
+        } else {
+            mPhoneRl.setVisibility(View.GONE);
+        }
+
+        // 描述
+        if (!TextUtils.isEmpty(user.getUserFriendDesc())) {
+            mDescRl.setVisibility(View.VISIBLE);
+            mDescTv.setText(user.getUserFriendDesc());
+        } else {
+            mDescRl.setVisibility(View.GONE);
+        }
+
+        // 备注
+        if (!TextUtils.isEmpty(user.getUserFriendRemark())) {
+            mNameTv.setText(user.getUserFriendRemark());
+            mNickNameLl.setVisibility(View.VISIBLE);
+            mNickNameTv.setText("昵称：" + user.getUserNickName());
+        } else {
+            mNickNameLl.setVisibility(View.GONE);
+            mNameTv.setText(user.getUserNickName());
+        }
+
+        if (TextUtils.isEmpty(user.getUserFriendDesc())) {
+            mSetRemarkAndTagRl.setVisibility(View.VISIBLE);
+        } else {
+            mSetRemarkAndTagRl.setVisibility(View.GONE);
         }
     }
 
@@ -470,7 +534,14 @@ public class UserInfoActivity extends Activity {
         } catch (IOException e) {
             return null;
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User user = mUserDao.getUserById(userId);
+        loadData(user);
+        getFriendFromServer(mUser.getUserId(), userId);
     }
 
 }

@@ -55,7 +55,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="18dp">
 
@@ -92,10 +92,30 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_wx_id"
+                android:id="@+id/ll_nick_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_name"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/sdv_avatar"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#aaaaaa"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_wx_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_nick_name"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/sdv_avatar"
@@ -145,6 +165,94 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_phone"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_phone_temp"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="电话号码"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_phone_temp"
+                android:paddingLeft="10dp"
+                android:text="13770519290"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_right_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_desc"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_desc_temp"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:text="描述"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_desc_temp"
+                android:paddingLeft="10dp"
+                android:text="aaa"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_right_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#DBDBDB" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/rl_friends_circle"
             android:layout_width="match_parent"
             android:layout_height="88dp"
@@ -155,7 +263,7 @@
 
             <TextView
                 android:id="@+id/tv_moment"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -169,7 +277,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_moment"
                 android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
@@ -227,7 +335,7 @@
 
             <TextView
                 android:id="@+id/tv_more"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"

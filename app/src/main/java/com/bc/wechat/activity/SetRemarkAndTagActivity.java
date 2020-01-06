@@ -73,6 +73,7 @@ public class SetRemarkAndTagActivity extends BaseActivity {
             mRemarkEt.setText(user.getUserFriendRemark());
         }
 
+        mPhoneEt.setText(user.getUserFriendPhone());
         mDescEt.setText(user.getUserFriendDesc());
 
         if (Constant.IS_NOT_FRIEND.equals(isFriend)) {

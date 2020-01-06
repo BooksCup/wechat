@@ -106,7 +106,7 @@
                     android:id="@+id/tv_nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地区：江苏 南京"
+                    android:text=""
                     android:textColor="#aaaaaa"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -191,7 +191,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_desc_temp"
                 android:paddingLeft="10dp"
-                android:text="这是土豪"
+                android:text=""
                 android:textSize="16sp" />
 
             <ImageView
