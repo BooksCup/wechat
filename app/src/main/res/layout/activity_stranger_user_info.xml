@@ -99,8 +99,8 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/sdv_avatar"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_nick_name"
@@ -165,13 +165,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_desc"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#ffffff"
             android:paddingLeft="12dp"
-            android:paddingRight="8dp">
+            android:paddingRight="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_desc_temp"

@@ -55,9 +55,6 @@ public class SetRemarkAndTagActivity extends BaseActivity {
     private void initView() {
         final String userId = getIntent().getStringExtra("userId");
         final String isFriend = getIntent().getStringExtra("isFriend");
-//        final String nickName = getIntent().getStringExtra("nickName");
-//        final String friendRemark = getIntent().getStringExtra("friendRemark");
-//        final String friendDesc = getIntent().getStringExtra("friendDesc");
         User user = mUserDao.getUserById(userId);
 
         mRemarkEt = findViewById(R.id.et_remark);

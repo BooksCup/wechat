@@ -92,9 +92,16 @@ public class StrangerUserInfoActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
                 intent.putExtra("userId", userId);
-//                intent.putExtra("nickName", user.getUserNickName());
-//                intent.putExtra("friendRemark", user.getUserFriendRemark());
-//                intent.putExtra("friendDesc", user.getUserFriendDesc());
+                intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
+                startActivity(intent);
+            }
+        });
+
+        mDescRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
+                intent.putExtra("userId", userId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
             }
