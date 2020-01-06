@@ -187,6 +187,10 @@
             android:name=".activity.SetRemarkAndTagActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.NewFriendsApplyActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"

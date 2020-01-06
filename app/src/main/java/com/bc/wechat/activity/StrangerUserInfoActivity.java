@@ -42,6 +42,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
     private RelativeLayout mSetRemarkAndTagRl;
     private RelativeLayout mDescRl;
     private LinearLayout mNickNameLl;
+    private RelativeLayout mOperateRl;
 
     private UserDao mUserDao;
     private VolleyUtil mVolleyUtil;
@@ -71,6 +72,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
         mDescRl = findViewById(R.id.rl_desc);
         mNickNameLl = findViewById(R.id.ll_nick_name);
+        mOperateRl = findViewById(R.id.rl_operate);
 
         userId = getIntent().getStringExtra("userId");
         final User user = mUserDao.getUserById(userId);
@@ -104,6 +106,13 @@ public class StrangerUserInfoActivity extends BaseActivity {
                 intent.putExtra("userId", userId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
+            }
+        });
+
+        mOperateRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StrangerUserInfoActivity.this, NewFriendsApplyActivity.class));
             }
         });
     }
