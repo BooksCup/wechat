@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.NewFriendsAcceptActivity;
+import com.bc.wechat.activity.NewFriendsAcceptConfirmActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendApply;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -81,7 +82,7 @@ public class NewFriendsMsgAdapter extends BaseAdapter {
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext, NewFriendsAcceptActivity.class).
+                mContext.startActivity(new Intent(mContext, NewFriendsAcceptConfirmActivity.class).
                         putExtra("applyId", friendApply.getApplyId()));
             }
         });

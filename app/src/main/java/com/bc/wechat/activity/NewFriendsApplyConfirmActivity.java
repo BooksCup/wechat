@@ -17,7 +17,7 @@ import com.bc.wechat.utils.PreferencesUtil;
  *
  * @author zhou
  */
-public class NewFriendsApplyActivity extends BaseActivity implements View.OnClickListener {
+public class NewFriendsApplyConfirmActivity extends BaseActivity implements View.OnClickListener {
 
     // 申请信息
     private EditText mApplyRemarkEt;
@@ -54,7 +54,7 @@ public class NewFriendsApplyActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_friends_apply);
+        setContentView(R.layout.activity_new_friends_apply_confirm);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
         initView();

@@ -188,7 +188,11 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.NewFriendsApplyActivity"
+            android:name=".activity.NewFriendsApplyConfirmActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.NewFriendsAcceptConfirmActivity"
             android:screenOrientation="portrait" />
 
         <!-- 自定义的alertdialog -->

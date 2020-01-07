@@ -112,7 +112,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mOperateRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StrangerUserInfoActivity.this, NewFriendsApplyActivity.class);
+                Intent intent = new Intent(StrangerUserInfoActivity.this, NewFriendsApplyConfirmActivity.class);
                 intent.putExtra("friendId", userId);
                 startActivity(intent);
             }
