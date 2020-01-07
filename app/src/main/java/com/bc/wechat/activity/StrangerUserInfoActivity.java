@@ -114,7 +114,6 @@ public class StrangerUserInfoActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, NewFriendsApplyActivity.class);
                 intent.putExtra("friendId", userId);
-                intent.putExtra("friendNickName", user.getUserNickName());
                 startActivity(intent);
             }
         });

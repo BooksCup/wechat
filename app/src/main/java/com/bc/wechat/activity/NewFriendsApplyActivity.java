@@ -1,12 +1,14 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bc.wechat.R;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
@@ -44,28 +46,34 @@ public class NewFriendsApplyActivity extends BaseActivity implements View.OnClic
     // 看他
     private ImageView mAllowSeeHimIv;
 
-
     private User mUser;
+    private UserDao mUserDao;
     private String mFriendId;
-    private String mFriendNickName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_apply);
         mUser = PreferencesUtil.getInstance().getUser();
+        mUserDao = new UserDao();
         initView();
     }
 
     private void initView() {
         mFriendId = getIntent().getStringExtra("friendId");
-        mFriendNickName = getIntent().getStringExtra("friendNickName");
+
+        User user = mUserDao.getUserById(mFriendId);
 
         mApplyRemarkEt = findViewById(R.id.et_apply_remark);
         mApplyRemarkEt.setText("我是" + mUser.getUserNickName());
 
         mRemarkEt = findViewById(R.id.et_remark);
-        mRemarkEt.setText(mFriendNickName);
+        if (TextUtils.isEmpty(user.getUserFriendRemark())) {
+            mRemarkEt.setText(user.getUserNickName());
+        } else {
+            mRemarkEt.setText(user.getUserFriendRemark());
+        }
 
         mAuthAllRl = findViewById(R.id.rl_auth_all);
         mAuthAllIv = findViewById(R.id.iv_auth_all);
