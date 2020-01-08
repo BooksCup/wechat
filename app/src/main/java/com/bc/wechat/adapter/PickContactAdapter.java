@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.entity.User;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -20,11 +20,11 @@ public class PickContactAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private int resource;
 
-    private List<Friend> friendList;
+    private List<User> friendList;
     private List<String> checkedUserIdList;
     List<String> initUserIdList;
 
-    public PickContactAdapter(Context context, int resource, List<Friend> friendList, List<String> checkedUserIdList, List<String> initUserIdList) {
+    public PickContactAdapter(Context context, int resource, List<User> friendList, List<String> checkedUserIdList, List<String> initUserIdList) {
         layoutInflater = LayoutInflater.from(context);
         this.resource = resource;
         this.friendList = friendList;
@@ -38,7 +38,7 @@ public class PickContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public Friend getItem(int position) {
+    public User getItem(int position) {
         return friendList.get(position);
     }
 
@@ -49,7 +49,7 @@ public class PickContactAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Friend friend = friendList.get(position);
+        User friend = friendList.get(position);
         ViewHolder viewHolder;
         if (null == convertView) {
             viewHolder = new ViewHolder();

@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PickContactAdapter;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.entity.Friend;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -47,7 +47,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class CreateGroupActivity extends FragmentActivity {
+public class CreateGroupActivity extends BaseActivity {
 
     private PickContactAdapter contactAdapter;
     private ListView listView;
@@ -74,7 +74,7 @@ public class CreateGroupActivity extends FragmentActivity {
 
 
     private List<String> checkedUserIdList = new ArrayList<>();
-    private List<Friend> checkedUserList = new ArrayList<>();
+    private List<User> checkedUserList = new ArrayList<>();
 
     private List<String> initUserIdList = new ArrayList<>();
     private int totalCount = 0;
@@ -83,11 +83,13 @@ public class CreateGroupActivity extends FragmentActivity {
     LoadingDialog loadingDialog;
 
     private EditText mSearchEt;
+    private UserDao mUserDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
+        mUserDao = new UserDao();
         volleyUtil = VolleyUtil.getInstance(this);
         loadingDialog = new LoadingDialog(CreateGroupActivity.this);
         createType = getIntent().getStringExtra("createType");
@@ -103,7 +105,7 @@ public class CreateGroupActivity extends FragmentActivity {
 
             initUserIdList.addAll(firstUserIdList);
         }
-        final List<Friend> friendList = Friend.listAll(Friend.class);
+        final List<User> friendList = mUserDao.getAllFriendList();
         // 对list进行排序
         Collections.sort(friendList, new PinyinComparator() {
         });
@@ -120,7 +122,7 @@ public class CreateGroupActivity extends FragmentActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Friend friend = friendList.get(position);
+                final User friend = friendList.get(position);
                 CheckBox mPickFriendCb = view.findViewById(R.id.cb_pick_friend);
                 boolean isEnabled = mPickFriendCb.isEnabled();
                 boolean isChecked = mPickFriendCb.isChecked();
@@ -157,7 +159,7 @@ public class CreateGroupActivity extends FragmentActivity {
         finish();
     }
 
-    private void addCheckedImage(String userAvatar, final String userId, final Friend friend) {
+    private void addCheckedImage(String userAvatar, final String userId, final User friend) {
         // 是否已包含
         if (checkedUserIdList.contains(userId)) {
             return;
@@ -197,7 +199,7 @@ public class CreateGroupActivity extends FragmentActivity {
         }
     }
 
-    private void removeCheckedImage(String userId, Friend friend) {
+    private void removeCheckedImage(String userId, User friend) {
         View view = mAvatarListLl.findViewWithTag(userId);
         mAvatarListLl.removeView(view);
         totalCount--;
@@ -214,35 +216,31 @@ public class CreateGroupActivity extends FragmentActivity {
         }
     }
 
-    public class PinyinComparator implements Comparator<Friend> {
+    public class PinyinComparator implements Comparator<User> {
 
         @Override
-        public int compare(Friend o1, Friend o2) {
-            String py1 = o1.getUserHeader();
-            String py2 = o2.getUserHeader();
+        public int compare(User user1, User user2) {
+            String py1 = user1.getUserHeader();
+            String py2 = user2.getUserHeader();
             // 判断是否为空""
-            if (isEmpty(py1) && isEmpty(py2)) {
+            if (TextUtils.isEmpty(py1) && TextUtils.isEmpty(py2)) {
                 return 0;
             }
-            if (isEmpty(py1)) {
+            if (TextUtils.isEmpty(py1)) {
                 return -1;
             }
-            if (isEmpty(py2)) {
+            if (TextUtils.isEmpty(py2)) {
                 return 1;
             }
             String str1 = "";
             String str2 = "";
             try {
-                str1 = ((o1.getUserHeader()).toUpperCase()).substring(0, 1);
-                str2 = ((o2.getUserHeader()).toUpperCase()).substring(0, 1);
+                str1 = ((user1.getUserHeader()).toUpperCase()).substring(0, 1);
+                str2 = ((user2.getUserHeader()).toUpperCase()).substring(0, 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return str1.compareTo(str2);
-        }
-
-        private boolean isEmpty(String str) {
-            return "".equals(str.trim());
         }
     }
 
@@ -268,7 +266,7 @@ public class CreateGroupActivity extends FragmentActivity {
 
         final StringBuffer pickedUserNickNameBuffer = new StringBuffer();
         if (null != checkedUserList && checkedUserList.size() > 0) {
-            for (Friend checkedUser : checkedUserList) {
+            for (User checkedUser : checkedUserList) {
                 pickedUserNickNameBuffer.append(checkedUser.getUserNickName());
                 pickedUserNickNameBuffer.append("、");
             }

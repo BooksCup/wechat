@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.entity.Friend;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.QrCodeContent;
 import com.bc.wechat.entity.User;
@@ -310,11 +309,10 @@ public class MainActivity extends BaseActivity {
         UserInfo fromUserInfo = msg.getFromUser();
         message.setFromUserId(fromUserInfo.getUserName());
 
-        List<Friend> friendList = Friend.find(Friend.class, "user_id = ?", message.getFromUserId());
+        List<User> friendList = User.find(User.class, "user_id = ?", message.getFromUserId());
         if (null != friendList && friendList.size() > 0) {
             message.setFromUserAvatar(friendList.get(0).getUserAvatar());
         }
-
 
         if (msg.getTargetType().equals(ConversationType.single)) {
             message.setTargetType(Constant.TARGET_TYPE_SINGLE);
