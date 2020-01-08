@@ -6,11 +6,22 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 申请添加朋友
@@ -46,10 +57,14 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
     // 看他
     private ImageView mAllowSeeHimIv;
 
+    private TextView mSendTv;
+
     private User mUser;
     private UserDao mUserDao;
     private String mFriendId;
 
+    private VolleyUtil mVolleyUtil;
+    private LoadingDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +72,8 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
         setContentView(R.layout.activity_new_friends_apply_confirm);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(this);
         initView();
     }
 
@@ -64,6 +81,8 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
         mFriendId = getIntent().getStringExtra("friendId");
 
         User user = mUserDao.getUserById(mFriendId);
+
+        mSendTv = findViewById(R.id.tv_send);
 
         mApplyRemarkEt = findViewById(R.id.et_apply_remark);
         mApplyRemarkEt.setText("我是" + mUser.getUserNickName());
@@ -98,6 +117,8 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
 
         mForbidSeeHimIv.setOnClickListener(this);
         mAllowSeeHimIv.setOnClickListener(this);
+
+        mSendTv.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -140,8 +161,41 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
                 mAllowSeeHimIv.setVisibility(View.GONE);
                 mForbidSeeHimIv.setVisibility(View.VISIBLE);
                 break;
+            case R.id.tv_send:
+                mDialog.setMessage("正在发送...");
+                mDialog.show();
+
+                String applyRemark = mApplyRemarkEt.getText().toString();
+                addFriendApply(applyRemark, mUser.getUserId(), mFriendId);
+                break;
             default:
                 break;
         }
+    }
+
+    private void addFriendApply(String applyRemark, String fromUserId, String toUserId) {
+        String url = Constant.BASE_URL + "friendApplies";
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("applyRemark", applyRemark);
+        paramMap.put("fromUserId", fromUserId);
+        paramMap.put("toUserId", toUserId);
+
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(NewFriendsApplyConfirmActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 }
