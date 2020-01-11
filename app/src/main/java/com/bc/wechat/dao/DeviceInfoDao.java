@@ -21,4 +21,8 @@ public class DeviceInfoDao {
     public void saveDeviceInfo(DeviceInfo deviceInfo) {
         DeviceInfo.save(deviceInfo);
     }
+
+    public void saveDeviceInfo() {
+
+    }
 }

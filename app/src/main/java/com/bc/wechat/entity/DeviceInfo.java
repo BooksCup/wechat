@@ -8,6 +8,8 @@ import com.orm.SugarRecord;
  * @author zhou
  */
 public class DeviceInfo extends SugarRecord {
+    private String deviceId;
+
     /**
      * 手机品牌
      */
@@ -17,6 +19,11 @@ public class DeviceInfo extends SugarRecord {
      * 手机型号
      */
     private String phoneModel;
+
+    /**
+     * 手机型号别名(用户备注)
+     */
+    private String phoneModelAlias;
 
     /**
      * 操作系统版本
@@ -35,6 +42,14 @@ public class DeviceInfo extends SugarRecord {
 
     private String loginTime;
 
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
     public String getPhoneBrand() {
         return phoneBrand;
     }
@@ -49,6 +64,14 @@ public class DeviceInfo extends SugarRecord {
 
     public void setPhoneModel(String phoneModel) {
         this.phoneModel = phoneModel;
+    }
+
+    public String getPhoneModelAlias() {
+        return phoneModelAlias;
+    }
+
+    public void setPhoneModelAlias(String phoneModelAlias) {
+        this.phoneModelAlias = phoneModelAlias;
     }
 
     public String getOs() {

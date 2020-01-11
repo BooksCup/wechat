@@ -1,6 +1,8 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.view.View;
@@ -20,8 +22,11 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.EditDialog;
+import com.bc.wechat.widget.LoadingDialog;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 登录设备管理
@@ -37,6 +42,7 @@ public class ManageDevicesActivity extends BaseActivity {
     private DeviceInfoDao mDeviceInfoDao;
     private VolleyUtil mVolleyUtil;
     private User mUser;
+    private LoadingDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class ManageDevicesActivity extends BaseActivity {
         mDeviceInfoDao = new DeviceInfoDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
+        mDialog = new LoadingDialog(this);
 
         List<DeviceInfo> loginDeviceList = mDeviceInfoDao.getDeviceInfoList();
         mManageDevicesAdapter = new ManageDevicesAdapter(this, loginDeviceList);
@@ -90,7 +97,7 @@ public class ManageDevicesActivity extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         final DeviceInfo deviceInfo = deviceInfoList.get(position);
-                        openEditDialog(deviceInfo);
+                        openEditDialog(deviceInfo, position);
                     }
                 });
             }
@@ -105,14 +112,14 @@ public class ManageDevicesActivity extends BaseActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         final DeviceInfo deviceInfo = deviceInfoList.get(position);
-                        openEditDialog(deviceInfo);
+                        openEditDialog(deviceInfo, position);
                     }
                 });
             }
         });
     }
 
-    private void openEditDialog(DeviceInfo deviceInfo) {
+    private void openEditDialog(final DeviceInfo deviceInfo, final int position) {
         final EditDialog mEditDialog = new EditDialog(ManageDevicesActivity.this, "修改手机名",
                 deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel(),
                 "确定", getString(R.string.cancel));
@@ -120,6 +127,14 @@ public class ManageDevicesActivity extends BaseActivity {
             @Override
             public void onOkClick() {
                 mEditDialog.dismiss();
+                String phoneModel = mEditDialog.getContent();
+                deviceInfo.setPhoneModelAlias(phoneModel);
+
+                mDialog.setMessage("请稍候...");
+                mDialog.setCanceledOnTouchOutside(false);
+                mDialog.show();
+
+                updateUserLoginDevice(position, mUser.getUserId(), deviceInfo);
             }
 
             @Override
@@ -132,4 +147,43 @@ public class ManageDevicesActivity extends BaseActivity {
         mEditDialog.setCancelable(false);
         mEditDialog.show();
     }
+
+    private void updateUserLoginDevice(final int position, String userId, final DeviceInfo deviceInfo) {
+        String url = Constant.BASE_URL + "users/" + userId + "/devices/" + deviceInfo.getDeviceId();
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("phoneModelAlias", deviceInfo.getPhoneModelAlias());
+
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                mDialog.dismiss();
+
+                // TODO
+                // 更新本地数据
+
+                Message message = new Message();
+                message.what = 1;
+                message.arg1 = position;
+                message.obj = deviceInfo;
+                mHandler.sendMessage(message);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
+
+            }
+        });
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            if (message.what == 1) {
+                int position = message.arg1;
+                DeviceInfo deviceInfo = (DeviceInfo) message.obj;
+                mManageDevicesAdapter.updateChangedItem(position, deviceInfo);
+            }
+        }
+    };
 }

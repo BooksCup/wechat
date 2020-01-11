@@ -139,6 +139,10 @@ public class EditDialog extends Dialog {
         mDialogClickListener = clickListener;
     }
 
+    public String getContent() {
+        return mContentEt.getText().toString();
+    }
+
     /**
      * 添加按钮点击事件
      */

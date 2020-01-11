@@ -31,6 +31,11 @@ public class ManageDevicesAdapter extends BaseAdapter {
         this.mLoginDeviceList = dataList;
     }
 
+    public void updateChangedItem(int position, DeviceInfo newDeviceInfo) {
+        mLoginDeviceList.set(position, newDeviceInfo);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return mLoginDeviceList.size();
@@ -61,7 +66,12 @@ public class ManageDevicesAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.mPhoneModelTv.setText(deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel());
+        if (TextUtils.isEmpty(deviceInfo.getPhoneModelAlias())) {
+            viewHolder.mPhoneModelTv.setText(deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel());
+        } else {
+            viewHolder.mPhoneModelTv.setText(deviceInfo.getPhoneModelAlias());
+        }
+
         if (!TextUtils.isEmpty(deviceInfo.getLoginTime())) {
             viewHolder.mLoginTimeTv.setText(deviceInfo.getLoginTime().substring(2));
         }
