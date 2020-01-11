@@ -115,6 +115,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
+            android:name=".activity.ManageDevicesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
             android:name=".activity.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />

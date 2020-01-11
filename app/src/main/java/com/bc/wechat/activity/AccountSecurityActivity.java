@@ -1,9 +1,11 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -24,6 +26,12 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
 
     private TextView mWeChatIdTv;
     private TextView mPhoneTv;
+
+    /**
+     * 登录设备管理
+     */
+    private RelativeLayout mManageDevicesRl;
+
     private User mUser;
 
     @Override
@@ -46,6 +54,9 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
 
         mWeChatIdTv.setText(mUser.getUserWxId());
         mPhoneTv.setText(mUser.getUserPhone());
+
+        mManageDevicesRl = findViewById(R.id.rl_manage_devices);
+        mManageDevicesRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -55,6 +66,9 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_manage_devices:
+                startActivity(new Intent(AccountSecurityActivity.this, ManageDevicesActivity.class));
+                break;
         }
     }
 }

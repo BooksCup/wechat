@@ -21,7 +21,9 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
+import com.bc.wechat.entity.DeviceInfo;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.DeviceInfoUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -125,8 +127,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
      * @param password 密码
      */
     private void login(String phone, String password) {
+        DeviceInfo deviceInfo = DeviceInfoUtil.getInstance().getDeviceInfo(LoginActivity.this);
         String url = Constant.BASE_URL + "users/login?phone=" + phone
-                + "&password=" + MD5Util.encode(password, "utf8");
+                + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
