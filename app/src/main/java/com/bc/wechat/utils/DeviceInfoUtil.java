@@ -3,6 +3,8 @@ package com.bc.wechat.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -70,6 +72,36 @@ public class DeviceInfoUtil {
 
     }
 
+    /**
+     * 获取运营商信息
+     *
+     * @param context context
+     * @return 运营商信息
+     */
+    public String getOperator(Context context) {
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String simOperator = manager.getSimOperator();
+        String operator;
+        if (!TextUtils.isEmpty(simOperator)) {
+            if (simOperator.equals("46000") || simOperator.equals("46002") || simOperator.equals("46007")) {
+                // 中国移动
+                operator = "中国移动";
+            } else if (simOperator.equals("46003")) {
+                // 中国电信
+                operator = "中国电信";
+            } else if (simOperator.equals("46001") || simOperator.equals("46006")) {
+                // 中国联通
+                operator = "中国联通";
+            } else {
+                // 未知
+                operator = "未知";
+            }
+        } else {
+            // 未知
+            operator = "未知";
+        }
+        return operator;
+    }
 
 //    /**
 //     * 获取唯一设备号
@@ -105,35 +137,7 @@ public class DeviceInfoUtil {
 //        return imei2;
 //    }
 //
-//    /**
-//     * 获取运营商
-//     *
-//     * @param context
-//     * @return
-//     */
-//    public String getNetOperator(Context context) {
-//        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//        String iNumeric = manager.getSimOperator();
-//        String netOperator = "";
-//        if (iNumeric.length() > 0) {
-//            if (iNumeric.equals("46000") || iNumeric.equals("46002")) {
-//                // 中国移动
-//                netOperator = "中国移动";
-//            } else if (iNumeric.equals("46003")) {
-//                // 中国电信
-//                netOperator = "中国电信";
-//            } else if (iNumeric.equals("46001")) {
-//                // 中国联通
-//                netOperator = "中国联通";
-//            } else {
-//                //未知
-//                netOperator = "未知";
-//            }
-//        }
-//        Log.w(TAG, "运营商：" + netOperator);
-//        return netOperator;
-//    }
-//
+
 //
 //    /**
 //     * 获取联网方式
@@ -319,6 +323,7 @@ public class DeviceInfoUtil {
         deviceInfo.setPhoneModel(getPhoneModel());
         deviceInfo.setOs(getOS());
         deviceInfo.setResolution(getResolution(context));
+        deviceInfo.setOperator(getOperator(context));
         return deviceInfo;
     }
 }

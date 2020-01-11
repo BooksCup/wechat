@@ -1,11 +1,13 @@
 package com.bc.wechat.entity;
 
+import com.orm.SugarRecord;
+
 /**
  * 登录设备
  *
  * @author zhou
  */
-public class DeviceInfo {
+public class DeviceInfo extends SugarRecord {
     /**
      * 手机品牌
      */
@@ -25,6 +27,13 @@ public class DeviceInfo {
      * 分辨率
      */
     private String resolution;
+
+    /**
+     * 运营商信息
+     */
+    private String operator;
+
+    private String loginTime;
 
     public String getPhoneBrand() {
         return phoneBrand;
@@ -56,5 +65,21 @@ public class DeviceInfo {
 
     public void setResolution(String resolution) {
         this.resolution = resolution;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
     }
 }

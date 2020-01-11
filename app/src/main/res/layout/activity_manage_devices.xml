@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_back"
-            android:text="登录设备管理"
+            android:text="@string/manage_devices"
             android:textColor="@color/common_top_title"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -47,7 +47,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="5dp"
-            android:text="最近登录设备：你可以删除列表中的设备，删除后在该设备登录微信需要进行身份验证。"
+            android:text="@string/manage_devices_tips"
             android:textColor="@color/setting_content"
             android:textSize="13sp" />
 
