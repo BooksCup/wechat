@@ -7,15 +7,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Html;
-import android.text.Selection;
-import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -38,6 +33,7 @@ import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -58,7 +54,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class RegisterActivity extends FragmentActivity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "RegisterActivity";
     public static int sequence = 1;
@@ -67,13 +63,11 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
     SimpleDraweeView mAvatarSdv;
 
+    ImageView mAgreementIv;
     TextView mAgreementTv;
     EditText mNickNameEt;
     EditText mPhoneEt;
     EditText mPasswordEt;
-
-    ImageView mHidePasswordIv;
-    ImageView mShowPasswordIv;
 
     Button mRegisterBtn;
 
@@ -85,11 +79,18 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
     private String mImageName;
     private String mUserAvatar;
+    /**
+     * 是否同意协议
+     */
+    private boolean mIsAgree = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        initStatusBar();
+        StatusBarUtil.setStatusBarColor(RegisterActivity.this, R.color.bottom_text_color_normal);
+
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(RegisterActivity.this);
         mUserDao = new UserDao();
@@ -102,16 +103,14 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         mNickNameEt = findViewById(R.id.et_nick_name);
         mPhoneEt = findViewById(R.id.et_phone);
         mPasswordEt = findViewById(R.id.et_password);
-        mAgreementTv = findViewById(R.id.tv_agreement);
 
-        mHidePasswordIv = findViewById(R.id.iv_password_hide);
-        mShowPasswordIv = findViewById(R.id.iv_password_show);
+        mAgreementIv = findViewById(R.id.iv_agreement);
+        mAgreementTv = findViewById(R.id.tv_agreement);
 
         mRegisterBtn = findViewById(R.id.btn_register);
 
-        String agreement = "<font color=" + "\"" + "#AAAAAA" + "\">" + "点击上面的"
-                + "\"" + "注册" + "\"" + "按钮,即表示你同意" + "</font>" + "<u>"
-                + "<font color=" + "\"" + "#576B95" + "\">" + "《腾讯微信软件许可及服务协议》"
+        String agreement = "<font color=" + "\"" + "#AAAAAA" + "\">" + "已阅读并同意" + "</font>" + "<u>"
+                + "<font color=" + "\"" + "#576B95" + "\">" + "《软件许可及服务协议》"
                 + "</font>" + "</u>";
         mAgreementTv.setText(Html.fromHtml(agreement));
 
@@ -120,9 +119,8 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         mPasswordEt.addTextChangedListener(new TextChange());
 
         mAvatarSdv.setOnClickListener(this);
-        mHidePasswordIv.setOnClickListener(this);
-        mShowPasswordIv.setOnClickListener(this);
         mRegisterBtn.setOnClickListener(this);
+        mAgreementIv.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -135,35 +133,20 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
             case R.id.sdv_avatar:
                 showPhotoDialog();
                 break;
-            case R.id.iv_password_hide:
-                // 点击显示密码
-                mHidePasswordIv.setVisibility(View.GONE);
-                mShowPasswordIv.setVisibility(View.VISIBLE);
-
-                mPasswordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                // 光标移至最后
-                CharSequence charSequence = mPasswordEt.getText();
-                if (charSequence instanceof Spannable) {
-                    Spannable spanText = (Spannable) charSequence;
-                    Selection.setSelection(spanText, charSequence.length());
+            case R.id.iv_agreement:
+                if (mIsAgree) {
+                    mAgreementIv.setBackgroundResource(R.mipmap.icon_choose_false);
+                    mIsAgree = false;
+                    checkSubmit();
+                } else {
+                    mAgreementIv.setBackgroundResource(R.mipmap.icon_choose_true);
+                    mIsAgree = true;
+                    checkSubmit();
                 }
                 break;
-            case R.id.iv_password_show:
-                // 点击隐藏密码
-                mHidePasswordIv.setVisibility(View.VISIBLE);
-                mShowPasswordIv.setVisibility(View.GONE);
-
-                mPasswordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                // 光标移至最后
-                charSequence = mPasswordEt.getText();
-                if (charSequence instanceof Spannable) {
-                    Spannable spanText = (Spannable) charSequence;
-                    Selection.setSelection(spanText, charSequence.length());
-                }
-                break;
-
             case R.id.btn_register:
                 mDialog.setMessage(getString(R.string.registering));
+                mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
                 String nickName = mNickNameEt.getText().toString();
@@ -228,16 +211,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            boolean nickNameHasText = mNickNameEt.getText().toString().length() > 0;
-            boolean phoneHasText = mPhoneEt.getText().toString().length() > 0;
-            boolean passwordHasText = mPasswordEt.getText().toString().length() > 0;
-            if (nickNameHasText && phoneHasText && passwordHasText) {
-                mRegisterBtn.setTextColor(0xFFFFFFFF);
-                mRegisterBtn.setEnabled(true);
-            } else {
-                mRegisterBtn.setTextColor(0xFFD0EFC6);
-                mRegisterBtn.setEnabled(false);
-            }
+            checkSubmit();
         }
 
         @Override
@@ -279,7 +253,6 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 photoDialog.dismiss();
             }
         });
-
     }
 
     /**
@@ -362,10 +335,33 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
      * @param password 密码
      * @return true: 校验成功  false: 校验失败
      */
-    private static boolean validatePassword(String password) {
+    private boolean validatePassword(String password) {
         String regEx = "^(?![^a-zA-Z]+$)(?!\\D+$).{8,16}$";
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    /**
+     * 表单是否填充完成(昵称,手机号,密码,是否同意协议)
+     *
+     * @return true: 填充完成
+     * false: 未填充完成
+     */
+    private void checkSubmit() {
+        boolean nickNameHasText = mNickNameEt.getText().toString().length() > 0;
+        boolean phoneHasText = mPhoneEt.getText().toString().length() > 0;
+        boolean passwordHasText = mPasswordEt.getText().toString().length() > 0;
+        if (nickNameHasText && phoneHasText && passwordHasText && mIsAgree) {
+            // 注册按钮可用
+            mRegisterBtn.setBackgroundColor(getColor(R.color.register_btn_bg_enable));
+            mRegisterBtn.setTextColor(getColor(R.color.register_btn_text_enable));
+            mRegisterBtn.setEnabled(true);
+        } else {
+            // 注册按钮不可用
+            mRegisterBtn.setBackgroundColor(getColor(R.color.register_btn_bg_disable));
+            mRegisterBtn.setTextColor(getColor(R.color.register_btn_text_disable));
+            mRegisterBtn.setEnabled(false);
+        }
     }
 }

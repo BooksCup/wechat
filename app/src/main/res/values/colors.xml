@@ -48,4 +48,9 @@
 
     <color name="setting_content">#80000000</color>
     <color name="setting_tips">#b5b5b6</color>
+
+    <color name="register_btn_bg_disable">#ebebeb</color>
+    <color name="register_btn_bg_enable">#07C063</color>
+    <color name="register_btn_text_disable">#b5b5b6</color>
+    <color name="register_btn_text_enable">#ffffff</color>
 </resources>

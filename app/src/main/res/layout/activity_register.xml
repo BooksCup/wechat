@@ -4,37 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_top_bar"
-        android:background="@color/common_top_bar_blue">
+        android:layout_height="@dimen/top_bar_height">
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="40dp"
+            android:layout_width="@dimen/top_back_width"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
             android:onClick="back"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
+            android:padding="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/top_bar_back" />
+            android:src="@mipmap/icon_close" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_back"
-            android:text="@string/register_title_phone"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -42,6 +32,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="手机号注册"
+                android:textColor="@color/common_top_title"
+                android:textSize="22sp" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -85,42 +89,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#45c01a" />
+                android:background="#b5b5b6" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="56dp">
 
             <TextView
+                android:id="@+id/tv_country_and_area_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="@string/country_and_area"
+                android:text="国家/地区"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:text="@string/country_china"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tv_country_and_area_title"
+                android:text="中国大陆（+86）"
                 android:textColor="#45c01a"
                 android:textSize="16sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_alignParentBottom="true"
-                android:background="#dbdbdb" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="56dp">
 
             <EditText
                 android:id="@+id/et_phone"
@@ -149,12 +149,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#45c01a" />
+                android:background="#b5b5b6" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="56dp">
 
             <EditText
                 android:id="@+id/et_password"
@@ -180,55 +180,48 @@
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="44dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/iv_password_hide"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:padding="10dp"
-                    android:src="@mipmap/ic_password_hide" />
-
-                <ImageView
-                    android:id="@+id/iv_password_show"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:padding="10dp"
-                    android:src="@mipmap/ic_password_show"
-                    android:visibility="gone" />
-            </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#45c01a" />
+                android:background="#b5b5b6" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:id="@+id/iv_agreement"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@id/tv_agreement"
+                android:layout_marginRight="3dp"
+                android:background="@mipmap/icon_choose_false" />
+
+            <TextView
+                android:id="@+id/tv_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_save_btn"
+            android:layout_marginTop="10dp"
+            android:background="@color/register_btn_bg_disable"
             android:enabled="false"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:text="@string/register"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textColor="@color/register_btn_text_disable"
+            android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/tv_agreement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

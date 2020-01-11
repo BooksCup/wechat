@@ -87,7 +87,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
