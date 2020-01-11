@@ -11,20 +11,21 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 
 /**
- * 确认弹窗
+ * 编辑弹窗
  *
  * @author zhou
  */
-public class ConfirmDialog extends Dialog {
+public class EditDialog extends Dialog {
     private Context mContext;
 
     private TextView mTitleTv;
-    private TextView mContentTv;
+    private EditText mContentEt;
     private Button mOkBtn;
     private Button mCancelBtn;
     private OnDialogClickListener mDialogClickListener;
@@ -39,37 +40,26 @@ public class ConfirmDialog extends Dialog {
     // 确认按钮颜色
     private int mOkBtnColor = -1;
 
-    public ConfirmDialog(Context context, String title, String content,
-                         String confirm, String cancel) {
+    public EditDialog(Context context, String title, String content,
+                      String confirm, String cancel) {
         super(context);
         this.mContext = context;
         this.mTitle = title;
         this.mContent = content;
         this.mConfirm = confirm;
         this.mCancel = cancel;
-        initalize();
-    }
-
-    public ConfirmDialog(Context context, String title, String content,
-                         String confirm, String cancel, int okBtnColor) {
-        super(context);
-        this.mContext = context;
-        this.mTitle = title;
-        this.mContent = content;
-        this.mConfirm = confirm;
-        this.mCancel = cancel;
-        this.mOkBtnColor = okBtnColor;
         initalize();
     }
 
     // 初始化View
     private void initalize() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.dialog_confirm, null);
+        View view = inflater.inflate(R.layout.dialog_edit, null);
         setContentView(view);
+
         initWindow();
 
-        mContentTv = findViewById(R.id.tv_content);
+        mContentEt = findViewById(R.id.et_content);
         mTitleTv = findViewById(R.id.tv_title);
         mOkBtn = findViewById(R.id.btn_ok);
         mCancelBtn = findViewById(R.id.btn_cancel);
@@ -82,7 +72,7 @@ public class ConfirmDialog extends Dialog {
         }
 
         if (!TextUtils.isEmpty(mContent)) {
-            mContentTv.setText(mContent);
+            mContentEt.setText(mContent);
         }
 
         if (!TextUtils.isEmpty(mConfirm)) {
@@ -128,9 +118,10 @@ public class ConfirmDialog extends Dialog {
         // 设置window背景
         dialogWindow.setBackgroundDrawable(new ColorDrawable(0));
         // 设置输入法显示模式
-        dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN |
+//                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+
         // 获取屏幕尺寸
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         // 宽度为屏幕80%
@@ -138,6 +129,10 @@ public class ConfirmDialog extends Dialog {
         // 中央居中
         layoutParams.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(layoutParams);
+
+        dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     public void setOnDialogClickListener(OnDialogClickListener clickListener) {

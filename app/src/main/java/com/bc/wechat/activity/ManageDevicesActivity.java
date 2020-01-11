@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.bc.wechat.entity.DeviceInfo;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.EditDialog;
 
 import java.util.List;
 
@@ -83,6 +85,14 @@ public class ManageDevicesActivity extends BaseActivity {
                 }
                 mManageDevicesAdapter.setData(deviceInfoList);
                 mManageDevicesAdapter.notifyDataSetChanged();
+
+                mDevicesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                        final DeviceInfo deviceInfo = deviceInfoList.get(position);
+                        openEditDialog(deviceInfo);
+                    }
+                });
             }
         }, new Response.ErrorListener() {
             @Override
@@ -90,7 +100,36 @@ public class ManageDevicesActivity extends BaseActivity {
                 final List<DeviceInfo> deviceInfoList = mDeviceInfoDao.getDeviceInfoList();
                 mManageDevicesAdapter.setData(deviceInfoList);
                 mManageDevicesAdapter.notifyDataSetChanged();
+
+                mDevicesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                        final DeviceInfo deviceInfo = deviceInfoList.get(position);
+                        openEditDialog(deviceInfo);
+                    }
+                });
             }
         });
+    }
+
+    private void openEditDialog(DeviceInfo deviceInfo) {
+        final EditDialog mEditDialog = new EditDialog(ManageDevicesActivity.this, "修改手机名",
+                deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel(),
+                "确定", getString(R.string.cancel));
+        mEditDialog.setOnDialogClickListener(new EditDialog.OnDialogClickListener() {
+            @Override
+            public void onOkClick() {
+                mEditDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelClick() {
+                mEditDialog.dismiss();
+            }
+        });
+
+        // 点击空白处消失
+        mEditDialog.setCancelable(false);
+        mEditDialog.show();
     }
 }
