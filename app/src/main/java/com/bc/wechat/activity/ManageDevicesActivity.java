@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -30,6 +31,7 @@ import java.util.Map;
 
 /**
  * 登录设备管理
+ * TODO: editText会遮住dialog,需要解决
  *
  * @author zhou
  */
@@ -119,22 +121,34 @@ public class ManageDevicesActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 打开编辑对话框
+     *
+     * @param deviceInfo 设备信息
+     * @param position   位置
+     */
     private void openEditDialog(final DeviceInfo deviceInfo, final int position) {
+        String content;
+        if (TextUtils.isEmpty(deviceInfo.getPhoneModelAlias())) {
+            content = deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel();
+        } else {
+            content = deviceInfo.getPhoneModelAlias();
+        }
+
         final EditDialog mEditDialog = new EditDialog(ManageDevicesActivity.this, "修改手机名",
-                deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel(),
+                content,
                 "确定", getString(R.string.cancel));
         mEditDialog.setOnDialogClickListener(new EditDialog.OnDialogClickListener() {
             @Override
             public void onOkClick() {
                 mEditDialog.dismiss();
-                String phoneModel = mEditDialog.getContent();
-                deviceInfo.setPhoneModelAlias(phoneModel);
+                String phoneModelAlias = mEditDialog.getContent();
 
                 mDialog.setMessage("请稍候...");
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
-                updateUserLoginDevice(position, mUser.getUserId(), deviceInfo);
+                updateUserLoginDevice(position, mUser.getUserId(), deviceInfo, phoneModelAlias);
             }
 
             @Override
@@ -148,18 +162,22 @@ public class ManageDevicesActivity extends BaseActivity {
         mEditDialog.show();
     }
 
-    private void updateUserLoginDevice(final int position, String userId, final DeviceInfo deviceInfo) {
+    private void updateUserLoginDevice(final int position, String userId, final DeviceInfo deviceInfo, final String phoneModelAlias) {
         String url = Constant.BASE_URL + "users/" + userId + "/devices/" + deviceInfo.getDeviceId();
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("phoneModelAlias", deviceInfo.getPhoneModelAlias());
+        paramMap.put("phoneModelAlias", phoneModelAlias);
 
         mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 mDialog.dismiss();
 
-                // TODO
                 // 更新本地数据
+                DeviceInfo originDeviceInfo = mDeviceInfoDao.getDeviceInfoByDeviceId(deviceInfo.getDeviceId());
+                if (null != originDeviceInfo) {
+                    deviceInfo.setId(originDeviceInfo.getId());
+                    mDeviceInfoDao.saveDeviceInfo(deviceInfo);
+                }
 
                 Message message = new Message();
                 message.what = 1;
