@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -220,6 +221,11 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
                 mUserDao.saveUser(user);
 
                 Toast.makeText(NewFriendsAcceptConfirmActivity.this, "已发送", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(NewFriendsAcceptConfirmActivity.this, UserInfoActivity.class);
+                intent.putExtra("userId", user.getUserId());
+                startActivity(intent);
+
                 finish();
             }
         }, new Response.ErrorListener() {
