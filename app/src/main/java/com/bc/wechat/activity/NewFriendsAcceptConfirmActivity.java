@@ -19,7 +19,6 @@ import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
-import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
@@ -32,10 +31,6 @@ import java.util.Map;
  * @author zhou
  */
 public class NewFriendsAcceptConfirmActivity extends BaseActivity implements View.OnClickListener {
-
-    // 申请信息
-    private EditText mApplyRemarkEt;
-
     // 好友备注
     private EditText mRemarkEt;
 
@@ -61,7 +56,6 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
     // 看他
     private ImageView mAllowSeeHimIv;
 
-    private User mUser;
     private UserDao mUserDao;
     private FriendApplyDao mFriendApplyDao;
     private TextView mAcceptTv;
@@ -80,7 +74,6 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept_confirm);
-        mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
         mFriendApplyDao = new FriendApplyDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -193,6 +186,15 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
         }
     }
 
+    /**
+     * 接受好友申请
+     *
+     * @param applyId       申请ID
+     * @param relaRemark    好友备注
+     * @param relaAuth      好友朋友权限 "0":聊天、朋友圈、微信运动  "1":仅聊天
+     * @param relaNotSeeMe  朋友圈和视频动态 "0":可以看我 "1":不让他看我
+     * @param relaNotSeeHim 朋友圈和视频动态 "0":可以看他 "1":不看他
+     */
     private void acceptFriendApply(String applyId, String relaRemark,
                                    String relaAuth, String relaNotSeeMe, String relaNotSeeHim) {
         String url = Constant.BASE_URL + "friendApplies";
