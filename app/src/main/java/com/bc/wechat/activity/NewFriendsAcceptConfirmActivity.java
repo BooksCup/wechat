@@ -5,11 +5,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.FriendApplyDao;
 import com.bc.wechat.dao.UserDao;
+import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 申请添加朋友
@@ -20,6 +34,9 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
 
     // 申请信息
     private EditText mApplyRemarkEt;
+
+    // 好友备注
+    private EditText mRemarkEt;
 
     // 所有权限
     private RelativeLayout mAuthAllRl;
@@ -45,7 +62,18 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
 
     private User mUser;
     private UserDao mUserDao;
+    private FriendApplyDao mFriendApplyDao;
+    private TextView mAcceptTv;
 
+
+    private VolleyUtil mVolleyUtil;
+    private String mApplyId;
+    private FriendApply mFriendApply;
+    private LoadingDialog mDialog;
+
+    private String mRelaAuth;
+    private String mRelaNotSeeMe;
+    private String mRelaNotSeeHim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +81,20 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
         setContentView(R.layout.activity_new_friends_accept_confirm);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
+        mFriendApplyDao = new FriendApplyDao();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(this);
         initView();
     }
 
     private void initView() {
+        mRelaAuth = Constant.RELA_AUTH_ALL;
+        mRelaNotSeeMe = Constant.RELA_CAN_SEE_ME;
+        mRelaNotSeeHim = Constant.RELA_CAN_SEE_HIM;
+
+        mApplyId = getIntent().getStringExtra("applyId");
+        mFriendApply = mFriendApplyDao.getFriendApplyByApplyId(mApplyId);
+        mRemarkEt = findViewById(R.id.et_remark);
 
         mAuthAllRl = findViewById(R.id.rl_auth_all);
         mAuthAllIv = findViewById(R.id.iv_auth_all);
@@ -73,6 +111,8 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
         mForbidSeeHimIv = findViewById(R.id.iv_switch_forbid_see_him);
         mAllowSeeHimIv = findViewById(R.id.iv_switch_allow_see_him);
 
+        mAcceptTv = findViewById(R.id.tv_accept);
+
         mAuthAllRl.setOnClickListener(this);
         mAuthOnlyChatRl.setOnClickListener(this);
 
@@ -81,6 +121,10 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
 
         mForbidSeeHimIv.setOnClickListener(this);
         mAllowSeeHimIv.setOnClickListener(this);
+
+        mAcceptTv.setOnClickListener(this);
+
+        mRemarkEt.setText(mFriendApply.getFromUserNickName());
     }
 
     public void back(View view) {
@@ -92,6 +136,8 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_auth_all:
+                mRelaAuth = Constant.RELA_AUTH_ALL;
+
                 mAuthAllIv.setVisibility(View.VISIBLE);
                 mAuthOnlyChatIv.setVisibility(View.GONE);
 
@@ -99,6 +145,8 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
                 mRoleRl.setVisibility(View.VISIBLE);
                 break;
             case R.id.rl_auth_only_chat:
+                mRelaAuth = Constant.RELA_AUTH_ONLY_CHAT;
+
                 mAuthAllIv.setVisibility(View.GONE);
                 mAuthOnlyChatIv.setVisibility(View.VISIBLE);
 
@@ -107,24 +155,82 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
                 break;
 
             case R.id.iv_switch_forbid_see_me:
+                mRelaNotSeeMe = Constant.RELA_CAN_SEE_ME;
+
                 mAllowSeeMeIv.setVisibility(View.VISIBLE);
                 mForbidSeeMeIv.setVisibility(View.GONE);
                 break;
             case R.id.iv_switch_allow_see_me:
+                mRelaNotSeeMe = Constant.RELA_NOT_SEE_ME;
+
                 mAllowSeeMeIv.setVisibility(View.GONE);
                 mForbidSeeMeIv.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.iv_switch_forbid_see_him:
+                mRelaNotSeeHim = Constant.RELA_CAN_SEE_HIM;
+
                 mAllowSeeHimIv.setVisibility(View.VISIBLE);
                 mForbidSeeHimIv.setVisibility(View.GONE);
                 break;
             case R.id.iv_switch_allow_see_him:
+                mRelaNotSeeHim = Constant.RELA_NOT_SEE_HIM;
+
                 mAllowSeeHimIv.setVisibility(View.GONE);
                 mForbidSeeHimIv.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.tv_accept:
+                mDialog.setMessage("正在处理...");
+                mDialog.show();
+
+                String relaRemark = mRemarkEt.getText().toString();
+                acceptFriendApply(mApplyId, relaRemark, mRelaAuth, mRelaNotSeeMe, mRelaNotSeeHim);
                 break;
             default:
                 break;
         }
+    }
+
+    private void acceptFriendApply(String applyId, String relaRemark,
+                                   String relaAuth, String relaNotSeeMe, String relaNotSeeHim) {
+        String url = Constant.BASE_URL + "friendApplies";
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("applyId", applyId);
+        paramMap.put("relaRemark", relaRemark);
+        paramMap.put("relaAuth", relaAuth);
+        paramMap.put("relaNotSeeMe", relaNotSeeMe);
+        paramMap.put("relaNotSeeHim", relaNotSeeHim);
+
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                mFriendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
+                FriendApply.save(mFriendApply);
+
+                User user = new User();
+                user.setUserId(mFriendApply.getFromUserId());
+                user.setUserNickName(mFriendApply.getFromUserNickName());
+                user.setUserAvatar(mFriendApply.getFromUserAvatar());
+                user.setUserHeader(CommonUtil.setUserHeader(mFriendApply.getFromUserNickName()));
+                user.setUserSex(mFriendApply.getFromUserSex());
+                user.setIsFriend(Constant.IS_FRIEND);
+                mUserDao.saveUser(user);
+
+                Toast.makeText(NewFriendsAcceptConfirmActivity.this, "已发送", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(NewFriendsAcceptConfirmActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 }
