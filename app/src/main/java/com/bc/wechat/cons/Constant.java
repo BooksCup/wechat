@@ -25,6 +25,11 @@ public class Constant {
      */
     public static final String PUSH_SERVICE_TYPE_ADD_FRIENDS_APPLY = "ADD_FRIENDS_APPLY";
 
+    /**
+     * 好友接收
+     */
+    public static final String PUSH_SERVICE_TYPE_ADD_FRIENDS_ACCEPT = "ADD_FRIENDS_ACCEPT";
+
     public static final String MSG_TYPE_TEXT = "text";
     public static final String MSG_TYPE_IMAGE = "image";
     public static final String MSG_TYPE_LOCATION = "location";
@@ -55,4 +60,37 @@ public class Constant {
      * 来自微信号搜索
      */
     public static final String FRIENDS_SOURCE_BY_WX_ID = "2";
+
+    /**
+     * 朋友权限（所有权限：聊天、朋友圈、微信运动等）
+     * default
+     */
+    public static final String RELA_AUTH_ALL = "0";
+
+    /**
+     * 朋友权限（仅聊天）
+     */
+    public static final String RELA_AUTH_ONLY_CHAT = "1";
+
+    /**
+     * 朋友圈和视频动态-可以看我
+     * default
+     */
+    public static final String RELA_CAN_SEE_ME = "0";
+
+    /**
+     * 朋友圈时视频动态-不让他看我
+     */
+    public static final String RELA_NOT_SEE_ME = "1";
+
+    /**
+     * 朋友圈和视频动态-可以看他
+     * default
+     */
+    public static final String RELA_CAN_SEE_HIM = "0";
+
+    /**
+     * 朋友圈时视频动态-不看他
+     */
+    public static final String RELA_NOT_SEE_HIM = "1";
 }

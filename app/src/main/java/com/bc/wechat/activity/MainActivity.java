@@ -212,8 +212,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private MessageReceiver mMessageReceiver;
-    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN = "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN";
-    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG = "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG";
+    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN =
+            "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN";
+    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_NEW_FRIENDS_MSG =
+            "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_NEW_FRIENDS_MSG";
+
+    public static final String MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN =
+            "com.bc.wechat.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
 
@@ -221,7 +226,8 @@ public class MainActivity extends BaseActivity {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN);
+        filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN);
+        filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
@@ -230,7 +236,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN.equals(intent.getAction())) {
+                if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN.equals(intent.getAction())) {
                     String messge = intent.getStringExtra(KEY_MESSAGE);
                     String extras = intent.getStringExtra(KEY_EXTRAS);
                     StringBuilder showMsg = new StringBuilder();
@@ -240,6 +246,9 @@ public class MainActivity extends BaseActivity {
                     }
                     refreshNewFriendsUnreadNum();
                     friendsFragment.refreshNewFriendsUnreadNum();
+                }
+                if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN.equals(intent.getAction())) {
+                    friendsFragment.refreshFriendsList();
                 }
             } catch (Exception e) {
             }

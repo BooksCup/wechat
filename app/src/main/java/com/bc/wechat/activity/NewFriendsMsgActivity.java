@@ -111,7 +111,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
         mMessageReceiver = new MessageReceiver();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        filter.addAction(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG);
+        filter.addAction(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_NEW_FRIENDS_MSG);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
     }
 
@@ -120,7 +120,7 @@ public class NewFriendsMsgActivity extends FragmentActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                if (MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG.equals(intent.getAction())) {
+                if (MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_NEW_FRIENDS_MSG.equals(intent.getAction())) {
                     String messge = intent.getStringExtra(MainActivity.KEY_MESSAGE);
                     String extras = intent.getStringExtra(MainActivity.KEY_EXTRAS);
                     StringBuilder showMsg = new StringBuilder();

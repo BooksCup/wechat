@@ -13,6 +13,8 @@ import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.NewFriendsMsgActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendApply;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 
@@ -44,7 +46,7 @@ public class NotifyReceiver extends BroadcastReceiver {
 
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
-                processCustomMessage(context, bundle);
+                processMessageEntrance(context, bundle);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 
@@ -53,7 +55,7 @@ public class NotifyReceiver extends BroadcastReceiver {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
                 int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
-                messageProcessEntrance(context, bundle);
+                processNotificationEntrance(context, bundle);
 
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
@@ -115,33 +117,39 @@ public class NotifyReceiver extends BroadcastReceiver {
         return sb.toString();
     }
 
-    //send msg to MainActivity
-    private void processCustomMessage(Context context, Bundle bundle) {
-    }
-
     /**
      * 消息处理总入口
      *
      * @param context
      * @param bundle
      */
-    private void messageProcessEntrance(Context context, Bundle bundle) {
+    private void processNotificationEntrance(Context context, Bundle bundle) {
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
         Map<String, String> extrasMap = new HashMap<>();
         extrasMap = JSON.parseObject(extras, extrasMap.getClass());
         String serviceType = extrasMap.get("serviceType");
         if (Constant.PUSH_SERVICE_TYPE_ADD_FRIENDS_APPLY.equals(serviceType)) {
-            processAddFriendsMessage(context, bundle, extrasMap);
+            processAddFriendsApplyMessage(context, bundle, extrasMap);
+        }
+    }
+
+    private void processMessageEntrance(Context context, Bundle bundle) {
+        String extras = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        Map<String, String> extrasMap = new HashMap<>();
+        extrasMap = JSON.parseObject(extras, extrasMap.getClass());
+        String serviceType = extrasMap.get("serviceType");
+        if (Constant.PUSH_SERVICE_TYPE_ADD_FRIENDS_ACCEPT.equals(serviceType)) {
+            processAddFriendsAcceptMessage(context, bundle, extrasMap);
         }
     }
 
     /**
-     * 处理加好友消息
+     * 处理好友申请消息
      *
      * @param context
      * @param bundle
      */
-    private void processAddFriendsMessage(Context context, Bundle bundle, Map<String, String> extrasMap) {
+    private void processAddFriendsApplyMessage(Context context, Bundle bundle, Map<String, String> extrasMap) {
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         FriendApply friendApply = com.alibaba.fastjson.JSONObject.parseObject(extrasMap.get("friendApply"), FriendApply.class);
         List<FriendApply> friendApplyList = FriendApply.find(FriendApply.class, "from_user_id = ?", friendApply.getFromUserId());
@@ -156,17 +164,39 @@ public class NotifyReceiver extends BroadcastReceiver {
         }
 
         if (MainActivity.isForeground) {
-            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_MAIN);
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         } else if (NewFriendsMsgActivity.isForeground) {
-            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_NEW_FRIENDS_MSG);
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_NEW_FRIENDS_MSG);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         } else {
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
+        }
+    }
+
+    private void processAddFriendsAcceptMessage(Context context, Bundle bundle, Map<String, String> extrasMap) {
+        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        User user = com.alibaba.fastjson.JSONObject.parseObject(extrasMap.get("user"), User.class);
+        user.setUserHeader(CommonUtil.setUserHeader(user.getUserNickName()));
+        List<User> userList = User.find(User.class, "user_id = ?", user.getUserId());
+        if (null != userList && userList.size() > 0) {
+            // 已存在,更新时间戳
+            // 修复BUG,手动指定ID
+            user.setId(userList.get(0).getId());
+            User.save(user);
+        } else {
+            // 不存在,插入sqlite
+            User.save(user);
+        }
+
+        if (MainActivity.isForeground) {
+            Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN);
+            msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
         }
     }
 }

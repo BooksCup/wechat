@@ -435,7 +435,9 @@ public class ConversationAdapter extends BaseAdapter {
             } else {
                 String lastMsg = conversation.getLatestText();
                 if (TextUtils.isEmpty(lastMsg)) {
-                    mLastMsgTv.setText("你邀请" + groupDesc + "加入了群聊");
+                    if (null != mLastMsgTv) {
+                        mLastMsgTv.setText("你邀请" + groupDesc + "加入了群聊");
+                    }
                 } else {
                     UserInfo lastestFromUser = conversation.getLatestMessage().getFromUser();
                     String lastestFromUserName = lastestFromUser.getUserName().equals(PreferencesUtil.getInstance().getUser().getUserId()) ? "" :
@@ -457,8 +459,9 @@ public class ConversationAdapter extends BaseAdapter {
             } else {
                 mUnreadTv.setText(String.valueOf(conversation.getUnReadMsgCnt()));
             }
-
-            mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLastMsgDate()));
+            if (null != mCreateTimeTv) {
+                mCreateTimeTv.setText(TimestampUtil.getTimePoint(conversation.getLastMsgDate()));
+            }
         }
 
         return convertView;
