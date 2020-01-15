@@ -13,11 +13,16 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-
+/**
+ * 通讯录
+ *
+ * @author zhou
+ */
 public class FriendsAdapter extends ArrayAdapter<User> {
 
     List<User> mFriendList;
@@ -49,7 +54,15 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         }
 
         User friend = getItem(position);
-        String header = friend.getUserHeader();
+        String header;
+        if (TextUtils.isEmpty(friend.getUserFriendRemark())) {
+            header = CommonUtil.setUserHeader(friend.getUserNickName());
+            viewHolder.mNameTv.setText(friend.getUserNickName());
+        } else {
+            header = CommonUtil.setUserHeader(friend.getUserFriendRemark());
+            viewHolder.mNameTv.setText(friend.getUserFriendRemark());
+        }
+
         String avatar = friend.getUserAvatar();
         if (0 == position || null != header && !header.equals(getItem(position - 1).getUserHeader())) {
             if (TextUtils.isEmpty(header)) {
@@ -65,7 +78,6 @@ public class FriendsAdapter extends ArrayAdapter<User> {
             viewHolder.mTempView.setVisibility(View.VISIBLE);
         }
 
-        viewHolder.mNameTv.setText(friend.getUserNickName());
         if (!TextUtils.isEmpty(avatar)) {
             viewHolder.mAvatarSdv.setImageURI(Uri.parse(avatar));
         }
