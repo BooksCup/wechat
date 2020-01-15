@@ -27,10 +27,10 @@ import java.util.List;
 
 
 public class FriendsFragment extends Fragment {
-    private FriendsAdapter friendsAdapter;
+    private FriendsAdapter mFriendsAdapter;
 
     private ListView mFriendsLv;
-    private LayoutInflater inflater;
+    private LayoutInflater mInflater;
 
     // 好友总数
     private TextView mFriendsCountTv;
@@ -54,10 +54,10 @@ public class FriendsFragment extends Fragment {
         PreferencesUtil.getInstance().init(getActivity());
         mUserDao = new UserDao();
         mFriendsLv = getView().findViewById(R.id.lv_friends);
-        inflater = LayoutInflater.from(getActivity());
-        View headerView = inflater.inflate(R.layout.item_friends_header, null);
+        mInflater = LayoutInflater.from(getActivity());
+        View headerView = mInflater.inflate(R.layout.item_friends_header, null);
         mFriendsLv.addHeaderView(headerView);
-        View footerView = inflater.inflate(R.layout.item_friends_footer, null);
+        View footerView = mInflater.inflate(R.layout.item_friends_footer, null);
         mFriendsLv.addFooterView(footerView);
 
         mFriendsCountTv = footerView.findViewById(R.id.tv_total);
@@ -85,8 +85,8 @@ public class FriendsFragment extends Fragment {
         Collections.sort(mFriendList, new PinyinComparator() {
         });
 
-        friendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, mFriendList);
-        mFriendsLv.setAdapter(friendsAdapter);
+        mFriendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, mFriendList);
+        mFriendsLv.setAdapter(mFriendsAdapter);
 
         mFriendsCountTv.setText(mFriendList.size() + "位联系人");
 
@@ -118,17 +118,17 @@ public class FriendsFragment extends Fragment {
         // 对list进行排序
         Collections.sort(mFriendList, new PinyinComparator() {
         });
-        friendsAdapter.setData(mFriendList);
-        friendsAdapter.notifyDataSetChanged();
+        mFriendsAdapter.setData(mFriendList);
+        mFriendsAdapter.notifyDataSetChanged();
         mFriendsCountTv.setText(mFriendList.size() + "位联系人");
     }
 
     public class PinyinComparator implements Comparator<User> {
 
         @Override
-        public int compare(User o1, User o2) {
-            String py1 = o1.getUserHeader();
-            String py2 = o2.getUserHeader();
+        public int compare(User u1, User u2) {
+            String py1 = u1.getUserHeader();
+            String py2 = u2.getUserHeader();
             // 判断是否为空""
             if (isEmpty(py1) && isEmpty(py2)) {
                 return 0;
@@ -142,8 +142,8 @@ public class FriendsFragment extends Fragment {
             String str1 = "";
             String str2 = "";
             try {
-                str1 = ((o1.getUserHeader()).toUpperCase()).substring(0, 1);
-                str2 = ((o2.getUserHeader()).toUpperCase()).substring(0, 1);
+                str1 = ((u1.getUserHeader()).toUpperCase()).substring(0, 1);
+                str2 = ((u2.getUserHeader()).toUpperCase()).substring(0, 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
