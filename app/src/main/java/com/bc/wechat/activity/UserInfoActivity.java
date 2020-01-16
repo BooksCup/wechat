@@ -180,6 +180,20 @@ public class UserInfoActivity extends Activity {
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
+                // 设置备注和标签
+                RelativeLayout mSetRemarkAndTagRl = view.findViewById(R.id.rl_set_remark_and_tag);
+                mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        mPopupWindow.dismiss();
+                        Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                        intent.putExtra("userId", friend.getUserId());
+                        intent.putExtra("isFriend", Constant.IS_FRIEND);
+                        startActivity(intent);
+                    }
+                });
+
                 // 添加好友至桌面
                 RelativeLayout mAddFriendToDesktopRl = view.findViewById(R.id.rl_add_friend_to_desktop);
                 mAddFriendToDesktopRl.setOnClickListener(new View.OnClickListener() {
