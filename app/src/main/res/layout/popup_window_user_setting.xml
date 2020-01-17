@@ -55,7 +55,7 @@
         android:background="#d9d9d9" />
 
     <RelativeLayout
-        android:id="@+id/rl_set_star_friend"
+        android:id="@+id/rl_set_star_friends"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/btn_list_item_bg"

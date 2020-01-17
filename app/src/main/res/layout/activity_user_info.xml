@@ -129,6 +129,15 @@
                     android:textColor="#aaaaaa"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_star_friends"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
+                android:background="@mipmap/icon_star"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout

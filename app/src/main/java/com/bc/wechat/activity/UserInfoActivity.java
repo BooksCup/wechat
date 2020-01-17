@@ -77,6 +77,9 @@ public class UserInfoActivity extends Activity {
     private RelativeLayout mDescRl;
     private RelativeLayout mPhoneRl;
 
+    // 星标好友
+    private ImageView mStarFriendsIv;
+
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
     // 非好友: 添加到通讯录
@@ -132,6 +135,8 @@ public class UserInfoActivity extends Activity {
         mDescTv = findViewById(R.id.tv_desc);
         mPhoneTempTv = findViewById(R.id.tv_phone_temp);
         mPhoneTv = findViewById(R.id.tv_phone);
+
+        mStarFriendsIv = findViewById(R.id.iv_star_friends);
 
         mOperateRl = findViewById(R.id.rl_operate);
 
@@ -191,6 +196,16 @@ public class UserInfoActivity extends Activity {
                         intent.putExtra("userId", friend.getUserId());
                         intent.putExtra("isFriend", Constant.IS_FRIEND);
                         startActivity(intent);
+                    }
+                });
+
+                // 设为星标好友
+                RelativeLayout mSetStarFriendsRl = view.findViewById(R.id.rl_set_star_friends);
+                mSetStarFriendsRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                        mStarFriendsIv.setVisibility(View.VISIBLE);
                     }
                 });
 
