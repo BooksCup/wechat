@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private TextView mNickNameTv;
     private TextView mWxIdTv;
     private SimpleDraweeView mAvatarSdv;
+    private ImageView mWxIdIv;
 
     private VolleyUtil mVolleyUtil;
 
@@ -85,6 +87,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mWxIdRl = findViewById(R.id.rl_wx_id);
         mWxIdTv = findViewById(R.id.tv_wx_id);
+        mWxIdIv = findViewById(R.id.iv_wx_id);
 
         mQrCodeRl = findViewById(R.id.rl_qr_code);
 
@@ -101,10 +104,17 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mAvatarRl.setOnClickListener(this);
         mNickNameRl.setOnClickListener(this);
-        mWxIdRl.setOnClickListener(this);
 
         mQrCodeRl.setOnClickListener(this);
         mMoreRl.setOnClickListener(this);
+
+        // 微信号只能修改一次
+        if (Constant.USER_WX_ID_MODIFY_FLAG_TRUE.equals(mUser.getUserWxIdModifyFlag())) {
+            mWxIdIv.setVisibility(View.GONE);
+            mWxIdRl.setClickable(false);
+        } else {
+            mWxIdRl.setOnClickListener(this);
+        }
     }
 
     public void back(View view) {

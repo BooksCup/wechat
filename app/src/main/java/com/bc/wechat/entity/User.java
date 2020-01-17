@@ -20,6 +20,7 @@ public class User extends SugarRecord {
 
     private List<User> friendList;
 
+    private String userWxIdModifyFlag;
     private String userLastestCirclePhotos;
 
     private String friendSource;
@@ -133,6 +134,14 @@ public class User extends SugarRecord {
 
     public void setFriendList(List<User> friendList) {
         this.friendList = friendList;
+    }
+
+    public String getUserWxIdModifyFlag() {
+        return userWxIdModifyFlag;
+    }
+
+    public void setUserWxIdModifyFlag(String userWxIdModifyFlag) {
+        this.userWxIdModifyFlag = userWxIdModifyFlag;
     }
 
     public String getUserLastestCirclePhotos() {
