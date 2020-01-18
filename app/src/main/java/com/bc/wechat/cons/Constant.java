@@ -93,4 +93,6 @@ public class Constant {
      * 朋友圈时视频动态-不看他
      */
     public static final String RELA_NOT_SEE_HIM = "1";
+
+    public static final String RELA_IS_STAR_FRIEND = "1";
 }

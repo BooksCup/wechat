@@ -487,6 +487,13 @@ public class UserInfoActivity extends Activity {
         } else {
             mSetRemarkAndTagRl.setVisibility(View.GONE);
         }
+
+        // 是否星标好友
+        if (Constant.RELA_IS_STAR_FRIEND.equals(user.getIsStarFriend())) {
+            mStarFriendsIv.setVisibility(View.VISIBLE);
+        } else {
+            mStarFriendsIv.setVisibility(View.GONE);
+        }
     }
 
     /**

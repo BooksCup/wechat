@@ -29,6 +29,8 @@ public class User extends SugarRecord {
     private String userFriendRemark;
     private String userFriendDesc;
 
+    private String isStarFriend;
+
     public String getUserId() {
         return userId;
     }
@@ -171,5 +173,13 @@ public class User extends SugarRecord {
 
     public void setUserFriendDesc(String userFriendDesc) {
         this.userFriendDesc = userFriendDesc;
+    }
+
+    public String getIsStarFriend() {
+        return isStarFriend;
+    }
+
+    public void setIsStarFriend(String isStarFriend) {
+        this.isStarFriend = isStarFriend;
     }
 }
