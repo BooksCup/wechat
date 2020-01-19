@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -55,11 +56,19 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 
         User friend = getItem(position);
         String header;
+        if (Constant.STAR_FRIEND.equals(friend.getUserHeader())) {
+            header = Constant.STAR_FRIEND;
+        } else {
+            if (TextUtils.isEmpty(friend.getUserFriendRemark())) {
+                header = CommonUtil.setUserHeader(friend.getUserNickName());
+            } else {
+                header = CommonUtil.setUserHeader(friend.getUserFriendRemark());
+            }
+        }
+
         if (TextUtils.isEmpty(friend.getUserFriendRemark())) {
-            header = CommonUtil.setUserHeader(friend.getUserNickName());
             viewHolder.mNameTv.setText(friend.getUserNickName());
         } else {
-            header = CommonUtil.setUserHeader(friend.getUserFriendRemark());
             viewHolder.mNameTv.setText(friend.getUserFriendRemark());
         }
 

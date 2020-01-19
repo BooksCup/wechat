@@ -39,6 +39,10 @@ public class FriendsFragment extends Fragment {
 
     // 好友列表
     private List<User> mFriendList;
+
+    // 星标好友列表
+    private List<User> mStarFriendList;
+
     private UserDao mUserDao;
 
     @Nullable
@@ -80,12 +84,15 @@ public class FriendsFragment extends Fragment {
 
         mNewFriendsUnreadNumTv = headerView.findViewById(R.id.tv_new_friends_unread);
 
+        mStarFriendList = mUserDao.getAllStarFriendList();
         mFriendList = mUserDao.getAllFriendList();
         // 对list进行排序
         Collections.sort(mFriendList, new PinyinComparator() {
         });
 
-        mFriendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, mFriendList);
+        mStarFriendList.addAll(mFriendList);
+
+        mFriendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, mStarFriendList);
         mFriendsLv.setAdapter(mFriendsAdapter);
 
         mFriendsCountTv.setText(mFriendList.size() + "位联系人");
@@ -93,8 +100,8 @@ public class FriendsFragment extends Fragment {
         mFriendsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0 && position != mFriendList.size() + 1) {
-                    User friend = mFriendList.get(position - 1);
+                if (position != 0 && position != mStarFriendList.size() + 1) {
+                    User friend = mStarFriendList.get(position - 1);
                     startActivity(new Intent(getActivity(), UserInfoActivity.class).
                             putExtra("userId", friend.getUserId()));
                 }
@@ -113,12 +120,14 @@ public class FriendsFragment extends Fragment {
     }
 
     public void refreshFriendsList() {
+        mStarFriendList = mUserDao.getAllStarFriendList();
         mFriendList = mUserDao.getAllFriendList();
 
         // 对list进行排序
         Collections.sort(mFriendList, new PinyinComparator() {
         });
-        mFriendsAdapter.setData(mFriendList);
+        mStarFriendList.addAll(mFriendList);
+        mFriendsAdapter.setData(mStarFriendList);
         mFriendsAdapter.notifyDataSetChanged();
         mFriendsCountTv.setText(mFriendList.size() + "位联系人");
     }

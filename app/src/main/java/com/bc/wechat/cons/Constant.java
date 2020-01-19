@@ -103,4 +103,9 @@ public class Constant {
      * 星标好友
      */
     public static final String RELA_IS_STAR_FRIEND = "1";
+
+    /**
+     * 星标好友分组title
+     */
+    public static final String STAR_FRIEND = "星标朋友";
 }

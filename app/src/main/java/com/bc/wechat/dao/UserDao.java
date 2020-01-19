@@ -35,4 +35,14 @@ public class UserDao {
         List<User> friendList = User.find(User.class, "is_friend = ?", Constant.IS_FRIEND);
         return friendList;
     }
+
+    public List<User> getAllStarFriendList() {
+        List<User> starFriendList = User.findWithQuery(User.class,
+                "select * from user where is_friend = ? and is_star_friend = ?",
+                Constant.IS_FRIEND, Constant.RELA_IS_STAR_FRIEND);
+        for (User starFriend : starFriendList) {
+            starFriend.setUserHeader(Constant.STAR_FRIEND);
+        }
+        return starFriendList;
+    }
 }
