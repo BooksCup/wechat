@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
@@ -594,9 +595,11 @@ public class UserInfoActivity extends Activity {
                 if (Constant.RELA_IS_STAR_FRIEND.equals(isStarFriend)) {
                     mStarFriendsIv.setVisibility(View.VISIBLE);
                     friend.setIsStarFriend(Constant.RELA_IS_STAR_FRIEND);
+                    Toast.makeText(UserInfoActivity.this, "已设为星标朋友", Toast.LENGTH_SHORT).show();
                 } else {
                     mStarFriendsIv.setVisibility(View.GONE);
                     friend.setIsStarFriend(Constant.RELA_IS_NOT_STAR_FRIEND);
+                    Toast.makeText(UserInfoActivity.this, "已取消星标朋友", Toast.LENGTH_SHORT).show();
                 }
                 mUserDao.saveUser(friend);
             }
