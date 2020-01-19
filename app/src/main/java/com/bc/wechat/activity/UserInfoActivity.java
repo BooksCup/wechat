@@ -185,6 +185,15 @@ public class UserInfoActivity extends Activity {
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
+                TextView mSetStarFriendTv = view.findViewById(R.id.tv_set_star_friend);
+
+                // 是否星标好友
+                if (Constant.RELA_IS_STAR_FRIEND.equals(friend.getIsStarFriend())) {
+                    mSetStarFriendTv.setText("取消星标朋友");
+                } else {
+                    mSetStarFriendTv.setText("设为星标朋友");
+                }
+
                 // 设置备注和标签
                 RelativeLayout mSetRemarkAndTagRl = view.findViewById(R.id.rl_set_remark_and_tag);
                 mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
@@ -200,12 +209,18 @@ public class UserInfoActivity extends Activity {
                 });
 
                 // 设为星标好友
-                RelativeLayout mSetStarFriendsRl = view.findViewById(R.id.rl_set_star_friends);
-                mSetStarFriendsRl.setOnClickListener(new View.OnClickListener() {
+                RelativeLayout mSetStarFriendRl = view.findViewById(R.id.rl_set_star_friend);
+                mSetStarFriendRl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
-                        mStarFriendsIv.setVisibility(View.VISIBLE);
+                        if (Constant.RELA_IS_STAR_FRIEND.equals(friend.getIsStarFriend())) {
+                            mStarFriendsIv.setVisibility(View.GONE);
+                            friend.setIsStarFriend(Constant.RELA_IS_NOT_STAR_FRIEND);
+                        } else {
+                            mStarFriendsIv.setVisibility(View.VISIBLE);
+                            friend.setIsStarFriend(Constant.RELA_IS_STAR_FRIEND);
+                        }
                     }
                 });
 

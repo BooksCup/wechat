@@ -94,5 +94,13 @@ public class Constant {
      */
     public static final String RELA_NOT_SEE_HIM = "1";
 
+    /**
+     * 非星标好友
+     */
+    public static final String RELA_IS_NOT_STAR_FRIEND = "0";
+
+    /**
+     * 星标好友
+     */
     public static final String RELA_IS_STAR_FRIEND = "1";
 }
