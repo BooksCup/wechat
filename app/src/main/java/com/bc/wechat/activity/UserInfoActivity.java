@@ -48,7 +48,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
 
@@ -215,12 +217,11 @@ public class UserInfoActivity extends Activity {
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
                         if (Constant.RELA_IS_STAR_FRIEND.equals(friend.getIsStarFriend())) {
-                            mStarFriendsIv.setVisibility(View.GONE);
-                            friend.setIsStarFriend(Constant.RELA_IS_NOT_STAR_FRIEND);
+                            updateUserStarFriend(mUser.getUserId(), friend, Constant.RELA_IS_NOT_STAR_FRIEND);
                         } else {
-                            mStarFriendsIv.setVisibility(View.VISIBLE);
-                            friend.setIsStarFriend(Constant.RELA_IS_STAR_FRIEND);
+                            updateUserStarFriend(mUser.getUserId(), friend, Constant.RELA_IS_STAR_FRIEND);
                         }
+
                     }
                 });
 
@@ -562,6 +563,42 @@ public class UserInfoActivity extends Activity {
                 finish();
                 // TODO
                 // 跳转到首页第二个tab并refresh
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
+            }
+        });
+
+    }
+
+    /**
+     * 设置或取消星标朋友
+     *
+     * @param userId       用户ID
+     * @param friend       好友
+     * @param isStarFriend 是否星标好友
+     */
+    private void updateUserStarFriend(final String userId, final User friend,
+                                      final String isStarFriend) {
+        String url = Constant.BASE_URL + "users/" + userId + "/starFriend";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("friendId", friend.getUserId());
+        paramMap.put("isStarFriend", isStarFriend);
+
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                if (Constant.RELA_IS_STAR_FRIEND.equals(isStarFriend)) {
+                    mStarFriendsIv.setVisibility(View.VISIBLE);
+                    friend.setIsStarFriend(Constant.RELA_IS_STAR_FRIEND);
+                } else {
+                    mStarFriendsIv.setVisibility(View.GONE);
+                    friend.setIsStarFriend(Constant.RELA_IS_NOT_STAR_FRIEND);
+                }
+                mUserDao.saveUser(friend);
             }
         }, new Response.ErrorListener() {
             @Override
