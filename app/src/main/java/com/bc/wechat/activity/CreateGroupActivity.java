@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ import com.bc.wechat.adapter.PickContactAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PinyinComparator;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
@@ -33,7 +33,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,34 +212,6 @@ public class CreateGroupActivity extends BaseActivity {
             mSaveBtn.setText("确定");
             mSaveBtn.setEnabled(false);
             mSaveBtn.setTextColor(0xFFD0EFC6);
-        }
-    }
-
-    public class PinyinComparator implements Comparator<User> {
-
-        @Override
-        public int compare(User user1, User user2) {
-            String py1 = user1.getUserHeader();
-            String py2 = user2.getUserHeader();
-            // 判断是否为空""
-            if (TextUtils.isEmpty(py1) && TextUtils.isEmpty(py2)) {
-                return 0;
-            }
-            if (TextUtils.isEmpty(py1)) {
-                return -1;
-            }
-            if (TextUtils.isEmpty(py2)) {
-                return 1;
-            }
-            String str1 = "";
-            String str2 = "";
-            try {
-                str1 = ((user1.getUserHeader()).toUpperCase()).substring(0, 1);
-                str2 = ((user2.getUserHeader()).toUpperCase()).substring(0, 1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return str1.compareTo(str2);
         }
     }
 

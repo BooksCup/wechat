@@ -3,7 +3,9 @@ package com.bc.wechat.dao;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.PinyinComparator;
 
+import java.util.Collections;
 import java.util.List;
 
 public class UserDao {
@@ -40,6 +42,8 @@ public class UserDao {
         List<User> starFriendList = User.findWithQuery(User.class,
                 "select * from user where is_friend = ? and is_star_friend = ?",
                 Constant.IS_FRIEND, Constant.RELA_IS_STAR_FRIEND);
+        Collections.sort(starFriendList, new PinyinComparator() {
+        });
         for (User starFriend : starFriendList) {
             starFriend.setUserHeader(Constant.STAR_FRIEND);
         }
