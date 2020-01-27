@@ -41,7 +41,6 @@
         android:id="@+id/rl_sex"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
