@@ -26,6 +26,11 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 更多信息
+ *
+ * @author zhou
+ */
 public class MyMoreUserInfoActivity extends FragmentActivity implements View.OnClickListener {
 
     private RelativeLayout mSexRl;
@@ -70,6 +75,10 @@ public class MyMoreUserInfoActivity extends FragmentActivity implements View.OnC
 
         mSexRl.setOnClickListener(this);
         mSignRl.setOnClickListener(this);
+    }
+
+    public void back(View view) {
+        finish();
     }
 
     @Override
