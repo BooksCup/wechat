@@ -103,6 +103,9 @@
             android:name=".activity.MyUserInfoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.MyMoreUserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.UpdateNickNameActivity"
             android:screenOrientation="portrait" />
         <activity

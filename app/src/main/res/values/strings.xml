@@ -133,4 +133,6 @@
 
     <string name="search_friend_by_phone">来自手机号搜索</string>
     <string name="search_friend_by_wx_id">来自微信号搜索</string>
+
+    <string name="more">更多</string>
 </resources>

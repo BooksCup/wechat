@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,48 +28,51 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 个人信息
+ *
+ * @author zhou
+ */
 public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
 
     private static final int WRITE_PERMISSION = 0x01;
+    // 头像
     private RelativeLayout mAvatarRl;
+    // 昵称
     private RelativeLayout mNickNameRl;
+    // 微信号
     private RelativeLayout mWxIdRl;
-    private RelativeLayout mSexRl;
-    private RelativeLayout mSignRl;
+    // 二维码
     private RelativeLayout mQrCodeRl;
+    // 更多
+    private RelativeLayout mMoreRl;
+
 
     private TextView mNickNameTv;
     private TextView mWxIdTv;
-    private TextView mSexTv;
-    private TextView mSignTv;
-
     private SimpleDraweeView mAvatarSdv;
 
-    private VolleyUtil volleyUtil;
+    private VolleyUtil mVolleyUtil;
 
     private static final int UPDATE_AVATAR_BY_ALBUM = 2;
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
-    private static final int UPDATE_USER_SIGN = 5;
 
-    LoadingDialog dialog;
-    User user;
+    private User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_info);
-        volleyUtil = VolleyUtil.getInstance(this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
-        user = PreferencesUtil.getInstance().getUser();
-        dialog = new LoadingDialog(MyUserInfoActivity.this);
+        mUser = PreferencesUtil.getInstance().getUser();
         requestWritePermission();
         initView();
     }
@@ -84,37 +86,25 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mWxIdRl = findViewById(R.id.rl_wx_id);
         mWxIdTv = findViewById(R.id.tv_wx_id);
 
-        mSexRl = findViewById(R.id.rl_sex);
-        mSexTv = findViewById(R.id.tv_sex);
-
-        mSignRl = findViewById(R.id.rl_sign);
-        mSignTv = findViewById(R.id.tv_sign);
-
         mQrCodeRl = findViewById(R.id.rl_qr_code);
+
+        mMoreRl = findViewById(R.id.rl_more);
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
-        mNickNameTv.setText(user.getUserNickName());
-        mWxIdTv.setText(user.getUserWxId());
-        String userAvatar = user.getUserAvatar();
+        mNickNameTv.setText(mUser.getUserNickName());
+        mWxIdTv.setText(mUser.getUserWxId());
+        String userAvatar = mUser.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
         }
-        String userSex = user.getUserSex();
-
-        if (Constant.USER_SEX_MALE.equals(userSex)) {
-            mSexTv.setText(getString(R.string.sex_male));
-        } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
-            mSexTv.setText(getString(R.string.sex_female));
-        }
-        mSignTv.setText(user.getUserSign());
 
         mAvatarRl.setOnClickListener(this);
         mNickNameRl.setOnClickListener(this);
         mWxIdRl.setOnClickListener(this);
-        mSexRl.setOnClickListener(this);
-        mSignRl.setOnClickListener(this);
+
         mQrCodeRl.setOnClickListener(this);
+        mMoreRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -134,15 +124,11 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             case R.id.rl_wx_id:
                 startActivityForResult(new Intent(this, UpdateWxIdActivity.class), UPDATE_USER_WX_ID);
                 break;
-            case R.id.rl_sex:
-                showSexDialog();
-                break;
-            case R.id.rl_sign:
-                // 签名
-                startActivityForResult(new Intent(this, UpdateSignActivity.class), UPDATE_USER_SIGN);
-                break;
             case R.id.rl_qr_code:
                 startActivity(new Intent(this, QrCodeActivity.class));
+                break;
+            case R.id.rl_more:
+                startActivity(new Intent(this, MyMoreUserInfoActivity.class));
                 break;
         }
     }
@@ -179,47 +165,13 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                     // 微信号
                     mWxIdTv.setText(user.getUserWxId());
                     break;
-                case UPDATE_USER_SIGN:
-                    // 个性签名
-                    mSignTv.setText(user.getUserSign());
-                    break;
             }
         }
     }
 
-    private void showSexDialog() {
-        final AlertDialog sexDialog = new AlertDialog.Builder(this).create();
-        sexDialog.show();
-        Window window = sexDialog.getWindow();
-        window.setContentView(R.layout.dialog_alert);
-        LinearLayout mTitleLl = window.findViewById(R.id.ll_title);
-        mTitleLl.setVisibility(View.VISIBLE);
-        TextView mTitleTv = window.findViewById(R.id.tv_title);
-        mTitleTv.setText(getString(R.string.sex));
-        TextView mMaleTv = window.findViewById(R.id.tv_content1);
-        mMaleTv.setText(getString(R.string.sex_male));
-        mMaleTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.setMessage(getString(R.string.saving));
-                dialog.show();
-                updateUserSex(user.getUserId(), Constant.USER_SEX_MALE);
-                sexDialog.dismiss();
-            }
-        });
-        TextView mFemaleTv = window.findViewById(R.id.tv_content2);
-        mFemaleTv.setText(getString(R.string.sex_female));
-        mFemaleTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.setMessage(getString(R.string.saving));
-                dialog.show();
-                updateUserSex(user.getUserId(), Constant.USER_SEX_FEMALE);
-                sexDialog.dismiss();
-            }
-        });
-    }
-
+    /**
+     * 显示修改头像对话框
+     */
     private void showPhotoDialog() {
         final AlertDialog photoDialog = new AlertDialog.Builder(this).create();
         photoDialog.show();
@@ -248,48 +200,22 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
     }
 
-    private void updateUserSex(String userId, final String userSex) {
-        String url = Constant.BASE_URL + "users/" + userId + "/userSex";
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("userSex", userSex);
-
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                user.setUserSex(userSex);
-                PreferencesUtil.getInstance().setUser(user);
-                if (Constant.USER_SEX_MALE.equals(userSex)) {
-                    mSexTv.setText(getString(R.string.sex_male));
-                } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
-                    mSexTv.setText(getString(R.string.sex_female));
-                }
-                dialog.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(MyUserInfoActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(MyUserInfoActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        });
-    }
-
+    /**
+     * 修改用户头像
+     *
+     * @param userId     用户ID
+     * @param userAvatar 用户头像
+     */
     private void updateUserAvatar(String userId, final String userAvatar) {
         String url = Constant.BASE_URL + "users/" + userId + "/userAvatar";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userAvatar", userAvatar);
 
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                user.setUserAvatar(userAvatar);
-                PreferencesUtil.getInstance().setUser(user);
+                mUser.setUserAvatar(userAvatar);
+                PreferencesUtil.getInstance().setUser(mUser);
             }
         }, new Response.ErrorListener() {
             @Override

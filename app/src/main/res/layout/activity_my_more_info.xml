@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebebeb"
@@ -37,73 +36,34 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
+
     <RelativeLayout
-        android:id="@+id/rl_avatar"
+        android:id="@+id/rl_sex"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_avatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="30dp"
-            fresco:placeholderImage="@mipmap/default_user_avatar" />
-
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="@string/avatar"
-            android:textColor="#353535"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_right_arrow" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_nick_name"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
-        android:clickable="true">
-
-        <TextView
-            android:id="@+id/tv_temp_nick_name"
+            android:id="@+id/tv_temp_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="@string/nick_name"
+            android:text="@string/sex"
             android:textColor="#353535"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_nick_name"
+            android:id="@+id/tv_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:layout_toRightOf="@id/tv_temp_nick_name"
+            android:layout_toRightOf="@id/tv_temp_sex"
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
@@ -127,31 +87,30 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_wx_id"
+        android:id="@+id/rl_region"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
         <TextView
-            android:id="@+id/tv_temp_wx_id"
+            android:id="@+id/tv_temp_region"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="@string/wx_id"
+            android:text="@string/region"
             android:textColor="#353535"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tv_wx_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:layout_toRightOf="@id/tv_temp_wx_id"
+            android:layout_toRightOf="@id/tv_temp_region"
             android:ellipsize="end"
             android:gravity="right"
             android:singleLine="true"
@@ -175,90 +134,37 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_qr_code"
+        android:id="@+id/rl_sign"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
         <TextView
-            android:id="@+id/tv_temp_qr_code"
+            android:id="@+id/tv_temp_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="@string/qr_code"
+            android:text="@string/my_sign"
             android:textColor="#353535"
             android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+        <TextView
+            android:id="@+id/tv_sign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:src="@mipmap/qr_code" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_right_arrow" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_more"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
-        android:clickable="true">
-
-        <TextView
-            android:id="@+id/tv_temp_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="@string/more"
-            android:textColor="#353535"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/icon_right_arrow" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_address"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_list_item_bg"
-        android:clickable="true">
-
-        <TextView
-            android:id="@+id/tv_temp_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="@string/my_address"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:layout_toRightOf="@id/tv_temp_sign"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:inputType="textMultiLine"
+            android:text=""
+            android:textColor="#AAAAAA"
+            android:textSize="14sp" />
 
         <ImageView
             android:layout_width="24dp"
