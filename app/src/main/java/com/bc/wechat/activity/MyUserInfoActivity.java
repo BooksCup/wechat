@@ -107,6 +107,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mQrCodeRl.setOnClickListener(this);
         mMoreRl.setOnClickListener(this);
+        mAvatarSdv.setOnClickListener(this);
 
         // 微信号只能修改一次
         if (Constant.USER_WX_ID_MODIFY_FLAG_TRUE.equals(mUser.getUserWxIdModifyFlag())) {
@@ -126,6 +127,11 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.rl_avatar:
                 showPhotoDialog();
+                break;
+            case R.id.sdv_avatar:
+                Intent intent = new Intent(this, BigImageActivity.class);
+                intent.putExtra("imgUrl", mUser.getUserAvatar());
+                startActivity(intent);
                 break;
             case R.id.rl_nick_name:
                 // 昵称
