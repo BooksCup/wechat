@@ -96,7 +96,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
         mNickNameTv.setText(mUser.getUserNickName());
-        mWxIdTv.setText(mUser.getUserWxId());
+
         String userAvatar = mUser.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
             mAvatarSdv.setImageURI(Uri.parse(userAvatar));
@@ -109,17 +109,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mMoreRl.setOnClickListener(this);
         mAvatarSdv.setOnClickListener(this);
 
-        // 微信号只能修改一次
-        if (Constant.USER_WX_ID_MODIFY_FLAG_TRUE.equals(mUser.getUserWxIdModifyFlag())) {
-            mWxIdIv.setVisibility(View.GONE);
-            mWxIdRl.setClickable(false);
-        } else {
-            mWxIdRl.setOnClickListener(this);
-        }
-    }
-
-    public void back(View view) {
-        finish();
+        renderWxId(mUser);
     }
 
     @Override
@@ -146,6 +136,24 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             case R.id.rl_more:
                 startActivity(new Intent(this, MyMoreUserInfoActivity.class));
                 break;
+        }
+    }
+
+    public void back(View view) {
+        finish();
+    }
+
+    /**
+     * 渲染微信ID
+     */
+    private void renderWxId(User user) {
+        mWxIdTv.setText(user.getUserWxId());
+        // 微信号只能修改一次
+        if (Constant.USER_WX_ID_MODIFY_FLAG_TRUE.equals(user.getUserWxIdModifyFlag())) {
+            mWxIdIv.setVisibility(View.GONE);
+            mWxIdRl.setClickable(false);
+        } else {
+            mWxIdRl.setOnClickListener(this);
         }
     }
 
@@ -178,8 +186,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                     mNickNameTv.setText(user.getUserNickName());
                     break;
                 case UPDATE_USER_WX_ID:
-                    // 微信号
-                    mWxIdTv.setText(user.getUserWxId());
+                    renderWxId(user);
                     break;
             }
         }

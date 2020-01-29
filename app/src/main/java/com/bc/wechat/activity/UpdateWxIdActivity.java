@@ -26,6 +26,11 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 微信号修改
+ *
+ * @author zhou
+ */
 public class UpdateWxIdActivity extends FragmentActivity {
     private EditText mWxIdEt;
     private TextView mSaveTv;
@@ -116,6 +121,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
                 dialog.dismiss();
                 setResult(RESULT_OK);
                 user.setUserWxId(userWxId);
+                user.setUserWxIdModifyFlag(Constant.USER_WX_ID_MODIFY_FLAG_TRUE);
                 PreferencesUtil.getInstance().setUser(user);
                 finish();
             }
