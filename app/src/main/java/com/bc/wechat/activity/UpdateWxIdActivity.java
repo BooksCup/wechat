@@ -34,9 +34,9 @@ import java.util.Map;
 public class UpdateWxIdActivity extends FragmentActivity {
     private EditText mWxIdEt;
     private TextView mSaveTv;
-    private VolleyUtil volleyUtil;
-    LoadingDialog dialog;
-    User user;
+    private VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,17 +44,17 @@ public class UpdateWxIdActivity extends FragmentActivity {
         setContentView(R.layout.activity_update_wx_id);
 
         PreferencesUtil.getInstance().init(this);
-        user = PreferencesUtil.getInstance().getUser();
-        volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new LoadingDialog(UpdateWxIdActivity.this);
+        mUser = PreferencesUtil.getInstance().getUser();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(UpdateWxIdActivity.this);
         initView();
 
         mSaveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.setMessage(getString(R.string.saving));
-                dialog.show();
-                String userId = user.getUserId();
+                mDialog.setMessage(getString(R.string.saving));
+                mDialog.show();
+                String userId = mUser.getUserId();
                 String userWxId = mWxIdEt.getText().toString();
                 updateUserWxId(userId, userWxId);
             }
@@ -65,7 +65,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         mWxIdEt = findViewById(R.id.et_wx_id);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mWxIdEt.setText(user.getUserWxId());
+        mWxIdEt.setText(mUser.getUserWxId());
         // 光标移至最后
         CharSequence charSequence = mWxIdEt.getText();
         if (charSequence instanceof Spannable) {
@@ -85,7 +85,7 @@ public class UpdateWxIdActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newWxId = mWxIdEt.getText().toString();
-            String oldWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
+            String oldWxId = mUser.getUserWxId() == null ? "" : mUser.getUserWxId();
             // 是否填写
             boolean isWxIdHasText = mWxIdEt.length() > 0;
             // 是否修改
@@ -115,20 +115,20 @@ public class UpdateWxIdActivity extends FragmentActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userWxId", userWxId);
 
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 setResult(RESULT_OK);
-                user.setUserWxId(userWxId);
-                user.setUserWxIdModifyFlag(Constant.USER_WX_ID_MODIFY_FLAG_TRUE);
-                PreferencesUtil.getInstance().setUser(user);
+                mUser.setUserWxId(userWxId);
+                mUser.setUserWxIdModifyFlag(Constant.USER_WX_ID_MODIFY_FLAG_TRUE);
+                PreferencesUtil.getInstance().setUser(mUser);
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(UpdateWxIdActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
