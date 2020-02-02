@@ -170,10 +170,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                List<String> imageList = FileUtil.uploadFile(Constant.FILE_UPLOAD_URL, filePath);
+                                List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
                                 if (null != imageList && imageList.size() > 0) {
-                                    String newAvatar = Constant.FILE_BASE_URL + imageList.get(0);
-                                    updateUserAvatar(user.getUserId(), newAvatar);
+                                    updateUserAvatar(user.getUserId(), imageList.get(0));
                                 }
                             }
                         }).start();
