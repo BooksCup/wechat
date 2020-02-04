@@ -42,7 +42,6 @@ public class FileUtil {
         return null;
     }
 
-
     /**
      * 适配api19及以上,根据uri获取图片的绝对路径
      *
@@ -63,7 +62,6 @@ public class FileUtil {
                 String selection = MediaStore.Images.Media._ID + "=?";
                 String[] selectionArgs = {id};
 
-                //
                 Uri contentUri = null;
                 if ("image".equals(type)) {
                     contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,6 +33,7 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,11 +65,13 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
     private VolleyUtil mVolleyUtil;
 
+    private static final int UPDATE_AVATAR_BY_TAKE_CAMERA = 1;
     private static final int UPDATE_AVATAR_BY_ALBUM = 2;
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
 
     private User mUser;
+    private String mImageName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +82,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mUser = PreferencesUtil.getInstance().getUser();
         requestWritePermission();
         initView();
+        initCamera();
     }
 
     private void initView() {
@@ -162,6 +168,19 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         if (resultCode == RESULT_OK) {
             final User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
+                case UPDATE_AVATAR_BY_TAKE_CAMERA:
+                    final File file = new File(Environment.getExternalStorageDirectory(), mImageName);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", file.getPath());
+                            if (null != imageList && imageList.size() > 0) {
+                                updateUserAvatar(user.getUserId(), imageList.get(0));
+                            }
+                        }
+                    }).start();
+                    mAvatarSdv.setImageURI(Uri.fromFile(file));
+                    break;
                 case UPDATE_AVATAR_BY_ALBUM:
                     if (data != null) {
                         Uri uri = data.getData();
@@ -205,7 +224,12 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mTakePicTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mImageName = "1234.png";
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
+                        new File(Environment.getExternalStorageDirectory(), mImageName)));
+                startActivityForResult(cameraIntent, UPDATE_AVATAR_BY_TAKE_CAMERA);
+                photoDialog.dismiss();
             }
         });
 
@@ -263,5 +287,14 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
         }
+    }
+
+    /**
+     * android 7.0系统解决拍照的问题
+     */
+    private void initCamera() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
     }
 }

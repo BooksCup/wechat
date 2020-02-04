@@ -6,9 +6,10 @@ package com.bc.wechat.cons;
 public class Constant {
     public static String PICTURE_DIR = "sdcard/wechat_/pictures/";
 
-    public static final String BASE_URL = "http://49.4.25.11:8081/";
+    //    public static final String BASE_URL = "http://49.4.25.11:8081/";
+    public static final String BASE_URL = "http://192.168.0.56:8081/";
 
-    public static final String FILE_UPLOAD_URL = BASE_URL + "files";
+    public static final String FILE_UPLOAD_URL = BASE_URL + "oss/file";
     public static final String FILE_BASE_URL = "http://49.4.25.11:9999/wechat_file/";
 
     public static final String USER_SEX_MALE = "1";
@@ -108,4 +109,9 @@ public class Constant {
      * 星标好友分组title
      */
     public static final String STAR_FRIEND = "星标朋友";
+
+    /**
+     * 用户微信号修改标记
+     */
+    public static final String USER_WX_ID_MODIFY_FLAG_TRUE = "1";
 }
