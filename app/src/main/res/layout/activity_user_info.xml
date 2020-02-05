@@ -200,7 +200,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_phone_temp"
                 android:paddingLeft="10dp"
-                android:text="13770519290"
+                android:text=""
                 android:textSize="16sp" />
 
             <ImageView

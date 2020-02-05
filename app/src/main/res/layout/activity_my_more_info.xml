@@ -75,6 +75,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:src="@mipmap/icon_right_arrow" />
 
         <View
@@ -122,6 +123,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:src="@mipmap/icon_right_arrow" />
 
         <View
@@ -170,6 +172,7 @@
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 </LinearLayout>
