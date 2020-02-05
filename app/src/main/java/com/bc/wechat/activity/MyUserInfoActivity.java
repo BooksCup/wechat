@@ -29,6 +29,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.FileUtil;
+import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -105,7 +106,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         String userAvatar = mUser.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
-            mAvatarSdv.setImageURI(Uri.parse(userAvatar));
+            String resizeAvatarUrl = OssUtil.resize(userAvatar);
+            mAvatarSdv.setImageURI(resizeAvatarUrl);
         }
 
         mAvatarRl.setOnClickListener(this);

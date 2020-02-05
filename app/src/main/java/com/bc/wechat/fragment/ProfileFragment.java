@@ -18,6 +18,7 @@ import com.bc.wechat.activity.BigImageActivity;
 import com.bc.wechat.activity.MyUserInfoActivity;
 import com.bc.wechat.activity.SettingActivity;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -65,7 +66,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mWxIdTv.setText("微信号:" + userWxId);
         String userAvatar = user.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
-            mAvatarSdv.setImageURI(Uri.parse(userAvatar));
+            String resizeAvatarUrl = OssUtil.resize(user.getUserAvatar());
+            mAvatarSdv.setImageURI(Uri.parse(resizeAvatarUrl));
         }
     }
 
@@ -98,7 +100,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
         mWxIdTv.setText("微信号:" + userWxId);
         if (!TextUtils.isEmpty(user.getUserAvatar())) {
-            mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+            String resizeAvatarUrl = OssUtil.resize(user.getUserAvatar());
+            mAvatarSdv.setImageURI(Uri.parse(resizeAvatarUrl));
         }
     }
 }
