@@ -34,6 +34,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -259,7 +260,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         mTakePicTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mImageName = "1234.png";
+                mImageName = CommonUtil.generateId() + ".png";
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
                         new File(Environment.getExternalStorageDirectory(), mImageName)));
