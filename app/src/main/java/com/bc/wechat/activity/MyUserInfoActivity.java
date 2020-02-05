@@ -58,6 +58,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     private RelativeLayout mQrCodeRl;
     // 更多
     private RelativeLayout mMoreRl;
+    // 我的地址
+    private RelativeLayout mAddressRl;
 
 
     private TextView mNickNameTv;
@@ -103,6 +105,8 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
 
         mAvatarSdv = findViewById(R.id.sdv_avatar);
 
+        mAddressRl = findViewById(R.id.rl_address);
+
         mNickNameTv.setText(mUser.getUserNickName());
 
         String userAvatar = mUser.getUserAvatar();
@@ -117,6 +121,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mQrCodeRl.setOnClickListener(this);
         mMoreRl.setOnClickListener(this);
         mAvatarSdv.setOnClickListener(this);
+        mAddressRl.setOnClickListener(this);
 
         renderWxId(mUser);
     }
@@ -144,6 +149,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                 break;
             case R.id.rl_more:
                 startActivity(new Intent(this, MyMoreUserInfoActivity.class));
+                break;
+            case R.id.rl_address:
+                startActivity(new Intent(this, MyAddressActivity.class));
                 break;
         }
     }
