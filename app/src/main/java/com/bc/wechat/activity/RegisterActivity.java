@@ -1,18 +1,24 @@
 package com.bc.wechat.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,11 +34,14 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
+import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +62,10 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     private static final String TAG = "RegisterActivity";
     public static int sequence = 1;
 
-    private VolleyUtil volleyUtil;
+    private VolleyUtil mVolleyUtil;
+
+    SimpleDraweeView mAvatarSdv;
+
     TextView mAgreementTv;
     EditText mNickNameEt;
     EditText mPhoneEt;
@@ -64,20 +76,28 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
 
     Button mRegisterBtn;
 
-    LoadingDialog dialog;
+    LoadingDialog mDialog;
     UserDao mUserDao;
+
+    private static final int UPDATE_AVATAR_BY_TAKE_CAMERA = 1;
+    private static final int UPDATE_AVATAR_BY_ALBUM = 2;
+
+    private String mImageName;
+    private String mUserAvatar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new LoadingDialog(RegisterActivity.this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(RegisterActivity.this);
         mUserDao = new UserDao();
         initView();
     }
 
     private void initView() {
+        mAvatarSdv = findViewById(R.id.sdv_avatar);
+
         mNickNameEt = findViewById(R.id.et_nick_name);
         mPhoneEt = findViewById(R.id.et_phone);
         mPasswordEt = findViewById(R.id.et_password);
@@ -98,6 +118,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         mPhoneEt.addTextChangedListener(new TextChange());
         mPasswordEt.addTextChangedListener(new TextChange());
 
+        mAvatarSdv.setOnClickListener(this);
         mHidePasswordIv.setOnClickListener(this);
         mShowPasswordIv.setOnClickListener(this);
         mRegisterBtn.setOnClickListener(this);
@@ -110,6 +131,9 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.sdv_avatar:
+                showPhotoDialog();
+                break;
             case R.id.iv_password_hide:
                 // 点击显示密码
                 mHidePasswordIv.setVisibility(View.GONE);
@@ -138,20 +162,59 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
                 break;
 
             case R.id.btn_register:
-                dialog.setMessage(getString(R.string.registering));
-                dialog.show();
+                mDialog.setMessage(getString(R.string.registering));
+                mDialog.show();
 
                 String nickName = mNickNameEt.getText().toString();
                 String phone = mPhoneEt.getText().toString();
                 String password = mPasswordEt.getText().toString();
                 if (!validatePassword(password)) {
-                    dialog.dismiss();
+                    mDialog.dismiss();
                     Toast.makeText(RegisterActivity.this, R.string.password_rules,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                register(nickName, phone, password);
+                register(nickName, phone, password, mUserAvatar);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case UPDATE_AVATAR_BY_TAKE_CAMERA:
+                    final File file = new File(Environment.getExternalStorageDirectory(), mImageName);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", file.getPath());
+                            if (null != imageList && imageList.size() > 0) {
+                                mUserAvatar = imageList.get(0);
+                            }
+                        }
+                    }).start();
+                    mAvatarSdv.setImageURI(Uri.fromFile(file));
+                    break;
+                case UPDATE_AVATAR_BY_ALBUM:
+                    if (data != null) {
+                        Uri uri = data.getData();
+                        final String filePath = FileUtil.getFilePathByUri(this, uri);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
+                                if (null != imageList && imageList.size() > 0) {
+                                    mUserAvatar = imageList.get(0);
+                                }
+                            }
+                        }).start();
+
+                        mAvatarSdv.setImageURI(uri);
+                    }
+                    break;
+            }
         }
     }
 
@@ -183,23 +246,62 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
     }
 
     /**
+     * 显示修改头像对话框
+     */
+    private void showPhotoDialog() {
+        final AlertDialog photoDialog = new AlertDialog.Builder(this).create();
+        photoDialog.show();
+        Window window = photoDialog.getWindow();
+        window.setContentView(R.layout.dialog_alert);
+        TextView mTakePicTv = window.findViewById(R.id.tv_content1);
+        TextView mAlbumTv = window.findViewById(R.id.tv_content2);
+        mTakePicTv.setText("拍照");
+        mTakePicTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mImageName = "1234.png";
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
+                        new File(Environment.getExternalStorageDirectory(), mImageName)));
+                startActivityForResult(cameraIntent, UPDATE_AVATAR_BY_TAKE_CAMERA);
+                photoDialog.dismiss();
+            }
+        });
+
+        mAlbumTv.setText("相册");
+        mAlbumTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, UPDATE_AVATAR_BY_ALBUM);
+                photoDialog.dismiss();
+            }
+        });
+
+    }
+
+    /**
      * 注册
      *
      * @param nickName 昵称
      * @param phone    手机号
      * @param password 密码
      */
-    private void register(String nickName, String phone, String password) {
+    private void register(String nickName, String phone, String password, String avatar) {
         String url = Constant.BASE_URL + "users";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("nickName", nickName);
         paramMap.put("phone", phone);
         paramMap.put("password", MD5Util.encode(password, "utf8"));
+        if (!TextUtils.isEmpty(avatar)) {
+            paramMap.put("avatar", avatar);
+        }
 
-        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 Log.d(TAG, "server response: " + response);
                 final User user = JSON.parseObject(response, User.class);
                 Log.d(TAG, "userId:" + user.getUserId());
@@ -231,7 +333,7 @@ public class RegisterActivity extends FragmentActivity implements View.OnClickLi
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(RegisterActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;

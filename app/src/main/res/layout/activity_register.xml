@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -46,12 +47,12 @@
             android:layout_width="match_parent"
             android:layout_height="64dp">
 
-            <ImageView
-                android:id="@+id/iv_avatar"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_avatar"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/icon_register" />
+                fresco:placeholderImage="@mipmap/icon_register" />
 
             <EditText
                 android:id="@+id/et_nick_name"
@@ -59,7 +60,7 @@
                 android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@id/iv_avatar"
+                android:layout_toLeftOf="@id/sdv_avatar"
                 android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="@string/nick_name_example"
