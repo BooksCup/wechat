@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private SimpleDraweeView mAvatarSdv;
     private TextView mNickNameTv;
     private TextView mWxIdTv;
-    User user;
+    User mUser;
 
     @Nullable
     @Override
@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         PreferencesUtil.getInstance().init(getActivity());
-        user = PreferencesUtil.getInstance().getUser();
+        mUser = PreferencesUtil.getInstance().getUser();
         initView();
 
     }
@@ -61,12 +61,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         mSettingRl.setOnClickListener(this);
         mAvatarSdv.setOnClickListener(this);
 
-        mNickNameTv.setText(user.getUserNickName());
-        String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
+        mNickNameTv.setText(mUser.getUserNickName());
+        String userWxId = mUser.getUserWxId() == null ? "" : mUser.getUserWxId();
         mWxIdTv.setText("微信号:" + userWxId);
-        String userAvatar = user.getUserAvatar();
+        String userAvatar = mUser.getUserAvatar();
         if (!TextUtils.isEmpty(userAvatar)) {
-            String resizeAvatarUrl = OssUtil.resize(user.getUserAvatar());
+            String resizeAvatarUrl = OssUtil.resize(mUser.getUserAvatar());
             mAvatarSdv.setImageURI(Uri.parse(resizeAvatarUrl));
         }
     }
@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             // 头像点击放大
             case R.id.sdv_avatar:
                 Intent intent = new Intent(getActivity(), BigImageActivity.class);
-                intent.putExtra("imgUrl", user.getUserAvatar());
+                intent.putExtra("imgUrl", mUser.getUserAvatar());
                 startActivity(intent);
                 break;
 
@@ -95,12 +95,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        user = PreferencesUtil.getInstance().getUser();
-        mNickNameTv.setText(user.getUserNickName());
-        String userWxId = user.getUserWxId() == null ? "" : user.getUserWxId();
+        mUser = PreferencesUtil.getInstance().getUser();
+        mNickNameTv.setText(mUser.getUserNickName());
+        String userWxId = mUser.getUserWxId() == null ? "" : mUser.getUserWxId();
         mWxIdTv.setText("微信号:" + userWxId);
-        if (!TextUtils.isEmpty(user.getUserAvatar())) {
-            String resizeAvatarUrl = OssUtil.resize(user.getUserAvatar());
+        if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
+            String resizeAvatarUrl = OssUtil.resize(mUser.getUserAvatar());
             mAvatarSdv.setImageURI(Uri.parse(resizeAvatarUrl));
         }
     }
