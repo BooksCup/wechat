@@ -12,12 +12,12 @@ import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MyAddressAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.AddressDao;
 import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyAddressActivity extends FragmentActivity {
@@ -26,6 +26,7 @@ public class MyAddressActivity extends FragmentActivity {
     private MyAddressAdapter mMyAddressAdapter;
     private User mUser;
     private VolleyUtil mVolleyUtil;
+    private AddressDao mAddressDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,8 +36,10 @@ public class MyAddressActivity extends FragmentActivity {
 
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
+        mAddressDao = new AddressDao();
 
-        mMyAddressAdapter = new MyAddressAdapter(this, new ArrayList<Address>());
+        List<Address> addressList = mAddressDao.getAddressList();
+        mMyAddressAdapter = new MyAddressAdapter(this, addressList);
         mAddressLv.setAdapter(mMyAddressAdapter);
 
         getAddressListByUserId(mUser.getUserId());
@@ -57,14 +60,24 @@ public class MyAddressActivity extends FragmentActivity {
             @Override
             public void onResponse(String response) {
                 List<Address> addressList = JSONArray.parseArray(response, Address.class);
+                if (null != addressList && addressList.size() > 0) {
+                    // 持久化
+                    mAddressDao.clearAddress();
+                    for (Address address : addressList) {
+                        if (null != address) {
+                            mAddressDao.saveAddress(address);
+                        }
+                    }
+                }
                 mMyAddressAdapter.setData(addressList);
                 mMyAddressAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
-
+                List<Address> addressList = mAddressDao.getAddressList();
+                mMyAddressAdapter.setData(addressList);
+                mMyAddressAdapter.notifyDataSetChanged();
             }
         });
     }
