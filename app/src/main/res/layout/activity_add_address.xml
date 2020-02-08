@@ -52,7 +52,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -67,6 +67,7 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -87,7 +88,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.1dp"
+            android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -96,7 +97,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -111,6 +112,7 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -121,10 +123,9 @@
             android:textColorHint="#DDDDDD"
             android:textSize="16sp" />
 
-
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.1dp"
+            android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -133,7 +134,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -148,6 +149,7 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/et_address_info"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -156,6 +158,7 @@
             android:paddingLeft="95dp"
             android:singleLine="true"
             android:textColorHint="#DDDDDD"
+            android:focusable="false"
             android:textSize="16sp" />
 
         <ImageView
@@ -177,7 +180,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -192,6 +195,7 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/et_address_detail"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -204,7 +208,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.1dp"
+            android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -213,7 +217,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="56dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -228,6 +232,7 @@
             android:textSize="16sp" />
 
         <EditText
+            android:id="@+id/et_post_code"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
@@ -240,7 +245,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.1dp"
+            android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
