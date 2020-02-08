@@ -19,7 +19,6 @@ import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.List;
 
@@ -31,7 +30,6 @@ public class MyAddressActivity extends FragmentActivity {
     private User mUser;
     private VolleyUtil mVolleyUtil;
     private AddressDao mAddressDao;
-    LoadingDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +40,6 @@ public class MyAddressActivity extends FragmentActivity {
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mAddressDao = new AddressDao();
-        mDialog = new LoadingDialog(MyAddressActivity.this);
 
         List<Address> addressList = mAddressDao.getAddressList();
         mMyAddressAdapter = new MyAddressAdapter(this, addressList);
@@ -68,12 +65,10 @@ public class MyAddressActivity extends FragmentActivity {
     }
 
     private void getAddressListByUserId(String userId) {
-        mDialog.show();
         String url = Constant.BASE_URL + "users/" + userId + "/address";
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                mDialog.dismiss();
                 List<Address> addressList = JSONArray.parseArray(response, Address.class);
                 if (null != addressList && addressList.size() > 0) {
                     // 持久化
@@ -90,7 +85,6 @@ public class MyAddressActivity extends FragmentActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
                 List<Address> addressList = mAddressDao.getAddressList();
                 mMyAddressAdapter.setData(addressList);
                 mMyAddressAdapter.notifyDataSetChanged();
