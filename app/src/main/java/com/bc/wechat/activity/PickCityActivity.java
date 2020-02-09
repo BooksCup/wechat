@@ -43,6 +43,7 @@ public class PickCityActivity extends FragmentActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Area area = areaList.get(position);
                 Intent intent = new Intent(PickCityActivity.this, PickDistrictActivity.class);
+                intent.putExtra("provinceName", mProvinceName);
                 intent.putExtra("cityName", area.getName());
                 startActivity(intent);
             }

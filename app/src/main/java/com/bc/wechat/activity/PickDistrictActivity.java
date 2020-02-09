@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +11,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.AreaAdapter;
 import com.bc.wechat.dao.AreaDao;
 import com.bc.wechat.entity.Area;
+import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.List;
 
@@ -25,6 +25,8 @@ public class PickDistrictActivity extends FragmentActivity {
     private AreaAdapter mDistrictAdapter;
 
     private AreaDao mAreaDao;
+
+    private String mProvinceName;
     private String mCityName;
 
     @Override
@@ -32,8 +34,10 @@ public class PickDistrictActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_picker);
         initView();
+        PreferencesUtil.getInstance().init(this);
         mAreaDao = new AreaDao();
 
+        mProvinceName = getIntent().getStringExtra("provinceName");
         mCityName = getIntent().getStringExtra("cityName");
         final List<Area> areaList = mAreaDao.getDistrictListByCityName(mCityName);
         mDistrictAdapter = new AreaAdapter(this, areaList);
@@ -41,6 +45,11 @@ public class PickDistrictActivity extends FragmentActivity {
         mDistrictLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Area area = areaList.get(position);
+
+                PreferencesUtil.getInstance().setPickedProvince(mProvinceName);
+                PreferencesUtil.getInstance().setPickedCity(mCityName);
+                PreferencesUtil.getInstance().setPickedDistrict(area.getName());
 
                 // 销毁省、市、区的选择页面
                 FinishActivityManager.getManager().finishActivity(PickProvinceActivity.class);

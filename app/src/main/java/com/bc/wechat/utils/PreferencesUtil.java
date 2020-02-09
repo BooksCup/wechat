@@ -174,6 +174,10 @@ public class PreferencesUtil {
         saveParam("newMsgsUnreadNumber", newMsgsUnreadNumber);
     }
 
+    public Integer getNewMsgsUnreadNumber() {
+        return (Integer) getParam("newMsgsUnreadNumber", 0);
+    }
+
     public void setUser(User user) {
         saveParam("user", JSON.toJSONString(user));
     }
@@ -186,10 +190,6 @@ public class PreferencesUtil {
             user = new User();
         }
         return user;
-    }
-
-    public Integer getNewMsgsUnreadNumber() {
-        return (Integer) getParam("newMsgsUnreadNumber", 0);
     }
 
     public void setNewFriendsUnreadNumber(int newFriendsUnreadNumber) {
@@ -214,5 +214,29 @@ public class PreferencesUtil {
         }
         Log.e(this.getClass().getSimpleName(), "Get object is error");
         return null;
+    }
+
+    public void setPickedProvince(String provinceName) {
+        saveParam("pickedProvince", provinceName);
+    }
+
+    public String getPickedProvince() {
+        return (String) getParam("pickedProvince", "");
+    }
+
+    public void setPickedCity(String cityName) {
+        saveParam("pickedCity", cityName);
+    }
+
+    public String getPickedCity() {
+        return (String) getParam("pickedCity", "");
+    }
+
+    public void setPickedDistrict(String districtName) {
+        saveParam("pickedDistrict", districtName);
+    }
+
+    public String getPickedDistrict() {
+        return (String) getParam("pickedDistrict", "");
     }
 }
