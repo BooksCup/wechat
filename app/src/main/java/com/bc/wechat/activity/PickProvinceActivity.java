@@ -8,25 +8,31 @@ import android.widget.ListView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.ProvinceAdapter;
+import com.bc.wechat.dao.AreaDao;
 import com.bc.wechat.entity.Area;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 省份选择
+ *
+ * @author zhou
+ */
 public class PickProvinceActivity extends FragmentActivity {
     private ListView mProvinceLv;
     private ProvinceAdapter mProvinceAdapter;
+
+    private AreaDao mAreaDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_province_picker);
         initView();
+        mAreaDao = new AreaDao();
 
-        List<Area> areaList = new ArrayList<>();
-        areaList.add(new Area());
-        areaList.add(new Area());
-        areaList.add(new Area());
+        List<Area> areaList = mAreaDao.getProvinceList();
         mProvinceAdapter = new ProvinceAdapter(this, areaList);
         mProvinceLv.setAdapter(mProvinceAdapter);
     }

@@ -114,4 +114,19 @@ public class Constant {
      * 用户微信号修改标记
      */
     public static final String USER_WX_ID_MODIFY_FLAG_TRUE = "1";
+
+    /**
+     * 地区类型-"省"
+     */
+    public static final String AREA_TYPE_PROVINCE = "1";
+
+    /**
+     * 地区类型-"市"
+     */
+    public static final String AREA_TYPE_CITY = "2";
+
+    /**
+     * 地区类型-"县"
+     */
+    public static final String AREA_TYPE_DISTRICT = "3";
 }

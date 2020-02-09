@@ -27,7 +27,18 @@ public class Area extends SugarRecord {
     /**
      * 排序
      */
-    private Integer order;
+    private String seq;
+
+    public Area() {
+
+    }
+
+    public Area(String name, String parentName, String type, String seq) {
+        this.name = name;
+        this.parentName = parentName;
+        this.type = type;
+        this.seq = seq;
+    }
 
     public String getName() {
         return name;
@@ -53,11 +64,11 @@ public class Area extends SugarRecord {
         this.type = type;
     }
 
-    public Integer getOrder() {
-        return order;
+    public String getSeq() {
+        return seq;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setSeq(String seq) {
+        this.seq = seq;
     }
 }
