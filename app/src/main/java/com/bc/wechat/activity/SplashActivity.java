@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 
 import com.bc.wechat.R;
+import com.bc.wechat.utils.AreaUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -39,6 +40,9 @@ public class SplashActivity extends FragmentActivity {
             @Override
             public void run() {
                 try {
+                    // 预置地址信息
+                    // 初始化省市区
+                    AreaUtil.initArea(SplashActivity.this);
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

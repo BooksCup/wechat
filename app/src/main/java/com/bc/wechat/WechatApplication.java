@@ -3,9 +3,7 @@ package com.bc.wechat;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.bc.wechat.entity.Area;
 import com.bc.wechat.service.LocationService;
-import com.bc.wechat.utils.AreaUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orm.SugarContext;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -47,8 +45,5 @@ public class WechatApplication extends Application {
         // 百度地图
         SDKInitializer.initialize(this);
         locationService = new LocationService(getApplicationContext());
-
-        // 初始化省市区
-        AreaUtil.initArea(this);
     }
 }
