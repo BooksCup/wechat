@@ -12,11 +12,11 @@ import com.bc.wechat.entity.Area;
 
 import java.util.List;
 
-public class ProvinceAdapter extends BaseAdapter {
+public class AreaAdapter extends BaseAdapter {
     private Context mContext;
     private List<Area> mProvinceList;
 
-    public ProvinceAdapter(Context context, List<Area> provinceList) {
+    public AreaAdapter(Context context, List<Area> provinceList) {
         this.mContext = context;
         this.mProvinceList = provinceList;
     }

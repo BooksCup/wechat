@@ -27,13 +27,13 @@ public class Area extends SugarRecord {
     /**
      * 排序
      */
-    private String seq;
+    private Integer seq;
 
     public Area() {
 
     }
 
-    public Area(String name, String parentName, String type, String seq) {
+    public Area(String name, String parentName, String type, Integer seq) {
         this.name = name;
         this.parentName = parentName;
         this.type = type;
@@ -64,11 +64,11 @@ public class Area extends SugarRecord {
         this.type = type;
     }
 
-    public String getSeq() {
+    public Integer getSeq() {
         return seq;
     }
 
-    public void setSeq(String seq) {
+    public void setSeq(Integer seq) {
         this.seq = seq;
     }
 }

@@ -1,13 +1,10 @@
 package com.bc.wechat.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.AreaAdapter;
@@ -21,11 +18,12 @@ import java.util.List;
  *
  * @author zhou
  */
-public class PickProvinceActivity extends FragmentActivity {
+public class PickCityActivity extends FragmentActivity {
     private ListView mProvinceLv;
-    private AreaAdapter mProvinceAdapter;
+    private AreaAdapter mCityAdapter;
 
     private AreaDao mAreaDao;
+    private String mProvinceName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,18 +32,10 @@ public class PickProvinceActivity extends FragmentActivity {
         initView();
         mAreaDao = new AreaDao();
 
-        final List<Area> areaList = mAreaDao.getProvinceList();
-        mProvinceAdapter = new AreaAdapter(this, areaList);
-        mProvinceLv.setAdapter(mProvinceAdapter);
-        mProvinceLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Area area = areaList.get(position);
-                Intent intent = new Intent(PickProvinceActivity.this, PickCityActivity.class);
-                intent.putExtra("provinceName", area.getName());
-                startActivity(intent);
-            }
-        });
+        mProvinceName = getIntent().getStringExtra("provinceName");
+        List<Area> areaList = mAreaDao.getCityListByProvinceName(mProvinceName);
+        mCityAdapter = new AreaAdapter(this, areaList);
+        mProvinceLv.setAdapter(mCityAdapter);
     }
 
     public void back(View view) {

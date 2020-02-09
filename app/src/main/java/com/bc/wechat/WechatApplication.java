@@ -49,6 +49,6 @@ public class WechatApplication extends Application {
         locationService = new LocationService(getApplicationContext());
 
         // 初始化省市区
-        AreaUtil.initArea();
+        AreaUtil.initArea(this);
     }
 }

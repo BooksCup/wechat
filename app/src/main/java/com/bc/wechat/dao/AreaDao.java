@@ -22,4 +22,17 @@ public class AreaDao {
                 Constant.AREA_TYPE_PROVINCE);
         return provinceList;
     }
+
+    /**
+     * 获取某个省所有市列表
+     *
+     * @param provinceName 省
+     * @return 某个省所有市列表
+     */
+    public List<Area> getCityListByProvinceName(String provinceName) {
+        List<Area> provinceList = Area.findWithQuery(Area.class,
+                "select * from area where type = ? and parent_name = ? order by seq asc",
+                Constant.AREA_TYPE_CITY, provinceName);
+        return provinceList;
+    }
 }
