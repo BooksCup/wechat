@@ -44,6 +44,5 @@
         android:descendantFocusability="blocksDescendants"
         android:divider="@drawable/list_divider"
         android:dividerHeight="0.1dp"
-
-        />
+        android:scrollbars="none" />
 </LinearLayout>
