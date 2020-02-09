@@ -118,6 +118,9 @@
             android:name=".activity.PickCityActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.PickDistrictActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.UpdateNickNameActivity"
             android:screenOrientation="portrait" />
         <activity

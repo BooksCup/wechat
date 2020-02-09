@@ -20,11 +20,12 @@ import java.util.List;
  *
  * @author zhou
  */
-public class PickProvinceActivity extends FragmentActivity {
-    private ListView mProvinceLv;
-    private AreaAdapter mProvinceAdapter;
+public class PickDistrictActivity extends FragmentActivity {
+    private ListView mDistrictLv;
+    private AreaAdapter mDistrictAdapter;
 
     private AreaDao mAreaDao;
+    private String mCityName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,16 +34,13 @@ public class PickProvinceActivity extends FragmentActivity {
         initView();
         mAreaDao = new AreaDao();
 
-        final List<Area> areaList = mAreaDao.getProvinceList();
-        mProvinceAdapter = new AreaAdapter(this, areaList);
-        mProvinceLv.setAdapter(mProvinceAdapter);
-        mProvinceLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mCityName = getIntent().getStringExtra("cityName");
+        final List<Area> areaList = mAreaDao.getDistrictListByCityName(mCityName);
+        mDistrictAdapter = new AreaAdapter(this, areaList);
+        mDistrictLv.setAdapter(mDistrictAdapter);
+        mDistrictLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Area area = areaList.get(position);
-                Intent intent = new Intent(PickProvinceActivity.this, PickCityActivity.class);
-                intent.putExtra("provinceName", area.getName());
-                startActivity(intent);
             }
         });
     }
@@ -52,6 +50,6 @@ public class PickProvinceActivity extends FragmentActivity {
     }
 
     private void initView() {
-        mProvinceLv = findViewById(R.id.lv_area);
+        mDistrictLv = findViewById(R.id.lv_area);
     }
 }

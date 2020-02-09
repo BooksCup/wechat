@@ -30,9 +30,22 @@ public class AreaDao {
      * @return 某个省所有市列表
      */
     public List<Area> getCityListByProvinceName(String provinceName) {
-        List<Area> provinceList = Area.findWithQuery(Area.class,
+        List<Area> cityList = Area.findWithQuery(Area.class,
                 "select * from area where type = ? and parent_name = ? order by seq asc",
                 Constant.AREA_TYPE_CITY, provinceName);
-        return provinceList;
+        return cityList;
+    }
+
+    /**
+     * 获取某个市所有区县列表
+     *
+     * @param cityName 市
+     * @return 某个市所有区县列表
+     */
+    public List<Area> getDistrictListByCityName(String cityName) {
+        List<Area> districtList = Area.findWithQuery(Area.class,
+                "select * from area where type = ? and parent_name = ? order by seq asc",
+                Constant.AREA_TYPE_DISTRICT, cityName);
+        return districtList;
     }
 }
