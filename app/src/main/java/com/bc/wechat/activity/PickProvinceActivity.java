@@ -45,10 +45,14 @@ public class PickProvinceActivity extends FragmentActivity {
                 startActivity(intent);
             }
         });
+
+        // 压入销毁栈
+        FinishActivityManager.getManager().addActivity(this);
     }
 
     public void back(View view) {
         finish();
+        FinishActivityManager.getManager().finishActivity(this);
     }
 
     private void initView() {

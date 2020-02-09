@@ -41,12 +41,20 @@ public class PickDistrictActivity extends FragmentActivity {
         mDistrictLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // 销毁省、市、区的选择页面
+                FinishActivityManager.getManager().finishActivity(PickProvinceActivity.class);
+                FinishActivityManager.getManager().finishActivity(PickCityActivity.class);
+                FinishActivityManager.getManager().finishActivity(PickDistrictActivity.this);
             }
         });
+        // 压入销毁栈
+        FinishActivityManager.getManager().addActivity(this);
     }
 
     public void back(View view) {
         finish();
+        FinishActivityManager.getManager().finishActivity(this);
     }
 
     private void initView() {
