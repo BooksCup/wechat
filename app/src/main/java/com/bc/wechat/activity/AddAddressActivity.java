@@ -13,6 +13,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -104,8 +105,8 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         }
     }
 
-    private void addAddress(String addressName, String addressPhone, String addressProvince,
-                            String addressCity, String addressDistrict, String addressDetail, String addressPostCode) {
+    private void addAddress(final String addressName, final String addressPhone, final String addressProvince,
+                            final String addressCity, final String addressDistrict, final String addressDetail, final String addressPostCode) {
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("addressName", addressName);
@@ -120,6 +121,13 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onResponse(String response) {
                 mDialog.dismiss();
+
+                // 持久化
+                Address address = new Address(addressName, addressPhone, addressProvince,
+                        addressCity, addressDistrict, addressDetail, addressPostCode);
+                Address.save(address);
+
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override

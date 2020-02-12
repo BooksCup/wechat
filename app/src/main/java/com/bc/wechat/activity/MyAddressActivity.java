@@ -64,6 +64,18 @@ public class MyAddressActivity extends FragmentActivity {
         finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 本地读取
+        List<Address> addressList = mAddressDao.getAddressList();
+        mMyAddressAdapter.setData(addressList);
+        mMyAddressAdapter.notifyDataSetChanged();
+
+        // 服务器读取
+        getAddressListByUserId(mUser.getUserId());
+    }
+
     private void getAddressListByUserId(String userId) {
         String url = Constant.BASE_URL + "users/" + userId + "/address";
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {

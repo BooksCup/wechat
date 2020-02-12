@@ -20,6 +20,27 @@ public class Address extends SugarRecord {
     private String createTime;
     private String modifyTime;
 
+    public Address() {
+
+    }
+
+    public Address(String addressName,
+                   String addressPhone,
+                   String addressProvince,
+                   String addressCity,
+                   String addressDistrict,
+                   String addressDetail,
+                   String addressPostCode) {
+        this.userId = userId;
+        this.addressName = addressName;
+        this.addressPhone = addressPhone;
+        this.addressProvince = addressProvince;
+        this.addressCity = addressCity;
+        this.addressDistrict = addressDistrict;
+        this.addressDetail = addressDetail;
+        this.addressPostCode = addressPostCode;
+    }
+
     public String getAddressId() {
         return addressId;
     }
