@@ -17,6 +17,7 @@ import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.HashMap;
@@ -49,7 +50,38 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     }
 
     public void back(View view) {
-        finish();
+        String addressName = mNameEt.getText().toString();
+        String addressPhone = mPhoneEt.getText().toString();
+        String addressInfo = mAddressInfoEt.getText().toString();
+        String addressDetail = mAddressDetailEt.getText().toString();
+        String addressPostCode = mPostCodeEt.getText().toString();
+
+        if (!TextUtils.isEmpty(addressName) ||
+                !TextUtils.isEmpty(addressPhone) ||
+                !TextUtils.isEmpty(addressInfo) ||
+                !TextUtils.isEmpty(addressDetail) ||
+                !TextUtils.isEmpty(addressPostCode)) {
+            final ConfirmDialog confirmDialog = new ConfirmDialog(AddAddressActivity.this, "提示",
+                    "是否放弃新增地址信息？",
+                    "确定", getString(R.string.cancel));
+            confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                @Override
+                public void onOkClick() {
+                    confirmDialog.dismiss();
+                    finish();
+                }
+
+                @Override
+                public void onCancelClick() {
+                    confirmDialog.dismiss();
+                }
+            });
+            // 点击空白处消失
+            confirmDialog.setCancelable(true);
+            confirmDialog.show();
+        } else {
+            finish();
+        }
     }
 
     private void initView() {
