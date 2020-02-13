@@ -118,6 +118,7 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:hint="11位手机号"
+            android:inputType="phone"
             android:paddingLeft="95dp"
             android:singleLine="true"
             android:textColorHint="#DDDDDD"
@@ -154,11 +155,11 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:background="@null"
+            android:focusable="false"
             android:hint="地区信息"
             android:paddingLeft="95dp"
             android:singleLine="true"
             android:textColorHint="#DDDDDD"
-            android:focusable="false"
             android:textSize="16sp" />
 
         <ImageView
