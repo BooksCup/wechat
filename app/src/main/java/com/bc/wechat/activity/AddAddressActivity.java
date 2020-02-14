@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -97,6 +102,43 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
         PreferencesUtil.getInstance().setPickedDistrict("");
+
+        mNameEt.addTextChangedListener(new TextChange());
+        mPhoneEt.addTextChangedListener(new TextChange());
+        mAddressInfoEt.addTextChangedListener(new TextChange());
+        mAddressDetailEt.addTextChangedListener(new TextChange());
+    }
+
+    class TextChange implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String addressName = mNameEt.getText().toString();
+            String addressPhone = mPhoneEt.getText().toString();
+            String addressInfo = mAddressInfoEt.getText().toString();
+            String addressDetail = mAddressDetailEt.getText().toString();
+
+            if (!TextUtils.isEmpty(addressName) &&
+                    !TextUtils.isEmpty(addressPhone) &&
+                    !TextUtils.isEmpty(addressInfo) &&
+                    !TextUtils.isEmpty(addressDetail)) {
+                mSaveTv.setTextColor(0xFFFFFFFF);
+                mSaveTv.setEnabled(true);
+            } else {
+                mSaveTv.setTextColor(0xFFD0EFC6);
+                mSaveTv.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
     }
 
     @Override
@@ -165,6 +207,13 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(AddAddressActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(AddAddressActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
     }
