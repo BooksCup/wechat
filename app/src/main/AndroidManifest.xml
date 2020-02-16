@@ -112,6 +112,9 @@
             android:name=".activity.AddAddressActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ModifyAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.PickProvinceActivity"
             android:screenOrientation="portrait" />
         <activity

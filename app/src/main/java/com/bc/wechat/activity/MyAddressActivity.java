@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -41,11 +42,21 @@ public class MyAddressActivity extends FragmentActivity {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mAddressDao = new AddressDao();
 
-        List<Address> addressList = mAddressDao.getAddressList();
+        final List<Address> addressList = mAddressDao.getAddressList();
         mMyAddressAdapter = new MyAddressAdapter(this, addressList);
         mAddressLv.setAdapter(mMyAddressAdapter);
 
         getAddressListByUserId(mUser.getUserId());
+
+        mAddressLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Address address = addressList.get(position);
+                Intent intent = new Intent(MyAddressActivity.this, ModifyAddressActivity.class);
+                intent.putExtra("address", address);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {

@@ -2,12 +2,14 @@ package com.bc.wechat.entity;
 
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
+
 /**
  * 地址
  *
  * @author zhou
  */
-public class Address extends SugarRecord {
+public class Address extends SugarRecord implements Serializable {
     private String addressId;
     private String userId;
     private String addressName;
@@ -15,6 +17,7 @@ public class Address extends SugarRecord {
     private String addressProvince;
     private String addressCity;
     private String addressDistrict;
+    private String addressInfo;
     private String addressDetail;
     private String addressPostCode;
     private String createTime;
@@ -95,6 +98,14 @@ public class Address extends SugarRecord {
 
     public void setAddressDistrict(String addressDistrict) {
         this.addressDistrict = addressDistrict;
+    }
+
+    public String getAddressInfo() {
+        return addressInfo;
+    }
+
+    public void setAddressInfo(String addressInfo) {
+        this.addressInfo = addressInfo;
     }
 
     public String getAddressDetail() {

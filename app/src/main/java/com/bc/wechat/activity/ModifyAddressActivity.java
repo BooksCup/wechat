@@ -28,13 +28,8 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 新增地址
- *
- * @author zhou
- */
-public class AddAddressActivity extends FragmentActivity implements View.OnClickListener {
 
+public class ModifyAddressActivity extends FragmentActivity implements View.OnClickListener {
     private TextView mTitleTv;
 
     private EditText mNameEt;
@@ -48,6 +43,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     private User mUser;
 
     private LoadingDialog mDialog;
+    private Address mAddress;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +51,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         setContentView(R.layout.activity_add_or_modify_address);
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
-        mDialog = new LoadingDialog(AddAddressActivity.this);
+        mDialog = new LoadingDialog(ModifyAddressActivity.this);
         initView();
         PreferencesUtil.getInstance().init(this);
     }
@@ -67,12 +63,18 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         String addressDetail = mAddressDetailEt.getText().toString();
         String addressPostCode = mPostCodeEt.getText().toString();
 
-        if (!TextUtils.isEmpty(addressName) ||
-                !TextUtils.isEmpty(addressPhone) ||
-                !TextUtils.isEmpty(addressInfo) ||
-                !TextUtils.isEmpty(addressDetail) ||
-                !TextUtils.isEmpty(addressPostCode)) {
-            final ConfirmDialog confirmDialog = new ConfirmDialog(AddAddressActivity.this, "提示",
+        boolean addressNameModifyFlag = !TextUtils.isEmpty(addressName) && !mAddress.getAddressName().equals(addressName);
+        boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getAddressPhone().equals(addressPhone);
+        boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getAddressInfo().equals(addressInfo);
+        boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getAddressDetail().equals(addressDetail);
+        boolean addressPostCodeModifyFlag = !TextUtils.isEmpty(addressPostCode) && !mAddress.getAddressPostCode().equals(addressPostCode);
+
+        if (addressNameModifyFlag ||
+                addressPhoneModifyFlag ||
+                addressInfoModifyFlag ||
+                addressDetailModifyFlag ||
+                addressPostCodeModifyFlag) {
+            final ConfirmDialog confirmDialog = new ConfirmDialog(ModifyAddressActivity.this, "提示",
                     "是否放弃新增地址信息？",
                     "确定", getString(R.string.cancel));
             confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
@@ -97,7 +99,9 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
 
     private void initView() {
         mTitleTv = findViewById(R.id.tv_title);
-        mTitleTv.setText("新增地址");
+        mTitleTv.setText("修改地址");
+
+        mAddress = (Address) getIntent().getSerializableExtra("address");
 
         mNameEt = findViewById(R.id.et_name);
         mPhoneEt = findViewById(R.id.et_phone);
@@ -105,6 +109,18 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         mAddressDetailEt = findViewById(R.id.et_address_detail);
         mPostCodeEt = findViewById(R.id.et_post_code);
         mSaveTv = findViewById(R.id.tv_save);
+
+        mNameEt.setText(mAddress.getAddressName());
+        mPhoneEt.setText(mAddress.getAddressPhone());
+        mAddressDetailEt.setText(mAddress.getAddressDetail());
+        mPostCodeEt.setText(mAddress.getAddressPostCode());
+        StringBuffer addressInfoBuffer = new StringBuffer();
+        addressInfoBuffer.append(mAddress.getAddressProvince()).append(" ")
+                .append(mAddress.getAddressCity()).append(" ")
+                .append(mAddress.getAddressDistrict());
+        mAddress.setAddressInfo(addressInfoBuffer.toString());
+        mAddressInfoEt.setText(addressInfoBuffer.toString());
+
 
         mAddressInfoEt.setOnClickListener(this);
         mSaveTv.setOnClickListener(this);
@@ -154,7 +170,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.et_address_info:
-                startActivity(new Intent(AddAddressActivity.this, PickProvinceActivity.class));
+                startActivity(new Intent(ModifyAddressActivity.this, PickProvinceActivity.class));
                 break;
             case R.id.tv_save:
                 mDialog.setMessage(getString(R.string.saving));
@@ -217,10 +233,10 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
             public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(AddAddressActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyAddressActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(AddAddressActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyAddressActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
