@@ -67,7 +67,7 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
         boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getAddressPhone().equals(addressPhone);
         boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getAddressInfo().equals(addressInfo);
         boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getAddressDetail().equals(addressDetail);
-        boolean addressPostCodeModifyFlag = !TextUtils.isEmpty(addressPostCode) && !mAddress.getAddressPostCode().equals(addressPostCode);
+        boolean addressPostCodeModifyFlag = !mAddress.getAddressPostCode().equals(addressPostCode);
 
         if (addressNameModifyFlag ||
                 addressPhoneModifyFlag ||
@@ -75,7 +75,7 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
                 addressDetailModifyFlag ||
                 addressPostCodeModifyFlag) {
             final ConfirmDialog confirmDialog = new ConfirmDialog(ModifyAddressActivity.this, "提示",
-                    "是否放弃新增地址信息？",
+                    "是否放弃修改地址信息？",
                     "确定", getString(R.string.cancel));
             confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
@@ -132,6 +132,7 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
         mPhoneEt.addTextChangedListener(new TextChange());
         mAddressInfoEt.addTextChangedListener(new TextChange());
         mAddressDetailEt.addTextChangedListener(new TextChange());
+        mPostCodeEt.addTextChangedListener(new TextChange());
     }
 
     class TextChange implements TextWatcher {
@@ -147,11 +148,19 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
             String addressPhone = mPhoneEt.getText().toString();
             String addressInfo = mAddressInfoEt.getText().toString();
             String addressDetail = mAddressDetailEt.getText().toString();
+            String addressPostCode = mPostCodeEt.getText().toString();
 
-            if (!TextUtils.isEmpty(addressName) &&
-                    !TextUtils.isEmpty(addressPhone) &&
-                    !TextUtils.isEmpty(addressInfo) &&
-                    !TextUtils.isEmpty(addressDetail)) {
+            boolean addressNameModifyFlag = !TextUtils.isEmpty(addressName) && !mAddress.getAddressName().equals(addressName);
+            boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getAddressPhone().equals(addressPhone);
+            boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getAddressInfo().equals(addressInfo);
+            boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getAddressDetail().equals(addressDetail);
+            boolean addressPostCodeModifyFlag = !mAddress.getAddressPostCode().equals(addressPostCode);
+
+            if (addressNameModifyFlag ||
+                    addressPhoneModifyFlag ||
+                    addressInfoModifyFlag ||
+                    addressDetailModifyFlag ||
+                    addressPostCodeModifyFlag) {
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
