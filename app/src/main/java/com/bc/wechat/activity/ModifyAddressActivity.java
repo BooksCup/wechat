@@ -18,6 +18,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.AddressDao;
 import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -28,7 +29,11 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * 修改地址
+ *
+ * @author zhou
+ */
 public class ModifyAddressActivity extends FragmentActivity implements View.OnClickListener {
     private TextView mTitleTv;
 
@@ -44,6 +49,7 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
 
     private LoadingDialog mDialog;
     private Address mAddress;
+    private AddressDao mAddressDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(ModifyAddressActivity.this);
+        mAddressDao = new AddressDao();
         initView();
         PreferencesUtil.getInstance().init(this);
     }
@@ -191,7 +198,8 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
                 String addressDistrict = PreferencesUtil.getInstance().getPickedDistrict();
                 String addressDetail = mAddressDetailEt.getText().toString();
                 String addressPostCode = mPostCodeEt.getText().toString();
-                addAddress(addressName, addressPhone, addressProvince, addressCity, addressDistrict, addressDetail, addressPostCode);
+                modifyAddress(mAddress.getAddressId(), addressName, addressPhone, addressProvince,
+                        addressCity, addressDistrict, addressDetail, addressPostCode);
                 break;
         }
     }
@@ -213,9 +221,9 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
         }
     }
 
-    private void addAddress(final String addressName, final String addressPhone, final String addressProvince,
-                            final String addressCity, final String addressDistrict, final String addressDetail, final String addressPostCode) {
-        String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address";
+    private void modifyAddress(final String addressId, final String addressName, final String addressPhone, final String addressProvince,
+                               final String addressCity, final String addressDistrict, final String addressDetail, final String addressPostCode) {
+        String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address/" + addressId;
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("addressName", addressName);
         paramMap.put("addressPhone", addressPhone);
@@ -225,14 +233,17 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
         paramMap.put("addressDetail", addressDetail);
         paramMap.put("addressPostCode", addressPostCode);
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 mDialog.dismiss();
 
                 // 持久化
-                Address address = new Address(addressName, addressPhone, addressProvince,
+                Address address = new Address(mUser.getUserId(), addressId, addressName, addressPhone, addressProvince,
                         addressCity, addressDistrict, addressDetail, addressPostCode);
+                Address currentAddress = mAddressDao.getAddressByAddressId(addressId);
+                address.setId(currentAddress.getId());
+
                 Address.save(address);
 
                 finish();

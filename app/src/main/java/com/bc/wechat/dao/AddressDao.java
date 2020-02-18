@@ -21,4 +21,12 @@ public class AddressDao {
     public void clearAddress() {
         Address.deleteAll(Address.class);
     }
+
+    public Address getAddressByAddressId(String addressId) {
+        List<Address> addressList = Address.find(Address.class, "address_id = ?", addressId);
+        if (null != addressList && addressList.size() > 0) {
+            return addressList.get(0);
+        }
+        return null;
+    }
 }
