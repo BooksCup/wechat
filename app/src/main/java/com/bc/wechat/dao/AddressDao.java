@@ -29,4 +29,9 @@ public class AddressDao {
         }
         return null;
     }
+
+    public void deleteAddressByAddressId(String addressId) {
+        String sql = "delete from address where address_id = ?";
+        Address.executeQuery(sql, addressId);
+    }
 }

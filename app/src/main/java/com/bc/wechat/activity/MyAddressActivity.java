@@ -19,9 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
+import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MyAddressAdapter;
@@ -137,6 +140,39 @@ public class MyAddressActivity extends FragmentActivity {
         });
     }
 
+    private void deleteAddress(String userId, final String addressId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/address/" + addressId;
+        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mAddressDao.deleteAddressByAddressId(addressId);
+                final List<Address> addressList = mAddressDao.getAddressList();
+                mMyAddressAdapter.setData(addressList);
+                mMyAddressAdapter.notifyDataSetChanged();
+                mAddressLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        Address address = addressList.get(position);
+                        showOperation(view, address);
+                        return false;
+                    }
+                });
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (volleyError instanceof NetworkError) {
+                    Toast.makeText(MyAddressActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (volleyError instanceof TimeoutError) {
+                    Toast.makeText(MyAddressActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
+    }
+
+
     private void showOperation(View view, final Address address) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = layoutInflater.inflate(R.layout.popup_window_address_setting, null);
@@ -176,6 +212,16 @@ public class MyAddressActivity extends FragmentActivity {
                 Intent intent = new Intent(MyAddressActivity.this, ModifyAddressActivity.class);
                 intent.putExtra("address", address);
                 startActivity(intent);
+            }
+        });
+
+        // 删除
+        RelativeLayout mDeleteAddressRl = view.findViewById(R.id.rl_delete_address);
+        mDeleteAddressRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+                deleteAddress(mUser.getUserId(), address.getAddressId());
             }
         });
 
