@@ -76,6 +76,12 @@ public class MyAddressAdapter extends BaseAdapter {
                 mContext.startActivity(intent);
             }
         });
+        viewHolder.mRootLl.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return false;
+            }
+        });
 
         return convertView;
     }
