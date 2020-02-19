@@ -98,7 +98,7 @@ public class MyAddressActivity extends FragmentActivity {
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                List<Address> addressList = JSONArray.parseArray(response, Address.class);
+                final List<Address> addressList = JSONArray.parseArray(response, Address.class);
                 if (null != addressList && addressList.size() > 0) {
                     // 持久化
                     mAddressDao.clearAddress();
@@ -113,7 +113,8 @@ public class MyAddressActivity extends FragmentActivity {
                 mAddressLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        showOperation(view);
+                        Address address = addressList.get(position);
+                        showOperation(view, address);
                         return false;
                     }
                 });
@@ -121,13 +122,14 @@ public class MyAddressActivity extends FragmentActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                List<Address> addressList = mAddressDao.getAddressList();
+                final List<Address> addressList = mAddressDao.getAddressList();
                 mMyAddressAdapter.setData(addressList);
                 mMyAddressAdapter.notifyDataSetChanged();
                 mAddressLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                        showOperation(view);
+                        Address address = addressList.get(position);
+                        showOperation(view, address);
                         return false;
                     }
                 });
@@ -135,7 +137,7 @@ public class MyAddressActivity extends FragmentActivity {
         });
     }
 
-    private void showOperation(View view) {
+    private void showOperation(View view, final Address address) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = layoutInflater.inflate(R.layout.popup_window_address_setting, null);
         // 给popwindow加上动画效果
@@ -164,6 +166,18 @@ public class MyAddressActivity extends FragmentActivity {
         });
         // 弹出的位置
         mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+        // 编辑
+        RelativeLayout mModifyAddressRl = view.findViewById(R.id.rl_modify_address);
+        mModifyAddressRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+                Intent intent = new Intent(MyAddressActivity.this, ModifyAddressActivity.class);
+                intent.putExtra("address", address);
+                startActivity(intent);
+            }
+        });
 
         // 取消
         RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
