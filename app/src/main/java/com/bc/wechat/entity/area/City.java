@@ -2,9 +2,14 @@ package com.bc.wechat.entity.area;
 
 import java.util.List;
 
+/**
+ * 市
+ *
+ * @author zhou
+ */
 public class City {
     private String name;
-    private List<String> area;
+    private List<District> district;
 
     public String getName() {
         return name;
@@ -14,11 +19,11 @@ public class City {
         this.name = name;
     }
 
-    public List<String> getArea() {
-        return area;
+    public List<District> getDistrict() {
+        return district;
     }
 
-    public void setArea(List<String> area) {
-        this.area = area;
+    public void setDistrict(List<District> district) {
+        this.district = district;
     }
 }

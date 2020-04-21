@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Area;
 import com.bc.wechat.entity.area.City;
+import com.bc.wechat.entity.area.District;
 import com.bc.wechat.entity.area.Province;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class AreaUtil {
     }
 
     private static void initData(Context context) {
-        String jsonData = new GetJsonDataUtil().getJson(context, "area.json");//获取assets目录下的json文件数据
+        String jsonData = new GetJsonDataUtil().getJson(context, "area-wx.json");//获取assets目录下的json文件数据
         List<Province> provinceList = JSONArray.parseArray(jsonData, Province.class);
         int provinceSeq = 0;
         List<Area> areaList = new ArrayList<>();
@@ -40,11 +41,12 @@ public class AreaUtil {
                 citySeq++;
                 Area cityArea = new Area(city.getName(), province.getName(), Constant.AREA_TYPE_CITY, citySeq);
                 areaList.add(cityArea);
-                List<String> districtList = city.getArea();
+                List<District> districtList = city.getDistrict();
                 int districtSeq = 0;
-                for (String district : districtList) {
+                for (District district : districtList) {
                     districtSeq++;
-                    Area districtArea = new Area(district, city.getName(), Constant.AREA_TYPE_DISTRICT, districtSeq);
+                    Area districtArea = new Area(district.getName(), city.getName(),
+                            Constant.AREA_TYPE_DISTRICT, districtSeq, district.getPostCode());
                     areaList.add(districtArea);
                 }
             }

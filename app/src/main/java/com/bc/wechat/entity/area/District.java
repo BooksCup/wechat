@@ -1,15 +1,13 @@
 package com.bc.wechat.entity.area;
 
-import java.util.List;
-
 /**
- * 省
+ * 区
  *
  * @author zhou
  */
-public class Province {
+public class District {
     private String name;
-    private List<City> city;
+    private String postCode;
 
     public String getName() {
         return name;
@@ -19,11 +17,11 @@ public class Province {
         this.name = name;
     }
 
-    public List<City> getCity() {
-        return city;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setCity(List<City> city) {
-        this.city = city;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 }
