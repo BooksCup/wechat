@@ -50,6 +50,7 @@ public class PickDistrictActivity extends FragmentActivity {
                 PreferencesUtil.getInstance().setPickedProvince(mProvinceName);
                 PreferencesUtil.getInstance().setPickedCity(mCityName);
                 PreferencesUtil.getInstance().setPickedDistrict(area.getName());
+                PreferencesUtil.getInstance().setPickedPostCode(area.getPostCode());
 
                 // 销毁省、市、区的选择页面
                 FinishActivityManager.getManager().finishActivity(PickProvinceActivity.class);

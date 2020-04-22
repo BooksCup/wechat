@@ -16,6 +16,7 @@ import java.util.List;
  * 地区工具类
  */
 public class AreaUtil {
+
     /**
      * 初始化地区信息
      */

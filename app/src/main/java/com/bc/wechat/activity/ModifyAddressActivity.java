@@ -134,6 +134,7 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
         PreferencesUtil.getInstance().setPickedDistrict("");
+        PreferencesUtil.getInstance().setPickedPostCode("");
 
         mNameEt.addTextChangedListener(new TextChange());
         mPhoneEt.addTextChangedListener(new TextChange());
@@ -218,6 +219,11 @@ public class ModifyAddressActivity extends FragmentActivity implements View.OnCl
                     .append(pickedCity).append(" ")
                     .append(pickedDistrict);
             mAddressInfoEt.setText(addressInfoBuffer.toString());
+        }
+
+        String pickedPostCode = PreferencesUtil.getInstance().getPickedPostCode();
+        if (!TextUtils.isEmpty(pickedPostCode)) {
+            mPostCodeEt.setText(pickedPostCode);
         }
     }
 

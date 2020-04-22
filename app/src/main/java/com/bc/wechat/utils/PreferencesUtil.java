@@ -239,4 +239,12 @@ public class PreferencesUtil {
     public String getPickedDistrict() {
         return (String) getParam("pickedDistrict", "");
     }
+
+    public void setPickedPostCode(String postCode) {
+        saveParam("pickedPostCode", postCode);
+    }
+
+    public String getPickedPostCode() {
+        return (String) getParam("pickedPostCode", "");
+    }
 }
