@@ -33,9 +33,9 @@ public class UpdateSignActivity extends FragmentActivity {
     private TextView mSignLengthTv;
     final int maxSignLenth = 30;
 
-    private VolleyUtil volleyUtil;
-    LoadingDialog dialog;
-    User user;
+    private VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,16 +43,16 @@ public class UpdateSignActivity extends FragmentActivity {
         setContentView(R.layout.activity_update_sign);
 
         PreferencesUtil.getInstance().init(this);
-        volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new LoadingDialog(UpdateSignActivity.this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(UpdateSignActivity.this);
         initView();
 
         mSaveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.setMessage(getString(R.string.saving));
-                dialog.show();
-                String userId = user.getUserId();
+                mDialog.setMessage(getString(R.string.saving));
+                mDialog.show();
+                String userId = mUser.getUserId();
                 String userNickName = mSignEt.getText().toString();
                 updateUserSign(userId, userNickName);
             }
@@ -65,9 +65,9 @@ public class UpdateSignActivity extends FragmentActivity {
         mSaveTv = findViewById(R.id.tv_save);
         mSignLengthTv = findViewById(R.id.tv_sign_length);
 
-        user = PreferencesUtil.getInstance().getUser();
+        mUser = PreferencesUtil.getInstance().getUser();
 
-        mSignEt.setText(user.getUserSign());
+        mSignEt.setText(mUser.getUserSign());
         // 剩余可编辑字数
         int leftSignLenth = maxSignLenth - mSignEt.length();
         if (leftSignLenth >= 0) {
@@ -93,13 +93,14 @@ public class UpdateSignActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newSign = mSignEt.getText().toString();
-            String oldSign = user.getUserSign() == null ? "" : user.getUserSign();
+            String oldSign = mUser.getUserSign() == null ? "" : mUser.getUserSign();
             // 是否填写
             boolean isSignHasText = mSignEt.length() > 0;
             // 是否修改
             boolean isSignChanged = !oldSign.equals(newSign);
 
             if (isSignHasText && isSignChanged) {
+                // 可保存
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
@@ -132,19 +133,19 @@ public class UpdateSignActivity extends FragmentActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userSign", userSign);
 
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 setResult(RESULT_OK);
-                user.setUserSign(userSign);
-                PreferencesUtil.getInstance().setUser(user);
+                mUser.setUserSign(userSign);
+                PreferencesUtil.getInstance().setUser(mUser);
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(UpdateSignActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
