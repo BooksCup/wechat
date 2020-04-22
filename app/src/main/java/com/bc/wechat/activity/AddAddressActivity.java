@@ -92,7 +92,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 !TextUtils.isEmpty(addressPostCode)) {
             final ConfirmDialog confirmDialog = new ConfirmDialog(AddAddressActivity.this, "提示",
                     "是否放弃新增地址信息？",
-                    "确定", getString(R.string.cancel));
+                    "确定", getString(R.string.cancel), getColor(R.color.navy_blue));
             confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
                 public void onOkClick() {
@@ -341,7 +341,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
             final ConfirmDialog mConfirmDialog = new ConfirmDialog(AddAddressActivity.this, "权限申请",
                     "在设置-应用-微信-权限中开启通讯录权限，以正常使用联系人查找功能",
-                    "去设置", "取消");
+                    "去设置", "取消", getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
                 public void onOkClick() {

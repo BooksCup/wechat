@@ -18,13 +18,12 @@
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
             android:gravity="center"
             android:text="删除联系人"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
             android:visibility="visible" />
 
         <TextView
@@ -32,11 +31,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
             android:gravity="center"
             android:text="是否退出当前账号?"
-            android:textColor="@android:color/black"
+            android:textColor="@color/grid_state_focused"
             android:textSize="15sp" />
 
         <View
@@ -61,7 +61,7 @@
                 android:background="#e7eded"
                 android:text="取消"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <!-- 确认按钮 -->
@@ -79,7 +79,7 @@
                 android:background="#e7eded"
                 android:text="确定"
                 android:textColor="#FF0000"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

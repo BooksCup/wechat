@@ -36,6 +36,9 @@ public class ConfirmDialog extends Dialog {
     private String mConfirm;
     private String mCancel;
 
+    // 确认按钮颜色
+    private int mOkBtnColor = -1;
+
     public ConfirmDialog(Context context, String title, String content,
                          String confirm, String cancel) {
         super(context);
@@ -44,6 +47,18 @@ public class ConfirmDialog extends Dialog {
         this.mContent = content;
         this.mConfirm = confirm;
         this.mCancel = cancel;
+        initalize();
+    }
+
+    public ConfirmDialog(Context context, String title, String content,
+                         String confirm, String cancel, int okBtnColor) {
+        super(context);
+        this.mContext = context;
+        this.mTitle = title;
+        this.mContent = content;
+        this.mConfirm = confirm;
+        this.mCancel = cancel;
+        this.mOkBtnColor = okBtnColor;
         initalize();
     }
 
@@ -77,6 +92,11 @@ public class ConfirmDialog extends Dialog {
         if (!TextUtils.isEmpty(mCancel)) {
             mCancelBtn.setText(mCancel);
         }
+
+        if (-1 != mOkBtnColor) {
+            mOkBtn.setTextColor(mOkBtnColor);
+        }
+
 
         mOkBtn.setOnClickListener(new View.OnClickListener() {
 

@@ -40,4 +40,6 @@
     <color name="picker_list_divider">#dadada</color>
 
     <color name="item_user_friends_circle">#f8f8f8</color>
+
+    <color name="navy_blue">#506484</color>
 </resources>
