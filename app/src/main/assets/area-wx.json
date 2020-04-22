@@ -3504,54 +3504,157 @@
         "district": [
           {
             "name": "玄武区",
-            "postCode": ""
-          },
-          {
-            "name": "白下区",
-            "postCode": ""
+            "postCode": "210018"
           },
           {
             "name": "秦淮区",
-            "postCode": ""
+            "postCode": "210001"
           },
           {
             "name": "建邺区",
-            "postCode": ""
+            "postCode": "210004"
           },
+          {
+            "name": "鼓楼区",
+            "postCode": "210009"
+          },
+          {
+            "name": "浦口区",
+            "postCode": "211800"
+          },
+          {
+            "name": "栖霞区",
+            "postCode": "210046"
+          },
+          {
+            "name": "雨花台区",
+            "postCode": "210012"
+          },
+          {
+            "name": "江宁区",
+            "postCode": "211100"
+          },
+          {
+            "name": "六合区",
+            "postCode": "211500"
+          },
+          {
+            "name": "溧水区",
+            "postCode": "211200"
+          },
+          {
+            "name": "高淳区",
+            "postCode": "211300"
+          }
+        ]
+      },
+      {
+        "name": "无锡市",
+        "district": [
+          {
+            "name": "锡山区",
+            "postCode": "214021"
+          },
+          {
+            "name": "惠山区",
+            "postCode": "214021"
+          },
+          {
+            "name": "滨湖区",
+            "postCode": "214062"
+          },
+          {
+            "name": "梁溪区",
+            "postCode": "214400"
+          },
+          {
+            "name": "新吴区",
+            "postCode": "214200"
+          },
+          {
+            "name": "江阴市",
+            "postCode": "214400"
+          },
+          {
+            "name": "宜兴市",
+            "postCode": "214200"
+          }
+        ]
+      },
+      {
+        "name": "徐州市",
+        "district": [
           {
             "name": "鼓楼区",
             "postCode": ""
           },
           {
-            "name": "下关区",
+            "name": "云龙区",
             "postCode": ""
           },
           {
-            "name": "栖霞区",
+            "name": "贾汪区",
             "postCode": ""
           },
           {
-            "name": "雨花台区",
+            "name": "泉山区",
             "postCode": ""
           },
           {
-            "name": "浦口区",
+            "name": "铜山区",
             "postCode": ""
           },
           {
-            "name": "江宁区",
+            "name": "丰县",
             "postCode": ""
           },
           {
-            "name": "六合区",
+            "name": "沛县",
             "postCode": ""
           },
           {
-            "name": "溧水县",
+            "name": "睢宁县",
             "postCode": ""
           },
           {
-            "name": "高淳县",
+            "name": "新沂市",
+            "postCode": ""
+          },
+          {
+            "name": "邳州市",
+            "postCode": ""
+          }
+        ]
+      },
+      {
+        "name": "常州市",
+        "district": [
+          {
+            "name": "钟楼区",
+            "postCode": ""
+          },
+          {
+            "name": "天宁区",
+            "postCode": ""
+          },
+          {
+            "name": "戚墅堰区",
+            "postCode": ""
+          },
+          {
+            "name": "新北区",
+            "postCode": ""
+          },
+          {
+            "name": "武进区",
+            "postCode": ""
+          },
+          {
+            "name": "金坛市",
+            "postCode": ""
+          },
+          {
+            "name": "溧阳市",
             "postCode": ""
           },
           {
@@ -3614,117 +3717,6 @@
         ]
       },
       {
-        "name": "无锡市",
-        "district": [
-          {
-            "name": "崇安区",
-            "postCode": ""
-          },
-          {
-            "name": "南长区",
-            "postCode": ""
-          },
-          {
-            "name": "北塘区",
-            "postCode": ""
-          },
-          {
-            "name": "滨湖区",
-            "postCode": ""
-          },
-          {
-            "name": "锡山区",
-            "postCode": ""
-          },
-          {
-            "name": "惠山区",
-            "postCode": ""
-          },
-          {
-            "name": "江阴市",
-            "postCode": ""
-          },
-          {
-            "name": "宜兴市",
-            "postCode": ""
-          },
-          {
-            "name": "其他",
-            "postCode": ""
-          }
-        ]
-      },
-      {
-        "name": "常州市",
-        "district": [
-          {
-            "name": "钟楼区",
-            "postCode": ""
-          },
-          {
-            "name": "天宁区",
-            "postCode": ""
-          },
-          {
-            "name": "戚墅堰区",
-            "postCode": ""
-          },
-          {
-            "name": "新北区",
-            "postCode": ""
-          },
-          {
-            "name": "武进区",
-            "postCode": ""
-          },
-          {
-            "name": "金坛市",
-            "postCode": ""
-          },
-          {
-            "name": "溧阳市",
-            "postCode": ""
-          },
-          {
-            "name": "其他",
-            "postCode": ""
-          }
-        ]
-      },
-      {
-        "name": "镇江市",
-        "district": [
-          {
-            "name": "京口区",
-            "postCode": ""
-          },
-          {
-            "name": "润州区",
-            "postCode": ""
-          },
-          {
-            "name": "丹徒区",
-            "postCode": ""
-          },
-          {
-            "name": "丹阳市",
-            "postCode": ""
-          },
-          {
-            "name": "扬中市",
-            "postCode": ""
-          },
-          {
-            "name": "句容市",
-            "postCode": ""
-          },
-          {
-            "name": "其他",
-            "postCode": ""
-          }
-        ]
-      },
-      {
         "name": "南通市",
         "district": [
           {
@@ -3766,30 +3758,34 @@
         ]
       },
       {
-        "name": "泰州市",
+        "name": "连云港市",
         "district": [
           {
-            "name": "海陵区",
+            "name": "新浦区",
             "postCode": ""
           },
           {
-            "name": "高港区",
+            "name": "海州区",
             "postCode": ""
           },
           {
-            "name": "姜堰市",
+            "name": "连云区",
             "postCode": ""
           },
           {
-            "name": "泰兴市",
+            "name": "东海县",
             "postCode": ""
           },
           {
-            "name": "靖江市",
+            "name": "灌云县",
             "postCode": ""
           },
           {
-            "name": "兴化市",
+            "name": "赣榆县",
+            "postCode": ""
+          },
+          {
+            "name": "灌南县",
             "postCode": ""
           },
           {
@@ -3799,34 +3795,38 @@
         ]
       },
       {
-        "name": "扬州市",
+        "name": "淮安市",
         "district": [
           {
-            "name": "广陵区",
+            "name": "清河区",
             "postCode": ""
           },
           {
-            "name": "维扬区",
+            "name": "清浦区",
             "postCode": ""
           },
           {
-            "name": "邗江区",
+            "name": "楚州区",
             "postCode": ""
           },
           {
-            "name": "江都市",
+            "name": "淮阴区",
             "postCode": ""
           },
           {
-            "name": "仪征市",
+            "name": "涟水县",
             "postCode": ""
           },
           {
-            "name": "高邮市",
+            "name": "洪泽县",
             "postCode": ""
           },
           {
-            "name": "宝应县",
+            "name": "金湖县",
+            "postCode": ""
+          },
+          {
+            "name": "盱眙县",
             "postCode": ""
           },
           {
@@ -3881,34 +3881,34 @@
         ]
       },
       {
-        "name": "连云港市",
+        "name": "扬州市",
         "district": [
           {
-            "name": "新浦区",
+            "name": "广陵区",
             "postCode": ""
           },
           {
-            "name": "海州区",
+            "name": "维扬区",
             "postCode": ""
           },
           {
-            "name": "连云区",
+            "name": "邗江区",
             "postCode": ""
           },
           {
-            "name": "东海县",
+            "name": "江都市",
             "postCode": ""
           },
           {
-            "name": "灌云县",
+            "name": "仪征市",
             "postCode": ""
           },
           {
-            "name": "赣榆县",
+            "name": "高邮市",
             "postCode": ""
           },
           {
-            "name": "灌南县",
+            "name": "宝应县",
             "postCode": ""
           },
           {
@@ -3918,50 +3918,30 @@
         ]
       },
       {
-        "name": "徐州市",
+        "name": "镇江市",
         "district": [
           {
-            "name": "云龙区",
+            "name": "京口区",
             "postCode": ""
           },
           {
-            "name": "鼓楼区",
+            "name": "润州区",
             "postCode": ""
           },
           {
-            "name": "九里区",
+            "name": "丹徒区",
             "postCode": ""
           },
           {
-            "name": "泉山区",
+            "name": "丹阳市",
             "postCode": ""
           },
           {
-            "name": "贾汪区",
+            "name": "扬中市",
             "postCode": ""
           },
           {
-            "name": "邳州市",
-            "postCode": ""
-          },
-          {
-            "name": "新沂市",
-            "postCode": ""
-          },
-          {
-            "name": "铜山县",
-            "postCode": ""
-          },
-          {
-            "name": "睢宁县",
-            "postCode": ""
-          },
-          {
-            "name": "沛县",
-            "postCode": ""
-          },
-          {
-            "name": "丰县",
+            "name": "句容市",
             "postCode": ""
           },
           {
@@ -3971,38 +3951,30 @@
         ]
       },
       {
-        "name": "淮安市",
+        "name": "泰州市",
         "district": [
           {
-            "name": "清河区",
+            "name": "海陵区",
             "postCode": ""
           },
           {
-            "name": "清浦区",
+            "name": "高港区",
             "postCode": ""
           },
           {
-            "name": "楚州区",
+            "name": "姜堰市",
             "postCode": ""
           },
           {
-            "name": "淮阴区",
+            "name": "泰兴市",
             "postCode": ""
           },
           {
-            "name": "涟水县",
+            "name": "靖江市",
             "postCode": ""
           },
           {
-            "name": "洪泽县",
-            "postCode": ""
-          },
-          {
-            "name": "金湖县",
-            "postCode": ""
-          },
-          {
-            "name": "盱眙县",
+            "name": "兴化市",
             "postCode": ""
           },
           {
@@ -4034,15 +4006,6 @@
             "name": "泗洪县",
             "postCode": ""
           },
-          {
-            "name": "其他",
-            "postCode": ""
-          }
-        ]
-      },
-      {
-        "name": "其他",
-        "district": [
           {
             "name": "其他",
             "postCode": ""
