@@ -1,7 +1,11 @@
 package com.bc.wechat.activity;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -9,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +40,8 @@ import java.util.Map;
  */
 public class AddAddressActivity extends FragmentActivity implements View.OnClickListener {
 
+    private static final int REQUEST_CODE_CONTACTS = 0;
+
     private TextView mTitleTv;
 
     private EditText mNameEt;
@@ -48,6 +55,8 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     private User mUser;
 
     private LoadingDialog mDialog;
+
+    private ImageView mAddressBookIv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,8 +115,11 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         mPostCodeEt = findViewById(R.id.et_post_code);
         mSaveTv = findViewById(R.id.tv_save);
 
+        mAddressBookIv = findViewById(R.id.iv_address_book);
+
         mAddressInfoEt.setOnClickListener(this);
         mSaveTv.setOnClickListener(this);
+        mAddressBookIv.setOnClickListener(this);
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
         PreferencesUtil.getInstance().setPickedDistrict("");
@@ -168,6 +180,14 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 String addressDetail = mAddressDetailEt.getText().toString();
                 String addressPostCode = mPostCodeEt.getText().toString();
                 addAddress(addressName, addressPhone, addressProvince, addressCity, addressDistrict, addressDetail, addressPostCode);
+                break;
+            case R.id.iv_address_book:
+                // 跳转到通讯录
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.PICK");
+                intent.addCategory("android.intent.category.DEFAULT");
+                intent.setType("vnd.android.cursor.dir/phone_v2");
+                startActivityForResult(intent, REQUEST_CODE_CONTACTS);
                 break;
         }
     }
@@ -230,5 +250,37 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_CONTACTS:
+                    if (data != null) {
+                        Uri uri = data.getData();
+                        String name = null;
+                        String phoneNumber = null;
+                        ContentResolver contentResolver = getContentResolver();
+                        Cursor cursor = contentResolver.query(uri,
+                                null, null, null, null);
+                        while (cursor.moveToNext()) {
+                            name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                            phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        }
+                        cursor.close();
+                        phoneNumber = phoneNumber.replaceAll(" ", "");
+                        if (!TextUtils.isEmpty(name)) {
+                            mNameEt.setText(name);
+                        }
+                        if (!TextUtils.isEmpty(phoneNumber)) {
+                            mPhoneEt.setText(phoneNumber);
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }
