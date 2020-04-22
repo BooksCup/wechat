@@ -358,7 +358,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 }
             });
             // 点击空白处消失
-            mConfirmDialog.setCancelable(true);
+            mConfirmDialog.setCancelable(false);
             mConfirmDialog.show();
         }
     }
