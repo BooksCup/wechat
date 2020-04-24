@@ -159,31 +159,31 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     }
 
     @Override
-    public void onFocusChange(View view, boolean b) {
+    public void onFocusChange(View view, boolean hasFocus) {
         switch (view.getId()) {
             case R.id.et_name:
-                if (b) {
+                if (hasFocus) {
                     mNameVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
                 } else {
                     mNameVi.setBackgroundColor(getColor(R.color.picker_list_divider));
                 }
                 break;
             case R.id.et_phone:
-                if (b) {
+                if (hasFocus) {
                     mPhoneVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
                 } else {
                     mPhoneVi.setBackgroundColor(getColor(R.color.picker_list_divider));
                 }
                 break;
             case R.id.et_address_detail:
-                if (b) {
+                if (hasFocus) {
                     mAddressDetailVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
                 } else {
                     mAddressDetailVi.setBackgroundColor(getColor(R.color.picker_list_divider));
                 }
                 break;
             case R.id.et_post_code:
-                if (b) {
+                if (hasFocus) {
                     mPostCodeVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
                 } else {
                     mPostCodeVi.setBackgroundColor(getColor(R.color.picker_list_divider));
