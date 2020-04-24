@@ -16,6 +16,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -211,6 +213,12 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                     .append(pickedCity).append(" ")
                     .append(pickedDistrict);
             mAddressInfoEt.setText(addressInfoBuffer.toString());
+            // 光标移至最后
+            CharSequence charSequence = mAddressInfoEt.getText();
+            if (charSequence instanceof Spannable) {
+                Spannable spanText = (Spannable) charSequence;
+                Selection.setSelection(spanText, charSequence.length());
+            }
         }
         String pickedPostCode = PreferencesUtil.getInstance().getPickedPostCode();
         if (!TextUtils.isEmpty(pickedPostCode)) {

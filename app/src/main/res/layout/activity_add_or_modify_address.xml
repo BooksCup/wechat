@@ -72,10 +72,12 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
             android:background="@null"
             android:hint="姓名"
             android:paddingLeft="95dp"
             android:singleLine="true"
+            android:textColor="#353535"
             android:textColorHint="#DDDDDD"
             android:textSize="16sp" />
 
@@ -118,11 +120,13 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
             android:background="@null"
             android:hint="11位手机号"
             android:inputType="phone"
             android:paddingLeft="95dp"
             android:singleLine="true"
+            android:textColor="#353535"
             android:textColorHint="#DDDDDD"
             android:textSize="16sp" />
 
@@ -156,11 +160,13 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
             android:background="@null"
             android:focusable="false"
             android:hint="地区信息"
             android:paddingLeft="95dp"
             android:singleLine="true"
+            android:textColor="@color/navy_blue"
             android:textColorHint="#DDDDDD"
             android:textSize="16sp" />
 
@@ -200,12 +206,14 @@
         <EditText
             android:id="@+id/et_address_detail"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
             android:background="@null"
             android:hint="街道门牌信息"
             android:paddingLeft="95dp"
             android:singleLine="true"
+            android:textColor="#353535"
             android:textColorHint="#DDDDDD"
             android:textSize="16sp" />
 
@@ -239,11 +247,13 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
             android:background="@null"
             android:hint="邮政编码"
             android:inputType="phone"
             android:paddingLeft="95dp"
             android:singleLine="true"
+            android:textColor="#353535"
             android:textColorHint="#DDDDDD"
             android:textSize="16sp" />
 
