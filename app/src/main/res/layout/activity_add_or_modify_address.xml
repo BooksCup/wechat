@@ -54,7 +54,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="#ffffff"
         android:clickable="true">
 
         <TextView
@@ -91,6 +91,7 @@
             android:src="@mipmap/icon_address_book" />
 
         <View
+            android:id="@+id/vi_name"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
@@ -102,7 +103,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="#ffffff"
         android:clickable="true">
 
         <TextView
@@ -131,6 +132,7 @@
             android:textSize="16sp" />
 
         <View
+            android:id="@+id/vi_phone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
@@ -142,7 +144,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="#ffffff"
         android:clickable="true">
 
         <TextView
@@ -190,7 +192,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="#ffffff"
         android:clickable="true">
 
         <TextView
@@ -218,6 +220,7 @@
             android:textSize="16sp" />
 
         <View
+            android:id="@+id/vi_address_detail"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
@@ -229,7 +232,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="#ffffff"
         android:clickable="true">
 
         <TextView
@@ -258,6 +261,7 @@
             android:textSize="16sp" />
 
         <View
+            android:id="@+id/vi_post_code"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"

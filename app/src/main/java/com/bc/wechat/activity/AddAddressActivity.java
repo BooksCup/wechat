@@ -48,12 +48,13 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class AddAddressActivity extends FragmentActivity implements View.OnClickListener {
+public class AddAddressActivity extends FragmentActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     private static final int CONTACTS_PERMISSION = 0x01;
     private static final int REQUEST_CODE_CONTACTS = 0;
 
     private TextView mTitleTv;
+
 
     private EditText mNameEt;
     private EditText mPhoneEt;
@@ -68,6 +69,11 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     private LoadingDialog mDialog;
 
     private ImageView mAddressBookIv;
+
+    private View mNameVi;
+    private View mPhoneVi;
+    private View mAddressDetailVi;
+    private View mPostCodeVi;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +132,11 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         mPostCodeEt = findViewById(R.id.et_post_code);
         mSaveTv = findViewById(R.id.tv_save);
 
+        mNameVi = findViewById(R.id.vi_name);
+        mPhoneVi = findViewById(R.id.vi_phone);
+        mAddressDetailVi = findViewById(R.id.vi_address_detail);
+        mPostCodeVi = findViewById(R.id.vi_post_code);
+
         mAddressBookIv = findViewById(R.id.iv_address_book);
 
         mAddressInfoEt.setOnClickListener(this);
@@ -140,6 +151,45 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         mPhoneEt.addTextChangedListener(new TextChange());
         mAddressInfoEt.addTextChangedListener(new TextChange());
         mAddressDetailEt.addTextChangedListener(new TextChange());
+
+        mNameEt.setOnFocusChangeListener(this);
+        mPhoneEt.setOnFocusChangeListener(this);
+        mAddressDetailEt.setOnFocusChangeListener(this);
+        mPostCodeEt.setOnFocusChangeListener(this);
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        switch (view.getId()) {
+            case R.id.et_name:
+                if (b) {
+                    mNameVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mNameVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+            case R.id.et_phone:
+                if (b) {
+                    mPhoneVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mPhoneVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+            case R.id.et_address_detail:
+                if (b) {
+                    mAddressDetailVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mAddressDetailVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+            case R.id.et_post_code:
+                if (b) {
+                    mPostCodeVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mPostCodeVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+        }
     }
 
     class TextChange implements TextWatcher {
@@ -226,8 +276,10 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         }
     }
 
-    private void addAddress(final String addressName, final String addressPhone, final String addressProvince,
-                            final String addressCity, final String addressDistrict, final String addressDetail, final String addressPostCode) {
+    private void addAddress(final String addressName, final String addressPhone,
+                            final String addressProvince,
+                            final String addressCity, final String addressDistrict, final String addressDetail,
+                            final String addressPostCode) {
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("addressName", addressName);
@@ -326,7 +378,8 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
      * 一个或多个权限请求结果回调
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean hasAllGranted = true;
         // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
