@@ -1,18 +1,21 @@
 package com.bc.wechat.activity;
 
-import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -33,9 +36,11 @@ import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +89,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mVolleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
-        requestWritePermission();
         initView();
         initCamera();
     }
@@ -235,12 +239,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mTakePicTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mImageName = CommonUtil.generateId() + ".png";
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
-                        new File(Environment.getExternalStorageDirectory(), mImageName)));
-                startActivityForResult(cameraIntent, UPDATE_AVATAR_BY_TAKE_CAMERA);
                 photoDialog.dismiss();
+                String[] permissions = new String[]{"android.permission.CAMERA"};
+                requestPermissions(MyUserInfoActivity.this, permissions, UPDATE_AVATAR_BY_TAKE_CAMERA);
             }
         });
 
@@ -288,18 +289,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         });
     }
 
-    // 运行时添加权限
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    private void requestWritePermission() {
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
-        }
-    }
-
     /**
      * android 7.0系统解决拍照的问题
      */
@@ -307,5 +296,91 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+    }
+
+    /**
+     * 动态权限
+     */
+    public void requestPermissions(Activity activity, String[] permissions, int request) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
+            ArrayList<String> mPermissionList = new ArrayList<>();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(activity, permissions[i])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    mPermissionList.add(permissions[i]);
+                }
+            }
+            if (mPermissionList.isEmpty()) {
+                // 非初次进入App且已授权
+                showCamera();
+            } else {
+                // 请求权限方法
+                String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
+                // 这个触发下面onRequestPermissionsResult这个回调
+                ActivityCompat.requestPermissions(activity, requestPermissions, request);
+            }
+        }
+    }
+
+    /**
+     * requestPermissions的回调
+     * 一个或多个权限请求结果回调
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAllGranted = true;
+        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                hasAllGranted = false;
+                break;
+            }
+        }
+        if (hasAllGranted) {
+            // 同意权限做的处理,开启服务提交通讯录
+            showCamera();
+        } else {
+            // 拒绝授权做的处理，弹出弹框提示用户授权
+            handleRejectPermission(MyUserInfoActivity.this, permissions[0]);
+        }
+    }
+
+    public void handleRejectPermission(final Activity context, String permission) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(MyUserInfoActivity.this, "权限申请",
+                    "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能",
+                    "去设置", "取消", getColor(R.color.navy_blue));
+            mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                @Override
+                public void onOkClick() {
+                    mConfirmDialog.dismiss();
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
+                    intent.setData(uri);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onCancelClick() {
+                    mConfirmDialog.dismiss();
+                }
+            });
+            // 点击空白处消失
+            mConfirmDialog.setCancelable(false);
+            mConfirmDialog.show();
+        }
+    }
+
+    /**
+     * 跳转到相机
+     */
+    private void showCamera() {
+        mImageName = CommonUtil.generateId() + ".png";
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
+                new File(Environment.getExternalStorageDirectory(), mImageName)));
+        startActivityForResult(cameraIntent, UPDATE_AVATAR_BY_TAKE_CAMERA);
     }
 }
