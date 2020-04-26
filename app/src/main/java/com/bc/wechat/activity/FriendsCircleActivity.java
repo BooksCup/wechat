@@ -127,6 +127,15 @@ public class FriendsCircleActivity extends BaseActivity {
                 });
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootRl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                // 取消
+                RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
+                mCancelRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                    }
+                });
             }
         });
 

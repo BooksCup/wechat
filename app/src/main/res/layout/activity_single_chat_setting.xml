@@ -116,8 +116,7 @@
             android:layout_centerVertical="true"
             android:text="@string/set_chat_to_top"
             android:textColor="#353535"
-            android:textSize="16sp"
-            android:typeface="serif" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_switch_chat_to_top"
@@ -157,8 +156,7 @@
             android:layout_centerVertical="true"
             android:text="@string/block_chat_msg"
             android:textColor="#353535"
-            android:textSize="16sp"
-            android:typeface="serif" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_switch_block_chat_msg"
@@ -194,8 +192,7 @@
             android:layout_centerVertical="true"
             android:text="@string/clear_chat_msg"
             android:textColor="#353535"
-            android:textSize="16sp"
-            android:typeface="serif" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>
