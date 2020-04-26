@@ -249,10 +249,9 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         mAlbumTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, null);
-                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent, UPDATE_AVATAR_BY_ALBUM);
                 photoDialog.dismiss();
+                String[] permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
+                requestPermissions(MyUserInfoActivity.this, permissions, UPDATE_AVATAR_BY_ALBUM);
             }
         });
 
@@ -301,7 +300,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     /**
      * 动态权限
      */
-    public void requestPermissions(Activity activity, String[] permissions, int request) {
+    public void requestPermissions(Activity activity, String[] permissions, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
             ArrayList<String> mPermissionList = new ArrayList<>();
             for (int i = 0; i < permissions.length; i++) {
@@ -312,12 +311,19 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             }
             if (mPermissionList.isEmpty()) {
                 // 非初次进入App且已授权
-                showCamera();
+                switch (requestCode) {
+                    case UPDATE_AVATAR_BY_TAKE_CAMERA:
+                        showCamera();
+                        break;
+                    case UPDATE_AVATAR_BY_ALBUM:
+                        showAlbum();
+                        break;
+                }
             } else {
                 // 请求权限方法
                 String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
                 // 这个触发下面onRequestPermissionsResult这个回调
-                ActivityCompat.requestPermissions(activity, requestPermissions, request);
+                ActivityCompat.requestPermissions(activity, requestPermissions, requestCode);
             }
         }
     }
@@ -339,18 +345,35 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             }
         }
         if (hasAllGranted) {
-            // 同意权限做的处理,开启服务提交通讯录
-            showCamera();
+            switch (requestCode) {
+                case UPDATE_AVATAR_BY_TAKE_CAMERA:
+                    showCamera();
+                    break;
+                case UPDATE_AVATAR_BY_ALBUM:
+                    showAlbum();
+                    break;
+            }
         } else {
             // 拒绝授权做的处理，弹出弹框提示用户授权
-            handleRejectPermission(MyUserInfoActivity.this, permissions[0]);
+            handleRejectPermission(MyUserInfoActivity.this, permissions[0], requestCode);
         }
     }
 
-    public void handleRejectPermission(final Activity context, String permission) {
+    public void handleRejectPermission(final Activity context, String permission, int requestCode) {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            String content = "";
+            // 非初次进入App且已授权
+            switch (requestCode) {
+                case UPDATE_AVATAR_BY_TAKE_CAMERA:
+                    content = "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能";
+                    break;
+                case UPDATE_AVATAR_BY_ALBUM:
+                    content = "为确保接收到的图片、视频等内容能被正常浏览，微信需要申请手机存储权限。";
+                    break;
+            }
+
             final ConfirmDialog mConfirmDialog = new ConfirmDialog(MyUserInfoActivity.this, "权限申请",
-                    "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能",
+                    content,
                     "去设置", "取消", getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
@@ -382,5 +405,14 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
                 new File(Environment.getExternalStorageDirectory(), mImageName)));
         startActivityForResult(cameraIntent, UPDATE_AVATAR_BY_TAKE_CAMERA);
+    }
+
+    /**
+     * 跳转到相机
+     */
+    private void showAlbum() {
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, UPDATE_AVATAR_BY_ALBUM);
     }
 }
