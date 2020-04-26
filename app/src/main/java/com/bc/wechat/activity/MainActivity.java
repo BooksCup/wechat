@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -40,8 +42,10 @@ import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 import com.google.zxing.client.android.CaptureActivity2;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -405,15 +409,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                if (Build.VERSION.SDK_INT > 22) {
-                    if (ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION);
-                    } else {
-                        startScanActivity();
-                    }
-                } else {
-                    startScanActivity();
-                }
+                String[] permissions = new String[]{"android.permission.CAMERA"};
+                requestPermissions(MainActivity.this, permissions, CAMERA_PERMISSION);
             }
         });
 
@@ -422,24 +419,23 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void startScanActivity() {
-        Intent intent = new Intent(MainActivity.this, CaptureActivity2.class);
-        intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
-        startActivityForResult(intent, SCAN_REQUEST_CODE);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case CAMERA_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startScanActivity();
-                } else {
-                    Toast.makeText(MainActivity.this, "请手动打开摄像头权限", Toast.LENGTH_SHORT).show();
-                }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAllGranted = true;
+        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                hasAllGranted = false;
                 break;
-            default:
-                break;
+            }
+        }
+        if (hasAllGranted) {
+            // 同意权限做的处理,开启服务提交通讯录
+            startScanActivity();
+        } else {
+            // 拒绝授权做的处理，弹出弹框提示用户授权
+            handleRejectPermission(this, permissions[0]);
         }
     }
 
@@ -473,5 +469,64 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    /**
+     * 动态权限
+     */
+    public void requestPermissions(Activity activity, String[] permissions, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
+            ArrayList<String> mPermissionList = new ArrayList<>();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(activity, permissions[i])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    mPermissionList.add(permissions[i]);
+                }
+            }
+            if (mPermissionList.isEmpty()) {
+                // 非初次进入App且已授权
+                startScanActivity();
+            } else {
+                // 请求权限方法
+                String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
+                // 这个触发下面onRequestPermissionsResult这个回调
+                ActivityCompat.requestPermissions(this, requestPermissions, requestCode);
+            }
+        }
+    }
+
+    public void handleRejectPermission(final Activity context, String permission) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(MainActivity.this, "权限申请",
+                    "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能",
+                    "去设置", "取消", context.getColor(R.color.navy_blue));
+            mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                @Override
+                public void onOkClick() {
+                    mConfirmDialog.dismiss();
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
+                    intent.setData(uri);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onCancelClick() {
+                    mConfirmDialog.dismiss();
+                }
+            });
+            // 点击空白处消失
+            mConfirmDialog.setCancelable(false);
+            mConfirmDialog.show();
+        }
+    }
+
+    /**
+     * 进入扫一扫页面
+     */
+    private void startScanActivity() {
+        Intent intent = new Intent(this, CaptureActivity2.class);
+        intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
+        startActivityForResult(intent, SCAN_REQUEST_CODE);
     }
 }
