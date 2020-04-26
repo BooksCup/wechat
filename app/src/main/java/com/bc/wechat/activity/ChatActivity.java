@@ -1,9 +1,17 @@
 package com.bc.wechat.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -34,7 +42,9 @@ import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -290,9 +300,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.iv_chat_location:
-                Intent intent = new Intent(ChatActivity.this, MapPickerActivity.class);
-                intent.putExtra("sendLocation", true);
-                startActivityForResult(intent, REQUEST_CODE_LOCATION);
+                // 动态申请定位权限
+                String[] permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
+                requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_LOCATION);
                 break;
         }
     }
@@ -642,5 +652,105 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 sendLocationMsg(latitude, longitude, address, addressDetail, path);
             }
         }
+    }
+
+    /**
+     * 动态权限
+     */
+    public void requestPermissions(Activity activity, String[] permissions, int requestCode) {
+        // Android 6.0开始的动态权限，这里进行版本判断
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ArrayList<String> mPermissionList = new ArrayList<>();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(activity, permissions[i])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    mPermissionList.add(permissions[i]);
+                }
+            }
+            if (mPermissionList.isEmpty()) {
+                // 非初次进入App且已授权
+                switch (requestCode) {
+                    case REQUEST_CODE_LOCATION:
+                        showMapPicker();
+                        break;
+                }
+            } else {
+                // 请求权限方法
+                String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
+                // 这个触发下面onRequestPermissionsResult这个回调
+                ActivityCompat.requestPermissions(activity, requestPermissions, requestCode);
+            }
+        }
+    }
+
+    /**
+     * requestPermissions的回调
+     * 一个或多个权限请求结果回调
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAllGranted = true;
+        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                hasAllGranted = false;
+                break;
+            }
+        }
+        if (hasAllGranted) {
+            switch (requestCode) {
+                case REQUEST_CODE_LOCATION:
+                    showMapPicker();
+                    break;
+            }
+        } else {
+            // 拒绝授权做的处理，弹出弹框提示用户授权
+            handleRejectPermission(ChatActivity.this, permissions[0], requestCode);
+        }
+    }
+
+    public void handleRejectPermission(final Activity context, String permission, int requestCode) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            String content = "";
+            // 非初次进入App且已授权
+            switch (requestCode) {
+                case REQUEST_CODE_LOCATION:
+                    content = "在设置-应用-微信-权限中开启位置信息权限，以正常使用位置共享、搜索、摇一摇、扫街景、附近的人、微信连Wi-Fi等功能";
+                    break;
+            }
+
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(ChatActivity.this, "权限申请",
+                    content,
+                    "去设置", "取消", getColor(R.color.navy_blue));
+            mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                @Override
+                public void onOkClick() {
+                    mConfirmDialog.dismiss();
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
+                    intent.setData(uri);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onCancelClick() {
+                    mConfirmDialog.dismiss();
+                }
+            });
+            // 点击空白处消失
+            mConfirmDialog.setCancelable(false);
+            mConfirmDialog.show();
+        }
+    }
+
+    /**
+     * 进入地图选择页面
+     */
+    private void showMapPicker() {
+        Intent intent = new Intent(ChatActivity.this, MapPickerActivity.class);
+        intent.putExtra("sendLocation", true);
+        startActivityForResult(intent, REQUEST_CODE_LOCATION);
     }
 }

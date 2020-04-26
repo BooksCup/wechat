@@ -40,7 +40,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 消息
+ *
+ * @author zhou
+ */
 public class MessageAdapter extends BaseAdapter {
     private static final int DEFAULT_WIDTH = 300;
 
