@@ -2,22 +2,29 @@ package com.bc.wechat.activity;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -53,6 +60,8 @@ import java.util.Map;
  */
 public class FriendsCircleActivity extends BaseActivity {
 
+    private RelativeLayout mRootRl;
+    private ImageView mAddFriendsCircleIv;
     private ListView mFriendsCircleLv;
     private User mUser;
     private VolleyUtil mVolleyUtil;
@@ -71,6 +80,8 @@ public class FriendsCircleActivity extends BaseActivity {
     private InputMethodManager mManager;
     private String mCircleId;
 
+    // 弹窗
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +95,40 @@ public class FriendsCircleActivity extends BaseActivity {
         mDialog = new LoadingDialog(FriendsCircleActivity.this);
 
         View headerView = LayoutInflater.from(this).inflate(R.layout.item_friends_circle_header, null);
+
+        mAddFriendsCircleIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(R.layout.popup_window_add_friends_circle, null);
+                // 给popwindow加上动画效果
+                LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
+                view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
+                mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
+                // 设置popwindow的宽高
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                // 使其聚集
+                mPopupWindow.setFocusable(true);
+                // 设置允许在外点击消失
+                mPopupWindow.setOutsideTouchable(true);
+
+                // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+                mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+                backgroundAlpha(0.5f);  //透明度
+
+                mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        backgroundAlpha(1f);
+                    }
+                });
+                // 弹出的位置
+                mPopupWindow.showAtLocation(mRootRl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            }
+        });
 
         mFriendsCircleList = mFriendsCircleDao.getFriendsCircleList(Constant.DEFAULT_PAGE_SIZE, mTimeStamp);
 
@@ -198,6 +243,8 @@ public class FriendsCircleActivity extends BaseActivity {
         mManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mRootRl = findViewById(R.id.rl_root);
+        mAddFriendsCircleIv = findViewById(R.id.iv_add_friends_circle);
         mFriendsCircleLv = findViewById(R.id.ll_friends_circle);
 
         mBottomLl = findViewById(R.id.ll_bottom);
@@ -331,6 +378,19 @@ public class FriendsCircleActivity extends BaseActivity {
                 mDialog.dismiss();
             }
         });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * 1.0完全不透明，0.0f完全透明
+     *
+     * @param bgAlpha 透明度值
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        // 0.0-1.0
+        lp.alpha = bgAlpha;
+        getWindow().setAttributes(lp);
     }
 
 }
