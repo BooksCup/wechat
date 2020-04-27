@@ -717,13 +717,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             // 非初次进入App且已授权
             switch (requestCode) {
                 case REQUEST_CODE_LOCATION:
-                    content = "在设置-应用-微信-权限中开启位置信息权限，以正常使用位置共享、搜索、摇一摇、扫街景、附近的人、微信连Wi-Fi等功能";
+                    content = getString(R.string.request_permission_location);
                     break;
             }
 
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(ChatActivity.this, "权限申请",
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(ChatActivity.this, getString(R.string.request_permission),
                     content,
-                    "去设置", "取消", getColor(R.color.navy_blue));
+                    getString(R.string.go_setting), getString(R.string.cancel), getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
                 public void onOkClick() {

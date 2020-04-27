@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">微信</string>
     <string name="login_by_phone">使用手机号登录</string>
     <string name="country_and_area">国家和地区</string>
@@ -86,6 +86,7 @@
     <string name="wallet">钱包</string>
     <string name="card_holder">卡包</string>
     <string name="setting">设置</string>
+    <string name="go_setting">去设置</string>
     <string name="switch_notification">接收新消息通知</string>
     <string name="switch_sound">声音</string>
     <string name="switch_vibrate">震动</string>
@@ -136,4 +137,10 @@
 
     <string name="more">更多</string>
     <string name="more_info">更多信息</string>
+
+    <!--  permission  -->
+    <string name="request_permission">权限设置</string>
+    <string name="request_permission_location">在设置-应用-微信-权限中开启位置信息权限，以正常使用位置共享、搜索、摇一摇、扫街景、附近的人、微信连Wi-Fi等功能</string>
+    <string name="request_permission_camera">在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能</string>
+    <string name="request_permission_storage">为确保接收到的图片、视频等内容能被正常浏览，微信需要申请手机存储权限。</string>
 </resources>
