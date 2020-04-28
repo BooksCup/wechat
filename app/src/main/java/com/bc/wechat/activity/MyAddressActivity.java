@@ -1,9 +1,11 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -23,6 +25,7 @@ import java.util.List;
 
 public class MyAddressActivity extends FragmentActivity {
 
+    private ImageView mAddIv;
     private ListView mAddressLv;
     private MyAddressAdapter mMyAddressAdapter;
     private User mUser;
@@ -49,7 +52,15 @@ public class MyAddressActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mAddIv = findViewById(R.id.iv_add);
         mAddressLv = findViewById(R.id.lv_address);
+
+        mAddIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MyAddressActivity.this, AddAddressActivity.class));
+            }
+        });
     }
 
     public void back(View view) {

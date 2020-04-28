@@ -109,6 +109,9 @@
             android:name=".activity.MyAddressActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.AddAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.UpdateNickNameActivity"
             android:screenOrientation="portrait" />
         <activity
