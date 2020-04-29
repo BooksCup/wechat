@@ -211,6 +211,8 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         mSendLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // 需要动态申请存储权限
+
                 if (null != mLocationLatLng) {
                     int left = mWidth / 8;
                     int top = (int) (mHeight - 1.5 * mWidth);
@@ -231,14 +233,14 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    List<String> imageList = FileUtil.uploadFile(Constant.FILE_UPLOAD_URL, localPath);
+                                    List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", localPath);
                                     if (null != imageList && imageList.size() > 0) {
                                         Intent intent = new Intent();
                                         intent.putExtra("latitude", mLatitude);
                                         intent.putExtra("longitude", mLongitude);
                                         intent.putExtra("address", mAddress);
                                         intent.putExtra("addressDetail", mAddressDetail);
-                                        intent.putExtra("path", Constant.FILE_BASE_URL + imageList.get(0));
+                                        intent.putExtra("path", imageList.get(0));
                                         setResult(RESULT_OK, intent);
                                         finish();
                                         overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);

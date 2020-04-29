@@ -7,10 +7,7 @@ public class Constant {
     public static String PICTURE_DIR = "sdcard/wechat_/pictures/";
 
     //    public static final String BASE_URL = "http://49.4.25.11:8081/";
-    public static final String BASE_URL = "http://192.168.0.56:8081/";
-
-    public static final String FILE_UPLOAD_URL = BASE_URL + "oss/file";
-    public static final String FILE_BASE_URL = "http://49.4.25.11:9999/wechat_file/";
+    public static final String BASE_URL = "http://192.168.0.106:8081/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";
