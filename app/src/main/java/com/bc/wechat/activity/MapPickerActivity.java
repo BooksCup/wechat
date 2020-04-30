@@ -2,10 +2,17 @@ package com.bc.wechat.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,12 +52,15 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.service.LocationService;
 import com.bc.wechat.utils.BitmapLoaderUtil;
 import com.bc.wechat.utils.FileUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class MapPickerActivity extends Activity implements AdapterView.OnItemClickListener {
+
+    private static final int REQUEST_PERMISSION_STORAGE = 0x01;
 
     List<PoiInfo> mPoiInfoList;
     private Point mCenterPoint;
@@ -212,46 +222,8 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
             @Override
             public void onClick(View view) {
                 // 需要动态申请存储权限
-
-                if (null != mLocationLatLng) {
-                    int left = mWidth / 8;
-                    int top = (int) (mHeight - 1.5 * mWidth);
-                    // 计算长宽
-                    int width = mWidth - 2 * left;
-                    int height = (int) (0.6 * width);
-
-                    int right = mWidth - left;
-                    int bottom = top + height;
-
-
-                    Rect rect = new Rect(left, top, right, bottom);
-                    mBaiduMap.snapshotScope(rect, new BaiduMap.SnapshotReadyCallback() {
-                        @Override
-                        public void onSnapshotReady(Bitmap bitmap) {
-                            String fileName = UUID.randomUUID().toString();
-                            final String localPath = BitmapLoaderUtil.saveBitmapToLocal(bitmap, fileName);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", localPath);
-                                    if (null != imageList && imageList.size() > 0) {
-                                        Intent intent = new Intent();
-                                        intent.putExtra("latitude", mLatitude);
-                                        intent.putExtra("longitude", mLongitude);
-                                        intent.putExtra("address", mAddress);
-                                        intent.putExtra("addressDetail", mAddressDetail);
-                                        intent.putExtra("path", imageList.get(0));
-                                        setResult(RESULT_OK, intent);
-                                        finish();
-                                        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-
-                                    }
-                                }
-                            }).start();
-
-                        }
-                    });
-                }
+                String[] permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
+                requestPermissions(MapPickerActivity.this, permissions, REQUEST_PERMISSION_STORAGE);
             }
         });
     }
@@ -381,4 +353,123 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         finish();
     }
 
+    /**
+     * 动态权限
+     */
+    public void requestPermissions(Activity activity, String[] permissions, int requestCode) {
+        // Android 6.0开始的动态权限，这里进行版本判断
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ArrayList<String> mPermissionList = new ArrayList<>();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(activity, permissions[i])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    mPermissionList.add(permissions[i]);
+                }
+            }
+            if (mPermissionList.isEmpty()) {
+                // 非初次进入App且已授权
+                sendLocation();
+            } else {
+                // 请求权限方法
+                String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
+                // 这个触发下面onRequestPermissionsResult这个回调
+                ActivityCompat.requestPermissions(activity, requestPermissions, requestCode);
+            }
+        }
+    }
+
+    /**
+     * requestPermissions的回调
+     * 一个或多个权限请求结果回调
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAllGranted = true;
+        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                hasAllGranted = false;
+                break;
+            }
+        }
+        if (hasAllGranted) {
+            sendLocation();
+        } else {
+            // 拒绝授权做的处理，弹出弹框提示用户授权
+            handleRejectPermission(MapPickerActivity.this, permissions[0], requestCode);
+        }
+    }
+
+    public void handleRejectPermission(final Activity context, String permission, int requestCode) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(MapPickerActivity.this, getString(R.string.request_permission),
+                    getString(R.string.request_permission_storage),
+                    getString(R.string.go_setting), getString(R.string.cancel), getColor(R.color.navy_blue));
+            mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                @Override
+                public void onOkClick() {
+                    mConfirmDialog.dismiss();
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
+                    intent.setData(uri);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onCancelClick() {
+                    mConfirmDialog.dismiss();
+                }
+            });
+            // 点击空白处消失
+            mConfirmDialog.setCancelable(false);
+            mConfirmDialog.show();
+        }
+    }
+
+    /**
+     * 发送位置
+     */
+    private void sendLocation() {
+        if (null != mLocationLatLng) {
+            int left = mWidth / 8;
+            int top = (int) (mHeight - 1.5 * mWidth);
+            // 计算长宽
+            int width = mWidth - 2 * left;
+            int height = (int) (0.6 * width);
+
+            int right = mWidth - left;
+            int bottom = top + height;
+
+
+            Rect rect = new Rect(left, top, right, bottom);
+            mBaiduMap.snapshotScope(rect, new BaiduMap.SnapshotReadyCallback() {
+                @Override
+                public void onSnapshotReady(Bitmap bitmap) {
+                    String fileName = UUID.randomUUID().toString();
+                    final String localPath = BitmapLoaderUtil.saveBitmapToLocal(bitmap, fileName);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", localPath);
+                            if (null != imageList && imageList.size() > 0) {
+                                Intent intent = new Intent();
+                                intent.putExtra("latitude", mLatitude);
+                                intent.putExtra("longitude", mLongitude);
+                                intent.putExtra("address", mAddress);
+                                intent.putExtra("addressDetail", mAddressDetail);
+                                intent.putExtra("path", imageList.get(0));
+                                setResult(RESULT_OK, intent);
+                                finish();
+                                overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+
+                            }
+                        }
+                    }).start();
+
+                }
+            });
+        }
+    }
 }
