@@ -235,7 +235,7 @@ public class UserInfoActivity extends Activity {
 
                         final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "已尝试添加到桌面",
                                 "若添加失败，请前往系统设置，为微信打开\"创建桌面快捷方式\"的权限。",
-                                "了解详情", "返回");
+                                "了解详情", getString(R.string.cancel), getColor(R.color.navy_blue));
                         confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                             @Override
                             public void onOkClick() {
