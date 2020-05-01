@@ -16,6 +16,11 @@ import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
+/**
+ * 消息
+ *
+ * @author zhou
+ */
 public class MessageDao {
     public Message getMessageByMessageId(String messageId) {
         List<Message> messageList = Message.find(Message.class, "message_id = ?", messageId);
@@ -26,8 +31,30 @@ public class MessageDao {
     }
 
     /**
+     * 根据用户ID获取消息列表
+     *
+     * @param userId 用户ID
+     * @return 消息列表
+     */
+    public List<Message> getMessageListByUserId(String userId) {
+        return Message.findWithQuery(Message.class,
+                "select * from message where (from_user_id = ? or to_user_id = ?) and target_type = ? order by timestamp asc",
+                userId, userId, Constant.TARGET_TYPE_SINGLE);
+    }
+
+    /**
+     * 根据群组ID获取消息列表
+     *
+     * @param groupId 群组ID
+     * @return 消息列表
+     */
+    public List<Message> getMessageListByGroupId(String groupId) {
+        return Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
+    }
+
+    /**
      * 根据群组ID删除消息
-     * 用处: 群会话中清空聊天记录
+     * 使用场景: 群会话中清空聊天记录
      *
      * @param groupId 群组ID
      */
@@ -36,6 +63,11 @@ public class MessageDao {
         Message.executeQuery(sql, groupId);
     }
 
+    /**
+     * 根据用户ID删除消息
+     *
+     * @param userId 用户ID
+     */
     public void deleteMessageByUserId(String userId) {
         String sql = "delete from message where (from_user_id = ? or to_user_id = ?) and target_type = ?";
         Message.executeQuery(sql, userId, userId, Constant.TARGET_TYPE_SINGLE);

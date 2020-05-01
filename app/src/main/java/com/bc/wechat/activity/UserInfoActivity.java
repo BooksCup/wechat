@@ -248,7 +248,7 @@ public class UserInfoActivity extends Activity {
                             }
                         });
                         // 点击空白处消失
-                        confirmDialog.setCancelable(true);
+                        confirmDialog.setCancelable(false);
                         confirmDialog.show();
 
                         final Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);

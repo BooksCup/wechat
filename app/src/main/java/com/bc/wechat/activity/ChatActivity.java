@@ -59,6 +59,11 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
+/**
+ * 聊天
+ *
+ * @author zhou
+ */
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
     public static final int REQUEST_CODE_CONTEXT_MENU = 3;
@@ -118,8 +123,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mSingleChatSettingIv;
 
     private ListView mMessageLv;
-    private MessageAdapter messageAdapter;
-    List<Message> messageList;
+    private MessageAdapter mMessageAdapter;
+    List<Message> mMessageList;
 
     // intent传值
     // 单聊
@@ -133,23 +138,22 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private String groupDesc;
     private String memberNum;
 
-    User user;
-    private VolleyUtil volleyUtil;
+    User mUser;
+    private VolleyUtil mVolleyUtil;
 
-    private int messageIndex;
+    private int mMessageIndex;
 
-    MessageDao messageDao;
-    String imageUrl;
+    MessageDao mMessageDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        volleyUtil = VolleyUtil.getInstance(this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
-        user = PreferencesUtil.getInstance().getUser();
-        messageDao = new MessageDao();
+        mUser = PreferencesUtil.getInstance().getUser();
+        mMessageDao = new MessageDao();
         initView();
         setUpView();
     }
@@ -256,8 +260,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             fromUserNickName = getIntent().getStringExtra("fromUserNickName");
             fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
             mFromNickNameTv.setText(fromUserNickName);
-            messageList = Message.findWithQuery(Message.class,
-                    "select * from message where (from_user_id = ? or to_user_id = ?) and target_type = ? order by timestamp asc", fromUserId, fromUserId, Constant.TARGET_TYPE_SINGLE);
+            mMessageList = mMessageDao.getMessageListByUserId(fromUserId);
         } else if (Constant.TARGET_TYPE_GROUP.equals(targetType)) {
             groupId = getIntent().getStringExtra("groupId");
             groupDesc = getIntent().getStringExtra("groupDesc");
@@ -268,11 +271,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 mFromNickNameTv.setText(groupDesc + "(" + memberNum + ")");
             }
 
-            // and message_type <> 'eventNotification'
-            messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
+            mMessageList = mMessageDao.getMessageListByGroupId(groupId);
         }
-        messageAdapter = new MessageAdapter(this, messageList);
-        mMessageLv.setAdapter(messageAdapter);
+        mMessageAdapter = new MessageAdapter(this, mMessageList);
+        mMessageLv.setAdapter(mMessageAdapter);
 
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
     }
@@ -388,7 +390,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         message.setTargetType(targetType);
         message.setContent(content);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        message.setFromUserId(user.getUserId());
+        message.setFromUserId(mUser.getUserId());
         message.setToUserId(fromUserId);
         message.setToUserName(fromUserNickName);
         message.setToUserAvatar(fromUserAvatar);
@@ -398,8 +400,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         // 群组
         message.setGroupId(groupId);
 
-        messageList.add(message);
-        messageIndex = messageList.size() - 1;
+        mMessageList.add(message);
+        mMessageIndex = mMessageList.size() - 1;
         message.setMessageType(Constant.MSG_TYPE_TEXT);
 
         Message.save(message);
@@ -408,14 +410,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         body.put("text", content);
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
-            sendMessage(targetType, fromUserId, user.getUserId(),
-                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+            sendMessage(targetType, fromUserId, mUser.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), mMessageIndex);
         } else {
             // 群聊
-            sendMessage(targetType, groupId, user.getUserId(),
-                    message.getMessageType(), JSON.toJSONString(body), messageIndex);
+            sendMessage(targetType, groupId, mUser.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), mMessageIndex);
         }
-        messageAdapter.notifyDataSetChanged();
+        mMessageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
         mEditTextContent.setText("");
     }
@@ -434,7 +436,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         message.setMessageId(CommonUtil.generateId());
         message.setTargetType(targetType);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        message.setFromUserId(user.getUserId());
+        message.setFromUserId(mUser.getUserId());
         message.setToUserId(fromUserId);
         message.setToUserName(fromUserNickName);
         message.setToUserAvatar(fromUserAvatar);
@@ -444,8 +446,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         // 群组
         message.setGroupId(groupId);
 
-        messageList.add(message);
-        messageIndex = messageList.size() - 1;
+        mMessageList.add(message);
+        mMessageIndex = mMessageList.size() - 1;
         message.setMessageType(Constant.MSG_TYPE_LOCATION);
         Map<String, Object> body = new HashMap<>();
         body.put("type", Constant.MSG_TYPE_LOCATION);
@@ -461,14 +463,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
-            sendMessage(targetType, fromUserId, user.getUserId(),
-                    message.getMessageType(), messageBody, messageIndex);
+            sendMessage(targetType, fromUserId, mUser.getUserId(),
+                    message.getMessageType(), messageBody, mMessageIndex);
         } else {
             // 群聊
-            sendMessage(targetType, groupId, user.getUserId(),
-                    message.getMessageType(), messageBody, messageIndex);
+            sendMessage(targetType, groupId, mUser.getUserId(),
+                    message.getMessageType(), messageBody, mMessageIndex);
         }
-        messageAdapter.notifyDataSetChanged();
+        mMessageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
         mEditTextContent.setText("");
     }
@@ -494,27 +496,27 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         paramMap.put("msgType", msgType);
         paramMap.put("body", body);
 
-        volleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Message message = messageList.get(messageIndex);
-                message = messageDao.getMessageByMessageId(message.getMessageId());
+                Message message = mMessageList.get(messageIndex);
+                message = mMessageDao.getMessageByMessageId(message.getMessageId());
                 message.setStatus(MessageStatus.SEND_SUCCESS.value());
-                messageList.set(messageIndex, message);
+                mMessageList.set(messageIndex, message);
                 Message.save(message);
-                messageAdapter.setData(messageList);
-                messageAdapter.notifyDataSetChanged();
+                mMessageAdapter.setData(mMessageList);
+                mMessageAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Message message = messageList.get(messageIndex);
-                message = messageDao.getMessageByMessageId(message.getMessageId());
+                Message message = mMessageList.get(messageIndex);
+                message = mMessageDao.getMessageByMessageId(message.getMessageId());
                 message.setStatus(MessageStatus.SEND_FAIL.value());
-                messageList.set(messageIndex, message);
+                mMessageList.set(messageIndex, message);
                 Message.save(message);
-                messageAdapter.setData(messageList);
-                messageAdapter.notifyDataSetChanged();
+                mMessageAdapter.setData(mMessageList);
+                mMessageAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -524,14 +526,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
-            messageList = Message.findWithQuery(Message.class,
-                    "select * from message where (from_user_id = ? or to_user_id = ?) and target_type = ? order by timestamp asc", fromUserId, fromUserId, Constant.TARGET_TYPE_SINGLE);
+            mMessageList = mMessageDao.getMessageListByUserId(fromUserId);
         } else if (Constant.TARGET_TYPE_GROUP.equals(targetType)) {
-            // and message_type <> 'eventNotification'
-            messageList = Message.findWithQuery(Message.class, "select * from message where group_id = ? order by timestamp asc", groupId);
+            mMessageList = mMessageDao.getMessageListByGroupId(groupId);
         }
-        messageAdapter = new MessageAdapter(this, messageList);
-        mMessageLv.setAdapter(messageAdapter);
+
+        mMessageAdapter = new MessageAdapter(this, mMessageList);
+        mMessageLv.setAdapter(mMessageAdapter);
 
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
     }
@@ -546,7 +547,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         // 如果是自己发送的消息 则无需处理此条消息
         // 发送者
         UserInfo fromUserInfo = msg.getFromUser();
-        if (fromUserInfo.getUserName().equals(user.getUserId())) {
+        if (fromUserInfo.getUserName().equals(mUser.getUserId())) {
             return;
         }
 
@@ -569,7 +570,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         }
 
         // 消息接收者信息
-        message.setToUserId(user.getUserId());
+        message.setToUserId(mUser.getUserId());
 
         // 消息类型
         message.setMessageType(JimUtil.getMessageType(msg));
@@ -598,12 +599,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             // 如果是当前会话
             Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
             if (fromUserInfo.getUserName().equals(fromUserId)) {
-                messageList.add(message);
+                mMessageList.add(message);
                 mMessageLv.post(new Runnable() {
                     @Override
                     public void run() {
-                        messageAdapter.setData(messageList);
-                        messageAdapter.notifyDataSetChanged();
+                        mMessageAdapter.setData(mMessageList);
+                        mMessageAdapter.notifyDataSetChanged();
                         mMessageLv.setSelection(mMessageLv.getBottom());
                     }
                 });
@@ -619,13 +620,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             // 群聊
             // 如果是当前会话
             GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
-            if (String.valueOf(groupInfo.getGroupID()).equals(groupId) && !fromUserInfo.getUserName().equals(user.getUserId())) {
-                messageList.add(message);
+            if (String.valueOf(groupInfo.getGroupID()).equals(groupId) && !fromUserInfo.getUserName().equals(mUser.getUserId())) {
+                mMessageList.add(message);
                 mMessageLv.post(new Runnable() {
                     @Override
                     public void run() {
-                        messageAdapter.setData(messageList);
-                        messageAdapter.notifyDataSetChanged();
+                        mMessageAdapter.setData(mMessageList);
+                        mMessageAdapter.notifyDataSetChanged();
                         mMessageLv.setSelection(mMessageLv.getBottom());
                     }
                 });
