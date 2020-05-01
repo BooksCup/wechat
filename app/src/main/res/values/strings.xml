@@ -23,7 +23,7 @@
     <string name="save">保存</string>
     <string name="password_rules">密码必须是8-16位的数字、字符组合(不能是纯数字)</string>
     <string name="button_pushtotalk">按住说话</string>
-    <string name="button_send">发送</string>
+    <string name="send">发送</string>
     <string name="attach_smile">表情</string>
     <string name="attach_picture">图片</string>
     <string name="attach_take_pic">拍照</string>

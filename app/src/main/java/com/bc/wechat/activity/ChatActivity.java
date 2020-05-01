@@ -106,10 +106,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private TextView mFromNickNameTv;
 
     private LinearLayout mMoreLl;
-    private LinearLayout mEmojiIconContainerLl;
+    private LinearLayout mEmojiContainerLl;
     private LinearLayout mBtnContainerLl;
-    private ImageView mEmoticonsNormalIv;
-    private ImageView mEmoticonsCheckedIv;
+    private ImageView mEmojiNormalIv;
+    private ImageView mEmojiCheckedIv;
 
     private Button mMoreBtn;
     private Button mSendBtn;
@@ -117,8 +117,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private View buttonSetModeVoice;
     private View buttonPressToSpeak;
 
-    private EditText mEditTextContent;
-    private RelativeLayout mEditTextRl;
+    private EditText mTextMsgEt;
+    private RelativeLayout mTextMsgRl;
 
     private ImageView mSingleChatSettingIv;
 
@@ -163,11 +163,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         mMessageLv = findViewById(R.id.list);
 
-        mMoreLl = findViewById(R.id.more);
-        mEmojiIconContainerLl = findViewById(R.id.ll_face_container);
+        mMoreLl = findViewById(R.id.ll_more);
+        mEmojiContainerLl = findViewById(R.id.ll_emoji_container);
         mBtnContainerLl = findViewById(R.id.ll_btn_container);
-        mEmoticonsNormalIv = findViewById(R.id.iv_emoticons_normal);
-        mEmoticonsCheckedIv = findViewById(R.id.iv_emoticons_checked);
+        mEmojiNormalIv = findViewById(R.id.iv_emoji_normal);
+        mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
 
         mMoreBtn = findViewById(R.id.btn_more);
         mSendBtn = findViewById(R.id.btn_send);
@@ -175,8 +175,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
         buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
-        mEditTextContent = findViewById(R.id.et_sendmessage);
-        mEditTextRl = findViewById(R.id.edittext_layout);
+        mTextMsgEt = findViewById(R.id.et_text_msg);
+        mTextMsgRl = findViewById(R.id.rl_text_msg);
 
         mSingleChatSettingIv = findViewById(R.id.iv_setting);
 
@@ -191,19 +191,19 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 //            }
 //        });
 
-        mEditTextContent.setOnClickListener(new View.OnClickListener() {
+        mTextMsgEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
                 mMoreLl.setVisibility(View.GONE);
-                mEmoticonsNormalIv.setVisibility(View.VISIBLE);
-                mEmoticonsCheckedIv.setVisibility(View.GONE);
-                mEmojiIconContainerLl.setVisibility(View.GONE);
+                mEmojiNormalIv.setVisibility(View.VISIBLE);
+                mEmojiCheckedIv.setVisibility(View.GONE);
+                mEmojiContainerLl.setVisibility(View.GONE);
                 mBtnContainerLl.setVisibility(View.GONE);
             }
         });
 
-        mEditTextContent.addTextChangedListener(new TextWatcher() {
+        mTextMsgEt.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
@@ -233,11 +233,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 hideKeyboard();
 
                 // 隐藏更多
-                if (mEmojiIconContainerLl.getVisibility() == View.VISIBLE) {
-                    mEmojiIconContainerLl.setVisibility(View.GONE);
+                if (mEmojiContainerLl.getVisibility() == View.VISIBLE) {
+                    mEmojiContainerLl.setVisibility(View.GONE);
                     mBtnContainerLl.setVisibility(View.VISIBLE);
-                    mEmoticonsNormalIv.setVisibility(View.VISIBLE);
-                    mEmoticonsCheckedIv.setVisibility(View.INVISIBLE);
+                    mEmojiNormalIv.setVisibility(View.VISIBLE);
+                    mEmojiCheckedIv.setVisibility(View.INVISIBLE);
                 } else {
                     mMoreLl.setVisibility(View.GONE);
                 }
@@ -283,7 +283,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_send:
-                String content = mEditTextContent.getText().toString();
+                String content = mTextMsgEt.getText().toString();
                 sendTextMsg(content);
                 break;
             case R.id.iv_setting:
@@ -320,7 +320,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
      * @param view
      */
     public void setModeKeyboard(View view) {
-        mEditTextRl.setVisibility(View.VISIBLE);
+        mTextMsgEt.setVisibility(View.VISIBLE);
         mMoreLl.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
         buttonSetModeVoice.setVisibility(View.VISIBLE);
@@ -340,13 +340,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             hideKeyboard();
             mMoreLl.setVisibility(View.VISIBLE);
             mBtnContainerLl.setVisibility(View.VISIBLE);
-            mEmojiIconContainerLl.setVisibility(View.GONE);
+            mEmojiContainerLl.setVisibility(View.GONE);
         } else {
-            if (mEmojiIconContainerLl.getVisibility() == View.VISIBLE) {
-                mEmojiIconContainerLl.setVisibility(View.GONE);
+            if (mEmojiContainerLl.getVisibility() == View.VISIBLE) {
+                mEmojiContainerLl.setVisibility(View.GONE);
                 mBtnContainerLl.setVisibility(View.VISIBLE);
-                mEmoticonsNormalIv.setVisibility(View.VISIBLE);
-                mEmoticonsCheckedIv.setVisibility(View.INVISIBLE);
+                mEmojiNormalIv.setVisibility(View.VISIBLE);
+                mEmojiCheckedIv.setVisibility(View.INVISIBLE);
             } else {
                 mMoreLl.setVisibility(View.GONE);
             }
@@ -362,8 +362,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
         if (mMoreLl.getVisibility() == View.VISIBLE) {
             mMoreLl.setVisibility(View.GONE);
-            mEmoticonsNormalIv.setVisibility(View.VISIBLE);
-            mEmoticonsCheckedIv.setVisibility(View.INVISIBLE);
+            mEmojiNormalIv.setVisibility(View.VISIBLE);
+            mEmojiCheckedIv.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -419,7 +419,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         }
         mMessageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
-        mEditTextContent.setText("");
+        mTextMsgEt.setText("");
     }
 
     /**
@@ -472,7 +472,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         }
         mMessageAdapter.notifyDataSetChanged();
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
-        mEditTextContent.setText("");
+        mTextMsgEt.setText("");
     }
 
 

@@ -115,7 +115,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical|right"
                 android:scaleType="fitXY"
-                android:src="@mipmap/icon_chat_emoji_normal"
+                android:src="@mipmap/icon_emoji_normal"
                 android:visibility="visible" />
 
             <ImageView
@@ -125,7 +125,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical|right"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/icon_chat_emoji_checked"
+                android:src="@mipmap/icon_emoji_checked"
                 android:visibility="invisible" />
         </RelativeLayout>
 
