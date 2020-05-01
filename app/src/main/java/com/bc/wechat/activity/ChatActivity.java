@@ -7,6 +7,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,12 +41,14 @@ import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,12 +70,13 @@ import cn.jpush.im.android.api.model.UserInfo;
  * @author zhou
  */
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
-    private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
-    public static final int REQUEST_CODE_CONTEXT_MENU = 3;
-    private static final int REQUEST_CODE_MAP = 4;
-    public static final int REQUEST_CODE_TEXT = 5;
-    public static final int REQUEST_CODE_VOICE = 6;
-    public static final int REQUEST_CODE_PICTURE = 7;
+    private static final int REQUEST_CODE_EMPTY_HISTORY = 1;
+    public static final int REQUEST_CODE_CONTEXT_MENU = 2;
+    private static final int REQUEST_CODE_MAP = 3;
+    public static final int REQUEST_CODE_TEXT = 4;
+    public static final int REQUEST_CODE_VOICE = 5;
+    public static final int REQUEST_CODE_IMAGE_ALBUM = 6;
+    public static final int REQUEST_CODE_IMAGE_CAMERA = 7;
     public static final int REQUEST_CODE_LOCATION = 8;
     public static final int REQUEST_CODE_NET_DISK = 9;
     public static final int REQUEST_CODE_FILE = 10;
@@ -107,7 +113,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout mMoreLl;
     private LinearLayout mEmojiContainerLl;
+
+    // 各种消息类型容器
     private LinearLayout mBtnContainerLl;
+    // 发送图片-"相册"
+    private LinearLayout mImageAlbumLl;
+
     private ImageView mEmojiNormalIv;
     private ImageView mEmojiCheckedIv;
 
@@ -145,6 +156,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     MessageDao mMessageDao;
 
+    private String mImageName;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,12 +179,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mMoreLl = findViewById(R.id.ll_more);
         mEmojiContainerLl = findViewById(R.id.ll_emoji_container);
         mBtnContainerLl = findViewById(R.id.ll_btn_container);
+
+        mImageAlbumLl = findViewById(R.id.ll_image_album);
+
         mEmojiNormalIv = findViewById(R.id.iv_emoji_normal);
         mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
 
         mMoreBtn = findViewById(R.id.btn_more);
         mSendBtn = findViewById(R.id.btn_send);
-
 
         buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
         buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
@@ -247,6 +262,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         });
 
         mSingleChatSettingIv.setOnClickListener(this);
+        mImageAlbumLl.setOnClickListener(this);
     }
 
     private void setUpView() {
@@ -305,6 +321,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 // 动态申请定位权限
                 String[] permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
                 requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_LOCATION);
+                break;
+
+            case R.id.ll_image_album:
+                // 通过相册发送图片
+                // 动态申请相册权限
+                showAlbum();
                 break;
         }
     }
@@ -408,6 +430,52 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         Map<String, Object> body = new HashMap<>();
         body.put("extras", new HashMap<>());
         body.put("text", content);
+        if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
+            // 单聊
+            sendMessage(targetType, fromUserId, mUser.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), mMessageIndex);
+        } else {
+            // 群聊
+            sendMessage(targetType, groupId, mUser.getUserId(),
+                    message.getMessageType(), JSON.toJSONString(body), mMessageIndex);
+        }
+        mMessageAdapter.notifyDataSetChanged();
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
+        mTextMsgEt.setText("");
+    }
+
+    /**
+     * 发送图片消息
+     *
+     * @param imgUrl 消息内容
+     */
+    private void sendImageMsg(String imgUrl) {
+        Message message = new Message();
+        message.setMessageId(CommonUtil.generateId());
+        message.setTargetType(targetType);
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
+        message.setFromUserId(mUser.getUserId());
+        message.setToUserId(fromUserId);
+        message.setToUserName(fromUserNickName);
+        message.setToUserAvatar(fromUserAvatar);
+        message.setTimestamp(new Date().getTime());
+        message.setStatus(MessageStatus.SENDING.value());
+
+        // 群组
+        message.setGroupId(groupId);
+
+        mMessageList.add(message);
+        mMessageIndex = mMessageList.size() - 1;
+        message.setMessageType(Constant.MSG_TYPE_IMAGE);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("extras", new HashMap<>());
+        body.put("text", imgUrl);
+        String messageBody = JSON.toJSONString(body);
+        message.setMessageBody(messageBody);
+
+        Message.save(message);
+
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
             sendMessage(targetType, fromUserId, mUser.getUserId(),
@@ -643,14 +711,34 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_LOCATION) {
-                // 获取经纬度，发送位置消息
-                double latitude = data.getDoubleExtra("latitude", 0);
-                double longitude = data.getDoubleExtra("longitude", 0);
-                String address = data.getStringExtra("address");
-                String addressDetail = data.getStringExtra("addressDetail");
-                String path = data.getStringExtra("path");
-                sendLocationMsg(latitude, longitude, address, addressDetail, path);
+            switch (requestCode) {
+                case REQUEST_CODE_IMAGE_ALBUM:
+                    if (data != null) {
+                        Uri uri = data.getData();
+                        final String filePath = FileUtil.getFilePathByUri(this, uri);
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
+                                if (null != imageList && imageList.size() > 0) {
+//                                    sendImageMsg(imageList.get(0));
+                                    handler.sendMessage(handler.obtainMessage(REQUEST_CODE_IMAGE_ALBUM, imageList.get(0)));
+                                }
+                            }
+                        }).start();
+                    }
+                    break;
+
+                case REQUEST_CODE_LOCATION:
+                    // 获取经纬度，发送位置消息
+                    double latitude = data.getDoubleExtra("latitude", 0);
+                    double longitude = data.getDoubleExtra("longitude", 0);
+                    String address = data.getStringExtra("address");
+                    String addressDetail = data.getStringExtra("addressDetail");
+                    String path = data.getStringExtra("path");
+                    sendLocationMsg(latitude, longitude, address, addressDetail, path);
+                    break;
             }
         }
     }
@@ -754,4 +842,36 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         intent.putExtra("sendLocation", true);
         startActivityForResult(intent, REQUEST_CODE_LOCATION);
     }
+
+    /**
+     * 跳转到相机
+     */
+    private void showCamera() {
+        mImageName = CommonUtil.generateId() + ".png";
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
+                new File(Environment.getExternalStorageDirectory(), mImageName)));
+        startActivityForResult(cameraIntent, REQUEST_CODE_IMAGE_CAMERA);
+    }
+
+    /**
+     * 跳转到相册
+     */
+    private void showAlbum() {
+        Intent intent = new Intent(Intent.ACTION_PICK, null);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_ALBUM);
+    }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case REQUEST_CODE_IMAGE_ALBUM:
+                    sendImageMsg((String) msg.obj);
+                    break;
+            }
+        }
+    };
 }

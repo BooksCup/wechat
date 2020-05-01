@@ -2,7 +2,7 @@ package com.bc.wechat.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,9 +32,12 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.cxd.chatview.moudle.ChatView;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -366,7 +369,7 @@ public class MessageAdapter extends BaseAdapter {
         }
     }
 
-    private void handleImageMessage(final Message message, ViewHolder viewHolder, final int position) {
+    private void handleImageMessage(final Message message, final ViewHolder viewHolder, final int position) {
         viewHolder.mTimeStampTv.setText(TimestampUtil.getTimePoint(message.getTimestamp()));
         if (user.getUserId().equals(message.getFromUserId())) {
             if (!TextUtils.isEmpty(user.getUserAvatar())) {
@@ -377,22 +380,50 @@ public class MessageAdapter extends BaseAdapter {
                 viewHolder.mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
             }
         }
-        Uri uri = Uri.fromFile(new File(message.getImageUrl()));
+        Map<String, Object> imageMap = JSON.parseObject(message.getMessageBody(), Map.class);
+        final String imgUrl = imageMap.get("text") == null ? "" : String.valueOf(imageMap.get("text"));
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        BitmapFactory.decodeFile(message.getImageUrl(), options);
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setOldController(viewHolder.mImageContentSdv.getController())
+                .setControllerListener(new ControllerListener<ImageInfo>() {
+                    @Override
+                    public void onSubmit(String id, Object callerContext) {
 
-        //获取图片的宽高
-        int height = options.outHeight;
-        int width = options.outWidth;
+                    }
 
-        viewHolder.mImageContentSdv.setImageURI(uri);
-        ViewGroup.LayoutParams params = viewHolder.mImageContentSdv.getLayoutParams();
-        params.width = DEFAULT_WIDTH;
-        Double resetHeight = CalculateUtil.mul(CalculateUtil.div(height, width, 5), DEFAULT_WIDTH);
-        params.height = resetHeight.intValue();
+                    @Override
+                    public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                        ViewGroup.LayoutParams params = viewHolder.mImageContentSdv.getLayoutParams();
+                        params.width = DEFAULT_WIDTH;
+                        Double resetHeight = CalculateUtil.mul(CalculateUtil.div(imageInfo.getHeight(), imageInfo.getWidth(), 5), DEFAULT_WIDTH);
+                        params.height = resetHeight.intValue();
+                        viewHolder.mImageContentSdv.setLayoutParams(params);
+                    }
 
-        viewHolder.mImageContentSdv.setLayoutParams(params);
+                    @Override
+                    public void onIntermediateImageSet(String id, ImageInfo imageInfo) {
+
+                    }
+
+                    @Override
+                    public void onIntermediateImageFailed(String id, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String id, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onRelease(String id) {
+
+                    }
+                })
+                .setUri(Uri.parse(imgUrl))
+                .build();
+        viewHolder.mImageContentSdv.setController(controller);
+
 
         if (position != 0) {
             Message lastMessage = messageList.get(position - 1);

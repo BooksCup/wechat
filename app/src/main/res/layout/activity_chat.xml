@@ -244,6 +244,7 @@
                     android:weightSum="4">
 
                     <LinearLayout
+                        android:id="@+id/ll_image_album"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -260,8 +261,6 @@
                                 android:layout_height="50dp"
                                 android:layout_centerInParent="true"
                                 android:background="@mipmap/icon_chat_photo_album"
-                                android:clickable="true"
-                                android:onClick="onClick"
                                 android:scaleType="fitCenter" />
                         </RelativeLayout>
 
@@ -269,7 +268,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="相册"
+                            android:text="@string/album"
                             android:textColor="#727171"
                             android:textSize="12sp" />
                     </LinearLayout>

@@ -408,7 +408,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     }
 
     /**
-     * 跳转到相机
+     * 跳转到相册
      */
     private void showAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK, null);
