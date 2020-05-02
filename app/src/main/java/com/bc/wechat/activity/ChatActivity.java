@@ -470,7 +470,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         Map<String, Object> body = new HashMap<>();
         body.put("extras", new HashMap<>());
-        body.put("text", imgUrl);
+        body.put("imgUrl", imgUrl);
         String messageBody = JSON.toJSONString(body);
         message.setMessageBody(messageBody);
 
@@ -722,7 +722,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                             public void run() {
                                 List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
                                 if (null != imageList && imageList.size() > 0) {
-//                                    sendImageMsg(imageList.get(0));
                                     handler.sendMessage(handler.obtainMessage(REQUEST_CODE_IMAGE_ALBUM, imageList.get(0)));
                                 }
                             }

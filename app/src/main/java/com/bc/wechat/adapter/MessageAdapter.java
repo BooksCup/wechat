@@ -28,6 +28,7 @@ import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.CalculateUtil;
+import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimestampUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -190,7 +191,9 @@ public class MessageAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, MessageBigImageActivity.class);
-                    intent.putExtra("imgUrl", message.getImageUrl());
+                    Map<String, Object> imageMap = JSON.parseObject(message.getMessageBody(), Map.class);
+                    final String imgUrl = imageMap.get("imgUrl") == null ? "" : String.valueOf(imageMap.get("imgUrl"));
+                    intent.putExtra("imgUrl", imgUrl);
                     mContext.startActivity(intent);
                 }
             });
@@ -381,7 +384,7 @@ public class MessageAdapter extends BaseAdapter {
             }
         }
         Map<String, Object> imageMap = JSON.parseObject(message.getMessageBody(), Map.class);
-        final String imgUrl = imageMap.get("text") == null ? "" : String.valueOf(imageMap.get("text"));
+        final String imgUrl = imageMap.get("imgUrl") == null ? "" : String.valueOf(imageMap.get("imgUrl"));
 
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setOldController(viewHolder.mImageContentSdv.getController())
@@ -420,7 +423,7 @@ public class MessageAdapter extends BaseAdapter {
 
                     }
                 })
-                .setUri(Uri.parse(imgUrl))
+                .setUri(Uri.parse(OssUtil.resize(imgUrl)))
                 .build();
         viewHolder.mImageContentSdv.setController(controller);
 

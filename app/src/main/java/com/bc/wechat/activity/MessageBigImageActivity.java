@@ -42,7 +42,7 @@ public class MessageBigImageActivity extends Activity {
         imgUrl = getIntent().getStringExtra("imgUrl");
         if (!TextUtils.isEmpty(imgUrl)) {
             PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
-            Uri uri = Uri.fromFile(new File(imgUrl));
+            Uri uri = Uri.parse(imgUrl);
             controller.setUri(uri);//设置图片url
             controller.setOldController(mPhotoDraweeView.getController());
             controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
