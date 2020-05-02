@@ -493,6 +493,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private void sendImageMsg(String imgUrl, String messageId) {
         Message message = mMessageDao.getMessageByMessageId(messageId);
         Map<String, Object> body = new HashMap<>();
+        body.put("type", Constant.MSG_TYPE_IMAGE);
         body.put("extras", new HashMap<>());
         body.put("imgUrl", imgUrl);
         String messageBody = JSON.toJSONString(body);

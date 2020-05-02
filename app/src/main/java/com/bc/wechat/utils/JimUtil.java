@@ -38,6 +38,8 @@ public class JimUtil {
                     String type = String.valueOf(messageBodyMap.get("type"));
                     if (Constant.MSG_TYPE_LOCATION.equals(type)) {
                         return "[位置]";
+                    } else if (Constant.MSG_TYPE_IMAGE.equals(type)) {
+                        return "[图片]";
                     } else {
                         return DEFAULT_LATEST_MESSAGE;
                     }
