@@ -56,7 +56,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.content.ImageContent;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.event.MessageEvent;
@@ -675,9 +674,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             message.setContent(messageContent.getText());
         } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
             // 图片
-            ImageContent imageContent = ((ImageContent) msg.getContent());
-            String imageUrl = imageContent.getLocalThumbnailPath();
-            message.setImageUrl(imageUrl);
+            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
+            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
+            message.setMessageBody(JSON.toJSONString(messageBodyMap));
+
         } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
             // 位置
             Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
