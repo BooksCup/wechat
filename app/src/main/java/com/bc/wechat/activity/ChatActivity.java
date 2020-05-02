@@ -445,6 +445,46 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * 预发送图片消息
+     */
+    private String preSendImageMsg(String localPath) {
+        String messageId = CommonUtil.generateId();
+        Message message = new Message();
+        message.setMessageId(messageId);
+        message.setTargetType(targetType);
+        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
+        message.setFromUserId(mUser.getUserId());
+        message.setToUserId(fromUserId);
+        message.setToUserName(fromUserNickName);
+        message.setToUserAvatar(fromUserAvatar);
+        message.setTimestamp(new Date().getTime());
+        message.setStatus(MessageStatus.SENDING.value());
+
+        // 群组
+        message.setGroupId(groupId);
+
+        mMessageList.add(message);
+        mMessageIndex = mMessageList.size() - 1;
+        message.setMessageType(Constant.MSG_TYPE_IMAGE);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("extras", new HashMap<>());
+        body.put("localPath", localPath);
+        String messageBody = JSON.toJSONString(body);
+        message.setMessageBody(messageBody);
+
+        Message.save(message);
+
+        mMessageAdapter.notifyDataSetChanged();
+        mMessageLv.setSelection(mMessageLv.getCount() - 1);
+        mTextMsgEt.setText("");
+
+        // 隐藏底部功能栏
+        mBtnContainerLl.setVisibility(View.GONE);
+
+        return messageId;
+    }
+    /**
      * 发送图片消息
      *
      * @param imgUrl 消息内容
@@ -717,12 +757,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         Uri uri = data.getData();
                         final String filePath = FileUtil.getFilePathByUri(this, uri);
 
+                        preSendImageMsg(filePath);
+
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
                                 if (null != imageList && imageList.size() > 0) {
-                                    handler.sendMessage(handler.obtainMessage(REQUEST_CODE_IMAGE_ALBUM, imageList.get(0)));
+//                                    handler.sendMessage(handler.obtainMessage(REQUEST_CODE_IMAGE_ALBUM, imageList.get(0)));
                                 }
                             }
                         }).start();

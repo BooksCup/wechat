@@ -39,6 +39,7 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -385,6 +386,16 @@ public class MessageAdapter extends BaseAdapter {
         }
         Map<String, Object> imageMap = JSON.parseObject(message.getMessageBody(), Map.class);
         final String imgUrl = imageMap.get("imgUrl") == null ? "" : String.valueOf(imageMap.get("imgUrl"));
+        final String localPath = imageMap.get("localPath") == null ? "" : String.valueOf(imageMap.get("localPath"));
+        Uri uri;
+        if (!TextUtils.isEmpty(localPath)) {
+            // 本地读
+            uri = Uri.fromFile(new File(localPath));
+        } else {
+            // 网络获取
+            uri = Uri.parse(OssUtil.resize(imgUrl));
+        }
+
 
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setOldController(viewHolder.mImageContentSdv.getController())
@@ -423,7 +434,7 @@ public class MessageAdapter extends BaseAdapter {
 
                     }
                 })
-                .setUri(Uri.parse(OssUtil.resize(imgUrl)))
+                .setUri(uri)
                 .build();
         viewHolder.mImageContentSdv.setController(controller);
 
