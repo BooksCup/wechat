@@ -51,7 +51,9 @@ import java.util.Map;
  * @author zhou
  */
 public class MessageAdapter extends BaseAdapter {
-    private static final int DEFAULT_WIDTH = 300;
+    private static final int DEFAULT_WIDTH_1 = 300;
+    private static final int DEFAULT_WIDTH_2 = 400;
+    private static final int DEFAULT_WIDTH_3 = 500;
 
     private static final int MESSAGE_TYPE_SENT_TEXT = 0;
     private static final int MESSAGE_TYPE_RECV_TEXT = 1;
@@ -424,9 +426,21 @@ public class MessageAdapter extends BaseAdapter {
 
                     @Override
                     public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                        int originWidth = imageInfo.getWidth();
+                        int originHeight = imageInfo.getHeight();
+                        int adjustWidth;
+
+                        if (originWidth < originHeight) {
+                            adjustWidth = DEFAULT_WIDTH_1;
+                        } else if (originWidth > originHeight) {
+                            adjustWidth = DEFAULT_WIDTH_3;
+                        } else {
+                            adjustWidth = DEFAULT_WIDTH_2;
+                        }
+
                         ViewGroup.LayoutParams params = viewHolder.mImageContentSdv.getLayoutParams();
-                        params.width = DEFAULT_WIDTH;
-                        Double resetHeight = CalculateUtil.mul(CalculateUtil.div(imageInfo.getHeight(), imageInfo.getWidth(), 5), DEFAULT_WIDTH);
+                        params.width = adjustWidth;
+                        Double resetHeight = CalculateUtil.mul(CalculateUtil.div(imageInfo.getHeight(), imageInfo.getWidth(), 5), adjustWidth);
                         params.height = resetHeight.intValue();
                         viewHolder.mImageContentSdv.setLayoutParams(params);
                     }
