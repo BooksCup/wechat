@@ -490,12 +490,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
      *
      * @param imgUrl 消息内容
      */
-    private void sendImageMsg(String imgUrl, String messageId) {
+    private void sendImageMsg(String imgUrl, String messageId, String localPath) {
         Message message = mMessageDao.getMessageByMessageId(messageId);
         Map<String, Object> body = new HashMap<>();
         body.put("type", Constant.MSG_TYPE_IMAGE);
         body.put("extras", new HashMap<>());
         body.put("imgUrl", imgUrl);
+        body.put("localPath", localPath);
         String messageBody = JSON.toJSONString(body);
         message.setMessageBody(messageBody);
         Message.save(message);
@@ -753,6 +754,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("imgUrl", imageList.get(0));
                                     bundle.putString("messageId", messageId);
+                                    bundle.putString("localPath", filePath);
                                     msg.setData(bundle);
                                     handler.sendMessage(msg);
                                 }
@@ -902,7 +904,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 case REQUEST_CODE_IMAGE_ALBUM:
                     String imgUrl = msg.getData().getString("imgUrl");
                     String messageId = msg.getData().getString("messageId");
-                    sendImageMsg(imgUrl, messageId);
+                    String localPath = msg.getData().getString("localPath");
+                    sendImageMsg(imgUrl, messageId, localPath);
                     break;
             }
         }

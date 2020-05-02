@@ -197,7 +197,9 @@ public class MessageAdapter extends BaseAdapter {
                     Intent intent = new Intent(mContext, MessageBigImageActivity.class);
                     Map<String, Object> imageMap = JSON.parseObject(message.getMessageBody(), Map.class);
                     final String imgUrl = imageMap.get("imgUrl") == null ? "" : String.valueOf(imageMap.get("imgUrl"));
+                    final String localPath = imageMap.get("localPath") == null ? "" : String.valueOf(imageMap.get("localPath"));
                     intent.putExtra("imgUrl", imgUrl);
+                    intent.putExtra("localPath", localPath);
                     mContext.startActivity(intent);
                 }
             });

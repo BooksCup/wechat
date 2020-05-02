@@ -6,14 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.Message;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
+
 
 import java.io.File;
 
@@ -22,7 +21,8 @@ import me.relex.photodraweeview.PhotoDraweeView;
 
 public class MessageBigImageActivity extends Activity {
     private PhotoDraweeView mPhotoDraweeView;
-    private String imgUrl;
+    private String mImgUrl;
+    private String mLocalPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +39,32 @@ public class MessageBigImageActivity extends Activity {
     }
 
     private void initData() {
-        imgUrl = getIntent().getStringExtra("imgUrl");
-        if (!TextUtils.isEmpty(imgUrl)) {
-            PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
-            Uri uri = Uri.parse(imgUrl);
-            controller.setUri(uri);//设置图片url
-            controller.setOldController(mPhotoDraweeView.getController());
-            controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
-                @Override
-                public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
-                    super.onFinalImageSet(id, imageInfo, animatable);
-                    if (imageInfo == null || mPhotoDraweeView == null) {
-                        return;
-                    }
-                    mPhotoDraweeView.update(imageInfo.getWidth(), imageInfo.getHeight());
-                }
-            });
-            mPhotoDraweeView.setController(controller.build());
+        mImgUrl = getIntent().getStringExtra("imgUrl");
+        mLocalPath = getIntent().getStringExtra("localPath");
+
+        Uri uri;
+        if (!TextUtils.isEmpty(mLocalPath)) {
+            // 本地读
+            uri = Uri.fromFile(new File(mLocalPath));
         } else {
-            Toast.makeText(this, "图片获取失败", Toast.LENGTH_SHORT).show();
+            // 网络获取
+            uri = Uri.parse(mImgUrl);
         }
+
+        PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
+        controller.setUri(uri);//设置图片url
+        controller.setOldController(mPhotoDraweeView.getController());
+        controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
+            @Override
+            public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
+                super.onFinalImageSet(id, imageInfo, animatable);
+                if (imageInfo == null || mPhotoDraweeView == null) {
+                    return;
+                }
+                mPhotoDraweeView.update(imageInfo.getWidth(), imageInfo.getHeight());
+            }
+        });
+        mPhotoDraweeView.setController(controller.build());
     }
 
     private void initEvent() {
