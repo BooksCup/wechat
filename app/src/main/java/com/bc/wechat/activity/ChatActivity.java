@@ -484,36 +484,19 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         return messageId;
     }
+
     /**
      * 发送图片消息
      *
      * @param imgUrl 消息内容
      */
-    private void sendImageMsg(String imgUrl) {
-        Message message = new Message();
-        message.setMessageId(CommonUtil.generateId());
-        message.setTargetType(targetType);
-        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        message.setFromUserId(mUser.getUserId());
-        message.setToUserId(fromUserId);
-        message.setToUserName(fromUserNickName);
-        message.setToUserAvatar(fromUserAvatar);
-        message.setTimestamp(new Date().getTime());
-        message.setStatus(MessageStatus.SENDING.value());
-
-        // 群组
-        message.setGroupId(groupId);
-
-        mMessageList.add(message);
-        mMessageIndex = mMessageList.size() - 1;
-        message.setMessageType(Constant.MSG_TYPE_IMAGE);
-
+    private void sendImageMsg(String imgUrl, String messageId) {
+        Message message = mMessageDao.getMessageByMessageId(messageId);
         Map<String, Object> body = new HashMap<>();
         body.put("extras", new HashMap<>());
         body.put("imgUrl", imgUrl);
         String messageBody = JSON.toJSONString(body);
         message.setMessageBody(messageBody);
-
         Message.save(message);
 
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
@@ -757,14 +740,20 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                         Uri uri = data.getData();
                         final String filePath = FileUtil.getFilePathByUri(this, uri);
 
-                        preSendImageMsg(filePath);
+                        final String messageId = preSendImageMsg(filePath);
 
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
                                 if (null != imageList && imageList.size() > 0) {
-//                                    handler.sendMessage(handler.obtainMessage(REQUEST_CODE_IMAGE_ALBUM, imageList.get(0)));
+                                    android.os.Message msg = new android.os.Message();
+                                    msg.what = REQUEST_CODE_IMAGE_ALBUM;
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("imgUrl", imageList.get(0));
+                                    bundle.putString("messageId", messageId);
+                                    msg.setData(bundle);
+                                    handler.sendMessage(msg);
                                 }
                             }
                         }).start();
@@ -910,7 +899,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             super.handleMessage(msg);
             switch (msg.what) {
                 case REQUEST_CODE_IMAGE_ALBUM:
-                    sendImageMsg((String) msg.obj);
+                    String imgUrl = msg.getData().getString("imgUrl");
+                    String messageId = msg.getData().getString("messageId");
+                    sendImageMsg(imgUrl, messageId);
                     break;
             }
         }

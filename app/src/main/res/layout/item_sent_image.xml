@@ -65,7 +65,7 @@
             android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/msg_status"
+            android:id="@+id/iv_msg_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
