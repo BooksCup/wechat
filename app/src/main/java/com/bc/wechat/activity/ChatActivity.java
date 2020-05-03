@@ -296,6 +296,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        String[] permissions;
         switch (view.getId()) {
             case R.id.btn_send:
                 String content = mTextMsgEt.getText().toString();
@@ -318,14 +319,15 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.iv_chat_location:
                 // 动态申请定位权限
-                String[] permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
+                permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
                 requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_LOCATION);
                 break;
 
             case R.id.ll_image_album:
                 // 通过相册发送图片
                 // 动态申请相册权限
-                showAlbum();
+                permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
+                requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_IMAGE_ALBUM);
                 break;
         }
     }
@@ -795,6 +797,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     case REQUEST_CODE_LOCATION:
                         showMapPicker();
                         break;
+                    case REQUEST_CODE_IMAGE_ALBUM:
+                        showAlbum();
+                        break;
                 }
             } else {
                 // 请求权限方法
@@ -826,6 +831,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 case REQUEST_CODE_LOCATION:
                     showMapPicker();
                     break;
+                case REQUEST_CODE_IMAGE_ALBUM:
+                    showAlbum();
+                    break;
             }
         } else {
             // 拒绝授权做的处理，弹出弹框提示用户授权
@@ -840,6 +848,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             switch (requestCode) {
                 case REQUEST_CODE_LOCATION:
                     content = getString(R.string.request_permission_location);
+                    break;
+                case REQUEST_CODE_IMAGE_ALBUM:
+                    content = getString(R.string.request_permission_storage);
                     break;
             }
 
