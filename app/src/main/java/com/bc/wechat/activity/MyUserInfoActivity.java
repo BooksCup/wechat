@@ -365,10 +365,11 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
             // 非初次进入App且已授权
             switch (requestCode) {
                 case UPDATE_AVATAR_BY_TAKE_CAMERA:
-                    content = "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能";
+                    content = getString(R.string.request_permission_camera);
                     break;
                 case UPDATE_AVATAR_BY_ALBUM:
-                    content = "为确保接收到的图片、视频等内容能被正常浏览，微信需要申请手机存储权限。";
+                    content = getString(R.string.request_permission_storage);
+                    ;
                     break;
             }
 

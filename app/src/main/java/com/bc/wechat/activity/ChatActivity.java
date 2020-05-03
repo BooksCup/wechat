@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -117,6 +118,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mBtnContainerLl;
     // 发送图片-"相册"
     private LinearLayout mImageAlbumLl;
+    // 发送图片-"拍照"
+    private LinearLayout mImageCameraLl;
 
     private ImageView mEmojiNormalIv;
     private ImageView mEmojiCheckedIv;
@@ -168,6 +171,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mMessageDao = new MessageDao();
         initView();
         setUpView();
+        initCamera();
     }
 
     private void initView() {
@@ -180,6 +184,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mBtnContainerLl = findViewById(R.id.ll_btn_container);
 
         mImageAlbumLl = findViewById(R.id.ll_image_album);
+        mImageCameraLl = findViewById(R.id.ll_image_camera);
 
         mEmojiNormalIv = findViewById(R.id.iv_emoji_normal);
         mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
@@ -262,6 +267,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         mSingleChatSettingIv.setOnClickListener(this);
         mImageAlbumLl.setOnClickListener(this);
+        mImageCameraLl.setOnClickListener(this);
     }
 
     private void setUpView() {
@@ -329,9 +335,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
                 requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_IMAGE_ALBUM);
                 break;
+            case R.id.ll_image_camera:
+                // 通过拍照发送图片
+                // 动态申请相机权限
+                permissions = new String[]{"android.permission.CAMERA"};
+                requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_IMAGE_CAMERA);
+                break;
         }
     }
-
 
     public void back(View view) {
         finish();
@@ -743,7 +754,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     if (data != null) {
                         Uri uri = data.getData();
                         final String filePath = FileUtil.getFilePathByUri(this, uri);
-
                         final String messageId = preSendImageMsg(filePath);
 
                         new Thread(new Runnable() {
@@ -763,6 +773,27 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                             }
                         }).start();
                     }
+                    break;
+                case REQUEST_CODE_IMAGE_CAMERA:
+                    final File file = new File(Environment.getExternalStorageDirectory(), mImageName);
+                    final String messageId = preSendImageMsg(file.getPath());
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", file.getPath());
+                            if (null != imageList && imageList.size() > 0) {
+                                android.os.Message msg = new android.os.Message();
+                                msg.what = REQUEST_CODE_IMAGE_ALBUM;
+                                Bundle bundle = new Bundle();
+                                bundle.putString("imgUrl", imageList.get(0));
+                                bundle.putString("messageId", messageId);
+                                bundle.putString("localPath", file.getPath());
+                                msg.setData(bundle);
+                                handler.sendMessage(msg);
+                            }
+                        }
+                    }).start();
                     break;
 
                 case REQUEST_CODE_LOCATION:
@@ -800,6 +831,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     case REQUEST_CODE_IMAGE_ALBUM:
                         showAlbum();
                         break;
+                    case REQUEST_CODE_IMAGE_CAMERA:
+                        showCamera();
+                        break;
                 }
             } else {
                 // 请求权限方法
@@ -834,6 +868,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 case REQUEST_CODE_IMAGE_ALBUM:
                     showAlbum();
                     break;
+                case REQUEST_CODE_IMAGE_CAMERA:
+                    showCamera();
+                    break;
             }
         } else {
             // 拒绝授权做的处理，弹出弹框提示用户授权
@@ -851,6 +888,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 case REQUEST_CODE_IMAGE_ALBUM:
                     content = getString(R.string.request_permission_storage);
+                    break;
+                case REQUEST_CODE_IMAGE_CAMERA:
+                    content = getString(R.string.request_permission_camera);
                     break;
             }
 
@@ -905,6 +945,15 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = new Intent(Intent.ACTION_PICK, null);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent, REQUEST_CODE_IMAGE_ALBUM);
+    }
+
+    /**
+     * android 7.0系统解决拍照的问题
+     */
+    private void initCamera() {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
     }
 
     Handler handler = new Handler() {
