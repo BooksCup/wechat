@@ -312,6 +312,13 @@ public class MessageAdapter extends BaseAdapter {
         });
     }
 
+    /**
+     * 处理文字消息
+     *
+     * @param message    消息
+     * @param viewHolder viewHolder
+     * @param position   位置
+     */
     private void handleTextMessage(final Message message, ViewHolder viewHolder, final int position) {
         // 好友头像和昵称从sqlite中读取，防止脏数据
         User friend = mUserDao.getUserById(message.getFromUserId());
@@ -380,7 +387,17 @@ public class MessageAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * 处理图片消息
+     *
+     * @param message    消息
+     * @param viewHolder viewHolder
+     * @param position   位置
+     */
     private void handleImageMessage(final Message message, final ViewHolder viewHolder, final int position) {
+        // 好友头像和昵称从sqlite中读取，防止脏数据
+        User friend = mUserDao.getUserById(message.getFromUserId());
+
         // 消息状态
         if (message.getStatus() == MessageStatus.SENDING.value()) {
             viewHolder.mSendingPb.setVisibility(View.VISIBLE);
@@ -400,7 +417,7 @@ public class MessageAdapter extends BaseAdapter {
             }
         } else {
             if (!TextUtils.isEmpty(message.getFromUserAvatar())) {
-                viewHolder.mAvatarSdv.setImageURI(Uri.parse(message.getFromUserAvatar()));
+                viewHolder.mAvatarSdv.setImageURI(Uri.parse(friend.getUserAvatar()));
             }
         }
         Map<String, Object> imageMap = JSON.parseObject(message.getMessageBody(), Map.class);
@@ -496,6 +513,10 @@ public class MessageAdapter extends BaseAdapter {
 
     /**
      * 处理位置消息
+     *
+     * @param message    消息
+     * @param viewHolder viewHolder
+     * @param position   位置
      */
     private void handleLocationMessage(final Message message, ViewHolder viewHolder, final int position) {
         // 好友头像和昵称从sqlite中读取，防止脏数据
