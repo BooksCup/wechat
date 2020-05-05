@@ -1,5 +1,4 @@
 <resources>
-
     <dimen name="height_top_bar">48dp</dimen>
     <dimen name="padding_search_bar">5dp</dimen>
     <dimen name="height_row_weixin">59dp</dimen>
@@ -16,5 +15,4 @@
     <dimen name="image_thumbnail_size">100dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="map_holder_height">480dp</dimen>
-
 </resources>

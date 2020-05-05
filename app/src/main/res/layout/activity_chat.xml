@@ -115,8 +115,8 @@
                 android:layout_marginBottom="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/chat_press_to_speak"
-                android:onClick="onClick"
                 android:gravity="center"
+                android:onClick="onClick"
                 android:visibility="gone">
 
                 <TextView
@@ -542,10 +542,10 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/record_animate_01" />
+                android:src="@drawable/voice_record_anim" />
 
             <TextView
-                android:id="@+id/recording_hint"
+                android:id="@+id/tv_recording_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/mic_image"

@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -141,6 +144,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     // 语音
     private RelativeLayout mRecordingContainerRl;
+    private TextView mRecordingHintTv;
+    private ImageView mRecordingIv;
+    private AnimationDrawable mReocrdingAd;
 
     private ImageView mEmojiNormalIv;
     private ImageView mEmojiCheckedIv;
@@ -222,6 +228,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mSingleChatSettingIv = findViewById(R.id.iv_setting);
 
         mRecordingContainerRl = findViewById(R.id.rl_recording_container);
+        mRecordingHintTv = findViewById(R.id.tv_recording_hint);
+        mRecordingIv = findViewById(R.id.mic_image);
 
 //        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
@@ -1027,9 +1035,29 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    mRecordingContainerRl.setVisibility(View.VISIBLE);
+                    try {
+                        v.setPressed(true);
+                        // 播放动画
+                        mReocrdingAd = (AnimationDrawable) mRecordingIv.getDrawable();
+                        mReocrdingAd.start();
+
+                        mRecordingContainerRl.setVisibility(View.VISIBLE);
+                        mRecordingHintTv.setText(getString(R.string.move_up_to_cancel));
+                        mRecordingHintTv.setBackgroundColor(Color.TRANSPARENT);
+                    } catch (Exception e) {
+                        v.setPressed(false);
+                        mRecordingContainerRl.setVisibility(View.INVISIBLE);
+                        return false;
+                    }
                     return true;
                 case MotionEvent.ACTION_MOVE: {
+                    if (event.getY() < 0) {
+                        mRecordingHintTv.setText(getString(R.string.release_to_cancel));
+                        mRecordingHintTv.setBackgroundResource(R.drawable.recording_text_hint_bg);
+                    } else {
+                        mRecordingHintTv.setText(getString(R.string.move_up_to_cancel));
+                        mRecordingHintTv.setBackgroundColor(Color.TRANSPARENT);
+                    }
                     return true;
                 }
                 case MotionEvent.ACTION_UP:
