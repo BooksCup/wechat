@@ -114,6 +114,22 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mMoreLl;
     private LinearLayout mEmojiContainerLl;
 
+    // 语音和文字切换
+    /**
+     * 切换成语音
+     */
+    private Button mSetModeVoiceBtn;
+
+    /**
+     * 切换成文字
+     */
+    private Button mSetModeKeyboardBtn;
+
+    /**
+     * 按住说话
+     */
+    private LinearLayout mPressToSpeakLl;
+
     // 各种消息类型容器
     private LinearLayout mBtnContainerLl;
     // 发送图片-"相册"
@@ -123,14 +139,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     // 位置
     private LinearLayout mChatLocationLl;
 
+    // 语音
+    private RelativeLayout mRecordingContainerRl;
+
     private ImageView mEmojiNormalIv;
     private ImageView mEmojiCheckedIv;
 
     private Button mMoreBtn;
     private Button mSendBtn;
-
-    private View buttonSetModeVoice;
-    private View buttonPressToSpeak;
 
     private EditText mTextMsgEt;
     private RelativeLayout mTextMsgRl;
@@ -189,18 +205,23 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mImageCameraLl = findViewById(R.id.ll_image_camera);
         mChatLocationLl = findViewById(R.id.ll_chat_location);
 
+        mSetModeVoiceBtn = findViewById(R.id.btn_set_mode_voice);
+        mSetModeKeyboardBtn = findViewById(R.id.btn_set_mode_keyboard);
+
+        mPressToSpeakLl = findViewById(R.id.ll_press_to_speak);
+
         mEmojiNormalIv = findViewById(R.id.iv_emoji_normal);
         mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
 
         mMoreBtn = findViewById(R.id.btn_more);
         mSendBtn = findViewById(R.id.btn_send);
 
-        buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
-        buttonSetModeVoice = findViewById(R.id.btn_set_mode_voice);
         mTextMsgEt = findViewById(R.id.et_text_msg);
         mTextMsgRl = findViewById(R.id.rl_text_msg);
 
         mSingleChatSettingIv = findViewById(R.id.iv_setting);
+
+        mRecordingContainerRl = findViewById(R.id.rl_recording_container);
 
 //        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
@@ -272,6 +293,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mImageAlbumLl.setOnClickListener(this);
         mImageCameraLl.setOnClickListener(this);
         mChatLocationLl.setOnClickListener(this);
+
+        mSetModeVoiceBtn.setOnClickListener(this);
+        mSetModeKeyboardBtn.setOnClickListener(this);
+
+        mPressToSpeakLl.setOnTouchListener(new PressToSpeakListener());
     }
 
     private void setUpView() {
@@ -327,6 +353,26 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(intent);
                 }
                 break;
+            case R.id.btn_set_mode_voice:
+                // 切换成语音
+                // 显示"按住说话"
+                mPressToSpeakLl.setVisibility(View.VISIBLE);
+                // 隐藏文本输入框
+                mTextMsgRl.setVisibility(View.GONE);
+
+                mSetModeVoiceBtn.setVisibility(View.GONE);
+                mSetModeKeyboardBtn.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_set_mode_keyboard:
+                // 切换成文字
+                mPressToSpeakLl.setVisibility(View.GONE);
+                mTextMsgRl.setVisibility(View.VISIBLE);
+
+                mSetModeKeyboardBtn.setVisibility(View.GONE);
+                mSetModeVoiceBtn.setVisibility(View.VISIBLE);
+                break;
+            case R.id.ll_press_to_speak:
+                break;
             case R.id.ll_image_album:
                 // 通过相册发送图片
                 // 动态申请相册权限
@@ -360,11 +406,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mTextMsgEt.setVisibility(View.VISIBLE);
         mMoreLl.setVisibility(View.GONE);
         view.setVisibility(View.GONE);
-        buttonSetModeVoice.setVisibility(View.VISIBLE);
+        mSetModeVoiceBtn.setVisibility(View.VISIBLE);
+        mPressToSpeakLl.setVisibility(View.GONE);
         // mEditTextContent.setVisibility(View.VISIBLE);
         // buttonSend.setVisibility(View.VISIBLE);
-        buttonPressToSpeak.setVisibility(View.GONE);
-
     }
 
     /**
@@ -973,4 +1018,28 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             }
         }
     };
+
+    /**
+     * 按住说话listener
+     */
+    class PressToSpeakListener implements View.OnTouchListener {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mRecordingContainerRl.setVisibility(View.VISIBLE);
+                    return true;
+                case MotionEvent.ACTION_MOVE: {
+                    return true;
+                }
+                case MotionEvent.ACTION_UP:
+                    v.setPressed(false);
+                    mRecordingContainerRl.setVisibility(View.INVISIBLE);
+                    return true;
+                default:
+                    mRecordingContainerRl.setVisibility(View.INVISIBLE);
+                    return false;
+            }
+        }
+    }
 }

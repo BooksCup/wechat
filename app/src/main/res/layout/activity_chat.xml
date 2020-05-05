@@ -95,7 +95,6 @@
                 android:layout_height="28dip"
                 android:layout_marginLeft="6dp"
                 android:background="@mipmap/icon_chat_voice"
-                android:onClick="setModeVoice"
                 android:visibility="visible" />
 
             <Button
@@ -104,11 +103,10 @@
                 android:layout_height="28dip"
                 android:layout_marginLeft="6dp"
                 android:background="@drawable/chatting_setmode_keyboard_btn"
-                android:onClick="setModeKeyboard"
                 android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/btn_press_to_speak"
+                android:id="@+id/ll_press_to_speak"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
@@ -116,7 +114,8 @@
                 android:layout_marginRight="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_weight="1"
-                android:background="@drawable/chat_press_speak_btn"
+                android:background="@drawable/chat_press_to_speak"
+                android:onClick="onClick"
                 android:gravity="center"
                 android:visibility="gone">
 
@@ -530,7 +529,7 @@
             android:transcriptMode="normal" />
 
         <RelativeLayout
-            android:id="@+id/recording_container"
+            android:id="@+id/rl_recording_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -540,8 +539,8 @@
 
             <ImageView
                 android:id="@+id/mic_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
                 android:src="@mipmap/record_animate_01" />
 
@@ -554,7 +553,7 @@
                 android:layout_marginTop="5dp"
                 android:padding="2dp"
                 android:text="手指上滑，取消发送"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
     </RelativeLayout>
 
