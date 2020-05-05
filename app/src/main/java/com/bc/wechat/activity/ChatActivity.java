@@ -120,6 +120,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mImageAlbumLl;
     // 发送图片-"拍照"
     private LinearLayout mImageCameraLl;
+    // 位置
+    private LinearLayout mChatLocationLl;
 
     private ImageView mEmojiNormalIv;
     private ImageView mEmojiCheckedIv;
@@ -185,6 +187,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         mImageAlbumLl = findViewById(R.id.ll_image_album);
         mImageCameraLl = findViewById(R.id.ll_image_camera);
+        mChatLocationLl = findViewById(R.id.ll_chat_location);
 
         mEmojiNormalIv = findViewById(R.id.iv_emoji_normal);
         mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
@@ -268,6 +271,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mSingleChatSettingIv.setOnClickListener(this);
         mImageAlbumLl.setOnClickListener(this);
         mImageCameraLl.setOnClickListener(this);
+        mChatLocationLl.setOnClickListener(this);
     }
 
     private void setUpView() {
@@ -323,12 +327,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(intent);
                 }
                 break;
-            case R.id.iv_chat_location:
-                // 动态申请定位权限
-                permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
-                requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_LOCATION);
-                break;
-
             case R.id.ll_image_album:
                 // 通过相册发送图片
                 // 动态申请相册权限
@@ -340,6 +338,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 // 动态申请相机权限
                 permissions = new String[]{"android.permission.CAMERA"};
                 requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_IMAGE_CAMERA);
+                break;
+            case R.id.ll_chat_location:
+                // 动态申请定位权限
+                permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
+                requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_LOCATION);
                 break;
         }
     }
