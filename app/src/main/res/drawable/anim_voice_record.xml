@@ -4,45 +4,45 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
     <item
-        android:drawable="@mipmap/record_animate_01"
+        android:drawable="@mipmap/anim_voice_record_01"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_02"
+        android:drawable="@mipmap/anim_voice_record_02"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_03"
+        android:drawable="@mipmap/anim_voice_record_03"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_04"
+        android:drawable="@mipmap/anim_voice_record_04"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_05"
+        android:drawable="@mipmap/anim_voice_record_05"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_06"
+        android:drawable="@mipmap/anim_voice_record_06"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_07"
+        android:drawable="@mipmap/anim_voice_record_07"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_08"
+        android:drawable="@mipmap/anim_voice_record_08"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_09"
+        android:drawable="@mipmap/anim_voice_record_09"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_10"
+        android:drawable="@mipmap/anim_voice_record_10"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_11"
+        android:drawable="@mipmap/anim_voice_record_11"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_12"
+        android:drawable="@mipmap/anim_voice_record_12"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_13"
+        android:drawable="@mipmap/anim_voice_record_13"
         android:duration="200"></item>
     <item
-        android:drawable="@mipmap/record_animate_14"
+        android:drawable="@mipmap/anim_voice_record_14"
         android:duration="200"></item>
 </animation-list>

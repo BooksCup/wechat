@@ -515,7 +515,7 @@
             android:visibility="gone" />
 
         <ListView
-            android:id="@+id/list"
+            android:id="@+id/lv_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/pb_load_more"
@@ -529,7 +529,7 @@
             android:transcriptMode="normal" />
 
         <RelativeLayout
-            android:id="@+id/rl_recording_container"
+            android:id="@+id/rl_voice_recording_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -538,17 +538,17 @@
             android:visibility="invisible">
 
             <ImageView
-                android:id="@+id/mic_image"
+                android:id="@+id/iv_voice_recording_anim"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/voice_record_anim" />
+                android:src="@drawable/anim_voice_record" />
 
             <TextView
-                android:id="@+id/tv_recording_hint"
+                android:id="@+id/tv_voice_recording_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/mic_image"
+                android:layout_below="@id/iv_voice_recording_anim"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:padding="2dp"

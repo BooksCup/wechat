@@ -143,10 +143,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mChatLocationLl;
 
     // 语音
-    private RelativeLayout mRecordingContainerRl;
-    private TextView mRecordingHintTv;
-    private ImageView mRecordingIv;
-    private AnimationDrawable mReocrdingAd;
+    private RelativeLayout mVoiceRecordingContainerRl;
+    private TextView mVoiceRecordingHintTv;
+    private ImageView mVoiceRecordingAnimIv;
+    private AnimationDrawable mVoiceReocrdingAd;
 
     private ImageView mEmojiNormalIv;
     private ImageView mEmojiCheckedIv;
@@ -201,7 +201,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         mFromNickNameTv = findViewById(R.id.tv_from_nick_name);
 
-        mMessageLv = findViewById(R.id.list);
+        mMessageLv = findViewById(R.id.lv_message);
 
         mMoreLl = findViewById(R.id.ll_more);
         mEmojiContainerLl = findViewById(R.id.ll_emoji_container);
@@ -227,9 +227,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         mSingleChatSettingIv = findViewById(R.id.iv_setting);
 
-        mRecordingContainerRl = findViewById(R.id.rl_recording_container);
-        mRecordingHintTv = findViewById(R.id.tv_recording_hint);
-        mRecordingIv = findViewById(R.id.mic_image);
+        mVoiceRecordingContainerRl = findViewById(R.id.rl_voice_recording_container);
+        mVoiceRecordingHintTv = findViewById(R.id.tv_voice_recording_hint);
+        mVoiceRecordingAnimIv = findViewById(R.id.iv_voice_recording_anim);
 
 //        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
@@ -1038,34 +1038,34 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     try {
                         v.setPressed(true);
                         // 播放动画
-                        mReocrdingAd = (AnimationDrawable) mRecordingIv.getDrawable();
-                        mReocrdingAd.start();
+                        mVoiceReocrdingAd = (AnimationDrawable) mVoiceRecordingAnimIv.getDrawable();
+                        mVoiceReocrdingAd.start();
 
-                        mRecordingContainerRl.setVisibility(View.VISIBLE);
-                        mRecordingHintTv.setText(getString(R.string.move_up_to_cancel));
-                        mRecordingHintTv.setBackgroundColor(Color.TRANSPARENT);
+                        mVoiceRecordingContainerRl.setVisibility(View.VISIBLE);
+                        mVoiceRecordingHintTv.setText(getString(R.string.move_up_to_cancel));
+                        mVoiceRecordingHintTv.setBackgroundColor(Color.TRANSPARENT);
                     } catch (Exception e) {
                         v.setPressed(false);
-                        mRecordingContainerRl.setVisibility(View.INVISIBLE);
+                        mVoiceRecordingContainerRl.setVisibility(View.INVISIBLE);
                         return false;
                     }
                     return true;
                 case MotionEvent.ACTION_MOVE: {
                     if (event.getY() < 0) {
-                        mRecordingHintTv.setText(getString(R.string.release_to_cancel));
-                        mRecordingHintTv.setBackgroundResource(R.drawable.recording_text_hint_bg);
+                        mVoiceRecordingHintTv.setText(getString(R.string.release_to_cancel));
+                        mVoiceRecordingHintTv.setBackgroundResource(R.drawable.recording_text_hint_bg);
                     } else {
-                        mRecordingHintTv.setText(getString(R.string.move_up_to_cancel));
-                        mRecordingHintTv.setBackgroundColor(Color.TRANSPARENT);
+                        mVoiceRecordingHintTv.setText(getString(R.string.move_up_to_cancel));
+                        mVoiceRecordingHintTv.setBackgroundColor(Color.TRANSPARENT);
                     }
                     return true;
                 }
                 case MotionEvent.ACTION_UP:
                     v.setPressed(false);
-                    mRecordingContainerRl.setVisibility(View.INVISIBLE);
+                    mVoiceRecordingContainerRl.setVisibility(View.INVISIBLE);
                     return true;
                 default:
-                    mRecordingContainerRl.setVisibility(View.INVISIBLE);
+                    mVoiceRecordingContainerRl.setVisibility(View.INVISIBLE);
                     return false;
             }
         }
