@@ -231,16 +231,16 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mVoiceRecordingHintTv = findViewById(R.id.tv_voice_recording_hint);
         mVoiceRecordingAnimIv = findViewById(R.id.iv_voice_recording_anim);
 
-//        mEditTextContent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean hasFocus) {
-//                if (hasFocus) {
-//                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
-//                } else {
-//                    mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_normal);
-//                }
-//            }
-//        });
+        mTextMsgEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    // 获取焦点
+                    // 隐藏消息类型容器
+                    mBtnContainerLl.setVisibility(View.GONE);
+                }
+            }
+        });
 
         mTextMsgEt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -363,6 +363,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_set_mode_voice:
                 // 切换成语音
+                hideKeyboard();
+                // 隐藏消息类型容器
+                mBtnContainerLl.setVisibility(View.GONE);
+
                 // 显示"按住说话"
                 mPressToSpeakLl.setVisibility(View.VISIBLE);
                 // 隐藏文本输入框
@@ -373,6 +377,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_set_mode_keyboard:
                 // 切换成文字
+                // 输入框获取焦点
+                // 显示软键盘
+                mTextMsgEt.setFocusable(true);
+                mTextMsgEt.setFocusableInTouchMode(true);
+                mTextMsgEt.requestFocus();
+                showKeyboard();
+
                 mPressToSpeakLl.setVisibility(View.GONE);
                 mTextMsgRl.setVisibility(View.VISIBLE);
 
@@ -406,21 +417,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * 显示键盘图标
-     *
-     * @param view
-     */
-    public void setModeKeyboard(View view) {
-        mTextMsgEt.setVisibility(View.VISIBLE);
-        mMoreLl.setVisibility(View.GONE);
-        view.setVisibility(View.GONE);
-        mSetModeVoiceBtn.setVisibility(View.VISIBLE);
-        mPressToSpeakLl.setVisibility(View.GONE);
-        // mEditTextContent.setVisibility(View.VISIBLE);
-        // buttonSend.setVisibility(View.VISIBLE);
-    }
-
-    /**
      * 显示或隐藏图标按钮页
      *
      * @param view
@@ -431,6 +427,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             mMoreLl.setVisibility(View.VISIBLE);
             mBtnContainerLl.setVisibility(View.VISIBLE);
             mEmojiContainerLl.setVisibility(View.GONE);
+
+            // 切换成文字
+            mPressToSpeakLl.setVisibility(View.GONE);
+            mTextMsgRl.setVisibility(View.VISIBLE);
+
+            mSetModeKeyboardBtn.setVisibility(View.GONE);
+            mSetModeVoiceBtn.setVisibility(View.VISIBLE);
         } else {
             if (mEmojiContainerLl.getVisibility() == View.VISIBLE) {
                 mEmojiContainerLl.setVisibility(View.GONE);
@@ -466,6 +469,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             if (getCurrentFocus() != null)
                 manager.hideSoftInputFromWindow(getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    private void showKeyboard() {
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
+            if (getCurrentFocus() != null) {
+                manager.showSoftInput(mTextMsgEt, 0);
+            }
         }
     }
 
