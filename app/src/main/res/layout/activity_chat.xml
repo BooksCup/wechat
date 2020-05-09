@@ -150,18 +150,16 @@
                     android:paddingRight="1dp"
                     android:paddingBottom="3dp"
                     android:textSize="16sp" />
-
-
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/iv_emoji_normal"
                 android:layout_width="28dip"
                 android:layout_height="28dip"
-                android:layout_marginRight="7dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="7dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/icon_emoji_normal"
                 android:visibility="visible" />
@@ -170,10 +168,10 @@
                 android:id="@+id/iv_emoji_checked"
                 android:layout_width="28dip"
                 android:layout_height="28dip"
-                android:layout_marginRight="7dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="7dp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/icon_emoji_checked"
                 android:visibility="gone" />
@@ -211,18 +209,18 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <!-- 表情图片 -->
             <LinearLayout
                 android:id="@+id/ll_emoji_container"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="180dp"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/vPager"
+                    android:id="@+id/vp_emoji"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

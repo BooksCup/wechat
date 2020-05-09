@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -37,6 +38,8 @@ import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.adapter.EmojiAdapter;
+import com.bc.wechat.adapter.EmojiPagerAdapter;
 import com.bc.wechat.adapter.MessageAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
@@ -50,6 +53,7 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.bc.wechat.widget.ExpandGridView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -183,6 +187,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private String mImageName;
 
+    private List<String> mEmojiList;
+    private ViewPager mEmojiVp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,17 +250,17 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-        mTextMsgEt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
-                mMoreLl.setVisibility(View.GONE);
-                mEmojiNormalIv.setVisibility(View.VISIBLE);
-                mEmojiCheckedIv.setVisibility(View.GONE);
-                mEmojiContainerLl.setVisibility(View.GONE);
-                mBtnContainerLl.setVisibility(View.GONE);
-            }
-        });
+//        mTextMsgEt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                mEditTextRl.setBackgroundResource(R.mipmap.input_bar_bg_active);
+//                mMoreLl.setVisibility(View.GONE);
+//                mEmojiNormalIv.setVisibility(View.VISIBLE);
+//                mEmojiCheckedIv.setVisibility(View.GONE);
+//                mEmojiContainerLl.setVisibility(View.GONE);
+//                mBtnContainerLl.setVisibility(View.GONE);
+//            }
+//        });
 
         mTextMsgEt.addTextChangedListener(new TextWatcher() {
 
@@ -289,7 +296,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     mEmojiContainerLl.setVisibility(View.GONE);
                     mBtnContainerLl.setVisibility(View.VISIBLE);
                     mEmojiNormalIv.setVisibility(View.VISIBLE);
-                    mEmojiCheckedIv.setVisibility(View.INVISIBLE);
+                    mEmojiCheckedIv.setVisibility(View.GONE);
                 } else {
                     mMoreLl.setVisibility(View.GONE);
                 }
@@ -298,6 +305,16 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
+        // 表情
+        mEmojiVp = findViewById(R.id.vp_emoji);
+        initEmojiList(40);
+        List<View> emojiViews = new ArrayList<>();
+        View emojiView1 = getGridChildView(1);
+        View emojiView2 = getGridChildView(2);
+        emojiViews.add(emojiView1);
+        emojiViews.add(emojiView2);
+        mEmojiVp.setAdapter(new EmojiPagerAdapter(emojiViews));
+
         mSingleChatSettingIv.setOnClickListener(this);
         mImageAlbumLl.setOnClickListener(this);
         mImageCameraLl.setOnClickListener(this);
@@ -305,6 +322,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         mSetModeVoiceBtn.setOnClickListener(this);
         mSetModeKeyboardBtn.setOnClickListener(this);
+
+        // 表情
+        mEmojiNormalIv.setOnClickListener(this);
+        mEmojiCheckedIv.setOnClickListener(this);
 
         mPressToSpeakLl.setOnTouchListener(new PressToSpeakListener());
     }
@@ -401,6 +422,31 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
                 requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_LOCATION);
                 break;
+            case R.id.iv_emoji_normal:
+                hideKeyboard();
+                mMoreLl.setVisibility(View.VISIBLE);
+
+                mEmojiNormalIv.setVisibility(View.GONE);
+                mEmojiCheckedIv.setVisibility(View.VISIBLE);
+                mEmojiContainerLl.setVisibility(View.VISIBLE);
+
+                mBtnContainerLl.setVisibility(View.GONE);
+
+                // 切换成文字
+                mPressToSpeakLl.setVisibility(View.GONE);
+                mTextMsgRl.setVisibility(View.VISIBLE);
+
+                mSetModeKeyboardBtn.setVisibility(View.GONE);
+                mSetModeVoiceBtn.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.iv_emoji_checked:
+                mEmojiNormalIv.setVisibility(View.VISIBLE);
+                mEmojiCheckedIv.setVisibility(View.GONE);
+                mEmojiContainerLl.setVisibility(View.GONE);
+
+                mBtnContainerLl.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -418,7 +464,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             hideKeyboard();
             mMoreLl.setVisibility(View.VISIBLE);
             mBtnContainerLl.setVisibility(View.VISIBLE);
-            mEmojiContainerLl.setVisibility(View.GONE);
+//            mEmojiContainerLl.setVisibility(View.GONE);
 
             // 切换成文字
             mPressToSpeakLl.setVisibility(View.GONE);
@@ -431,7 +477,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 mEmojiContainerLl.setVisibility(View.GONE);
                 mBtnContainerLl.setVisibility(View.VISIBLE);
                 mEmojiNormalIv.setVisibility(View.VISIBLE);
-                mEmojiCheckedIv.setVisibility(View.INVISIBLE);
+                mEmojiCheckedIv.setVisibility(View.GONE);
             } else {
                 mMoreLl.setVisibility(View.GONE);
             }
@@ -1027,6 +1073,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         // 隐藏消息类型容器
         mBtnContainerLl.setVisibility(View.GONE);
 
+        // 隐藏表情
+        mEmojiCheckedIv.setVisibility(View.GONE);
+        mEmojiNormalIv.setVisibility(View.VISIBLE);
+        mEmojiContainerLl.setVisibility(View.GONE);
+
         // 显示"按住说话"
         mPressToSpeakLl.setVisibility(View.VISIBLE);
         // 隐藏文本输入框
@@ -1043,6 +1094,38 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+    }
+
+    /**
+     * 初始化emoji列表
+     *
+     * @param emojiNum emoji数量
+     */
+    private void initEmojiList(int emojiNum) {
+        mEmojiList = new ArrayList<>();
+        for (int i = 1; i <= emojiNum; i++) {
+            if (i < 10) {
+                mEmojiList.add("emoji_0" + i);
+            } else {
+                mEmojiList.add("emoji_" + i);
+            }
+
+        }
+    }
+
+    private View getGridChildView(int i) {
+        View view = View.inflate(this, R.layout.gridview_emoji, null);
+        ExpandGridView expandGridView = view.findViewById(R.id.egv_emoji);
+        List<String> emojiList = new ArrayList<>();
+        if (i == 1) {
+            emojiList.addAll(mEmojiList.subList(0, 21));
+        } else {
+            emojiList.addAll(mEmojiList.subList(21, mEmojiList.size()));
+        }
+        emojiList.addAll(mEmojiList);
+        EmojiAdapter emojiAdapter = new EmojiAdapter(this, 1, emojiList);
+        expandGridView.setAdapter(emojiAdapter);
+        return view;
     }
 
     Handler handler = new Handler() {
