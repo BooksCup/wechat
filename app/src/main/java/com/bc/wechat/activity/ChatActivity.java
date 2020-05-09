@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -110,7 +109,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     public static final int CHATTYPE_GROUP = 2;
     public static final String COPY_IMAGE = "EASEMOBIMG";
 
-    private InputMethodManager manager;
+    private InputMethodManager mManager;
 
     private TextView mFromNickNameTv;
 
@@ -238,6 +237,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     // 获取焦点
                     // 隐藏消息类型容器
                     mBtnContainerLl.setVisibility(View.GONE);
+                    // 聊天页拉至最下
+                    mMessageLv.setSelection(mMessageLv.getCount() - 1);
                 }
             }
         });
@@ -309,7 +310,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setUpView() {
-        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -363,17 +364,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_set_mode_voice:
                 // 切换成语音
-                hideKeyboard();
-                // 隐藏消息类型容器
-                mBtnContainerLl.setVisibility(View.GONE);
-
-                // 显示"按住说话"
-                mPressToSpeakLl.setVisibility(View.VISIBLE);
-                // 隐藏文本输入框
-                mTextMsgRl.setVisibility(View.GONE);
-
-                mSetModeVoiceBtn.setVisibility(View.GONE);
-                mSetModeKeyboardBtn.setVisibility(View.VISIBLE);
+                permissions = new String[]{"android.permission.RECORD_AUDIO"};
+                requestPermissions(ChatActivity.this, permissions, REQUEST_CODE_VOICE);
                 break;
             case R.id.btn_set_mode_keyboard:
                 // 切换成文字
@@ -467,7 +459,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private void hideKeyboard() {
         if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
             if (getCurrentFocus() != null)
-                manager.hideSoftInputFromWindow(getCurrentFocus()
+                mManager.hideSoftInputFromWindow(getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
@@ -478,7 +470,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private void showKeyboard() {
         if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
             if (getCurrentFocus() != null) {
-                manager.showSoftInput(mTextMsgEt, 0);
+                mManager.showSoftInput(mTextMsgEt, 0);
             }
         }
     }
@@ -904,6 +896,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     case REQUEST_CODE_IMAGE_CAMERA:
                         showCamera();
                         break;
+                    case REQUEST_CODE_VOICE:
+                        showAudio();
+                        break;
                 }
             } else {
                 // 请求权限方法
@@ -941,6 +936,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 case REQUEST_CODE_IMAGE_CAMERA:
                     showCamera();
                     break;
+                case REQUEST_CODE_VOICE:
+                    showAudio();
+                    break;
             }
         } else {
             // 拒绝授权做的处理，弹出弹框提示用户授权
@@ -961,6 +959,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 case REQUEST_CODE_IMAGE_CAMERA:
                     content = getString(R.string.request_permission_camera);
+                    break;
+                case REQUEST_CODE_VOICE:
+                    content = getString(R.string.request_permission_record_audio);
                     break;
             }
 
@@ -1015,6 +1016,24 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = new Intent(Intent.ACTION_PICK, null);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent, REQUEST_CODE_IMAGE_ALBUM);
+    }
+
+    /**
+     * 进入录音模式
+     */
+    private void showAudio() {
+        // 切换成语音
+        hideKeyboard();
+        // 隐藏消息类型容器
+        mBtnContainerLl.setVisibility(View.GONE);
+
+        // 显示"按住说话"
+        mPressToSpeakLl.setVisibility(View.VISIBLE);
+        // 隐藏文本输入框
+        mTextMsgRl.setVisibility(View.GONE);
+
+        mSetModeVoiceBtn.setVisibility(View.GONE);
+        mSetModeKeyboardBtn.setVisibility(View.VISIBLE);
     }
 
     /**
