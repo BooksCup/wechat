@@ -246,6 +246,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                     mBtnContainerLl.setVisibility(View.GONE);
                     // 聊天页拉至最下
                     mMessageLv.setSelection(mMessageLv.getCount() - 1);
+
+                    // 隐藏表情
+                    mEmojiCheckedIv.setVisibility(View.GONE);
+                    mEmojiNormalIv.setVisibility(View.VISIBLE);
+                    mEmojiContainerLl.setVisibility(View.GONE);
                 }
             }
         });
@@ -494,7 +499,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         if (mMoreLl.getVisibility() == View.VISIBLE) {
             mMoreLl.setVisibility(View.GONE);
             mEmojiNormalIv.setVisibility(View.VISIBLE);
-            mEmojiCheckedIv.setVisibility(View.INVISIBLE);
+            mEmojiCheckedIv.setVisibility(View.GONE);
         }
 
     }
