@@ -50,7 +50,6 @@ import java.util.Map;
  */
 public class AddAddressActivity extends FragmentActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
-    private static final int CONTACTS_PERMISSION = 0x01;
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;
 
@@ -231,6 +230,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
+        String[] permissions;
         switch (view.getId()) {
             case R.id.et_address_info:
                 startActivity(new Intent(AddAddressActivity.this, PickProvinceActivity.class));
@@ -248,11 +248,12 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 addAddress(addressName, addressPhone, addressProvince, addressCity, addressDistrict, addressDetail, addressPostCode);
                 break;
             case R.id.iv_address_book:
-                String[] permissions = new String[]{"android.permission.READ_CONTACTS"};
-                requestPermissions(AddAddressActivity.this, permissions, CONTACTS_PERMISSION);
+                permissions = new String[]{"android.permission.READ_CONTACTS"};
+                requestPermissions(AddAddressActivity.this, permissions, REQUEST_CODE_CONTACTS);
                 break;
             case R.id.iv_location:
-                showMapPicker();
+                permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
+                requestPermissions(AddAddressActivity.this, permissions, REQUEST_CODE_LOCATION);
                 break;
         }
     }
@@ -373,7 +374,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     /**
      * 动态权限
      */
-    public void requestPermissions(Activity activity, String[] permissions, int request) {
+    public void requestPermissions(Activity activity, String[] permissions, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
             ArrayList<String> mPermissionList = new ArrayList<>();
             for (int i = 0; i < permissions.length; i++) {
@@ -384,12 +385,20 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
             }
             if (mPermissionList.isEmpty()) {
                 // 非初次进入App且已授权
-                showContacts();
+                switch (requestCode) {
+                    case REQUEST_CODE_CONTACTS:
+                        showContacts();
+                        break;
+                    case REQUEST_CODE_LOCATION:
+                        showMapPicker();
+                        break;
+                }
+
             } else {
                 // 请求权限方法
                 String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
                 // 这个触发下面onRequestPermissionsResult这个回调
-                ActivityCompat.requestPermissions(activity, requestPermissions, request);
+                ActivityCompat.requestPermissions(activity, requestPermissions, requestCode);
             }
         }
     }
@@ -411,18 +420,35 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
             }
         }
         if (hasAllGranted) {
-            // 同意权限做的处理,开启服务提交通讯录
-            showContacts();
+            switch (requestCode) {
+                case REQUEST_CODE_CONTACTS:
+                    // 同意通讯录权限,开启通讯录服务
+                    showContacts();
+                    break;
+                case REQUEST_CODE_LOCATION:
+                    // 同意定位权限,进入地图选择器
+                    showMapPicker();
+                    break;
+            }
         } else {
             // 拒绝授权做的处理，弹出弹框提示用户授权
-            handleRejectPermission(AddAddressActivity.this, permissions[0]);
+            handleRejectPermission(AddAddressActivity.this, permissions[0], requestCode);
         }
     }
 
-    public void handleRejectPermission(final Activity context, String permission) {
+    public void handleRejectPermission(final Activity context, String permission, int requestCode) {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            String content = "";
+            switch (requestCode) {
+                case REQUEST_CODE_CONTACTS:
+                    content = getString(R.string.request_permission_contacts);
+                    break;
+                case REQUEST_CODE_LOCATION:
+                    content = getString(R.string.request_permission_location);
+                    break;
+            }
             final ConfirmDialog mConfirmDialog = new ConfirmDialog(AddAddressActivity.this, "权限申请",
-                    "在设置-应用-微信-权限中开启通讯录权限，以正常使用联系人查找功能",
+                    content,
                     "去设置", "取消", getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override

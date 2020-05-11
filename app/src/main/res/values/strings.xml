@@ -144,4 +144,5 @@
     <string name="request_permission_camera">在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能</string>
     <string name="request_permission_storage">为确保接收到的图片、视频等内容能被正常浏览，微信需要申请手机存储权限。</string>
     <string name="request_permission_record_audio">在设置-应用-微信-权限中开启麦克风权限，以正常使用语音、小视频、摇一摇功能</string>
+    <string name="request_permission_contacts">在设置-应用-微信-权限中开启通讯录权限，以正常使用联系人查找功能</string>
 </resources>
