@@ -138,4 +138,6 @@ public class Constant {
      * 发送定位信息
      */
     public static final String LOCATION_TYPE_MSG = "1";
+
+    public static final String DEFAULT_POST_CODE = "000000";
 }

@@ -48,4 +48,23 @@ public class AreaDao {
                 Constant.AREA_TYPE_DISTRICT, cityName);
         return districtList;
     }
+
+    /**
+     * 根据市和区获取某个区
+     * 某些区会重复
+     *
+     * @param cityName     市
+     * @param districtName 区
+     * @return 区
+     */
+    public Area getDistrictByCityNameAndDistrictName(String cityName, String districtName) {
+        List<Area> districtList = Area.findWithQuery(Area.class,
+                "select * from area where name = ? and type = ? and parent_name = ?",
+                districtName, Constant.AREA_TYPE_DISTRICT, cityName);
+        if (null != districtList && districtList.size() > 0) {
+            return districtList.get(0);
+        } else {
+            return new Area();
+        }
+    }
 }

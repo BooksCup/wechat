@@ -32,7 +32,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.AreaDao;
 import com.bc.wechat.entity.Address;
+import com.bc.wechat.entity.Area;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -76,6 +78,8 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     private View mAddressDetailVi;
     private View mPostCodeVi;
 
+    private AreaDao mAreaDao;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +87,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(AddAddressActivity.this);
+        mAreaDao = new AreaDao();
         initView();
         PreferencesUtil.getInstance().init(this);
     }
@@ -370,6 +375,14 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                             .append(district);
                     mAddressInfoEt.setText(addressInfoBuffer.toString());
                     mAddressDetailEt.setText(addressDetail);
+
+                    Area districtArea = mAreaDao.getDistrictByCityNameAndDistrictName(city, district);
+                    if (TextUtils.isEmpty(districtArea.getPostCode())) {
+                        mPostCodeEt.setText(Constant.DEFAULT_POST_CODE);
+                    } else {
+                        mPostCodeEt.setText(districtArea.getPostCode());
+                    }
+
                     break;
             }
         }
