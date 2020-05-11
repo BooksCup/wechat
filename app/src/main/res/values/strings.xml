@@ -50,7 +50,7 @@
     <string name="button_uploadlog">上传运行日志</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
-    <string name="prompt">提示</string>
+    <string name="tips">提示</string>
     <string name="clear_records">清空记录</string>
     <string name="clear_all_records">是否清空所有聊天记录？</string>
     <string name="location_recv">[%1$s的位置]</string>
@@ -137,6 +137,11 @@
 
     <string name="more">更多</string>
     <string name="more_info">更多信息</string>
+
+    <string name="add_address">新增地址</string>
+    <string name="modify_address">修改地址</string>
+    <string name="add_address_abandon_tips">是否放弃新增地址信息？</string>
+
 
     <!--  permission  -->
     <string name="request_permission">权限设置</string>

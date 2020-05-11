@@ -99,9 +99,9 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 !TextUtils.isEmpty(addressInfo) ||
                 !TextUtils.isEmpty(addressDetail) ||
                 !TextUtils.isEmpty(addressPostCode)) {
-            final ConfirmDialog confirmDialog = new ConfirmDialog(AddAddressActivity.this, "提示",
-                    "是否放弃新增地址信息？",
-                    "确定", getString(R.string.cancel), getColor(R.color.navy_blue));
+            final ConfirmDialog confirmDialog = new ConfirmDialog(AddAddressActivity.this, getString(R.string.tips),
+                    getString(R.string.add_address_abandon_tips),
+                    getString(R.string.ok), getString(R.string.cancel), getColor(R.color.navy_blue));
             confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
                 public void onOkClick() {
@@ -124,7 +124,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
 
     private void initView() {
         mTitleTv = findViewById(R.id.tv_title);
-        mTitleTv.setText("新增地址");
+        mTitleTv.setText(getString(R.string.add_address));
 
         mNameEt = findViewById(R.id.et_name);
         mPhoneEt = findViewById(R.id.et_phone);
@@ -447,9 +447,9 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                     content = getString(R.string.request_permission_location);
                     break;
             }
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(AddAddressActivity.this, "权限申请",
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(AddAddressActivity.this, getString(R.string.request_permission),
                     content,
-                    "去设置", "取消", getColor(R.color.navy_blue));
+                    getString(R.string.go_setting), getString(R.string.cancel), getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
                 public void onOkClick() {
