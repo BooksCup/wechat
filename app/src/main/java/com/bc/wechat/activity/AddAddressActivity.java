@@ -360,6 +360,10 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                     String city = data.getStringExtra("city");
                     String district = data.getStringExtra("district");
                     String addressDetail = data.getStringExtra("addressDetail");
+                    PreferencesUtil.getInstance().setPickedProvince(province);
+                    PreferencesUtil.getInstance().setPickedCity(city);
+                    PreferencesUtil.getInstance().setPickedDistrict(district);
+
                     StringBuffer addressInfoBuffer = new StringBuffer();
                     addressInfoBuffer.append(province).append(" ")
                             .append(city).append(" ")
