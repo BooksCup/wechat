@@ -1049,6 +1049,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private void showMapPicker() {
         Intent intent = new Intent(ChatActivity.this, MapPickerActivity.class);
         intent.putExtra("sendLocation", true);
+        intent.putExtra("locationType", Constant.LOCATION_TYPE_MSG);
         startActivityForResult(intent, REQUEST_CODE_LOCATION);
     }
 

@@ -52,6 +52,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
 
     private static final int CONTACTS_PERMISSION = 0x01;
     private static final int REQUEST_CODE_CONTACTS = 0;
+    private static final int REQUEST_CODE_LOCATION = 1;
 
     private TextView mTitleTv;
 
@@ -69,6 +70,7 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     private LoadingDialog mDialog;
 
     private ImageView mAddressBookIv;
+    private ImageView mLocationIv;
 
     private View mNameVi;
     private View mPhoneVi;
@@ -138,10 +140,13 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         mPostCodeVi = findViewById(R.id.vi_post_code);
 
         mAddressBookIv = findViewById(R.id.iv_address_book);
+        mLocationIv = findViewById(R.id.iv_location);
 
         mAddressInfoEt.setOnClickListener(this);
         mSaveTv.setOnClickListener(this);
         mAddressBookIv.setOnClickListener(this);
+        mLocationIv.setOnClickListener(this);
+
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
         PreferencesUtil.getInstance().setPickedDistrict("");
@@ -246,6 +251,9 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                 String[] permissions = new String[]{"android.permission.READ_CONTACTS"};
                 requestPermissions(AddAddressActivity.this, permissions, CONTACTS_PERMISSION);
                 break;
+            case R.id.iv_location:
+                showMapPicker();
+                break;
         }
     }
 
@@ -345,6 +353,19 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
                         }
                     }
                     break;
+                case REQUEST_CODE_LOCATION:
+                    // 获取省市区以及详细地址信息
+                    String province = data.getStringExtra("province");
+                    String city = data.getStringExtra("city");
+                    String district = data.getStringExtra("district");
+                    String addressDetail = data.getStringExtra("addressDetail");
+                    StringBuffer addressInfoBuffer = new StringBuffer();
+                    addressInfoBuffer.append(province).append(" ")
+                            .append(city).append(" ")
+                            .append(district);
+                    mAddressInfoEt.setText(addressInfoBuffer.toString());
+                    mAddressDetailEt.setText(addressDetail);
+                    break;
             }
         }
     }
@@ -433,5 +454,20 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
         intent.addCategory("android.intent.category.DEFAULT");
         intent.setType("vnd.android.cursor.dir/phone_v2");
         startActivityForResult(intent, REQUEST_CODE_CONTACTS);
+    }
+
+    /**
+     * 进入地图选择页面
+     */
+    private void showMapPicker() {
+        Intent intent = new Intent(AddAddressActivity.this, MapPickerActivity.class);
+        // 是否发送定位
+        // true:发送定位  false:无发送按钮，显示定位
+        intent.putExtra("sendLocation", true);
+
+        // 定位类型
+        // 获取省市区信息
+        intent.putExtra("locationType", Constant.LOCATION_TYPE_AREA);
+        startActivityForResult(intent, REQUEST_CODE_LOCATION);
     }
 }

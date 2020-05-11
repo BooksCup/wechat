@@ -7,7 +7,7 @@ public class Constant {
     public static String PICTURE_DIR = "sdcard/wechat_/pictures/";
 
     //    public static final String BASE_URL = "http://49.4.25.11:8081/";
-    public static final String BASE_URL = "http://192.168.0.106:8081/";
+    public static final String BASE_URL = "http://192.168.0.114:8081/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";
@@ -126,4 +126,16 @@ public class Constant {
      * 地区类型-"县"
      */
     public static final String AREA_TYPE_DISTRICT = "3";
+
+    /**
+     * 定位类型-地区信息
+     * 获取省市区街道信息
+     */
+    public static final String LOCATION_TYPE_AREA = "0";
+
+    /**
+     * 定位类型-消息
+     * 发送定位信息
+     */
+    public static final String LOCATION_TYPE_MSG = "1";
 }

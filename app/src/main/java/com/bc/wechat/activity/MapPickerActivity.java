@@ -58,6 +58,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 地图选择器
+ *
+ * @author zhou
+ */
 public class MapPickerActivity extends Activity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_PERMISSION_STORAGE = 0x01;
@@ -86,6 +91,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     private ListView mPoiLv;
 
     private boolean mSendLocation;
+    private String mLocationType;
 
     private int mWidth;
     private int mHeight;
@@ -101,6 +107,10 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     // 详细地址
     private String mAddressDetail;
 
+    // 省
+    private String mProvince;
+    // 市
+    private String mCity;
     // 区，如:"江宁区"
     private String mDistrict;
     // 街道，如:"庄排路"
@@ -108,7 +118,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     // 门牌号，如"158号"
     private String mStreetNumber;
     private String mName;
-    private String mCity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +193,7 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         mSendLocationBtn = findViewById(R.id.btn_send_location);
 
         mSendLocation = getIntent().getBooleanExtra("sendLocation", false);
+        mLocationType = getIntent().getStringExtra("locationType");
         if (mSendLocation) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     getResources().getDimensionPixelOffset(R.dimen.map_holder_height));
@@ -275,12 +286,15 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                 // 当前位置信息
                 mLocationLatLng = result.getLocation();
                 mAddress = result.getAddress();
-                mDistrict = result.getAddressDetail().district;
+
                 mStreet = result.getAddressDetail().street;
                 mStreetNumber = result.getAddressDetail().streetNumber;
-                mAddressDetail = mDistrict + mStreet + mStreetNumber;
 
+                mProvince = result.getAddressDetail().province;
                 mCity = result.getAddressDetail().city;
+                mDistrict = result.getAddressDetail().district;
+
+                mAddressDetail = mDistrict + mStreet + mStreetNumber;
 
                 mLatitude = result.getLocation().latitude;
                 mLongitude = result.getLocation().longitude;
@@ -428,10 +442,21 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
         }
     }
 
-    /**
-     * 发送位置
-     */
     private void sendLocation() {
+        if (Constant.LOCATION_TYPE_AREA.equals(mLocationType)) {
+            // 发送省市区街道信息
+            sendLocationArea();
+        } else {
+            // 发送定位信息
+            sendLocationMsg();
+        }
+
+    }
+
+    /**
+     * 发送位置消息
+     */
+    private void sendLocationMsg() {
         if (null != mLocationLatLng) {
             int left = mWidth / 8;
             int top = (int) (mHeight - 1.5 * mWidth);
@@ -471,5 +496,22 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
                 }
             });
         }
+    }
+
+    /**
+     * 发送位置信息
+     */
+    private void sendLocationArea() {
+        Intent intent = new Intent();
+        // 省
+        intent.putExtra("province", mProvince);
+        // 市
+        intent.putExtra("city", mCity);
+        // 区
+        intent.putExtra("district", mDistrict);
+        // 详细地址
+        intent.putExtra("addressDetail", mAddressDetail);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
