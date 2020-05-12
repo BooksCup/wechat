@@ -141,7 +141,7 @@
     <string name="add_address">新增地址</string>
     <string name="modify_address">修改地址</string>
     <string name="add_address_abandon_tips">是否放弃新增地址信息？</string>
-
+    <string name="modify_address_abandon_tips">是否放弃修改地址信息？</string>
 
     <!--  permission  -->
     <string name="request_permission">权限设置</string>
