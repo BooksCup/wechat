@@ -369,7 +369,6 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
                     break;
                 case UPDATE_AVATAR_BY_ALBUM:
                     content = getString(R.string.request_permission_storage);
-                    ;
                     break;
             }
 
