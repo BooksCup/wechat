@@ -28,19 +28,26 @@ import com.google.zxing.client.android.CaptureActivity2;
 
 import java.util.ArrayList;
 
+/**
+ * 发现
+ *
+ * @author zhou
+ */
 public class FindFragment extends Fragment {
-    private static final int SCAN_REQUEST_CODE = 100;
-    private static final int CAMERA_PERMISSION = 110;
+    private static final int REQUEST_CODE_CAMERA = 1;
 
-    private RelativeLayout mFriendsCircleRl;
+    // 朋友圈
+    private RelativeLayout mMomentsRl;
+
+    // 扫一扫
     private RelativeLayout mScanRl;
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFriendsCircleRl = getView().findViewById(R.id.rl_friends_circle);
-        mFriendsCircleRl.setOnClickListener(new View.OnClickListener() {
+        mMomentsRl = getView().findViewById(R.id.rl_moments);
+        mMomentsRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), FriendsCircleActivity.class));
@@ -52,7 +59,7 @@ public class FindFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPerms(getActivity(), permissions, CAMERA_PERMISSION);
+                requestPers(getActivity(), permissions, REQUEST_CODE_CAMERA);
             }
         });
     }
@@ -67,7 +74,7 @@ public class FindFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SCAN_REQUEST_CODE) {
+            if (requestCode == REQUEST_CODE_CAMERA) {
                 String isbn = data.getStringExtra("CaptureIsbn");
                 if (!TextUtils.isEmpty(isbn)) {
                     if (isbn.contains("http")) {
@@ -93,7 +100,7 @@ public class FindFragment extends Fragment {
     /**
      * 动态权限
      */
-    public void requestPerms(Activity activity, String[] permissions, int requestCode) {
+    public void requestPers(Activity activity, String[] permissions, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
             ArrayList<String> mPermissionList = new ArrayList<>();
             for (int i = 0; i < permissions.length; i++) {
@@ -136,9 +143,9 @@ public class FindFragment extends Fragment {
 
     public void handleRejectPermission(final Activity context, String permission) {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(getActivity(), "权限申请",
-                    "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能",
-                    "去设置", "取消", context.getColor(R.color.navy_blue));
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(getActivity(), getString(R.string.request_permission),
+                    getString(R.string.request_permission_camera),
+                    getString(R.string.go_setting), getString(R.string.cancel), context.getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                 @Override
                 public void onOkClick() {
@@ -166,7 +173,7 @@ public class FindFragment extends Fragment {
     private void startScanActivity() {
         Intent intent = new Intent(getActivity(), CaptureActivity2.class);
         intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
-        startActivityForResult(intent, SCAN_REQUEST_CODE);
+        startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
 
 }

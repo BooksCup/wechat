@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_friends_circle"
+        android:id="@+id/rl_moments"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -15,21 +15,21 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_friends"
+            android:id="@+id/iv_moments"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/find_friends" />
+            android:src="@mipmap/icon_find_moments" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_friends"
-            android:text="朋友圈"
+            android:layout_toRightOf="@id/iv_moments"
+            android:text="@string/moments"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -66,7 +66,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/iv_scan"
-            android:text="扫一扫"
+            android:text="@string/scan"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -109,7 +109,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/iv_shake"
-            android:text="摇一摇"
+            android:text="@string/shake"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -123,7 +123,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_nearby"
+        android:id="@+id/rl_people_nearby"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
@@ -132,21 +132,21 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_nearby"
+            android:id="@+id/iv_people_nearby"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_nearby" />
+            android:src="@mipmap/icon_find_people_nearby" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_nearby"
-            android:text="附近的人"
+            android:layout_toRightOf="@id/iv_people_nearby"
+            android:text="@string/people_nearby"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -189,7 +189,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/iv_drift_bottle"
-            android:text="漂流瓶"
+            android:text="@string/drift_bottle"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -226,7 +226,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/iv_shopping"
-            android:text="购物"
+            android:text="@string/shopping"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -269,7 +269,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/iv_game"
-            android:text="游戏"
+            android:text="@string/game"
             android:textColor="#353535"
             android:textSize="16sp" />
 
