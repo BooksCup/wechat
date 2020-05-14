@@ -3,12 +3,8 @@ package com.bc.wechat.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -34,8 +30,8 @@ import java.util.ArrayList;
  * @author zhou
  */
 public class FindFragment extends Fragment {
-    private static final int REQUEST_CODE_SCAN = 0;
-    private static final int REQUEST_CODE_CAMERA = 1;
+    private static final int REQUEST_CODE_SCAN = 100;
+    private static final int REQUEST_CODE_CAMERA = 110;
 
     // 朋友圈
     private RelativeLayout mMomentsRl;
@@ -146,53 +142,6 @@ public class FindFragment extends Fragment {
                 // 这个触发下面onRequestPermissionsResult这个回调
                 requestPermissions(requestPermissions, requestCode);
             }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean hasAllGranted = true;
-        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
-        for (int grantResult : grantResults) {
-            if (grantResult == PackageManager.PERMISSION_DENIED) {
-                hasAllGranted = false;
-                break;
-            }
-        }
-        if (hasAllGranted) {
-            // 同意权限做的处理,开启服务提交通讯录
-            startScanActivity();
-        } else {
-            // 拒绝授权做的处理，弹出弹框提示用户授权
-            handleRejectPermission(getActivity(), permissions[0]);
-        }
-    }
-
-    public void handleRejectPermission(final Activity context, String permission) {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(getActivity(), getString(R.string.request_permission),
-                    getString(R.string.request_permission_camera),
-                    getString(R.string.go_setting), getString(R.string.cancel), context.getColor(R.color.navy_blue));
-            mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
-                @Override
-                public void onOkClick() {
-                    mConfirmDialog.dismiss();
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
-                    intent.setData(uri);
-                    context.startActivity(intent);
-                }
-
-                @Override
-                public void onCancelClick() {
-                    mConfirmDialog.dismiss();
-                }
-            });
-            // 点击空白处消失
-            mConfirmDialog.setCancelable(false);
-            // 存在BUG，fragment调用权限申请会多次执行
-            mConfirmDialog.show();
         }
     }
 
