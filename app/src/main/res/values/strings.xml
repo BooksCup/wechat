@@ -158,4 +158,6 @@
     <string name="people_nearby">附近的人</string>
     <string name="shopping">购物</string>
     <string name="game">游戏</string>
+
+    <string name="open_people_nearby_tips">查看附件的人功能将获取你的位置信息，你的位置信息会被保留一段时间。通过列表右上角的清除功能可随时手动清除位置信息。</string>
 </resources>

@@ -34,6 +34,7 @@ import java.util.ArrayList;
  * @author zhou
  */
 public class FindFragment extends Fragment {
+    private static final int REQUEST_CODE_SCAN = 0;
     private static final int REQUEST_CODE_CAMERA = 1;
 
     // 朋友圈
@@ -41,6 +42,9 @@ public class FindFragment extends Fragment {
 
     // 扫一扫
     private RelativeLayout mScanRl;
+
+    // 附近的人
+    private RelativeLayout mPeopleNearByRl;
 
 
     @Override
@@ -59,7 +63,31 @@ public class FindFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPers(getActivity(), permissions, REQUEST_CODE_CAMERA);
+                requestPerms(getActivity(), permissions, REQUEST_CODE_CAMERA);
+            }
+        });
+
+        mPeopleNearByRl = getView().findViewById(R.id.rl_people_nearby);
+        mPeopleNearByRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final ConfirmDialog mConfirmDialog = new ConfirmDialog(getActivity(), getString(R.string.tips),
+                        getString(R.string.open_people_nearby_tips),
+                        getString(R.string.ok), getString(R.string.cancel), getActivity().getColor(R.color.navy_blue));
+                mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOkClick() {
+                        mConfirmDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        mConfirmDialog.dismiss();
+                    }
+                });
+                // 点击空白处消失
+                mConfirmDialog.setCancelable(true);
+                mConfirmDialog.show();
             }
         });
     }
@@ -74,7 +102,7 @@ public class FindFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE_CAMERA) {
+            if (requestCode == REQUEST_CODE_SCAN) {
                 String isbn = data.getStringExtra("CaptureIsbn");
                 if (!TextUtils.isEmpty(isbn)) {
                     if (isbn.contains("http")) {
@@ -100,7 +128,7 @@ public class FindFragment extends Fragment {
     /**
      * 动态权限
      */
-    public void requestPers(Activity activity, String[] permissions, int requestCode) {
+    public void requestPerms(Activity activity, String[] permissions, int requestCode) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
             ArrayList<String> mPermissionList = new ArrayList<>();
             for (int i = 0; i < permissions.length; i++) {
@@ -163,6 +191,7 @@ public class FindFragment extends Fragment {
             });
             // 点击空白处消失
             mConfirmDialog.setCancelable(false);
+            // 存在BUG，fragment调用权限申请会多次执行
             mConfirmDialog.show();
         }
     }
@@ -173,7 +202,7 @@ public class FindFragment extends Fragment {
     private void startScanActivity() {
         Intent intent = new Intent(getActivity(), CaptureActivity2.class);
         intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
-        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
 
 }
