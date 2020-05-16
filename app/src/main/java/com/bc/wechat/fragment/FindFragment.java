@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.FriendsCircleActivity;
+import com.bc.wechat.activity.PeopleNearbyActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.activity.WebViewActivity;
 import com.bc.wechat.entity.QrCodeContent;
@@ -74,6 +75,7 @@ public class FindFragment extends Fragment {
                     @Override
                     public void onOkClick() {
                         mConfirmDialog.dismiss();
+                        startActivity(new Intent(getActivity(), PeopleNearbyActivity.class));
                     }
 
                     @Override

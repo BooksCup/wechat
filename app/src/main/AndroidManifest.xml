@@ -225,6 +225,10 @@
             android:name=".activity.NewFriendsAcceptConfirmActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.PeopleNearbyActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".activity.WechatAlertDialog"
