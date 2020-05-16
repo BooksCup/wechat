@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class PeopleNearbyActivity extends FragmentActivity {
     private PeopleNearbyAdapter mPeopleNearbyAdapter;
     private VolleyUtil mVolleyUtil;
     private User mUser;
+    // 即使设置只定位1次也会频繁定位，待定位问题
+    private boolean mLocateFlag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,6 +115,10 @@ public class PeopleNearbyActivity extends FragmentActivity {
         mPeopleNearbyLv.setAdapter(mPeopleNearbyAdapter);
     }
 
+    public void back(View view) {
+        finish();
+    }
+
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -132,7 +139,10 @@ public class PeopleNearbyActivity extends FragmentActivity {
             // 区县信息
             String district = location.getDistrict();
 
-            getPeopleNearbyList(mUser.getUserId(), longitude, latitude, district);
+            if (!mLocateFlag) {
+                getPeopleNearbyList(mUser.getUserId(), longitude, latitude, district);
+            }
+            mLocateFlag = true;
         }
     }
 
