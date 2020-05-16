@@ -14,6 +14,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
+/**
+ * 附近的人
+ *
+ * @author zhou
+ */
 public class PeopleNearbyAdapter extends ArrayAdapter<User> {
     List<User> mPeopleNearbyList;
     int mResource;
