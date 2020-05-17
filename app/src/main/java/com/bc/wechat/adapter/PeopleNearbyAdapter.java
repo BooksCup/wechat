@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.PeopleNearby;
+import com.bc.wechat.entity.PositionInfo;
+import com.bc.wechat.utils.DistanceUtil;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -55,6 +58,12 @@ public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
         }
         viewHolder.mNameTv.setText(peopleNearby.getUserNickName());
         viewHolder.mWhatsupTv.setText(peopleNearby.getUserSign());
+
+        PositionInfo myPositionInfo = PreferencesUtil.getInstance().getPositionInfo();
+        double distance = DistanceUtil.getDistance(myPositionInfo.getLongitude(), myPositionInfo.getLatitude(),
+                Double.valueOf(peopleNearby.getLongitude()), Double.valueOf(peopleNearby.getLatitude()));
+        String distancePretty = DistanceUtil.getDistancePretty(distance, peopleNearby.getRegion());
+        viewHolder.mDistanceTv.setText(distancePretty);
 
         return convertView;
     }

@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.bc.wechat.entity.PositionInfo;
 import com.bc.wechat.entity.User;
 
 import java.io.ByteArrayInputStream;
@@ -246,5 +247,19 @@ public class PreferencesUtil {
 
     public String getPickedPostCode() {
         return (String) getParam("pickedPostCode", "");
+    }
+
+    public void setPositionInfo(PositionInfo positionInfo) {
+        saveParam("positionInfo", JSON.toJSONString(positionInfo));
+    }
+
+    public PositionInfo getPositionInfo() {
+        PositionInfo positionInfo;
+        try {
+            positionInfo = JSON.parseObject((String) getParam("positionInfo", ""), PositionInfo.class);
+        } catch (Exception e) {
+            positionInfo = new PositionInfo();
+        }
+        return positionInfo;
     }
 }

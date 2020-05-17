@@ -21,6 +21,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.PeopleNearbyAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.PeopleNearby;
+import com.bc.wechat.entity.PositionInfo;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
@@ -143,6 +144,10 @@ public class PeopleNearbyActivity extends FragmentActivity {
             if (!mLocateFlag) {
                 mDialog.setMessage("正在查找附近的人");
                 mDialog.show();
+
+                PositionInfo positionInfo = new PositionInfo(longitude, latitude);
+                PreferencesUtil.getInstance().setPositionInfo(positionInfo);
+
                 getPeopleNearbyList(mUser.getUserId(), longitude, latitude, district);
             }
             mLocateFlag = true;
