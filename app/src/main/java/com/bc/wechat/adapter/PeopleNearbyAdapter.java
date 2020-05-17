@@ -57,8 +57,11 @@ public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
             viewHolder.mAvatarSdv.setImageURI(Uri.parse(peopleNearby.getUserAvatar()));
         }
         viewHolder.mNameTv.setText(peopleNearby.getUserNickName());
-        viewHolder.mWhatsupTv.setText(peopleNearby.getUserSign());
-
+        if (TextUtils.isEmpty(peopleNearby.getUserSign())) {
+            viewHolder.mWhatsupTv.setVisibility(View.GONE);
+        } else {
+            viewHolder.mWhatsupTv.setText(peopleNearby.getUserSign());
+        }
         PositionInfo myPositionInfo = PreferencesUtil.getInstance().getPositionInfo();
         double distance = DistanceUtil.getDistance(myPositionInfo.getLongitude(), myPositionInfo.getLatitude(),
                 Double.valueOf(peopleNearby.getLongitude()), Double.valueOf(peopleNearby.getLatitude()));

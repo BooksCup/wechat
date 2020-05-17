@@ -1,5 +1,7 @@
 package com.bc.wechat.utils;
 
+import android.text.TextUtils;
+
 public class DistanceUtil {
     private static final double EARTH_RADIUS = 6378137.0;
 
@@ -20,6 +22,7 @@ public class DistanceUtil {
 
     public static String getDistancePretty(double distance, String district) {
         String distancePretty = "";
+        String distancePrettySubfix = TextUtils.isEmpty(district) ? "" : " - " + district;
         int distanceIntValue = (int) Math.ceil(distance);
         if (distanceIntValue <= 100) {
             distancePretty = "100米以内";
@@ -42,25 +45,25 @@ public class DistanceUtil {
         } else if (distanceIntValue > 900 && distanceIntValue <= 1000) {
             distancePretty = "1000米以内";
         } else if (distanceIntValue > 1000 && distanceIntValue <= 2000) {
-            distancePretty = "2公里以内" + " - " + district;
+            distancePretty = "2公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 2000 && distanceIntValue <= 3000) {
-            distancePretty = "3公里以内" + " - " + district;
+            distancePretty = "3公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 3000 && distanceIntValue <= 4000) {
-            distancePretty = "4公里以内" + " - " + district;
+            distancePretty = "4公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 4000 && distanceIntValue <= 5000) {
-            distancePretty = "5公里以内" + " - " + district;
+            distancePretty = "5公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 5000 && distanceIntValue <= 6000) {
-            distancePretty = "6公里以内" + " - " + district;
+            distancePretty = "6公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 6000 && distanceIntValue <= 7000) {
-            distancePretty = "7公里以内" + " - " + district;
+            distancePretty = "7公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 7000 && distanceIntValue <= 8000) {
-            distancePretty = "8公里以内" + " - " + district;
+            distancePretty = "8公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 8000 && distanceIntValue <= 9000) {
-            distancePretty = "9公里以内" + " - " + district;
+            distancePretty = "9公里以内" + distancePrettySubfix;
         } else if (distanceIntValue > 9000 && distanceIntValue <= 10000) {
-            distancePretty = "10公里以内" + " - " + district;
+            distancePretty = "10公里以内" + distancePrettySubfix;
         } else {
-            distancePretty = "20公里以内" + " - " + district;
+            distancePretty = "20公里以内" + distancePrettySubfix;
         }
         return distancePretty;
     }
