@@ -8,9 +8,14 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 
+/**
+ * 加载会话
+ *
+ * @author zhou
+ */
 public class LoadingDialog extends Dialog {
     private TextView mLoadingTv;
-    private String loadingText;
+    private String mLoadingText;
 
     /**
      * style很关键
@@ -19,8 +24,8 @@ public class LoadingDialog extends Dialog {
         super(context, R.style.loading_dialog_style);
     }
 
-    public void setMessage(String loadingText){
-        this.loadingText = loadingText;
+    public void setMessage(String loadingText) {
+        this.mLoadingText = loadingText;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_loading);
         mLoadingTv = findViewById(R.id.tv_loading);
-        mLoadingTv.setText(loadingText);
+        mLoadingTv.setText(mLoadingText);
         LinearLayout linearLayout = findViewById(R.id.ll_loading);
         linearLayout.getBackground().setAlpha(210);
     }

@@ -51,7 +51,7 @@
         <item name="android:windowContentOverlay">@null</item><!--是否半透明-->
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog
         </item><!-- 对话框是否有遮盖 -->
-        <item name="android:backgroundDimEnabled">false</item><!--背景是否模糊显示-->
+        <item name="android:backgroundDimEnabled">true</item><!--背景是否模糊显示-->
         <item name="android:backgroundDimAmount">0.6</item><!--背景的灰度-->
     </style>
 

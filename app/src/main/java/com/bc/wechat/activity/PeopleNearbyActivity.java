@@ -143,6 +143,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
 
             if (!mLocateFlag) {
                 mDialog.setMessage("正在查找附近的人");
+                mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
                 PositionInfo positionInfo = new PositionInfo(longitude, latitude);
