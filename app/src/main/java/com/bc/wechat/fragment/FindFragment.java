@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +21,7 @@ import com.bc.wechat.activity.PeopleNearbyActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.activity.WebViewActivity;
 import com.bc.wechat.entity.QrCodeContent;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.google.zxing.client.android.CaptureActivity2;
 
@@ -41,12 +43,23 @@ public class FindFragment extends Fragment {
     private RelativeLayout mScanRl;
 
     // 附近的人
-    private RelativeLayout mPeopleNearByRl;
+    private RelativeLayout mPeopleNearbyRl;
+
+    // 开启"附近的人"标记
+    private ImageView mOpenPeopleNearbyIv;
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mOpenPeopleNearbyIv = getView().findViewById(R.id.iv_open_people_nearby);
+        if (PreferencesUtil.getInstance().isOpenPeopleNearby()) {
+            mOpenPeopleNearbyIv.setVisibility(View.VISIBLE);
+        } else {
+            mOpenPeopleNearbyIv.setVisibility(View.GONE);
+        }
+
         mMomentsRl = getView().findViewById(R.id.rl_moments);
         mMomentsRl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,8 +77,8 @@ public class FindFragment extends Fragment {
             }
         });
 
-        mPeopleNearByRl = getView().findViewById(R.id.rl_people_nearby);
-        mPeopleNearByRl.setOnClickListener(new View.OnClickListener() {
+        mPeopleNearbyRl = getView().findViewById(R.id.rl_people_nearby);
+        mPeopleNearbyRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final ConfirmDialog mConfirmDialog = new ConfirmDialog(getActivity(), getString(R.string.tips),
@@ -75,6 +88,9 @@ public class FindFragment extends Fragment {
                     @Override
                     public void onOkClick() {
                         mConfirmDialog.dismiss();
+                        // 开启足迹
+                        PreferencesUtil.getInstance().setOpenPeopleNearby(true);
+
                         startActivity(new Intent(getActivity(), PeopleNearbyActivity.class));
                     }
 
@@ -94,6 +110,16 @@ public class FindFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_find, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (PreferencesUtil.getInstance().isOpenPeopleNearby()) {
+            mOpenPeopleNearbyIv.setVisibility(View.VISIBLE);
+        } else {
+            mOpenPeopleNearbyIv.setVisibility(View.GONE);
+        }
     }
 
     @Override

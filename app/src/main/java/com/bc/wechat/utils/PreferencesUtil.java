@@ -249,10 +249,20 @@ public class PreferencesUtil {
         return (String) getParam("pickedPostCode", "");
     }
 
+    /**
+     * 设置位置信息
+     *
+     * @param positionInfo 位置信息
+     */
     public void setPositionInfo(PositionInfo positionInfo) {
         saveParam("positionInfo", JSON.toJSONString(positionInfo));
     }
 
+    /**
+     * 获取位置信息
+     *
+     * @return 位置信息
+     */
     public PositionInfo getPositionInfo() {
         PositionInfo positionInfo;
         try {
@@ -261,5 +271,23 @@ public class PreferencesUtil {
             positionInfo = new PositionInfo();
         }
         return positionInfo;
+    }
+
+    /**
+     * 是否开启"附近的人"
+     *
+     * @return true:是  false:否
+     */
+    public boolean isOpenPeopleNearby() {
+        return (Boolean) getParam("isOpenPeopleNearby", false);
+    }
+
+    /**
+     * 设置是否开启附近的人
+     *
+     * @param isOpenPeopleNearby 是否开启附近的人
+     */
+    public void setOpenPeopleNearby(Boolean isOpenPeopleNearby) {
+        saveParam("isOpenPeopleNearby", isOpenPeopleNearby);
     }
 }

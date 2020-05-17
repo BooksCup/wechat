@@ -151,6 +151,17 @@
             android:textSize="16sp" />
 
         <ImageView
+            android:id="@+id/iv_open_people_nearby"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_people_nearby_more"
+            android:src="@mipmap/icon_footprint"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_people_nearby_more"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
