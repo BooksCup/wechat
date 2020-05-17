@@ -1,15 +1,18 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.bc.wechat.entity.User;
+import com.bc.wechat.R;
+import com.bc.wechat.entity.PeopleNearby;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -19,12 +22,12 @@ import java.util.List;
  *
  * @author zhou
  */
-public class PeopleNearbyAdapter extends ArrayAdapter<User> {
-    List<User> mPeopleNearbyList;
+public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
+    List<PeopleNearby> mPeopleNearbyList;
     int mResource;
     private LayoutInflater mLayoutInflater;
 
-    public PeopleNearbyAdapter(Context context, int resource, List<User> peopleNearbyList) {
+    public PeopleNearbyAdapter(Context context, int resource, List<PeopleNearby> peopleNearbyList) {
         super(context, resource, peopleNearbyList);
         this.mResource = resource;
         this.mPeopleNearbyList = peopleNearbyList;
@@ -38,15 +41,26 @@ public class PeopleNearbyAdapter extends ArrayAdapter<User> {
         if (null == convertView) {
             convertView = mLayoutInflater.inflate(mResource, null);
             viewHolder = new ViewHolder();
+            viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
+            viewHolder.mNameTv = convertView.findViewById(R.id.tv_name);
+            viewHolder.mWhatsupTv = convertView.findViewById(R.id.tv_whats_up);
+            viewHolder.mDistanceTv = convertView.findViewById(R.id.tv_distance);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        PeopleNearby peopleNearby = mPeopleNearbyList.get(position);
+        if (!TextUtils.isEmpty(peopleNearby.getUserAvatar())) {
+            viewHolder.mAvatarSdv.setImageURI(Uri.parse(peopleNearby.getUserAvatar()));
+        }
+        viewHolder.mNameTv.setText(peopleNearby.getUserNickName());
+        viewHolder.mWhatsupTv.setText(peopleNearby.getUserSign());
+
         return convertView;
     }
 
     @Override
-    public User getItem(int position) {
+    public PeopleNearby getItem(int position) {
         return mPeopleNearbyList.get(position);
     }
 
@@ -55,7 +69,7 @@ public class PeopleNearbyAdapter extends ArrayAdapter<User> {
         return mPeopleNearbyList.size();
     }
 
-    public void setData(List<User> peopleNearbyList) {
+    public void setData(List<PeopleNearby> peopleNearbyList) {
         this.mPeopleNearbyList = peopleNearbyList;
     }
 

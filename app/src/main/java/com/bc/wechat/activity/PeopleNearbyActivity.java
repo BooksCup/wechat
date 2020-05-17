@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
 import com.android.volley.Response;
 import com.android.volley.TimeoutError;
@@ -19,9 +20,11 @@ import com.baidu.location.LocationClientOption;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PeopleNearbyAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.PeopleNearby;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,8 +43,10 @@ public class PeopleNearbyActivity extends FragmentActivity {
 
     private ListView mPeopleNearbyLv;
     private PeopleNearbyAdapter mPeopleNearbyAdapter;
+    private List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
     private VolleyUtil mVolleyUtil;
     private User mUser;
+    LoadingDialog mDialog;
     // 即使设置只定位1次也会频繁定位，待定位问题
     private boolean mLocateFlag = false;
 
@@ -52,6 +57,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
         initView();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
+        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
         // 声明LocationClient类
         mLocationClient = new LocationClient(getApplicationContext());
         // 注册监听函数
@@ -105,13 +111,8 @@ public class PeopleNearbyActivity extends FragmentActivity {
 
     private void initView() {
         mPeopleNearbyLv = findViewById(R.id.lv_people_nearby);
-        List<User> userList = new ArrayList<>();
-        userList.add(new User());
-        userList.add(new User());
-        userList.add(new User());
-
         mPeopleNearbyAdapter = new PeopleNearbyAdapter(PeopleNearbyActivity.this,
-                R.layout.item_people_nearby, userList);
+                R.layout.item_people_nearby, mPeopleNearbyList);
         mPeopleNearbyLv.setAdapter(mPeopleNearbyAdapter);
     }
 
@@ -140,6 +141,8 @@ public class PeopleNearbyActivity extends FragmentActivity {
             String district = location.getDistrict();
 
             if (!mLocateFlag) {
+                mDialog.setMessage("正在查找附近的人");
+                mDialog.show();
                 getPeopleNearbyList(mUser.getUserId(), longitude, latitude, district);
             }
             mLocateFlag = true;
@@ -158,11 +161,16 @@ public class PeopleNearbyActivity extends FragmentActivity {
 
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
-            public void onResponse(String s) {
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                mPeopleNearbyList = JSON.parseArray(response, PeopleNearby.class);
+                mPeopleNearbyAdapter.setData(mPeopleNearbyList);
+                mPeopleNearbyAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(PeopleNearbyActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
