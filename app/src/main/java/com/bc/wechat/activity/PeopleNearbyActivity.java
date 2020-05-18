@@ -59,6 +59,11 @@ public class PeopleNearbyActivity extends FragmentActivity {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+
+        mDialog.setMessage(getString(R.string.searching_people_nearby));
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+
         // 声明LocationClient类
         mLocationClient = new LocationClient(getApplicationContext());
         // 注册监听函数
@@ -142,10 +147,6 @@ public class PeopleNearbyActivity extends FragmentActivity {
             String district = location.getDistrict();
 
             if (!mLocateFlag) {
-                mDialog.setMessage("正在查找附近的人");
-                mDialog.setCanceledOnTouchOutside(false);
-                mDialog.show();
-
                 PositionInfo positionInfo = new PositionInfo(longitude, latitude);
                 PreferencesUtil.getInstance().setPositionInfo(positionInfo);
 
@@ -155,6 +156,14 @@ public class PeopleNearbyActivity extends FragmentActivity {
         }
     }
 
+    /**
+     * 上传位置信息并获取附近的人列表
+     *
+     * @param userId    用户ID
+     * @param longitude 经度
+     * @param latitude  纬度
+     * @param district  区县信息
+     */
     private void getPeopleNearbyList(String userId, double longitude, double latitude, String district) {
         String url = Constant.BASE_URL + "peopleNearby";
         Map<String, String> paramMap = new HashMap<>();
