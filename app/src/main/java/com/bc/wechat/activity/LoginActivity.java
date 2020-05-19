@@ -80,6 +80,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_login:
                 mDialog.setMessage(getString(R.string.logging_in));
+                mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
                 final String phone = mPhoneEt.getText().toString().trim();
                 final String password = mPasswordEt.getText().toString().trim();
@@ -171,8 +172,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(LoginActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
@@ -189,6 +188,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                 .show();
                         break;
                 }
+                mDialog.dismiss();
             }
         });
     }

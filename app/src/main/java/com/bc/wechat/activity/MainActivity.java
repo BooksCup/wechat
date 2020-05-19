@@ -60,8 +60,8 @@ import cn.jpush.im.android.api.model.UserInfo;
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
-    private static final int SCAN_REQUEST_CODE = 100;
-    private static final int CAMERA_PERMISSION = 110;
+    public static final int REQUEST_CODE_SCAN = 0;
+    public static final int REQUEST_CODE_CAMERA = 1;
 
     public static boolean isForeground = false;
 
@@ -409,7 +409,7 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view) {
                 popupWindow.dismiss();
                 String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPermissions(MainActivity.this, permissions, CAMERA_PERMISSION);
+                requestPermissions(MainActivity.this, permissions, REQUEST_CODE_CAMERA);
             }
         });
 
@@ -447,7 +447,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SCAN_REQUEST_CODE) {
+            if (requestCode == REQUEST_CODE_SCAN) {
                 String isbn = data.getStringExtra("CaptureIsbn");
                 if (!TextUtils.isEmpty(isbn)) {
                     if (isbn.contains("http")) {
@@ -526,6 +526,6 @@ public class MainActivity extends BaseActivity {
     private void startScanActivity() {
         Intent intent = new Intent(this, CaptureActivity2.class);
         intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
-        startActivityForResult(intent, SCAN_REQUEST_CODE);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
 }

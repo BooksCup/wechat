@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.FriendsCircleActivity;
+import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.PeopleNearbyActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.activity.WebViewActivity;
@@ -33,9 +34,6 @@ import java.util.ArrayList;
  * @author zhou
  */
 public class FindFragment extends Fragment {
-    private static final int REQUEST_CODE_SCAN = 100;
-    private static final int REQUEST_CODE_CAMERA = 110;
-
     // 朋友圈
     private RelativeLayout mMomentsRl;
 
@@ -73,7 +71,7 @@ public class FindFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPerms(getActivity(), permissions, REQUEST_CODE_CAMERA);
+                requestPerms(getActivity(), permissions, MainActivity.REQUEST_CODE_CAMERA);
             }
         });
 
@@ -126,7 +124,7 @@ public class FindFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE_SCAN) {
+            if (requestCode == MainActivity.REQUEST_CODE_SCAN) {
                 String isbn = data.getStringExtra("CaptureIsbn");
                 if (!TextUtils.isEmpty(isbn)) {
                     if (isbn.contains("http")) {
@@ -179,7 +177,7 @@ public class FindFragment extends Fragment {
     private void startScanActivity() {
         Intent intent = new Intent(getActivity(), CaptureActivity2.class);
         intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
-        startActivityForResult(intent, REQUEST_CODE_SCAN);
+        startActivityForResult(intent, MainActivity.REQUEST_CODE_SCAN);
     }
 
 }
