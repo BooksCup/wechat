@@ -62,6 +62,7 @@ public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_SCAN = 0;
     public static final int REQUEST_CODE_CAMERA = 1;
+    public static final int REQUEST_CODE_LOCATION = 2;
 
     public static boolean isForeground = false;
 
@@ -419,26 +420,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        boolean hasAllGranted = true;
-        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
-        for (int grantResult : grantResults) {
-            if (grantResult == PackageManager.PERMISSION_DENIED) {
-                hasAllGranted = false;
-                break;
-            }
-        }
-        if (hasAllGranted) {
-            // 同意权限做的处理,开启服务提交通讯录
-            startScanActivity();
-        } else {
-            // 拒绝授权做的处理，弹出弹框提示用户授权
-            handleRejectPermission(this, permissions[0]);
-        }
-    }
-
-    @Override
     public int checkSelfPermission(String permission) {
         return super.checkSelfPermission(permission);
     }
@@ -484,7 +465,11 @@ public class MainActivity extends BaseActivity {
             }
             if (mPermissionList.isEmpty()) {
                 // 非初次进入App且已授权
-                startScanActivity();
+                switch (requestCode) {
+                    case REQUEST_CODE_CAMERA:
+                        startScanActivity();
+                        break;
+                }
             } else {
                 // 请求权限方法
                 String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
@@ -494,29 +479,62 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void handleRejectPermission(final Activity context, String permission) {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(MainActivity.this, "权限申请",
-                    "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能",
-                    "去设置", "取消", context.getColor(R.color.navy_blue));
-            mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
-                @Override
-                public void onOkClick() {
-                    mConfirmDialog.dismiss();
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
-                    intent.setData(uri);
-                    context.startActivity(intent);
-                }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAllGranted = true;
+        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                hasAllGranted = false;
+                break;
+            }
+        }
+        if (hasAllGranted) {
+            // 同意权限做的处理,开启服务提交通讯录
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA:
+                    startScanActivity();
+                    break;
+            }
+        } else {
+            // 拒绝授权做的处理，弹出弹框提示用户授权
+            handleRejectPermission(this, permissions[0], requestCode);
+        }
+    }
 
-                @Override
-                public void onCancelClick() {
-                    mConfirmDialog.dismiss();
-                }
-            });
-            // 点击空白处消失
-            mConfirmDialog.setCancelable(false);
-            mConfirmDialog.show();
+    public void handleRejectPermission(final Activity context, String permission, int requestCode) {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+            String content = "";
+            // 非初次进入App且已授权
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA:
+                    content = getString(R.string.request_permission_camera);
+                    break;
+            }
+            if (!TextUtils.isEmpty(content)) {
+                final ConfirmDialog mConfirmDialog = new ConfirmDialog(MainActivity.this, "权限申请",
+                        content,
+                        "去设置", "取消", context.getColor(R.color.navy_blue));
+                mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOkClick() {
+                        mConfirmDialog.dismiss();
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", context.getApplicationContext().getPackageName(), null);
+                        intent.setData(uri);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        mConfirmDialog.dismiss();
+                    }
+                });
+                // 点击空白处消失
+                mConfirmDialog.setCancelable(false);
+                mConfirmDialog.show();
+            }
         }
     }
 
