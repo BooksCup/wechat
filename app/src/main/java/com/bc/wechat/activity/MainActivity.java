@@ -33,10 +33,10 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.QrCodeContent;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.fragment.ConversationFragment;
-import com.bc.wechat.fragment.FindFragment;
-import com.bc.wechat.fragment.FriendsFragment;
-import com.bc.wechat.fragment.ProfileFragment;
+import com.bc.wechat.fragment.ChatsFragment;
+import com.bc.wechat.fragment.DiscoverFragment;
+import com.bc.wechat.fragment.ContactsFragment;
+import com.bc.wechat.fragment.MeFragment;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -57,37 +57,40 @@ import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
+/**
+ * 主activity
+ *
+ * @author zhou
+ */
 public class MainActivity extends BaseActivity {
-    private static final String TAG = "MainActivity";
-
     public static final int REQUEST_CODE_SCAN = 0;
     public static final int REQUEST_CODE_CAMERA = 1;
     public static final int REQUEST_CODE_LOCATION = 2;
 
     public static boolean isForeground = false;
 
-    private Fragment[] fragments;
-    private ConversationFragment conversationFragment;
-    private FriendsFragment friendsFragment;
-    private FindFragment findFragment;
-    private ProfileFragment profileFragment;
+    private Fragment[] mFragments;
+    private ChatsFragment mChatsFragment;
+    private ContactsFragment mContactsFragment;
+    private DiscoverFragment mDiscoverFragment;
+    private MeFragment mMeFragment;
 
-    private ImageView[] imagebuttons;
-    private TextView[] textviews;
-    private int index;
+    private ImageView[] mMainButtonIvs;
+    private TextView[] mMainButtonTvs;
+    private int mIndex;
     // 当前fragment的index
-    private int currentTabIndex;
+    private int mCurrentTabIndex;
 
     private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
 
     private ImageView mAddIv;
 
-    User user;
+    User mUser;
 
     // 首页弹出框
-    private PopupWindow popupWindow;
-    private View popupView;
+    private PopupWindow mPopupWindow;
+    private View mPopupView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,45 +99,46 @@ public class MainActivity extends BaseActivity {
         initView();
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
-        user = PreferencesUtil.getInstance().getUser();
+        mUser = PreferencesUtil.getInstance().getUser();
         registerMessageReceiver();
         refreshNewMsgsUnreadNum();
         refreshNewFriendsUnreadNum();
         // 进入强制刷新，防止离线消息
-        conversationFragment.refreshConversationList();
+        mChatsFragment.refreshConversationList();
     }
 
     private void initView() {
-        conversationFragment = new ConversationFragment();
-        friendsFragment = new FriendsFragment();
-        findFragment = new FindFragment();
-        profileFragment = new ProfileFragment();
+        mChatsFragment = new ChatsFragment();
+        mContactsFragment = new ContactsFragment();
+        mDiscoverFragment = new DiscoverFragment();
+        mMeFragment = new MeFragment();
 
-        fragments = new Fragment[]{conversationFragment, friendsFragment, findFragment, profileFragment};
+        mFragments = new Fragment[]{mChatsFragment, mContactsFragment,
+                mDiscoverFragment, mMeFragment};
 
-        imagebuttons = new ImageView[4];
-        imagebuttons[0] = findViewById(R.id.ib_weixin);
-        imagebuttons[1] = findViewById(R.id.ib_contact_list);
-        imagebuttons[2] = findViewById(R.id.ib_find);
-        imagebuttons[3] = findViewById(R.id.ib_profile);
+        mMainButtonIvs = new ImageView[4];
+        mMainButtonIvs[0] = findViewById(R.id.iv_chats);
+        mMainButtonIvs[1] = findViewById(R.id.iv_contacts);
+        mMainButtonIvs[2] = findViewById(R.id.iv_discover);
+        mMainButtonIvs[3] = findViewById(R.id.iv_me);
 
-        imagebuttons[0].setSelected(true);
-        textviews = new TextView[4];
-        textviews[0] = findViewById(R.id.tv_weixin);
-        textviews[1] = findViewById(R.id.tv_contact_list);
-        textviews[2] = findViewById(R.id.tv_find);
-        textviews[3] = findViewById(R.id.tv_profile);
-        textviews[0].setTextColor(0xFF45C01A);
+        mMainButtonIvs[0].setSelected(true);
+        mMainButtonTvs = new TextView[4];
+        mMainButtonTvs[0] = findViewById(R.id.tv_chats);
+        mMainButtonTvs[1] = findViewById(R.id.tv_contacts);
+        mMainButtonTvs[2] = findViewById(R.id.tv_discover);
+        mMainButtonTvs[3] = findViewById(R.id.tv_me);
+        mMainButtonTvs[0].setTextColor(0xFF45C01A);
 
         mAddIv = findViewById(R.id.iv_add);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, conversationFragment)
-                .add(R.id.fragment_container, friendsFragment)
-                .add(R.id.fragment_container, findFragment)
-                .add(R.id.fragment_container, profileFragment)
-                .hide(friendsFragment).hide(findFragment).hide(profileFragment)
-                .show(conversationFragment).commit();
+                .add(R.id.rl_fragment_container, mChatsFragment)
+                .add(R.id.rl_fragment_container, mContactsFragment)
+                .add(R.id.rl_fragment_container, mDiscoverFragment)
+                .add(R.id.rl_fragment_container, mMeFragment)
+                .hide(mContactsFragment).hide(mDiscoverFragment).hide(mMeFragment)
+                .show(mChatsFragment).commit();
 
         mUnreadNewMsgsNumTv = findViewById(R.id.unread_msg_number);
         mUnreadNewFriendsNumTv = findViewById(R.id.unread_address_number);
@@ -143,11 +147,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 initPopupWindow();
-                if (!popupWindow.isShowing()) {
+                if (!mPopupWindow.isShowing()) {
                     // 以下拉方式显示popupwindow
-                    popupWindow.showAsDropDown(mAddIv, 0, 0);
+                    mPopupWindow.showAsDropDown(mAddIv, 0, 0);
                 } else {
-                    popupWindow.dismiss();
+                    mPopupWindow.dismiss();
                 }
             }
         });
@@ -155,38 +159,38 @@ public class MainActivity extends BaseActivity {
 
     public void onTabClicked(View view) {
         switch (view.getId()) {
-            case R.id.re_weixin:
+            case R.id.rl_chats:
                 // 会话列表
                 // 主动加载一次会话
-                conversationFragment.refreshConversationList();
-                index = 0;
+                mChatsFragment.refreshConversationList();
+                mIndex = 0;
                 break;
-            case R.id.re_contact_list:
-                index = 1;
+            case R.id.rl_contacts:
+                mIndex = 1;
                 break;
-            case R.id.re_find:
-                index = 2;
+            case R.id.rl_discover:
+                mIndex = 2;
                 break;
-            case R.id.re_profile:
-                index = 3;
+            case R.id.rl_me:
+                mIndex = 3;
                 break;
         }
 
-        if (currentTabIndex != index) {
+        if (mCurrentTabIndex != mIndex) {
             FragmentTransaction trx = getSupportFragmentManager()
                     .beginTransaction();
-            trx.hide(fragments[currentTabIndex]);
-            if (!fragments[index].isAdded()) {
-                trx.add(R.id.fragment_container, fragments[index]);
+            trx.hide(mFragments[mCurrentTabIndex]);
+            if (!mFragments[mIndex].isAdded()) {
+                trx.add(R.id.rl_fragment_container, mFragments[mIndex]);
             }
-            trx.show(fragments[index]).commit();
+            trx.show(mFragments[mIndex]).commit();
         }
-        imagebuttons[currentTabIndex].setSelected(false);
+        mMainButtonIvs[mCurrentTabIndex].setSelected(false);
         // 把当前tab设为选中状态
-        imagebuttons[index].setSelected(true);
-        textviews[currentTabIndex].setTextColor(0xFF999999);
-        textviews[index].setTextColor(0xFF45C01A);
-        currentTabIndex = index;
+        mMainButtonIvs[mIndex].setSelected(true);
+        mMainButtonTvs[mCurrentTabIndex].setTextColor(0xFF999999);
+        mMainButtonTvs[mIndex].setTextColor(0xFF45C01A);
+        mCurrentTabIndex = mIndex;
     }
 
     @Override
@@ -198,12 +202,12 @@ public class MainActivity extends BaseActivity {
         refreshNewMsgsUnreadNum();
         // 通讯录
         refreshNewFriendsUnreadNum();
-        friendsFragment.refreshNewFriendsUnreadNum();
-        friendsFragment.refreshFriendsList();
+        mContactsFragment.refreshNewFriendsUnreadNum();
+        mContactsFragment.refreshFriendsList();
 
         // 会话
-        if (currentTabIndex == 0) {
-            conversationFragment.refreshConversationList();
+        if (mCurrentTabIndex == 0) {
+            mChatsFragment.refreshConversationList();
         }
     }
 
@@ -248,10 +252,10 @@ public class MainActivity extends BaseActivity {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }
                     refreshNewFriendsUnreadNum();
-                    friendsFragment.refreshNewFriendsUnreadNum();
+                    mContactsFragment.refreshNewFriendsUnreadNum();
                 }
                 if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN.equals(intent.getAction())) {
-                    friendsFragment.refreshFriendsList();
+                    mContactsFragment.refreshFriendsList();
                 }
             } catch (Exception e) {
             }
@@ -286,7 +290,7 @@ public class MainActivity extends BaseActivity {
         Message message = new Message();
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         String messageType = JimUtil.getMessageType(msg);
-        message.setToUserId(user.getUserId());
+        message.setToUserId(mUser.getUserId());
         message.setTimestamp(new Date().getTime());
         message.setMessageType(messageType);
 
@@ -337,9 +341,9 @@ public class MainActivity extends BaseActivity {
         }
 
         Message.save(message);
-        conversationFragment.refreshConversationList();
+        mChatsFragment.refreshConversationList();
 
-        if (fromUserInfo.getUserName().equals(user.getUserId())) {
+        if (fromUserInfo.getUserName().equals(mUser.getUserId())) {
             // 如果发送者是自己，不更新
         } else if (fromUserInfo.getUserID() == 0) {
             // 系统管理员，通知类消息，不更新
@@ -369,53 +373,53 @@ public class MainActivity extends BaseActivity {
      * 初始化首页弹出框
      */
     private void initPopupWindow() {
-        popupView = View.inflate(this, R.layout.popup_window_add, null);
-        popupWindow = new PopupWindow();
+        mPopupView = View.inflate(this, R.layout.popup_window_add, null);
+        mPopupWindow = new PopupWindow();
         // 设置SelectPicPopupWindow的View
-        popupWindow.setContentView(popupView);
+        mPopupWindow.setContentView(mPopupView);
         // 设置SelectPicPopupWindow弹出窗体的宽
-        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体可点击
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setOutsideTouchable(true);
         // 刷新状态
-        popupWindow.update();
+        mPopupWindow.update();
         // 实例化一个ColorDrawable颜色为半透明
         ColorDrawable dw = new ColorDrawable(0000000000);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
-        popupWindow.setBackgroundDrawable(dw);
+        mPopupWindow.setBackgroundDrawable(dw);
 
         // 设置SelectPicPopupWindow弹出窗体动画效果
-        popupWindow.setAnimationStyle(R.style.AnimationPreview);
+        mPopupWindow.setAnimationStyle(R.style.AnimationPreview);
 
         // 发起群聊
-        RelativeLayout mCreateGroupRl = popupView.findViewById(R.id.rl_create_group);
+        RelativeLayout mCreateGroupRl = mPopupView.findViewById(R.id.rl_create_group);
 
         // 添加朋友
-        RelativeLayout mAddFriendsRl = popupView.findViewById(R.id.rl_add_friends);
+        RelativeLayout mAddFriendsRl = mPopupView.findViewById(R.id.rl_add_friends);
         mAddFriendsRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                mPopupWindow.dismiss();
                 startActivity(new Intent(MainActivity.this, AddFriendsActivity.class));
             }
         });
 
         // 扫一扫
-        RelativeLayout mScanQrCodeRl = popupView.findViewById(R.id.rl_scan_qr_code);
+        RelativeLayout mScanQrCodeRl = mPopupView.findViewById(R.id.rl_scan_qr_code);
         mScanQrCodeRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                mPopupWindow.dismiss();
                 String[] permissions = new String[]{"android.permission.CAMERA"};
                 requestPermissions(MainActivity.this, permissions, REQUEST_CODE_CAMERA);
             }
         });
 
         // 帮助和反馈
-        RelativeLayout mHelpRl = popupView.findViewById(R.id.rl_help);
+        RelativeLayout mHelpRl = mPopupView.findViewById(R.id.rl_help);
 
     }
 

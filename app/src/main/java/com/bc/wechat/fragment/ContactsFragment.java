@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class FriendsFragment extends Fragment {
+public class ContactsFragment extends Fragment {
     private FriendsAdapter mFriendsAdapter;
 
     private ListView mFriendsLv;

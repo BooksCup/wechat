@@ -37,7 +37,7 @@ import java.util.ArrayList;
  *
  * @author zhou
  */
-public class FindFragment extends Fragment implements View.OnClickListener {
+public class DiscoverFragment extends Fragment implements View.OnClickListener {
     // 朋友圈
     private RelativeLayout mMomentsRl;
 

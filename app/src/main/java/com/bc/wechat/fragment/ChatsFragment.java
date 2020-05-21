@@ -28,7 +28,7 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
-public class ConversationFragment extends Fragment {
+public class ChatsFragment extends Fragment {
 
     private ListView mConversationLv;
     private ConversationAdapter mConversationAdapter;

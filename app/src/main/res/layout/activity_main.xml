@@ -6,7 +6,7 @@
     android:background="#ffffff" >
 
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:layout_alignParentTop="true"
@@ -40,7 +40,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/main_bottom"
+        android:id="@+id/ll_main_button"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_alignParentBottom="true"
@@ -49,7 +49,7 @@
         android:orientation="horizontal" >
 
         <RelativeLayout
-            android:id="@+id/re_weixin"
+            android:id="@+id/rl_chats"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -57,7 +57,7 @@
             android:padding="3dp" >
 
             <ImageView
-                android:id="@+id/ib_weixin"
+                android:id="@+id/iv_chats"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_centerHorizontal="true"
@@ -67,10 +67,10 @@
                 android:src="@drawable/tab_weixin" />
 
             <TextView
-                android:id="@+id/tv_weixin"
+                android:id="@+id/tv_chats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ib_weixin"
+                android:layout_below="@id/iv_chats"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
                 android:text="微信"
@@ -91,7 +91,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/re_contact_list"
+            android:id="@+id/rl_contacts"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -99,7 +99,7 @@
             android:padding="3dp" >
 
             <ImageView
-                android:id="@+id/ib_contact_list"
+                android:id="@+id/iv_contacts"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_centerHorizontal="true"
@@ -109,10 +109,10 @@
                 android:src="@drawable/tab_contact_list" />
 
             <TextView
-                android:id="@+id/tv_contact_list"
+                android:id="@+id/tv_contacts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ib_contact_list"
+                android:layout_below="@id/iv_contacts"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
                 android:text="通讯录"
@@ -133,7 +133,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/re_find"
+            android:id="@+id/rl_discover"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -141,7 +141,7 @@
             android:padding="3dp" >
 
             <ImageView
-                android:id="@+id/ib_find"
+                android:id="@+id/iv_discover"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_centerHorizontal="true"
@@ -151,10 +151,10 @@
                 android:src="@drawable/tab_find" />
 
             <TextView
-                android:id="@+id/tv_find"
+                android:id="@+id/tv_discover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ib_find"
+                android:layout_below="@id/iv_discover"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
                 android:text="发现"
@@ -163,7 +163,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/re_profile"
+            android:id="@+id/rl_me"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -171,7 +171,7 @@
             android:padding="3dp" >
 
             <ImageView
-                android:id="@+id/ib_profile"
+                android:id="@+id/iv_me"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
                 android:layout_centerHorizontal="true"
@@ -181,10 +181,10 @@
                 android:src="@drawable/tab_profile" />
 
             <TextView
-                android:id="@+id/tv_profile"
+                android:id="@+id/tv_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ib_profile"
+                android:layout_below="@id/iv_me"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
                 android:text="我"
@@ -197,14 +197,14 @@
         android:id="@+id/view_temp"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_above="@id/main_bottom"
+        android:layout_above="@id/ll_main_button"
         android:background="#d6d6d6" />
 
     <RelativeLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/rl_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/view_temp"
-        android:layout_below="@id/title" />
+        android:layout_below="@id/rl_title" />
 
 </RelativeLayout>
