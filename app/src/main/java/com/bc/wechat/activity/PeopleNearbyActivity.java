@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -119,6 +120,31 @@ public class PeopleNearbyActivity extends FragmentActivity {
                 });
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                // 清除位置并退出
+                RelativeLayout mClearLocationRl = view.findViewById(R.id.rl_clear_location);
+                mClearLocationRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+
+                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                        mDialog.setMessage(getString(R.string.clearing));
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.show();
+
+                        deletePositionInfo(mUser.getUserId());
+                    }
+                });
+
+                // 取消
+                RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
+                mCancelRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                    }
+                });
             }
         });
     }
@@ -259,6 +285,30 @@ public class PeopleNearbyActivity extends FragmentActivity {
                     Toast.makeText(PeopleNearbyActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
+            }
+        });
+    }
+
+    /**
+     * 清除某个用户的位置信息
+     *
+     * @param userId 用户ID
+     */
+    private void deletePositionInfo(String userId) {
+        String url = Constant.BASE_URL + "peopleNearby?userId=" + userId;
+
+        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                PreferencesUtil.getInstance().setOpenPeopleNearby(false);
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(PeopleNearbyActivity.this, getString(R.string.clear_location_error_toast), Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
             }
         });
     }

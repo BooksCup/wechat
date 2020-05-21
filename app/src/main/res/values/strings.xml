@@ -167,4 +167,7 @@
     <string name="view_all">查看全部</string>
     <string name="greetings">附近打招呼的人</string>
     <string name="clear_location">清除位置并退出</string>
+
+    <string name="clearing">正在清除...</string>
+    <string name="clear_location_error_toast">清除地理位置失败，请稍候再试。</string>
 </resources>
