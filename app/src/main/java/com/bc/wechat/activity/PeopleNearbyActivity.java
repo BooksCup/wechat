@@ -1,11 +1,22 @@
 package com.bc.wechat.activity;
 
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -42,14 +53,20 @@ public class PeopleNearbyActivity extends FragmentActivity {
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
 
+    private LinearLayout mRootLl;
     private ListView mPeopleNearbyLv;
     private PeopleNearbyAdapter mPeopleNearbyAdapter;
+    private ImageView mSettingIv;
+
     private List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
     private VolleyUtil mVolleyUtil;
     private User mUser;
     LoadingDialog mDialog;
     // 即使设置只定位1次也会频繁定位，待定位问题
     private boolean mLocateFlag = false;
+
+    // 弹窗
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +87,53 @@ public class PeopleNearbyActivity extends FragmentActivity {
         mLocationClient.registerLocationListener(myListener);
         initLocationClientOptions();
         mLocationClient.start();
+
+        mSettingIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(R.layout.popup_window_people_nearby_setting, null);
+                // 给popwindow加上动画效果
+                LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
+                view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
+                mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
+                // 设置popwindow的宽高
+                DisplayMetrics dm = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(dm);
+                mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                // 使其聚集
+                mPopupWindow.setFocusable(true);
+                // 设置允许在外点击消失
+                mPopupWindow.setOutsideTouchable(true);
+
+                // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+                mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+                backgroundAlpha(0.5f);  //透明度
+
+                mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        backgroundAlpha(1f);
+                    }
+                });
+                // 弹出的位置
+                mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            }
+        });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * 1.0完全不透明，0.0f完全透明
+     *
+     * @param bgAlpha 透明度值
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        // 0.0-1.0
+        lp.alpha = bgAlpha;
+        getWindow().setAttributes(lp);
     }
 
     /**
@@ -116,6 +180,8 @@ public class PeopleNearbyActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mRootLl = findViewById(R.id.ll_root);
+        mSettingIv = findViewById(R.id.iv_setting);
         mPeopleNearbyLv = findViewById(R.id.lv_people_nearby);
         mPeopleNearbyAdapter = new PeopleNearbyAdapter(PeopleNearbyActivity.this,
                 R.layout.item_people_nearby, mPeopleNearbyList);

@@ -161,4 +161,10 @@
 
     <string name="open_people_nearby_tips">查看附件的人功能将获取你的位置信息，你的位置信息会被保留一段时间。通过列表右上角的清除功能可随时手动清除位置信息。</string>
     <string name="searching_people_nearby">正在查找附近的人</string>
+
+    <string name="females_only">只看女生</string>
+    <string name="males_only">只看男生</string>
+    <string name="view_all">查看全部</string>
+    <string name="greetings">附近打招呼的人</string>
+    <string name="clear_location">清除位置并退出</string>
 </resources>
