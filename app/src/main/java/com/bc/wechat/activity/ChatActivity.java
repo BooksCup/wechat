@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.EmojiUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -56,6 +58,7 @@ import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.ExpandGridView;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -499,7 +502,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         if (mMoreLl.getVisibility() == View.VISIBLE) {
             mMoreLl.setVisibility(View.GONE);
             mEmojiNormalIv.setVisibility(View.VISIBLE);
-            mEmojiCheckedIv.setVisibility(View.GONE);
+            mEmojiCheckedIv.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -1128,8 +1131,53 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             emojiList.addAll(mEmojiList.subList(21, mEmojiList.size()));
         }
         emojiList.addAll(mEmojiList);
-        EmojiAdapter emojiAdapter = new EmojiAdapter(this, 1, emojiList);
+        emojiList.add("delete_emoji");
+        final EmojiAdapter emojiAdapter = new EmojiAdapter(this, 1, emojiList);
         expandGridView.setAdapter(emojiAdapter);
+//        expandGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                String emoji = emojiAdapter.getItem(position);
+//                try {
+//                    // 文字输入框可见时，才可输入表情
+//                    // 按住说话可见，不让输入表情
+//                    if (mSetModeKeyboardBtn.getVisibility() != View.VISIBLE) {
+//                        if (emoji != "delete_emoji") {
+//                            // 不是删除键，显示表情
+//                            Class clz = Class.forName("com.bc.wechat.utils.EmojiUtil");
+//                            Field field = clz.getField(emoji);
+//                            mTextMsgEt.append(EmojiUtil.getEmojisText(
+//                                    ChatActivity.this, (String) field.get(null)));
+//                        } else {
+//                            // 删除文字或者表情
+//                            if (!TextUtils.isEmpty(mTextMsgEt.getText())) {
+//                                int selectionStart = mTextMsgEt.getSelectionStart();// 获取光标的位置
+//                                if (selectionStart > 0) {
+//                                    String body = mTextMsgEt.getText().toString();
+//                                    String tempStr = body.substring(0, selectionStart);
+//                                    int i = tempStr.lastIndexOf("[");// 获取最后一个表情的位置
+//                                    if (i != -1) {
+//                                        CharSequence cs = tempStr.substring(i, selectionStart);
+//                                        if (EmojiUtil.containsKey(cs.toString()))
+//                                            mTextMsgEt.getEditableText().delete(i, selectionStart);
+//                                        else
+//                                            mTextMsgEt.getEditableText().delete(selectionStart - 1, selectionStart);
+//                                    } else {
+//                                        mTextMsgEt.getEditableText().delete(selectionStart - 1, selectionStart);
+//                                    }
+//                                }
+//                            }
+//
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        });
         return view;
     }
 
