@@ -76,9 +76,9 @@ public class PeopleNearbyActivity extends FragmentActivity {
         initView();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
-        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
 
-        mDialog.setMessage(getString(R.string.searching_people_nearby));
+        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+        mDialog.setMessage(getString(R.string.loading_location));
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
 
@@ -120,6 +120,55 @@ public class PeopleNearbyActivity extends FragmentActivity {
                 });
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+                // 只看女生
+                RelativeLayout mFemalesOnlyRl = view.findViewById(R.id.rl_females_only);
+                mFemalesOnlyRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+
+                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                        mDialog.setMessage(getString(R.string.searching_people_nearby));
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.show();
+                        // 获取附近的人列表(女)
+                        getPeopleNearbyList(mUser.getUserId(), Constant.USER_SEX_FEMALE);
+                    }
+                });
+
+                // 只看男生
+                RelativeLayout mMalesOnlyRl = view.findViewById(R.id.rl_males_only);
+                mMalesOnlyRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+
+                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                        mDialog.setMessage(getString(R.string.searching_people_nearby));
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.show();
+                        // 获取附近的人列表(男)
+                        getPeopleNearbyList(mUser.getUserId(), Constant.USER_SEX_MALE);
+                    }
+                });
+
+                // 查看全部
+                RelativeLayout mViewAllRl = view.findViewById(R.id.rl_view_all);
+                mViewAllRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+
+                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                        mDialog.setMessage(getString(R.string.searching_people_nearby));
+                        mDialog.setCanceledOnTouchOutside(false);
+                        mDialog.show();
+                        // 获取附近的人列表(全部)
+                        getPeopleNearbyList(mUser.getUserId(), null);
+                    }
+                });
+
 
                 // 清除位置并退出
                 RelativeLayout mClearLocationRl = view.findViewById(R.id.rl_clear_location);
@@ -242,22 +291,23 @@ public class PeopleNearbyActivity extends FragmentActivity {
                 PositionInfo positionInfo = new PositionInfo(longitude, latitude);
                 PreferencesUtil.getInstance().setPositionInfo(positionInfo);
 
-                getPeopleNearbyList(mUser.getUserId(), longitude, latitude, district);
+                // 上传位置信息
+                uploadPositionInfo(mUser.getUserId(), longitude, latitude, district);
             }
             mLocateFlag = true;
         }
     }
 
     /**
-     * 上传位置信息并获取附近的人列表
+     * 上传位置信息
      *
      * @param userId    用户ID
      * @param longitude 经度
      * @param latitude  纬度
      * @param district  区县信息
      */
-    private void getPeopleNearbyList(String userId, double longitude, double latitude, String district) {
-        String url = Constant.BASE_URL + "peopleNearby";
+    private void uploadPositionInfo(String userId, double longitude, double latitude, String district) {
+        String url = Constant.BASE_URL + "peopleNearby/positionInfo";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userId", userId);
         paramMap.put("longitude", String.valueOf(longitude));
@@ -267,6 +317,37 @@ public class PeopleNearbyActivity extends FragmentActivity {
         }
 
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+                mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                mDialog.setMessage(getString(R.string.searching_people_nearby));
+                mDialog.show();
+                // 获取附近的人列表
+                getPeopleNearbyList(mUser.getUserId(), null);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 获取附近的人列表
+     *
+     * @param userId  用户ID
+     * @param userSex 用户性别
+     */
+    private void getPeopleNearbyList(String userId, String userSex) {
+        String url;
+        if (TextUtils.isEmpty(userSex)) {
+            url = Constant.BASE_URL + "peopleNearby?userId=" + userId;
+        } else {
+            url = Constant.BASE_URL + "peopleNearby?userId=" + userId + "&userSex=" + userSex;
+        }
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 mDialog.dismiss();
@@ -295,7 +376,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
      * @param userId 用户ID
      */
     private void deletePositionInfo(String userId) {
-        String url = Constant.BASE_URL + "peopleNearby?userId=" + userId;
+        String url = Constant.BASE_URL + "peopleNearby/positionInfo?userId=" + userId;
 
         mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
             @Override
