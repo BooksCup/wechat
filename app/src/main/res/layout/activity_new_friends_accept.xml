@@ -44,7 +44,7 @@
             android:layout_centerVertical="true"
             android:padding="9dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_setting" />
+            android:src="@mipmap/icon_setting" />
     </RelativeLayout>
 
     <LinearLayout
@@ -87,7 +87,7 @@
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     android:layout_marginLeft="8dp"
-                    android:src="@mipmap/ic_sex_male" />
+                    android:src="@mipmap/icon_sex_male" />
             </LinearLayout>
 
             <LinearLayout

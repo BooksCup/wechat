@@ -46,7 +46,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="8dp"
-                android:src="@mipmap/ic_sex_male"
+                android:src="@mipmap/icon_sex_male"
                 android:visibility="gone" />
         </LinearLayout>
 

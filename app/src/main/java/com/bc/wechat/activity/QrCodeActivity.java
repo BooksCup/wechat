@@ -41,9 +41,9 @@ public class QrCodeActivity extends BaseActivity {
         mNickNameTv.setText(mUser.getUserNickName());
 
         if (Constant.USER_SEX_MALE.equals(mUser.getUserSex())) {
-            mSexIv.setImageResource(R.mipmap.ic_sex_male);
+            mSexIv.setImageResource(R.mipmap.icon_sex_male);
         } else if (Constant.USER_SEX_FEMALE.equals(mUser.getUserSex())) {
-            mSexIv.setImageResource(R.mipmap.ic_sex_female);
+            mSexIv.setImageResource(R.mipmap.icon_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
         }

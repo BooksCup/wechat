@@ -60,6 +60,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
     private LinearLayout mRootLl;
     private ListView mPeopleNearbyLv;
     private PeopleNearbyAdapter mPeopleNearbyAdapter;
+    private ImageView mSexFilterIv;
     private ImageView mSettingIv;
 
     private List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
@@ -262,6 +263,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
     private void initView() {
         mRootLl = findViewById(R.id.ll_root);
         mSettingIv = findViewById(R.id.iv_setting);
+        mSexFilterIv = findViewById(R.id.iv_sex_filter);
         mPeopleNearbyLv = findViewById(R.id.lv_people_nearby);
         mPeopleNearbyAdapter = new PeopleNearbyAdapter(PeopleNearbyActivity.this,
                 R.layout.item_people_nearby, mPeopleNearbyList);
@@ -362,7 +364,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
      * @param userId  用户ID
      * @param userSex 用户性别
      */
-    private void getPeopleNearbyList(String userId, String userSex) {
+    private void getPeopleNearbyList(String userId, final String userSex) {
         String url;
         if (TextUtils.isEmpty(userSex)) {
             url = Constant.BASE_URL + "peopleNearby?userId=" + userId;
@@ -376,6 +378,20 @@ public class PeopleNearbyActivity extends FragmentActivity {
                 mPeopleNearbyList = JSON.parseArray(response, PeopleNearby.class);
                 mPeopleNearbyAdapter.setData(mPeopleNearbyList);
                 mPeopleNearbyAdapter.notifyDataSetChanged();
+
+                if (TextUtils.isEmpty(userSex)) {
+                    mSexFilterIv.setVisibility(View.GONE);
+                } else {
+                    if (Constant.USER_SEX_MALE.equals(userSex)) {
+                        mSexFilterIv.setVisibility(View.VISIBLE);
+                        mSexFilterIv.setImageResource(R.mipmap.icon_sex_male);
+                    } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
+                        mSexFilterIv.setVisibility(View.VISIBLE);
+                        mSexFilterIv.setImageResource(R.mipmap.icon_sex_female);
+                    } else {
+                        mSexFilterIv.setVisibility(View.GONE);
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override

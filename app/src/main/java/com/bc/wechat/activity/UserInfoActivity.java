@@ -462,9 +462,9 @@ public class UserInfoActivity extends Activity {
             mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
         }
         if (Constant.USER_SEX_MALE.equals(user.getUserSex())) {
-            mSexIv.setImageResource(R.mipmap.ic_sex_male);
+            mSexIv.setImageResource(R.mipmap.icon_sex_male);
         } else if (Constant.USER_SEX_FEMALE.equals(user.getUserSex())) {
-            mSexIv.setImageResource(R.mipmap.ic_sex_female);
+            mSexIv.setImageResource(R.mipmap.icon_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
         }
