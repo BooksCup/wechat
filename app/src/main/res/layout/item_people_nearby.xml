@@ -33,9 +33,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@id/rl_avatar"
-            android:text=""
+            android:text="发放"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_sex"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/tv_name"
+            android:scaleType="centerInside"
+            android:src="@mipmap/icon_sex_male"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_whats_up"
@@ -49,7 +59,7 @@
             android:maxWidth="100dp"
             android:maxLines="2"
             android:padding="3dp"
-            android:text=""
+            android:text="412341234"
             android:textColor="#AAAAAA"
             android:textSize="11sp" />
 

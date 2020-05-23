@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.PeopleNearby;
 import com.bc.wechat.entity.PositionInfo;
 import com.bc.wechat.utils.DistanceUtil;
@@ -29,6 +31,7 @@ public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
     List<PeopleNearby> mPeopleNearbyList;
     int mResource;
     private LayoutInflater mLayoutInflater;
+    boolean mSexFilter = false;
 
     public PeopleNearbyAdapter(Context context, int resource, List<PeopleNearby> peopleNearbyList) {
         super(context, resource, peopleNearbyList);
@@ -46,6 +49,7 @@ public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
             viewHolder = new ViewHolder();
             viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
             viewHolder.mNameTv = convertView.findViewById(R.id.tv_name);
+            viewHolder.mSexIv = convertView.findViewById(R.id.iv_sex);
             viewHolder.mWhatsupTv = convertView.findViewById(R.id.tv_whats_up);
             viewHolder.mDistanceTv = convertView.findViewById(R.id.tv_distance);
             convertView.setTag(viewHolder);
@@ -57,6 +61,22 @@ public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
             viewHolder.mAvatarSdv.setImageURI(Uri.parse(peopleNearby.getUserAvatar()));
         }
         viewHolder.mNameTv.setText(peopleNearby.getUserNickName());
+
+        if (mSexFilter) {
+            // 开启性别筛选,不显示每个item的性别
+            viewHolder.mSexIv.setVisibility(View.GONE);
+        } else {
+            // 关闭性别筛选，显示每个item的性别
+            viewHolder.mSexIv.setVisibility(View.VISIBLE);
+            if (Constant.USER_SEX_MALE.equals(peopleNearby.getUserSex())) {
+                viewHolder.mSexIv.setImageResource(R.mipmap.icon_sex_male);
+            } else if (Constant.USER_SEX_FEMALE.equals(peopleNearby.getUserSex())) {
+                viewHolder.mSexIv.setImageResource(R.mipmap.icon_sex_female);
+            } else {
+                viewHolder.mSexIv.setVisibility(View.GONE);
+            }
+        }
+
         if (TextUtils.isEmpty(peopleNearby.getUserSign())) {
             viewHolder.mWhatsupTv.setVisibility(View.GONE);
         } else {
@@ -85,11 +105,17 @@ public class PeopleNearbyAdapter extends ArrayAdapter<PeopleNearby> {
         this.mPeopleNearbyList = peopleNearbyList;
     }
 
+    public void setSexFilter(boolean sexFilter) {
+        this.mSexFilter = sexFilter;
+    }
+
     class ViewHolder {
         // 头像
         SimpleDraweeView mAvatarSdv;
         // 姓名
         TextView mNameTv;
+        // 性别
+        ImageView mSexIv;
         // 签名
         TextView mWhatsupTv;
         // 距离信息

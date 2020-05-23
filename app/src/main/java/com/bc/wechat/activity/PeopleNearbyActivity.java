@@ -366,10 +366,13 @@ public class PeopleNearbyActivity extends FragmentActivity {
      */
     private void getPeopleNearbyList(String userId, final String userSex) {
         String url;
+        final boolean sexFilter;
         if (TextUtils.isEmpty(userSex)) {
             url = Constant.BASE_URL + "peopleNearby?userId=" + userId;
+            sexFilter = false;
         } else {
             url = Constant.BASE_URL + "peopleNearby?userId=" + userId + "&userSex=" + userSex;
+            sexFilter = true;
         }
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
@@ -377,6 +380,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
                 mDialog.dismiss();
                 mPeopleNearbyList = JSON.parseArray(response, PeopleNearby.class);
                 mPeopleNearbyAdapter.setData(mPeopleNearbyList);
+                mPeopleNearbyAdapter.setSexFilter(sexFilter);
                 mPeopleNearbyAdapter.notifyDataSetChanged();
 
                 if (TextUtils.isEmpty(userSex)) {
