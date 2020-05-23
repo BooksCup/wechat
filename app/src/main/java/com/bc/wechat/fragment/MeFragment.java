@@ -37,7 +37,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflater.inflate(R.layout.fragment_me, container, false);
     }
 
     @Override
@@ -50,11 +50,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        mMyInfoRl = getView().findViewById(R.id.rl_myinfo);
-        mSettingRl = getView().findViewById(R.id.rl_setting);
+        mMyInfoRl = getView().findViewById(R.id.rl_me);
+        mSettingRl = getView().findViewById(R.id.rl_settings);
         mAvatarSdv = getView().findViewById(R.id.sdv_avatar);
         mNickNameTv = getView().findViewById(R.id.tv_name);
-        mWxIdTv = getView().findViewById(R.id.tv_wxid);
+        mWxIdTv = getView().findViewById(R.id.tv_wx_id);
 
         mMyInfoRl.setOnClickListener(this);
         mSettingRl.setOnClickListener(this);
@@ -74,11 +74,11 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             // 个人页面
-            case R.id.rl_myinfo:
+            case R.id.rl_me:
                 startActivity(new Intent(getActivity(), MyUserInfoActivity.class));
                 break;
             // 设置页面
-            case R.id.rl_setting:
+            case R.id.rl_settings:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             // 头像点击放大

@@ -81,11 +81,12 @@
     <string name="connect_conflict">同一帐号已在其他设备登录</string>
     <string name="em_user_remove">此用户已被移除</string>
 
-    <string name="album">相册</string>
-    <string name="collect">收藏</string>
-    <string name="wallet">钱包</string>
-    <string name="card_holder">卡包</string>
-    <string name="setting">设置</string>
+    <string name="wechat_pay">支付</string>
+    <string name="my_posts">相册</string>
+    <string name="favorites">收藏</string>
+    <string name="sticker_gallery">表情</string>
+    <string name="cards_offers">卡包</string>
+    <string name="settings">设置</string>
     <string name="go_setting">去设置</string>
     <string name="switch_notification">接收新消息通知</string>
     <string name="switch_sound">声音</string>

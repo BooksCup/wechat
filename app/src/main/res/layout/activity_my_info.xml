@@ -201,7 +201,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="35dp"
-            android:src="@mipmap/qr_code" />
+            android:src="@mipmap/icon_qr_code" />
 
         <ImageView
             android:layout_width="24dp"

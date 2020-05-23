@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_myinfo"
+        android:id="@+id/rl_me"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
@@ -51,7 +51,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_wxid"
+            android:id="@+id/tv_wx_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -68,13 +68,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="32dp"
-            android:src="@mipmap/qr_code"
-
-            />
+            android:src="@mipmap/icon_qr_code" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_album"
+        android:id="@+id/rl_wechat_pay"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -82,21 +80,50 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_album"
+            android:id="@+id/iv_wechat_pay"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/album" />
+            android:src="@mipmap/icon_me_wechat_pay" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_album"
-            android:text="@string/album"
+            android:layout_toRightOf="@id/iv_wechat_pay"
+            android:text="@string/wechat_pay"
+            android:textColor="#353535"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
+        android:paddingLeft="12dp">
+
+        <ImageView
+            android:id="@+id/iv_favorites"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/icon_me_favorites" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_favorites"
+            android:text="@string/favorites"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -109,7 +136,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_collect"
+        android:id="@+id/rl_my_posts"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -117,50 +144,21 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_collect"
+            android:id="@+id/iv_my_posts"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/collect" />
+            android:src="@mipmap/icon_me_my_posts" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_collect"
-            android:text="@string/collect"
-            android:textColor="#353535"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_wallet"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_list_item_bg"
-        android:clickable="true"
-        android:paddingLeft="12dp">
-
-        <ImageView
-            android:id="@+id/iv_wallet"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:src="@mipmap/wallet" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_wallet"
-            android:text="@string/wallet"
+            android:layout_toRightOf="@id/iv_my_posts"
+            android:text="@string/my_posts"
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -173,7 +171,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_card_holder"
+        android:id="@+id/rl_cards_offers"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
@@ -181,50 +179,92 @@
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_card_holder"
+            android:id="@+id/iv_cards_offers"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/card_holder" />
+            android:src="@mipmap/icon_me_cards_offers" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_card_holder"
-            android:text="@string/card_holder"
+            android:layout_toRightOf="@id/iv_cards_offers"
+            android:text="@string/cards_offers"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="12dp"
+            android:background="#dadada" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_setting"
+        android:id="@+id/rl_sticker_gallery"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="12dp">
 
         <ImageView
-            android:id="@+id/iv_setting"
+            android:id="@+id/iv_sticker_gallery"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/setting" />
+            android:src="@mipmap/icon_me_sticker_gallery" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_setting"
-            android:text="@string/setting"
+            android:layout_toRightOf="@id/iv_sticker_gallery"
+            android:text="@string/sticker_gallery"
+            android:textColor="#353535"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="12dp"
+            android:background="#dadada" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_settings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
+        android:paddingLeft="12dp">
+
+        <ImageView
+            android:id="@+id/iv_settings"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/icon_me_settings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_settings"
+            android:text="@string/settings"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>
