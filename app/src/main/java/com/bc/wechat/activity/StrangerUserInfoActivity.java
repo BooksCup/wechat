@@ -24,7 +24,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 
 /**
- * 路人用户详情页
+ * 陌生人用户详情页
  *
  * @author zhou
  */
@@ -47,7 +47,8 @@ public class StrangerUserInfoActivity extends BaseActivity {
     private UserDao mUserDao;
     private VolleyUtil mVolleyUtil;
     private User mUser;
-    private String userId;
+    private String mUserId;
+    private String mSource;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,11 +75,12 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mNickNameLl = findViewById(R.id.ll_nick_name);
         mOperateRl = findViewById(R.id.rl_operate);
 
-        userId = getIntent().getStringExtra("userId");
-        final User user = mUserDao.getUserById(userId);
+        mUserId = getIntent().getStringExtra("userId");
+        mSource = getIntent().getStringExtra("source");
+        final User user = mUserDao.getUserById(mUserId);
         loadData(user);
 
-        getFriendFromServer(mUser.getUserId(), userId);
+        getFriendFromServer(mUser.getUserId(), mUserId);
 
         mAvatarSdv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +95,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
-                intent.putExtra("userId", userId);
+                intent.putExtra("userId", mUserId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
             }
@@ -103,7 +105,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
-                intent.putExtra("userId", userId);
+                intent.putExtra("userId", mUserId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
             }
@@ -113,7 +115,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StrangerUserInfoActivity.this, NewFriendsApplyConfirmActivity.class);
-                intent.putExtra("friendId", userId);
+                intent.putExtra("friendId", mUserId);
                 startActivity(intent);
             }
         });
@@ -143,10 +145,12 @@ public class StrangerUserInfoActivity extends BaseActivity {
             mSignTv.setText(user.getUserSign());
         }
 
-        if (Constant.FRIENDS_SOURCE_BY_PHONE.equals(user.getFriendSource())) {
+        if (Constant.FRIENDS_SOURCE_BY_PHONE.equals(mSource)) {
             mSourceTv.setText(getString(R.string.search_friend_by_phone));
-        } else if (Constant.FRIENDS_SOURCE_BY_WX_ID.equals(user.getFriendSource())) {
+        } else if (Constant.FRIENDS_SOURCE_BY_WX_ID.equals(mSource)) {
             mSourceTv.setText(getString(R.string.search_friend_by_wx_id));
+        } else if (Constant.FRIENDS_SOURCE_BY_PEOPLE_NEARBY.equals(mSource)) {
+            mSourceTv.setText(getString(R.string.search_friend_by_people_nearby));
         }
 
         // 描述
@@ -194,8 +198,8 @@ public class StrangerUserInfoActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        User user = mUserDao.getUserById(userId);
+        User user = mUserDao.getUserById(mUserId);
         loadData(user);
-        getFriendFromServer(mUser.getUserId(), userId);
+        getFriendFromServer(mUser.getUserId(), mUserId);
     }
 }

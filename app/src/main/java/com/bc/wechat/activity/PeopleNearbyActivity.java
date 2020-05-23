@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,6 +34,7 @@ import com.baidu.location.LocationClientOption;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PeopleNearbyAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.ContactsDao;
 import com.bc.wechat.entity.PeopleNearby;
 import com.bc.wechat.entity.PositionInfo;
 import com.bc.wechat.entity.User;
@@ -62,6 +65,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
     private List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
     private VolleyUtil mVolleyUtil;
     private User mUser;
+    private ContactsDao mContactsDao;
     LoadingDialog mDialog;
     // 即使设置只定位1次也会频繁定位，待定位问题
     private boolean mLocateFlag = false;
@@ -76,6 +80,7 @@ public class PeopleNearbyActivity extends FragmentActivity {
         initView();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
+        mContactsDao = new ContactsDao();
 
         mDialog = new LoadingDialog(PeopleNearbyActivity.this);
         mDialog.setMessage(getString(R.string.loading_location));
@@ -261,6 +266,23 @@ public class PeopleNearbyActivity extends FragmentActivity {
         mPeopleNearbyAdapter = new PeopleNearbyAdapter(PeopleNearbyActivity.this,
                 R.layout.item_people_nearby, mPeopleNearbyList);
         mPeopleNearbyLv.setAdapter(mPeopleNearbyAdapter);
+        mPeopleNearbyLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PeopleNearby peopleNearby = mPeopleNearbyList.get(position);
+                Intent intent;
+                boolean isFriend = mContactsDao.checkIsFriend(peopleNearby.getUserId());
+                if (isFriend) {
+                    intent = new Intent(PeopleNearbyActivity.this, UserInfoActivity.class);
+                } else {
+                    intent = new Intent(PeopleNearbyActivity.this, StrangerUserInfoActivity.class);
+                    intent.putExtra("source", Constant.FRIENDS_SOURCE_BY_PEOPLE_NEARBY);
+                }
+                // 判断是否为好友
+                intent.putExtra("userId", peopleNearby.getUserId());
+                startActivity(intent);
+            }
+        });
     }
 
     public void back(View view) {

@@ -235,7 +235,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_sign_temp"
                 android:paddingLeft="10dp"
-                android:text="有我的地方就有微笑"
+                android:text=""
                 android:textSize="16sp" />
 
             <View
@@ -270,7 +270,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_source_temp"
                 android:paddingLeft="10dp"
-                android:text="来自手机号搜索"
+                android:text=""
                 android:textSize="16sp" />
 
             <View

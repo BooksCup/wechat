@@ -106,7 +106,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         finish();
     }
 
-    private void searchUser(String keyword) {
+    private void searchUser(final String keyword) {
         String userId = mUser.getUserId();
         final String url = Constant.BASE_URL + "users/searchForAddFriends?keyword=" + keyword + "&userId=" + userId;
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
@@ -122,9 +122,16 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
                     intent.putExtra("userId", user.getUserId());
                     startActivity(intent);
                 } else {
+                    String source = "";
+                    if (user.getUserPhone().equals(keyword)) {
+                        source = Constant.FRIENDS_SOURCE_BY_PHONE;
+                    } else if (user.getUserWxId().equals(keyword)) {
+                        source = Constant.FRIENDS_SOURCE_BY_WX_ID;
+                    }
                     // 陌生人，进入陌生人详情页
                     Intent intent = new Intent(AddFriendsBySearchActivity.this, StrangerUserInfoActivity.class);
                     intent.putExtra("userId", user.getUserId());
+                    intent.putExtra("source", source);
                     startActivity(intent);
                 }
                 mDialog.dismiss();
