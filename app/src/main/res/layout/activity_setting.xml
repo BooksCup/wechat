@@ -58,13 +58,13 @@
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/account_security"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -74,6 +74,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
@@ -84,13 +85,13 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/notifications"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -100,13 +101,17 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="#dadada" />
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#dadada" />
 
                 <RelativeLayout
                     android:id="@+id/rl_do_not_disturb"
@@ -114,13 +119,13 @@
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/do_not_disturb"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -130,13 +135,16 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#dadada" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="#dadada" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_chats"
@@ -144,13 +152,13 @@
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/chats"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -160,13 +168,16 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#dadada" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="#dadada" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_privacy"
@@ -174,13 +185,13 @@
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/privacy"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -190,13 +201,16 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#dadada" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="#dadada" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_general"
@@ -204,13 +218,13 @@
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/general"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -220,6 +234,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
@@ -230,13 +245,13 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/about"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -246,13 +261,16 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:background="#dadada" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="12dp"
+                        android:background="#dadada" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_help_feedback"
@@ -260,13 +278,13 @@
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/help_feedback"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -276,6 +294,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
@@ -286,13 +305,13 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
-                    android:padding="10dip">
+                    android:paddingLeft="12dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/wechat_services"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -302,6 +321,7 @@
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
@@ -311,15 +331,13 @@
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btn_list_item_bg"
-                    android:clickable="true"
-                    android:padding="10dip">
+                    android:clickable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
                         android:text="@string/switch_account"
                         android:textColor="#353535"
                         android:textSize="16sp" />
@@ -331,15 +349,13 @@
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btn_list_item_bg"
-                    android:clickable="true"
-                    android:padding="10dip">
+                    android:clickable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:paddingLeft="10dip"
                         android:text="@string/log_out"
                         android:textColor="#353535"
                         android:textSize="16sp" />
