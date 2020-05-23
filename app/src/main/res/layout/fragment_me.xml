@@ -67,8 +67,16 @@
             android:layout_height="18dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="32dp"
+            android:layout_marginRight="52dp"
             android:src="@mipmap/icon_qr_code" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -97,6 +105,14 @@
             android:text="@string/wechat_pay"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -127,11 +143,19 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="56dp"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -162,11 +186,19 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="56dp"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -197,11 +229,19 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="56dp"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -232,12 +272,13 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -267,5 +308,13 @@
             android:text="@string/settings"
             android:textColor="#353535"
             android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 </LinearLayout>
