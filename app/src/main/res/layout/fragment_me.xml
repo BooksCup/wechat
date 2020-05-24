@@ -10,7 +10,6 @@
         android:id="@+id/rl_me"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="18dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
