@@ -9,7 +9,6 @@
         android:id="@+id/rl_moments"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="12dp">
@@ -21,7 +20,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_moments" />
+            android:src="@mipmap/icon_discover_moments" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
         android:id="@+id/rl_scan"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="12dp">
@@ -58,7 +57,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_scan" />
+            android:src="@mipmap/icon_discover_scan" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="56dp"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -101,7 +100,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_shake" />
+            android:src="@mipmap/icon_discover_shake" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,10 +122,90 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_top_stories"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
+        android:paddingLeft="12dp">
+
+        <ImageView
+            android:id="@+id/iv_top_stories"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/icon_discover_top_stories" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_top_stories"
+            android:text="@string/discover_top_stories"
+            android:textColor="#353535"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="56dp"
+            android:background="#dadada" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
+        android:paddingLeft="12dp">
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/icon_discover_search" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_search"
+            android:text="@string/discover_search"
+            android:textColor="#353535"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_people_nearby"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="12dp">
@@ -138,7 +217,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_people_nearby" />
+            android:src="@mipmap/icon_discover_people_nearby" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -168,56 +247,13 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:src="@mipmap/icon_right_arrow" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_drift_bottle"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
-        android:clickable="true"
-        android:paddingLeft="12dp">
-
-        <ImageView
-            android:id="@+id/iv_drift_bottle"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_drift_bottle" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_drift_bottle"
-            android:text="@string/drift_bottle"
-            android:textColor="#353535"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_shopping"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="12dp">
@@ -229,7 +265,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_shopping" />
+            android:src="@mipmap/icon_discover_shopping" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -253,7 +289,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginLeft="56dp"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -272,7 +308,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_find_game" />
+            android:src="@mipmap/icon_discover_games" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -293,4 +329,40 @@
             android:src="@mipmap/icon_right_arrow" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_mini_programs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_list_item_bg"
+        android:clickable="true"
+        android:paddingLeft="12dp">
+
+        <ImageView
+            android:id="@+id/iv_mini_programs"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@mipmap/icon_discover_mini_programs" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/iv_mini_programs"
+            android:text="@string/mini_programs"
+            android:textColor="#353535"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:src="@mipmap/icon_right_arrow" />
+    </RelativeLayout>
 </LinearLayout>
