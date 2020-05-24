@@ -172,4 +172,16 @@
     <string name="loading_location">正在确定你的位置</string>
     <string name="clearing">正在清除...</string>
     <string name="clear_location_error_toast">清除地理位置失败，请稍候再试。</string>
+
+    <string name="account_security">账号与安全</string>
+    <string name="notifications">新消息提醒</string>
+    <string name="do_not_disturb">勿扰模式</string>
+    <string name="chats">聊天</string>
+    <string name="privacy">隐私</string>
+    <string name="general">通用</string>
+    <string name="about">关于微信</string>
+    <string name="help_feedback">帮助与反馈</string>
+    <string name="wechat_services">插件</string>
+    <string name="switch_account">切换账号</string>
+    <string name="log_out">退出</string>
 </resources>

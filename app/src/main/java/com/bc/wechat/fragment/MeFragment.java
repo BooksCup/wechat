@@ -26,7 +26,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
  * tab - "我"
  */
 public class MeFragment extends Fragment implements View.OnClickListener {
-
     private RelativeLayout mMyInfoRl;
     private RelativeLayout mSettingRl;
     private SimpleDraweeView mAvatarSdv;

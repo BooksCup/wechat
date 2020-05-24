@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@id/rl_avatar"
-            android:text="发放"
+            android:text=""
             android:textColor="#353535"
             android:textSize="16sp" />
 
@@ -59,7 +59,7 @@
             android:maxWidth="100dp"
             android:maxLines="2"
             android:padding="3dp"
-            android:text="412341234"
+            android:text=""
             android:textColor="#AAAAAA"
             android:textSize="11sp" />
 

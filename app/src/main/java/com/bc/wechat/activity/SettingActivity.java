@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendsCircle;
@@ -13,7 +13,10 @@ import com.bc.wechat.utils.PreferencesUtil;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
-    private Button mLogoutBtn;
+    /**
+     * 退出
+     */
+    private RelativeLayout mLogOutRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,9 +27,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
-        mLogoutBtn = findViewById(R.id.btn_logout);
+        mLogOutRl = findViewById(R.id.rl_log_out);
 
-        mLogoutBtn.setOnClickListener(this);
+        mLogOutRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -36,7 +39,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_logout:
+            case R.id.rl_log_out:
                 // 清除sharedpreferences中存储信息
                 PreferencesUtil.getInstance().setLogin(false);
                 PreferencesUtil.getInstance().setUser(null);

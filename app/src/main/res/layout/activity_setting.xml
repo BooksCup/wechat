@@ -53,10 +53,9 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/rl_switch_notification"
+                    android:id="@+id/rl_account_security"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="20dp"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
                     android:padding="10dip">
@@ -66,27 +65,42 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="@string/switch_notification"
+                        android:text="@string/account_security"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_open_notification"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
-                        android:visibility="visible" />
+                        android:src="@mipmap/icon_right_arrow" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/notifications"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_close_notification"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
-                        android:visibility="invisible" />
+                        android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
                 <View
@@ -95,7 +109,7 @@
                     android:background="#dadada" />
 
                 <RelativeLayout
-                    android:id="@+id/rl_switch_sound"
+                    android:id="@+id/rl_do_not_disturb"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
@@ -107,27 +121,16 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="@string/switch_sound"
+                        android:text="@string/do_not_disturb"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_open_sound"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
-                        android:visibility="visible" />
-
-                    <ImageView
-                        android:id="@+id/iv_switch_close_sound"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
-                        android:visibility="invisible" />
+                        android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
                 <View
@@ -136,7 +139,7 @@
                     android:background="#dadada" />
 
                 <RelativeLayout
-                    android:id="@+id/rl_switch_vibrate"
+                    android:id="@+id/rl_chats"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:background="@drawable/btn_list_item_bg"
@@ -148,34 +151,83 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="@string/switch_vibrate"
+                        android:text="@string/chats"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_open_vibrate"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
-                        android:visibility="visible" />
+                        android:src="@mipmap/icon_right_arrow" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#dadada" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/privacy"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_close_vibrate"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
-                        android:visibility="invisible" />
+                        android:src="@mipmap/icon_right_arrow" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#dadada" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_general"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/general"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_right_arrow" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rl_switch_speaker"
+                    android:id="@+id/rl_about"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
                     android:padding="10dip">
@@ -185,41 +237,114 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dip"
-                        android:text="@string/switch_speaker"
+                        android:text="@string/about"
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_open_speaker"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
-                        android:visibility="visible" />
+                        android:src="@mipmap/icon_right_arrow" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#dadada" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_help_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/help_feedback"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
 
                     <ImageView
-                        android:id="@+id/iv_switch_close_speaker"
-                        android:layout_width="42dp"
-                        android:layout_height="22dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
-                        android:visibility="invisible" />
+                        android:src="@mipmap/icon_right_arrow" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_wechat_services"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/wechat_services"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_right_arrow" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_switch_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/switch_account"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_log_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btn_list_item_bg"
+                    android:clickable="true"
+                    android:padding="10dip">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="10dip"
+                        android:text="@string/log_out"
+                        android:textColor="#353535"
+                        android:textSize="16sp" />
                 </RelativeLayout>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/btn_list_item_bg"
-                android:gravity="center_vertical|left"
-                android:paddingLeft="20dip"
-                android:text="@string/button_logout"
-                android:textColor="#353535"
-                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 
