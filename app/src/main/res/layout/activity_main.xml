@@ -3,23 +3,25 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff" >
+    android:background="#ffffff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:layout_alignParentTop="true"
-        android:background="@color/common_top_bar_blue" >
+        android:background="#dadada">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:text="微信"
-            android:textColor="#ffffff"
+            android:textColor="@color/common_top_bar_blue"
             android:textSize="18sp" />
 
         <ImageView
@@ -46,7 +48,7 @@
         android:layout_alignParentBottom="true"
         android:background="#ffffff"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/rl_chats"
@@ -54,7 +56,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_chats"
@@ -96,7 +98,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_contacts"
@@ -138,7 +140,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_discover"
@@ -168,7 +170,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="onTabClicked"
-            android:padding="3dp" >
+            android:padding="3dp">
 
             <ImageView
                 android:id="@+id/iv_me"

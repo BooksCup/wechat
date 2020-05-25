@@ -1,9 +1,12 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.Window;
 
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
@@ -87,6 +90,15 @@ public class BaseActivity extends FragmentActivity {
         List<Message> offlineMessageList = event.getOfflineMessageList();
         for (Message message : offlineMessageList) {
             mMessageDao.saveMessageByImMessage(message, mUser.getUserId());
+        }
+    }
+
+    protected void initStatusBar() {
+        Window win = getWindow();
+        // KITKAT也能满足，只是SYSTEM_UI_FLAG_LIGHT_STATUS_BAR（状态栏字体颜色反转）只有在6.0才有效
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 状态栏字体设置为深色，SYSTEM_UI_FLAG_LIGHT_STATUS_BAR 为SDK23增加
+            win.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
 }

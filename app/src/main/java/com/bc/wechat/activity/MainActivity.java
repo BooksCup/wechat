@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initStatusBar();
         initView();
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
@@ -484,7 +485,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean hasAllGranted = true;
         // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
@@ -507,7 +509,8 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void handleRejectPermission(final Activity context, String permission, int requestCode) {
+    public void handleRejectPermission(final Activity context, String permission,
+                                       int requestCode) {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
             String content = "";
             // 非初次进入App且已授权
