@@ -19,7 +19,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_moments" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_scan" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="@dimen/discover_divider_margin_left"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -99,7 +99,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_shake" />
 
         <TextView
@@ -136,7 +136,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_top_stories" />
 
         <TextView
@@ -161,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="@dimen/discover_divider_margin_left"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -179,7 +179,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_search" />
 
         <TextView
@@ -216,7 +216,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_people_nearby" />
 
         <TextView
@@ -264,7 +264,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_shopping" />
 
         <TextView
@@ -289,7 +289,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="@dimen/discover_divider_margin_left"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -307,7 +307,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_games" />
 
         <TextView
@@ -344,7 +344,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/discover_icon_margin_left"
             android:src="@mipmap/icon_discover_mini_programs" />
 
         <TextView
