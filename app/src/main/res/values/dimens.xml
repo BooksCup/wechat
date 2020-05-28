@@ -18,4 +18,7 @@
 
     <dimen name="discover_icon_margin_left">8dp</dimen>
     <dimen name="discover_divider_margin_left">52dp</dimen>
+
+    <dimen name="me_icon_margin_left">8dp</dimen>
+    <dimen name="me_divider_margin_left">52dp</dimen>
 </resources>

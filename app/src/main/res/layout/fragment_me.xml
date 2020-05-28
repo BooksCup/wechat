@@ -92,7 +92,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/me_icon_margin_left"
             android:src="@mipmap/icon_me_wechat_pay" />
 
         <TextView
@@ -129,7 +129,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/me_icon_margin_left"
             android:src="@mipmap/icon_me_favorites" />
 
         <TextView
@@ -154,7 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="@dimen/me_divider_margin_left"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -172,7 +172,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/me_icon_margin_left"
             android:src="@mipmap/icon_me_my_posts" />
 
         <TextView
@@ -197,7 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="@dimen/me_divider_margin_left"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -215,7 +215,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/me_icon_margin_left"
             android:src="@mipmap/icon_me_cards_offers" />
 
         <TextView
@@ -240,7 +240,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="56dp"
+            android:layout_marginLeft="@dimen/me_divider_margin_left"
             android:background="#dadada" />
     </RelativeLayout>
 
@@ -258,7 +258,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/me_icon_margin_left"
             android:src="@mipmap/icon_me_sticker_gallery" />
 
         <TextView
@@ -295,7 +295,7 @@
             android:layout_height="24dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="@dimen/me_icon_margin_left"
             android:src="@mipmap/icon_me_settings" />
 
         <TextView
