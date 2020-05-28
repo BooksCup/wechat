@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,6 +137,9 @@ public class MainActivity extends BaseActivity {
 
         mTitleRl = findViewById(R.id.rl_title);
         mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mAddIv = findViewById(R.id.iv_add);
 
         getSupportFragmentManager().beginTransaction()
@@ -206,7 +210,7 @@ public class MainActivity extends BaseActivity {
         mMainButtonIvs[mCurrentTabIndex].setSelected(false);
         // 把当前tab设为选中状态
         mMainButtonIvs[mIndex].setSelected(true);
-        mMainButtonTvs[mCurrentTabIndex].setTextColor(0xFF999999);
+        mMainButtonTvs[mCurrentTabIndex].setTextColor(getColor(R.color.black_deep));
         mMainButtonTvs[mIndex].setTextColor(0xFF45C01A);
         mCurrentTabIndex = mIndex;
     }
