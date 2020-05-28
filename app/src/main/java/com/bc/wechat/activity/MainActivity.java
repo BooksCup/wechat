@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity {
     private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
 
+    private TextView mTitleTv;
     private ImageView mAddIv;
 
     User mUser;
@@ -131,6 +132,7 @@ public class MainActivity extends BaseActivity {
         mMainButtonTvs[3] = findViewById(R.id.tv_me);
         mMainButtonTvs[0].setTextColor(0xFF45C01A);
 
+        mTitleTv = findViewById(R.id.tv_title);
         mAddIv = findViewById(R.id.iv_add);
 
         getSupportFragmentManager().beginTransaction()
@@ -165,15 +167,19 @@ public class MainActivity extends BaseActivity {
                 // 主动加载一次会话
                 mChatsFragment.refreshConversationList();
                 mIndex = 0;
+                mTitleTv.setText("微信");
                 break;
             case R.id.rl_contacts:
                 mIndex = 1;
+                mTitleTv.setText("通讯录");
                 break;
             case R.id.rl_discover:
                 mIndex = 2;
+                mTitleTv.setText("发现");
                 break;
             case R.id.rl_me:
                 mIndex = 3;
+                mTitleTv.setText("我");
                 break;
         }
 
