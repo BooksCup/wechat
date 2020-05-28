@@ -167,19 +167,19 @@ public class MainActivity extends BaseActivity {
                 // 主动加载一次会话
                 mChatsFragment.refreshConversationList();
                 mIndex = 0;
-                mTitleTv.setText("微信");
+                mTitleTv.setText(getString(R.string.tab_chats));
                 break;
             case R.id.rl_contacts:
                 mIndex = 1;
-                mTitleTv.setText("通讯录");
+                mTitleTv.setText(getString(R.string.tab_contacts));
                 break;
             case R.id.rl_discover:
                 mIndex = 2;
-                mTitleTv.setText("发现");
+                mTitleTv.setText(getString(R.string.tab_discover));
                 break;
             case R.id.rl_me:
                 mIndex = 3;
-                mTitleTv.setText("我");
+                mTitleTv.setText(getString(R.string.tab_me));
                 break;
         }
 

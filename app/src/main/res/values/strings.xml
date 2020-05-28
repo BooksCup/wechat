@@ -1,5 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">微信</string>
+
+    <string name="tab_chats">微信</string>
+    <string name="tab_contacts">通讯录</string>
+    <string name="tab_discover">发现</string>
+    <string name="tab_me">我</string>
+
     <string name="login_by_phone">使用手机号登录</string>
     <string name="country_and_area">国家和地区</string>
     <string name="country_china">中国</string>

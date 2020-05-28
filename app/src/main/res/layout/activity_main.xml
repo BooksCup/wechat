@@ -67,7 +67,7 @@
                 android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/tab_weixin" />
+                android:src="@drawable/bg_tab_chats" />
 
             <TextView
                 android:id="@+id/tv_chats"
@@ -76,7 +76,7 @@
                 android:layout_below="@id/iv_chats"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
-                android:text="微信"
+                android:text="@string/tab_chats"
                 android:textColor="#9A9A9A"
                 android:textSize="12sp" />
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="14dp"
-                android:background="@mipmap/unread_count_bg"
+                android:background="@mipmap/bg_unread_count"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="@android:color/white"
@@ -109,7 +109,7 @@
                 android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/tab_contact_list" />
+                android:src="@drawable/bg_tab_contacts" />
 
             <TextView
                 android:id="@+id/tv_contacts"
@@ -118,7 +118,7 @@
                 android:layout_below="@id/iv_contacts"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
-                android:text="通讯录"
+                android:text="@string/tab_contacts"
                 android:textColor="#9A9A9A"
                 android:textSize="12sp" />
 
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="14dp"
-                android:background="@mipmap/unread_count_bg"
+                android:background="@mipmap/bg_unread_count"
                 android:gravity="center"
                 android:text="0"
                 android:textColor="@android:color/white"
@@ -151,7 +151,7 @@
                 android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/tab_find" />
+                android:src="@drawable/bg_tab_discover" />
 
             <TextView
                 android:id="@+id/tv_discover"
@@ -160,7 +160,7 @@
                 android:layout_below="@id/iv_discover"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
-                android:text="发现"
+                android:text="@string/tab_discover"
                 android:textColor="#9A9A9A"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -181,7 +181,7 @@
                 android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/tab_profile" />
+                android:src="@drawable/bg_tab_me" />
 
             <TextView
                 android:id="@+id/tv_me"
@@ -190,7 +190,7 @@
                 android:layout_below="@id/iv_me"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
-                android:text="我"
+                android:text="@string/tab_me"
                 android:textColor="#9A9A9A"
                 android:textSize="12sp" />
         </RelativeLayout>
