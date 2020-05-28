@@ -23,11 +23,11 @@
             android:layout_marginLeft="15dp"
             android:text="微信"
             android:textColor="@color/common_top_bar_blue"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_add"
-            android:layout_width="56dp"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:clickable="true"
@@ -35,7 +35,7 @@
 
         <ImageView
             android:id="@+id/iv_search"
-            android:layout_width="56dp"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/iv_add"
             android:clickable="true"
@@ -45,7 +45,7 @@
     <LinearLayout
         android:id="@+id/ll_main_button"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#ffffff"
         android:gravity="center_vertical"
@@ -61,8 +61,8 @@
 
             <ImageView
                 android:id="@+id/iv_chats"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
                 android:background="#ffffff"
                 android:focusable="false"
@@ -75,10 +75,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_chats"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/tab_chats"
                 android:textColor="#9A9A9A"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/unread_msg_number"
@@ -103,8 +103,8 @@
 
             <ImageView
                 android:id="@+id/iv_contacts"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
                 android:background="#ffffff"
                 android:focusable="false"
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_contacts"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/tab_contacts"
                 android:textColor="#9A9A9A"
                 android:textSize="12sp" />
@@ -132,7 +132,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -145,8 +145,8 @@
 
             <ImageView
                 android:id="@+id/iv_discover"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
                 android:background="#ffffff"
                 android:focusable="false"
@@ -159,10 +159,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_discover"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/tab_discover"
                 android:textColor="#9A9A9A"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -175,8 +175,8 @@
 
             <ImageView
                 android:id="@+id/iv_me"
-                android:layout_width="wrap_content"
-                android:layout_height="28dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
                 android:background="#ffffff"
                 android:focusable="false"
@@ -189,10 +189,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_me"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/tab_me"
                 android:textColor="#9A9A9A"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </RelativeLayout>
     </LinearLayout>
 
