@@ -40,6 +40,7 @@ import com.bc.wechat.fragment.MeFragment;
 import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.google.zxing.client.android.CaptureActivity2;
@@ -84,6 +85,7 @@ public class MainActivity extends BaseActivity {
     private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
 
+    private RelativeLayout mTitleRl;
     private TextView mTitleTv;
     private ImageView mAddIv;
 
@@ -132,6 +134,7 @@ public class MainActivity extends BaseActivity {
         mMainButtonTvs[3] = findViewById(R.id.tv_me);
         mMainButtonTvs[0].setTextColor(0xFF45C01A);
 
+        mTitleRl = findViewById(R.id.rl_title);
         mTitleTv = findViewById(R.id.tv_title);
         mAddIv = findViewById(R.id.iv_add);
 
@@ -168,18 +171,26 @@ public class MainActivity extends BaseActivity {
                 mChatsFragment.refreshConversationList();
                 mIndex = 0;
                 mTitleTv.setText(getString(R.string.tab_chats));
+                mTitleRl.setVisibility(View.VISIBLE);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.picker_list_divider);
                 break;
             case R.id.rl_contacts:
                 mIndex = 1;
                 mTitleTv.setText(getString(R.string.tab_contacts));
+                mTitleRl.setVisibility(View.VISIBLE);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.picker_list_divider);
                 break;
             case R.id.rl_discover:
                 mIndex = 2;
                 mTitleTv.setText(getString(R.string.tab_discover));
+                mTitleRl.setVisibility(View.VISIBLE);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.picker_list_divider);
                 break;
             case R.id.rl_me:
                 mIndex = 3;
                 mTitleTv.setText(getString(R.string.tab_me));
+                mTitleRl.setVisibility(View.GONE);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.bottom_text_color_normal);
                 break;
         }
 

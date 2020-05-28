@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_me"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="160dp"
         android:layout_marginBottom="18dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
@@ -21,61 +21,52 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
             fresco:placeholderImage="@mipmap/default_user_avatar" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"
             android:layout_marginTop="12dp"
-            android:layout_toRightOf="@id/sdv_avatar"
-            android:orientation="horizontal">
+            android:layout_toRightOf="@id/sdv_avatar">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="张三"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_wx_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信号:"
+                android:textColor="#AAAAAA"
+                android:layout_alignParentBottom="true"
+                android:textSize="14sp" />
 
             <ImageView
-                android:id="@+id/iv_sex"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="8dp"
-                android:src="@mipmap/icon_sex_male"
-                android:visibility="gone" />
-        </LinearLayout>
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="52dp"
+                android:src="@mipmap/icon_qr_code" />
 
-        <TextView
-            android:id="@+id/tv_wx_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toRightOf="@id/sdv_avatar"
-            android:text="微信号:"
-            android:textColor="#AAAAAA"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="52dp"
-            android:src="@mipmap/icon_qr_code" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@mipmap/icon_right_arrow" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentBottom="true"
+                android:src="@mipmap/icon_right_arrow" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
