@@ -3,15 +3,27 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
+/**
+ * 设置
+ *
+ * @author zhou
+ */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
+
+    /**
+     * 标题
+     */
+    private TextView mTitleTv;
 
     /**
      * 退出
@@ -27,6 +39,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
         mLogOutRl = findViewById(R.id.rl_log_out);
 
         mLogOutRl.setOnClickListener(this);

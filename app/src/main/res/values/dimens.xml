@@ -21,4 +21,7 @@
 
     <dimen name="me_icon_margin_left">8dp</dimen>
     <dimen name="me_divider_margin_left">52dp</dimen>
+
+    <dimen name="title_margin_left">8dp</dimen>
+    <dimen name="top_back_width">42dp</dimen>
 </resources>

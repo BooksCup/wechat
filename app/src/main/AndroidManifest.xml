@@ -105,7 +105,8 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.MyUserInfoActivity"
             android:screenOrientation="portrait" />

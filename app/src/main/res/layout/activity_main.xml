@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:layout_alignParentTop="true"
-        android:background="#dadada">
+        android:background="@color/common_top_bar">
 
         <TextView
             android:id="@+id/tv_title"
@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="微信"
-            android:textColor="#353535"
+            android:textColor="@color/common_top_title"
             android:textSize="16sp" />
 
         <ImageView
