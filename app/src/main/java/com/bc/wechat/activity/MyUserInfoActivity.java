@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -50,9 +51,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class MyUserInfoActivity extends FragmentActivity implements View.OnClickListener {
-
-    private static final int WRITE_PERMISSION = 0x01;
+public class MyUserInfoActivity extends BaseActivity implements View.OnClickListener {
     // 头像
     private RelativeLayout mAvatarRl;
     // 昵称
@@ -66,6 +65,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     // 我的地址
     private RelativeLayout mAddressRl;
 
+    private TextView mTitleTv;
 
     private TextView mNickNameTv;
     private TextView mWxIdTv;
@@ -86,6 +86,7 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_info);
+        initStatusBar();
         mVolleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
@@ -94,6 +95,10 @@ public class MyUserInfoActivity extends FragmentActivity implements View.OnClick
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mAvatarRl = findViewById(R.id.rl_avatar);
 
         mNickNameRl = findViewById(R.id.rl_nick_name);
