@@ -120,7 +120,7 @@
                 android:layout_marginTop="2dp"
                 android:text="@string/tab_contacts"
                 android:textColor="#353535"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/unread_address_number"
