@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -31,8 +32,9 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class UpdateWxIdActivity extends FragmentActivity {
-    private EditText mWxIdEt;
+public class EditWeChatIdActivity extends BaseActivity {
+    private TextView mTitleTv;
+    private EditText mWeChatIdEt;
     private TextView mSaveTv;
     private VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
@@ -41,12 +43,13 @@ public class UpdateWxIdActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_wx_id);
+        setContentView(R.layout.activity_edit_wechat_id);
+        initStatusBar();
 
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
-        mDialog = new LoadingDialog(UpdateWxIdActivity.this);
+        mDialog = new LoadingDialog(EditWeChatIdActivity.this);
         initView();
 
         mSaveTv.setOnClickListener(new View.OnClickListener() {
@@ -55,24 +58,28 @@ public class UpdateWxIdActivity extends FragmentActivity {
                 mDialog.setMessage(getString(R.string.saving));
                 mDialog.show();
                 String userId = mUser.getUserId();
-                String userWxId = mWxIdEt.getText().toString();
+                String userWxId = mWeChatIdEt.getText().toString();
                 updateUserWxId(userId, userWxId);
             }
         });
     }
 
     private void initView() {
-        mWxIdEt = findViewById(R.id.et_wx_id);
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
+        mWeChatIdEt = findViewById(R.id.et_wechat_id);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mWxIdEt.setText(mUser.getUserWxId());
+        mWeChatIdEt.setText(mUser.getUserWxId());
         // 光标移至最后
-        CharSequence charSequence = mWxIdEt.getText();
+        CharSequence charSequence = mWeChatIdEt.getText();
         if (charSequence instanceof Spannable) {
             Spannable spanText = (Spannable) charSequence;
             Selection.setSelection(spanText, charSequence.length());
         }
-        mWxIdEt.addTextChangedListener(new TextChange());
+        mWeChatIdEt.addTextChangedListener(new TextChange());
     }
 
     class TextChange implements TextWatcher {
@@ -84,10 +91,10 @@ public class UpdateWxIdActivity extends FragmentActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String newWxId = mWxIdEt.getText().toString();
+            String newWxId = mWeChatIdEt.getText().toString();
             String oldWxId = mUser.getUserWxId() == null ? "" : mUser.getUserWxId();
             // 是否填写
-            boolean isWxIdHasText = mWxIdEt.length() > 0;
+            boolean isWxIdHasText = mWeChatIdEt.length() > 0;
             // 是否修改
             boolean isWxIdChanged = !oldWxId.equals(newWxId);
 
@@ -130,10 +137,10 @@ public class UpdateWxIdActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(UpdateWxIdActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditWeChatIdActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(UpdateWxIdActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditWeChatIdActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

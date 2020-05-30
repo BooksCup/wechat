@@ -196,4 +196,5 @@
     <string name="log_out">退出</string>
 
     <string name="edit_name">更改名字</string>
+    <string name="edit_wechat_id">更改微信号</string>
 </resources>
