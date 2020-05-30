@@ -194,4 +194,6 @@
     <string name="wechat_services">插件</string>
     <string name="switch_account">切换账号</string>
     <string name="log_out">退出</string>
+
+    <string name="edit_name">更改名字</string>
 </resources>

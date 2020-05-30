@@ -42,7 +42,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:background="@drawable/btn_register_bg"
+            android:background="@drawable/bg_save_btn"
             android:gravity="center"
             android:onClick="sendLocation"
             android:text="保存"

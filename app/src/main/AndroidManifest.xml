@@ -108,7 +108,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
-            android:name=".activity.MyUserInfoActivity"
+            android:name=".activity.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
@@ -133,8 +133,9 @@
             android:name=".activity.PickDistrictActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.UpdateNickNameActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.EditNameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.UpdateWxIdActivity"
             android:screenOrientation="portrait" />

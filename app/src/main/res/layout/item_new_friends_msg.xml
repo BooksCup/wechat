@@ -66,7 +66,7 @@
                 android:id="@+id/btn_add"
                 android:layout_width="48dp"
                 android:layout_height="32dp"
-                android:background="@drawable/btn_register_bg"
+                android:background="@drawable/bg_save_btn"
                 android:focusable="false"
                 android:text="接受"
                 android:textColor="#fff"

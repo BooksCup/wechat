@@ -2,10 +2,10 @@ package com.bc.wechat.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -26,29 +26,38 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateNickNameActivity extends FragmentActivity {
+/**
+ * 更改名字
+ *
+ * @author zhou
+ */
+public class EditNameActivity extends BaseActivity {
+    private TextView mTitleTv;
+
     private EditText mNickNameEt;
     private TextView mSaveTv;
-    private VolleyUtil volleyUtil;
-    LoadingDialog dialog;
-    User user;
+    private VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_nick_name);
+        setContentView(R.layout.activity_edit_name);
+        initStatusBar();
+
         PreferencesUtil.getInstance().init(this);
-        user = PreferencesUtil.getInstance().getUser();
-        volleyUtil = VolleyUtil.getInstance(this);
-        dialog = new LoadingDialog(UpdateNickNameActivity.this);
+        mUser = PreferencesUtil.getInstance().getUser();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(EditNameActivity.this);
         initView();
 
         mSaveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.setMessage(getString(R.string.saving));
-                dialog.show();
-                String userId = user.getUserId();
+                mDialog.setMessage(getString(R.string.saving));
+                mDialog.show();
+                String userId = mUser.getUserId();
                 String userNickName = mNickNameEt.getText().toString();
                 updateUserNickName(userId, userNickName);
             }
@@ -56,10 +65,14 @@ public class UpdateNickNameActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mNickNameEt = findViewById(R.id.et_nick);
         mSaveTv = findViewById(R.id.tv_save);
 
-        mNickNameEt.setText(user.getUserNickName());
+        mNickNameEt.setText(mUser.getUserNickName());
         // 光标移至最后
         CharSequence charSequence = mNickNameEt.getText();
         if (charSequence instanceof Spannable) {
@@ -83,7 +96,7 @@ public class UpdateNickNameActivity extends FragmentActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String newNickName = mNickNameEt.getText().toString();
-            String oldNickName = user.getUserNickName();
+            String oldNickName = mUser.getUserNickName();
             // 是否填写
             boolean isNickNameHasText = newNickName.length() > 0;
             // 是否修改
@@ -109,24 +122,24 @@ public class UpdateNickNameActivity extends FragmentActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userNickName", userNickName);
 
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 setResult(RESULT_OK);
-                user.setUserNickName(userNickName);
-                PreferencesUtil.getInstance().setUser(user);
+                mUser.setUserNickName(userNickName);
+                PreferencesUtil.getInstance().setUser(mUser);
                 finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                dialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(UpdateNickNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(UpdateNickNameActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditNameActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
 

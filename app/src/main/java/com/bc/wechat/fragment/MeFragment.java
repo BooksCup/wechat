@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.BigImageActivity;
-import com.bc.wechat.activity.MyUserInfoActivity;
+import com.bc.wechat.activity.MyProfileActivity;
 import com.bc.wechat.activity.SettingActivity;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.OssUtil;
@@ -75,7 +75,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             // 个人页面
             case R.id.rl_me:
-                startActivity(new Intent(getActivity(), MyUserInfoActivity.class));
+                startActivity(new Intent(getActivity(), MyProfileActivity.class));
                 break;
             // 设置页面
             case R.id.rl_settings:

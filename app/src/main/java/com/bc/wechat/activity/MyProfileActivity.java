@@ -14,7 +14,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -51,7 +50,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class MyUserInfoActivity extends BaseActivity implements View.OnClickListener {
+public class MyProfileActivity extends BaseActivity implements View.OnClickListener {
     // 头像
     private RelativeLayout mAvatarRl;
     // 昵称
@@ -148,7 +147,7 @@ public class MyUserInfoActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.rl_nick_name:
                 // 昵称
-                startActivityForResult(new Intent(this, UpdateNickNameActivity.class), UPDATE_USER_NICK_NAME);
+                startActivityForResult(new Intent(this, EditNameActivity.class), UPDATE_USER_NICK_NAME);
                 break;
             case R.id.rl_wx_id:
                 startActivityForResult(new Intent(this, UpdateWxIdActivity.class), UPDATE_USER_WX_ID);
@@ -246,7 +245,7 @@ public class MyUserInfoActivity extends BaseActivity implements View.OnClickList
             public void onClick(View view) {
                 photoDialog.dismiss();
                 String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPermissions(MyUserInfoActivity.this, permissions, UPDATE_AVATAR_BY_TAKE_CAMERA);
+                requestPermissions(MyProfileActivity.this, permissions, UPDATE_AVATAR_BY_TAKE_CAMERA);
             }
         });
 
@@ -256,7 +255,7 @@ public class MyUserInfoActivity extends BaseActivity implements View.OnClickList
             public void onClick(View view) {
                 photoDialog.dismiss();
                 String[] permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
-                requestPermissions(MyUserInfoActivity.this, permissions, UPDATE_AVATAR_BY_ALBUM);
+                requestPermissions(MyProfileActivity.this, permissions, UPDATE_AVATAR_BY_ALBUM);
             }
         });
 
@@ -283,10 +282,10 @@ public class MyUserInfoActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(MyUserInfoActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyProfileActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(MyUserInfoActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyProfileActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -360,7 +359,7 @@ public class MyUserInfoActivity extends BaseActivity implements View.OnClickList
             }
         } else {
             // 拒绝授权做的处理，弹出弹框提示用户授权
-            handleRejectPermission(MyUserInfoActivity.this, permissions[0], requestCode);
+            handleRejectPermission(MyProfileActivity.this, permissions[0], requestCode);
         }
     }
 
@@ -377,7 +376,7 @@ public class MyUserInfoActivity extends BaseActivity implements View.OnClickList
                     break;
             }
 
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(MyUserInfoActivity.this, "权限申请",
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(MyProfileActivity.this, "权限申请",
                     content,
                     "去设置", "取消", getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {

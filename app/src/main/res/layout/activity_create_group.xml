@@ -43,7 +43,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:background="@drawable/btn_register_bg"
+            android:background="@drawable/bg_save_btn"
             android:enabled="false"
             android:gravity="center"
             android:paddingLeft="10dp"
