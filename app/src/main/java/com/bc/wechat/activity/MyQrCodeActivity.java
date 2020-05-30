@@ -13,7 +13,12 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-public class QrCodeActivity extends BaseActivity {
+/**
+ * 二维码名片
+ *
+ * @author zhou
+ */
+public class MyQrCodeActivity extends BaseActivity {
     private SimpleDraweeView mAvatarSdv;
     private TextView mNickNameTv;
     private ImageView mSexIv;
@@ -24,7 +29,9 @@ public class QrCodeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_code);
+        setContentView(R.layout.activity_my_qr_code);
+        initStatusBar();
+
         mUser = PreferencesUtil.getInstance().getUser();
         initView();
     }

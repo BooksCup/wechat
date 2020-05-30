@@ -153,7 +153,7 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(new Intent(this, EditWeChatIdActivity.class), UPDATE_USER_WX_ID);
                 break;
             case R.id.rl_qr_code:
-                startActivity(new Intent(this, QrCodeActivity.class));
+                startActivity(new Intent(this, MyQrCodeActivity.class));
                 break;
             case R.id.rl_more:
                 startActivity(new Intent(this, MyMoreUserInfoActivity.class));

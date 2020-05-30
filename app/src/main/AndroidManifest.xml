@@ -211,8 +211,9 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.QrCodeActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.MyQrCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.ViewPagerImageActivity"

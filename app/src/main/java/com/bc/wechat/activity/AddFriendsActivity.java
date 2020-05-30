@@ -94,7 +94,7 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
                 break;
 
             case R.id.ll_my_info:
-                startActivity(new Intent(this, QrCodeActivity.class));
+                startActivity(new Intent(this, MyQrCodeActivity.class));
                 break;
         }
     }
