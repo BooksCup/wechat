@@ -239,7 +239,8 @@
 
         <activity
             android:name=".activity.PeopleNearbyActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <!-- 自定义的alertdialog -->
         <activity

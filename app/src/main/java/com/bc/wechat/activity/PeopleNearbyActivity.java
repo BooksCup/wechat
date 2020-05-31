@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -52,12 +54,12 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class PeopleNearbyActivity extends FragmentActivity {
-
+public class PeopleNearbyActivity extends BaseActivity {
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
 
     private LinearLayout mRootLl;
+    private TextView mTitleTv;
     private ListView mPeopleNearbyLv;
     private PeopleNearbyAdapter mPeopleNearbyAdapter;
     private ImageView mSexFilterIv;
@@ -78,6 +80,8 @@ public class PeopleNearbyActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_nearby);
+        initStatusBar();
+
         initView();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
@@ -261,6 +265,10 @@ public class PeopleNearbyActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mRootLl = findViewById(R.id.ll_root);
         mSettingIv = findViewById(R.id.iv_setting);
         mSexFilterIv = findViewById(R.id.iv_sex_filter);
