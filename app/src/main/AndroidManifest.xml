@@ -121,10 +121,12 @@
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.AddAddressActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.ModifyAddressActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.PickProvinceActivity"
             android:screenOrientation="portrait" />

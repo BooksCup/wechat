@@ -50,7 +50,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class AddAddressActivity extends FragmentActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class AddAddressActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;
@@ -84,6 +84,8 @@ public class AddAddressActivity extends FragmentActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_modify_address);
+        initStatusBar();
+
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(AddAddressActivity.this);
