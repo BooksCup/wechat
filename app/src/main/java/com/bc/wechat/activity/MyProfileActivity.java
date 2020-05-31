@@ -156,7 +156,7 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(this, MyQrCodeActivity.class));
                 break;
             case R.id.rl_more:
-                startActivity(new Intent(this, MyMoreUserInfoActivity.class));
+                startActivity(new Intent(this, MyMoreProfileActivity.class));
                 break;
             case R.id.rl_address:
                 startActivity(new Intent(this, MyAddressActivity.class));

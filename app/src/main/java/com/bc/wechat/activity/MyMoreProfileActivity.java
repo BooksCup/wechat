@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
@@ -18,7 +20,8 @@ import com.bc.wechat.utils.PreferencesUtil;
  *
  * @author zhou
  */
-public class MyMoreUserInfoActivity extends FragmentActivity implements View.OnClickListener {
+public class MyMoreProfileActivity extends BaseActivity implements View.OnClickListener {
+    private TextView mTitleTv;
 
     private RelativeLayout mSexRl;
     private RelativeLayout mSignRl;
@@ -33,7 +36,8 @@ public class MyMoreUserInfoActivity extends FragmentActivity implements View.OnC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_more_info);
+        setContentView(R.layout.activity_my_more_profile);
+        initStatusBar();
 
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
@@ -41,6 +45,10 @@ public class MyMoreUserInfoActivity extends FragmentActivity implements View.OnC
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mSexRl = findViewById(R.id.rl_sex);
         mSexTv = findViewById(R.id.tv_sex);
 

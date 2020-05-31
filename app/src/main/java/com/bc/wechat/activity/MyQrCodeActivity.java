@@ -29,7 +29,7 @@ public class MyQrCodeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_qr_code);
+        setContentView(R.layout.activity_my_profile);
         initStatusBar();
 
         mUser = PreferencesUtil.getInstance().getUser();
