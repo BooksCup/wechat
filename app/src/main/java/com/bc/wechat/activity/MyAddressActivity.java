@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONArray;
@@ -37,9 +39,16 @@ import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.List;
 
-public class MyAddressActivity extends FragmentActivity {
-
+/**
+ * 我的地址
+ *
+ * @author zhou
+ */
+public class MyAddressActivity extends BaseActivity {
     private LinearLayout mRootLl;
+
+    private TextView mTitleTv;
+
     private ImageView mAddIv;
     private ListView mAddressLv;
     private MyAddressAdapter mMyAddressAdapter;
@@ -53,6 +62,8 @@ public class MyAddressActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_address);
+        initStatusBar();
+
         initView();
 
         mUser = PreferencesUtil.getInstance().getUser();
@@ -67,6 +78,10 @@ public class MyAddressActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mRootLl = findViewById(R.id.ll_root);
 
         mAddIv = findViewById(R.id.iv_add);

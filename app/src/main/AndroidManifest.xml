@@ -117,7 +117,8 @@
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.MyAddressActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.AddAddressActivity"
             android:screenOrientation="portrait" />
