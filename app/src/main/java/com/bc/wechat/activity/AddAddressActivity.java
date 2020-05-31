@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -132,6 +133,8 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
     private void initView() {
         mTitleTv = findViewById(R.id.tv_title);
         mTitleTv.setText(getString(R.string.add_address));
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
 
         mNameEt = findViewById(R.id.et_name);
         mPhoneEt = findViewById(R.id.et_phone);

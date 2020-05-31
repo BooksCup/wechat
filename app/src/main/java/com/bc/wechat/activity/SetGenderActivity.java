@@ -3,6 +3,7 @@ package com.bc.wechat.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +30,8 @@ import java.util.Map;
  * @author zhou
  */
 public class SetGenderActivity extends BaseActivity implements View.OnClickListener {
+    TextView mTitleTv;
+
     RelativeLayout mMaleRl;
     RelativeLayout mFemaleRl;
 
@@ -55,6 +58,10 @@ public class SetGenderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mMaleRl = findViewById(R.id.rl_male);
         mFemaleRl = findViewById(R.id.rl_female);
 

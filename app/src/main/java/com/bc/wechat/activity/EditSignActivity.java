@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author zhou
  */
 public class EditSignActivity extends BaseActivity {
+    private TextView mTitleTv;
 
     private EditText mSignEt;
     private TextView mSaveTv;
@@ -67,6 +69,10 @@ public class EditSignActivity extends BaseActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mSignEt = findViewById(R.id.et_sign);
         mSaveTv = findViewById(R.id.tv_save);
         mSignLengthTv = findViewById(R.id.tv_sign_length);

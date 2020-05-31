@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -133,6 +134,8 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
     private void initView() {
         mTitleTv = findViewById(R.id.tv_title);
         mTitleTv.setText(getString(R.string.modify_address));
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
 
         mAddress = (Address) getIntent().getSerializableExtra("address");
 

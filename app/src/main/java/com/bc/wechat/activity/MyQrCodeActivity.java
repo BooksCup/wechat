@@ -2,6 +2,7 @@ package com.bc.wechat.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
  * @author zhou
  */
 public class MyQrCodeActivity extends BaseActivity {
+    private TextView mTitleTv;
+
     private SimpleDraweeView mAvatarSdv;
     private TextView mNickNameTv;
     private ImageView mSexIv;
@@ -37,6 +40,10 @@ public class MyQrCodeActivity extends BaseActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mNickNameTv = findViewById(R.id.tv_nick_name);
         mSexIv = findViewById(R.id.iv_sex);
