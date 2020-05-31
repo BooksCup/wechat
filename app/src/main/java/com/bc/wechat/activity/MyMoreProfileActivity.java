@@ -79,7 +79,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.rl_sign:
                 // 签名
-                startActivityForResult(new Intent(this, UpdateSignActivity.class), UPDATE_USER_SIGN);
+                startActivityForResult(new Intent(this, EditSignActivity.class), UPDATE_USER_SIGN);
                 break;
         }
     }

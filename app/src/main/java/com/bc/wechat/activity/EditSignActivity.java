@@ -26,7 +26,12 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateSignActivity extends FragmentActivity {
+/**
+ * 修改个性签名
+ *
+ * @author zhou
+ */
+public class EditSignActivity extends BaseActivity {
 
     private EditText mSignEt;
     private TextView mSaveTv;
@@ -40,11 +45,12 @@ public class UpdateSignActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_sign);
+        setContentView(R.layout.activity_edit_sign);
+        initStatusBar();
 
         PreferencesUtil.getInstance().init(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
-        mDialog = new LoadingDialog(UpdateSignActivity.this);
+        mDialog = new LoadingDialog(EditSignActivity.this);
         initView();
 
         mSaveTv.setOnClickListener(new View.OnClickListener() {
@@ -147,10 +153,10 @@ public class UpdateSignActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(UpdateSignActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditSignActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(UpdateSignActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditSignActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
