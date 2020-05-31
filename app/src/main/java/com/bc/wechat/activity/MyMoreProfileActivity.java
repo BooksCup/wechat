@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -76,7 +75,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_sex:
-                startActivity(new Intent(this, UpdateSexActivity.class));
+                startActivity(new Intent(this, SetGenderActivity.class));
                 break;
             case R.id.rl_sign:
                 // 签名

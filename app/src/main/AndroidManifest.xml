@@ -145,8 +145,9 @@
             android:name=".activity.UpdateSignActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.UpdateSexActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.SetGenderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.NewFriendsMsgActivity"
             android:screenOrientation="portrait" />

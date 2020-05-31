@@ -28,7 +28,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class UpdateSexActivity extends FragmentActivity implements View.OnClickListener {
+public class SetGenderActivity extends BaseActivity implements View.OnClickListener {
     RelativeLayout mMaleRl;
     RelativeLayout mFemaleRl;
 
@@ -45,9 +45,11 @@ public class UpdateSexActivity extends FragmentActivity implements View.OnClickL
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_sex);
+        setContentView(R.layout.activity_set_gender);
+        initStatusBar();
+
         mUser = PreferencesUtil.getInstance().getUser();
-        mDialog = new LoadingDialog(UpdateSexActivity.this);
+        mDialog = new LoadingDialog(SetGenderActivity.this);
         mVolleyUtil = VolleyUtil.getInstance(this);
         initView();
     }
@@ -134,10 +136,10 @@ public class UpdateSexActivity extends FragmentActivity implements View.OnClickL
             public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(UpdateSexActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetGenderActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(UpdateSexActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetGenderActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
