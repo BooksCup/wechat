@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,7 +30,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
  * @author zhou
  */
 public class StrangerUserInfoActivity extends BaseActivity {
-
+    private TextView mTitleTv;
     private SimpleDraweeView mAvatarSdv;
     private TextView mNameTv;
     private TextView mNickNameTv;
@@ -54,6 +55,8 @@ public class StrangerUserInfoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stranger_user_info);
+        initStatusBar();
+
         mUserDao = new UserDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
@@ -61,6 +64,10 @@ public class StrangerUserInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mNameTv = findViewById(R.id.tv_name);
         mNickNameTv = findViewById(R.id.tv_nick_name);

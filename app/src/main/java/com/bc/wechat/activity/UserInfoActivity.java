@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -65,6 +66,7 @@ public class UserInfoActivity extends BaseActivity {
     private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
 
     private LinearLayout mRootLl;
+    private TextView mTitleTv;
     private LinearLayout mNickNameLl;
     private TextView mNickNameTv;
     private TextView mNameTv;
@@ -124,6 +126,10 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mRootLl = findViewById(R.id.ll_root);
 
         mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
