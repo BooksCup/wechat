@@ -60,7 +60,7 @@ import cn.jpush.im.android.api.JMessageClient;
  *
  * @author zhou
  */
-public class UserInfoActivity extends Activity {
+public class UserInfoActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
 
@@ -112,6 +112,8 @@ public class UserInfoActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        initStatusBar();
+
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUserDao = new UserDao();
