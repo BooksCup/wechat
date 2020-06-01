@@ -45,7 +45,6 @@
                 android:id="@+id/iv_setting"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:padding="9dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/bg_setting_btn" />
         </LinearLayout>
