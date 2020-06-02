@@ -3,13 +3,13 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +32,7 @@ import com.bc.wechat.widget.LoadingDialog;
  *
  * @author zhou
  */
-public class AddFriendsBySearchActivity extends FragmentActivity {
+public class AddFriendsBySearchActivity extends BaseActivity {
 
     private static final String TAG = "AddFriendsBySearch";
 
@@ -45,10 +45,14 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
     private User mUser;
     private UserDao mUserDao;
 
+    private ImageView mClearIv;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends_by_search);
+        initStatusBar();
+
         initView();
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
@@ -59,6 +63,7 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 mDialog.setMessage(getString(R.string.searching_for_user));
+                mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
                 String keyword = mSearchEt.getText().toString().trim();
                 searchUser(keyword);
@@ -74,7 +79,15 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
         mSearchRl = findViewById(R.id.rl_search);
         mSearchTv = findViewById(R.id.tv_search);
 
+        mClearIv = findViewById(R.id.iv_clear);
+
         mSearchEt.addTextChangedListener(new TextChange());
+        mClearIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchEt.setText("");
+            }
+        });
     }
 
     class TextChange implements TextWatcher {
@@ -90,9 +103,13 @@ public class AddFriendsBySearchActivity extends FragmentActivity {
             if (searchHasText) {
                 mSearchRl.setVisibility(View.VISIBLE);
                 mSearchTv.setText(mSearchEt.getText().toString().trim());
+
+                mClearIv.setVisibility(View.VISIBLE);
             } else {
                 mSearchRl.setVisibility(View.GONE);
                 mSearchTv.setText("");
+
+                mClearIv.setVisibility(View.GONE);
             }
         }
 

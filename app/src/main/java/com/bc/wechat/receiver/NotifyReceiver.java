@@ -10,12 +10,11 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.activity.MainActivity;
-import com.bc.wechat.activity.NewFriendsMsgActivity;
+import com.bc.wechat.activity.NewFriendsActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
-import com.bc.wechat.utils.ExampleUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import org.json.JSONException;
@@ -168,7 +167,7 @@ public class NotifyReceiver extends BroadcastReceiver {
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(PreferencesUtil.getInstance().getNewFriendsUnreadNumber() + 1);
             LocalBroadcastManager.getInstance(context).sendBroadcast(msgIntent);
-        } else if (NewFriendsMsgActivity.isForeground) {
+        } else if (NewFriendsActivity.isForeground) {
             Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_NEW_FRIENDS_MSG);
             msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
             PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);

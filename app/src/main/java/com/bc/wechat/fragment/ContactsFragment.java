@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.activity.NewFriendsMsgActivity;
+import com.bc.wechat.activity.NewFriendsActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.dao.UserDao;
@@ -70,7 +70,7 @@ public class ContactsFragment extends Fragment {
         mNewFriendsRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), NewFriendsMsgActivity.class));
+                startActivity(new Intent(getActivity(), NewFriendsActivity.class));
                 PreferencesUtil.getInstance().setNewFriendsUnreadNumber(0);
             }
         });

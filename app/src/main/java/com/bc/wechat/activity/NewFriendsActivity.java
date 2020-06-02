@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,8 +21,14 @@ import com.bc.wechat.utils.ExampleUtil;
 
 import java.util.List;
 
+/**
+ * 新的朋友
+ *
+ * @author zhou
+ */
+public class NewFriendsActivity extends BaseActivity {
+    TextView mTitleTv;
 
-public class NewFriendsMsgActivity extends FragmentActivity {
     TextView mAddTv;
     TextView mSearchTv;
     ListView mNewFriendsMsgLv;
@@ -36,21 +42,23 @@ public class NewFriendsMsgActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_friends_msg);
+        setContentView(R.layout.activity_new_friends);
+        initStatusBar();
+
         registerMessageReceiver();
         initView();
 
         mAddTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NewFriendsMsgActivity.this, AddFriendsActivity.class));
+                startActivity(new Intent(NewFriendsActivity.this, AddFriendsActivity.class));
             }
         });
 
         mSearchTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NewFriendsMsgActivity.this, AddFriendsBySearchActivity.class));
+                startActivity(new Intent(NewFriendsActivity.this, AddFriendsBySearchActivity.class));
             }
         });
 
@@ -67,12 +75,12 @@ public class NewFriendsMsgActivity extends FragmentActivity {
                 if (Constant.FRIEND_APPLY_STATUS_ACCEPT.equals(friendApply.getStatus())) {
                     // 如果已通过申请
                     // 进入用户详情页
-                    startActivity(new Intent(NewFriendsMsgActivity.this, UserInfoActivity.class).
+                    startActivity(new Intent(NewFriendsActivity.this, UserInfoActivity.class).
                             putExtra("userId", friendApply.getFromUserId()));
                 } else {
                     // 未通过申请
                     // 进入好友申请处理页面
-                    startActivity(new Intent(NewFriendsMsgActivity.this, NewFriendsAcceptActivity.class).
+                    startActivity(new Intent(NewFriendsActivity.this, NewFriendsAcceptActivity.class).
                             putExtra("applyId", friendApply.getApplyId())
                     );
                 }
@@ -81,6 +89,10 @@ public class NewFriendsMsgActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mAddTv = findViewById(R.id.tv_add);
         mSearchTv = findViewById(R.id.tv_search);
         mNewFriendsMsgLv = findViewById(R.id.lv_new_friends_msg);

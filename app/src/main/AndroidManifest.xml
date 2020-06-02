@@ -155,12 +155,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
-            android:name=".activity.NewFriendsMsgActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.NewFriendsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.AddFriendsBySearchActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.AddFriendsActivity"
             android:screenOrientation="portrait" />
