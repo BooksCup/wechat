@@ -195,7 +195,8 @@
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.ChatGroupSettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.CreateGroupActivity"
@@ -204,7 +205,8 @@
 
         <activity
             android:name=".activity.UpdateGroupNameActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.FriendsCircleActivity"

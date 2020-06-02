@@ -3,38 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebebeb"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_top_bar"
-        android:background="@color/common_top_bar_blue">
+        android:layout_height="@dimen/top_bar_height"
+        android:background="@color/common_top_bar">
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="40dp"
+            android:layout_width="@dimen/top_back_width"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
             android:scaleType="centerInside"
-            android:src="@drawable/top_bar_back" />
+            android:src="@drawable/btn_top_back" />
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_back"
-            android:text="聊天信息"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
+            android:text="@string/chat_info"
+            android:textColor="@color/common_top_title"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_member_num"
@@ -43,8 +40,8 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_title"
             android:text=""
-            android:textColor="#ffffff"
-            android:textSize="18sp"></TextView>
+            android:textColor="@color/common_top_title"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <ScrollView
@@ -61,18 +58,19 @@
                 android:id="@+id/egv_avatars"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="#ffffff"
                 android:columnWidth="56dp"
                 android:gravity="start"
                 android:listSelector="@android:color/transparent"
-                android:numColumns="5" />
+                android:numColumns="5"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
 
             <RelativeLayout
                 android:id="@+id/rl_change_group_name"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:padding="10dp">
 
@@ -82,8 +80,7 @@
                     android:layout_centerVertical="true"
                     android:text="群名称"
                     android:textColor="#353535"
-                    android:textSize="16sp"
-                    android:typeface="serif" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_group_name"
@@ -117,8 +114,7 @@
                     android:layout_centerVertical="true"
                     android:text="置顶聊天"
                     android:textColor="#353535"
-                    android:textSize="16sp"
-                    android:typeface="serif" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_switch_chat_to_top"
@@ -161,8 +157,7 @@
                     android:layout_centerVertical="true"
                     android:text="屏蔽群消息"
                     android:textColor="#353535"
-                    android:textSize="16sp"
-                    android:typeface="serif" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_switch_block_group_msg"
@@ -191,7 +186,7 @@
                 android:id="@+id/rl_clear"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:padding="10dp">
 
@@ -201,15 +196,14 @@
                     android:layout_centerVertical="true"
                     android:text="清空聊天记录"
                     android:textColor="#353535"
-                    android:textSize="16sp"
-                    android:typeface="serif" />
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_exit_group"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:padding="10dp">
 
@@ -220,8 +214,7 @@
                     android:layout_centerVertical="true"
                     android:text="删除并退出"
                     android:textColor="@color/btn_logout_pressed"
-                    android:textSize="16sp"
-                    android:typeface="serif" />
+                    android:textSize="16sp" />
             </RelativeLayout>
 
         </LinearLayout>

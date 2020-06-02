@@ -33,21 +33,19 @@
             android:textColor="@color/common_top_title"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="@dimen/save_btn_width"
+            android:layout_height="@dimen/save_btn_height"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="@dimen/save_btn_margin_right"
             android:background="@drawable/bg_save_btn"
             android:enabled="false"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="确定"
+            android:text="@string/ok"
             android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="@dimen/save_btn_text_size" />
     </RelativeLayout>
 
     <RelativeLayout

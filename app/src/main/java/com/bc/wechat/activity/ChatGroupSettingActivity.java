@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,7 +37,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class ChatGroupSettingActivity extends FragmentActivity implements View.OnClickListener {
+public class ChatGroupSettingActivity extends BaseActivity implements View.OnClickListener {
     private String groupId;
 
     private TextView mMemberNumTv;
@@ -76,12 +75,13 @@ public class ChatGroupSettingActivity extends FragmentActivity implements View.O
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat_setting);
+        initStatusBar();
+
         messageDao = new MessageDao();
         initView();
     }
 
     private void initView() {
-
         mMemberNumTv = findViewById(R.id.tv_member_num);
         mAvatarsEgv = findViewById(R.id.egv_avatars);
         mGroupNameTv = findViewById(R.id.tv_group_name);

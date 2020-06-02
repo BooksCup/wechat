@@ -3,10 +3,10 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -30,25 +30,37 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 
-public class UpdateGroupNameActivity extends FragmentActivity {
+/**
+ * 修改群聊名称
+ *
+ * @author zhou
+ */
+public class UpdateGroupNameActivity extends BaseActivity {
     String groupId;
     String oldGroupName;
+    private TextView mTitleTv;
     private EditText mGroupNameEt;
     private TextView mSaveTv;
 
-    private VolleyUtil volleyUtil;
-    private LoadingDialog loadingDialog;
+    private VolleyUtil mVolleyUtil;
+    private LoadingDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_group_name);
-        volleyUtil = VolleyUtil.getInstance(this);
-        loadingDialog = new LoadingDialog(this);
+        initStatusBar();
+
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(this);
         initView();
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mGroupNameEt = findViewById(R.id.et_group_name);
         mSaveTv = findViewById(R.id.tv_save);
 
@@ -72,8 +84,9 @@ public class UpdateGroupNameActivity extends FragmentActivity {
         mSaveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingDialog.setMessage("正在保存");
-                loadingDialog.show();
+                mDialog.setMessage("正在保存");
+                mDialog.setCanceledOnTouchOutside(false);
+                mDialog.show();
                 final String groupName = mGroupNameEt.getText().toString();
                 updateGroupName(groupId, groupName);
             }
@@ -119,10 +132,10 @@ public class UpdateGroupNameActivity extends FragmentActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("groupName", groupName);
 
-        volleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                loadingDialog.dismiss();
+                mDialog.dismiss();
                 Intent intent = new Intent();
                 intent.putExtra("groupName", groupName);
                 setResult(RESULT_OK, intent);
@@ -131,7 +144,7 @@ public class UpdateGroupNameActivity extends FragmentActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                loadingDialog.dismiss();
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(UpdateGroupNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;

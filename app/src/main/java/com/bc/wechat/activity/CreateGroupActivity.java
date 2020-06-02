@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
@@ -69,7 +70,7 @@ public class CreateGroupActivity extends BaseActivity {
     // 可滑动的显示选中用户的View
     private LinearLayout mAvatarListLl;
     private ImageView mSearchIv;
-    private Button mSaveBtn;
+    private TextView mSaveTv;
 
 
     private List<String> checkedUserIdList = new ArrayList<>();
@@ -112,7 +113,7 @@ public class CreateGroupActivity extends BaseActivity {
         });
         mAvatarListLl = findViewById(R.id.ll_avatar_list);
         mSearchIv = findViewById(R.id.iv_search);
-        mSaveBtn = findViewById(R.id.btn_save);
+        mSaveTv = findViewById(R.id.tv_save);
         mSearchEt = findViewById(R.id.et_search);
 
         listView = findViewById(R.id.lv_friends);
@@ -139,7 +140,7 @@ public class CreateGroupActivity extends BaseActivity {
             }
         });
 
-        mSaveBtn.setOnClickListener(new View.OnClickListener() {
+        mSaveTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Constant.CREATE_GROUP_TYPE_FROM_SINGLE.equals(createType)) {
@@ -194,9 +195,9 @@ public class CreateGroupActivity extends BaseActivity {
                 mSearchIv.setVisibility(View.GONE);
             }
 
-            mSaveBtn.setText("确定(" + totalCount + ")");
-            mSaveBtn.setEnabled(true);
-            mSaveBtn.setTextColor(0xFFFFFFFF);
+            mSaveTv.setText("确定(" + totalCount + ")");
+            mSaveTv.setEnabled(true);
+            mSaveTv.setTextColor(0xFFFFFFFF);
         }
     }
 
@@ -206,14 +207,14 @@ public class CreateGroupActivity extends BaseActivity {
         totalCount--;
         checkedUserIdList.remove(userId);
         checkedUserList.remove(friend);
-        mSaveBtn.setText("确定(" + totalCount + ")");
+        mSaveTv.setText("确定(" + totalCount + ")");
         if (totalCount <= 0) {
             if (mSearchIv.getVisibility() == View.GONE) {
                 mSearchIv.setVisibility(View.VISIBLE);
             }
-            mSaveBtn.setText("确定");
-            mSaveBtn.setEnabled(false);
-            mSaveBtn.setTextColor(0xFFD0EFC6);
+            mSaveTv.setText("确定");
+            mSaveTv.setEnabled(false);
+            mSaveTv.setTextColor(0xFFD0EFC6);
         }
     }
 
