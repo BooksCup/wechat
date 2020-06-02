@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -23,8 +23,9 @@ import cn.jpush.im.android.api.JMessageClient;
  *
  * @author zhou
  */
-public class ChatSingleSettingActivity extends FragmentActivity implements View.OnClickListener {
+public class ChatSingleSettingActivity extends BaseActivity implements View.OnClickListener {
 
+    private TextView mTitleTv;
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private RelativeLayout mAddUserToGroupRl;
@@ -41,6 +42,7 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_chat_setting);
+        initStatusBar();
 
         userId = getIntent().getStringExtra("userId");
         userNickName = getIntent().getStringExtra("userNickName");
@@ -51,6 +53,10 @@ public class ChatSingleSettingActivity extends FragmentActivity implements View.
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mNickNameTv = findViewById(R.id.tv_nick_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mAddUserToGroupRl = findViewById(R.id.rl_add_user_to_group);

@@ -104,6 +104,7 @@
             android:name=".activity.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SettingActivity"
@@ -131,13 +132,16 @@
             android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.PickProvinceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.PickCityActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.PickDistrictActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.EditNameActivity"
             android:screenOrientation="portrait"
@@ -186,14 +190,16 @@
 
         <activity
             android:name=".activity.ChatSingleSettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.ChatGroupSettingActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.CreateGroupActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.UpdateGroupNameActivity"

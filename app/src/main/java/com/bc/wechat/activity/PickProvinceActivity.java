@@ -3,10 +3,11 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.AreaAdapter;
@@ -16,11 +17,13 @@ import com.bc.wechat.entity.Area;
 import java.util.List;
 
 /**
- * 省份选择
+ * 省选择
  *
  * @author zhou
  */
-public class PickProvinceActivity extends FragmentActivity {
+public class PickProvinceActivity extends BaseActivity {
+    private TextView mTitleTv;
+
     private ListView mProvinceLv;
     private AreaAdapter mProvinceAdapter;
 
@@ -30,6 +33,7 @@ public class PickProvinceActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_picker);
+        initStatusBar();
         initView();
         mAreaDao = new AreaDao();
 
@@ -56,6 +60,10 @@ public class PickProvinceActivity extends FragmentActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mProvinceLv = findViewById(R.id.lv_area);
     }
 }

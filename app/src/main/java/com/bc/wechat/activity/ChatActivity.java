@@ -26,7 +26,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,7 +47,6 @@ import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
 import com.bc.wechat.utils.CommonUtil;
-import com.bc.wechat.utils.EmojiUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -58,7 +56,6 @@ import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.ExpandGridView;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -197,6 +194,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        initStatusBar();
         mVolleyUtil = VolleyUtil.getInstance(this);
         JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
