@@ -102,6 +102,7 @@
     <string name="personal_info">个人信息</string>
     <string name="avatar">头像</string>
     <string name="wx_id">微信号</string>
+    <string name="wechat_id">微信号</string>
     <string name="qr_code">二维码名片</string>
     <string name="scan_qr_code_and_add_friends">扫一扫上面的二维码图案，加我微信</string>
     <string name="my_address">我的地址</string>
@@ -194,6 +195,15 @@
     <string name="wechat_services">插件</string>
     <string name="switch_account">切换账号</string>
     <string name="log_out">退出</string>
+
+    <string name="phone">手机号</string>
+    <string name="wechat_password">微信密码</string>
+    <string name="voice_print">声音锁</string>
+    <string name="emergency_contacts">应急联系人</string>
+    <string name="manage_devices">登录设备管理</string>
+    <string name="more_settings">更多安全设置</string>
+    <string name="wechat_security_center">微信安全中心</string>
+    <string name="wechat_security_center_tips">如果你遇到微信被盗，无法登陆设备等问题，可以前往安全中心</string>
 
     <string name="edit_name">更改名字</string>
     <string name="edit_wechat_id">更改微信号</string>

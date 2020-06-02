@@ -26,6 +26,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private TextView mTitleTv;
 
     /**
+     * 账号与安全
+     */
+    private RelativeLayout mAccountSecurityRl;
+
+    /**
      * 退出
      */
     private RelativeLayout mLogOutRl;
@@ -43,8 +48,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
+        mAccountSecurityRl = findViewById(R.id.rl_account_security);
         mLogOutRl = findViewById(R.id.rl_log_out);
 
+        mAccountSecurityRl.setOnClickListener(this);
         mLogOutRl.setOnClickListener(this);
     }
 
@@ -55,6 +62,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_account_security:
+                startActivity(new Intent(SettingActivity.this, AccountSecurityActivity.class));
+                break;
+
             case R.id.rl_log_out:
                 // 清除sharedpreferences中存储信息
                 PreferencesUtil.getInstance().setLogin(false);
