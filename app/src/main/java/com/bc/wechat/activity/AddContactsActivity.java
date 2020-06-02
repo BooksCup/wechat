@@ -10,8 +10,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -33,11 +33,12 @@ import java.util.ArrayList;
  *
  * @author zhou
  */
-public class AddFriendsActivity extends FragmentActivity implements View.OnClickListener {
+public class AddContactsActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final int SCAN_REQUEST_CODE = 100;
-    private static final int CAMERA_PERMISSION = 110;
+    private static final int REQUEST_CODE_SCAN = 0;
+    private static final int REQUEST_CODE_CAMERA = 1;
 
+    private TextView mTitleTv;
     private RelativeLayout mSearchRl;
 
     private RelativeLayout mRadarRl;
@@ -53,11 +54,16 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
+        initStatusBar();
         mUser = PreferencesUtil.getInstance().getUser();
         initView();
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mSearchRl = findViewById(R.id.rl_search);
         mRadarRl = findViewById(R.id.rl_radar);
         mScanRl = findViewById(R.id.rl_scan);
@@ -90,7 +96,7 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
 
             case R.id.rl_scan:
                 String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPermissions(AddFriendsActivity.this, permissions, CAMERA_PERMISSION);
+                requestPermissions(AddContactsActivity.this, permissions, REQUEST_CODE_CAMERA);
                 break;
 
             case R.id.ll_my_info:
@@ -100,9 +106,9 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     }
 
     private void startScanActivity() {
-        Intent intent = new Intent(AddFriendsActivity.this, CaptureActivity2.class);
+        Intent intent = new Intent(AddContactsActivity.this, CaptureActivity2.class);
         intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
-        startActivityForResult(intent, SCAN_REQUEST_CODE);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
 
     @Override
@@ -151,7 +157,7 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
 
     public void handleRejectPermission(final Activity context, String permission) {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
-            final ConfirmDialog mConfirmDialog = new ConfirmDialog(AddFriendsActivity.this, "权限申请",
+            final ConfirmDialog mConfirmDialog = new ConfirmDialog(AddContactsActivity.this, "权限申请",
                     "在设置-应用-微信-权限中开启相机权限，以正常使用拍照、小视频、扫一扫等功能",
                     "去设置", "取消", context.getColor(R.color.navy_blue));
             mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
@@ -185,7 +191,7 @@ public class AddFriendsActivity extends FragmentActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SCAN_REQUEST_CODE) {
+            if (requestCode == REQUEST_CODE_SCAN) {
                 String isbn = data.getStringExtra("CaptureIsbn");
                 if (!TextUtils.isEmpty(isbn)) {
                     if (isbn.contains("http")) {

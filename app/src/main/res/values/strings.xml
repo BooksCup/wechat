@@ -198,4 +198,7 @@
     <string name="edit_name">更改名字</string>
     <string name="edit_wechat_id">更改微信号</string>
     <string name="set_gender">设置性别</string>
+
+    <string name="add_contacts">添加朋友</string>
+    <string name="wechat_id_or_mobile">微信号/手机号</string>
 </resources>

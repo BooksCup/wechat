@@ -425,7 +425,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 mPopupWindow.dismiss();
-                startActivity(new Intent(MainActivity.this, AddFriendsActivity.class));
+                startActivity(new Intent(MainActivity.this, AddContactsActivity.class));
             }
         });
 

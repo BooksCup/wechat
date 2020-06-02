@@ -2,7 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ebebeb">
+    android:background="#ebebeb"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,32 +14,28 @@
         <RelativeLayout
             android:id="@+id/rl_title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_top_bar"
-            android:background="@color/common_top_bar_blue">
+            android:layout_height="@dimen/top_bar_height"
+            android:background="@color/common_top_bar">
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="40dp"
+                android:layout_width="@dimen/top_back_width"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:onClick="back"
-                android:paddingLeft="5dp"
-                android:paddingTop="5dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/top_bar_back" />
+                android:src="@drawable/btn_top_back" />
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/iv_back"
-                android:text="添加朋友"
-                android:textColor="#ffffff"
-                android:textSize="18sp" />
+                android:text="@string/add_contacts"
+                android:textColor="@color/common_top_title"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -45,7 +43,6 @@
             android:id="@+id/rl_search"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_marginTop="20dp"
             android:background="#fff">
 
             <TextView
@@ -60,7 +57,7 @@
                 android:paddingLeft="46dp"
                 android:paddingBottom="8dp"
                 android:singleLine="true"
-                android:text="微信号/手机号"
+                android:text="@string/wechat_id_or_mobile"
                 android:textColor="#C5C5C5"
                 android:textSize="14sp" />
 

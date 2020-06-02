@@ -51,7 +51,7 @@ public class NewFriendsActivity extends BaseActivity {
         mAddTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(NewFriendsActivity.this, AddFriendsActivity.class));
+                startActivity(new Intent(NewFriendsActivity.this, AddContactsActivity.class));
             }
         });
 
