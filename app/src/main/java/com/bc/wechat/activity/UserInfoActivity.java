@@ -212,7 +212,7 @@ public class UserInfoActivity extends BaseActivity {
                     public void onClick(View view) {
 
                         mPopupWindow.dismiss();
-                        Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                        Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
                         intent.putExtra("userId", friend.getUserId());
                         intent.putExtra("isFriend", Constant.IS_FRIEND);
                         startActivity(intent);
@@ -318,7 +318,7 @@ public class UserInfoActivity extends BaseActivity {
         mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", friend.getUserId());
                 intent.putExtra("isFriend", friend.getIsFriend());
                 startActivity(intent);
@@ -328,7 +328,7 @@ public class UserInfoActivity extends BaseActivity {
         mDescRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", friend.getUserId());
                 intent.putExtra("isFriend", friend.getIsFriend());
                 startActivity(intent);
@@ -338,7 +338,7 @@ public class UserInfoActivity extends BaseActivity {
         mPhoneTempTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, SetRemarkAndTagActivity.class);
+                Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", friend.getUserId());
                 intent.putExtra("isFriend", friend.getIsFriend());
                 startActivity(intent);

@@ -101,7 +101,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
+                Intent intent = new Intent(StrangerUserInfoActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", mUserId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
@@ -111,7 +111,7 @@ public class StrangerUserInfoActivity extends BaseActivity {
         mDescRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StrangerUserInfoActivity.this, SetRemarkAndTagActivity.class);
+                Intent intent = new Intent(StrangerUserInfoActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", mUserId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);

@@ -228,8 +228,9 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.SetRemarkAndTagActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.EditContactActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.NewFriendsApplyConfirmActivity"

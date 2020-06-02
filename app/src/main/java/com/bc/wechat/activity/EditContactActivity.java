@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -20,11 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 设置备注和标签
+ * 编辑联系人(设置备注和标签)
  *
  * @author zhou
  */
-public class SetRemarkAndTagActivity extends BaseActivity {
+public class EditContactActivity extends BaseActivity {
+    private TextView mTitleTv;
 
     private EditText mRemarkEt;
     private EditText mPhoneEt;
@@ -45,7 +47,9 @@ public class SetRemarkAndTagActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_remark_and_tag);
+        setContentView(R.layout.activity_edit_contact);
+        initStatusBar();
+
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
@@ -53,6 +57,10 @@ public class SetRemarkAndTagActivity extends BaseActivity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         final String userId = getIntent().getStringExtra("userId");
         final String isFriend = getIntent().getStringExtra("isFriend");
         User user = mUserDao.getUserById(userId);
