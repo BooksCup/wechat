@@ -75,6 +75,8 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_apply_confirm);
+        initStatusBar();
+
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -184,6 +186,7 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
                 break;
             case R.id.tv_send:
                 mDialog.setMessage("正在发送...");
+                mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
                 String applyRemark = mApplyRemarkEt.getText().toString();

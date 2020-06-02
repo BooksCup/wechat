@@ -179,7 +179,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NewFriendsAcceptActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.BigImageActivity"
@@ -243,11 +244,13 @@
 
         <activity
             android:name=".activity.NewFriendsApplyConfirmActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.NewFriendsAcceptConfirmActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
 
         <activity
             android:name=".activity.PeopleNearbyActivity"

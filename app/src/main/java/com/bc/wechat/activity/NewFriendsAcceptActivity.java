@@ -1,9 +1,9 @@
 package com.bc.wechat.activity;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,8 +36,9 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class NewFriendsAcceptActivity extends Activity {
+public class NewFriendsAcceptActivity extends BaseActivity {
 
+    private TextView mTitleTv;
     private TextView mNickNameTv;
     private SimpleDraweeView mAvatarSdv;
     private TextView mSignTv;
@@ -61,6 +62,8 @@ public class NewFriendsAcceptActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept);
+        initStatusBar();
+
         mDialog = new LoadingDialog(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
         mFriendApplyDao = new FriendApplyDao();
@@ -69,6 +72,10 @@ public class NewFriendsAcceptActivity extends Activity {
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         mNickNameTv = findViewById(R.id.tv_name);
         mAvatarSdv = findViewById(R.id.sdv_avatar);
         mSexIv = findViewById(R.id.iv_sex);

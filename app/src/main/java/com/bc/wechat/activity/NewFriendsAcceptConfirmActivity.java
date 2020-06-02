@@ -74,6 +74,8 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept_confirm);
+        initStatusBar();
+
         mUserDao = new UserDao();
         mFriendApplyDao = new FriendApplyDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
