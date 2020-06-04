@@ -179,6 +179,8 @@ public class ManageDevicesActivity extends BaseActivity {
                     mDeviceInfoDao.saveDeviceInfo(deviceInfo);
                 }
 
+                deviceInfo.setPhoneModelAlias(phoneModelAlias);
+
                 Message message = new Message();
                 message.what = 1;
                 message.arg1 = position;
