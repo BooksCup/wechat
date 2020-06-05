@@ -77,6 +77,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         mRegisterTv.setOnClickListener(this);
     }
 
+    public void back(View view) {
+        finish();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
