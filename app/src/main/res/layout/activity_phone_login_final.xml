@@ -91,7 +91,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="110dp"
                 android:background="@null"
-                android:hint="@string/login_hint_password"
+                android:hint="请填写微信密码"
                 android:inputType="textPassword"
                 android:paddingLeft="90dp"
                 android:singleLine="true"
@@ -108,6 +108,16 @@
                 android:text="@string/password"
                 android:textColor="#353535"
                 android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_clear_password"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="8dp"
+                android:src="@mipmap/icon_clear"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -127,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="110dp"
+                android:layout_marginRight="150dp"
                 android:background="@null"
                 android:hint="请填写验证码"
                 android:inputType="number"
@@ -163,6 +173,16 @@
                 android:textColor="@color/register_btn_bg_enable"
                 android:textSize="15sp" />
 
+            <ImageView
+                android:id="@+id/iv_clear_verify_code"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_get_verify_code"
+                android:paddingRight="8dp"
+                android:src="@mipmap/icon_clear"
+                android:visibility="gone" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
@@ -191,12 +211,11 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="24dp"
-            android:background="@color/register_btn_bg_disable"
-            android:enabled="false"
+            android:background="@color/register_btn_bg_enable"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
             android:text="登录"
-            android:textColor="@color/register_btn_text_disable"
+            android:textColor="@color/register_btn_text_enable"
             android:textSize="17sp" />
     </LinearLayout>
 </LinearLayout>

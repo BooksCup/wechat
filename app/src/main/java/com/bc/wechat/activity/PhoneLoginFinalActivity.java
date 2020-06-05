@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,11 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
     private RelativeLayout mLoginByPasswordRl;
     private RelativeLayout mLoginByVerifyCodeRl;
 
+    private EditText mVerifyCodeEt;
+
+    private ImageView mClearPasswordIv;
+    private ImageView mClearVerifyCodeIv;
+
     private Button mLoginBtn;
     private String mPhone;
 
@@ -95,11 +101,20 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
         mLoginByPasswordRl = findViewById(R.id.rl_login_by_password);
         mLoginByVerifyCodeRl = findViewById(R.id.rl_login_by_verify_code);
 
+        mVerifyCodeEt = findViewById(R.id.et_verify_code);
+
+        mClearPasswordIv = findViewById(R.id.iv_clear_password);
+        mClearVerifyCodeIv = findViewById(R.id.iv_clear_verify_code);
+
         mPhoneEt.setHint(mPhone);
 
         mPasswordEt.addTextChangedListener(new TextChange());
+        mVerifyCodeEt.addTextChangedListener(new TextChange());
+
         mLoginBtn.setOnClickListener(this);
         mLoginTypeTv.setOnClickListener(this);
+        mClearPasswordIv.setOnClickListener(this);
+        mClearVerifyCodeIv.setOnClickListener(this);
     }
 
     @Override
@@ -130,6 +145,13 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                     mLoginTypeTv.setText("用短信验证码登录");
                 }
                 break;
+
+            case R.id.iv_clear_password:
+                mPasswordEt.setText("");
+                break;
+            case R.id.iv_clear_verify_code:
+                mVerifyCodeEt.setText("");
+                break;
         }
     }
 
@@ -142,17 +164,23 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            boolean passwordEtHasText = mPasswordEt.getText().length() > 0;
-            if (passwordEtHasText) {
-                // "登录"按钮可用
-                mLoginBtn.setBackgroundColor(getColor(R.color.register_btn_bg_enable));
-                mLoginBtn.setTextColor(getColor(R.color.register_btn_text_enable));
-                mLoginBtn.setEnabled(true);
+            // 登录方式
+            if (LOGIN_TYPE_PASSWORD.equals(mLoginType)) {
+                // 密码登录
+                boolean passwordEtHasText = mPasswordEt.getText().length() > 0;
+                if (passwordEtHasText) {
+                    mClearPasswordIv.setVisibility(View.VISIBLE);
+                } else {
+                    mClearPasswordIv.setVisibility(View.GONE);
+                }
             } else {
-                // "登录"按钮不可用
-                mLoginBtn.setBackgroundColor(getColor(R.color.register_btn_bg_disable));
-                mLoginBtn.setTextColor(getColor(R.color.register_btn_text_disable));
-                mLoginBtn.setEnabled(false);
+                // 验证码登录
+                boolean verifyCodeEtHasText = mVerifyCodeEt.getText().length() > 0;
+                if (verifyCodeEtHasText) {
+                    mClearVerifyCodeIv.setVisibility(View.VISIBLE);
+                } else {
+                    mClearVerifyCodeIv.setVisibility(View.GONE);
+                }
             }
         }
 
