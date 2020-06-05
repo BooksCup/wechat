@@ -83,8 +83,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.DeprecatedLoginActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PhoneLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
+            android:name=".activity.PhoneLoginFinalActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"

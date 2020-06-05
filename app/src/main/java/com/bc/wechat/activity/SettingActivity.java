@@ -77,7 +77,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 FriendsCircle.deleteAll(FriendsCircle.class);
 
                 // 跳转至登录页
-                Intent intent = new Intent(this, LoginActivity.class);
+                Intent intent = new Intent(this, DeprecatedLoginActivity.class);
                 startActivity(intent);
                 finish();
 

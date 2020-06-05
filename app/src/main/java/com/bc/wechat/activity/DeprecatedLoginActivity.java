@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,6 +25,7 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.DeviceInfoUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
@@ -40,9 +40,10 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class LoginActivity extends FragmentActivity implements View.OnClickListener {
+@Deprecated
+public class DeprecatedLoginActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "DeprecatedLoginActivity";
     public static int sequence = 1;
 
     private VolleyUtil mVolleyUtil;
@@ -57,10 +58,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_deprecated);
+        initStatusBar();
+        StatusBarUtil.setStatusBarColor(DeprecatedLoginActivity.this, R.color.bottom_text_color_normal);
+
         PreferencesUtil.getInstance().init(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
-        mDialog = new LoadingDialog(LoginActivity.this);
+        mDialog = new LoadingDialog(DeprecatedLoginActivity.this);
         mUserDao = new UserDao();
         initView();
     }
@@ -93,7 +97,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 login(phone, password);
                 break;
             case R.id.tv_register:
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                startActivity(new Intent(DeprecatedLoginActivity.this, RegisterActivity.class));
                 break;
         }
     }
@@ -131,7 +135,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
      * @param password 密码
      */
     private void login(String phone, String password) {
-        DeviceInfo deviceInfo = DeviceInfoUtil.getInstance().getDeviceInfo(LoginActivity.this);
+        DeviceInfo deviceInfo = DeviceInfoUtil.getInstance().getDeviceInfo(DeprecatedLoginActivity.this);
         String url = Constant.BASE_URL + "users/login?phone=" + phone
                 + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
@@ -152,7 +156,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             PreferencesUtil.getInstance().setUser(user);
                             PreferencesUtil.getInstance().setLogin(true);
                             // 注册jpush
-                            JPushInterface.setAlias(LoginActivity.this, sequence, user.getUserId());
+                            JPushInterface.setAlias(DeprecatedLoginActivity.this, sequence, user.getUserId());
                             List<User> friendList = user.getFriendList();
                             for (User userFriend : friendList) {
                                 if (null != userFriend) {
@@ -161,11 +165,11 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                                     mUserDao.saveUser(userFriend);
                                 }
                             }
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(DeprecatedLoginActivity.this, MainActivity.class));
                             finish();
                         } else {
                             // 极光im登录失败
-                            Toast.makeText(LoginActivity.this,
+                            Toast.makeText(DeprecatedLoginActivity.this,
                                     R.string.username_or_password_error, Toast.LENGTH_SHORT)
                                     .show();
                         }
@@ -180,17 +184,17 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof NetworkError) {
-                    Toast.makeText(LoginActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DeprecatedLoginActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(LoginActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DeprecatedLoginActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 int errorCode = volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
-                        Toast.makeText(LoginActivity.this,
+                        Toast.makeText(DeprecatedLoginActivity.this,
                                 R.string.username_or_password_error, Toast.LENGTH_SHORT)
                                 .show();
                         break;

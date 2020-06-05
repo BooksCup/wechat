@@ -79,7 +79,7 @@ public class SplashActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, PhoneLoginActivity.class));
                 break;
             case R.id.btn_register:
                 startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
