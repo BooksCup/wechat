@@ -48,8 +48,10 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                startActivity(new Intent(PhoneLoginActivity.this, PhoneLoginFinalActivity.class));
-                finish();
+                String phone = mPhoneEt.getText().toString();
+                Intent intent = new Intent(PhoneLoginActivity.this, PhoneLoginFinalActivity.class);
+                intent.putExtra("phone", phone);
+                startActivity(intent);
                 break;
         }
     }

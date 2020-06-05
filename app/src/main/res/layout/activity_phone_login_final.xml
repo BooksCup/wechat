@@ -41,14 +41,14 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="微信号/QQ/邮箱登录"
+                android:text="手机号登录"
                 android:textColor="@color/common_top_title"
                 android:textSize="22sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="52dp">
 
             <EditText
                 android:id="@+id/et_phone"
@@ -56,7 +56,7 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:hint="请填写微信号/QQ号/邮箱"
+                android:enabled="false"
                 android:paddingLeft="90dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
@@ -76,18 +76,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#45c01a" />
+                android:background="#b5b5b6" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_login_by_password"
             android:layout_width="match_parent"
-            android:layout_height="48dp">
+            android:layout_height="52dp">
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="110dp"
                 android:background="@null"
                 android:hint="@string/login_hint_password"
                 android:inputType="textPassword"
@@ -115,17 +117,71 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_login_by_verify_code"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/et_verify_code"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="110dp"
+                android:background="@null"
+                android:hint="请填写验证码"
+                android:inputType="number"
+                android:paddingLeft="90dp"
+                android:singleLine="true"
+                android:textColorHint="#DDDDDD"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_verify_code"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/et_verify_code"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="验证码"
+                android:textColor="#353535"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_get_verify_code"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/register_btn_bg_disable"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/register_btn_bg_enable"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#45c01a" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="15dp">
 
             <TextView
-                android:id="@+id/tv_login_by_phone"
+                android:id="@+id/tv_login_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="用手机号登录"
+                android:text="用短信验证码登录"
                 android:textColor="@color/navy_blue"
                 android:textSize="16sp" />
         </RelativeLayout>
