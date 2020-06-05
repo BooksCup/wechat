@@ -11,6 +11,9 @@ import android.widget.EditText;
 
 import com.bc.wechat.R;
 import com.bc.wechat.utils.StatusBarUtil;
+import com.bc.wechat.utils.ValidateUtil;
+import com.bc.wechat.widget.LoadingDialog;
+import com.bc.wechat.widget.WarningDialog;
 
 /**
  * 登录
@@ -21,6 +24,7 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
 
     private EditText mPhoneEt;
     private Button mNextBtn;
+    LoadingDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
         initStatusBar();
         StatusBarUtil.setStatusBarColor(PhoneLoginActivity.this, R.color.bottom_text_color_normal);
         initView();
+        mDialog = new LoadingDialog(PhoneLoginActivity.this);
     }
 
     public void back(View view) {
@@ -48,10 +53,37 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
+                mDialog.setMessage(getString(R.string.please_wait));
+                mDialog.setCanceledOnTouchOutside(false);
+                mDialog.show();
+
                 String phone = mPhoneEt.getText().toString();
-                Intent intent = new Intent(PhoneLoginActivity.this, PhoneLoginFinalActivity.class);
-                intent.putExtra("phone", phone);
-                startActivity(intent);
+
+                // 是否有效手机号
+                boolean isValidChinesePhone = ValidateUtil.isValidChinesePhone(phone);
+                if (isValidChinesePhone) {
+                    mDialog.dismiss();
+                    // 有效
+                    Intent intent = new Intent(PhoneLoginActivity.this, PhoneLoginFinalActivity.class);
+                    intent.putExtra("phone", phone);
+                    startActivity(intent);
+                } else {
+                    mDialog.dismiss();
+                    // 无效
+                    final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginActivity.this, "手机号码错误",
+                            "你输入的是一个无效的手机号码",
+                            "确定");
+                    mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
+                        @Override
+                        public void onOkClick() {
+                            mWarningDialog.dismiss();
+                        }
+
+                    });
+                    // 点击空白处消失
+                    mWarningDialog.setCancelable(true);
+                    mWarningDialog.show();
+                }
                 break;
         }
     }
