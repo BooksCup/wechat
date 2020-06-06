@@ -127,13 +127,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_login_by_verify_code"
+            android:id="@+id/rl_login_by_verification_code"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:visibility="gone">
 
             <EditText
-                android:id="@+id/et_verify_code"
+                android:id="@+id/et_verification_code"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
@@ -147,10 +147,10 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_verify_code"
+                android:id="@+id/tv_verification_code"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/et_verify_code"
+                android:layout_alignLeft="@id/et_verification_code"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:text="@string/verification_code"
@@ -158,7 +158,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_get_verify_code"
+                android:id="@+id/tv_get_verification_code"
                 android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -167,18 +167,33 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_get_verify_code"
+                android:background="@drawable/btn_get_verification_code"
                 android:gravity="center"
                 android:text="@string/get_verification_code"
                 android:textColor="@color/register_btn_bg_enable"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/tv_count_down"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="60秒后..."
+                android:textSize="14sp"
+                android:visibility="gone" />
+
             <ImageView
-                android:id="@+id/iv_clear_verify_code"
+                android:id="@+id/iv_clear_verification_code"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/tv_get_verify_code"
+                android:layout_toLeftOf="@id/tv_get_verification_code"
                 android:paddingRight="8dp"
                 android:src="@mipmap/icon_clear"
                 android:visibility="gone" />

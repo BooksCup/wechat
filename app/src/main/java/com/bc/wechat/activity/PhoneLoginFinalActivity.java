@@ -2,6 +2,7 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,9 +30,12 @@ import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.LoadingDialog;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
@@ -58,15 +62,20 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
     private TextView mLoginTypeTv;
 
     private RelativeLayout mLoginByPasswordRl;
-    private RelativeLayout mLoginByVerifyCodeRl;
+    private RelativeLayout mLoginByVerificationCodeRl;
 
-    private EditText mVerifyCodeEt;
+    private EditText mVerificationCodeEt;
 
     private ImageView mClearPasswordIv;
-    private ImageView mClearVerifyCodeIv;
+    private ImageView mClearVerificationCodeIv;
 
     private Button mLoginBtn;
     private String mPhone;
+
+    // 获取验证码
+    private TextView mGetVerificationCodeTv;
+    // 倒计时
+    private TextView mCountDownTv;
 
     private VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
@@ -99,22 +108,26 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
         mLoginBtn = findViewById(R.id.btn_login);
         mLoginTypeTv = findViewById(R.id.tv_login_type);
         mLoginByPasswordRl = findViewById(R.id.rl_login_by_password);
-        mLoginByVerifyCodeRl = findViewById(R.id.rl_login_by_verify_code);
+        mLoginByVerificationCodeRl = findViewById(R.id.rl_login_by_verification_code);
 
-        mVerifyCodeEt = findViewById(R.id.et_verify_code);
+        mVerificationCodeEt = findViewById(R.id.et_verification_code);
 
         mClearPasswordIv = findViewById(R.id.iv_clear_password);
-        mClearVerifyCodeIv = findViewById(R.id.iv_clear_verify_code);
+        mClearVerificationCodeIv = findViewById(R.id.iv_clear_verification_code);
 
         mPhoneEt.setHint(mPhone);
 
+        mGetVerificationCodeTv = findViewById(R.id.tv_get_verification_code);
+        mCountDownTv = findViewById(R.id.tv_count_down);
+
         mPasswordEt.addTextChangedListener(new TextChange());
-        mVerifyCodeEt.addTextChangedListener(new TextChange());
+        mVerificationCodeEt.addTextChangedListener(new TextChange());
 
         mLoginBtn.setOnClickListener(this);
         mLoginTypeTv.setOnClickListener(this);
         mClearPasswordIv.setOnClickListener(this);
-        mClearVerifyCodeIv.setOnClickListener(this);
+        mClearVerificationCodeIv.setOnClickListener(this);
+        mGetVerificationCodeTv.setOnClickListener(this);
     }
 
     @Override
@@ -131,7 +144,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 // 切换登录方式
                 if (LOGIN_TYPE_PASSWORD.equals(mLoginType)) {
                     // 点击切换为验证码登录
-                    mLoginByVerifyCodeRl.setVisibility(View.VISIBLE);
+                    mLoginByVerificationCodeRl.setVisibility(View.VISIBLE);
                     mLoginByPasswordRl.setVisibility(View.GONE);
 
                     mLoginType = LOGIN_TYPE_VERIFY_CODE;
@@ -139,7 +152,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 } else {
                     // 点击切换为密码登录
                     mLoginByPasswordRl.setVisibility(View.VISIBLE);
-                    mLoginByVerifyCodeRl.setVisibility(View.GONE);
+                    mLoginByVerificationCodeRl.setVisibility(View.GONE);
 
                     mLoginType = LOGIN_TYPE_PASSWORD;
                     mLoginTypeTv.setText("用短信验证码登录");
@@ -149,9 +162,33 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
             case R.id.iv_clear_password:
                 mPasswordEt.setText("");
                 break;
-            case R.id.iv_clear_verify_code:
-                mVerifyCodeEt.setText("");
+            case R.id.iv_clear_verification_code:
+                mVerificationCodeEt.setText("");
                 break;
+
+            case R.id.tv_get_verification_code:
+                final ConfirmDialog mConfirmDialog = new ConfirmDialog(PhoneLoginFinalActivity.this, "确认手机号码",
+                        "我们将发送验证码短信到这个号码：" + mPhone,
+                        "确定", "取消", getColor(R.color.navy_blue));
+                final VerificationCodeCountDownTimer verificationCodeCountDownTimer =
+                        new VerificationCodeCountDownTimer(60000, 1000);
+                mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOkClick() {
+                        mConfirmDialog.dismiss();
+                        verificationCodeCountDownTimer.start();
+                        // 获取验证码
+                        getVerificationCode(mPhone);
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        mConfirmDialog.dismiss();
+                    }
+                });
+                // 点击空白处消失
+                mConfirmDialog.setCancelable(true);
+                mConfirmDialog.show();
         }
     }
 
@@ -175,11 +212,11 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 }
             } else {
                 // 验证码登录
-                boolean verifyCodeEtHasText = mVerifyCodeEt.getText().length() > 0;
+                boolean verifyCodeEtHasText = mVerificationCodeEt.getText().length() > 0;
                 if (verifyCodeEtHasText) {
-                    mClearVerifyCodeIv.setVisibility(View.VISIBLE);
+                    mClearVerificationCodeIv.setVisibility(View.VISIBLE);
                 } else {
-                    mClearVerifyCodeIv.setVisibility(View.GONE);
+                    mClearVerificationCodeIv.setVisibility(View.GONE);
                 }
             }
         }
@@ -189,6 +226,35 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
 
         }
     }
+
+
+    //倒计时函数
+    private class VerificationCodeCountDownTimer extends CountDownTimer {
+
+        public VerificationCodeCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        // 计时过程
+        @Override
+        public void onTick(long l) {
+            // 防止计时过程中重复点击
+            mGetVerificationCodeTv.setClickable(false);
+            mGetVerificationCodeTv.setVisibility(View.GONE);
+            mCountDownTv.setVisibility(View.VISIBLE);
+            mCountDownTv.setText(l / 1000 + "秒后...");
+        }
+
+        // 计时完毕的方法
+        @Override
+        public void onFinish() {
+            // 设置可点击
+            mGetVerificationCodeTv.setClickable(true);
+            mGetVerificationCodeTv.setVisibility(View.VISIBLE);
+            mCountDownTv.setVisibility(View.GONE);
+        }
+    }
+
 
     /**
      * 登录
@@ -259,6 +325,29 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                                 .show();
                         break;
                 }
+                mDialog.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param phone 手机号
+     */
+    private void getVerificationCode(final String phone) {
+        String url = Constant.BASE_URL + "verificationCode";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("phone", phone);
+
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                mDialog.dismiss();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
             }
         });
