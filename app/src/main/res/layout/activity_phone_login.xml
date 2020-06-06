@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="24dp"
-            android:background="@color/register_btn_bg_disable"
+            android:background="@drawable/btn_login_next_disable"
             android:enabled="false"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"

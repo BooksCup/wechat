@@ -100,12 +100,12 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
             boolean phoneEtHasText = mPhoneEt.getText().length() > 0;
             if (phoneEtHasText) {
                 // "下一步"按钮可用
-                mNextBtn.setBackgroundColor(getColor(R.color.register_btn_bg_enable));
+                mNextBtn.setBackgroundResource(R.drawable.btn_login_next_enable);
                 mNextBtn.setTextColor(getColor(R.color.register_btn_text_enable));
                 mNextBtn.setEnabled(true);
             } else {
                 // "下一步"按钮不可用
-                mNextBtn.setBackgroundColor(getColor(R.color.register_btn_bg_disable));
+                mNextBtn.setBackgroundResource(R.drawable.btn_login_next_disable);
                 mNextBtn.setTextColor(getColor(R.color.register_btn_text_disable));
                 mNextBtn.setEnabled(false);
             }
