@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="手机号登录"
+                android:text="@string/log_in_via_mobile_number"
                 android:textColor="@color/common_top_title"
                 android:textSize="22sp" />
         </RelativeLayout>
@@ -62,11 +62,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:text="@string/country_china"
-                android:textColor="#45c01a"
+                android:text="中国大陆（+86）"
+                android:paddingLeft="100dp"
+                android:textColor="#6FCD78"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -80,9 +79,9 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:background="@null"
-                android:hint="请填写手机号"
+                android:hint="@string/enter_mobile_number"
                 android:inputType="phone"
-                android:paddingLeft="90dp"
+                android:paddingLeft="100dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
                 android:textSize="16sp" />
@@ -115,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="用微信号/QQ号/邮箱登录"
+                android:text="@string/log_in_via_wechat_id_email_qq_id"
                 android:textColor="@color/navy_blue"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -129,7 +128,7 @@
             android:enabled="false"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
-            android:text="下一步"
+            android:text="@string/next"
             android:textColor="@color/register_btn_text_disable"
             android:textSize="17sp" />
     </LinearLayout>

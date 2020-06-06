@@ -6,7 +6,15 @@
     <string name="tab_discover">发现</string>
     <string name="tab_me">我</string>
 
-    <string name="login_by_phone">使用手机号登录</string>
+    <string name="log_in_via_mobile_number">手机号登录</string>
+    <string name="log_in_via_wechat_id_email_qq_id">用微信号/QQ号/邮箱登录</string>
+    <string name="log_in_via_sms_verification_code">用短信验证码登录</string>
+    <string name="enter_mobile_number">请填写手机号</string>
+    <string name="enter_wechat_password">请填写微信密码</string>
+    <string name="enter_verification_code">请填写验证码</string>
+    <string name="next">下一步</string>
+    <string name="verification_code">验证码</string>
+    <string name="get_verification_code">获取验证码</string>
     <string name="country_and_area">国家和地区</string>
     <string name="country_china">中国</string>
     <string name="login_hint_phone">你的手机号码</string>

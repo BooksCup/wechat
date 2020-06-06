@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="手机号登录"
+                android:text="@string/log_in_via_mobile_number"
                 android:textColor="@color/common_top_title"
                 android:textSize="22sp" />
         </RelativeLayout>
@@ -57,7 +57,7 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:enabled="false"
-                android:paddingLeft="90dp"
+                android:paddingLeft="100dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
                 android:textSize="16sp" />
@@ -91,9 +91,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="110dp"
                 android:background="@null"
-                android:hint="请填写微信密码"
+                android:hint="@string/enter_wechat_password"
                 android:inputType="textPassword"
-                android:paddingLeft="90dp"
+                android:paddingLeft="100dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
                 android:textSize="16sp" />
@@ -139,9 +139,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="150dp"
                 android:background="@null"
-                android:hint="请填写验证码"
+                android:hint="@string/enter_verification_code"
                 android:inputType="number"
-                android:paddingLeft="90dp"
+                android:paddingLeft="100dp"
                 android:singleLine="true"
                 android:textColorHint="#DDDDDD"
                 android:textSize="16sp" />
@@ -153,7 +153,7 @@
                 android:layout_alignLeft="@id/et_verify_code"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="验证码"
+                android:text="@string/verification_code"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
@@ -169,7 +169,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_get_verify_code"
                 android:gravity="center"
-                android:text="获取验证码"
+                android:text="@string/get_verification_code"
                 android:textColor="@color/register_btn_bg_enable"
                 android:textSize="15sp" />
 
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="用短信验证码登录"
+                android:text="@string/log_in_via_sms_verification_code"
                 android:textColor="@color/navy_blue"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -214,7 +214,7 @@
             android:background="@drawable/btn_login"
             android:paddingTop="7dp"
             android:paddingBottom="7dp"
-            android:text="登录"
+            android:text="@string/login"
             android:textColor="@color/register_btn_text_enable"
             android:textSize="17sp" />
     </LinearLayout>
