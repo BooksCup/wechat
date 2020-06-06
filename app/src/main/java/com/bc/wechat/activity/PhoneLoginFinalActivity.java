@@ -311,9 +311,11 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
             public void onErrorResponse(VolleyError volleyError) {
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(PhoneLoginFinalActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
                     return;
                 } else if (volleyError instanceof TimeoutError) {
                     Toast.makeText(PhoneLoginFinalActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
                     return;
                 }
 
