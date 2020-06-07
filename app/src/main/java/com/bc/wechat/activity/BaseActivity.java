@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.bc.wechat.widget.WarningDialog;
 
 import java.util.List;
 
@@ -100,6 +102,28 @@ public class BaseActivity extends FragmentActivity {
             // 状态栏字体设置为深色，SYSTEM_UI_FLAG_LIGHT_STATUS_BAR 为SDK23增加
             win.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+
+    /**
+     * 显示警告弹窗
+     *
+     * @param context context
+     * @param title   标题
+     * @param content 内容
+     * @param confirm 确认键
+     */
+    protected void showWarningDialog(Context context, String title, String content, String confirm) {
+        final WarningDialog mWarningDialog = new WarningDialog(context, title, content, confirm);
+        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
+            @Override
+            public void onOkClick() {
+                mWarningDialog.dismiss();
+            }
+
+        });
+        // 点击空白处消失
+        mWarningDialog.setCancelable(true);
+        mWarningDialog.show();
     }
 
 }

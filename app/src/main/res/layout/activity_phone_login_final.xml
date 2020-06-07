@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="@string/log_in_via_mobile_number"
+                android:text="@string/login_via_mobile_number"
                 android:textColor="@color/common_top_title"
                 android:textSize="22sp" />
         </RelativeLayout>
@@ -216,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="@string/log_in_via_sms_verification_code"
+                android:text="@string/login_via_sms_verification_code"
                 android:textColor="@color/navy_blue"
                 android:textSize="16sp" />
         </RelativeLayout>

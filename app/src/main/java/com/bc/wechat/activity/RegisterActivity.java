@@ -320,7 +320,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 switch (errorCode) {
                     case 400:
                         Toast.makeText(RegisterActivity.this,
-                                R.string.username_or_password_error, Toast.LENGTH_SHORT)
+                                R.string.account_or_password_error, Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }

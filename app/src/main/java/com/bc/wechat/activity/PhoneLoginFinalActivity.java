@@ -139,40 +139,16 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 if (LOGIN_TYPE_PASSWORD.equals(mLoginType)) {
                     String password = mPasswordEt.getText().toString();
                     if (TextUtils.isEmpty(password)) {
-                        // 无效
-                        final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginFinalActivity.this, "登录失败",
-                                "密码不能为空，请输入密码",
-                                "确定");
-                        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
-                            @Override
-                            public void onOkClick() {
-                                mWarningDialog.dismiss();
-                            }
-
-                        });
-                        // 点击空白处消失
-                        mWarningDialog.setCancelable(true);
-                        mWarningDialog.show();
+                        showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                                getString(R.string.enter_your_password), getString(R.string.ok));
                     } else {
                         login(mLoginType, mPhone, password, "");
                     }
                 } else {
                     String verificationCode = mVerificationCodeEt.getText().toString();
                     if (TextUtils.isEmpty(verificationCode)) {
-                        // 无效
-                        final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginFinalActivity.this, "登录失败",
-                                "验证码不能为空",
-                                "确定");
-                        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
-                            @Override
-                            public void onOkClick() {
-                                mWarningDialog.dismiss();
-                            }
-
-                        });
-                        // 点击空白处消失
-                        mWarningDialog.setCancelable(true);
-                        mWarningDialog.show();
+                        showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                                getString(R.string.enter_your_verification_code), getString(R.string.ok));
                     } else {
                         login(mLoginType, mPhone, "", verificationCode);
                     }
@@ -186,14 +162,14 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                     mLoginByPasswordRl.setVisibility(View.GONE);
 
                     mLoginType = LOGIN_TYPE_VERIFY_CODE;
-                    mLoginTypeTv.setText("用密码登录");
+                    mLoginTypeTv.setText(getString(R.string.login_via_password));
                 } else {
                     // 点击切换为密码登录
                     mLoginByPasswordRl.setVisibility(View.VISIBLE);
                     mLoginByVerificationCodeRl.setVisibility(View.GONE);
 
                     mLoginType = LOGIN_TYPE_PASSWORD;
-                    mLoginTypeTv.setText("用短信验证码登录");
+                    mLoginTypeTv.setText(getString(R.string.login_via_sms_verification_code));
                 }
                 break;
 
@@ -207,7 +183,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
             case R.id.tv_get_verification_code:
                 final ConfirmDialog mConfirmDialog = new ConfirmDialog(PhoneLoginFinalActivity.this, "确认手机号码",
                         "我们将发送验证码短信到这个号码：" + mPhone,
-                        "确定", "取消", getColor(R.color.navy_blue));
+                        getString(R.string.ok), getString(R.string.cancel), getColor(R.color.navy_blue));
                 final VerificationCodeCountDownTimer verificationCodeCountDownTimer =
                         new VerificationCodeCountDownTimer(60000, 1000);
                 mConfirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
@@ -299,7 +275,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
      * @param phone    手机号
      * @param password 密码
      */
-    private void login(String loginType, String phone, String password, String verificationCode) {
+    private void login(final String loginType, String phone, String password, String verificationCode) {
         mDialog.setMessage(getString(R.string.logging_in));
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
@@ -347,7 +323,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                         } else {
                             // 极光im登录失败
                             Toast.makeText(PhoneLoginFinalActivity.this,
-                                    R.string.username_or_password_error, Toast.LENGTH_SHORT)
+                                    R.string.account_or_password_error, Toast.LENGTH_SHORT)
                                     .show();
                         }
                         // 上面都是耗时操作
@@ -372,20 +348,15 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 int errorCode = volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
-                        // 无效
-                        final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginFinalActivity.this, "登录失败",
-                                getString(R.string.username_or_password_error),
-                                "确定");
-                        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
-                            @Override
-                            public void onOkClick() {
-                                mWarningDialog.dismiss();
-                            }
-
-                        });
-                        // 点击空白处消失
-                        mWarningDialog.setCancelable(true);
-                        mWarningDialog.show();
+                        if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
+                            // 手机号密码登录
+                            showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                                    getString(R.string.account_or_password_error), getString(R.string.ok));
+                        } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
+                            // 验证码登录
+                            showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                                    getString(R.string.verification_code_error), getString(R.string.ok));
+                        }
                         break;
                 }
                 mDialog.dismiss();

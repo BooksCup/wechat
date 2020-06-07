@@ -6,9 +6,6 @@
     <string name="tab_discover">发现</string>
     <string name="tab_me">我</string>
 
-    <string name="log_in_via_mobile_number">手机号登录</string>
-    <string name="log_in_via_wechat_id_email_qq_id">用微信号/QQ号/邮箱登录</string>
-    <string name="log_in_via_sms_verification_code">用短信验证码登录</string>
     <string name="enter_mobile_number">请填写手机号</string>
     <string name="enter_wechat_password">请填写微信密码</string>
     <string name="enter_verification_code">请填写验证码</string>
@@ -22,9 +19,17 @@
     <string name="login_meet_problem">登录遇到问题？</string>
     <string name="account">账号</string>
     <string name="login">登录</string>
+    <string name="login_via_mobile_number">手机号登录</string>
+    <string name="login_via_wechat_id_email_qq_id">用微信号/QQ号/邮箱登录</string>
+    <string name="login_via_password">用密码登录</string>
+    <string name="login_via_sms_verification_code">用短信验证码登录</string>
     <string name="logging_in">正在登录...</string>
+    <string name="enter_your_password">密码不能为空，请输入密码</string>
+    <string name="enter_your_verification_code">验证码不能为空</string>
+    <string name="login_error">登录失败</string>
     <string name="registering">正在注册...</string>
-    <string name="username_or_password_error">账号或密码错误，请重新填写。</string>
+    <string name="account_or_password_error">账号或密码错误，请重新填写</string>
+    <string name="verification_code_error">验证码不正确，请重新输入</string>
     <string name="register">注册</string>
     <string name="register_hint">没有账号？注册一个</string>
     <string name="register_title_phone">手机号注册</string>

@@ -13,7 +13,6 @@ import com.bc.wechat.R;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.ValidateUtil;
 import com.bc.wechat.widget.LoadingDialog;
-import com.bc.wechat.widget.WarningDialog;
 
 /**
  * 登录
@@ -70,19 +69,9 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                 } else {
                     mDialog.dismiss();
                     // 无效
-                    final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginActivity.this, "手机号码错误",
+                    showWarningDialog(PhoneLoginActivity.this, "手机号码错误",
                             "你输入的是一个无效的手机号码",
                             "确定");
-                    mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
-                        @Override
-                        public void onOkClick() {
-                            mWarningDialog.dismiss();
-                        }
-
-                    });
-                    // 点击空白处消失
-                    mWarningDialog.setCancelable(true);
-                    mWarningDialog.show();
                 }
                 break;
         }
