@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.LoadingDialog;
+import com.bc.wechat.widget.WarningDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -134,15 +136,46 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                mDialog.setMessage(getString(R.string.logging_in));
-                mDialog.setCanceledOnTouchOutside(false);
-                mDialog.show();
                 if (LOGIN_TYPE_PASSWORD.equals(mLoginType)) {
                     String password = mPasswordEt.getText().toString();
-                    login(mLoginType, mPhone, password, "");
+                    if (TextUtils.isEmpty(password)) {
+                        // 无效
+                        final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginFinalActivity.this, "登录失败",
+                                "密码不能为空，请输入密码",
+                                "确定");
+                        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
+                            @Override
+                            public void onOkClick() {
+                                mWarningDialog.dismiss();
+                            }
+
+                        });
+                        // 点击空白处消失
+                        mWarningDialog.setCancelable(true);
+                        mWarningDialog.show();
+                    } else {
+                        login(mLoginType, mPhone, password, "");
+                    }
                 } else {
                     String verificationCode = mVerificationCodeEt.getText().toString();
-                    login(mLoginType, mPhone, "", verificationCode);
+                    if (TextUtils.isEmpty(verificationCode)) {
+                        // 无效
+                        final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginFinalActivity.this, "登录失败",
+                                "验证码不能为空",
+                                "确定");
+                        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
+                            @Override
+                            public void onOkClick() {
+                                mWarningDialog.dismiss();
+                            }
+
+                        });
+                        // 点击空白处消失
+                        mWarningDialog.setCancelable(true);
+                        mWarningDialog.show();
+                    } else {
+                        login(mLoginType, mPhone, "", verificationCode);
+                    }
                 }
                 break;
             case R.id.tv_login_type:
@@ -267,6 +300,10 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
      * @param password 密码
      */
     private void login(String loginType, String phone, String password, String verificationCode) {
+        mDialog.setMessage(getString(R.string.logging_in));
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+
         DeviceInfo deviceInfo = DeviceInfoUtil.getInstance().getDeviceInfo(PhoneLoginFinalActivity.this);
         String url;
         if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
@@ -335,9 +372,20 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 int errorCode = volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
-                        Toast.makeText(PhoneLoginFinalActivity.this,
-                                R.string.username_or_password_error, Toast.LENGTH_SHORT)
-                                .show();
+                        // 无效
+                        final WarningDialog mWarningDialog = new WarningDialog(PhoneLoginFinalActivity.this, "登录失败",
+                                getString(R.string.username_or_password_error),
+                                "确定");
+                        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
+                            @Override
+                            public void onOkClick() {
+                                mWarningDialog.dismiss();
+                            }
+
+                        });
+                        // 点击空白处消失
+                        mWarningDialog.setCancelable(true);
+                        mWarningDialog.show();
                         break;
                 }
                 mDialog.dismiss();

@@ -402,7 +402,6 @@
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.im.android.action.IM_RESPONSE" />
                 <action android:name="cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY" />
-
                 <category android:name="com.bc.wechat" />
             </intent-filter>
         </receiver>
