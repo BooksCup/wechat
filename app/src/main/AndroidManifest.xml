@@ -83,9 +83,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.DeprecatedLoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.PhoneLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
@@ -275,12 +272,6 @@
             android:name=".activity.PeopleNearbyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
-
-        <!-- 自定义的alertdialog -->
-        <activity
-            android:name=".activity.WechatAlertDialog"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle"></activity>
 
         <!-- 条形码扫描 -->
         <activity
