@@ -8,8 +8,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.ValidateUtil;
 import com.bc.wechat.widget.LoadingDialog;
@@ -20,10 +23,17 @@ import com.bc.wechat.widget.LoadingDialog;
  * @author zhou
  */
 public class PhoneLoginActivity extends BaseActivity implements View.OnClickListener {
+    private TextView mTitleTv;
 
     private EditText mPhoneEt;
     private Button mNextBtn;
     LoadingDialog mDialog;
+
+    private TextView mLoginTypeTv;
+    private LinearLayout mLoginViaMobileNumberLl;
+    private LinearLayout mLoginViaWechatIdOrEmailOrQqId;
+
+    private String mLoginType = Constant.LOGIN_TYPE_PHONE_AND_PASSWORD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,16 +51,50 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
+        mTitleTv = findViewById(R.id.tv_title);
+
         mPhoneEt = findViewById(R.id.et_phone);
         mNextBtn = findViewById(R.id.btn_next);
+        mLoginTypeTv = findViewById(R.id.tv_login_type);
+        mLoginViaMobileNumberLl = findViewById(R.id.ll_login_via_mobile_number);
+        mLoginViaWechatIdOrEmailOrQqId = findViewById(R.id.ll_login_via_wechat_id_email_qq_id);
 
         mPhoneEt.addTextChangedListener(new TextChange());
         mNextBtn.setOnClickListener(this);
+        mLoginTypeTv.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_login_type:
+                // 登录方式切换
+                // 手机号登录 or 其他账号(微信号/QQ号/邮箱)登录
+                if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(mLoginType)) {
+                    // 当前登录方式手机号登录
+                    // 切换为其他账号登录
+                    mLoginViaWechatIdOrEmailOrQqId.setVisibility(View.VISIBLE);
+                    mLoginViaMobileNumberLl.setVisibility(View.GONE);
+
+                    mLoginType = Constant.LOGIN_TYPE_OTHER_ACCOUNTS_AND_PASSWORD;
+                    mTitleTv.setText(getString(R.string.login_via_wechat_id_email_qq_id));
+                    mLoginTypeTv.setText(getString(R.string.use_mobile_number_to_login));
+
+                    mNextBtn.setText(getString(R.string.login));
+                } else {
+                    // 当前登录方式其他账号登录
+                    // 切换为手机号登录
+                    mLoginViaMobileNumberLl.setVisibility(View.VISIBLE);
+                    mLoginViaWechatIdOrEmailOrQqId.setVisibility(View.GONE);
+
+                    mLoginType = Constant.LOGIN_TYPE_PHONE_AND_PASSWORD;
+                    mTitleTv.setText(getString(R.string.login_via_mobile_number));
+                    mLoginTypeTv.setText(getString(R.string.use_wechat_id_email_qq_id_to_login));
+
+                    mNextBtn.setText(getString(R.string.next));
+                }
+                break;
+
             case R.id.btn_next:
                 mDialog.setMessage(getString(R.string.please_wait));
                 mDialog.setCanceledOnTouchOutside(false);

@@ -37,6 +37,7 @@
             android:layout_height="100dp">
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -46,62 +47,145 @@
                 android:textSize="22sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+        <LinearLayout
+            android:id="@+id/ll_login_via_mobile_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="国家/地区"
-                android:textColor="#353535"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="中国大陆（+86）"
-                android:paddingLeft="100dp"
-                android:textColor="#6FCD78"
-                android:textSize="16sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <EditText
-                android:id="@+id/et_phone"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:hint="@string/enter_mobile_number"
-                android:inputType="phone"
-                android:paddingLeft="100dp"
-                android:singleLine="true"
-                android:textColorHint="#DDDDDD"
-                android:textSize="16sp" />
+                android:layout_height="48dp">
 
-            <TextView
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/et_phone"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="@string/phone"
-                android:textColor="#353535"
-                android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="国家/地区"
+                    android:textColor="#353535"
+                    android:textSize="16sp" />
 
-            <View
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="100dp"
+                    android:text="中国大陆（+86）"
+                    android:textColor="#6FCD78"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_alignParentBottom="true"
-                android:background="#b5b5b6" />
-        </RelativeLayout>
+                android:layout_height="48dp">
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="@string/enter_mobile_number"
+                    android:inputType="phone"
+                    android:paddingLeft="100dp"
+                    android:singleLine="true"
+                    android:textColorHint="#DDDDDD"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/et_phone"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/phone"
+                    android:textColor="#353535"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#b5b5b6" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_login_via_wechat_id_email_qq_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <EditText
+                    android:id="@+id/et_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="请填写微信号/QQ号/邮箱"
+                    android:inputType="phone"
+                    android:paddingLeft="100dp"
+                    android:singleLine="true"
+                    android:textColorHint="#DDDDDD"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/et_account"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/account"
+                    android:textColor="#353535"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#b5b5b6" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:hint="请填写密码"
+                    android:inputType="textPassword"
+                    android:paddingLeft="100dp"
+                    android:singleLine="true"
+                    android:textColorHint="#DDDDDD"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/et_password"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/password"
+                    android:textColor="#353535"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#b5b5b6" />
+            </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -109,12 +193,12 @@
             android:layout_marginTop="15dp">
 
             <TextView
-                android:id="@+id/tv_password"
+                android:id="@+id/tv_login_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="@string/login_via_wechat_id_email_qq_id"
+                android:text="@string/use_wechat_id_email_qq_id_to_login"
                 android:textColor="@color/navy_blue"
                 android:textSize="16sp" />
         </RelativeLayout>

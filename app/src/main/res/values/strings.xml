@@ -20,7 +20,9 @@
     <string name="account">账号</string>
     <string name="login">登录</string>
     <string name="login_via_mobile_number">手机号登录</string>
-    <string name="login_via_wechat_id_email_qq_id">用微信号/QQ号/邮箱登录</string>
+    <string name="use_mobile_number_to_login">用手机号登录</string>
+    <string name="login_via_wechat_id_email_qq_id">微信号/QQ号/邮箱登录</string>
+    <string name="use_wechat_id_email_qq_id_to_login">用微信号/QQ号/邮箱登录</string>
     <string name="login_via_password">用密码登录</string>
     <string name="login_via_sms_verification_code">用短信验证码登录</string>
     <string name="logging_in">正在登录...</string>
