@@ -38,6 +38,18 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:background="#f7f8f8" />
+
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:text="@string/save"
+            android:textColor="@color/common_top_title"
+            android:textSize="16sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <EditText
@@ -62,13 +74,14 @@
         android:background="#dadada" />
 
     <TextView
+        android:id="@+id/tv_tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="20dp"
         android:text="@string/unlink_tips"
-        android:textColor="#AAAAAA"
+        android:textColor="@color/tips_grey"
         android:textSize="13sp" />
 
     <Button

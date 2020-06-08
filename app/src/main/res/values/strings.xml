@@ -47,6 +47,7 @@
     <string name="text_delivered_msg">送达</string>
     <string name="back">返回</string>
     <string name="save">保存</string>
+    <string name="edit">编辑</string>
     <string name="password_rules">密码必须是8-16位的数字、字符组合(不能是纯数字)</string>
     <string name="button_pushtotalk">按住说话</string>
     <string name="send">发送</string>
@@ -238,10 +239,13 @@
     <string name="wechat_id_or_mobile">微信号/手机号</string>
 
     <string name="linking">正在绑定...</string>
+    <string name="unlinking">正在解绑...</string>
 
     <string name="not_linked">未绑定</string>
     <string name="not_verified">未验证</string>
     <string name="verified">已验证</string>
     <string name="unlink">解除绑定</string>
     <string name="unlink_tips">如果你更改了邮件地址，你需要对邮件地址重新进行验证。</string>
+    <string name="resend_verification_email">重新发送验证邮件</string>
+    <string name="resend_verification_email_tips">该邮箱还未验证，请登录你的邮箱查收邮件并验证。</string>
 </resources>
