@@ -127,8 +127,8 @@
         <activity
             android:name=".activity.MoreSecuritySettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ImageTranslucentTheme" />
-
+            android:theme="@style/ImageTranslucentTheme"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".activity.MyProfileActivity"
             android:screenOrientation="portrait"

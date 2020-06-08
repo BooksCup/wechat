@@ -26,6 +26,7 @@ public class EditDialog extends Dialog {
 
     private TextView mTitleTv;
     private EditText mContentEt;
+    private TextView mTipsTv;
     private Button mOkBtn;
     private Button mCancelBtn;
     private OnDialogClickListener mDialogClickListener;
@@ -34,18 +35,23 @@ public class EditDialog extends Dialog {
     private String mTitle;
     // 内容
     private String mContent;
+    // 提示内容
+    private String mTips;
+    // 确认
     private String mConfirm;
+    // 取消
     private String mCancel;
 
     // 确认按钮颜色
     private int mOkBtnColor = -1;
 
-    public EditDialog(Context context, String title, String content,
+    public EditDialog(Context context, String title, String content, String tips,
                       String confirm, String cancel) {
         super(context);
         this.mContext = context;
         this.mTitle = title;
         this.mContent = content;
+        this.mTips = tips;
         this.mConfirm = confirm;
         this.mCancel = cancel;
         initalize();
@@ -61,6 +67,7 @@ public class EditDialog extends Dialog {
 
         mContentEt = findViewById(R.id.et_content);
         mTitleTv = findViewById(R.id.tv_title);
+        mTipsTv = findViewById(R.id.tv_tips);
         mOkBtn = findViewById(R.id.btn_ok);
         mCancelBtn = findViewById(R.id.btn_cancel);
 
@@ -73,6 +80,10 @@ public class EditDialog extends Dialog {
 
         if (!TextUtils.isEmpty(mContent)) {
             mContentEt.setText(mContent);
+        }
+
+        if (!TextUtils.isEmpty(mTips)) {
+            mTipsTv.setText(mTips);
         }
 
         if (!TextUtils.isEmpty(mConfirm)) {
@@ -130,9 +141,7 @@ public class EditDialog extends Dialog {
         layoutParams.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(layoutParams);
 
-        dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     public void setOnDialogClickListener(OnDialogClickListener clickListener) {

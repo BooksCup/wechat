@@ -166,4 +166,22 @@ public class Constant {
      * 验证码业务类型-"登录"
      */
     public static final String VERIFICATION_CODE_SERVICE_TYPE_LOGIN = "0";
+
+    /**
+     * 邮箱验证
+     */
+    /**
+     * 未绑定
+     */
+    public static final String EMAIL_NOT_LINK = "0";
+
+    /**
+     * 未验证
+     */
+    public static final String EMAIL_NOT_VERIFIED = "1";
+
+    /**
+     * 已验证
+     */
+    public static final String EMAIL_VERIFIED = "2";
 }

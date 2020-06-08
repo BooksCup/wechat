@@ -82,7 +82,6 @@
                         android:background="#dadada" />
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/rl_email"
                     android:layout_width="match_parent"
@@ -101,12 +100,23 @@
                         android:textSize="16sp" />
 
                     <ImageView
+                        android:id="@+id/iv_email_more"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
                         android:src="@mipmap/icon_right_arrow" />
+
+                    <TextView
+                        android:id="@+id/tv_email_is_linked"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/iv_email_more"
+                        android:text="未绑定"
+                        android:textColor="#b5b5b6"
+                        android:textSize="16sp" />
 
                     <View
                         android:layout_width="match_parent"

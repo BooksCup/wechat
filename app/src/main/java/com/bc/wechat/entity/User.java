@@ -15,6 +15,9 @@ public class User extends SugarRecord {
     private String userHeader;
     private String userSex;
     private String userSign;
+    private String userEmail;
+    private String userIsEmailLinked;
+
     private String userQrCode;
     private String isFriend;
 
@@ -110,6 +113,22 @@ public class User extends SugarRecord {
 
     public void setUserSign(String userSign) {
         this.userSign = userSign;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserIsEmailLinked() {
+        return userIsEmailLinked;
+    }
+
+    public void setUserIsEmailLinked(String userIsEmailLinked) {
+        this.userIsEmailLinked = userIsEmailLinked;
     }
 
     public String getUserQrCode() {

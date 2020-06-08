@@ -226,11 +226,20 @@
     <string name="wechat_security_center_tips">如果你遇到微信被盗，无法登陆设备等问题，可以前往安全中心</string>
 
     <string name="manage_devices_tips">最近登录设备：你可以删除列表中的设备，删除后在该设备登录微信需要进行身份验证。</string>
-
+    <string name="edit_email">修改邮件地址</string>
+    <string name="edit_email_tips">如果你更改了邮件地址，你需要对邮件地址重新进行验证。</string>
+    <string name="edit_device_name">修改手机名</string>
+    <string name="edit_device_name_tips">你可以为你的设备设置一个名字</string>
     <string name="edit_name">更改名字</string>
     <string name="edit_wechat_id">更改微信号</string>
     <string name="set_gender">设置性别</string>
 
     <string name="add_contacts">添加朋友</string>
     <string name="wechat_id_or_mobile">微信号/手机号</string>
+
+    <string name="linking">正在绑定...</string>
+
+    <string name="not_linked">未绑定</string>
+    <string name="not_verified">未验证</string>
+    <string name="verified">已验证</string>
 </resources>

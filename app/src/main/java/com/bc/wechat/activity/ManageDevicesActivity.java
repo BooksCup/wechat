@@ -135,16 +135,16 @@ public class ManageDevicesActivity extends BaseActivity {
             content = deviceInfo.getPhoneModelAlias();
         }
 
-        final EditDialog mEditDialog = new EditDialog(ManageDevicesActivity.this, "修改手机名",
-                content,
-                "确定", getString(R.string.cancel));
+        final EditDialog mEditDialog = new EditDialog(ManageDevicesActivity.this, getString(R.string.edit_device_name),
+                content, getString(R.string.edit_device_name_tips),
+                getString(R.string.ok), getString(R.string.cancel));
         mEditDialog.setOnDialogClickListener(new EditDialog.OnDialogClickListener() {
             @Override
             public void onOkClick() {
                 mEditDialog.dismiss();
                 String phoneModelAlias = mEditDialog.getContent();
 
-                mDialog.setMessage("请稍候...");
+                mDialog.setMessage(getString(R.string.please_wait));
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
