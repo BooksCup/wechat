@@ -26,6 +26,10 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
     private TextView mTitleTv;
 
     private EditText mPhoneEt;
+
+    private EditText mAccountEt;
+    private EditText mPasswordEt;
+
     private Button mNextBtn;
     LoadingDialog mDialog;
 
@@ -54,12 +58,19 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
         mTitleTv = findViewById(R.id.tv_title);
 
         mPhoneEt = findViewById(R.id.et_phone);
+
+        mAccountEt = findViewById(R.id.et_account);
+        mPasswordEt = findViewById(R.id.et_password);
+
         mNextBtn = findViewById(R.id.btn_next);
         mLoginTypeTv = findViewById(R.id.tv_login_type);
         mLoginViaMobileNumberLl = findViewById(R.id.ll_login_via_mobile_number);
         mLoginViaWechatIdOrEmailOrQqId = findViewById(R.id.ll_login_via_wechat_id_email_qq_id);
 
         mPhoneEt.addTextChangedListener(new TextChange());
+        mAccountEt.addTextChangedListener(new TextChange());
+        mPasswordEt.addTextChangedListener(new TextChange());
+
         mNextBtn.setOnClickListener(this);
         mLoginTypeTv.setOnClickListener(this);
     }
@@ -77,6 +88,8 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                     mLoginViaMobileNumberLl.setVisibility(View.GONE);
 
                     mLoginType = Constant.LOGIN_TYPE_OTHER_ACCOUNTS_AND_PASSWORD;
+                    mPhoneEt.setText("");
+
                     mTitleTv.setText(getString(R.string.login_via_wechat_id_email_qq_id));
                     mLoginTypeTv.setText(getString(R.string.use_mobile_number_to_login));
 
@@ -88,6 +101,9 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                     mLoginViaWechatIdOrEmailOrQqId.setVisibility(View.GONE);
 
                     mLoginType = Constant.LOGIN_TYPE_PHONE_AND_PASSWORD;
+                    mAccountEt.setText("");
+                    mPasswordEt.setText("");
+
                     mTitleTv.setText(getString(R.string.login_via_mobile_number));
                     mLoginTypeTv.setText(getString(R.string.use_wechat_id_email_qq_id_to_login));
 
@@ -130,17 +146,35 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            boolean phoneEtHasText = mPhoneEt.getText().length() > 0;
-            if (phoneEtHasText) {
-                // "下一步"按钮可用
-                mNextBtn.setBackgroundResource(R.drawable.btn_login_next_enable);
-                mNextBtn.setTextColor(getColor(R.color.register_btn_text_enable));
-                mNextBtn.setEnabled(true);
+            if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(mLoginType)) {
+                // 手机号登录
+                boolean phoneEtHasText = mPhoneEt.getText().length() > 0;
+                if (phoneEtHasText) {
+                    // "下一步"按钮可用
+                    mNextBtn.setBackgroundResource(R.drawable.btn_login_next_enable);
+                    mNextBtn.setTextColor(getColor(R.color.register_btn_text_enable));
+                    mNextBtn.setEnabled(true);
+                } else {
+                    // "下一步"按钮不可用
+                    mNextBtn.setBackgroundResource(R.drawable.btn_login_next_disable);
+                    mNextBtn.setTextColor(getColor(R.color.register_btn_text_disable));
+                    mNextBtn.setEnabled(false);
+                }
             } else {
-                // "下一步"按钮不可用
-                mNextBtn.setBackgroundResource(R.drawable.btn_login_next_disable);
-                mNextBtn.setTextColor(getColor(R.color.register_btn_text_disable));
-                mNextBtn.setEnabled(false);
+                // 其他账号登录
+                boolean accountEtHasText = mAccountEt.getText().length() > 0;
+                boolean passwordEtHasText = mPasswordEt.getText().length() > 0;
+                if (accountEtHasText && passwordEtHasText) {
+                    // "登录"按钮可用
+                    mNextBtn.setBackgroundResource(R.drawable.btn_login_next_enable);
+                    mNextBtn.setTextColor(getColor(R.color.register_btn_text_enable));
+                    mNextBtn.setEnabled(true);
+                } else {
+                    // "登录"按钮不可用
+                    mNextBtn.setBackgroundResource(R.drawable.btn_login_next_disable);
+                    mNextBtn.setTextColor(getColor(R.color.register_btn_text_disable));
+                    mNextBtn.setEnabled(false);
+                }
             }
         }
 

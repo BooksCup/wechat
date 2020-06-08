@@ -129,7 +129,6 @@
                     android:layout_centerVertical="true"
                     android:background="@null"
                     android:hint="请填写微信号/QQ号/邮箱"
-                    android:inputType="phone"
                     android:paddingLeft="100dp"
                     android:singleLine="true"
                     android:textColorHint="#DDDDDD"
