@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -79,7 +80,13 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_email:
-                openEditEmailDialog();
+                // 未绑定出弹窗
+                // 绑定未验证或者已绑定都是进邮件认证页面
+                if (Constant.EMAIL_NOT_LINK.equals(mUser.getUserIsEmailLinked())) {
+                    openEditEmailDialog();
+                } else {
+                    startActivity(new Intent(MoreSecuritySettingActivity.this, EmailLinkActivity.class));
+                }
                 break;
         }
     }

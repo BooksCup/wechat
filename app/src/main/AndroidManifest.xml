@@ -130,6 +130,10 @@
             android:theme="@style/ImageTranslucentTheme"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
+            android:name=".activity.EmailLinkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
             android:name=".activity.MyProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
