@@ -32,6 +32,11 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
      */
     private RelativeLayout mManageDevicesRl;
 
+    /**
+     * 更多安全设置
+     */
+    private RelativeLayout mMoreSettingRl;
+
     private User mUser;
 
     @Override
@@ -57,6 +62,9 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
 
         mManageDevicesRl = findViewById(R.id.rl_manage_devices);
         mManageDevicesRl.setOnClickListener(this);
+
+        mMoreSettingRl = findViewById(R.id.rl_more_settings);
+        mMoreSettingRl.setOnClickListener(this);
     }
 
     public void back(View view) {
@@ -67,7 +75,13 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_manage_devices:
+                // 登录设备管理
                 startActivity(new Intent(AccountSecurityActivity.this, ManageDevicesActivity.class));
+                break;
+
+            case R.id.rl_more_settings:
+                // 更多安全设置
+                startActivity(new Intent(AccountSecurityActivity.this, MoreSecuritySettingActivity.class));
                 break;
         }
     }

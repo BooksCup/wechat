@@ -102,6 +102,13 @@
                         android:textColor="#353535"
                         android:textSize="16sp" />
 
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/tv_phone"
+                        android:src="@mipmap/icon_security_lock" />
+
                     <TextView
                         android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
