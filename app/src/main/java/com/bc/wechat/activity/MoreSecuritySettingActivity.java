@@ -29,6 +29,7 @@ import java.util.Map;
  */
 public class MoreSecuritySettingActivity extends BaseActivity implements View.OnClickListener {
 
+    private RelativeLayout mQqIdRl;
     private RelativeLayout mEmailRl;
     private TextView mEmailIsLinkedTv;
 
@@ -55,10 +56,12 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     }
 
     private void initView() {
+        mQqIdRl = findViewById(R.id.rl_qq_id);
         mEmailRl = findViewById(R.id.rl_email);
         mEmailIsLinkedTv = findViewById(R.id.tv_email_is_linked);
         refreshLinkedStatus(mUser);
 
+        mQqIdRl.setOnClickListener(this);
         mEmailRl.setOnClickListener(this);
     }
 
@@ -83,6 +86,9 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_qq_id:
+                startActivity(new Intent(MoreSecuritySettingActivity.this, QqIdLinkBeginActivity.class));
+                break;
             case R.id.rl_email:
                 // 未绑定出弹窗
                 // 绑定未验证或者已绑定都是进邮件认证页面

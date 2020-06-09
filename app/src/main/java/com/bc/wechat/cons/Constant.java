@@ -168,6 +168,14 @@ public class Constant {
     public static final String VERIFICATION_CODE_SERVICE_TYPE_LOGIN = "0";
 
     /**
+     * QQ号验证
+     */
+    /**
+     * 未绑定
+     */
+    public static final String QQ_ID_NOT_LINK = "0";
+
+    /**
      * 邮箱验证
      */
     /**
