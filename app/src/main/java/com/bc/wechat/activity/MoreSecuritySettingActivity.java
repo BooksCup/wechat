@@ -169,6 +169,7 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
             public void onResponse(String response) {
                 User user = JSON.parseObject(response, User.class);
                 PreferencesUtil.getInstance().setUser(user);
+                mUser = user;
                 refreshLinkedStatus(user);
             }
         }, new Response.ErrorListener() {
