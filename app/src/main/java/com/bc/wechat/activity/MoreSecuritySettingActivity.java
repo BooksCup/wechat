@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
@@ -45,6 +46,7 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
 
+        getUserFromServer(mUser.getUserId());
         initView();
     }
 
@@ -55,16 +57,18 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     private void initView() {
         mEmailRl = findViewById(R.id.rl_email);
         mEmailIsLinkedTv = findViewById(R.id.tv_email_is_linked);
-        refreshLinkedStatus();
+        refreshLinkedStatus(mUser);
 
         mEmailRl.setOnClickListener(this);
     }
 
     /**
      * 刷新绑定状态
+     *
+     * @param user 用户
      */
-    private void refreshLinkedStatus() {
-        String emailIsLinked = mUser.getUserIsEmailLinked();
+    private void refreshLinkedStatus(User user) {
+        String emailIsLinked = user.getUserIsEmailLinked();
         if (Constant.EMAIL_NOT_LINK.equals(emailIsLinked)) {
             mEmailIsLinkedTv.setText(getString(R.string.not_linked));
         } else if (Constant.EMAIL_NOT_VERIFIED.equals(emailIsLinked)) {
@@ -136,12 +140,41 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
                 // 邮箱已绑定但未验证
                 mUser.setUserIsEmailLinked(Constant.EMAIL_NOT_VERIFIED);
                 PreferencesUtil.getInstance().setUser(mUser);
-                refreshLinkedStatus();
+                refreshLinkedStatus(mUser);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 mDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserFromServer(mUser.getUserId());
+    }
+
+    /**
+     * 从服务器获取用户最新信息
+     *
+     * @param userId 用户ID
+     */
+    public void getUserFromServer(final String userId) {
+        String url = Constant.BASE_URL + "users/" + userId;
+
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                User user = JSON.parseObject(response, User.class);
+                PreferencesUtil.getInstance().setUser(user);
+                refreshLinkedStatus(user);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+
             }
         });
     }
