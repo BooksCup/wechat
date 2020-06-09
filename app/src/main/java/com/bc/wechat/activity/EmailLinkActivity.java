@@ -145,6 +145,8 @@ public class EmailLinkActivity extends BaseActivity implements View.OnClickListe
                 mUnLinkBtn.setVisibility(View.GONE);
                 mSaveTv.setVisibility(View.VISIBLE);
 
+                String content = "解绑完成后，下次登录请使用手机号" + mUser.getUserPhone() + "+微信独立密码 登录微信";
+                showNoTitleAlertDialog(EmailLinkActivity.this, content, "知道了");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -177,7 +179,7 @@ public class EmailLinkActivity extends BaseActivity implements View.OnClickListe
 
 //                Toast.makeText(EmailLinkActivity.this, "验证邮件已发送，请尽快登录邮箱验证", Toast.LENGTH_SHORT).show();
 
-                showWarningDialog(EmailLinkActivity.this, "提示",
+                showAlertDialog(EmailLinkActivity.this, "提示",
                         "验证邮件已发送，请尽快登录邮箱验证",
                         "确定");
 

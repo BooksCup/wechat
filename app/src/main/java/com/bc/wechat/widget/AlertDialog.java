@@ -20,7 +20,7 @@ import com.bc.wechat.R;
  *
  * @author zhou
  */
-public class WarningDialog extends Dialog {
+public class AlertDialog extends Dialog {
     private Context mContext;
 
     private TextView mTitleTv;
@@ -37,8 +37,8 @@ public class WarningDialog extends Dialog {
     // 确认按钮颜色
     private int mOkBtnColor = -1;
 
-    public WarningDialog(Context context, String title, String content,
-                         String confirm) {
+    public AlertDialog(Context context, String title, String content,
+                       String confirm) {
         super(context);
         this.mContext = context;
         this.mTitle = title;
@@ -47,8 +47,8 @@ public class WarningDialog extends Dialog {
         initalize();
     }
 
-    public WarningDialog(Context context, String title, String content,
-                         String confirm, int okBtnColor) {
+    public AlertDialog(Context context, String title, String content,
+                       String confirm, int okBtnColor) {
         super(context);
         this.mContext = context;
         this.mTitle = title;
@@ -61,7 +61,7 @@ public class WarningDialog extends Dialog {
     // 初始化View
     private void initalize() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.dialog_warning, null);
+        View view = inflater.inflate(R.layout.dialog_alert, null);
         setContentView(view);
         initWindow();
 

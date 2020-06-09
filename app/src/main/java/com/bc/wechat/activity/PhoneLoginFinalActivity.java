@@ -33,7 +33,6 @@ import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.LoadingDialog;
-import com.bc.wechat.widget.WarningDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -139,7 +138,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 if (LOGIN_TYPE_PASSWORD.equals(mLoginType)) {
                     String password = mPasswordEt.getText().toString();
                     if (TextUtils.isEmpty(password)) {
-                        showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                        showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
                                 getString(R.string.enter_your_password), getString(R.string.ok));
                     } else {
                         login(mLoginType, mPhone, password, "");
@@ -147,7 +146,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 } else {
                     String verificationCode = mVerificationCodeEt.getText().toString();
                     if (TextUtils.isEmpty(verificationCode)) {
-                        showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                        showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
                                 getString(R.string.enter_your_verification_code), getString(R.string.ok));
                     } else {
                         login(mLoginType, mPhone, "", verificationCode);
@@ -350,11 +349,11 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                     case 400:
                         if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
                             // 手机号密码登录
-                            showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                            showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
                                     getString(R.string.account_or_password_error), getString(R.string.ok));
                         } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
                             // 验证码登录
-                            showWarningDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                            showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
                                     getString(R.string.verification_code_error), getString(R.string.ok));
                         }
                         break;

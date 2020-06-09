@@ -236,7 +236,7 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
         final AlertDialog photoDialog = new AlertDialog.Builder(this).create();
         photoDialog.show();
         Window window = photoDialog.getWindow();
-        window.setContentView(R.layout.dialog_alert);
+        window.setContentView(R.layout.dialog_alert_abandon);
         TextView mTakePicTv = window.findViewById(R.id.tv_content1);
         TextView mAlbumTv = window.findViewById(R.id.tv_content2);
         mTakePicTv.setText("拍照");

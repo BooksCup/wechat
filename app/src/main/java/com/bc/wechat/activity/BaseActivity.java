@@ -13,7 +13,8 @@ import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.widget.ConfirmDialog;
-import com.bc.wechat.widget.WarningDialog;
+import com.bc.wechat.widget.AlertDialog;
+import com.bc.wechat.widget.NoTitleAlertDialog;
 
 import java.util.List;
 
@@ -112,18 +113,38 @@ public class BaseActivity extends FragmentActivity {
      * @param content 内容
      * @param confirm 确认键
      */
-    protected void showWarningDialog(Context context, String title, String content, String confirm) {
-        final WarningDialog mWarningDialog = new WarningDialog(context, title, content, confirm);
-        mWarningDialog.setOnDialogClickListener(new WarningDialog.OnDialogClickListener() {
+    protected void showAlertDialog(Context context, String title, String content, String confirm) {
+        final AlertDialog mAlertDialog = new AlertDialog(context, title, content, confirm);
+        mAlertDialog.setOnDialogClickListener(new AlertDialog.OnDialogClickListener() {
             @Override
             public void onOkClick() {
-                mWarningDialog.dismiss();
+                mAlertDialog.dismiss();
             }
 
         });
         // 点击空白处消失
-        mWarningDialog.setCancelable(true);
-        mWarningDialog.show();
+        mAlertDialog.setCancelable(true);
+        mAlertDialog.show();
     }
 
+    /**
+     * 显示警告弹窗(无标题)
+     *
+     * @param context context
+     * @param content 内容
+     * @param confirm 确认键
+     */
+    protected void showNoTitleAlertDialog(Context context, String content, String confirm) {
+        final NoTitleAlertDialog mNoTitleAlertDialog = new NoTitleAlertDialog(context, content, confirm);
+        mNoTitleAlertDialog.setOnDialogClickListener(new NoTitleAlertDialog.OnDialogClickListener() {
+            @Override
+            public void onOkClick() {
+                mNoTitleAlertDialog.dismiss();
+            }
+
+        });
+        // 点击空白处消失
+        mNoTitleAlertDialog.setCancelable(true);
+        mNoTitleAlertDialog.show();
+    }
 }
