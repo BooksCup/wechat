@@ -31,6 +31,8 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
 
     private RelativeLayout mQqIdRl;
     private RelativeLayout mEmailRl;
+
+    private TextView mQqIdIsLinkedTv;
     private TextView mEmailIsLinkedTv;
 
     private VolleyUtil mVolleyUtil;
@@ -58,8 +60,10 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     private void initView() {
         mQqIdRl = findViewById(R.id.rl_qq_id);
         mEmailRl = findViewById(R.id.rl_email);
+
+        mQqIdIsLinkedTv = findViewById(R.id.tv_qq_is_linked);
         mEmailIsLinkedTv = findViewById(R.id.tv_email_is_linked);
-        refreshLinkedStatus(mUser);
+        refreshLinkedStatus();
 
         mQqIdRl.setOnClickListener(this);
         mEmailRl.setOnClickListener(this);
@@ -67,11 +71,9 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
 
     /**
      * 刷新绑定状态
-     *
-     * @param user 用户
      */
-    private void refreshLinkedStatus(User user) {
-        String emailIsLinked = user.getUserIsEmailLinked();
+    private void refreshLinkedStatus() {
+        String emailIsLinked = mUser.getUserIsEmailLinked();
         if (Constant.EMAIL_NOT_LINK.equals(emailIsLinked)) {
             mEmailIsLinkedTv.setText(getString(R.string.not_linked));
         } else if (Constant.EMAIL_NOT_VERIFIED.equals(emailIsLinked)) {
@@ -80,6 +82,16 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
             mEmailIsLinkedTv.setText(getString(R.string.verified));
         } else {
             mEmailIsLinkedTv.setText(getString(R.string.not_linked));
+        }
+
+        String qqIsLinked = mUser.getUserIsQqLinked();
+        String qqId = mUser.getUserQqId();
+        if (Constant.QQ_ID_NOT_LINK.equals(qqIsLinked)) {
+            mQqIdIsLinkedTv.setText("未绑定");
+        } else if (Constant.QQ_ID_LINKED.equals(qqIsLinked)) {
+            mQqIdIsLinkedTv.setText(qqId);
+        } else {
+            mQqIdIsLinkedTv.setText("未绑定");
         }
     }
 
@@ -146,7 +158,7 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
                 // 邮箱已绑定但未验证
                 mUser.setUserIsEmailLinked(Constant.EMAIL_NOT_VERIFIED);
                 PreferencesUtil.getInstance().setUser(mUser);
-                refreshLinkedStatus(mUser);
+                refreshLinkedStatus();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -176,7 +188,7 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
                 User user = JSON.parseObject(response, User.class);
                 PreferencesUtil.getInstance().setUser(user);
                 mUser = user;
-                refreshLinkedStatus(user);
+                refreshLinkedStatus();
             }
         }, new Response.ErrorListener() {
             @Override

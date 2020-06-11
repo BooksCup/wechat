@@ -171,9 +171,17 @@ public class Constant {
      * QQ号验证
      */
     /**
+     * QQ号验证
+     */
+    /**
      * 未绑定
      */
     public static final String QQ_ID_NOT_LINK = "0";
+
+    /**
+     * 已绑定
+     */
+    public static final String QQ_ID_LINKED = "1";
 
     /**
      * 邮箱验证
