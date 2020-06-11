@@ -20,6 +20,7 @@
     <string name="account">账号</string>
     <string name="login">登录</string>
     <string name="qq_id">QQ号</string>
+    <string name="qq_password">QQ密码</string>
     <string name="email">邮箱地址</string>
     <string name="mobile_security">手机安全防护</string>
     <string name="more_security_setting">更多安全设置</string>

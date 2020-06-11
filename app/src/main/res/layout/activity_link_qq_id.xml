@@ -59,7 +59,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="16dp"
         android:background="@null"
-        android:hint="QQ号"
+        android:hint="@string/qq_id"
         android:inputType="number"
         android:paddingLeft="1dp"
         android:singleLine="true"
@@ -67,6 +67,7 @@
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/vi_qq_id"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_alignParentBottom="true"
@@ -82,7 +83,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="16dp"
         android:background="@null"
-        android:hint="QQ密码"
+        android:hint="@string/qq_password"
         android:inputType="textPassword"
         android:paddingLeft="1dp"
         android:singleLine="true"
@@ -90,6 +91,7 @@
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/vi_qq_password"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_alignParentBottom="true"
