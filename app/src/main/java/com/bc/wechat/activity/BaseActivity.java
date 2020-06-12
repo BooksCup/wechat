@@ -74,7 +74,7 @@ public class BaseActivity extends FragmentActivity {
                         User.deleteAll(User.class);
 
                         // 跳转至登录页
-                        Intent intent = new Intent(BaseActivity.this, DeprecatedLoginActivity.class);
+                        Intent intent = new Intent(BaseActivity.this, PhoneLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }

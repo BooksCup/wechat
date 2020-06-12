@@ -245,7 +245,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
         public void onTick(long l) {
             // 防止计时过程中重复点击
             mGetVerificationCodeTv.setClickable(false);
-            mGetVerificationCodeTv.setVisibility(View.GONE);
+            mGetVerificationCodeTv.setVisibility(View.INVISIBLE);
             mCountDownTv.setVisibility(View.VISIBLE);
             mCountDownTv.setText(l / 1000 + "秒后...");
         }
@@ -256,7 +256,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
             // 设置可点击
             mGetVerificationCodeTv.setClickable(true);
             mGetVerificationCodeTv.setVisibility(View.VISIBLE);
-            mCountDownTv.setVisibility(View.GONE);
+            mCountDownTv.setVisibility(View.INVISIBLE);
         }
     }
 
