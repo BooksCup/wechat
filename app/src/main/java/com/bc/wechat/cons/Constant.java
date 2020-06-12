@@ -7,7 +7,7 @@ public class Constant {
     public static String PICTURE_DIR = "sdcard/wechat_/pictures/";
 
     //    public static final String BASE_URL = "http://49.4.25.11:8081/";
-    public static final String BASE_URL = "http://192.168.0.100:8081/";
+    public static final String BASE_URL = "http://192.168.0.131:8081/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";
@@ -145,4 +145,25 @@ public class Constant {
     public static final String LOCATION_TYPE_MSG = "1";
 
     public static final String DEFAULT_POST_CODE = "000000";
+
+    // 登录方式
+    /**
+     * 手机号/密码登录
+     */
+    public static final String LOGIN_TYPE_PHONE_AND_PASSWORD = "0";
+
+    /**
+     * 手机号/验证码登录
+     */
+    public static final String LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE = "1";
+
+    /**
+     * 微信号/QQ/邮箱登录
+     */
+    public static final String LOGIN_TYPE_OTHER_ACCOUNTS_AND_PASSWORD = "2";
+
+    /**
+     * 验证码业务类型-"登录"
+     */
+    public static final String VERIFICATION_CODE_SERVICE_TYPE_LOGIN = "0";
 }

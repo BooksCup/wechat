@@ -137,8 +137,13 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                 mDialog.setMessage(getString(R.string.logging_in));
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
-                String password = mPasswordEt.getText().toString();
-                login(mPhone, password);
+                if (LOGIN_TYPE_PASSWORD.equals(mLoginType)) {
+                    String password = mPasswordEt.getText().toString();
+                    login(mLoginType, mPhone, password, "");
+                } else {
+                    String verificationCode = mVerificationCodeEt.getText().toString();
+                    login(mLoginType, mPhone, "", verificationCode);
+                }
                 break;
             case R.id.tv_login_type:
                 // 切换登录方式
@@ -255,17 +260,25 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
         }
     }
 
-
     /**
      * 登录
      *
      * @param phone    手机号
      * @param password 密码
      */
-    private void login(String phone, String password) {
+    private void login(String loginType, String phone, String password, String verificationCode) {
         DeviceInfo deviceInfo = DeviceInfoUtil.getInstance().getDeviceInfo(PhoneLoginFinalActivity.this);
-        String url = Constant.BASE_URL + "users/login?phone=" + phone
-                + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
+        String url;
+        if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
+            url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
+                    + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
+        } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
+            url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
+                    + "&verificationCode=" + verificationCode + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
+        } else {
+            url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
+                    + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
+        }
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -341,6 +354,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
         String url = Constant.BASE_URL + "verificationCode";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("phone", phone);
+        paramMap.put("serviceType", Constant.VERIFICATION_CODE_SERVICE_TYPE_LOGIN);
 
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
