@@ -121,6 +121,16 @@ public class QqIdLinkBeginActivity extends BaseActivity implements View.OnClickL
                 // 弹出的位置
                 mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
+                // 解绑QQ号
+                RelativeLayout mUnLinkQqIdRl = view.findViewById(R.id.rl_unlink_qq_id);
+                mUnLinkQqIdRl.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPopupWindow.dismiss();
+                        startActivity(new Intent(QqIdLinkBeginActivity.this, QqIdUnLinkActivity.class));
+                    }
+                });
+
                 // 取消
                 RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
                 mCancelRl.setOnClickListener(new View.OnClickListener() {

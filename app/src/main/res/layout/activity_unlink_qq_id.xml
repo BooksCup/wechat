@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:background="@color/bottom_text_color_normal">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/top_back_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:onClick="back"
+            android:scaleType="centerInside"
+            android:src="@drawable/btn_top_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_back"
+            android:text="解绑QQ"
+            android:textColor="@color/common_top_title"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#f7f8f8" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/icon_unlink_qq" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="12dp"
+        android:text="解绑QQ后，与QQ相关的功能及信息将被移除。"
+        android:textColor="@color/grid_state_focused"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:text="不能通过该QQ号登录微信。后续请通过手机号/微信号/邮箱登录微信。"
+        android:textColor="@color/grid_state_focused"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/btn_unlink_qq"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/btn_unlink"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:text="开始解绑QQ"
+        android:textColor="@color/register_btn_text_enable"
+        android:textSize="17sp" />
+</LinearLayout>
