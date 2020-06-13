@@ -6,7 +6,7 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
-        <item name="android:statusBarColor">#dadada</item>
+        <item name="android:statusBarColor">@color/wechat_common_bg</item>
     </style>
 
     <style name="chat_content_date_style">
