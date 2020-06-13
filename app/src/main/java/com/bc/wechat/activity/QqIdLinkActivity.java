@@ -124,6 +124,10 @@ public class QqIdLinkActivity extends BaseActivity implements View.OnClickListen
             public void onResponse(String s) {
                 mDialog.dismiss();
                 showAlertDialog(QqIdLinkActivity.this, "提示", "已绑定。", "确定");
+                mUser.setUserQqId(userQqId);
+                mUser.setUserQqPassword(userQqPassword);
+                mUser.setUserIsQqLinked(Constant.QQ_ID_LINKED);
+                PreferencesUtil.getInstance().setUser(mUser);
             }
         }, new Response.ErrorListener() {
             @Override

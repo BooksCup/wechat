@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
@@ -38,15 +39,37 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:background="#f7f8f8" />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_btn_margin_right"
+            android:scaleType="centerInside"
+            android:src="@drawable/bg_setting_btn"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ImageView
-        android:layout_marginTop="50dp"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:scaleType="fitCenter"
         android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitCenter"
         android:src="@mipmap/icon_qq" />
+
+    <TextView
+        android:id="@+id/tv_qq_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text=""
+        android:textColor="@color/common_top_title"
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_link_qq"
@@ -60,5 +83,6 @@
         android:paddingBottom="7dp"
         android:text="开始绑定"
         android:textColor="@color/register_btn_text_enable"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:visibility="gone" />
 </LinearLayout>
