@@ -263,7 +263,8 @@
 
         <activity
             android:name=".activity.MapPickerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme" />
 
         <activity
             android:name=".activity.MyQrCodeActivity"

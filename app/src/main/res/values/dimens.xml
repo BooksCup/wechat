@@ -29,7 +29,7 @@
     <dimen name="save_btn_margin_right">12dp</dimen>
     <dimen name="setting_btn_margin_right">5dp</dimen>
     <dimen name="save_btn_text_size">15sp</dimen>
-    <dimen name="save_btn_width">52dp</dimen>
+    <dimen name="save_btn_width">58dp</dimen>
     <dimen name="save_btn_height">32dp</dimen>
 
     <dimen name="setting_item_margin_left">10dp</dimen>

@@ -63,7 +63,7 @@ import java.util.UUID;
  *
  * @author zhou
  */
-public class MapPickerActivity extends Activity implements AdapterView.OnItemClickListener {
+public class MapPickerActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_PERMISSION_STORAGE = 0x01;
 
@@ -124,6 +124,8 @@ public class MapPickerActivity extends Activity implements AdapterView.OnItemCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_picker);
+
+        initStatusBar();
 
         locationService = WechatApplication.locationService;
         locationService.registerListener(mListener);

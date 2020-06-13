@@ -5,51 +5,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_top_bar"
-        android:background="@color/common_top_bar_blue">
-
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:onClick="back"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="5dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/top_bar_back" />
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_back"
-            android:text="位置"
-            android:textColor="#ffffff"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/btn_send_location"
-            android:layout_width="48dp"
-            android:layout_height="32dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/bg_save_btn"
-            android:gravity="center"
-            android:onClick="sendLocation"
-            android:text="保存"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-    </RelativeLayout>
-    <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,6 +14,34 @@
             android:id="@+id/rl_map_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="37dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@mipmap/icon_top_back_default"
+                android:gravity="center"
+                android:onClick="back" />
+
+            <Button
+                android:id="@+id/btn_send_location"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/bg_save_btn"
+                android:gravity="center"
+                android:onClick="sendLocation"
+                android:text="@string/complete"
+                android:textColor="#fff"
+                android:textSize="14sp" />
 
             <com.baidu.mapapi.map.MapView
                 android:id="@+id/mv_map"
