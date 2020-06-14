@@ -259,4 +259,9 @@
     <string name="new_password_hint">填写新密码</string>
     <string name="confirm_password">确认密码</string>
     <string name="confirm_password_hint">再次填写确认</string>
+
+    <string name="old_password_empty">原密码不能为空</string>
+    <string name="new_password_empty">新密码不能为空</string>
+    <string name="confirm_password_empty">确认密码不能为空</string>
+    <string name="confirm_password_incorrect">两次密码不一致</string>
 </resources>
