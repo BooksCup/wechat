@@ -46,7 +46,7 @@ public class QqIdLinkBeginActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_link_qq_id_begin);
 
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(QqIdLinkBeginActivity.this, R.color.bottom_text_color_normal);
+        StatusBarUtil.setStatusBarColor(QqIdLinkBeginActivity.this, R.color.status_bar_color_white);
 
         mRootLl = findViewById(R.id.ll_root);
         mQqIdTv = findViewById(R.id.tv_qq_id);

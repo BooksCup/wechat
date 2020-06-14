@@ -35,7 +35,7 @@ public class QqIdUnLinkActivity extends BaseActivity {
         setContentView(R.layout.activity_unlink_qq_id);
 
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(QqIdUnLinkActivity.this, R.color.bottom_text_color_normal);
+        StatusBarUtil.setStatusBarColor(QqIdUnLinkActivity.this, R.color.status_bar_color_white);
 
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();

@@ -249,4 +249,14 @@
     <string name="unlink_tips">如果你更改了邮件地址，你需要对邮件地址重新进行验证。</string>
     <string name="resend_verification_email">重新发送验证邮件</string>
     <string name="resend_verification_email_tips">该邮箱还未验证，请登录你的邮箱查收邮件并验证。</string>
+
+    <string name="modify_password">设置密码</string>
+    <string name="modify_password_hint">请设置微信密码。你可以用微信绑定的账号+微信密码登录，比如使用手机号+微信密码登录微信，更快捷。</string>
+    <string name="modify_password_rule">密码必须是8-16位的数字、字符组合（不能是纯数字）</string>
+    <string name="old_password">原密码</string>
+    <string name="old_password_hint">填写原密码</string>
+    <string name="new_password">新密码</string>
+    <string name="new_password_hint">填写新密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="confirm_password_hint">再次填写确认</string>
 </resources>
