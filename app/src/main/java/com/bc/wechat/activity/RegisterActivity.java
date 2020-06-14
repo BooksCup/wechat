@@ -42,12 +42,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
+
+import static com.bc.wechat.utils.ValidateUtil.validatePassword;
 
 /**
  * 注册
@@ -326,20 +326,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
-    }
-
-    /**
-     * 密码规则校验
-     * 规则: 密码必须是8-16位的数字、字符组合(不能是纯数字)
-     *
-     * @param password 密码
-     * @return true: 校验成功  false: 校验失败
-     */
-    private boolean validatePassword(String password) {
-        String regEx = "^(?![^a-zA-Z]+$)(?!\\D+$).{8,16}$";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
     }
 
     /**

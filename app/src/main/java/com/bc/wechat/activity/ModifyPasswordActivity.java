@@ -10,8 +10,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.utils.StatusBarUtil;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static com.bc.wechat.utils.ValidateUtil.validatePassword;
 
 /**
  * 设置密码
@@ -95,19 +94,5 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
             return;
         }
 
-    }
-
-    /**
-     * 密码规则校验
-     * 规则: 密码必须是8-16位的数字、字符组合(不能是纯数字)
-     *
-     * @param password 密码
-     * @return true: 校验成功  false: 校验失败
-     */
-    private boolean validatePassword(String password) {
-        String regEx = "^(?![^a-zA-Z]+$)(?!\\D+$).{8,16}$";
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
     }
 }
