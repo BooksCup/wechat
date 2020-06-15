@@ -242,4 +242,6 @@
     <string name="not_linked">未绑定</string>
     <string name="not_verified">未验证</string>
     <string name="verified">已验证</string>
+    <string name="unlink">解除绑定</string>
+    <string name="unlink_tips">如果你更改了邮件地址，你需要对邮件地址重新进行验证。</string>
 </resources>

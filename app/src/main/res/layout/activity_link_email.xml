@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_back"
-            android:text="修改邮件地址"
+            android:text="@string/edit_email"
             android:textColor="@color/common_top_title"
             android:textSize="16sp" />
 
@@ -41,7 +41,7 @@
     </RelativeLayout>
 
     <EditText
-        android:id="@+id/et_nick"
+        android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginLeft="16dp"
@@ -67,12 +67,12 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="20dp"
-        android:text="如果你更改了邮件地址，你需要对邮件地址重新进行验证。"
+        android:text="@string/unlink_tips"
         android:textColor="#AAAAAA"
         android:textSize="13sp" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_unlink"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="12dp"
@@ -81,7 +81,7 @@
         android:background="@drawable/btn_unlink"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
-        android:text="接触绑定"
+        android:text="@string/unlink"
         android:textColor="@color/register_btn_text_enable"
         android:textSize="17sp" />
 </LinearLayout>
