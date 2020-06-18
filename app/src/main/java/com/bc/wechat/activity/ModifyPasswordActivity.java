@@ -84,7 +84,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
      * 提交表单
      */
     private void submitForm() {
-        mDialog.setMessage("正在发送...");
+        mDialog.setMessage(getString(R.string.sending));
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
 
@@ -124,6 +124,13 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
         modifyPassword(mUser.getUserId(), oldPassword, newPassword);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param userId      用户ID
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     */
     private void modifyPassword(final String userId, final String oldPassword, final String newPassword) {
         String url = Constant.BASE_URL + "users/" + userId + "/userPassword";
         Map<String, String> paramMap = new HashMap<>();
@@ -135,7 +142,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
             public void onResponse(String response) {
                 mDialog.dismiss();
                 final NoTitleAlertDialog mNoTitleAlertDialog = new NoTitleAlertDialog(ModifyPasswordActivity.this,
-                        "微信密码设置成功，以后可通过手机号+微信密码登录微信", getString(R.string.ok));
+                        getString(R.string.modify_password_success_tips), getString(R.string.ok));
                 mNoTitleAlertDialog.setOnDialogClickListener(new NoTitleAlertDialog.OnDialogClickListener() {
                     @Override
                     public void onOkClick() {
@@ -164,7 +171,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
                 switch (errorCode) {
                     case 400:
                         showAlertDialog(ModifyPasswordActivity.this, getString(R.string.tips),
-                                "原密码不正确", getString(R.string.ok), true);
+                                getString(R.string.old_password_incorrect), getString(R.string.ok), true);
                         break;
                 }
             }

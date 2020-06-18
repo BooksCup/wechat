@@ -52,6 +52,7 @@
     <string name="password_rules">密码必须是8-16位的数字、字符组合(不能是纯数字)</string>
     <string name="button_pushtotalk">按住说话</string>
     <string name="send">发送</string>
+    <string name="sending">正在发送...</string>
     <string name="attach_smile">表情</string>
     <string name="attach_picture">图片</string>
     <string name="attach_take_pic">拍照</string>
@@ -263,5 +264,7 @@
     <string name="old_password_empty">原密码不能为空</string>
     <string name="new_password_empty">新密码不能为空</string>
     <string name="confirm_password_empty">确认密码不能为空</string>
+    <string name="old_password_incorrect">原密码不正确</string>
     <string name="confirm_password_incorrect">两次密码不一致</string>
+    <string name="modify_password_success_tips">微信密码设置成功，以后可通过手机号+微信密码登录微信</string>
 </resources>
