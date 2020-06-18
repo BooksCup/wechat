@@ -139,7 +139,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                     String password = mPasswordEt.getText().toString();
                     if (TextUtils.isEmpty(password)) {
                         showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
-                                getString(R.string.enter_your_password), getString(R.string.ok));
+                                getString(R.string.enter_your_password), getString(R.string.ok), true);
                     } else {
                         login(mLoginType, mPhone, password, "");
                     }
@@ -147,7 +147,7 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                     String verificationCode = mVerificationCodeEt.getText().toString();
                     if (TextUtils.isEmpty(verificationCode)) {
                         showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
-                                getString(R.string.enter_your_verification_code), getString(R.string.ok));
+                                getString(R.string.enter_your_verification_code), getString(R.string.ok), true);
                     } else {
                         login(mLoginType, mPhone, "", verificationCode);
                     }
@@ -350,11 +350,11 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                         if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
                             // 手机号密码登录
                             showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
-                                    getString(R.string.account_or_password_error), getString(R.string.ok));
+                                    getString(R.string.account_or_password_error), getString(R.string.ok), true);
                         } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
                             // 验证码登录
                             showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
-                                    getString(R.string.verification_code_error), getString(R.string.ok));
+                                    getString(R.string.verification_code_error), getString(R.string.ok), true);
                         }
                         break;
                 }

@@ -109,12 +109,13 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 显示警告弹窗
      *
-     * @param context context
-     * @param title   标题
-     * @param content 内容
-     * @param confirm 确认键
+     * @param context    context
+     * @param title      标题
+     * @param content    内容
+     * @param confirm    确认键
+     * @param cancelable 点击空白处是否消失
      */
-    protected void showAlertDialog(Context context, String title, String content, String confirm) {
+    protected void showAlertDialog(Context context, String title, String content, String confirm, boolean cancelable) {
         final AlertDialog mAlertDialog = new AlertDialog(context, title, content, confirm);
         mAlertDialog.setOnDialogClickListener(new AlertDialog.OnDialogClickListener() {
             @Override
@@ -124,7 +125,7 @@ public class BaseActivity extends FragmentActivity {
 
         });
         // 点击空白处消失
-        mAlertDialog.setCancelable(true);
+        mAlertDialog.setCancelable(cancelable);
         mAlertDialog.show();
     }
 

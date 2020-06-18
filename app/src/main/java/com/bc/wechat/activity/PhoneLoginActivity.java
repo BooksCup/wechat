@@ -131,7 +131,7 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                     // 无效
                     showAlertDialog(PhoneLoginActivity.this, "手机号码错误",
                             "你输入的是一个无效的手机号码",
-                            "确定");
+                            "确定", true);
                 }
                 break;
         }

@@ -181,7 +181,7 @@ public class EmailLinkActivity extends BaseActivity implements View.OnClickListe
 
                 showAlertDialog(EmailLinkActivity.this, "提示",
                         "验证邮件已发送，请尽快登录邮箱验证",
-                        "确定");
+                        "确定", true);
 
             }
         }, new Response.ErrorListener() {
