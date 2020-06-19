@@ -36,6 +36,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
 
     private TextView mCompleteTv;
 
+    private EditText mWechatIdEt;
     private EditText mOldPasswordEt;
     private EditText mNewPasswordEt;
     private EditText mConfirmPasswordEt;
@@ -64,10 +65,13 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
 
     private void initView() {
         mCompleteTv = findViewById(R.id.tv_complete);
+
+        mWechatIdEt = findViewById(R.id.et_wechat_id);
         mOldPasswordEt = findViewById(R.id.et_old_password);
         mNewPasswordEt = findViewById(R.id.et_new_password);
         mConfirmPasswordEt = findViewById(R.id.et_confirm_password);
 
+        mWechatIdEt.setText(mUser.getUserWxId());
         mCompleteTv.setOnClickListener(this);
     }
 
