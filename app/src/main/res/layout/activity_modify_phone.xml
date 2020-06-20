@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EBEBEB"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="@dimen/top_back_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:onClick="back"
+            android:scaleType="centerInside"
+            android:src="@drawable/btn_top_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_back"
+            android:text="绑定手机号"
+            android:textColor="@color/common_top_title"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_btn_margin_right"
+            android:scaleType="centerInside"
+            android:src="@drawable/bg_setting_btn"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/icon_modify_phone" />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="绑定的手机号：13770519290"
+        android:textColor="@color/common_top_title"
+        android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="12dp"
+        android:layout_toRightOf="@id/iv_back"
+        android:text="已启用手机通讯录匹配，点击下方按钮可查看手机通讯录中哪些朋友注册了微信。"
+        android:textColor="@color/modify_password_hint_color"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_mobile_contacts"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/btn_login"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:text="@string/mobile_contacts"
+        android:textColor="@color/register_btn_text_enable"
+        android:textSize="17sp" />
+
+    <Button
+        android:id="@+id/btn_change_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/btn_splash_register"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:text="@string/change_mobile"
+        android:textColor="@color/register_btn_bg_enable"
+        android:textSize="17sp" />
+</LinearLayout>

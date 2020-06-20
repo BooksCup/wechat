@@ -28,6 +28,11 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     private TextView mPhoneTv;
 
     /**
+     * 手机号
+     */
+    private RelativeLayout mPhoneRl;
+
+    /**
      * 微信密码
      */
     private RelativeLayout mPasswordRl;
@@ -65,6 +70,9 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
         mWeChatIdTv.setText(mUser.getUserWxId());
         mPhoneTv.setText(mUser.getUserPhone());
 
+        mPhoneRl = findViewById(R.id.rl_phone);
+        mPhoneRl.setOnClickListener(this);
+
         mPasswordRl = findViewById(R.id.rl_password);
         mPasswordRl.setOnClickListener(this);
 
@@ -82,6 +90,11 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_phone:
+                // 设置手机号
+                startActivity(new Intent(AccountSecurityActivity.this, ModifyPhoneActivity.class));
+                break;
+
             case R.id.rl_password:
                 // 设置密码
                 startActivity(new Intent(AccountSecurityActivity.this, ModifyPasswordActivity.class));
