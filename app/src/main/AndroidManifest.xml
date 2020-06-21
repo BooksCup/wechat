@@ -301,7 +301,7 @@
             android:theme="@style/ImageTranslucentTheme" />
 
         <activity
-            android:name=".activity.ModifyPhoneActivity"
+            android:name=".activity.PhoneLinkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
 

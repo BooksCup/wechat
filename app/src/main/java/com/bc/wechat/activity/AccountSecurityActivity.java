@@ -91,8 +91,8 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_phone:
-                // 设置手机号
-                startActivity(new Intent(AccountSecurityActivity.this, ModifyPhoneActivity.class));
+                // 绑定手机号
+                startActivity(new Intent(AccountSecurityActivity.this, PhoneLinkActivity.class));
                 break;
 
             case R.id.rl_password:
