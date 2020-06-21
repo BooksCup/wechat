@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.activity.NewFriendsApplyConfirmActivity;
 import com.bc.wechat.activity.StrangerUserInfoActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.cons.Constant;
@@ -127,6 +128,15 @@ public class PhoneContactAdapter extends BaseAdapter {
                     intent.putExtra("source", Constant.FRIENDS_SOURCE_BY_CONTACT);
                     mContext.startActivity(intent);
                 }
+            }
+        });
+
+        viewHolder.mAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, NewFriendsApplyConfirmActivity.class);
+                intent.putExtra("friendId", user.getUserId());
+                mContext.startActivity(intent);
             }
         });
 
