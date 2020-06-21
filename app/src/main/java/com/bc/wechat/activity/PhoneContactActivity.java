@@ -55,7 +55,6 @@ public class PhoneContactActivity extends BaseActivity {
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
 
-
         List<PhoneContact> phoneContactList = getPhoneContant();
         List<String> phoneList = new ArrayList<>();
         for (PhoneContact phoneContact : phoneContactList) {
@@ -74,11 +73,22 @@ public class PhoneContactActivity extends BaseActivity {
         finish();
     }
 
+    /**
+     * 获取通讯录里的微信好友列表
+     *
+     * @param userId 用户ID
+     * @param phones 手机号列表(json格式)
+     * @return 通讯录里的微信好友列表
+     */
     private void getPhoneContactList(String userId, String phones) {
         String url = Constant.BASE_URL + "users/" + userId + "/phoneContact";
-
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("phones", phones);
+
+        mDialog.setMessage("正在获取朋友信息");
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -93,10 +103,13 @@ public class PhoneContactActivity extends BaseActivity {
                 mPhoneContactAdapter = new PhoneContactAdapter(PhoneContactActivity.this, userList, mContactNameMap);
                 mPhoneContactLv.setAdapter(mPhoneContactAdapter);
 
+                mDialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+
+                mDialog.dismiss();
             }
         });
     }
