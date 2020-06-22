@@ -102,8 +102,8 @@
             android:id="@+id/iv_back"
             android:layout_width="@dimen/top_back_width"
             android:layout_height="@dimen/top_back_width"
-            android:layout_gravity="left"
             android:layout_centerVertical="true"
+            android:layout_gravity="left"
             android:onClick="back"
             android:scaleType="centerInside"
             android:src="@drawable/btn_top_back" />

@@ -272,6 +272,11 @@
             android:theme="@style/ImageTranslucentTheme" />
 
         <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+
+        <activity
             android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait" />
 

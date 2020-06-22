@@ -32,6 +32,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private RelativeLayout mAccountSecurityRl;
 
     /**
+     * 关于微信
+     */
+    private RelativeLayout mAboutRl;
+
+    /**
      * 退出
      */
     private RelativeLayout mLogOutRl;
@@ -50,9 +55,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
         mAccountSecurityRl = findViewById(R.id.rl_account_security);
+        mAboutRl = findViewById(R.id.rl_about);
         mLogOutRl = findViewById(R.id.rl_log_out);
 
         mAccountSecurityRl.setOnClickListener(this);
+        mAboutRl.setOnClickListener(this);
         mLogOutRl.setOnClickListener(this);
     }
 
@@ -63,8 +70,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            // 账号与安全
             case R.id.rl_account_security:
                 startActivity(new Intent(SettingActivity.this, AccountSecurityActivity.class));
+                break;
+
+            // 关于微信
+            case R.id.rl_about:
+                startActivity(new Intent(SettingActivity.this, AboutActivity.class));
                 break;
 
             case R.id.rl_log_out:
