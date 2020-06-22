@@ -64,7 +64,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/account_security"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -91,7 +91,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/notifications"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -125,7 +125,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/do_not_disturb"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -158,7 +158,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/chats"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -191,7 +191,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/privacy"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -224,7 +224,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/general"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -251,7 +251,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/about"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -284,7 +284,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/help_feedback"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -311,7 +311,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/wechat_services"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"
@@ -337,7 +337,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/switch_account"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -355,7 +355,7 @@
                         android:layout_centerVertical="true"
                         android:text="@string/log_out"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/setting_text_size" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

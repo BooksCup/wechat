@@ -39,6 +39,9 @@
     <dimen name="me_text_size">15.5sp</dimen>
     <dimen name="me_divider_margin_left">40dp</dimen>
 
+    <!-- setting activity -->
+    <dimen name="setting_text_size">15.5sp</dimen>
+
     <dimen name="title_margin_left">8dp</dimen>
     <dimen name="top_back_width">42dp</dimen>
     <dimen name="top_bar_height">42dp</dimen>
