@@ -13,61 +13,60 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 设置
  *
  * @author zhou
  */
-public class SettingActivity extends BaseActivity implements View.OnClickListener {
-
+public class SettingActivity extends BaseActivity {
     /**
      * 标题
      */
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
     /**
      * 账号与安全
      */
-    private RelativeLayout mAccountSecurityRl;
+    @BindView(R.id.rl_account_security)
+    RelativeLayout mAccountSecurityRl;
 
     /**
      * 关于微信
      */
-    private RelativeLayout mAboutRl;
+    @BindView(R.id.rl_about)
+    RelativeLayout mAboutRl;
 
     /**
      * 退出
      */
-    private RelativeLayout mLogOutRl;
+    @BindView(R.id.rl_log_out)
+    RelativeLayout mLogOutRl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        ButterKnife.bind(this);
         initStatusBar();
         PreferencesUtil.getInstance().init(this);
         initView();
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-        mAccountSecurityRl = findViewById(R.id.rl_account_security);
-        mAboutRl = findViewById(R.id.rl_about);
-        mLogOutRl = findViewById(R.id.rl_log_out);
-
-        mAccountSecurityRl.setOnClickListener(this);
-        mAboutRl.setOnClickListener(this);
-        mLogOutRl.setOnClickListener(this);
     }
 
     public void back(View view) {
         finish();
     }
 
-    @Override
+    @OnClick({R.id.rl_account_security, R.id.rl_about, R.id.rl_log_out})
     public void onClick(View view) {
         switch (view.getId()) {
             // 账号与安全
