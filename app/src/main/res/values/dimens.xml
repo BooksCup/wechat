@@ -39,6 +39,9 @@
     <dimen name="me_text_size">15.5sp</dimen>
     <dimen name="me_divider_margin_left">40dp</dimen>
 
+    <!-- account security activity -->
+    <dimen name="account_security_text_size">15.5sp</dimen>
+
     <!-- setting activity -->
     <dimen name="setting_text_size">15.5sp</dimen>
 
