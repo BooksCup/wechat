@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,18 +23,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 绑定手机号
  *
  * @author zhou
  */
-public class PhoneLinkActivity extends BaseActivity implements View.OnClickListener {
+public class PhoneLinkActivity extends BaseActivity {
     private static final int REQUEST_CODE_CONTACTS = 0;
 
-    private TextView mPhoneTv;
-    private Button mMobileContactsBtn;
-    private Button mChangeMobileBtn;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.tv_phone)
+    TextView mPhoneTv;
+
+    @BindView(R.id.btn_mobile_contacts)
+    Button mMobileContactsBtn;
+
+    @BindView(R.id.btn_change_mobile)
+    Button mChangeMobileBtn;
 
     private User mUser;
 
@@ -41,20 +53,16 @@ public class PhoneLinkActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_phone);
+        ButterKnife.bind(this);
         initStatusBar();
 
         mUser = PreferencesUtil.getInstance().getUser();
-
         initView();
     }
 
     private void initView() {
-        mPhoneTv = findViewById(R.id.tv_phone);
-        mMobileContactsBtn = findViewById(R.id.btn_mobile_contacts);
-        mChangeMobileBtn = findViewById(R.id.btn_change_mobile);
-
-        mMobileContactsBtn.setOnClickListener(this);
-        mChangeMobileBtn.setOnClickListener(this);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
         mPhoneTv.setText("绑定的手机号：" + mUser.getUserPhone());
     }
 
@@ -62,7 +70,7 @@ public class PhoneLinkActivity extends BaseActivity implements View.OnClickListe
         finish();
     }
 
-    @Override
+    @OnClick({R.id.btn_mobile_contacts, R.id.btn_change_mobile})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_mobile_contacts:
