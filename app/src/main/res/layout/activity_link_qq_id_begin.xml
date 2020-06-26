@@ -83,6 +83,6 @@
         android:paddingBottom="7dp"
         android:text="开始绑定"
         android:textColor="@color/register_btn_text_enable"
-        android:textSize="17sp"
+        android:textSize="@dimen/operate_btn_text_size"
         android:visibility="gone" />
 </LinearLayout>

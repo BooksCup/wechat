@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,18 +26,30 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 开始绑定QQ号
  *
  * @author zhou
  */
-public class QqIdLinkBeginActivity extends BaseActivity implements View.OnClickListener {
+public class QqIdLinkBeginActivity extends BaseActivity {
+    @BindView(R.id.ll_root)
+    LinearLayout mRootLl;
 
-    private LinearLayout mRootLl;
-    private TextView mQqIdTv;
-    private Button mLinkQqBtn;
-    private ImageView mSettingIv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.tv_qq_id)
+    TextView mQqIdTv;
+
+    @BindView(R.id.btn_link_qq)
+    Button mLinkQqBtn;
+
+    @BindView(R.id.iv_setting)
+    ImageView mSettingIv;
 
     // 弹窗
     private PopupWindow mPopupWindow;
@@ -45,23 +58,23 @@ public class QqIdLinkBeginActivity extends BaseActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_qq_id_begin);
-
+        ButterKnife.bind(this);
         initStatusBar();
         StatusBarUtil.setStatusBarColor(QqIdLinkBeginActivity.this, R.color.status_bar_color_white);
 
-        mRootLl = findViewById(R.id.ll_root);
-        mQqIdTv = findViewById(R.id.tv_qq_id);
-        mLinkQqBtn = findViewById(R.id.btn_link_qq);
-        mSettingIv = findViewById(R.id.iv_setting);
-        mLinkQqBtn.setOnClickListener(this);
-        mSettingIv.setOnClickListener(this);
-
+        initView();
         renderView();
     }
 
     public void back(View view) {
         finish();
     }
+
+    private void initView() {
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+    }
+
 
     @Override
     protected void onResume() {
@@ -86,7 +99,7 @@ public class QqIdLinkBeginActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    @Override
+    @OnClick({R.id.btn_link_qq, R.id.iv_setting})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_link_qq:

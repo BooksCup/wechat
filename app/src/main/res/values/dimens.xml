@@ -59,4 +59,6 @@
     <dimen name="save_btn_height">32dp</dimen>
 
     <dimen name="setting_item_margin_left">10dp</dimen>
+
+    <dimen name="operate_btn_text_size">16sp</dimen>
 </resources>
