@@ -2,14 +2,13 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
@@ -22,19 +21,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 更多安全设置
  *
  * @author zhou
  */
-public class MoreSecuritySettingActivity extends BaseActivity implements View.OnClickListener {
+public class MoreSecuritySettingActivity extends BaseActivity {
 
-    private RelativeLayout mQqIdRl;
-    private RelativeLayout mEmailRl;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private TextView mQqIdIsLinkedTv;
-    private TextView mEmailIsLinkedTv;
+    @BindView(R.id.rl_qq_id)
+    RelativeLayout mQqIdRl;
+
+    @BindView(R.id.rl_email)
+    RelativeLayout mEmailRl;
+
+    @BindView(R.id.tv_qq_is_linked)
+    TextView mQqIdIsLinkedTv;
+
+    @BindView(R.id.tv_email_is_linked)
+    TextView mEmailIsLinkedTv;
 
     private VolleyUtil mVolleyUtil;
     private User mUser;
@@ -44,6 +55,7 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_security_setting);
+        ButterKnife.bind(this);
         initStatusBar();
 
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -59,15 +71,10 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     }
 
     private void initView() {
-        mQqIdRl = findViewById(R.id.rl_qq_id);
-        mEmailRl = findViewById(R.id.rl_email);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
 
-        mQqIdIsLinkedTv = findViewById(R.id.tv_qq_is_linked);
-        mEmailIsLinkedTv = findViewById(R.id.tv_email_is_linked);
         refreshLinkedStatus();
-
-        mQqIdRl.setOnClickListener(this);
-        mEmailRl.setOnClickListener(this);
     }
 
     /**
@@ -96,7 +103,7 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
         }
     }
 
-    @Override
+    @OnClick({R.id.rl_qq_id, R.id.rl_email})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_qq_id:
@@ -149,24 +156,16 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
         paramMap.put("to", email);
         paramMap.put("wechatId", wechatId);
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
-                Toast.makeText(MoreSecuritySettingActivity.this,
-                        "验证邮件已发送，请尽快登录邮箱验证", Toast.LENGTH_SHORT).show();
-                mUser.setUserEmail(email);
-                // 邮箱已绑定但未验证
-                mUser.setUserIsEmailLinked(Constant.EMAIL_NOT_VERIFIED);
-                PreferencesUtil.getInstance().setUser(mUser);
-                refreshLinkedStatus();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-            }
-        });
+        mVolleyUtil.httpPostRequest(url, paramMap, s -> {
+            mDialog.dismiss();
+            Toast.makeText(MoreSecuritySettingActivity.this,
+                    "验证邮件已发送，请尽快登录邮箱验证", Toast.LENGTH_SHORT).show();
+            mUser.setUserEmail(email);
+            // 邮箱已绑定但未验证
+            mUser.setUserIsEmailLinked(Constant.EMAIL_NOT_VERIFIED);
+            PreferencesUtil.getInstance().setUser(mUser);
+            refreshLinkedStatus();
+        }, volleyError -> mDialog.dismiss());
     }
 
     @Override
@@ -183,19 +182,13 @@ public class MoreSecuritySettingActivity extends BaseActivity implements View.On
     public void getUserFromServer(final String userId) {
         String url = Constant.BASE_URL + "users/" + userId;
 
-        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                User user = JSON.parseObject(response, User.class);
-                PreferencesUtil.getInstance().setUser(user);
-                mUser = user;
-                refreshLinkedStatus();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        mVolleyUtil.httpGetRequest(url, response -> {
+            User user = JSON.parseObject(response, User.class);
+            PreferencesUtil.getInstance().setUser(user);
+            mUser = user;
+            refreshLinkedStatus();
+        }, volleyError -> {
 
-            }
         });
     }
 }

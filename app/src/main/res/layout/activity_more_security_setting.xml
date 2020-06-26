@@ -64,7 +64,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/qq_id"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/more_security_setting_text_size" />
 
                     <ImageView
                         android:id="@+id/iv_qq_id_more"
@@ -108,7 +108,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/email"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/more_security_setting_text_size" />
 
                     <ImageView
                         android:id="@+id/iv_email_more"
@@ -153,7 +153,7 @@
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/mobile_security"
                         android:textColor="#353535"
-                        android:textSize="16sp" />
+                        android:textSize="@dimen/more_security_setting_text_size" />
 
                     <ImageView
                         android:layout_width="24dp"

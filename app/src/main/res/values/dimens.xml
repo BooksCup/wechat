@@ -42,6 +42,9 @@
     <!-- account security activity -->
     <dimen name="account_security_text_size">15.5sp</dimen>
 
+    <!-- more security setting -->
+    <dimen name="more_security_setting_text_size">15.5sp</dimen>
+
     <!-- setting activity -->
     <dimen name="setting_text_size">15.5sp</dimen>
 
