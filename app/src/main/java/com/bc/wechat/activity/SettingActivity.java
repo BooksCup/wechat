@@ -12,7 +12,6 @@ import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,7 +47,7 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout mLogOutRl;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);

@@ -11,49 +11,60 @@ import com.bc.wechat.R;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
-import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 账号与安全
  *
  * @author zhou
  */
-public class AccountSecurityActivity extends BaseActivity implements View.OnClickListener {
+public class AccountSecurityActivity extends BaseActivity {
 
     /**
      * 标题
      */
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private TextView mWeChatIdTv;
-    private TextView mPhoneTv;
+    @BindView(R.id.tv_wechat_id)
+    TextView mWeChatIdTv;
+
+    @BindView(R.id.tv_phone)
+    TextView mPhoneTv;
 
     /**
      * 手机号
      */
-    private RelativeLayout mPhoneRl;
+    @BindView(R.id.rl_phone)
+    RelativeLayout mPhoneRl;
 
     /**
      * 微信密码
      */
-    private RelativeLayout mPasswordRl;
+    @BindView(R.id.rl_password)
+    RelativeLayout mPasswordRl;
 
     /**
      * 登录设备管理
      */
-    private RelativeLayout mManageDevicesRl;
+    @BindView(R.id.rl_manage_devices)
+    RelativeLayout mManageDevicesRl;
 
     /**
      * 更多安全设置
      */
-    private RelativeLayout mMoreSettingRl;
+    @BindView(R.id.rl_more_settings)
+    RelativeLayout mMoreSettingRl;
 
     private User mUser;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_security);
+        ButterKnife.bind(this);
         initStatusBar();
 
         mUser = PreferencesUtil.getInstance().getUser();
@@ -65,30 +76,15 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mWeChatIdTv = findViewById(R.id.tv_wechat_id);
-        mPhoneTv = findViewById(R.id.tv_phone);
-
         mWeChatIdTv.setText(mUser.getUserWxId());
         mPhoneTv.setText(mUser.getUserPhone());
-
-        mPhoneRl = findViewById(R.id.rl_phone);
-        mPhoneRl.setOnClickListener(this);
-
-        mPasswordRl = findViewById(R.id.rl_password);
-        mPasswordRl.setOnClickListener(this);
-
-        mManageDevicesRl = findViewById(R.id.rl_manage_devices);
-        mManageDevicesRl.setOnClickListener(this);
-
-        mMoreSettingRl = findViewById(R.id.rl_more_settings);
-        mMoreSettingRl.setOnClickListener(this);
     }
 
     public void back(View view) {
         finish();
     }
 
-    @Override
+    @OnClick({R.id.rl_phone, R.id.rl_password, R.id.rl_manage_devices, R.id.rl_more_settings})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_phone:
