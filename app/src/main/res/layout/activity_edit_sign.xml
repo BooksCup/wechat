@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/common_bg_light_grey"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -10,8 +10,7 @@
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_bar_height"
-        android:background="@color/common_top_bar">
+        android:layout_height="@dimen/top_bar_height">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -44,7 +43,7 @@
             android:enabled="false"
             android:gravity="center"
             android:text="@string/save"
-            android:textColor="#fff"
+            android:textColor="@color/btn_text_default_color"
             android:textSize="@dimen/save_btn_text_size" />
     </RelativeLayout>
 

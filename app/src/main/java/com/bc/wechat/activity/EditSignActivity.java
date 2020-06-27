@@ -19,6 +19,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
@@ -26,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 修改个性签名
@@ -33,11 +36,18 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class EditSignActivity extends BaseActivity {
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private EditText mSignEt;
-    private TextView mSaveTv;
-    private TextView mSignLengthTv;
+    @BindView(R.id.et_sign)
+    EditText mSignEt;
+
+    @BindView(R.id.tv_save)
+    TextView mSaveTv;
+
+    @BindView(R.id.tv_sign_length)
+    TextView mSignLengthTv;
+
     final int maxSignLenth = 30;
 
     private VolleyUtil mVolleyUtil;
@@ -48,7 +58,11 @@ public class EditSignActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_sign);
+
+        ButterKnife.bind(this);
+
         initStatusBar();
+        StatusBarUtil.setStatusBarColor(EditSignActivity.this, R.color.common_bg_light_grey);
 
         PreferencesUtil.getInstance().init(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -69,13 +83,8 @@ public class EditSignActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
-        mSignEt = findViewById(R.id.et_sign);
-        mSaveTv = findViewById(R.id.tv_save);
-        mSignLengthTv = findViewById(R.id.tv_sign_length);
 
         mUser = PreferencesUtil.getInstance().getUser();
 
@@ -116,7 +125,8 @@ public class EditSignActivity extends BaseActivity {
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
-                mSaveTv.setTextColor(0xFFD0EFC6);
+                // 不可保存
+                mSaveTv.setTextColor(getColor(R.color.btn_text_default_color));
                 mSaveTv.setEnabled(false);
             }
 
