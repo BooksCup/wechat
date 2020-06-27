@@ -1,8 +1,13 @@
 package com.bc.wechat.activity;
 
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -10,9 +15,15 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bc.wechat.R;
 
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 地区
@@ -20,12 +31,17 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class PickRegionActivity extends BaseActivity {
+    private static final int REQUEST_CODE_LOCATION = 1;
 
     @BindView(R.id.tv_region)
     TextView mRegionTv;
 
+    private String mRegion;
+
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
+    // 即使设置只定位1次也会频繁定位，待定位问题
+    private boolean mLocateFlag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +55,10 @@ public class PickRegionActivity extends BaseActivity {
         // 注册监听函数
         mLocationClient.registerLocationListener(myListener);
         initLocationClientOptions();
-        mLocationClient.start();
+
+
+        String[] permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
+        requestPermissions(PickRegionActivity.this, permissions, REQUEST_CODE_LOCATION);
     }
 
     public void back(View view) {
@@ -91,14 +110,95 @@ public class PickRegionActivity extends BaseActivity {
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
-            // 此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-            // 以下只列举部分获取经纬度相关（常用）的结果信息
-            // 更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-            String country = location.getCountry();
-            String province = location.getProvince();
-            String city = location.getCity();
-            mRegionTv.setTextColor(getColor(R.color.common_item_black));
-            mRegionTv.setText(country + " " + province + " " + city);
+            if (location.getLocType() == BDLocation.TypeCriteriaException) {
+                // Location failed beacuse we can not get any loc information!
+                // 获取不到定位
+                mRegionTv.setTextColor(getColor(R.color.tips_grey));
+                mRegionTv.setText("无法获取你的位置信息");
+            } else {
+                // 此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
+                // 以下只列举部分获取经纬度相关（常用）的结果信息
+                // 更多结果信息获取说明，请参照类参考中BDLocation类中的说明
+                String country = location.getCountry();
+                String province = location.getProvince();
+                String city = location.getCity();
+                mRegionTv.setTextColor(getColor(R.color.common_item_black));
+                mRegionTv.setText(country + " " + province + " " + city);
+                if (!mLocateFlag) {
+                    mRegion = province + " " + city;
+                }
+                mLocateFlag = true;
+            }
+        }
+    }
+
+    @OnClick({R.id.rl_region})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_region:
+                if (!TextUtils.isEmpty(mRegion)) {
+                    Toast.makeText(PickRegionActivity.this, mRegion, Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+    }
+
+    /**
+     * 动态权限
+     */
+    public void requestPermissions(Activity activity, String[] permissions, int requestCode) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   //Android 6.0开始的动态权限，这里进行版本判断
+            ArrayList<String> mPermissionList = new ArrayList<>();
+            for (int i = 0; i < permissions.length; i++) {
+                if (ContextCompat.checkSelfPermission(activity, permissions[i])
+                        != PackageManager.PERMISSION_GRANTED) {
+                    mPermissionList.add(permissions[i]);
+                }
+            }
+            if (mPermissionList.isEmpty()) {
+                // 非初次进入App且已授权
+                switch (requestCode) {
+                    case REQUEST_CODE_LOCATION:
+                        mLocationClient.start();
+                        break;
+                }
+
+            } else {
+                // 请求权限方法
+                String[] requestPermissions = mPermissionList.toArray(new String[mPermissionList.size()]);
+                // 这个触发下面onRequestPermissionsResult这个回调
+                ActivityCompat.requestPermissions(activity, requestPermissions, requestCode);
+            }
+        }
+    }
+
+    /**
+     * requestPermissions的回调
+     * 一个或多个权限请求结果回调
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAllGranted = true;
+        // 判断是否拒绝  拒绝后要怎么处理 以及取消再次提示的处理
+        for (int grantResult : grantResults) {
+            if (grantResult == PackageManager.PERMISSION_DENIED) {
+                hasAllGranted = false;
+                break;
+            }
+        }
+        if (hasAllGranted) {
+            switch (requestCode) {
+                case REQUEST_CODE_LOCATION:
+                    // 同意定位权限
+                    mLocationClient.start();
+                    break;
+            }
+        } else {
+            // 获取不到定位
+            mRegionTv.setTextColor(getColor(R.color.tips_grey));
+            mRegionTv.setText("无法获取你的位置信息");
         }
     }
 }
