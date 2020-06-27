@@ -64,4 +64,6 @@
     <dimen name="setting_item_margin_left">10dp</dimen>
 
     <dimen name="operate_btn_text_size">16sp</dimen>
+
+    <dimen name="common_item_text_size">15.5sp</dimen>
 </resources>

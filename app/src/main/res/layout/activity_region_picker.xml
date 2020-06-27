@@ -61,17 +61,17 @@
 
         <TextView
             android:id="@+id/tv_region"
-            android:layout_toRightOf="@id/iv_region"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
+            android:layout_toRightOf="@id/iv_region"
             android:gravity="center_vertical"
             android:text="定位中..."
             android:textColor="@color/tips_grey"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <ImageView
             android:layout_width="24dp"
