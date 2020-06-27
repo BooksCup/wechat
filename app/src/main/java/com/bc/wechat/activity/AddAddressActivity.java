@@ -15,6 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 import android.text.Editable;
 import android.text.Selection;
@@ -52,33 +56,54 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class AddAddressActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class AddAddressActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;
 
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
+    @BindView(R.id.et_name)
+    EditText mNameEt;
 
-    private EditText mNameEt;
-    private EditText mPhoneEt;
-    private EditText mAddressDetailEt;
-    private EditText mAddressInfoEt;
-    private EditText mPostCodeEt;
-    private TextView mSaveTv;
+    @BindView(R.id.et_phone)
+    EditText mPhoneEt;
+
+    @BindView(R.id.et_address_detail)
+    EditText mAddressDetailEt;
+
+    @BindView(R.id.et_address_info)
+    EditText mAddressInfoEt;
+
+    @BindView(R.id.et_post_code)
+    EditText mPostCodeEt;
+
+    @BindView(R.id.tv_save)
+    TextView mSaveTv;
+
+    @BindView(R.id.iv_address_book)
+    ImageView mAddressBookIv;
+
+    @BindView(R.id.iv_location)
+    ImageView mLocationIv;
+
+    @BindView(R.id.vi_name)
+    View mNameVi;
+
+    @BindView(R.id.vi_phone)
+    View mPhoneVi;
+
+    @BindView(R.id.vi_address_detail)
+    View mAddressDetailVi;
+
+    @BindView(R.id.vi_post_code)
+    View mPostCodeVi;
 
     private VolleyUtil mVolleyUtil;
     private User mUser;
 
     private LoadingDialog mDialog;
-
-    private ImageView mAddressBookIv;
-    private ImageView mLocationIv;
-
-    private View mNameVi;
-    private View mPhoneVi;
-    private View mAddressDetailVi;
-    private View mPostCodeVi;
 
     private AreaDao mAreaDao;
 
@@ -86,6 +111,8 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_modify_address);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -132,30 +159,9 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         mTitleTv.setText(getString(R.string.add_address));
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
-        mNameEt = findViewById(R.id.et_name);
-        mPhoneEt = findViewById(R.id.et_phone);
-        mAddressInfoEt = findViewById(R.id.et_address_info);
-        mAddressDetailEt = findViewById(R.id.et_address_detail);
-        mPostCodeEt = findViewById(R.id.et_post_code);
-        mSaveTv = findViewById(R.id.tv_save);
-
-        mNameVi = findViewById(R.id.vi_name);
-        mPhoneVi = findViewById(R.id.vi_phone);
-        mAddressDetailVi = findViewById(R.id.vi_address_detail);
-        mPostCodeVi = findViewById(R.id.vi_post_code);
-
-        mAddressBookIv = findViewById(R.id.iv_address_book);
-        mLocationIv = findViewById(R.id.iv_location);
-
-        mAddressInfoEt.setOnClickListener(this);
-        mSaveTv.setOnClickListener(this);
-        mAddressBookIv.setOnClickListener(this);
-        mLocationIv.setOnClickListener(this);
 
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
@@ -166,14 +172,9 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
         mPhoneEt.addTextChangedListener(new TextChange());
         mAddressInfoEt.addTextChangedListener(new TextChange());
         mAddressDetailEt.addTextChangedListener(new TextChange());
-
-        mNameEt.setOnFocusChangeListener(this);
-        mPhoneEt.setOnFocusChangeListener(this);
-        mAddressDetailEt.setOnFocusChangeListener(this);
-        mPostCodeEt.setOnFocusChangeListener(this);
     }
 
-    @Override
+    @OnFocusChange({R.id.et_name, R.id.et_phone, R.id.et_address_detail, R.id.et_post_code})
     public void onFocusChange(View view, boolean hasFocus) {
         switch (view.getId()) {
             case R.id.et_name:
@@ -225,10 +226,12 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
                     !TextUtils.isEmpty(addressPhone) &&
                     !TextUtils.isEmpty(addressInfo) &&
                     !TextUtils.isEmpty(addressDetail)) {
+                // 可保存
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
-                mSaveTv.setTextColor(0xFFD0EFC6);
+                // 不可保存
+                mSaveTv.setTextColor(getColor(R.color.btn_text_default_color));
                 mSaveTv.setEnabled(false);
             }
         }
@@ -239,7 +242,7 @@ public class AddAddressActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    @Override
+    @OnClick({R.id.et_address_info, R.id.tv_save, R.id.iv_address_book, R.id.iv_location})
     public void onClick(View view) {
         String[] permissions;
         switch (view.getId()) {

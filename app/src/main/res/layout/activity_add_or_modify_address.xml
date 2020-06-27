@@ -44,7 +44,7 @@
             android:enabled="false"
             android:gravity="center"
             android:text="@string/save"
-            android:textColor="#fff"
+            android:textColor="@color/btn_text_default_color"
             android:textSize="@dimen/save_btn_text_size" />
     </RelativeLayout>
 

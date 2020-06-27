@@ -44,25 +44,59 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 /**
  * 修改地址
  *
  * @author zhou
  */
-public class ModifyAddressActivity extends BaseActivity implements View.OnClickListener {
+public class ModifyAddressActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;
 
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private EditText mNameEt;
-    private EditText mPhoneEt;
-    private EditText mAddressDetailEt;
-    private EditText mAddressInfoEt;
-    private EditText mPostCodeEt;
-    private TextView mSaveTv;
+    @BindView(R.id.et_name)
+    EditText mNameEt;
+
+    @BindView(R.id.et_phone)
+    EditText mPhoneEt;
+
+    @BindView(R.id.et_address_detail)
+    EditText mAddressDetailEt;
+
+    @BindView(R.id.et_address_info)
+    EditText mAddressInfoEt;
+
+    @BindView(R.id.et_post_code)
+    EditText mPostCodeEt;
+
+    @BindView(R.id.tv_save)
+    TextView mSaveTv;
+
+    @BindView(R.id.iv_address_book)
+    ImageView mAddressBookIv;
+
+    @BindView(R.id.iv_location)
+    ImageView mLocationIv;
+
+    @BindView(R.id.vi_name)
+    View mNameVi;
+
+    @BindView(R.id.vi_phone)
+    View mPhoneVi;
+
+    @BindView(R.id.vi_address_detail)
+    View mAddressDetailVi;
+
+    @BindView(R.id.vi_post_code)
+    View mPostCodeVi;
 
     private VolleyUtil mVolleyUtil;
     private User mUser;
@@ -72,13 +106,12 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
     private AddressDao mAddressDao;
     private AreaDao mAreaDao;
 
-    private ImageView mAddressBookIv;
-    private ImageView mLocationIv;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_modify_address);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -132,22 +165,11 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         mTitleTv.setText(getString(R.string.modify_address));
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
         mAddress = (Address) getIntent().getSerializableExtra("address");
-
-        mNameEt = findViewById(R.id.et_name);
-        mPhoneEt = findViewById(R.id.et_phone);
-        mAddressInfoEt = findViewById(R.id.et_address_info);
-        mAddressDetailEt = findViewById(R.id.et_address_detail);
-        mPostCodeEt = findViewById(R.id.et_post_code);
-        mSaveTv = findViewById(R.id.tv_save);
-
-        mAddressBookIv = findViewById(R.id.iv_address_book);
-        mLocationIv = findViewById(R.id.iv_location);
 
         mNameEt.setText(mAddress.getAddressName());
         mPhoneEt.setText(mAddress.getAddressPhone());
@@ -159,12 +181,6 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
                 .append(mAddress.getAddressDistrict());
         mAddress.setAddressInfo(addressInfoBuffer.toString());
         mAddressInfoEt.setText(addressInfoBuffer.toString());
-
-
-        mAddressInfoEt.setOnClickListener(this);
-        mSaveTv.setOnClickListener(this);
-        mAddressBookIv.setOnClickListener(this);
-        mLocationIv.setOnClickListener(this);
 
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
@@ -207,7 +223,7 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
-                mSaveTv.setTextColor(0xFFD0EFC6);
+                mSaveTv.setTextColor(getColor(R.color.btn_text_default_color));
                 mSaveTv.setEnabled(false);
             }
         }
@@ -218,7 +234,7 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    @Override
+    @OnClick({R.id.et_address_info, R.id.tv_save, R.id.iv_address_book, R.id.iv_location})
     public void onClick(View view) {
         String[] permissions;
         switch (view.getId()) {
@@ -246,6 +262,40 @@ public class ModifyAddressActivity extends BaseActivity implements View.OnClickL
             case R.id.iv_location:
                 permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
                 requestPermissions(ModifyAddressActivity.this, permissions, REQUEST_CODE_LOCATION);
+                break;
+        }
+    }
+
+    @OnFocusChange({R.id.et_name, R.id.et_phone, R.id.et_address_detail, R.id.et_post_code})
+    public void onFocusChange(View view, boolean hasFocus) {
+        switch (view.getId()) {
+            case R.id.et_name:
+                if (hasFocus) {
+                    mNameVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mNameVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+            case R.id.et_phone:
+                if (hasFocus) {
+                    mPhoneVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mPhoneVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+            case R.id.et_address_detail:
+                if (hasFocus) {
+                    mAddressDetailVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mAddressDetailVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
+                break;
+            case R.id.et_post_code:
+                if (hasFocus) {
+                    mPostCodeVi.setBackgroundColor(getColor(R.color.wechat_btn_green));
+                } else {
+                    mPostCodeVi.setBackgroundColor(getColor(R.color.picker_list_divider));
+                }
                 break;
         }
     }
