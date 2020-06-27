@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 微信号修改
@@ -33,9 +35,15 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class EditWeChatIdActivity extends BaseActivity {
-    private TextView mTitleTv;
-    private EditText mWeChatIdEt;
-    private TextView mSaveTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.et_wechat_id)
+    EditText mWeChatIdEt;
+
+    @BindView(R.id.tv_save)
+    TextView mSaveTv;
+
     private VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
@@ -44,6 +52,8 @@ public class EditWeChatIdActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_wechat_id);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         PreferencesUtil.getInstance().init(this);
@@ -65,12 +75,8 @@ public class EditWeChatIdActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
-        mWeChatIdEt = findViewById(R.id.et_wechat_id);
-        mSaveTv = findViewById(R.id.tv_save);
 
         mWeChatIdEt.setText(mUser.getUserWxId());
         // 光标移至最后
@@ -99,10 +105,12 @@ public class EditWeChatIdActivity extends BaseActivity {
             boolean isWxIdChanged = !oldWxId.equals(newWxId);
 
             if (isWxIdHasText && isWxIdChanged) {
+                // 可保存
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
-                mSaveTv.setTextColor(0xFFD0EFC6);
+                // 不可保存
+                mSaveTv.setTextColor(getColor(R.color.btn_text_default_color));
                 mSaveTv.setEnabled(false);
             }
         }
