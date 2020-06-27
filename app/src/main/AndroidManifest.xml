@@ -168,6 +168,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
+            android:name=".activity.PickRegionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
             android:name=".activity.PickProvinceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />

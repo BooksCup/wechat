@@ -70,4 +70,6 @@
     <color name="btn_text_default_color">#B5B5B5</color>
 
     <color name="common_bg_light_grey">#EBEBEB</color>
+
+    <color name="common_item_black">#353535</color>
 </resources>

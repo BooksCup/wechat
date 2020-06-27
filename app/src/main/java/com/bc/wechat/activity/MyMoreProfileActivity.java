@@ -24,6 +24,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
     private TextView mTitleTv;
 
     private RelativeLayout mSexRl;
+    private RelativeLayout mRegionRl;
     private RelativeLayout mSignRl;
 
     private TextView mSexTv;
@@ -52,6 +53,8 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
         mSexRl = findViewById(R.id.rl_sex);
         mSexTv = findViewById(R.id.tv_sex);
 
+        mRegionRl = findViewById(R.id.rl_region);
+
         mSignRl = findViewById(R.id.rl_sign);
         mSignTv = findViewById(R.id.tv_sign);
 
@@ -65,6 +68,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
         mSignTv.setText(mUser.getUserSign());
 
         mSexRl.setOnClickListener(this);
+        mRegionRl.setOnClickListener(this);
         mSignRl.setOnClickListener(this);
     }
 
@@ -78,6 +82,9 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
             case R.id.rl_sex:
                 startActivity(new Intent(this, SetGenderActivity.class));
                 break;
+            case R.id.rl_region:
+                startActivity(new Intent(this, PickRegionActivity.class));
+                break;
             case R.id.rl_sign:
                 // 签名
                 startActivityForResult(new Intent(this, EditSignActivity.class), UPDATE_USER_SIGN);
@@ -87,6 +94,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             final User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
