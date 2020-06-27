@@ -23,21 +23,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 修改性别
  *
  * @author zhou
  */
-public class SetGenderActivity extends BaseActivity implements View.OnClickListener {
+public class SetGenderActivity extends BaseActivity {
+    @BindView(R.id.tv_title)
     TextView mTitleTv;
 
+    @BindView(R.id.rl_male)
     RelativeLayout mMaleRl;
+
+    @BindView(R.id.rl_female)
     RelativeLayout mFemaleRl;
 
+    @BindView(R.id.tv_save)
     TextView mSaveTv;
 
+    @BindView(R.id.iv_male)
     ImageView mMaleIv;
+
+    @BindView(R.id.iv_female)
     ImageView mFemaleIv;
 
     User mUser;
@@ -49,6 +60,8 @@ public class SetGenderActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_gender);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         mUser = PreferencesUtil.getInstance().getUser();
@@ -58,21 +71,8 @@ public class SetGenderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
-        mMaleRl = findViewById(R.id.rl_male);
-        mFemaleRl = findViewById(R.id.rl_female);
-
-        mSaveTv = findViewById(R.id.tv_save);
-
-        mMaleIv = findViewById(R.id.iv_male);
-        mFemaleIv = findViewById(R.id.iv_female);
-
-        mMaleRl.setOnClickListener(this);
-        mFemaleRl.setOnClickListener(this);
-        mSaveTv.setOnClickListener(this);
 
         renderSex();
     }
@@ -81,7 +81,7 @@ public class SetGenderActivity extends BaseActivity implements View.OnClickListe
         finish();
     }
 
-    @Override
+    @OnClick({R.id.rl_male, R.id.rl_female, R.id.tv_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_male:
