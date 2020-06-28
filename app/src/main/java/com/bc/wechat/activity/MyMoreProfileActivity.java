@@ -28,6 +28,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
     private RelativeLayout mSignRl;
 
     private TextView mSexTv;
+    private TextView mRegionTv;
     private TextView mSignTv;
 
     private User mUser;
@@ -54,6 +55,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
         mSexTv = findViewById(R.id.tv_sex);
 
         mRegionRl = findViewById(R.id.rl_region);
+        mRegionTv = findViewById(R.id.tv_region);
 
         mSignRl = findViewById(R.id.rl_sign);
         mSignTv = findViewById(R.id.tv_sign);
@@ -65,6 +67,7 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
         } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
             mSexTv.setText(getString(R.string.sex_female));
         }
+        mRegionTv.setText(mUser.getUserRegion());
         mSignTv.setText(mUser.getUserSign());
 
         mSexRl.setOnClickListener(this);
@@ -117,5 +120,6 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
         } else {
             mSexTv.setText("");
         }
+        mRegionTv.setText(user.getUserRegion());
     }
 }

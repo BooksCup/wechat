@@ -7,15 +7,22 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,12 +50,18 @@ public class PickRegionActivity extends BaseActivity {
     // 即使设置只定位1次也会频繁定位，待定位问题
     private boolean mLocateFlag = false;
 
+    private VolleyUtil mVolleyUtil;
+    private User mUser;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_region_picker);
         ButterKnife.bind(this);
         initStatusBar();
+
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mUser = PreferencesUtil.getInstance().getUser();
 
         // 声明LocationClient类
         mLocationClient = new LocationClient(getApplicationContext());
@@ -137,7 +150,10 @@ public class PickRegionActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.rl_region:
                 if (!TextUtils.isEmpty(mRegion)) {
-                    Toast.makeText(PickRegionActivity.this, mRegion, Toast.LENGTH_SHORT).show();
+                    mUser.setUserRegion(mRegion);
+                    PreferencesUtil.getInstance().setUser(mUser);
+                    modifyRegion();
+                    finish();
                 }
                 break;
         }
@@ -200,5 +216,24 @@ public class PickRegionActivity extends BaseActivity {
             mRegionTv.setTextColor(getColor(R.color.tips_grey));
             mRegionTv.setText("无法获取你的位置信息");
         }
+    }
+
+    /**
+     * 修改地区
+     */
+    private void modifyRegion() {
+        String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/userRegion";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userRegion", mRegion);
+
+        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
     }
 }
