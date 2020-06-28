@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,6 +51,9 @@ public class PickRegionActivity extends BaseActivity {
 
     @BindView(R.id.lv_region)
     ListView mRegionLv;
+
+    @BindView(R.id.iv_region)
+    ImageView mRegionIv;
 
     private RegionAdapter mRegionAdapter;
 
@@ -165,8 +169,7 @@ public class PickRegionActivity extends BaseActivity {
             if (location.getLocType() == BDLocation.TypeCriteriaException) {
                 // Location failed beacuse we can not get any loc information!
                 // 获取不到定位
-                mRegionTv.setTextColor(getColor(R.color.tips_grey));
-                mRegionTv.setText("无法获取你的位置信息");
+                handleLocationError();
             } else {
                 // 此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
                 // 以下只列举部分获取经纬度相关（常用）的结果信息
@@ -252,8 +255,7 @@ public class PickRegionActivity extends BaseActivity {
             }
         } else {
             // 获取不到定位
-            mRegionTv.setTextColor(getColor(R.color.tips_grey));
-            mRegionTv.setText("无法获取你的位置信息");
+            handleLocationError();
         }
     }
 
@@ -274,5 +276,14 @@ public class PickRegionActivity extends BaseActivity {
             public void onErrorResponse(VolleyError volleyError) {
             }
         });
+    }
+
+    /**
+     * 处理定位异常
+     */
+    private void handleLocationError() {
+        mRegionIv.setImageResource(R.mipmap.icon_location_error);
+        mRegionTv.setTextColor(getColor(R.color.tips_grey));
+        mRegionTv.setText("无法获取你的位置信息");
     }
 }
