@@ -118,7 +118,6 @@ public class MyProfileActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 

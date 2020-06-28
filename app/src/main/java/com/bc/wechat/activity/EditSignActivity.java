@@ -159,7 +159,6 @@ public class EditSignActivity extends BaseActivity {
             @Override
             public void onResponse(String s) {
                 mDialog.dismiss();
-                setResult(RESULT_OK);
                 mUser.setUserSign(userSign);
                 PreferencesUtil.getInstance().setUser(mUser);
                 finish();

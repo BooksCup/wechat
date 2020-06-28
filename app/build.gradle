@@ -15,7 +15,7 @@ android {
 
         manifestPlaceholders = [
                 JPUSH_PKGNAME: "com.bc.wechat",
-                JPUSH_APPKEY : "4328bdceaee827cdb34cc397", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_APPKEY : "ca3694c6ce1a2678eef95dce", //JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }

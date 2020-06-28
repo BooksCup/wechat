@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,6 +46,9 @@ import butterknife.OnClick;
  */
 public class PickRegionActivity extends BaseActivity {
     private static final int REQUEST_CODE_LOCATION = 1;
+
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
     @BindView(R.id.tv_region)
     TextView mRegionTv;
@@ -95,6 +99,9 @@ public class PickRegionActivity extends BaseActivity {
     }
 
     private void initView() {
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
+
         final List<Region> regionList = new ArrayList<>();
         regionList.add(new Region("阿鲁巴"));
         regionList.add(new Region("阿尔巴尼亚"));

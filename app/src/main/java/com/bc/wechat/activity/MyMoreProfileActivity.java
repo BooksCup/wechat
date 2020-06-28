@@ -13,6 +13,9 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -20,25 +23,37 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class MyMoreProfileActivity extends BaseActivity implements View.OnClickListener {
-    private TextView mTitleTv;
+public class MyMoreProfileActivity extends BaseActivity {
 
-    private RelativeLayout mSexRl;
-    private RelativeLayout mRegionRl;
-    private RelativeLayout mSignRl;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private TextView mSexTv;
-    private TextView mRegionTv;
-    private TextView mSignTv;
+    @BindView(R.id.rl_sex)
+    RelativeLayout mSexRl;
+
+    @BindView(R.id.rl_region)
+    RelativeLayout mRegionRl;
+
+    @BindView(R.id.rl_sign)
+    RelativeLayout mSignRl;
+
+    @BindView(R.id.tv_sex)
+    TextView mSexTv;
+
+    @BindView(R.id.tv_region)
+    TextView mRegionTv;
+
+    @BindView(R.id.tv_sign)
+    TextView mSignTv;
 
     private User mUser;
-
-    private static final int UPDATE_USER_SIGN = 5;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_more_profile);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         PreferencesUtil.getInstance().init(this);
@@ -47,18 +62,8 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
-        mSexRl = findViewById(R.id.rl_sex);
-        mSexTv = findViewById(R.id.tv_sex);
-
-        mRegionRl = findViewById(R.id.rl_region);
-        mRegionTv = findViewById(R.id.tv_region);
-
-        mSignRl = findViewById(R.id.rl_sign);
-        mSignTv = findViewById(R.id.tv_sign);
 
         String userSex = mUser.getUserSex();
 
@@ -69,17 +74,13 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
         }
         mRegionTv.setText(mUser.getUserRegion());
         mSignTv.setText(mUser.getUserSign());
-
-        mSexRl.setOnClickListener(this);
-        mRegionRl.setOnClickListener(this);
-        mSignRl.setOnClickListener(this);
     }
 
     public void back(View view) {
         finish();
     }
 
-    @Override
+    @OnClick({R.id.rl_sex, R.id.rl_region, R.id.rl_sign})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_sex:
@@ -90,22 +91,8 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.rl_sign:
                 // 签名
-                startActivityForResult(new Intent(this, EditSignActivity.class), UPDATE_USER_SIGN);
+                startActivity(new Intent(this, EditSignActivity.class));
                 break;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            final User user = PreferencesUtil.getInstance().getUser();
-            switch (requestCode) {
-                case UPDATE_USER_SIGN:
-                    // 个性签名
-                    mSignTv.setText(user.getUserSign());
-                    break;
-            }
         }
     }
 
@@ -121,5 +108,8 @@ public class MyMoreProfileActivity extends BaseActivity implements View.OnClickL
             mSexTv.setText("");
         }
         mRegionTv.setText(user.getUserRegion());
+
+        // 个性签名
+        mSignTv.setText(user.getUserSign());
     }
 }
