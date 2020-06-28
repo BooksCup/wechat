@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -15,13 +17,16 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bc.wechat.R;
+import com.bc.wechat.adapter.RegionAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.Region;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -43,6 +48,11 @@ public class PickRegionActivity extends BaseActivity {
     @BindView(R.id.tv_region)
     TextView mRegionTv;
 
+    @BindView(R.id.lv_region)
+    ListView mRegionLv;
+
+    private RegionAdapter mRegionAdapter;
+
     private String mRegion;
 
     public LocationClient mLocationClient = null;
@@ -63,6 +73,8 @@ public class PickRegionActivity extends BaseActivity {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
 
+        initView();
+
         // 声明LocationClient类
         mLocationClient = new LocationClient(getApplicationContext());
         // 注册监听函数
@@ -76,6 +88,33 @@ public class PickRegionActivity extends BaseActivity {
 
     public void back(View view) {
         finish();
+    }
+
+    private void initView() {
+        final List<Region> regionList = new ArrayList<>();
+        regionList.add(new Region("阿鲁巴"));
+        regionList.add(new Region("阿尔巴尼亚"));
+        regionList.add(new Region("阿尔及利亚"));
+        regionList.add(new Region("阿富汗"));
+        regionList.add(new Region("阿根廷"));
+        regionList.add(new Region("阿拉伯联合酋长国"));
+        regionList.add(new Region("阿曼"));
+        regionList.add(new Region("阿塞拜疆"));
+        regionList.add(new Region("爱尔兰"));
+        mRegionAdapter = new RegionAdapter(this, regionList);
+        mRegionLv.setAdapter(mRegionAdapter);
+
+        mRegionLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Region region = regionList.get(position);
+                mRegion = region.getName();
+                mUser.setUserRegion(mRegion);
+                PreferencesUtil.getInstance().setUser(mUser);
+                modifyRegion();
+                finish();
+            }
+        });
     }
 
     /**
