@@ -14,18 +14,32 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * 二维码名片
  *
  * @author zhou
  */
 public class MyQrCodeActivity extends BaseActivity {
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private SimpleDraweeView mAvatarSdv;
-    private TextView mNickNameTv;
-    private ImageView mSexIv;
-    private SimpleDraweeView mQrCodeSdv;
+    @BindView(R.id.sdv_avatar)
+    SimpleDraweeView mAvatarSdv;
+
+    @BindView(R.id.tv_nick_name)
+    TextView mNickNameTv;
+
+    @BindView(R.id.iv_sex)
+    ImageView mSexIv;
+
+    @BindView(R.id.tv_region)
+    TextView mRegionTv;
+
+    @BindView(R.id.sdv_qr_code)
+    SimpleDraweeView mQrCodeSdv;
 
     private User mUser;
 
@@ -33,6 +47,7 @@ public class MyQrCodeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_qr_code);
+        ButterKnife.bind(this);
         initStatusBar();
 
         mUser = PreferencesUtil.getInstance().getUser();
@@ -40,7 +55,6 @@ public class MyQrCodeActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
@@ -61,6 +75,8 @@ public class MyQrCodeActivity extends BaseActivity {
         } else {
             mSexIv.setVisibility(View.GONE);
         }
+
+        mRegionTv.setText(mUser.getUserRegion());
 
         if (!TextUtils.isEmpty(mUser.getUserQrCode())) {
             mQrCodeSdv.setImageURI(Uri.parse(mUser.getUserQrCode()));

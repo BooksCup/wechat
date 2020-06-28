@@ -38,8 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/setting_btn_margin_right"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_btn_margin_right">
 
             <ImageView
                 android:id="@+id/iv_setting"
@@ -97,7 +97,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_area"
+                android:id="@+id/ll_region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_name"
@@ -107,7 +107,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_area"
+                    android:id="@+id/tv_region"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="江苏 南京"
