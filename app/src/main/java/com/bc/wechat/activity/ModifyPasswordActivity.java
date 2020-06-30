@@ -29,7 +29,6 @@ import static com.bc.wechat.utils.ValidateUtil.validatePassword;
 
 /**
  * 设置密码
- * git test
  *
  * @author zhou
  */
