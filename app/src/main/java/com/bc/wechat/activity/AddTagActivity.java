@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.DensityUtil;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -24,6 +26,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 添加标签
@@ -71,7 +74,7 @@ public class AddTagActivity extends BaseActivity {
      */
     private TagAdapter<String> mTagAdapter;
     private LinearLayout.LayoutParams params;
-    private EditText editText;
+    private EditText mDefaultEt;
 
 
     @Override
@@ -102,11 +105,11 @@ public class AddTagActivity extends BaseActivity {
         mAddTagFl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String editTextContent = editText.getText().toString();
+                String editTextContent = mDefaultEt.getText().toString();
                 if (TextUtils.isEmpty(editTextContent)) {
                     tagNormal();
                 } else {
-                    addTag(editText);
+                    addTag(mDefaultEt);
                 }
             }
         });
@@ -130,10 +133,10 @@ public class AddTagActivity extends BaseActivity {
         mAllTagList.add("社会朋友");
 
         for (int i = 0; i < mTagList.size(); i++) {
-            editText = new EditText(getApplicationContext());
-            editText.setText(mTagList.get(i));
+            mDefaultEt = new EditText(getApplicationContext());
+            mDefaultEt.setText(mTagList.get(i));
             // 添加标签
-            addTag(editText);
+            addTag(mDefaultEt);
         }
 
     }
@@ -142,19 +145,19 @@ public class AddTagActivity extends BaseActivity {
      * 初始化默认的添加标签
      */
     private void initEditText() {
-        editText = new EditText(getApplicationContext());
-        editText.setHint(getString(R.string.add_tag));
+        mDefaultEt = new EditText(getApplicationContext());
+        mDefaultEt.setHint(getString(R.string.add_tag));
         //设置固定宽度
-        editText.setMinEms(4);
-        editText.setTextSize(TAG_TEXT_SIZE);
+        mDefaultEt.setMinEms(4);
+        mDefaultEt.setTextSize(TAG_TEXT_SIZE);
         //设置shape
-        editText.setBackgroundResource(R.drawable.label_add);
-        editText.setHintTextColor(Color.parseColor("#b4b4b4"));
-        editText.setTextColor(Color.parseColor("#000000"));
-        editText.setLayoutParams(params);
+        mDefaultEt.setBackgroundResource(R.drawable.label_add);
+        mDefaultEt.setHintTextColor(Color.parseColor("#b4b4b4"));
+        mDefaultEt.setTextColor(Color.parseColor("#000000"));
+        mDefaultEt.setLayoutParams(params);
         //添加到layout中
-        mAddTagFl.addView(editText);
-        editText.addTextChangedListener(new TextWatcher() {
+        mAddTagFl.addView(mDefaultEt);
+        mDefaultEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -206,8 +209,8 @@ public class AddTagActivity extends BaseActivity {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 if (mTagTextList.size() == 0) {
-                    editText.setText(mAllTagList.get(position));
-                    addTag(editText);
+                    mDefaultEt.setText(mAllTagList.get(position));
+                    addTag(mDefaultEt);
                     return false;
                 }
                 List<String> list = new ArrayList<>();
@@ -224,8 +227,8 @@ public class AddTagActivity extends BaseActivity {
                     }
 
                 } else {
-                    editText.setText(mAllTagList.get(position));
-                    addTag(editText);
+                    mDefaultEt.setText(mAllTagList.get(position));
+                    addTag(mDefaultEt);
                 }
 
                 return false;
@@ -353,5 +356,19 @@ public class AddTagActivity extends BaseActivity {
         textView.setText(label);
         textView.setLayoutParams(params);
         return textView;
+    }
+
+    @OnClick({R.id.tv_save})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_save:
+                List<String> selectedTagList = new ArrayList<>();
+                for (int i = 0; i < mTagTextList.size(); i++) {
+                    selectedTagList.add(mTagTextList.get(i).getText().toString());
+                }
+                PreferencesUtil.getInstance().setList(Constant.SP_KEY_TAG_SELECTED, selectedTagList);
+                finish();
+                break;
+        }
     }
 }

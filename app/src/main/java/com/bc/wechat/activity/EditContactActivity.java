@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,12 +17,16 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.DensityUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.zhy.view.flowlayout.FlowLayout;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -48,6 +54,17 @@ public class EditContactActivity extends BaseActivity {
 
     private UserDao mUserDao;
 
+    @BindView(R.id.tv_add_tag)
+    TextView mAddTagTv;
+
+    /**
+     * 上面的FlowLayout
+     */
+    @BindView(R.id.fl_add_tag)
+    FlowLayout mAddTagFl;
+
+    private LinearLayout.LayoutParams mParams;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +80,13 @@ public class EditContactActivity extends BaseActivity {
     }
 
     private void initView() {
+        mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int marginLeft = DensityUtil.dip2px(EditContactActivity.this, 10);
+        int marginTop = DensityUtil.dip2px(EditContactActivity.this, 10);
+        mParams.setMargins(marginLeft, marginTop, 0, 0);
+        loadTags();
+
+
         mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
@@ -138,12 +162,52 @@ public class EditContactActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.et_add_tag})
+    @OnClick({R.id.rl_add_tag})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.et_add_tag:
+            case R.id.rl_add_tag:
                 startActivity(new Intent(EditContactActivity.this, AddTagActivity.class));
                 break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadTags();
+    }
+
+    /**
+     * 创建一个正常状态的标签
+     *
+     * @param label
+     * @return
+     */
+    private TextView getTag(String label) {
+        TextView textView = new TextView(getApplicationContext());
+        textView.setTextSize(14);
+        textView.setBackgroundResource(R.drawable.label_normal);
+        textView.setTextColor(getColor(R.color.register_btn_bg_enable));
+        textView.setText(label);
+        textView.setLayoutParams(mParams);
+        return textView;
+    }
+
+    private void loadTags() {
+        List<String> selectedTagList = PreferencesUtil.getInstance().
+                getList(Constant.SP_KEY_TAG_SELECTED, String.class);
+        if (null != selectedTagList && selectedTagList.size() > 0) {
+            mAddTagTv.setVisibility(View.GONE);
+            mAddTagFl.setVisibility(View.VISIBLE);
+            mAddTagFl.removeAllViews();
+            for (String selectedTag : selectedTagList) {
+                // 添加标签
+                final TextView temp = getTag(selectedTag);
+                mAddTagFl.addView(temp);
+            }
+        } else {
+            mAddTagTv.setVisibility(View.VISIBLE);
+            mAddTagFl.setVisibility(View.GONE);
         }
     }
 }

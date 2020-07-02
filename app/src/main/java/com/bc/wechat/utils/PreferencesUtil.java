@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreferencesUtil {
     private SharedPreferences preferences = null;
@@ -289,5 +291,19 @@ public class PreferencesUtil {
      */
     public void setOpenPeopleNearby(Boolean isOpenPeopleNearby) {
         saveParam("isOpenPeopleNearby", isOpenPeopleNearby);
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        saveParam(key, JSON.toJSONString(list));
+    }
+
+    public <T> List<T> getList(String key, Class<T> clazz) {
+        List<T> list;
+        try {
+            list = JSON.parseArray((String) getParam(key, ""), clazz);
+        } catch (Exception e) {
+            list = new ArrayList<>();
+        }
+        return list;
     }
 }

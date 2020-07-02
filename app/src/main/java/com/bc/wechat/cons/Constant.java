@@ -226,4 +226,10 @@ public class Constant {
      * 文件传输助手
      */
     public static final String USER_TYPE_FILEHELPER = "FILEHELPER";
+
+    // SharedPreferences key
+    /**
+     * 已选标签
+     */
+    public static final String SP_KEY_TAG_SELECTED = "tag_selected";
 }

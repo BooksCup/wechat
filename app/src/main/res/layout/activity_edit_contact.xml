@@ -109,24 +109,35 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_add_tag"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_contact_edittext_height"
+            android:layout_height="wrap_content"
             android:background="#ffffff"
             android:paddingLeft="12dp"
             android:paddingRight="8dp">
 
-            <EditText
-                android:id="@+id/et_add_tag"
+            <TextView
+                android:id="@+id/tv_add_tag"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/edit_contact_edittext_height"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="#ffffff"
+                android:clickable="false"
+                android:enabled="false"
                 android:focusable="false"
-                android:hint="@string/sort_friend_by_tag"
+                android:gravity="center_vertical"
                 android:paddingLeft="5dp"
-                android:textColor="#353535"
+                android:text="@string/sort_friend_by_tag"
+                android:textColor="@color/tips_grey"
                 android:textSize="@dimen/common_item_text_size" />
+
+            <com.zhy.view.flowlayout.FlowLayout
+                android:id="@+id/fl_add_tag"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal" />
 
         </RelativeLayout>
 
