@@ -364,7 +364,7 @@ public class AddTagActivity extends BaseActivity {
             case R.id.tv_save:
                 List<String> selectedTagList = new ArrayList<>();
                 for (int i = 0; i < mTagTextList.size(); i++) {
-                    selectedTagList.add(mTagTextList.get(i).getText().toString());
+                    selectedTagList.add(mTagTextList.get(i).getText().toString().replace(" ×", ""));
                 }
                 PreferencesUtil.getInstance().setList(Constant.SP_KEY_TAG_SELECTED, selectedTagList);
                 finish();
