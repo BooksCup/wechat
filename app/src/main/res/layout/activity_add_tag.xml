@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_back"
-            android:text="添加标签"
+            android:text="@string/add_tag"
             android:textColor="@color/common_top_title"
             android:textSize="16sp" />
 
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
-            android:text="所有标签"
+            android:text="@string/all_tag"
             android:textColor="@color/tips_grey"
             android:textSize="14sp" />
 

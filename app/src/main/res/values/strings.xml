@@ -165,6 +165,8 @@
     <string name="complete">完成</string>
     <string name="remark_name">备注名</string>
     <string name="tag">标签</string>
+    <string name="add_tag">添加标签</string>
+    <string name="all_tag">所有标签</string>
     <string name="sort_friend_by_tag">添加标签对联系人进行分类</string>
     <string name="phone_num">电话号码</string>
     <string name="add_phone_num">添加电话号码</string>
