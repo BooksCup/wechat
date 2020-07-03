@@ -27,6 +27,7 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -144,18 +145,10 @@ public class AddTagActivity extends BaseActivity {
      * 初始化数据
      */
     private void initData() {
-        //初始化上面标签
-        mTagList.add("同事");
-        mTagList.add("亲人");
-        mTagList.add("同学");
-        mTagList.add("朋友");
-        mTagList.add("知己");
-        //初始化下面标签列表
-        mAllTagList.addAll(mTagList);
-        mAllTagList.add("异性朋友");
-        mAllTagList.add("高中同学");
-        mAllTagList.add("大学同学");
-        mAllTagList.add("社会朋友");
+        // 初始化好友标签
+        mTagList = mContact.getUserContactTagList();
+        // 初始化所有标签
+        mAllTagList = mUser.getUserTagList();
 
         for (int i = 0; i < mTagList.size(); i++) {
             mDefaultEt = new EditText(getApplicationContext());
@@ -401,6 +394,14 @@ public class AddTagActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 保存用户标签
+     *
+     * @param userId      用户ID
+     * @param contactId   联系人用户ID
+     * @param contactTags 联系人标签
+     * @param tags        所有标签
+     */
     private void saveUserContactTags(String userId, final String contactId, final String contactTags, final String tags) {
         String url = Constant.BASE_URL + "users/" + userId + "/userContactTags";
         Map<String, String> paramMap = new HashMap<>();
@@ -410,12 +411,54 @@ public class AddTagActivity extends BaseActivity {
 
         mVolleyUtil.httpPostRequest(url, paramMap, response -> {
             mDialog.dismiss();
+            // 用户标签保存至本地
             mContact.setUserContactTags(contactTags);
             mUserDao.saveUser(mContact);
+            // 用户所有标签保存至SharePreference中
+            String unionTags = getUnionTags(contactTags, tags);
+            mUser.setUserTags(unionTags);
+            PreferencesUtil.getInstance().setUser(mUser);
             finish();
         }, volleyError -> {
             mDialog.dismiss();
             showNoTitleAlertDialog(AddTagActivity.this, "添加标签失败", "确定");
         });
+    }
+
+    /**
+     * 获取标签合集(json格式)
+     *
+     * @param firstTags  第一个标签集合(json格式)
+     * @param secondTags 第二个标签集合(json格式)
+     * @return 标签合集(json格式)
+     */
+    private String getUnionTags(String firstTags, String secondTags) {
+        List<String> firstTagList;
+        List<String> secondTagList;
+        Set<String> unionTagSet = new LinkedHashSet<>();
+        List<String> unionTagList = new ArrayList<>();
+        try {
+            firstTagList = JSON.parseArray(firstTags, String.class);
+        } catch (Exception e) {
+            firstTagList = new ArrayList<>();
+        }
+        try {
+            secondTagList = JSON.parseArray(secondTags, String.class);
+        } catch (Exception e) {
+            secondTagList = new ArrayList<>();
+        }
+        if (null != firstTagList) {
+            for (String firstTag : firstTagList) {
+                unionTagSet.add(firstTag);
+            }
+        }
+
+        if (null != secondTagList) {
+            for (String secondTag : secondTagList) {
+                unionTagSet.add(secondTag);
+            }
+        }
+        unionTagList.addAll(unionTagSet);
+        return JSON.toJSONString(unionTagList);
     }
 }

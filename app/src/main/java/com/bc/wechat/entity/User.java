@@ -51,15 +51,24 @@ public class User extends SugarRecord {
 
     private String isStarFriend;
     /**
-     * 用户标签(json格式)
+     * 用户联系人标签(json格式)
      */
     private String userContactTags;
 
     /**
-     * 用户标签
+     * 用户联系人标签
      */
     private List<String> userContactTagList;
 
+    /**
+     * 所有标签(json格式)
+     */
+    private String userTags;
+
+    /**
+     * 所有标签
+     */
+    private List<String> userTagList;
 
     public String getUserId() {
         return userId;
@@ -289,6 +298,9 @@ public class User extends SugarRecord {
         List<String> userContactTagList;
         try {
             userContactTagList = JSON.parseArray(this.userContactTags, String.class);
+            if (null == userContactTagList) {
+                userContactTagList = new ArrayList<>();
+            }
         } catch (Exception e) {
             userContactTagList = new ArrayList<>();
         }
@@ -297,5 +309,30 @@ public class User extends SugarRecord {
 
     public void setUserContactTagList(List<String> userContactTagList) {
         this.userContactTagList = userContactTagList;
+    }
+
+    public String getUserTags() {
+        return userTags;
+    }
+
+    public void setUserTags(String userTags) {
+        this.userTags = userTags;
+    }
+
+    public List<String> getUserTagList() {
+        List<String> userTagList;
+        try {
+            userTagList = JSON.parseArray(this.userTags, String.class);
+            if (null == userTagList) {
+                userTagList = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            userTagList = new ArrayList<>();
+        }
+        return userTagList;
+    }
+
+    public void setUserTagList(List<String> userTagList) {
+        this.userTagList = userTagList;
     }
 }
