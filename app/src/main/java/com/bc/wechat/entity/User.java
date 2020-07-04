@@ -49,6 +49,13 @@ public class User extends SugarRecord {
     private String userContactAlias;
     private String userContactDesc;
 
+    /**
+     * 联系人权限相关
+     */
+    private String userContactPrivacy;
+    private String userContactHideMyPosts;
+    private String userContactHideHisPosts;
+
     private String isStarFriend;
     /**
      * 用户联系人标签(json格式)
@@ -276,6 +283,30 @@ public class User extends SugarRecord {
 
     public void setUserContactDesc(String userContactDesc) {
         this.userContactDesc = userContactDesc;
+    }
+
+    public String getUserContactPrivacy() {
+        return userContactPrivacy;
+    }
+
+    public void setUserContactPrivacy(String userContactPrivacy) {
+        this.userContactPrivacy = userContactPrivacy;
+    }
+
+    public String getUserContactHideMyPosts() {
+        return userContactHideMyPosts;
+    }
+
+    public void setUserContactHideMyPosts(String userContactHideMyPosts) {
+        this.userContactHideMyPosts = userContactHideMyPosts;
+    }
+
+    public String getUserContactHideHisPosts() {
+        return userContactHideHisPosts;
+    }
+
+    public void setUserContactHideHisPosts(String userContactHideHisPosts) {
+        this.userContactHideHisPosts = userContactHideHisPosts;
     }
 
     public String getIsStarFriend() {

@@ -151,7 +151,7 @@ public class UserInfoActivity extends BaseActivity {
         mContact = mUserDao.getUserById(mContactId);
         loadData(mContact);
 
-//        getContactFromServer(mUser.getUserId(), mContactId);
+        getContactFromServer(mUser.getUserId(), mContactId);
     }
 
     public void back(View view) {
@@ -172,6 +172,7 @@ public class UserInfoActivity extends BaseActivity {
             // 朋友权限
             case R.id.rl_privacy:
                 intent = new Intent(UserInfoActivity.this, ContactPrivacyActivity.class);
+                intent.putExtra("contactId", mContact.getUserId());
                 startActivity(intent);
                 break;
             // 进入编辑联系人页(设置备注和标签)
@@ -339,7 +340,7 @@ public class UserInfoActivity extends BaseActivity {
         super.onResume();
         User user = mUserDao.getUserById(mContactId);
         loadData(user);
-//        getContactFromServer(mUser.getUserId(), mContactId);
+        getContactFromServer(mUser.getUserId(), mContactId);
     }
 
     private void addMobileView(int index, int mobileListSize, String mobile) {

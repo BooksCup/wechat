@@ -104,6 +104,36 @@ public class Constant {
     public static final String RELA_NOT_SEE_HIM = "1";
 
     /**
+     * 朋友权限（所有权限：聊天、朋友圈、微信运动等）
+     */
+    public static final String PRIVACY_CHATS_MOMENTS_WERUN_ETC = "0";
+
+    /**
+     * 朋友权限（仅聊天）
+     */
+    public static final String PRIVACY_CHATS_ONLY = "1";
+
+    /**
+     * 朋友圈和视频动态-可以看我
+     */
+    public static final String SHOW_MY_POSTS = "0";
+
+    /**
+     * 朋友圈时视频动态-不让他看我
+     */
+    public static final String HIDE_MY_POSTS = "1";
+
+    /**
+     * 朋友圈和视频动态-可以看他
+     */
+    public static final String SHOW_HIS_POSTS = "0";
+
+    /**
+     * 朋友圈时视频动态-不看他
+     */
+    public static final String HIDE_HIS_POSTS = "1";
+
+    /**
      * 非星标好友
      */
     public static final String RELA_IS_NOT_STAR_FRIEND = "0";

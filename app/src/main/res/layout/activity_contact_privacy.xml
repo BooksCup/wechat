@@ -77,12 +77,14 @@
                 android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
+                android:id="@+id/iv_chats_moments_werun_etc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
-                android:background="@mipmap/icon_correct" />
+                android:background="@mipmap/icon_correct"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -105,12 +107,14 @@
                 android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
+                android:id="@+id/iv_chats_only"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
-                android:background="@mipmap/icon_correct" />
+                android:background="@mipmap/icon_correct"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -138,6 +142,7 @@
             android:paddingRight="8dp">
 
             <TextView
+                android:id="@+id/tv_hide_my_posts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
@@ -150,12 +155,14 @@
                 android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
+                android:id="@+id/iv_hide_my_posts"
                 android:layout_width="42dp"
                 android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@mipmap/icon_switch_on" />
+                android:background="@mipmap/icon_switch_on"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -166,6 +173,7 @@
             android:paddingRight="8dp">
 
             <TextView
+                android:id="@+id/tv_hide_his_posts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
@@ -178,12 +186,14 @@
                 android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
+                android:id="@+id/iv_hide_his_posts"
                 android:layout_width="42dp"
                 android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:background="@mipmap/icon_switch_on" />
+                android:background="@mipmap/icon_switch_on"
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
