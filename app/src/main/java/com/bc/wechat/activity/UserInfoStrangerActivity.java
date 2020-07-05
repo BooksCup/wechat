@@ -105,7 +105,7 @@ public class UserInfoStrangerActivity extends BaseActivity {
         final User contact = mUserDao.getUserById(mContactId);
         loadData(contact);
 
-        getFriendFromServer(mUser.getUserId(), mContactId);
+//        getFriendFromServer(mUser.getUserId(), mContactId);
 
         mAvatarSdv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +230,6 @@ public class UserInfoStrangerActivity extends BaseActivity {
         super.onResume();
         User contact = mUserDao.getUserById(mContactId);
         loadData(contact);
-        getFriendFromServer(mUser.getUserId(), mContactId);
+//        getFriendFromServer(mUser.getUserId(), mContactId);
     }
 }
