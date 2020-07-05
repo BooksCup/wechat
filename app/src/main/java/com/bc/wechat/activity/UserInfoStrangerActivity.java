@@ -26,7 +26,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+import butterknife.OnClick;
 
 /**
  * 陌生人用户详情页
@@ -82,6 +82,7 @@ public class UserInfoStrangerActivity extends BaseActivity {
     private VolleyUtil mVolleyUtil;
     private User mUser;
     private String mContactId;
+    private User mContact;
     private String mFrom;
 
     @Override
@@ -102,48 +103,37 @@ public class UserInfoStrangerActivity extends BaseActivity {
     private void initView() {
         mContactId = getIntent().getStringExtra("contactId");
         mFrom = getIntent().getStringExtra("from");
-        final User contact = mUserDao.getUserById(mContactId);
-        loadData(contact);
+        // 加载本地数据
+        mContact = mUserDao.getUserById(mContactId);
+        loadData(mContact);
+        // 加载服务器最新数据并保存至本地
+        getContactFromServer(mUser.getUserId(), mContactId);
+    }
 
-//        getFriendFromServer(mUser.getUserId(), mContactId);
-
-        mAvatarSdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoStrangerActivity.this, BigImageActivity.class);
-                intent.putExtra("imgUrl", contact.getUserAvatar());
+    @OnClick({R.id.sdv_avatar, R.id.rl_edit_contact, R.id.rl_tags, R.id.rl_desc, R.id.rl_add})
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.sdv_avatar:
+                intent = new Intent(UserInfoStrangerActivity.this, BigImageActivity.class);
+                intent.putExtra("imgUrl", mContact.getUserAvatar());
                 startActivity(intent);
-            }
-        });
-
-        mEditContactRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoStrangerActivity.this, EditContactActivity.class);
+                break;
+            case R.id.rl_edit_contact:
+            case R.id.rl_tags:
+            case R.id.rl_desc:
+                intent = new Intent(UserInfoStrangerActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", mContactId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
-            }
-        });
-
-        mDescRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoStrangerActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", mContactId);
-                intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
-                startActivity(intent);
-            }
-        });
-
-        mAddRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoStrangerActivity.this, NewFriendsApplyConfirmActivity.class);
+                break;
+            case R.id.rl_add:
+                intent = new Intent(UserInfoStrangerActivity.this, NewFriendsApplyConfirmActivity.class);
                 intent.putExtra("friendId", mContactId);
                 startActivity(intent);
-            }
-        });
+                break;
+
+        }
     }
 
     public void back(View view) {
@@ -211,11 +201,11 @@ public class UserInfoStrangerActivity extends BaseActivity {
     /**
      * 从服务器获取用户最新信息
      *
-     * @param userId 用户ID
+     * @param userId    用户ID
+     * @param contactId 联系人用户ID
      */
-    public void getFriendFromServer(final String userId, final String friendId) {
-        String url = Constant.BASE_URL + "users/" + userId + "/friends/" + friendId;
-
+    public void getContactFromServer(final String userId, final String contactId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/contacts/" + contactId;
         mVolleyUtil.httpGetRequest(url, response -> {
             User user = JSON.parseObject(response, User.class);
             mUserDao.saveUser(user);
@@ -230,6 +220,6 @@ public class UserInfoStrangerActivity extends BaseActivity {
         super.onResume();
         User contact = mUserDao.getUserById(mContactId);
         loadData(contact);
-//        getFriendFromServer(mUser.getUserId(), mContactId);
+        getContactFromServer(mUser.getUserId(), mContactId);
     }
 }
