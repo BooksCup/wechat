@@ -147,9 +147,9 @@ public class AddFriendsBySearchActivity extends BaseActivity {
                         source = Constant.FRIENDS_SOURCE_BY_WX_ID;
                     }
                     // 陌生人，进入陌生人详情页
-                    Intent intent = new Intent(AddFriendsBySearchActivity.this, StrangerUserInfoActivity.class);
-                    intent.putExtra("userId", user.getUserId());
-                    intent.putExtra("source", source);
+                    Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoStrangerActivity.class);
+                    intent.putExtra("contactId", user.getUserId());
+                    intent.putExtra("from", source);
                     startActivity(intent);
                 }
                 mDialog.dismiss();

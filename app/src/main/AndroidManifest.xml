@@ -109,7 +109,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
-            android:name=".activity.StrangerUserInfoActivity"
+            android:name=".activity.UserInfoStrangerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity

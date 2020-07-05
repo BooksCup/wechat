@@ -71,6 +71,26 @@ public class Constant {
     public static final String FRIENDS_SOURCE_BY_CONTACT = "4";
 
     /**
+     * 来自手机号搜索
+     */
+    public static final String CONTACTS_FROM_PHONE = "1";
+
+    /**
+     * 来自微信号搜索
+     */
+    public static final String CONTACTS_FROM_WX_ID = "2";
+
+    /**
+     * 来自附近的人
+     */
+    public static final String CONTACTS_FROM_PEOPLE_NEARBY = "3";
+
+    /**
+     * 来自手机通讯录
+     */
+    public static final String CONTACTS_FROM_CONTACT = "4";
+
+    /**
      * 朋友权限（所有权限：聊天、朋友圈、微信运动等）
      * default
      */

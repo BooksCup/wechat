@@ -285,7 +285,7 @@ public class PeopleNearbyActivity extends BaseActivity {
                 if (isFriend) {
                     intent = new Intent(PeopleNearbyActivity.this, UserInfoActivity.class);
                 } else {
-                    intent = new Intent(PeopleNearbyActivity.this, StrangerUserInfoActivity.class);
+                    intent = new Intent(PeopleNearbyActivity.this, UserInfoStrangerActivity.class);
                     intent.putExtra("source", Constant.FRIENDS_SOURCE_BY_PEOPLE_NEARBY);
                 }
                 // 判断是否为好友
