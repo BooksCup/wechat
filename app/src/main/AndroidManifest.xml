@@ -305,6 +305,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
 
+        <activity
+            android:name=".activity.PhoneContactActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+
         <!-- 条形码扫描 -->
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity2"
