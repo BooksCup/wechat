@@ -1,6 +1,7 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.activity.StrangerUserInfoActivity;
+import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -53,13 +57,14 @@ public class PhoneContactAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-        User user = mUserList.get(position);
+        final User user = mUserList.get(position);
 
         ViewHolder viewHolder;
         if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_phone_contact, null);
 
+            viewHolder.mRootLl = convertView.findViewById(R.id.ll_root);
             viewHolder.mHeaderTv = convertView.findViewById(R.id.tv_header);
             viewHolder.mTempView = convertView.findViewById(R.id.view_header);
             viewHolder.mAvatarSdv = convertView.findViewById(R.id.sdv_avatar);
@@ -97,7 +102,7 @@ public class PhoneContactAdapter extends BaseAdapter {
             viewHolder.mTempView.setVisibility(View.VISIBLE);
         }
 
-        boolean isFriend = mUserDao.checkIsFriend(user.getUserPhone());
+        final boolean isFriend = mUserDao.checkIsFriend(user.getUserPhone());
         if (isFriend) {
             // 是好友
             viewHolder.mAddBtn.setVisibility(View.GONE);
@@ -108,12 +113,27 @@ public class PhoneContactAdapter extends BaseAdapter {
             viewHolder.mAddedTv.setVisibility(View.GONE);
         }
 
+        viewHolder.mRootLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFriend) {
+                    Intent intent = new Intent(mContext, UserInfoActivity.class);
+                    intent.putExtra("userId", user.getUserId());
+                    mContext.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(mContext, StrangerUserInfoActivity.class);
+                    intent.putExtra("userId", user.getUserId());
+                    mContext.startActivity(intent);
+                }
+            }
+        });
 
         return convertView;
     }
 
     class ViewHolder {
 
+        LinearLayout mRootLl;
         TextView mHeaderTv;
         View mTempView;
         SimpleDraweeView mAvatarSdv;
