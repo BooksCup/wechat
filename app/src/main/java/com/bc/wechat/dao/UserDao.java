@@ -77,4 +77,19 @@ public class UserDao {
         }
         return starFriendList;
     }
+
+    /**
+     * 检查是否为好友
+     *
+     * @param phone 手机号
+     * @return true:是 false:否
+     */
+    public boolean checkIsFriend(String phone) {
+        List<User> friendList = User.findWithQuery(User.class,
+                "select * from user where is_friend = ? and user_phone = ?", Constant.IS_FRIEND, phone);
+        if (null != friendList && friendList.size() > 0) {
+            return true;
+        }
+        return false;
+    }
 }
