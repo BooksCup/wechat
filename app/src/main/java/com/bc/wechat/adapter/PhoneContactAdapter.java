@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.StrangerUserInfoActivity;
 import com.bc.wechat.activity.UserInfoActivity;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -123,6 +124,7 @@ public class PhoneContactAdapter extends BaseAdapter {
                 } else {
                     Intent intent = new Intent(mContext, StrangerUserInfoActivity.class);
                     intent.putExtra("userId", user.getUserId());
+                    intent.putExtra("source", Constant.FRIENDS_SOURCE_BY_CONTACT);
                     mContext.startActivity(intent);
                 }
             }

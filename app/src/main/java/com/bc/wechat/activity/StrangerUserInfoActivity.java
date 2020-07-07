@@ -158,6 +158,8 @@ public class StrangerUserInfoActivity extends BaseActivity {
             mSourceTv.setText(getString(R.string.search_friend_by_wx_id));
         } else if (Constant.FRIENDS_SOURCE_BY_PEOPLE_NEARBY.equals(mSource)) {
             mSourceTv.setText(getString(R.string.search_friend_by_people_nearby));
+        } else if (Constant.FRIENDS_SOURCE_BY_CONTACT.equals(mSource)) {
+            mSourceTv.setText(getString(R.string.search_friend_by_contact));
         }
 
         // 描述

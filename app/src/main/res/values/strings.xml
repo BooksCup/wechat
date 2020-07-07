@@ -166,6 +166,7 @@
     <string name="search_friend_by_phone">来自手机号搜索</string>
     <string name="search_friend_by_wx_id">来自微信号搜索</string>
     <string name="search_friend_by_people_nearby">来自附近的人</string>
+    <string name="search_friend_by_contact">来自手机通讯录</string>
 
     <string name="more">更多</string>
     <string name="more_info">更多信息</string>
