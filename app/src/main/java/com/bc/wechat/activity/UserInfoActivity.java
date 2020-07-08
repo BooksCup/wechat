@@ -158,11 +158,16 @@ public class UserInfoActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.sdv_avatar, R.id.rl_privacy, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
+    @OnClick({R.id.iv_setting, R.id.sdv_avatar, R.id.rl_privacy, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
             R.id.rl_desc, R.id.rl_moments, R.id.rl_operate})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
+            // 用户设置
+            case R.id.iv_setting:
+                intent = new Intent(UserInfoActivity.this, UserSettingActivity.class);
+                startActivity(intent);
+                break;
             // 头像
             case R.id.sdv_avatar:
                 intent = new Intent(UserInfoActivity.this, BigImageActivity.class);

@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/add_to_desktop"
+            android:text="@string/add_to_home_screen"
             android:textColor="#353535"
             android:textSize="16sp" />
     </RelativeLayout>

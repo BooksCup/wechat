@@ -157,7 +157,7 @@
     <string name="user_not_exists">该用户不存在</string>
 
     <string name="connect_to_server_error">不能连接到服务器</string>
-    <string name="add_to_desktop">添加到桌面</string>
+    <string name="add_to_home_screen">添加到桌面</string>
     <string name="please_wait">请稍候...</string>
 
     <string name="edit_contact">设置备注和标签</string>

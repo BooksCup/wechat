@@ -110,10 +110,16 @@ public class UserInfoStrangerActivity extends BaseActivity {
         getContactFromServer(mUser.getUserId(), mContactId);
     }
 
-    @OnClick({R.id.sdv_avatar, R.id.rl_edit_contact, R.id.rl_tags, R.id.rl_desc, R.id.rl_add})
+    @OnClick({R.id.iv_setting, R.id.sdv_avatar, R.id.rl_edit_contact, R.id.rl_tags, R.id.rl_desc, R.id.rl_add})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
+            case R.id.iv_setting:
+                intent = new Intent(UserInfoStrangerActivity.this, UserSettingActivity.class);
+                intent.putExtra("contactId", mContactId);
+                intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
+                startActivity(intent);
+                break;
             case R.id.sdv_avatar:
                 intent = new Intent(UserInfoStrangerActivity.this, BigImageActivity.class);
                 intent.putExtra("imgUrl", mContact.getUserAvatar());
