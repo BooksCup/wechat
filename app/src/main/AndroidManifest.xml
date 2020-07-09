@@ -254,6 +254,11 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+
+        <activity
             android:name=".activity.WebViewActivity"
             android:screenOrientation="portrait" />
 

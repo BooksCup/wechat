@@ -7,7 +7,7 @@ public class Constant {
     public static String PICTURE_DIR = "sdcard/wechat_/pictures/";
 
     //    public static final String BASE_URL = "http://49.4.25.11:8081/";
-    public static final String BASE_URL = "http://192.168.0.131:8081/";
+    public static final String BASE_URL = "http://192.168.0.133:8081/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";
@@ -63,6 +63,11 @@ public class Constant {
      * 来自附近的人
      */
     public static final String FRIENDS_SOURCE_BY_PEOPLE_NEARBY = "3";
+
+    /**
+     * 来自手机通讯录
+     */
+    public static final String FRIENDS_SOURCE_BY_CONTACT = "4";
 
     /**
      * 朋友权限（所有权限：聊天、朋友圈、微信运动等）

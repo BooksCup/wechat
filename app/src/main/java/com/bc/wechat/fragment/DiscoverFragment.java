@@ -23,6 +23,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.FriendsCircleActivity;
 import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.PeopleNearbyActivity;
+import com.bc.wechat.activity.SearchActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.activity.WebViewActivity;
 import com.bc.wechat.entity.QrCodeContent;
@@ -44,6 +45,9 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener {
     // 扫一扫
     private RelativeLayout mScanRl;
 
+    // 搜一搜
+    private RelativeLayout mSearchRl;
+
     // 附近的人
     private RelativeLayout mPeopleNearbyRl;
 
@@ -64,10 +68,12 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener {
 
         mMomentsRl = getView().findViewById(R.id.rl_moments);
         mScanRl = getView().findViewById(R.id.rl_scan);
+        mSearchRl = getView().findViewById(R.id.rl_search);
         mPeopleNearbyRl = getView().findViewById(R.id.rl_people_nearby);
 
         mMomentsRl.setOnClickListener(this);
         mScanRl.setOnClickListener(this);
+        mSearchRl.setOnClickListener(this);
         mPeopleNearbyRl.setOnClickListener(this);
     }
 
@@ -255,6 +261,9 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_scan:
                 permissions = new String[]{"android.permission.CAMERA"};
                 requestPerms(getActivity(), permissions, MainActivity.REQUEST_CODE_CAMERA);
+                break;
+            case R.id.rl_search:
+                startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.rl_people_nearby:
                 // 动态申请定位权限
