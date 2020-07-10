@@ -6,7 +6,7 @@
     android:background="#ffffff">
 
     <ImageView
-        android:id="@+id/iv_history"
+        android:id="@+id/iv_search_history"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_alignParentLeft="true"
@@ -15,13 +15,13 @@
         android:src="@mipmap/icon_clock" />
 
     <TextView
-        android:id="@+id/tv_search_news"
+        android:id="@+id/tv_search_history"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/iv_history"
+        android:layout_toRightOf="@id/iv_search_history"
         android:gravity="center_vertical"
-        android:text="四川鞭炮厂爆炸"
+        android:text=""
         android:textColor="#353535"
         android:textSize="16sp" />
 

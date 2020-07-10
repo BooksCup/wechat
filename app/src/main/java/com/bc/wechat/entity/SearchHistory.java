@@ -1,5 +1,6 @@
 package com.bc.wechat.entity;
 
+import com.bc.wechat.utils.CommonUtil;
 import com.orm.SugarRecord;
 
 /**
@@ -17,6 +18,15 @@ public class SearchHistory extends SugarRecord {
      * 查询时间
      */
     private String createTime;
+
+    public SearchHistory() {
+
+    }
+
+    public SearchHistory(String keyword) {
+        this.keyword = keyword;
+        this.createTime = CommonUtil.now();
+    }
 
     public String getKeyword() {
         return keyword;

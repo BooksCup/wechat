@@ -13,13 +13,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.SearchHistoryAdapter;
+import com.bc.wechat.dao.SearchHistoryDao;
+import com.bc.wechat.entity.SearchHistory;
 import com.bc.wechat.utils.StatusBarUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +34,7 @@ public class SearchContentActivity extends BaseActivity {
 
     private ListView mSearchHistoryLv;
     private SearchHistoryAdapter mSearchHistoryAdapter;
+    private SearchHistoryDao mSearchHistoryDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +43,8 @@ public class SearchContentActivity extends BaseActivity {
 
         initStatusBar();
         StatusBarUtil.setStatusBarColor(SearchContentActivity.this, R.color.status_bar_color_white);
+
+        mSearchHistoryDao = new SearchHistoryDao();
 
         initView();
     }
@@ -56,10 +59,7 @@ public class SearchContentActivity extends BaseActivity {
         mClearIv = findViewById(R.id.iv_clear);
         mSearchHistoryLv = findViewById(R.id.lv_search_history);
 
-        List<String> searchHistoryList = new ArrayList<>();
-        searchHistoryList.add("1");
-        searchHistoryList.add("2");
-        searchHistoryList.add("3");
+        List<SearchHistory> searchHistoryList = mSearchHistoryDao.getSearchHistoryList(5);
 
         mSearchHistoryAdapter = new SearchHistoryAdapter(this, searchHistoryList);
         mSearchHistoryLv.setAdapter(mSearchHistoryAdapter);
@@ -77,12 +77,16 @@ public class SearchContentActivity extends BaseActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // 按下搜索
-                    Toast.makeText(SearchContentActivity.this, mSearchEt.getText().toString(), Toast.LENGTH_SHORT).show();
                     // 隐藏软键盘
                     InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (inputMethodManager.isActive()) {
                         inputMethodManager.hideSoftInputFromWindow(SearchContentActivity.this.getCurrentFocus().getWindowToken(), 0);
                     }
+
+                    String keyword = mSearchEt.getText().toString();
+                    SearchHistory searchHistory = new SearchHistory(keyword);
+                    mSearchHistoryDao.saveSearchHistory(searchHistory);
+
                 }
                 // 返回true，保留软键盘。false，隐藏软键盘
                 return true;
