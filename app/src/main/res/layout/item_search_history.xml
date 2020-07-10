@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <ImageView
+        android:id="@+id/iv_history"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="12dp"
+        android:src="@mipmap/icon_clock" />
+
+    <TextView
+        android:id="@+id/tv_search_news"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/iv_history"
+        android:gravity="center_vertical"
+        android:text="四川鞭炮厂爆炸"
+        android:textColor="#353535"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_clear"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="12dp"
+        android:src="@mipmap/icon_clear_2" />
+
+</RelativeLayout>
