@@ -59,6 +59,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="12dp"
         android:background="@color/color_white"
+        android:focusable="false"
         android:hint="搜索"
         android:maxLines="3"
         android:minHeight="40dp"
