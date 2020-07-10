@@ -18,7 +18,11 @@ public class SearchHistoryDao {
      * @param searchHistory 搜索历史
      */
     public void saveSearchHistory(SearchHistory searchHistory) {
+
+        List<SearchHistory> searchHistoryList = SearchHistory.find(SearchHistory.class, "keyword = ?", searchHistory.getKeyword());
+        SearchHistory.deleteInTx(searchHistoryList);
         SearchHistory.save(searchHistory);
+
     }
 
     /**
