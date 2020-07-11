@@ -39,6 +39,8 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
     private SearchHistoryDao mSearchHistoryDao;
     private SearchHistoryAdapter.ClickListener mClickListener;
 
+    private List<SearchHistory> mSearchHistoryList;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,14 +76,14 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         mClearSearchHistoryRl = findViewById(R.id.rl_clear_search_history);
         mSearchHistoryLv = findViewById(R.id.lv_search_history);
 
-        List<SearchHistory> searchHistoryList = mSearchHistoryDao.getSearchHistoryList(5);
-        if (null != searchHistoryList && searchHistoryList.size() > 0) {
+        mSearchHistoryList = mSearchHistoryDao.getSearchHistoryList(5);
+        if (null != mSearchHistoryList && mSearchHistoryList.size() > 0) {
             mClearSearchHistoryRl.setVisibility(View.VISIBLE);
         } else {
             mClearSearchHistoryRl.setVisibility(View.GONE);
         }
 
-        mSearchHistoryAdapter = new SearchHistoryAdapter(this, searchHistoryList, mClickListener);
+        mSearchHistoryAdapter = new SearchHistoryAdapter(this, mSearchHistoryList, mClickListener);
         mSearchHistoryLv.setAdapter(mSearchHistoryAdapter);
 
         mSearchEt.addTextChangedListener(new TextChange());
@@ -140,6 +142,10 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                 mSearchEt.setText("");
                 break;
             case R.id.rl_clear_search_history:
+                mSearchHistoryDao.clearSearchHistory();
+                mSearchHistoryList.clear();
+                mSearchHistoryAdapter.notifyDataSetChanged();
+                mClearSearchHistoryRl.setVisibility(View.GONE);
                 break;
         }
     }

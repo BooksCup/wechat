@@ -82,6 +82,6 @@ public class SearchHistoryAdapter extends BaseAdapter {
     }
 
     public interface ClickListener {
-        public void onClick(Object... objects);
+        void onClick(Object... objects);
     }
 }

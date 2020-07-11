@@ -44,4 +44,11 @@ public class SearchHistoryDao {
         String sql = "delete from search_history where keyword = ?";
         SearchHistory.executeQuery(sql, keyword);
     }
+
+    /**
+     * 清除搜索历史
+     */
+    public void clearSearchHistory() {
+        SearchHistory.deleteAll(SearchHistory.class);
+    }
 }
