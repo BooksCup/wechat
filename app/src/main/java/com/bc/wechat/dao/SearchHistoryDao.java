@@ -1,6 +1,5 @@
 package com.bc.wechat.dao;
 
-import com.bc.wechat.entity.FriendsCircle;
 import com.bc.wechat.entity.SearchHistory;
 
 import java.util.List;
@@ -32,7 +31,17 @@ public class SearchHistoryDao {
      * @return 前N条搜索历史记录
      */
     public List<SearchHistory> getSearchHistoryList(int pageSize) {
-        return FriendsCircle.findWithQuery(SearchHistory.class,
+        return SearchHistory.findWithQuery(SearchHistory.class,
                 "select * from search_history order by create_time desc limit ?", String.valueOf(pageSize));
+    }
+
+    /**
+     * 根据关键字删除单条搜索
+     *
+     * @param keyword 关键字
+     */
+    public void deleteSearchHistoryByKeyword(String keyword) {
+        String sql = "delete from search_history where keyword = ?";
+        SearchHistory.executeQuery(sql, keyword);
     }
 }
