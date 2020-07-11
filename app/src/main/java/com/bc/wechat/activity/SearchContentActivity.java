@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -27,14 +28,16 @@ import java.util.List;
  *
  * @author zhou
  */
-public class SearchContentActivity extends BaseActivity {
+public class SearchContentActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText mSearchEt;
     private ImageView mClearIv;
-
+    private RelativeLayout mClearSearchHistoryRl;
     private ListView mSearchHistoryLv;
+
     private SearchHistoryAdapter mSearchHistoryAdapter;
     private SearchHistoryDao mSearchHistoryDao;
+    private SearchHistoryAdapter.ClickListener mClickListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +49,18 @@ public class SearchContentActivity extends BaseActivity {
 
         mSearchHistoryDao = new SearchHistoryDao();
 
+        mClickListener = new SearchHistoryAdapter.ClickListener() {
+            @Override
+            public void onClick(Object... objects) {
+                int searchHistoryListSize = (int) objects[0];
+                if (searchHistoryListSize > 0) {
+                    mClearSearchHistoryRl.setVisibility(View.VISIBLE);
+                } else {
+                    mClearSearchHistoryRl.setVisibility(View.GONE);
+                }
+            }
+        };
+
         initView();
     }
 
@@ -55,22 +70,23 @@ public class SearchContentActivity extends BaseActivity {
 
     private void initView() {
         mSearchEt = findViewById(R.id.et_search);
-
         mClearIv = findViewById(R.id.iv_clear);
+        mClearSearchHistoryRl = findViewById(R.id.rl_clear_search_history);
         mSearchHistoryLv = findViewById(R.id.lv_search_history);
 
         List<SearchHistory> searchHistoryList = mSearchHistoryDao.getSearchHistoryList(5);
+        if (null != searchHistoryList && searchHistoryList.size() > 0) {
+            mClearSearchHistoryRl.setVisibility(View.VISIBLE);
+        } else {
+            mClearSearchHistoryRl.setVisibility(View.GONE);
+        }
 
-        mSearchHistoryAdapter = new SearchHistoryAdapter(this, searchHistoryList);
+        mSearchHistoryAdapter = new SearchHistoryAdapter(this, searchHistoryList, mClickListener);
         mSearchHistoryLv.setAdapter(mSearchHistoryAdapter);
 
         mSearchEt.addTextChangedListener(new TextChange());
-        mClearIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSearchEt.setText("");
-            }
-        });
+        mClearIv.setOnClickListener(this);
+        mClearSearchHistoryRl.setOnClickListener(this);
 
         mSearchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -114,6 +130,17 @@ public class SearchContentActivity extends BaseActivity {
         @Override
         public void afterTextChanged(Editable editable) {
 
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_clear:
+                mSearchEt.setText("");
+                break;
+            case R.id.rl_clear_search_history:
+                break;
         }
     }
 }

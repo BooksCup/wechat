@@ -19,10 +19,12 @@ public class SearchHistoryAdapter extends BaseAdapter {
     private Context mContext;
     private List<SearchHistory> mSearchHistoryList;
     private SearchHistoryDao mSearchHistoryDao;
+    private ClickListener mClickListener;
 
-    public SearchHistoryAdapter(Context context, List<SearchHistory> searchHistoryList) {
+    public SearchHistoryAdapter(Context context, List<SearchHistory> searchHistoryList, ClickListener clickListener) {
         this.mContext = context;
         this.mSearchHistoryList = searchHistoryList;
+        this.mClickListener = clickListener;
         mSearchHistoryDao = new SearchHistoryDao();
     }
 
@@ -65,6 +67,8 @@ public class SearchHistoryAdapter extends BaseAdapter {
                 mSearchHistoryDao.deleteSearchHistoryByKeyword(searchHistory.getKeyword());
                 mSearchHistoryList.remove(position);
 
+                mClickListener.onClick(mSearchHistoryList.size());
+
                 notifyDataSetChanged();
             }
         });
@@ -75,5 +79,9 @@ public class SearchHistoryAdapter extends BaseAdapter {
     class ViewHolder {
         TextView mSearchHistoryTv;
         ImageView mClearIv;
+    }
+
+    public interface ClickListener {
+        public void onClick(Object... objects);
     }
 }

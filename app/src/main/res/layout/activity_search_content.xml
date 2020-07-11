@@ -70,8 +70,6 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:background="#DBDBDB" />
     </RelativeLayout>
 
@@ -80,12 +78,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:id="@+id/rl_clear_search_history"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/lv_search_history"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_search_history"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_garbage" />
+
+            <TextView
+                android:id="@+id/tv_search_history"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/iv_search_history"
+                android:gravity="center_vertical"
+                android:text="清除历史"
+                android:textColor="@color/tips_grey"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
         <ListView
             android:id="@+id/lv_search_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="#DBDBDB"
-            android:dividerHeight="0.5dp"
+            android:divider="@null"
             android:scrollbars="none"
             android:transcriptMode="normal" />
     </RelativeLayout>
