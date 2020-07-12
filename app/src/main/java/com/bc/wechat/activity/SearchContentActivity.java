@@ -15,18 +15,25 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
+import com.bc.wechat.adapter.SearchContentAdapter;
 import com.bc.wechat.adapter.SearchHistoryAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.SearchHistoryDao;
+import com.bc.wechat.entity.FileItem;
 import com.bc.wechat.entity.SearchHistory;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,15 +48,23 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
     private EditText mSearchEt;
     private ImageView mClearIv;
     private RelativeLayout mClearSearchHistoryRl;
+    private RelativeLayout mSearchHistoryRl;
+    private RelativeLayout mSearchContentRl;
     private ListView mSearchHistoryLv;
+    private ListView mSearchContentLv;
 
     private SearchHistoryAdapter mSearchHistoryAdapter;
+    private SearchContentAdapter mSearchContentAdapter;
     private SearchHistoryAdapter.ClickListener mClickListener;
     private List<SearchHistory> mSearchHistoryList;
+    private List<FileItem> mSearchContentList;
 
     private User mUser;
     private VolleyUtil mVolleyUtil;
     private SearchHistoryDao mSearchHistoryDao;
+
+    private RefreshLayout mRefreshLayout;
+    int mPage = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +77,6 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mSearchHistoryDao = new SearchHistoryDao();
-
 
         mClickListener = new SearchHistoryAdapter.ClickListener() {
             @Override
@@ -87,7 +101,13 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         mSearchEt = findViewById(R.id.et_search);
         mClearIv = findViewById(R.id.iv_clear);
         mClearSearchHistoryRl = findViewById(R.id.rl_clear_search_history);
+        mSearchHistoryRl = findViewById(R.id.rl_search_history);
+        mSearchContentRl = findViewById(R.id.rl_search_content);
         mSearchHistoryLv = findViewById(R.id.lv_search_history);
+        mSearchContentLv = findViewById(R.id.lv_search_content);
+
+        // 上拉加载，下拉刷新
+        mRefreshLayout = findViewById(R.id.srl_friends_circle);
 
         mSearchHistoryList = mSearchHistoryDao.getSearchHistoryList(5);
         if (null != mSearchHistoryList && mSearchHistoryList.size() > 0) {
@@ -118,9 +138,41 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                     SearchHistory searchHistory = new SearchHistory(keyword);
                     mSearchHistoryDao.saveSearchHistory(searchHistory);
                     saveSearchHistory(keyword);
+
+                    mSearchHistoryRl.setVisibility(View.GONE);
+                    mSearchContentRl.setVisibility(View.VISIBLE);
+
+                    mSearchContentList = new ArrayList<>();
+                    mSearchContentList.add(new FileItem());
+                    mSearchContentList.add(new FileItem());
+                    mSearchContentList.add(new FileItem());
+                    mSearchContentList.add(new FileItem());
+                    mSearchContentList.add(new FileItem());
+                    mSearchContentList.add(new FileItem());
+                    mSearchContentAdapter = new SearchContentAdapter(SearchContentActivity.this, mSearchContentList);
+                    mSearchContentLv.setAdapter(mSearchContentAdapter);
                 }
                 // 返回true，保留软键盘。false，隐藏软键盘
                 return true;
+            }
+        });
+
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                // 下拉刷新
+                mPage = 1;
+                String keyword = mSearchEt.getText().toString();
+                getSearchContentList(keyword, mPage, false);
+            }
+        });
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                // 上拉加载
+                mPage++;
+                String keyword = mSearchEt.getText().toString();
+                getSearchContentList(keyword, mPage, true);
             }
         });
     }
@@ -180,6 +232,44 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+    }
+
+    private void getSearchContentList(final String keyword, final int page, final boolean isAdd) {
+        String url = Constant.BASE_URL + "fileItems/v4?searchKey=" + keyword + "&page=" + page;
+
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (isAdd) {
+                    // 上拉加载
+                    mRefreshLayout.finishLoadMore();
+                } else {
+                    // 下拉刷新
+                    mRefreshLayout.finishRefresh();
+                }
+
+                List<FileItem> list = JSONArray.parseArray(response, FileItem.class);
+                if (isAdd) {
+                    // 上拉加载
+                    mSearchContentAdapter.addData(list);
+                } else {
+                    // 下拉刷新
+                    mSearchContentAdapter.setData(list);
+                }
+                mSearchContentAdapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                if (isAdd) {
+                    // 上拉加载
+                    mRefreshLayout.finishLoadMore();
+                } else {
+                    // 下拉刷新
+                    mRefreshLayout.finishRefresh();
+                }
             }
         });
     }

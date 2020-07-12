@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="无聊，是一种高级的活法"
+        android:textColor="#353535"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_cover"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="12dp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sdv_cover"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"
+                android:text="人生可以不追问意义，但不能让生活无聊如死水。无聊是什么？朱自清说：是一种"
+                android:textColor="@color/setting_content"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"
+                android:text="周国平"
+                android:textColor="@color/tips_grey"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@id/rl_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#DBDBDB" />
+</RelativeLayout>
