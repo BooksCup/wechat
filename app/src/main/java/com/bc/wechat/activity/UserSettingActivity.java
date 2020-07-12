@@ -12,19 +12,27 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.bc.wechat.widget.LoadingDialog;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
@@ -75,10 +83,22 @@ public class UserSettingActivity extends BaseActivity {
     @BindView(R.id.rl_delete)
     RelativeLayout mDeleteRl;
 
+    // 设为星标好友
+    @BindView(R.id.iv_add_star)
+    ImageView mAddStarIv;
+
+    // 取消星标好友
+    @BindView(R.id.iv_cancel_star)
+    ImageView mCancelStarIv;
+
     UserDao mUserDao;
     String mContactId;
     String mIsFriend;
     User mContact;
+
+    VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +111,10 @@ public class UserSettingActivity extends BaseActivity {
         mIsFriend = getIntent().getStringExtra("isFriend");
         mContactId = getIntent().getStringExtra("contactId");
         mContact = mUserDao.getUserById(mContactId);
+
+        mUser = PreferencesUtil.getInstance().getUser();
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(UserSettingActivity.this);
         initView();
     }
 
@@ -117,7 +141,8 @@ public class UserSettingActivity extends BaseActivity {
         mEditContactTv.setText(user.getUserContactAlias());
     }
 
-    @OnClick({R.id.rl_edit_contact, R.id.rl_privacy, R.id.rl_add_to_home_screen})
+    @OnClick({R.id.rl_edit_contact, R.id.rl_privacy, R.id.rl_add_to_home_screen,
+            R.id.iv_add_star, R.id.iv_cancel_star})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -164,6 +189,12 @@ public class UserSettingActivity extends BaseActivity {
                     Bitmap bitmap = getBitmapFromAvatarUrl(mContact.getUserAvatar());
                     addShortcut(UserSettingActivity.this, mContact.getUserNickName(), bitmap, intent);
                 }).start();
+                break;
+            case R.id.iv_add_star:
+                setContactStarred(Constant.CONTACT_IS_STARRED);
+                break;
+            case R.id.iv_cancel_star:
+                setContactStarred(Constant.CONTACT_IS_NOT_STARRED);
                 break;
         }
     }
@@ -227,5 +258,40 @@ public class UserSettingActivity extends BaseActivity {
             shortcutManager.requestPinShortcut(shortcutInfo, PendingIntent.getActivity(activity,
                     REQUEST_CODE_ADD_TO_HOME_SCREEN, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT).getIntentSender());
         }
+    }
+
+    /**
+     * 设置或取消星标朋友
+     *
+     * @param isStarred 是否星标好友
+     */
+    private void setContactStarred(final String isStarred) {
+        mDialog.setMessage("正在处理...");
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+
+        String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/contacts/" + mContactId + "/star";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("isStarred", isStarred);
+
+        mVolleyUtil.httpPutRequest(url, paramMap, (Response.Listener<String>) response -> {
+            mDialog.dismiss();
+            if (Constant.CONTACT_IS_STARRED.equals(isStarred)) {
+
+                mAddStarIv.setVisibility(View.GONE);
+                mCancelStarIv.setVisibility(View.VISIBLE);
+
+                mContact.setIsStarFriend(Constant.CONTACT_IS_STARRED);
+                Toast.makeText(UserSettingActivity.this, "已设为星标朋友", Toast.LENGTH_SHORT).show();
+            } else {
+                mAddStarIv.setVisibility(View.VISIBLE);
+                mCancelStarIv.setVisibility(View.GONE);
+
+                mContact.setIsStarFriend(Constant.CONTACT_IS_NOT_STARRED);
+                Toast.makeText(UserSettingActivity.this, "已取消星标朋友", Toast.LENGTH_SHORT).show();
+            }
+            mUserDao.saveUser(mContact);
+        }, (Response.ErrorListener) volleyError -> mDialog.dismiss());
+
     }
 }

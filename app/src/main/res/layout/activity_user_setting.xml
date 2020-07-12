@@ -208,12 +208,24 @@
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/iv_cancel_star"
+                        android:layout_width="42dp"
+                        android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
+                        android:layout_marginRight="12dp"
+                        android:background="@mipmap/icon_switch_on"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_add_star"
+                        android:layout_width="42dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:background="@mipmap/icon_switch_off"
+                        android:visibility="visible" />
                 </RelativeLayout>
 
                 <RelativeLayout

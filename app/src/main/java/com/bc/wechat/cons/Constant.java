@@ -156,12 +156,12 @@ public class Constant {
     /**
      * 非星标好友
      */
-    public static final String RELA_IS_NOT_STAR_FRIEND = "0";
+    public static final String CONTACT_IS_NOT_STARRED = "0";
 
     /**
      * 星标好友
      */
-    public static final String RELA_IS_STAR_FRIEND = "1";
+    public static final String CONTACT_IS_STARRED = "1";
 
     /**
      * 星标好友分组title

@@ -79,7 +79,7 @@ public class UserDao {
     public List<User> getAllStarFriendList() {
         List<User> starFriendList = User.findWithQuery(User.class,
                 "select * from user where is_friend = ? and is_star_friend = ?",
-                Constant.IS_FRIEND, Constant.RELA_IS_STAR_FRIEND);
+                Constant.IS_FRIEND, Constant.CONTACT_IS_STARRED);
         Collections.sort(starFriendList, new PinyinComparator() {
         });
         for (User starFriend : starFriendList) {
