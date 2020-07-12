@@ -274,24 +274,24 @@ public class UserSettingActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("isStarred", isStarred);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, (Response.Listener<String>) response -> {
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
             mDialog.dismiss();
             if (Constant.CONTACT_IS_STARRED.equals(isStarred)) {
 
                 mAddStarIv.setVisibility(View.GONE);
                 mCancelStarIv.setVisibility(View.VISIBLE);
 
-                mContact.setIsStarFriend(Constant.CONTACT_IS_STARRED);
+                mContact.setIsStarred(Constant.CONTACT_IS_STARRED);
                 Toast.makeText(UserSettingActivity.this, "已设为星标朋友", Toast.LENGTH_SHORT).show();
             } else {
                 mAddStarIv.setVisibility(View.VISIBLE);
                 mCancelStarIv.setVisibility(View.GONE);
 
-                mContact.setIsStarFriend(Constant.CONTACT_IS_NOT_STARRED);
+                mContact.setIsStarred(Constant.CONTACT_IS_NOT_STARRED);
                 Toast.makeText(UserSettingActivity.this, "已取消星标朋友", Toast.LENGTH_SHORT).show();
             }
             mUserDao.saveUser(mContact);
-        }, (Response.ErrorListener) volleyError -> mDialog.dismiss());
+        }, volleyError -> mDialog.dismiss());
 
     }
 }

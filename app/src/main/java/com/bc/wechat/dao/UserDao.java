@@ -76,16 +76,16 @@ public class UserDao {
      *
      * @return 所有的星标好友列表
      */
-    public List<User> getAllStarFriendList() {
-        List<User> starFriendList = User.findWithQuery(User.class,
-                "select * from user where is_friend = ? and is_star_friend = ?",
+    public List<User> getAllStarredContactList() {
+        List<User> starredContactList = User.findWithQuery(User.class,
+                "select * from user where is_friend = ? and is_starred = ?",
                 Constant.IS_FRIEND, Constant.CONTACT_IS_STARRED);
-        Collections.sort(starFriendList, new PinyinComparator() {
+        Collections.sort(starredContactList, new PinyinComparator() {
         });
-        for (User starFriend : starFriendList) {
-            starFriend.setUserHeader(Constant.STAR_FRIEND);
+        for (User starredContact : starredContactList) {
+            starredContact.setUserHeader(Constant.STAR_FRIEND);
         }
-        return starFriendList;
+        return starredContactList;
     }
 
     /**

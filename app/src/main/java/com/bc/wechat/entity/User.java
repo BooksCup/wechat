@@ -56,7 +56,11 @@ public class User extends SugarRecord {
     private String userContactHideMyPosts;
     private String userContactHideHisPosts;
 
-    private String isStarFriend;
+    /**
+     * 是否星标好友
+     */
+    private String isStarred;
+
     /**
      * 用户联系人标签(json格式)
      */
@@ -309,12 +313,12 @@ public class User extends SugarRecord {
         this.userContactHideHisPosts = userContactHideHisPosts;
     }
 
-    public String getIsStarFriend() {
-        return isStarFriend;
+    public String getIsStarred() {
+        return isStarred;
     }
 
-    public void setIsStarFriend(String isStarFriend) {
-        this.isStarFriend = isStarFriend;
+    public void setIsStarred(String isStarred) {
+        this.isStarred = isStarred;
     }
 
     public String getUserContactTags() {

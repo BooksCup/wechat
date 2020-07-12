@@ -91,7 +91,7 @@ public class ContactsFragment extends Fragment {
 
         mNewFriendsUnreadNumTv = headerView.findViewById(R.id.tv_new_friends_unread);
 
-        mStarFriendList = mUserDao.getAllStarFriendList();
+        mStarFriendList = mUserDao.getAllStarredContactList();
         mFriendList = mUserDao.getAllFriendList();
         // 对list进行排序
         Collections.sort(mFriendList, new PinyinComparator() {
@@ -136,7 +136,7 @@ public class ContactsFragment extends Fragment {
     }
 
     public void refreshFriendsList() {
-        mStarFriendList = mUserDao.getAllStarFriendList();
+        mStarFriendList = mUserDao.getAllStarredContactList();
         mFriendList = mUserDao.getAllFriendList();
 
         // 对list进行排序

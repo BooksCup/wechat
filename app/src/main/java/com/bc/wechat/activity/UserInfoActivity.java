@@ -348,7 +348,7 @@ public class UserInfoActivity extends BaseActivity {
         }
 
         // 是否星标好友
-        if (Constant.CONTACT_IS_STARRED.equals(user.getIsStarFriend())) {
+        if (Constant.CONTACT_IS_STARRED.equals(user.getIsStarred())) {
             mStarFriendsIv.setVisibility(View.VISIBLE);
         } else {
             mStarFriendsIv.setVisibility(View.GONE);
