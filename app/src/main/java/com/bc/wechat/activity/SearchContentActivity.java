@@ -15,13 +15,21 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.SearchHistoryAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.SearchHistoryDao;
 import com.bc.wechat.entity.SearchHistory;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
+import com.bc.wechat.utils.VolleyUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 搜一搜
@@ -36,10 +44,12 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
     private ListView mSearchHistoryLv;
 
     private SearchHistoryAdapter mSearchHistoryAdapter;
-    private SearchHistoryDao mSearchHistoryDao;
     private SearchHistoryAdapter.ClickListener mClickListener;
-
     private List<SearchHistory> mSearchHistoryList;
+
+    private User mUser;
+    private VolleyUtil mVolleyUtil;
+    private SearchHistoryDao mSearchHistoryDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +59,10 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         initStatusBar();
         StatusBarUtil.setStatusBarColor(SearchContentActivity.this, R.color.status_bar_color_white);
 
+        mUser = PreferencesUtil.getInstance().getUser();
+        mVolleyUtil = VolleyUtil.getInstance(this);
         mSearchHistoryDao = new SearchHistoryDao();
+
 
         mClickListener = new SearchHistoryAdapter.ClickListener() {
             @Override
@@ -104,7 +117,7 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                     String keyword = mSearchEt.getText().toString();
                     SearchHistory searchHistory = new SearchHistory(keyword);
                     mSearchHistoryDao.saveSearchHistory(searchHistory);
-
+                    saveSearchHistory(keyword);
                 }
                 // 返回true，保留软键盘。false，隐藏软键盘
                 return true;
@@ -148,5 +161,26 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                 mClearSearchHistoryRl.setVisibility(View.GONE);
                 break;
         }
+    }
+
+    /**
+     * 保存搜索关键字
+     *
+     * @param keyword 搜索关键字
+     */
+    private void saveSearchHistory(String keyword) {
+        String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/searchHistory";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("keyword", keyword);
+
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
     }
 }
