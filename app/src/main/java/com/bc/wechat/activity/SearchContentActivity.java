@@ -142,15 +142,10 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                     mSearchHistoryRl.setVisibility(View.GONE);
                     mSearchContentRl.setVisibility(View.VISIBLE);
 
-                    mSearchContentList = new ArrayList<>();
-                    mSearchContentList.add(new FileItem());
-                    mSearchContentList.add(new FileItem());
-                    mSearchContentList.add(new FileItem());
-                    mSearchContentList.add(new FileItem());
-                    mSearchContentList.add(new FileItem());
-                    mSearchContentList.add(new FileItem());
-                    mSearchContentAdapter = new SearchContentAdapter(SearchContentActivity.this, mSearchContentList);
+                    mSearchContentAdapter = new SearchContentAdapter(SearchContentActivity.this, new ArrayList<FileItem>());
                     mSearchContentLv.setAdapter(mSearchContentAdapter);
+
+                    getSearchContentList(keyword, mPage, false);
                 }
                 // 返回true，保留软键盘。false，隐藏软键盘
                 return true;
@@ -237,7 +232,7 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
     }
 
     private void getSearchContentList(final String keyword, final int page, final boolean isAdd) {
-        String url = Constant.BASE_URL + "fileItems/v4?searchKey=" + keyword + "&page=" + page;
+        String url = Constant.BASE_URL + "fileItems/v4?searchKey=" + keyword + "&color=%2307C063&page=" + page;
 
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override

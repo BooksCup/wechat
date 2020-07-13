@@ -13,6 +13,8 @@
         android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
         android:text="无聊，是一种高级的活法"
+        android:maxEms="15"
+        android:singleLine="true"
         android:textColor="#353535"
         android:textSize="16sp" />
 
@@ -40,6 +42,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_marginLeft="12dp"
@@ -49,6 +52,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginLeft="12dp"
