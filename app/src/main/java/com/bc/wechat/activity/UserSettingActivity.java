@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
@@ -138,7 +137,18 @@ public class UserSettingActivity extends BaseActivity {
     }
 
     private void loadData(User user) {
+        // 备注
         mEditContactTv.setText(user.getUserContactAlias());
+        // 星标好友
+        if (Constant.CONTACT_IS_STARRED.equals(user.getIsStarred())) {
+            // 是
+            mAddStarIv.setVisibility(View.GONE);
+            mCancelStarIv.setVisibility(View.VISIBLE);
+        } else {
+            // 非
+            mAddStarIv.setVisibility(View.VISIBLE);
+            mCancelStarIv.setVisibility(View.GONE);
+        }
     }
 
     @OnClick({R.id.rl_edit_contact, R.id.rl_privacy, R.id.rl_add_to_home_screen,
