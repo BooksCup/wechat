@@ -246,20 +246,32 @@
                         android:textColor="#353535"
                         android:textSize="@dimen/setting_text_size" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:background="#dadada" />
+
+                    <ImageView
+                        android:id="@+id/iv_cancel_block"
+                        android:layout_width="42dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:background="@mipmap/icon_switch_on"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_block"
+                        android:layout_width="42dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12dp"
+                        android:background="@mipmap/icon_switch_off"
+                        android:visibility="visible" />
                 </RelativeLayout>
 
                 <RelativeLayout

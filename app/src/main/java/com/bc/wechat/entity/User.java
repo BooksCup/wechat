@@ -62,6 +62,11 @@ public class User extends SugarRecord {
     private String isStarred;
 
     /**
+     * 是否在黑名单中
+     */
+    private String isBlocked;
+
+    /**
      * 用户联系人标签(json格式)
      */
     private String userContactTags;
@@ -319,6 +324,14 @@ public class User extends SugarRecord {
 
     public void setIsStarred(String isStarred) {
         this.isStarred = isStarred;
+    }
+
+    public String getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(String isBlocked) {
+        this.isBlocked = isBlocked;
     }
 
     public String getUserContactTags() {

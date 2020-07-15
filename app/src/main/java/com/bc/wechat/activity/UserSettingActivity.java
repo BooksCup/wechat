@@ -90,6 +90,14 @@ public class UserSettingActivity extends BaseActivity {
     @BindView(R.id.iv_cancel_star)
     ImageView mCancelStarIv;
 
+    // 加入黑名单
+    @BindView(R.id.iv_block)
+    ImageView mBlockIv;
+
+    // 移出黑名单
+    @BindView(R.id.iv_cancel_block)
+    ImageView mCancelBlockIv;
+
     UserDao mUserDao;
     String mContactId;
     String mIsFriend;
@@ -152,7 +160,7 @@ public class UserSettingActivity extends BaseActivity {
     }
 
     @OnClick({R.id.rl_edit_contact, R.id.rl_privacy, R.id.rl_add_to_home_screen,
-            R.id.iv_add_star, R.id.iv_cancel_star})
+            R.id.iv_add_star, R.id.iv_cancel_star, R.id.iv_block, R.id.iv_cancel_block})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -205,6 +213,12 @@ public class UserSettingActivity extends BaseActivity {
                 break;
             case R.id.iv_cancel_star:
                 setContactStarred(Constant.CONTACT_IS_NOT_STARRED);
+                break;
+            case R.id.iv_block:
+                setContactBlocked(Constant.CONTACT_IS_BLOCKED);
+                break;
+            case R.id.iv_cancel_block:
+                setContactBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
                 break;
         }
     }
@@ -299,6 +313,58 @@ public class UserSettingActivity extends BaseActivity {
 
                 mContact.setIsStarred(Constant.CONTACT_IS_NOT_STARRED);
                 Toast.makeText(UserSettingActivity.this, "已取消星标朋友", Toast.LENGTH_SHORT).show();
+            }
+            mUserDao.saveUser(mContact);
+        }, volleyError -> mDialog.dismiss());
+
+    }
+
+    /**
+     * 设置或取消加入黑名单
+     *
+     * @param isBlocked 是否加入黑名单
+     */
+    private void setContactBlocked(final String isBlocked) {
+        mDialog.setMessage("正在处理...");
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+
+        String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/contacts/" + mContactId + "/block";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("isBlocked", isBlocked);
+
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            if (Constant.CONTACT_IS_BLOCKED.equals(isBlocked)) {
+
+                mBlockIv.setVisibility(View.GONE);
+                mCancelBlockIv.setVisibility(View.VISIBLE);
+
+                mContact.setIsBlocked(Constant.CONTACT_IS_BLOCKED);
+
+                // 拉黑提示
+                final ConfirmDialog confirmDialog = new ConfirmDialog(UserSettingActivity.this, "加入黑名单",
+                        "加入黑名单，你将不再受到对方的消息，并且你们相互看不到对方朋友圈的更新",
+                        "确定", getString(R.string.cancel), getColor(R.color.navy_blue));
+                confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOkClick() {
+                        confirmDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        setContactBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
+                    }
+                });
+                // 点击空白处消失
+                confirmDialog.show();
+
+            } else {
+                mBlockIv.setVisibility(View.VISIBLE);
+                mCancelBlockIv.setVisibility(View.GONE);
+
+                mContact.setIsBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
             }
             mUserDao.saveUser(mContact);
         }, volleyError -> mDialog.dismiss());

@@ -164,6 +164,16 @@ public class Constant {
     public static final String CONTACT_IS_STARRED = "1";
 
     /**
+     * 非黑名单
+     */
+    public static final String CONTACT_IS_NOT_BLOCKED = "0";
+
+    /**
+     * 黑名单
+     */
+    public static final String CONTACT_IS_BLOCKED = "1";
+
+    /**
      * 星标好友分组title
      */
     public static final String STAR_FRIEND = "星标朋友";
