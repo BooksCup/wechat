@@ -57,7 +57,8 @@ public class UserDao {
      * @return 所有的好友列表
      */
     public List<User> getAllFriendList() {
-        return User.find(User.class, "is_friend = ?", Constant.IS_FRIEND);
+        return User.find(User.class, "is_friend = ? and is_blocked = ?",
+                Constant.IS_FRIEND, Constant.CONTACT_IS_NOT_BLOCKED);
     }
 
     /**
@@ -66,8 +67,8 @@ public class UserDao {
      * @return 联系人数量
      */
     public long getContactsCount() {
-        return User.count(User.class, "is_friend = ? and user_type = ?",
-                new String[]{Constant.IS_FRIEND, Constant.USER_TYPE_REG});
+        return User.count(User.class, "is_friend = ? and user_type = ? and is_blocked = ?",
+                new String[]{Constant.IS_FRIEND, Constant.USER_TYPE_REG, Constant.CONTACT_IS_NOT_BLOCKED});
     }
 
     /**
@@ -78,8 +79,8 @@ public class UserDao {
      */
     public List<User> getAllStarredContactList() {
         List<User> starredContactList = User.findWithQuery(User.class,
-                "select * from user where is_friend = ? and is_starred = ?",
-                Constant.IS_FRIEND, Constant.CONTACT_IS_STARRED);
+                "select * from user where is_friend = ? and is_starred = ? and is_blocked = ?",
+                Constant.IS_FRIEND, Constant.CONTACT_IS_STARRED, Constant.CONTACT_IS_NOT_BLOCKED);
         Collections.sort(starredContactList, new PinyinComparator() {
         });
         for (User starredContact : starredContactList) {
