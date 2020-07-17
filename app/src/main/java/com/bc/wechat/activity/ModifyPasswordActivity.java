@@ -66,7 +66,6 @@ public class ModifyPasswordActivity extends BaseActivity {
         setContentView(R.layout.activity_modify_password);
         ButterKnife.bind(this);
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(ModifyPasswordActivity.this, R.color.status_bar_color_white);
 
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
