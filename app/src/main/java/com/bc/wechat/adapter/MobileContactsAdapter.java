@@ -120,29 +120,24 @@ public class MobileContactsAdapter extends BaseAdapter {
             viewHolder.mAddedTv.setVisibility(View.GONE);
         }
 
-        viewHolder.mRootLl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFriend) {
-                    Intent intent = new Intent(mContext, UserInfoActivity.class);
-                    intent.putExtra("userId", user.getUserId());
-                    mContext.startActivity(intent);
-                } else {
-                    Intent intent = new Intent(mContext, UserInfoStrangerActivity.class);
-                    intent.putExtra("userId", user.getUserId());
-                    intent.putExtra("source", Constant.FRIENDS_SOURCE_BY_CONTACT);
-                    mContext.startActivity(intent);
-                }
+        viewHolder.mRootLl.setOnClickListener(view -> {
+            if (isFriend) {
+                Intent intent = new Intent(mContext, UserInfoActivity.class);
+                intent.putExtra("userId", user.getUserId());
+                mContext.startActivity(intent);
+            } else {
+                Intent intent = new Intent(mContext, UserInfoStrangerActivity.class);
+                intent.putExtra("contactId", user.getUserId());
+                intent.putExtra("from", Constant.CONTACTS_FROM_CONTACT);
+                mContext.startActivity(intent);
             }
         });
 
-        viewHolder.mAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, NewFriendsApplyConfirmActivity.class);
-                intent.putExtra("friendId", user.getUserId());
-                mContext.startActivity(intent);
-            }
+        viewHolder.mAddBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, NewFriendsApplyConfirmActivity.class);
+            intent.putExtra("contactId", user.getUserId());
+            intent.putExtra("from", Constant.CONTACTS_FROM_CONTACT);
+            mContext.startActivity(intent);
         });
 
         return convertView;
