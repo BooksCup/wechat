@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -150,14 +151,16 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                     }
 
                     String keyword = mSearchEt.getText().toString();
-                    SearchHistory searchHistory = new SearchHistory(keyword);
-                    mSearchHistoryDao.saveSearchHistory(searchHistory);
-                    saveSearchHistory(keyword);
+                    if (!TextUtils.isEmpty(keyword.trim())) {
+                        SearchHistory searchHistory = new SearchHistory(keyword);
+                        mSearchHistoryDao.saveSearchHistory(searchHistory);
+                        saveSearchHistory(keyword);
 
-                    mSearchHistoryRl.setVisibility(View.GONE);
-                    mSearchContentRl.setVisibility(View.VISIBLE);
+                        mSearchHistoryRl.setVisibility(View.GONE);
+                        mSearchContentRl.setVisibility(View.VISIBLE);
 
-                    getSearchContentList(keyword, mPage, false);
+                        getSearchContentList(keyword, mPage, false);
+                    }
                 }
                 // 返回true，保留软键盘。false，隐藏软键盘
                 return true;
@@ -243,6 +246,13 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         });
     }
 
+    /**
+     * 获取搜索内容
+     *
+     * @param keyword 关键字
+     * @param page    分页数
+     * @param isAdd
+     */
     private void getSearchContentList(final String keyword, final int page, final boolean isAdd) {
         String url = Constant.BASE_URL + "fileItems/v4?searchKey=" + keyword + "&color=%2307C063&page=" + page;
 
