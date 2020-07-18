@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -119,6 +120,20 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         mSearchHistoryAdapter = new SearchHistoryAdapter(this, mSearchHistoryList, mClickListener);
         mSearchHistoryLv.setAdapter(mSearchHistoryAdapter);
 
+        mSearchContentAdapter = new SearchContentAdapter(SearchContentActivity.this, new ArrayList<FileItem>());
+        mSearchContentLv.setAdapter(mSearchContentAdapter);
+
+        mSearchHistoryLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SearchHistory searchHistory = mSearchHistoryList.get(position);
+                mSearchEt.setText(searchHistory.getKeyword());
+                mSearchHistoryRl.setVisibility(View.GONE);
+                mSearchContentRl.setVisibility(View.VISIBLE);
+                getSearchContentList(searchHistory.getKeyword(), 1, false);
+            }
+        });
+
         mSearchEt.addTextChangedListener(new TextChange());
         mClearIv.setOnClickListener(this);
         mClearSearchHistoryRl.setOnClickListener(this);
@@ -141,9 +156,6 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
 
                     mSearchHistoryRl.setVisibility(View.GONE);
                     mSearchContentRl.setVisibility(View.VISIBLE);
-
-                    mSearchContentAdapter = new SearchContentAdapter(SearchContentActivity.this, new ArrayList<FileItem>());
-                    mSearchContentLv.setAdapter(mSearchContentAdapter);
 
                     getSearchContentList(keyword, mPage, false);
                 }
