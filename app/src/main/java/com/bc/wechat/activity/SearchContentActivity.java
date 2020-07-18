@@ -161,6 +161,7 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
 
                         mPage = 1;
                         getSearchContentList(keyword, mPage, false);
+                        mSearchContentLv.setSelection(0);
                     }
                 }
                 // 返回true，保留软键盘。false，隐藏软键盘
