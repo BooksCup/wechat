@@ -159,6 +159,7 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                         mSearchHistoryRl.setVisibility(View.GONE);
                         mSearchContentRl.setVisibility(View.VISIBLE);
 
+                        mPage = 1;
                         getSearchContentList(keyword, mPage, false);
                     }
                 }
