@@ -9,15 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 import com.bc.wechat.widget.NoTitleAlertDialog;
@@ -151,43 +148,33 @@ public class ModifyPasswordActivity extends BaseActivity {
         paramMap.put("oldPassword", MD5Util.encode(oldPassword, "utf8"));
         paramMap.put("newPassword", MD5Util.encode(newPassword, "utf8"));
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                final NoTitleAlertDialog mNoTitleAlertDialog = new NoTitleAlertDialog(ModifyPasswordActivity.this,
-                        getString(R.string.modify_password_success_tips), getString(R.string.ok));
-                mNoTitleAlertDialog.setOnDialogClickListener(new NoTitleAlertDialog.OnDialogClickListener() {
-                    @Override
-                    public void onOkClick() {
-                        mNoTitleAlertDialog.dismiss();
-                        ModifyPasswordActivity.this.finish();
-                    }
-
-                });
-                // 点击空白处消失
-                mNoTitleAlertDialog.setCancelable(false);
-                mNoTitleAlertDialog.show();
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            final NoTitleAlertDialog mNoTitleAlertDialog = new NoTitleAlertDialog(ModifyPasswordActivity.this,
+                    getString(R.string.modify_password_success_tips), getString(R.string.ok));
+            mNoTitleAlertDialog.setOnDialogClickListener(() -> {
+                mNoTitleAlertDialog.dismiss();
+                ModifyPasswordActivity.this.finish();
+            });
+            // 点击空白处消失
+            mNoTitleAlertDialog.setCancelable(false);
+            mNoTitleAlertDialog.show();
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(ModifyPasswordActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(ModifyPasswordActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(ModifyPasswordActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(ModifyPasswordActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                int errorCode = volleyError.networkResponse.statusCode;
-                switch (errorCode) {
-                    case 400:
-                        showAlertDialog(ModifyPasswordActivity.this, getString(R.string.tips),
-                                getString(R.string.old_password_incorrect), getString(R.string.ok), true);
-                        break;
-                }
+            int errorCode = volleyError.networkResponse.statusCode;
+            switch (errorCode) {
+                case 400:
+                    showAlertDialog(ModifyPasswordActivity.this, getString(R.string.tips),
+                            getString(R.string.old_password_incorrect), getString(R.string.ok), true);
+                    break;
             }
         });
     }
