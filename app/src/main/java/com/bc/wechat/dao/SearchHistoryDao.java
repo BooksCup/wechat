@@ -32,7 +32,7 @@ public class SearchHistoryDao {
      */
     public List<SearchHistory> getSearchHistoryList(int pageSize) {
         return SearchHistory.findWithQuery(SearchHistory.class,
-                "select * from search_history order by create_time desc limit ?", String.valueOf(pageSize));
+                "select * from search_history order by id desc limit ?", String.valueOf(pageSize));
     }
 
     /**

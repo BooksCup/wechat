@@ -131,6 +131,11 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
                 mSearchEt.setText(searchHistory.getKeyword());
                 mSearchHistoryRl.setVisibility(View.GONE);
                 mSearchContentRl.setVisibility(View.VISIBLE);
+
+                SearchHistory newSearchHistory = new SearchHistory(searchHistory.getKeyword());
+                mSearchHistoryDao.saveSearchHistory(newSearchHistory);
+                saveSearchHistory(searchHistory.getKeyword());
+
                 getSearchContentList(searchHistory.getKeyword(), 1, false);
             }
         });
