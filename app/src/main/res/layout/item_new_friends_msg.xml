@@ -17,7 +17,10 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            fresco:placeholderImage="@mipmap/default_user_avatar" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <TextView
             android:id="@+id/tv_nick_name"
