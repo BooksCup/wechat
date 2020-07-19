@@ -13,18 +13,19 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
-        android:text="四川鞭炮厂爆炸"
+        android:text=""
         android:textColor="#353535"
         android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/tv_hot_search"
         android:layout_width="32dp"
         android:layout_height="22dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
+        android:background="#F7EFE4"
         android:gravity="center"
         android:text="热议"
-        android:background="#F7EFE4"
         android:textColor="#F4A046"
         android:textSize="11sp" />
 </LinearLayout>

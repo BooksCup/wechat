@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.SearchNewsAdapter;
-import com.bc.wechat.entity.SearchNews;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.SearchHistory;
+import com.bc.wechat.utils.VolleyUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +28,7 @@ public class SearchActivity extends BaseActivity {
     private EditText mSearchEt;
     private ListView mSearchNewsLv;
     private SearchNewsAdapter mSearchNewsAdapter;
+    private VolleyUtil mVolleyUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,6 +36,9 @@ public class SearchActivity extends BaseActivity {
         setContentView(R.layout.activity_search);
 
         initStatusBar();
+
+        mVolleyUtil = VolleyUtil.getInstance(this);
+
         initView();
     }
 
@@ -38,15 +46,7 @@ public class SearchActivity extends BaseActivity {
         mSearchEt = findViewById(R.id.et_search);
         mSearchNewsLv = findViewById(R.id.lv_search_news);
 
-        final List<SearchNews> searchNewsList = new ArrayList<>();
-        searchNewsList.add(new SearchNews());
-        searchNewsList.add(new SearchNews());
-        searchNewsList.add(new SearchNews());
-        searchNewsList.add(new SearchNews());
-        searchNewsList.add(new SearchNews());
-
-        mSearchNewsAdapter = new SearchNewsAdapter(this, searchNewsList);
-        mSearchNewsLv.setAdapter(mSearchNewsAdapter);
+        getHotSearchHistoryList();
 
         mSearchEt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,5 +58,26 @@ public class SearchActivity extends BaseActivity {
 
     public void back(View view) {
         finish();
+    }
+
+
+    /**
+     * 获取搜索热词
+     */
+    private void getHotSearchHistoryList() {
+        String url = Constant.BASE_URL + "searchHistory/hot";
+
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                final List<SearchHistory> searchHistoryList = JSONArray.parseArray(response, SearchHistory.class);
+                mSearchNewsAdapter = new SearchNewsAdapter(SearchActivity.this, searchHistoryList);
+                mSearchNewsLv.setAdapter(mSearchNewsAdapter);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
     }
 }

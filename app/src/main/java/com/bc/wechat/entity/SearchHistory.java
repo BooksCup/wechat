@@ -1,6 +1,5 @@
 package com.bc.wechat.entity;
 
-import com.bc.wechat.utils.CommonUtil;
 import com.orm.SugarRecord;
 
 /**
@@ -9,15 +8,10 @@ import com.orm.SugarRecord;
  * @author zhou
  */
 public class SearchHistory extends SugarRecord {
-    /**
-     * 关键字
-     */
+    private String userId;
     private String keyword;
-
-    /**
-     * 查询时间
-     */
     private String createTime;
+    private Integer count;
 
     public SearchHistory() {
 
@@ -25,7 +19,14 @@ public class SearchHistory extends SugarRecord {
 
     public SearchHistory(String keyword) {
         this.keyword = keyword;
-        this.createTime = CommonUtil.now();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getKeyword() {
@@ -42,5 +43,13 @@ public class SearchHistory extends SugarRecord {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

@@ -205,4 +205,9 @@ public class Constant {
      * 已验证
      */
     public static final String EMAIL_VERIFIED = "2";
+
+    /**
+     * 热词阈值
+     */
+    public static final Integer HOT_SEARCH_THRESHOLD = 8;
 }
