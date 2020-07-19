@@ -50,7 +50,7 @@ public class NewFriendsActivity extends BaseActivity {
     ListView mNewFriendsMsgLv;
 
     NewFriendsMsgAdapter mNewFriendsMsgAdapter;
-    private MessageReceiver mMessageReceiver;
+    MessageReceiver mMessageReceiver;
 
     public static boolean isForeground = false;
 
