@@ -264,14 +264,8 @@ public class PickRegionActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userRegion", mRegion);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+        }, volleyError -> {
         });
     }
 
