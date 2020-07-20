@@ -25,7 +25,11 @@ import com.bc.wechat.utils.PreferencesUtil;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * 通讯录
+ *
+ * @author zhou
+ */
 public class ContactsFragment extends Fragment {
     private FriendsAdapter mFriendsAdapter;
 
@@ -49,7 +53,7 @@ public class ContactsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        return inflater.inflate(R.layout.fragment_contacts, container, false);
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ContactsFragment extends Fragment {
         mUserDao = new UserDao();
         mFriendsLv = getView().findViewById(R.id.lv_friends);
         mInflater = LayoutInflater.from(getActivity());
-        View headerView = mInflater.inflate(R.layout.item_friends_header, null);
+        View headerView = mInflater.inflate(R.layout.item_contacts_header, null);
         mFriendsLv.addHeaderView(headerView);
         View footerView = mInflater.inflate(R.layout.item_friends_footer, null);
         mFriendsLv.addFooterView(footerView);
@@ -75,8 +79,8 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        RelativeLayout mChatRoomRl = headerView.findViewById(R.id.re_chatroom);
-        mChatRoomRl.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout mGroupChatsRl = headerView.findViewById(R.id.rl_group_chats);
+        mGroupChatsRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             }
@@ -92,7 +96,7 @@ public class ContactsFragment extends Fragment {
 
         mStarFriendList.addAll(mFriendList);
 
-        mFriendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_friends, mStarFriendList);
+        mFriendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_contacts, mStarFriendList);
         mFriendsLv.setAdapter(mFriendsAdapter);
 
         mFriendsCountTv.setText(mFriendList.size() + "位联系人");

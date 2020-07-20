@@ -6,6 +6,9 @@
     <string name="tab_discover">发现</string>
     <string name="tab_me">我</string>
 
+    <string name="group_chats">群聊</string>
+    <string name="official_accounts">公共号</string>
+
     <string name="enter_mobile_number">请填写手机号</string>
     <string name="enter_wechat_password">请填写微信密码</string>
     <string name="enter_verification_code">请填写验证码</string>

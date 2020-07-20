@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_fmessage" />
+            android:src="@mipmap/icon_contacts_new_friends" />
 
         <TextView
             android:id="@+id/tv_new_friends"
@@ -28,9 +28,9 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_toRightOf="@id/iv_new_friends"
-            android:text="新的朋友"
+            android:text="@string/new_friends"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/contacts_text_size" />
 
         <TextView
             android:id="@+id/tv_new_friends_unread"
@@ -55,31 +55,31 @@
         android:background="#d9d9d9" />
 
     <RelativeLayout
-        android:id="@+id/re_chatroom"
+        android:id="@+id/rl_group_chats"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
         <ImageView
-            android:id="@+id/iv_avatar2"
+            android:id="@+id/iv_group_chats"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_chatroom" />
+            android:src="@mipmap/icon_contacts_group_chats" />
 
         <TextView
-            android:id="@+id/tv_chatroom"
+            android:id="@+id/tv_group_chats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_avatar2"
-            android:text="群聊"
+            android:layout_toRightOf="@id/iv_group_chats"
+            android:text="@string/group_chats"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/contacts_text_size" />
     </RelativeLayout>
 
     <View
@@ -96,24 +96,24 @@
         android:clickable="true">
 
         <ImageView
-            android:id="@+id/iv_avatar3"
+            android:id="@+id/iv_tags"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_contactlabel" />
+            android:src="@mipmap/icon_contacts_tags" />
 
         <TextView
-            android:id="@+id/tv_biaoqian"
+            android:id="@+id/tv_tags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_avatar3"
-            android:text="标签"
+            android:layout_toRightOf="@id/iv_tags"
+            android:text="@string/tag"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/contacts_text_size" />
     </RelativeLayout>
 
     <View
@@ -130,24 +130,24 @@
         android:clickable="true">
 
         <ImageView
-            android:id="@+id/iv_avatar4"
+            android:id="@+id/iv_contacts_official_accounts"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/default_servicebrand_contact" />
+            android:src="@mipmap/icon_contacts_official_accounts" />
 
         <TextView
-            android:id="@+id/tv_servicebrand_contact"
+            android:id="@+id/tv_contacts_official_accounts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_avatar4"
-            android:text="公共号"
+            android:layout_toRightOf="@id/iv_contacts_official_accounts"
+            android:text="@string/official_accounts"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/contacts_text_size" />
     </RelativeLayout>
 
 </LinearLayout>
