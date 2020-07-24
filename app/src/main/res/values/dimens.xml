@@ -16,8 +16,15 @@
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="map_holder_height">480dp</dimen>
 
-    <dimen name="discover_icon_margin_left">8dp</dimen>
-    <dimen name="discover_divider_margin_left">52dp</dimen>
+    <!-- discover fragment -->
+    <dimen name="discover_layout_height">50dp</dimen>
+    <dimen name="discover_layout_padding_left">8dp</dimen>
+    <dimen name="discover_icon_margin_left">5dp</dimen>
+    <dimen name="discover_icon_width">20dp</dimen>
+    <dimen name="discover_icon_height">20dp</dimen>
+    <dimen name="discover_text_margin_left">15dp</dimen>
+    <dimen name="discover_text_size">15sp</dimen>
+    <dimen name="discover_divider_margin_left">40dp</dimen>
 
     <dimen name="me_icon_margin_left">8dp</dimen>
     <dimen name="me_divider_margin_left">52dp</dimen>

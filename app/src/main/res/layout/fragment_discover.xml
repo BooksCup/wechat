@@ -8,15 +8,15 @@
     <RelativeLayout
         android:id="@+id/rl_moments"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_moments"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -26,11 +26,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_moments"
             android:text="@string/moments"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -44,16 +44,16 @@
     <RelativeLayout
         android:id="@+id/rl_scan"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_scan"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -63,11 +63,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_scan"
             android:text="@string/scan"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -88,15 +88,15 @@
     <RelativeLayout
         android:id="@+id/rl_shake"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_shake"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -106,11 +106,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_shake"
             android:text="@string/shake"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -124,16 +124,16 @@
     <RelativeLayout
         android:id="@+id/rl_top_stories"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_top_stories"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -143,11 +143,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_top_stories"
             android:text="@string/discover_top_stories"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -168,15 +168,15 @@
     <RelativeLayout
         android:id="@+id/rl_search"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_search"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -186,11 +186,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_search"
             android:text="@string/discover_search"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -204,16 +204,16 @@
     <RelativeLayout
         android:id="@+id/rl_people_nearby"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_people_nearby"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -223,11 +223,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_people_nearby"
             android:text="@string/people_nearby"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:id="@+id/iv_open_people_nearby"
@@ -252,16 +252,16 @@
     <RelativeLayout
         android:id="@+id/rl_shopping"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_shopping"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -271,11 +271,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_shopping"
             android:text="@string/shopping"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -296,15 +296,15 @@
     <RelativeLayout
         android:id="@+id/rl_game"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_game"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -314,11 +314,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_game"
             android:text="@string/game"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
@@ -332,16 +332,16 @@
     <RelativeLayout
         android:id="@+id/rl_mini_programs"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
-        android:paddingLeft="12dp">
+        android:paddingLeft="@dimen/discover_layout_padding_left">
 
         <ImageView
             android:id="@+id/iv_mini_programs"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/discover_icon_width"
+            android:layout_height="@dimen/discover_icon_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_icon_margin_left"
@@ -351,11 +351,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_mini_programs"
             android:text="@string/mini_programs"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/discover_text_size" />
 
         <ImageView
             android:layout_width="24dp"
