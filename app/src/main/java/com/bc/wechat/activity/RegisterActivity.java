@@ -324,7 +324,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         String responseCode = headers.get("responseCode");
                         if (ResponseMsg.USER_EXISTS.getResponseCode().equals(responseCode)) {
                             Toast.makeText(RegisterActivity.this,
-                                    "用户已存在", Toast.LENGTH_SHORT)
+                                    R.string.user_exists, Toast.LENGTH_SHORT)
                                     .show();
                         } else {
                             Toast.makeText(RegisterActivity.this,
