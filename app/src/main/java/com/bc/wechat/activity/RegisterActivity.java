@@ -29,6 +29,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.enums.ResponseMsg;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.MD5Util;
@@ -319,9 +320,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 int errorCode = volleyError.networkResponse.statusCode;
                 switch (errorCode) {
                     case 400:
-                        Toast.makeText(RegisterActivity.this,
-                                R.string.account_or_password_error, Toast.LENGTH_SHORT)
-                                .show();
+                        Map<String, String> headers = volleyError.networkResponse.headers;
+                        String responseCode = headers.get("responseCode");
+                        if (ResponseMsg.USER_EXISTS.getResponseCode().equals(responseCode)) {
+                            Toast.makeText(RegisterActivity.this,
+                                    "用户已存在", Toast.LENGTH_SHORT)
+                                    .show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this,
+                                    R.string.account_or_password_error, Toast.LENGTH_SHORT)
+                                    .show();
+                        }
                         break;
                 }
             }
