@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -37,6 +36,8 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * 我的地址

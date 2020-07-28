@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -11,6 +10,8 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
+
+import androidx.annotation.Nullable;
 
 /**
  * 账号与安全

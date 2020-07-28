@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    // 基本组件库
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    // 实现了图片缩放的库
+    implementation 'com.github.chrisbanes.photoview:library:1.2.4'
+    // 约束性布局
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    // Glide加载图片框架
+    //noinspection GradleDependency
+    implementation group: 'com.github.bumptech.glide', name: 'glide', version: '4.9.0'
+
+    // GSYVideoPlayer完整版引入
+    implementation 'com.shuyu:GSYVideoPlayer:7.1.2'
+    // ViewPager2 需要单独引入
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+}

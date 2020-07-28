@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +18,8 @@ import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 
 /**

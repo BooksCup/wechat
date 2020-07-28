@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="horizontal"
+    android:padding="8dip">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_avatar"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:scaleType="fitXY"
+        fresco:placeholderImage="@mipmap/default_user_avatar" />
+
+    <View
+        android:layout_width="8dip"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SomeBody"
+            android:textColor="#576b95"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:maxLines="4"
+            android:paddingTop="5dip"
+            android:paddingBottom="5dip"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全文"
+            android:textColor="#576b95"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <cn.edu.heuet.littlecurl.ninegridview.preview.NineGridViewGroup
+            android:id="@+id/gv_friends_circle_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_create_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="6dp"
+                android:text="2天前"
+                android:textColor="#aaaaaa"
+                android:textSize="12sp" />
+
+            <ImageButton
+                android:id="@+id/ib_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/icon_comment" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/pinglun"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:background="#ebebeb"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_like_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="13dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    fresco:placeholderImage="@mipmap/icon_like"
+                    fresco:placeholderImageScaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tv_like_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/sdv_like_icon"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="#576b95" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/view_temp"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#c0c0c0"
+                android:visibility="gone" />
+
+            <!--            <com.wqs.wechat.widget.FriendsCircleCommentListView-->
+            <!--                android:id="@+id/lv_comment_list"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="10dp"-->
+            <!--                android:layout_marginBottom="10dp"-->
+            <!--                android:divider="@null"-->
+            <!--                android:transcriptMode="normal"-->
+            <!--                android:scrollbars="none" />-->
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

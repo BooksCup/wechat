@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -26,6 +25,7 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;

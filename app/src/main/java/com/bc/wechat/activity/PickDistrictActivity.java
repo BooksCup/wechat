@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +14,8 @@ import com.bc.wechat.entity.Area;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * 区县选择

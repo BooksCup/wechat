@@ -2,14 +2,15 @@ package com.bc.wechat.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 public class AddFriendsByRadarActivity extends FragmentActivity {
     private SimpleDraweeView mAvatarSdv;

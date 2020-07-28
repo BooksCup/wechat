@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +27,8 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 /**
  * 登录设备管理

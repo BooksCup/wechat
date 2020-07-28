@@ -1,8 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -26,6 +24,8 @@ import com.bc.wechat.widget.LoadingDialog;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 /**
  * 微信号修改

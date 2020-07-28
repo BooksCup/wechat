@@ -2,8 +2,6 @@ package com.bc.wechat.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Selection;
 import android.text.Spannable;
 import android.view.View;
@@ -22,6 +20,9 @@ import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 
 public class AddFriendsFinalActivity extends FragmentActivity {

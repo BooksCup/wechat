@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +23,8 @@ import com.bc.wechat.widget.NoTitleAlertDialog;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 import static com.bc.wechat.utils.ValidateUtil.validatePassword;
 

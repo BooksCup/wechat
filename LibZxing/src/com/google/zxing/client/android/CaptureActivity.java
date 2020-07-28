@@ -32,7 +32,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -74,6 +73,8 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * This activity opens the camera and does the actual scanning on a background thread. It draws a

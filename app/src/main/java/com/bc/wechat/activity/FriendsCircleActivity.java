@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -43,14 +42,13 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 
 /**
@@ -68,7 +66,7 @@ public class FriendsCircleActivity extends BaseActivity {
     private FriendsCircleDao mFriendsCircleDao;
     private List<FriendsCircle> mFriendsCircleList = new ArrayList<>();
     FriendsCircleAdapter mAdapter;
-    RefreshLayout mRefreshLayout;
+    //    RefreshLayout mRefreshLayout;
     long mTimeStamp;
 
     private LoadingDialog mDialog;
@@ -195,21 +193,21 @@ public class FriendsCircleActivity extends BaseActivity {
         }
         getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
 
-        mRefreshLayout.setPrimaryColorsId(android.R.color.black, android.R.color.white);
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                // 下拉刷新
-                getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
-            }
-        });
-        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshlayout) {
-                // 上拉加载
-                getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, true);
-            }
-        });
+//        mRefreshLayout.setPrimaryColorsId(android.R.color.black, android.R.color.white);
+//        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                // 下拉刷新
+//                getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, false);
+//            }
+//        });
+//        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(RefreshLayout refreshlayout) {
+//                // 上拉加载
+//                getFriendsCircleList(mUser.getUserId(), Constant.DEFAULT_PAGE_SIZE, true);
+//            }
+//        });
 
         mFriendsCircleLv.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -261,7 +259,7 @@ public class FriendsCircleActivity extends BaseActivity {
         mSendBtn = findViewById(R.id.btn_send);
 
         // 上拉加载，下拉刷新
-        mRefreshLayout = findViewById(R.id.srl_friends_circle);
+//        mRefreshLayout = findViewById(R.id.srl_friends_circle);
     }
 
 
@@ -287,13 +285,13 @@ public class FriendsCircleActivity extends BaseActivity {
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (isAdd) {
-                    // 上拉加载
-                    mRefreshLayout.finishLoadMore();
-                } else {
-                    // 下拉刷新
-                    mRefreshLayout.finishRefresh();
-                }
+//                if (isAdd) {
+//                    // 上拉加载
+//                    mRefreshLayout.finishLoadMore();
+//                } else {
+//                    // 下拉刷新
+//                    mRefreshLayout.finishRefresh();
+//                }
 
                 List<FriendsCircle> list = JSONArray.parseArray(response, FriendsCircle.class);
                 if (null != list && list.size() > 0) {
@@ -330,13 +328,13 @@ public class FriendsCircleActivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if (isAdd) {
-                    // 上拉加载
-                    mRefreshLayout.finishLoadMore();
-                } else {
-                    // 下拉刷新
-                    mRefreshLayout.finishRefresh();
-                }
+//                if (isAdd) {
+//                    // 上拉加载
+//                    mRefreshLayout.finishLoadMore();
+//                } else {
+//                    // 下拉刷新
+//                    mRefreshLayout.finishRefresh();
+//                }
                 // 网络错误，从本地读取
                 List<FriendsCircle> friendsCircleList = mFriendsCircleDao.getFriendsCircleList(pageSize, mTimeStamp);
                 if (null != friendsCircleList && friendsCircleList.size() > 0) {

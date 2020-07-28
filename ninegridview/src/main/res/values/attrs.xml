@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  九宫格样式  -->
+    <declare-styleable name="NineGridViewGroup">
+        <!-- 大小 -->
+        <attr name="ngv_singleMediaSize" format="dimension" />
+        <!-- 比率，常用宽高比 -->
+        <attr name="ngv_singleMediaRatio" format="float" />
+        <attr name="ngv_gridSpacing" format="dimension" />
+        <attr name="ngv_maxSize" format="integer" />
+        <attr name="ngv_mode" format="enum">
+            <enum name="fill" value="0" />
+            <enum name="grid" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,14 +30,16 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+//import com.scwang.smartrefresh.layout.api.RefreshLayout;
+//import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+//import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
 
 /**
  * 搜一搜
@@ -65,7 +66,7 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
     private VolleyUtil mVolleyUtil;
     private SearchHistoryDao mSearchHistoryDao;
 
-    private RefreshLayout mRefreshLayout;
+    //    private RefreshLayout mRefreshLayout;
     int mPage = 1;
 
     @Override
@@ -109,7 +110,7 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         mSearchContentLv = findViewById(R.id.lv_search_content);
 
         // 上拉加载，下拉刷新
-        mRefreshLayout = findViewById(R.id.srl_friends_circle);
+//        mRefreshLayout = findViewById(R.id.srl_friends_circle);
 
         mSearchHistoryList = mSearchHistoryDao.getSearchHistoryList(5);
         if (null != mSearchHistoryList && mSearchHistoryList.size() > 0) {
@@ -174,24 +175,24 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
             }
         });
 
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                // 下拉刷新
-                mPage = 1;
-                String keyword = mSearchEt.getText().toString();
-                getSearchContentList(keyword, mPage, false);
-            }
-        });
-        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshlayout) {
-                // 上拉加载
-                mPage++;
-                String keyword = mSearchEt.getText().toString();
-                getSearchContentList(keyword, mPage, true);
-            }
-        });
+//        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                // 下拉刷新
+//                mPage = 1;
+//                String keyword = mSearchEt.getText().toString();
+//                getSearchContentList(keyword, mPage, false);
+//            }
+//        });
+//        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore(RefreshLayout refreshlayout) {
+//                // 上拉加载
+//                mPage++;
+//                String keyword = mSearchEt.getText().toString();
+//                getSearchContentList(keyword, mPage, true);
+//            }
+//        });
     }
 
     class TextChange implements TextWatcher {
@@ -266,13 +267,13 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (isAdd) {
-                    // 上拉加载
-                    mRefreshLayout.finishLoadMore();
-                } else {
-                    // 下拉刷新
-                    mRefreshLayout.finishRefresh();
-                }
+//                if (isAdd) {
+//                    // 上拉加载
+//                    mRefreshLayout.finishLoadMore();
+//                } else {
+//                    // 下拉刷新
+//                    mRefreshLayout.finishRefresh();
+//                }
 
                 List<FileItem> list = JSONArray.parseArray(response, FileItem.class);
                 if (isAdd) {
@@ -287,13 +288,13 @@ public class SearchContentActivity extends BaseActivity implements View.OnClickL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                if (isAdd) {
-                    // 上拉加载
-                    mRefreshLayout.finishLoadMore();
-                } else {
-                    // 下拉刷新
-                    mRefreshLayout.finishRefresh();
-                }
+//                if (isAdd) {
+//                    // 上拉加载
+//                    mRefreshLayout.finishLoadMore();
+//                } else {
+//                    // 下拉刷新
+//                    mRefreshLayout.finishRefresh();
+//                }
             }
         });
     }

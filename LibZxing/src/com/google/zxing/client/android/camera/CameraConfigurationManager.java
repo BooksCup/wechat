@@ -32,7 +32,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 
 /**
- * A class which deals with reading, parsing, and setting the camera parameters which are used to
+ * A class which deals with reading, parsing, and icon_me_settings the camera parameters which are used to
  * configure the camera hardware.
  */
 final class CameraConfigurationManager {

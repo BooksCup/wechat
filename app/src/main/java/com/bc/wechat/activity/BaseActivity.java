@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 
@@ -19,6 +17,8 @@ import com.bc.wechat.widget.NoTitleAlertDialog;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.event.LoginStateChangeEvent;
 import cn.jpush.im.android.api.event.OfflineMessageEvent;

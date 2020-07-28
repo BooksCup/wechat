@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,6 +15,8 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.ValidateUtil;
 import com.bc.wechat.widget.LoadingDialog;
+
+import androidx.annotation.Nullable;
 
 /**
  * 登录

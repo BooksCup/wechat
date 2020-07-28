@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextPaint;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +18,9 @@ import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.utils.ExampleUtil;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 /**
  * 新的朋友

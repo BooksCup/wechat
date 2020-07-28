@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import androidx.annotation.Nullable;
 import cn.jpush.im.android.api.JMessageClient;
 
 /**

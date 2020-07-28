@@ -7,10 +7,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.FriendsCircleActivity;
 import com.bc.wechat.activity.MainActivity;
+import com.bc.wechat.activity.MomentsActivity;
 import com.bc.wechat.activity.PeopleNearbyActivity;
 import com.bc.wechat.activity.SearchActivity;
 import com.bc.wechat.activity.UserInfoActivity;
@@ -32,6 +33,9 @@ import com.bc.wechat.widget.ConfirmDialog;
 import com.google.zxing.client.android.CaptureActivity2;
 
 import java.util.ArrayList;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * 发现
@@ -256,7 +260,7 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener {
         String[] permissions;
         switch (view.getId()) {
             case R.id.rl_moments:
-                startActivity(new Intent(getActivity(), FriendsCircleActivity.class));
+                startActivity(new Intent(getActivity(), MomentsActivity.class));
                 break;
             case R.id.rl_scan:
                 permissions = new String[]{"android.permission.CAMERA"};

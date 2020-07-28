@@ -38,8 +38,8 @@ public final class Intents {
          * may be useful to limit scanning to certain formats. Use
          * {@link android.content.Intent#putExtra(String, String)} with one of the values below.
          * <p>
-         * Setting this is effectively shorthand for setting explicit formats with {@link #FORMATS}.
-         * It is overridden by that setting.
+         * Setting this is effectively shorthand for icon_me_settings explicit formats with {@link #FORMATS}.
+         * It is overridden by that icon_me_settings.
          */
         public static final String MODE = "SCAN_MODE";
 

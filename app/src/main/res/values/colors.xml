@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="wechat_common_bg">#EDEDED</color>
+    <color name="moments_common_bg">#EEEEEE</color>
     <color name="common_divider_view">#EDEDED</color>
     <color name="common_top_bar">#EDEDED</color>
     <color name="common_top_title">#353535</color>

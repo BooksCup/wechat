@@ -4,9 +4,7 @@
     android:versionCode="79"
     android:versionName="4.0">
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="22" />
+    <uses-sdk android:targetSdkVersion="22" />
 
     <application>
         <activity

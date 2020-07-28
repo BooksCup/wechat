@@ -3,13 +3,14 @@ package com.bc.wechat.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.bc.wechat.R;
+
+import androidx.annotation.Nullable;
 
 public class WebViewActivity extends Activity {
     private WebView mContentWv;

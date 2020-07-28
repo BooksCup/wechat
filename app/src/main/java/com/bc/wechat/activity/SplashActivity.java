@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -14,6 +12,8 @@ import com.bc.wechat.R;
 import com.bc.wechat.utils.AreaUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 
