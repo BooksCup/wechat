@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.bc.wechat.utils.ValidateUtil.validatePassword;
 
@@ -33,14 +37,24 @@ import static com.bc.wechat.utils.ValidateUtil.validatePassword;
  *
  * @author zhou
  */
-public class ModifyPasswordActivity extends BaseActivity implements View.OnClickListener {
+public class ModifyPasswordActivity extends BaseActivity {
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private TextView mCompleteTv;
+    @BindView(R.id.tv_complete)
+    TextView mCompleteTv;
 
-    private EditText mWechatIdEt;
-    private EditText mOldPasswordEt;
-    private EditText mNewPasswordEt;
-    private EditText mConfirmPasswordEt;
+    @BindView(R.id.et_wechat_id)
+    EditText mWechatIdEt;
+
+    @BindView(R.id.et_old_password)
+    EditText mOldPasswordEt;
+
+    @BindView(R.id.et_new_password)
+    EditText mNewPasswordEt;
+
+    @BindView(R.id.et_confirm_password)
+    EditText mConfirmPasswordEt;
 
     private VolleyUtil mVolleyUtil;
     private User mUser;
@@ -50,6 +64,7 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_password);
+        ButterKnife.bind(this);
         initStatusBar();
         StatusBarUtil.setStatusBarColor(ModifyPasswordActivity.this, R.color.status_bar_color_white);
 
@@ -65,18 +80,13 @@ public class ModifyPasswordActivity extends BaseActivity implements View.OnClick
     }
 
     private void initView() {
-        mCompleteTv = findViewById(R.id.tv_complete);
-
-        mWechatIdEt = findViewById(R.id.et_wechat_id);
-        mOldPasswordEt = findViewById(R.id.et_old_password);
-        mNewPasswordEt = findViewById(R.id.et_new_password);
-        mConfirmPasswordEt = findViewById(R.id.et_confirm_password);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setFakeBoldText(true);
 
         mWechatIdEt.setText(mUser.getUserWxId());
-        mCompleteTv.setOnClickListener(this);
     }
 
-    @Override
+    @OnClick({R.id.tv_complete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_complete:
