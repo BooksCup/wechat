@@ -45,32 +45,54 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 个人信息
  *
  * @author zhou
  */
-public class MyProfileActivity extends BaseActivity implements View.OnClickListener {
+public class MyProfileActivity extends BaseActivity {
     // 头像
-    private RelativeLayout mAvatarRl;
+    @BindView(R.id.rl_avatar)
+    RelativeLayout mAvatarRl;
+
     // 昵称
-    private RelativeLayout mNickNameRl;
+    @BindView(R.id.rl_nick_name)
+    RelativeLayout mNickNameRl;
+
     // 微信号
-    private RelativeLayout mWxIdRl;
+    @BindView(R.id.rl_wx_id)
+    RelativeLayout mWxIdRl;
+
     // 二维码
-    private RelativeLayout mQrCodeRl;
+    @BindView(R.id.rl_qr_code)
+    RelativeLayout mQrCodeRl;
+
     // 更多
-    private RelativeLayout mMoreRl;
+    @BindView(R.id.rl_more)
+    RelativeLayout mMoreRl;
+
     // 我的地址
-    private RelativeLayout mAddressRl;
+    @BindView(R.id.rl_address)
+    RelativeLayout mAddressRl;
 
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private TextView mNickNameTv;
-    private TextView mWxIdTv;
-    private SimpleDraweeView mAvatarSdv;
-    private ImageView mWxIdIv;
+    @BindView(R.id.tv_nick_name)
+    TextView mNickNameTv;
+
+    @BindView(R.id.tv_wx_id)
+    TextView mWxIdTv;
+
+    @BindView(R.id.sdv_avatar)
+    SimpleDraweeView mAvatarSdv;
+
+    @BindView(R.id.iv_wx_id)
+    ImageView mWxIdIv;
 
     private VolleyUtil mVolleyUtil;
 
@@ -86,6 +108,7 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+        ButterKnife.bind(this);
         initStatusBar();
         mVolleyUtil = VolleyUtil.getInstance(this);
         PreferencesUtil.getInstance().init(this);
@@ -99,23 +122,6 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mAvatarRl = findViewById(R.id.rl_avatar);
-
-        mNickNameRl = findViewById(R.id.rl_nick_name);
-        mNickNameTv = findViewById(R.id.tv_nick_name);
-
-        mWxIdRl = findViewById(R.id.rl_wx_id);
-        mWxIdTv = findViewById(R.id.tv_wx_id);
-        mWxIdIv = findViewById(R.id.iv_wx_id);
-
-        mQrCodeRl = findViewById(R.id.rl_qr_code);
-
-        mMoreRl = findViewById(R.id.rl_more);
-
-        mAvatarSdv = findViewById(R.id.sdv_avatar);
-
-        mAddressRl = findViewById(R.id.rl_address);
-
         mNickNameTv.setText(mUser.getUserNickName());
 
         String userAvatar = mUser.getUserAvatar();
@@ -124,18 +130,11 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
             mAvatarSdv.setImageURI(resizeAvatarUrl);
         }
 
-        mAvatarRl.setOnClickListener(this);
-        mNickNameRl.setOnClickListener(this);
-
-        mQrCodeRl.setOnClickListener(this);
-        mMoreRl.setOnClickListener(this);
-        mAvatarSdv.setOnClickListener(this);
-        mAddressRl.setOnClickListener(this);
-
         renderWxId(mUser);
     }
 
-    @Override
+    @OnClick({R.id.rl_avatar, R.id.sdv_avatar, R.id.rl_nick_name, R.id.rl_wx_id,
+            R.id.rl_qr_code, R.id.rl_more, R.id.rl_address})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_avatar:
@@ -179,12 +178,13 @@ public class MyProfileActivity extends BaseActivity implements View.OnClickListe
             mWxIdIv.setVisibility(View.GONE);
             mWxIdRl.setClickable(false);
         } else {
-            mWxIdRl.setOnClickListener(this);
+            mWxIdRl.setClickable(true);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             final User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
