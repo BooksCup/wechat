@@ -19,6 +19,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
@@ -26,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 更改名字
@@ -33,10 +36,15 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class EditNameActivity extends BaseActivity {
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private EditText mNickNameEt;
-    private TextView mSaveTv;
+    @BindView(R.id.et_nick)
+    EditText mNickNameEt;
+
+    @BindView(R.id.tv_save)
+    TextView mSaveTv;
+
     private VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
@@ -45,9 +53,13 @@ public class EditNameActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_name);
+        ButterKnife.bind(this);
+
         initStatusBar();
+        StatusBarUtil.setStatusBarColor(EditNameActivity.this, R.color.common_bg_light_grey);
 
         PreferencesUtil.getInstance().init(this);
+
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(EditNameActivity.this);
@@ -66,12 +78,8 @@ public class EditNameActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
-        mNickNameEt = findViewById(R.id.et_nick);
-        mSaveTv = findViewById(R.id.tv_save);
 
         mNickNameEt.setText(mUser.getUserNickName());
         // 光标移至最后
@@ -104,10 +112,12 @@ public class EditNameActivity extends BaseActivity {
             boolean isNickNameChanged = !oldNickName.equals(newNickName);
 
             if (isNickNameHasText && isNickNameChanged) {
+                // 可保存
                 mSaveTv.setTextColor(0xFFFFFFFF);
                 mSaveTv.setEnabled(true);
             } else {
-                mSaveTv.setTextColor(0xFFD0EFC6);
+                // 不可保存
+                mSaveTv.setTextColor(getColor(R.color.btn_text_default_color));
                 mSaveTv.setEnabled(false);
             }
         }

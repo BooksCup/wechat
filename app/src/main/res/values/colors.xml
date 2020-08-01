@@ -6,6 +6,7 @@
     <color name="common_top_bar">#EDEDED</color>
     <color name="common_top_title">#353535</color>
     <color name="common_top_bar_grey">#ebebeb</color>
+    <color name="common_top_bar_white">#FFFFFF</color>
     <color name="common_top_bar_blue">#22292c</color>
     <color name="btn_login_normal">#007086</color>
     <color name="btn_login_pressed">#303744</color>
@@ -64,4 +65,9 @@
     <color name="modify_password_hint_color">#cccccc</color>
     <color name="color_light_grey">#f0f0f0</color>
     <color name="color_white">#ffffff</color>
+
+    <color name="btn_save_default_color">#E1E1E1</color>
+    <color name="btn_text_default_color">#B5B5B5</color>
+
+    <color name="common_bg_light_grey">#EBEBEB</color>
 </resources>
