@@ -1,0 +1,457 @@
+[
+  {
+    "code": "355",
+    "level": "1",
+    "name": "阿尔巴尼亚",
+    "parentId": "0",
+    "seq": 1.0
+  },
+  {
+    "code": "213",
+    "level": "1",
+    "name": "阿尔及利亚",
+    "parentId": "0",
+    "seq": 2.0
+  },
+  {
+    "code": "93",
+    "level": "1",
+    "name": "阿富汗",
+    "parentId": "0",
+    "seq": 3.0
+  },
+  {
+    "code": "54",
+    "level": "1",
+    "name": "阿根廷",
+    "parentId": "0",
+    "seq": 4.0
+  },
+  {
+    "code": "353",
+    "level": "1",
+    "name": "爱尔兰",
+    "parentId": "0",
+    "seq": 5.0
+  },
+  {
+    "code": "20",
+    "level": "1",
+    "name": "埃及",
+    "parentId": "0",
+    "seq": 6.0
+  },
+  {
+    "code": "251",
+    "level": "1",
+    "name": "埃塞俄比亚",
+    "parentId": "0",
+    "seq": 7.0
+  },
+  {
+    "code": "372",
+    "level": "1",
+    "name": "爱沙尼亚",
+    "parentId": "0",
+    "seq": 8.0
+  },
+  {
+    "code": "971",
+    "level": "1",
+    "name": "阿拉伯联合酋长国",
+    "parentId": "0",
+    "seq": 9.0
+  },
+  {
+    "code": "297",
+    "level": "1",
+    "name": "阿鲁巴",
+    "parentId": "0",
+    "seq": 10.0
+  },
+  {
+    "code": "968",
+    "level": "1",
+    "name": "阿曼",
+    "parentId": "0",
+    "seq": 11.0
+  },
+  {
+    "code": "376",
+    "level": "1",
+    "name": "安道尔",
+    "parentId": "0",
+    "seq": 12.0
+  },
+  {
+    "code": "244",
+    "level": "1",
+    "name": "安哥拉",
+    "parentId": "0",
+    "seq": 13.0
+  },
+  {
+    "code": "1264",
+    "level": "1",
+    "name": "安圭拉",
+    "parentId": "0",
+    "seq": 14.0
+  },
+  {
+    "code": "1268",
+    "level": "1",
+    "name": "安提瓜岛和巴布达",
+    "parentId": "0",
+    "seq": 15.0
+  },
+  {
+    "code": "61",
+    "level": "1",
+    "name": "澳大利亚",
+    "parentId": "0",
+    "seq": 16.0
+  },
+  {
+    "code": "43",
+    "level": "1",
+    "name": "奥地利",
+    "parentId": "0",
+    "seq": 17.0
+  },
+  {
+    "code": "994",
+    "level": "1",
+    "name": "阿塞拜疆",
+    "parentId": "0",
+    "seq": 18.0
+  },
+  {
+    "code": "1246",
+    "level": "1",
+    "name": "巴巴多斯岛",
+    "parentId": "0",
+    "seq": 19.0
+  },
+  {
+    "code": "675",
+    "level": "1",
+    "name": "巴布亚新几内亚",
+    "parentId": "0",
+    "seq": 20.0
+  },
+  {
+    "code": "1242",
+    "level": "1",
+    "name": "巴哈马",
+    "parentId": "0",
+    "seq": 21.0
+  },
+  {
+    "code": "375",
+    "level": "1",
+    "name": "白俄罗斯",
+    "parentId": "0",
+    "seq": 22.0
+  },
+  {
+    "code": "1441",
+    "level": "1",
+    "name": "百慕大",
+    "parentId": "0",
+    "seq": 23.0
+  },
+  {
+    "code": "92",
+    "level": "1",
+    "name": "巴基斯坦",
+    "parentId": "0",
+    "seq": 24.0
+  },
+  {
+    "code": "595",
+    "level": "1",
+    "name": "巴拉圭",
+    "parentId": "0",
+    "seq": 25.0
+  },
+  {
+    "code": "970",
+    "level": "1",
+    "name": "巴勒斯坦领土",
+    "parentId": "0",
+    "seq": 26.0
+  },
+  {
+    "code": "973",
+    "level": "1",
+    "name": "巴林",
+    "parentId": "0",
+    "seq": 27.0
+  },
+  {
+    "code": "507",
+    "level": "1",
+    "name": "巴拿马",
+    "parentId": "0",
+    "seq": 28.0
+  },
+  {
+    "code": "359",
+    "level": "1",
+    "name": "保加利亚",
+    "parentId": "0",
+    "seq": 29.0
+  },
+  {
+    "code": "55",
+    "level": "1",
+    "name": "巴西",
+    "parentId": "0",
+    "seq": 30.0
+  },
+  {
+    "code": "1670",
+    "level": "1",
+    "name": "北马里亚纳群岛",
+    "parentId": "0",
+    "seq": 31.0
+  },
+  {
+    "code": "229",
+    "level": "1",
+    "name": "贝宁",
+    "parentId": "0",
+    "seq": 32.0
+  },
+  {
+    "code": "32",
+    "level": "1",
+    "name": "比利时",
+    "parentId": "0",
+    "seq": 33.0
+  },
+  {
+    "code": "354",
+    "level": "1",
+    "name": "冰岛",
+    "parentId": "0",
+    "seq": 34.0
+  },
+  {
+    "code": "267",
+    "level": "1",
+    "name": "博茨瓦纳",
+    "parentId": "0",
+    "seq": 35.0
+  },
+  {
+    "code": "1939",
+    "level": "1",
+    "name": "波多黎各",
+    "parentId": "0",
+    "seq": 36.0
+  },
+  {
+    "code": "48",
+    "level": "1",
+    "name": "波兰",
+    "parentId": "0",
+    "seq": 37.0
+  },
+  {
+    "code": "591",
+    "level": "1",
+    "name": "玻利维亚",
+    "parentId": "0",
+    "seq": 38.0
+  },
+  {
+    "code": "501",
+    "level": "1",
+    "name": "伯利兹",
+    "parentId": "0",
+    "seq": 39.0
+  },
+  {
+    "code": "387",
+    "level": "1",
+    "name": "波黑",
+    "parentId": "0",
+    "seq": 40.0
+  },
+  {
+    "code": "975",
+    "level": "1",
+    "name": "不丹",
+    "parentId": "0",
+    "seq": 41.0
+  },
+  {
+    "code": "226",
+    "level": "1",
+    "name": "布基纳法索",
+    "parentId": "0",
+    "seq": 42.0
+  },
+  {
+    "code": "257",
+    "level": "1",
+    "name": "布隆迪",
+    "parentId": "0",
+    "seq": 43.0
+  },
+  {
+    "code": "850",
+    "level": "1",
+    "name": "朝鲜",
+    "parentId": "0",
+    "seq": 44.0
+  },
+  {
+    "code": "240",
+    "level": "1",
+    "name": "赤道几内亚",
+    "parentId": "0",
+    "seq": 45.0
+  },
+  {
+    "code": "49",
+    "level": "1",
+    "name": "德国",
+    "parentId": "0",
+    "seq": 46.0
+  },
+  {
+    "code": "45",
+    "level": "1",
+    "name": "丹麦",
+    "parentId": "0",
+    "seq": 47.0
+  },
+  {
+    "code": "670",
+    "level": "1",
+    "name": "东帝汶",
+    "parentId": "0",
+    "seq": 48.0
+  },
+  {
+    "code": "228",
+    "level": "1",
+    "name": "多哥",
+    "parentId": "0",
+    "seq": 49.0
+  },
+  {
+    "code": "1809",
+    "level": "1",
+    "name": "多米尼加共和国",
+    "parentId": "0",
+    "seq": 50.0
+  },
+  {
+    "code": "1767",
+    "level": "1",
+    "name": "多米尼克",
+    "parentId": "0",
+    "seq": 51.0
+  },
+  {
+    "code": "593",
+    "level": "1",
+    "name": "厄瓜多尔",
+    "parentId": "0",
+    "seq": 52.0
+  },
+  {
+    "code": "291",
+    "level": "1",
+    "name": "厄立特里亚",
+    "parentId": "0",
+    "seq": 53.0
+  },
+  {
+    "code": "7",
+    "level": "1",
+    "name": "俄罗斯",
+    "parentId": "0",
+    "seq": 54.0
+  },
+  {
+    "code": "33",
+    "level": "1",
+    "name": "法国",
+    "parentId": "0",
+    "seq": 55.0
+  },
+  {
+    "code": "298",
+    "level": "1",
+    "name": "法罗群岛",
+    "parentId": "0",
+    "seq": 56.0
+  },
+  {
+    "code": "379",
+    "level": "1",
+    "name": "梵蒂冈",
+    "parentId": "0",
+    "seq": 57.0
+  },
+  {
+    "code": "689",
+    "level": "1",
+    "name": "法属波利尼西亚",
+    "parentId": "0",
+    "seq": 58.0
+  },
+  {
+    "code": "590",
+    "level": "1",
+    "name": "圣马丁",
+    "parentId": "0",
+    "seq": 59.0
+  },
+  {
+    "code": "594",
+    "level": "1",
+    "name": "法属圭亚那",
+    "parentId": "0",
+    "seq": 60.0
+  },
+  {
+    "code": "679",
+    "level": "1",
+    "name": "斐济",
+    "parentId": "0",
+    "seq": 61.0
+  },
+  {
+    "code": "63",
+    "level": "1",
+    "name": "菲律宾",
+    "parentId": "0",
+    "seq": 62.0
+  },
+  {
+    "code": "358",
+    "level": "1",
+    "name": "芬兰",
+    "parentId": "0",
+    "seq": 63.0
+  },
+  {
+    "code": "238",
+    "level": "1",
+    "name": "佛得角",
+    "parentId": "0",
+    "seq": 64.0
+  },
+  {
+    "code": "500",
+    "level": "1",
+    "name": "福克兰群岛",
+    "parentId": "0",
+    "seq": 65.0
+  }
+]

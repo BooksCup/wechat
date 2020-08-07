@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.bc.wechat.R;
 import com.bc.wechat.utils.AreaUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.RegionUtil;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -60,6 +61,7 @@ public class SplashActivity extends FragmentActivity implements View.OnClickList
                     // 预置地址信息
                     // 初始化省市区
                     AreaUtil.initArea(SplashActivity.this);
+                    RegionUtil.initRegion(SplashActivity.this);
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

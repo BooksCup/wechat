@@ -1,28 +1,35 @@
 package com.bc.wechat.entity;
 
+
+import com.orm.SugarRecord;
+
 /**
  * 地区
  *
  * @author zhou
  */
-public class Region {
-
-    /**
-     * 地区名
-     */
+public class Region extends SugarRecord {
+    private String parentId;
+    private String level;
     private String name;
-
-    /**
-     * 区号
-     */
     private String code;
+    private Float seq;
 
-    public Region() {
 
+    public String getParentId() {
+        return parentId;
     }
 
-    public Region(String name) {
-        this.name = name;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getName() {
@@ -39,5 +46,13 @@ public class Region {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Float getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Float seq) {
+        this.seq = seq;
     }
 }

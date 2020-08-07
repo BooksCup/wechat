@@ -21,6 +21,7 @@ import com.baidu.location.LocationClientOption;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.RegionAdapter;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.RegionDao;
 import com.bc.wechat.entity.Region;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -70,6 +71,7 @@ public class PickRegionActivity extends BaseActivity {
 
     private VolleyUtil mVolleyUtil;
     private User mUser;
+    private RegionDao mRegionDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class PickRegionActivity extends BaseActivity {
 
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
+        mRegionDao = new RegionDao();
 
         initView();
 
@@ -102,16 +105,7 @@ public class PickRegionActivity extends BaseActivity {
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        final List<Region> regionList = new ArrayList<>();
-        regionList.add(new Region("阿鲁巴"));
-        regionList.add(new Region("阿尔巴尼亚"));
-        regionList.add(new Region("阿尔及利亚"));
-        regionList.add(new Region("阿富汗"));
-        regionList.add(new Region("阿根廷"));
-        regionList.add(new Region("阿拉伯联合酋长国"));
-        regionList.add(new Region("阿曼"));
-        regionList.add(new Region("阿塞拜疆"));
-        regionList.add(new Region("爱尔兰"));
+        final List<Region> regionList = mRegionDao.getRegionList();
         mRegionAdapter = new RegionAdapter(this, regionList);
         mRegionLv.setAdapter(mRegionAdapter);
 
