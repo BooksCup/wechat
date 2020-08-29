@@ -289,6 +289,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 if (null != friendList && friendList.size() > 0) {
                     for (User userFriend : friendList) {
                         if (null != userFriend) {
+                            userFriend.setIsFriend(Constant.IS_FRIEND);
                             mUserDao.saveUser(userFriend);
                         }
                     }
