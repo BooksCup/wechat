@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.NewFriendsActivity;
 import com.bc.wechat.activity.UserInfoActivity;
+import com.bc.wechat.activity.UserInfoFileHelperActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PinyinComparator;
@@ -100,15 +102,24 @@ public class ContactsFragment extends Fragment {
         mFriendsAdapter = new FriendsAdapter(getActivity(), R.layout.item_contacts, mStarFriendList);
         mFriendsLv.setAdapter(mFriendsAdapter);
 
-        mFriendsCountTv.setText(mFriendList.size() + "位联系人");
+        mFriendsCountTv.setText(mUserDao.getContactsCount() + "位联系人");
 
         mFriendsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0 && position != mStarFriendList.size() + 1) {
                     User friend = mStarFriendList.get(position - 1);
-                    startActivity(new Intent(getActivity(), UserInfoActivity.class).
-                            putExtra("userId", friend.getUserId()));
+                    String userType = friend.getUserType();
+                    if (Constant.USER_TYPE_REG.equals(userType)) {
+                        startActivity(new Intent(getActivity(), UserInfoActivity.class).
+                                putExtra("userId", friend.getUserId()));
+                    } else if (Constant.USER_TYPE_WEIXIN.equals(userType)) {
+                        startActivity(new Intent(getActivity(), UserInfoActivity.class).
+                                putExtra("userId", friend.getUserId()));
+                    } else if (Constant.USER_TYPE_FILEHELPER.equals(userType)) {
+                        startActivity(new Intent(getActivity(), UserInfoFileHelperActivity.class).
+                                putExtra("userId", friend.getUserId()));
+                    }
                 }
             }
         });

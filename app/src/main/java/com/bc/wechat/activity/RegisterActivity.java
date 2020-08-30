@@ -138,12 +138,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 if (mIsAgree) {
                     mAgreementIv.setBackgroundResource(R.mipmap.icon_choose_false);
                     mIsAgree = false;
-                    checkSubmit();
                 } else {
                     mAgreementIv.setBackgroundResource(R.mipmap.icon_choose_true);
                     mIsAgree = true;
-                    checkSubmit();
                 }
+                checkSubmit();
                 break;
             case R.id.btn_register:
                 mDialog.setMessage(getString(R.string.registering));
