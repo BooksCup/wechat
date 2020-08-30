@@ -61,6 +61,16 @@ public class UserDao {
     }
 
     /**
+     * 获取联系人数量,进注册好友数量,不包括系统用户
+     *
+     * @return 联系人数量
+     */
+    public long getContactsCount() {
+        return User.count(User.class, "is_friend = ? and user_type = ?",
+                new String[]{Constant.IS_FRIEND, Constant.USER_TYPE_REG});
+    }
+
+    /**
      * 获取所有的星标好友列表
      * 按好友昵称或备注首字母排序并设置特殊header
      *

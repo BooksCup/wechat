@@ -134,7 +134,7 @@ public class ContactsFragment extends Fragment {
         mStarFriendList.addAll(mFriendList);
         mFriendsAdapter.setData(mStarFriendList);
         mFriendsAdapter.notifyDataSetChanged();
-        mFriendsCountTv.setText(mFriendList.size() + "位联系人");
+        mFriendsCountTv.setText(mUserDao.getContactsCount() + "位联系人");
     }
 
 
