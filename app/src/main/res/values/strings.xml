@@ -53,6 +53,9 @@
     <string name="back">返回</string>
     <string name="save">保存</string>
     <string name="edit">编辑</string>
+    <string name="intro">功能介绍</string>
+    <string name="file_transfer_intro">登录微信电脑版，向我发消息，可以在手机与电脑间传输文字、图片、音频、视频 等文件。</string>
+    <string name="send_message">发消息</string>
     <string name="password_rules">密码必须是8-16位的数字、字符组合(不能是纯数字)</string>
     <string name="button_pushtotalk">按住说话</string>
     <string name="send">发送</string>
