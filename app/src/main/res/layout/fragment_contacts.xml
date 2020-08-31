@@ -43,8 +43,8 @@
                 android:background="@android:color/transparent"
                 android:cacheColorHint="@color/divider_list"
                 android:descendantFocusability="afterDescendants"
-                android:divider="@color/divider_list"
-                android:dividerHeight="0.1dp"
+                android:divider="#ffffff"
+                android:dividerHeight="0dp"
                 android:fastScrollEnabled="false"
                 android:footerDividersEnabled="false"
                 android:scrollbars="none" />

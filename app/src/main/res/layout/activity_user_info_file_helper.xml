@@ -103,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="微信号：filehelper"
-                        android:textColor="#aaaaaa"
+                        android:textColor="#979797"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>

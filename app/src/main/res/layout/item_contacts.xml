@@ -20,8 +20,7 @@
         android:id="@+id/view_header"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="60dp"
         android:background="#d9d9d9"
         android:visibility="gone" />
 
