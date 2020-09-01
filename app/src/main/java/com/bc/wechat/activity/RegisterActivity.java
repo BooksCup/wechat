@@ -166,6 +166,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case UPDATE_AVATAR_BY_TAKE_CAMERA:
