@@ -262,9 +262,9 @@ public class UserInfoActivity extends BaseActivity {
                         final Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
                         intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                         intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                        intent.putExtra("fromUserId", friend.getUserId());
-                        intent.putExtra("fromUserNickName", friend.getUserNickName());
-                        intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                        intent.putExtra("contactId", friend.getUserId());
+                        intent.putExtra("contactNickName", friend.getUserNickName());
+                        intent.putExtra("contactAvatar", friend.getUserAvatar());
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -350,9 +350,9 @@ public class UserInfoActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
                 intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                intent.putExtra("fromUserId", userId);
-                intent.putExtra("fromUserNickName", friend.getUserNickName());
-                intent.putExtra("fromUserAvatar", friend.getUserAvatar());
+                intent.putExtra("contactId", userId);
+                intent.putExtra("contactNickName", friend.getUserNickName());
+                intent.putExtra("contactAvatar", friend.getUserAvatar());
                 startActivity(intent);
             }
         });

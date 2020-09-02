@@ -171,9 +171,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     // intent传值
     // 单聊
     private String targetType;
-    private String fromUserId;
-    private String fromUserNickName;
-    private String fromUserAvatar;
+    private String contactId;
+    private String contactNickName;
+    private String contactAvatar;
 
     // 群聊
     private String groupId;
@@ -345,11 +345,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         targetType = getIntent().getStringExtra("targetType");
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
-            fromUserId = getIntent().getStringExtra("fromUserId");
-            fromUserNickName = getIntent().getStringExtra("fromUserNickName");
-            fromUserAvatar = getIntent().getStringExtra("fromUserAvatar");
-            mFromNickNameTv.setText(fromUserNickName);
-            mMessageList = mMessageDao.getMessageListByUserId(fromUserId);
+            contactId = getIntent().getStringExtra("contactId");
+            contactNickName = getIntent().getStringExtra("contactNickName");
+            contactAvatar = getIntent().getStringExtra("contactAvatar");
+            mFromNickNameTv.setText(contactNickName);
+            mMessageList = mMessageDao.getMessageListByUserId(contactId);
         } else if (Constant.TARGET_TYPE_GROUP.equals(targetType)) {
             groupId = getIntent().getStringExtra("groupId");
             groupDesc = getIntent().getStringExtra("groupDesc");
@@ -380,9 +380,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
                 if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
                     // 单聊设置
                     Intent intent = new Intent(ChatActivity.this, ChatSingleSettingActivity.class);
-                    intent.putExtra("userId", fromUserId);
-                    intent.putExtra("userNickName", fromUserNickName);
-                    intent.putExtra("userAvatar", fromUserAvatar);
+                    intent.putExtra("userId", contactId);
+                    intent.putExtra("userNickName", contactNickName);
+                    intent.putExtra("userAvatar", contactAvatar);
                     startActivity(intent);
                 } else {
                     // 群聊设置
@@ -541,9 +541,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         message.setContent(content);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(mUser.getUserId());
-        message.setToUserId(fromUserId);
-        message.setToUserName(fromUserNickName);
-        message.setToUserAvatar(fromUserAvatar);
+        message.setToUserId(contactId);
+        message.setToUserName(contactNickName);
+        message.setToUserAvatar(contactAvatar);
         message.setTimestamp(new Date().getTime());
         message.setStatus(MessageStatus.SENDING.value());
 
@@ -560,7 +560,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         body.put("text", content);
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
-            sendMessage(targetType, fromUserId, mUser.getUserId(),
+            sendMessage(targetType, contactId, mUser.getUserId(),
                     message.getMessageType(), JSON.toJSONString(body), mMessageIndex);
         } else {
             // 群聊
@@ -582,9 +582,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         message.setTargetType(targetType);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(mUser.getUserId());
-        message.setToUserId(fromUserId);
-        message.setToUserName(fromUserNickName);
-        message.setToUserAvatar(fromUserAvatar);
+        message.setToUserId(contactId);
+        message.setToUserName(contactNickName);
+        message.setToUserAvatar(contactAvatar);
         message.setTimestamp(new Date().getTime());
         message.setStatus(MessageStatus.SENDING.value());
 
@@ -631,7 +631,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
-            sendMessage(targetType, fromUserId, mUser.getUserId(),
+            sendMessage(targetType, contactId, mUser.getUserId(),
                     message.getMessageType(), JSON.toJSONString(body), mMessageIndex);
         } else {
             // 群聊
@@ -658,9 +658,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         message.setTargetType(targetType);
         message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
         message.setFromUserId(mUser.getUserId());
-        message.setToUserId(fromUserId);
-        message.setToUserName(fromUserNickName);
-        message.setToUserAvatar(fromUserAvatar);
+        message.setToUserId(contactId);
+        message.setToUserName(contactNickName);
+        message.setToUserAvatar(contactAvatar);
         message.setTimestamp(new Date().getTime());
         message.setStatus(MessageStatus.SENDING.value());
 
@@ -684,7 +684,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
             // 单聊
-            sendMessage(targetType, fromUserId, mUser.getUserId(),
+            sendMessage(targetType, contactId, mUser.getUserId(),
                     message.getMessageType(), messageBody, mMessageIndex);
         } else {
             // 群聊
@@ -747,7 +747,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         if (Constant.TARGET_TYPE_SINGLE.equals(targetType)) {
-            mMessageList = mMessageDao.getMessageListByUserId(fromUserId);
+            mMessageList = mMessageDao.getMessageListByUserId(contactId);
         } else if (Constant.TARGET_TYPE_GROUP.equals(targetType)) {
             mMessageList = mMessageDao.getMessageListByGroupId(groupId);
         }
@@ -820,7 +820,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
             // 单聊
             // 如果是当前会话
             Conversation conversation = JMessageClient.getSingleConversation(fromUserInfo.getUserName());
-            if (fromUserInfo.getUserName().equals(fromUserId)) {
+            if (fromUserInfo.getUserName().equals(contactId)) {
                 mMessageList.add(message);
                 mMessageLv.post(new Runnable() {
                     @Override
