@@ -160,7 +160,8 @@
     <string name="add_to_desktop">添加到桌面</string>
     <string name="please_wait">请稍候...</string>
 
-    <string name="set_remark_and_tag">设置备注和标签</string>
+    <string name="edit_contact">设置备注和标签</string>
+    <string name="contact_privacy">朋友权限</string>
     <string name="complete">完成</string>
     <string name="remark_name">备注名</string>
     <string name="tag">标签</string>

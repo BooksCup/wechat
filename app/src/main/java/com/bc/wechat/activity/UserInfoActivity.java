@@ -1,62 +1,32 @@
 package com.bc.wechat.activity;
 
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.dao.FriendsCircleDao;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.bc.wechat.widget.ConfirmDialog;
-import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.jpush.im.android.api.JMessageClient;
 
 /**
  * 用户详情
@@ -64,14 +34,8 @@ import cn.jpush.im.android.api.JMessageClient;
  * @author zhou
  */
 public class UserInfoActivity extends BaseActivity {
-
-    private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
-
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
-
-    @BindView(R.id.tv_title)
-    TextView mTitleTv;
 
     @BindView(R.id.ll_nick_name)
     LinearLayout mNickNameLl;
@@ -103,8 +67,8 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.tv_phone)
     TextView mPhoneTv;
 
-    @BindView(R.id.rl_set_remark_and_tag)
-    RelativeLayout mSetRemarkAndTagRl;
+    @BindView(R.id.rl_edit_contact)
+    RelativeLayout mEditContactRl;
 
     @BindView(R.id.rl_desc)
     RelativeLayout mDescRl;
@@ -143,12 +107,6 @@ public class UserInfoActivity extends BaseActivity {
     private UserDao mUserDao;
     private String userId;
 
-    private FriendsCircleDao mFriendsCircleDao;
-
-    // 弹窗
-    private PopupWindow mPopupWindow;
-
-    private LoadingDialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,20 +115,16 @@ public class UserInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         initStatusBar();
+        StatusBarUtil.setStatusBarColor(UserInfoActivity.this, R.color.status_bar_color_white);
 
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUserDao = new UserDao();
 
-        mFriendsCircleDao = new FriendsCircleDao();
-        mDialog = new LoadingDialog(UserInfoActivity.this);
         initView();
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
         userId = getIntent().getStringExtra("userId");
 
         final User contact = mUserDao.getUserById(userId);
@@ -178,165 +132,11 @@ public class UserInfoActivity extends BaseActivity {
 
         getContactFromServer(mUser.getUserId(), userId);
 
-        mSettingIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = layoutInflater.inflate(R.layout.popup_window_user_setting, null);
-                // 给popwindow加上动画效果
-                LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
-                view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
-                mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
-                // 设置popwindow的宽高
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                // 使其聚集
-                mPopupWindow.setFocusable(true);
-                // 设置允许在外点击消失
-                mPopupWindow.setOutsideTouchable(true);
-
-                // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-                mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-                backgroundAlpha(0.5f);  //透明度
-
-                mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        backgroundAlpha(1f);
-                    }
-                });
-                // 弹出的位置
-                mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-
-                TextView mSetStarFriendTv = view.findViewById(R.id.tv_set_star_friend);
-
-                // 是否星标好友
-                if (Constant.RELA_IS_STAR_FRIEND.equals(contact.getIsStarFriend())) {
-                    mSetStarFriendTv.setText("取消星标朋友");
-                } else {
-                    mSetStarFriendTv.setText("设为星标朋友");
-                }
-
-                // 设置备注和标签
-                RelativeLayout mSetRemarkAndTagRl = view.findViewById(R.id.rl_set_remark_and_tag);
-                mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        mPopupWindow.dismiss();
-                        Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                        intent.putExtra("userId", contact.getUserId());
-                        intent.putExtra("isFriend", Constant.IS_FRIEND);
-                        startActivity(intent);
-                    }
-                });
-
-                // 设为星标好友
-                RelativeLayout mSetStarFriendRl = view.findViewById(R.id.rl_set_star_friend);
-                mSetStarFriendRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
-                        if (Constant.RELA_IS_STAR_FRIEND.equals(contact.getIsStarFriend())) {
-                            updateUserStarFriend(mUser.getUserId(), contact, Constant.RELA_IS_NOT_STAR_FRIEND);
-                        } else {
-                            updateUserStarFriend(mUser.getUserId(), contact, Constant.RELA_IS_STAR_FRIEND);
-                        }
-
-                    }
-                });
-
-                // 添加好友至桌面
-                RelativeLayout mAddFriendToDesktopRl = view.findViewById(R.id.rl_add_friend_to_desktop);
-                mAddFriendToDesktopRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
-
-                        final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "已尝试添加到桌面",
-                                "若添加失败，请前往系统设置，为微信打开\"创建桌面快捷方式\"的权限。",
-                                "了解详情", getString(R.string.cancel), getColor(R.color.navy_blue));
-                        confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
-                            @Override
-                            public void onOkClick() {
-                                confirmDialog.dismiss();
-                            }
-
-                            @Override
-                            public void onCancelClick() {
-                                confirmDialog.dismiss();
-                            }
-                        });
-                        // 点击空白处消失
-                        confirmDialog.setCancelable(false);
-                        confirmDialog.show();
-
-                        final Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
-                        intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                        intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                        intent.putExtra("contactId", contact.getUserId());
-                        intent.putExtra("contactNickName", contact.getUserNickName());
-                        intent.putExtra("contactAvatar", contact.getUserAvatar());
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Bitmap bitmap = getBitmapFromAvatarUrl(contact.getUserAvatar());
-                                addShortcut(UserInfoActivity.this, contact.getUserNickName(), bitmap, intent);
-                            }
-                        }).start();
-                    }
-                });
-
-                // 删除好友
-                RelativeLayout mDeleteFriendRl = view.findViewById(R.id.rl_delete_friend);
-                mDeleteFriendRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
-                        final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "删除联系人",
-                                "将联系人\"" + contact.getUserNickName() + "\"删除，将同时删除与该联系人的聊天记录",
-                                getString(R.string.delete), getString(R.string.cancel));
-                        confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
-                            @Override
-                            public void onOkClick() {
-                                confirmDialog.dismiss();
-                                mDialog.setMessage(getString(R.string.please_wait));
-                                mDialog.show();
-                                deleteFriend(mUser.getUserId(), contact.getUserId());
-                            }
-
-                            @Override
-                            public void onCancelClick() {
-                                confirmDialog.dismiss();
-                            }
-                        });
-                        // 点击空白处消失
-                        confirmDialog.setCancelable(true);
-                        confirmDialog.show();
-                    }
-                });
-
-                // 取消
-                RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
-                mCancelRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
-                    }
-                });
-            }
-        });
-
-        mSetRemarkAndTagRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", contact.getUserId());
-                intent.putExtra("isFriend", contact.getIsFriend());
-                startActivity(intent);
-            }
+        mEditContactRl.setOnClickListener(view -> {
+            Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
+            intent.putExtra("userId", contact.getUserId());
+            intent.putExtra("isFriend", contact.getIsFriend());
+            startActivity(intent);
         });
 
         mDescRl.setOnClickListener(new View.OnClickListener() {
@@ -388,60 +188,6 @@ public class UserInfoActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    /**
-     * 设置添加屏幕的背景透明度
-     * 1.0完全不透明，0.0f完全透明
-     *
-     * @param bgAlpha 透明度值
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        // 0.0-1.0
-        lp.alpha = bgAlpha;
-        getWindow().setAttributes(lp);
-    }
-
-
-    /**
-     * 添加桌面图标快捷方式
-     *
-     * @param activity     Activity对象
-     * @param name         快捷方式名称
-     * @param icon         快捷方式图标
-     * @param actionIntent 快捷方式图标点击动作
-     */
-    public void addShortcut(Activity activity, String name, Bitmap icon, Intent actionIntent) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            // 创建快捷方式的intent广播
-            Intent shortcut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-            // 添加快捷名称
-            shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-            // 快捷图标是允许重复(不一定有效)
-            shortcut.putExtra("duplicate", false);
-            // 快捷图标
-            // 使用Bitmap对象模式
-            shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON, icon);
-            // 添加携带的下次启动要用的Intent信息
-            shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);
-            // 发送广播
-            activity.sendBroadcast(shortcut);
-        } else {
-            ShortcutManager shortcutManager = (ShortcutManager) activity.getSystemService(Context.SHORTCUT_SERVICE);
-            if (null == shortcutManager) {
-                // 创建快捷方式失败
-                return;
-            }
-            ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(activity, name)
-                    .setShortLabel(name)
-                    .setIcon(Icon.createWithBitmap(icon))
-                    .setIntent(actionIntent)
-                    .setLongLabel(name)
-                    .build();
-            shortcutManager.requestPinShortcut(shortcutInfo, PendingIntent.getActivity(activity,
-                    REQUEST_CODE_ADD_FRIEND_TO_DESKTOP, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT).getIntentSender());
-        }
     }
 
     public void back(View view) {
@@ -522,9 +268,9 @@ public class UserInfoActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(user.getUserFriendDesc())) {
-            mSetRemarkAndTagRl.setVisibility(View.VISIBLE);
+            mEditContactRl.setVisibility(View.VISIBLE);
         } else {
-            mSetRemarkAndTagRl.setVisibility(View.GONE);
+            mEditContactRl.setVisibility(View.GONE);
         }
 
         // 是否星标好友
@@ -543,110 +289,14 @@ public class UserInfoActivity extends BaseActivity {
     public void getContactFromServer(final String userId, final String contactId) {
         String url = Constant.BASE_URL + "users/" + userId + "/friends/" + contactId;
 
-        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                User user = JSON.parseObject(response, User.class);
+        mVolleyUtil.httpGetRequest(url, response -> {
+            User user = JSON.parseObject(response, User.class);
 
-                mUserDao.saveUser(user);
-                loadData(user);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            mUserDao.saveUser(user);
+            loadData(user);
+        }, volleyError -> {
 
-            }
         });
-    }
-
-    /**
-     * 删除好友
-     *
-     * @param userId   用户ID
-     * @param friendId 好友ID
-     */
-    private void deleteFriend(final String userId, final String friendId) {
-        String url = Constant.BASE_URL + "users/" + userId + "/friends/" + friendId;
-
-        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                // 清除本地记录
-                // 通讯录删除
-                User user = mUserDao.getUserById(friendId);
-                User.delete(user);
-
-                // 朋友圈清除记录
-                mFriendsCircleDao.deleteFriendsCircleByUserId(friendId);
-
-                // 删除会话
-                JMessageClient.deleteSingleConversation(friendId);
-
-                finish();
-                // TODO
-                // 跳转到首页第二个tab并refresh
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-            }
-        });
-
-    }
-
-    /**
-     * 设置或取消星标朋友
-     *
-     * @param userId       用户ID
-     * @param friend       好友
-     * @param isStarFriend 是否星标好友
-     */
-    private void updateUserStarFriend(final String userId, final User friend,
-                                      final String isStarFriend) {
-        String url = Constant.BASE_URL + "users/" + userId + "/starFriend";
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("friendId", friend.getUserId());
-        paramMap.put("isStarFriend", isStarFriend);
-
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                if (Constant.RELA_IS_STAR_FRIEND.equals(isStarFriend)) {
-                    mStarFriendsIv.setVisibility(View.VISIBLE);
-                    friend.setIsStarFriend(Constant.RELA_IS_STAR_FRIEND);
-                    Toast.makeText(UserInfoActivity.this, "已设为星标朋友", Toast.LENGTH_SHORT).show();
-                } else {
-                    mStarFriendsIv.setVisibility(View.GONE);
-                    friend.setIsStarFriend(Constant.RELA_IS_NOT_STAR_FRIEND);
-                    Toast.makeText(UserInfoActivity.this, "已取消星标朋友", Toast.LENGTH_SHORT).show();
-                }
-                mUserDao.saveUser(friend);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-            }
-        });
-
-    }
-
-
-    private static Bitmap getBitmapFromAvatarUrl(final String avatarUrl) {
-        try {
-            URL url = new URL(avatarUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap bitmap = BitmapFactory.decodeStream(input);
-            return bitmap;
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     @Override
