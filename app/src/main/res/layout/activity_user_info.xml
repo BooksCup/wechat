@@ -39,8 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/setting_btn_margin_right"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/setting_btn_margin_right">
 
             <ImageView
                 android:id="@+id/iv_setting"
@@ -265,7 +265,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_friends_circle"
+            android:id="@+id/rl_moments"
             android:layout_width="match_parent"
             android:layout_height="88dp"
             android:layout_marginTop="10dp"
@@ -274,7 +274,7 @@
             android:paddingRight="8dp">
 
             <TextView
-                android:id="@+id/tv_moment"
+                android:id="@+id/tv_moments"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -285,7 +285,7 @@
                 android:textSize="@dimen/common_item_text_size" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_circle_photo_1"
+                android:id="@+id/sdv_moments_photo_1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
@@ -295,32 +295,32 @@
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_circle_photo_2"
+                android:id="@+id/sdv_moments_photo_2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/sdv_circle_photo_1"
+                android:layout_toRightOf="@+id/sdv_moments_photo_1"
                 android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_circle_photo_3"
+                android:id="@+id/sdv_moments_photo_3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/sdv_circle_photo_2"
+                android:layout_toRightOf="@+id/sdv_moments_photo_2"
                 android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_circle_photo_4"
+                android:id="@+id/sdv_moments_photo_4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/sdv_circle_photo_3"
+                android:layout_toRightOf="@+id/sdv_moments_photo_3"
                 android:visibility="gone"
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 

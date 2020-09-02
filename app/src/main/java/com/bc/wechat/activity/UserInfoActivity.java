@@ -54,6 +54,8 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 
 /**
@@ -65,38 +67,76 @@ public class UserInfoActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_ADD_FRIEND_TO_DESKTOP = 1;
 
-    private LinearLayout mRootLl;
-    private TextView mTitleTv;
-    private LinearLayout mNickNameLl;
-    private TextView mNickNameTv;
-    private TextView mNameTv;
-    private SimpleDraweeView mAvatarSdv;
-    private ImageView mSexIv;
-    private TextView mWxIdTv;
-    private ImageView mSettingIv;
-    private TextView mDescTv;
-    private TextView mPhoneTempTv;
-    private TextView mPhoneTv;
+    @BindView(R.id.ll_root)
+    LinearLayout mRootLl;
 
-    private RelativeLayout mSetRemarkAndTagRl;
-    private RelativeLayout mDescRl;
-    private RelativeLayout mPhoneRl;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.ll_nick_name)
+    LinearLayout mNickNameLl;
+
+    @BindView(R.id.tv_nick_name)
+    TextView mNickNameTv;
+
+    @BindView(R.id.tv_name)
+    TextView mNameTv;
+
+    @BindView(R.id.sdv_avatar)
+    SimpleDraweeView mAvatarSdv;
+
+    @BindView(R.id.iv_sex)
+    ImageView mSexIv;
+
+    @BindView(R.id.tv_wx_id)
+    TextView mWxIdTv;
+
+    @BindView(R.id.iv_setting)
+    ImageView mSettingIv;
+
+    @BindView(R.id.tv_desc)
+    TextView mDescTv;
+
+    @BindView(R.id.tv_phone_temp)
+    TextView mPhoneTempTv;
+
+    @BindView(R.id.tv_phone)
+    TextView mPhoneTv;
+
+    @BindView(R.id.rl_set_remark_and_tag)
+    RelativeLayout mSetRemarkAndTagRl;
+
+    @BindView(R.id.rl_desc)
+    RelativeLayout mDescRl;
+
+    @BindView(R.id.rl_phone)
+    RelativeLayout mPhoneRl;
 
     // 星标好友
-    private ImageView mStarFriendsIv;
+    @BindView(R.id.iv_star_friends)
+    ImageView mStarFriendsIv;
 
     // 操作按钮  根据是否好友关系分为如下两种
     // 是好友: 发送消息
     // 非好友: 添加到通讯录
-    private RelativeLayout mOperateRl;
+    @BindView(R.id.rl_operate)
+    RelativeLayout mOperateRl;
 
     // 朋友圈图片
-    private SimpleDraweeView mCirclePhoto1Sdv;
-    private SimpleDraweeView mCirclePhoto2Sdv;
-    private SimpleDraweeView mCirclePhoto3Sdv;
-    private SimpleDraweeView mCirclePhoto4Sdv;
+    @BindView(R.id.sdv_moments_photo_1)
+    SimpleDraweeView mMomentsPhoto1Sdv;
 
-    private RelativeLayout mFriendsCircleRl;
+    @BindView(R.id.sdv_moments_photo_2)
+    SimpleDraweeView mMomentsPhoto2Sdv;
+
+    @BindView(R.id.sdv_moments_photo_3)
+    SimpleDraweeView mMomentsPhoto3Sdv;
+
+    @BindView(R.id.sdv_moments_photo_4)
+    SimpleDraweeView mMomentsPhoto4Sdv;
+
+    @BindView(R.id.rl_moments)
+    RelativeLayout mMomentsRl;
 
     private User mUser;
     private VolleyUtil mVolleyUtil;
@@ -114,6 +154,8 @@ public class UserInfoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         mUser = PreferencesUtil.getInstance().getUser();
@@ -126,43 +168,15 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mRootLl = findViewById(R.id.ll_root);
-
-        mSetRemarkAndTagRl = findViewById(R.id.rl_set_remark_and_tag);
-        mDescRl = findViewById(R.id.rl_desc);
-        mPhoneRl = findViewById(R.id.rl_phone);
-
-        mNickNameLl = findViewById(R.id.ll_nick_name);
-        mNameTv = findViewById(R.id.tv_name);
-        mNickNameTv = findViewById(R.id.tv_nick_name);
-        mAvatarSdv = findViewById(R.id.sdv_avatar);
-        mSexIv = findViewById(R.id.iv_sex);
-        mWxIdTv = findViewById(R.id.tv_wx_id);
-        mSettingIv = findViewById(R.id.iv_setting);
-        mDescTv = findViewById(R.id.tv_desc);
-        mPhoneTempTv = findViewById(R.id.tv_phone_temp);
-        mPhoneTv = findViewById(R.id.tv_phone);
-
-        mStarFriendsIv = findViewById(R.id.iv_star_friends);
-
-        mOperateRl = findViewById(R.id.rl_operate);
-
-        mFriendsCircleRl = findViewById(R.id.rl_friends_circle);
-        mCirclePhoto1Sdv = findViewById(R.id.sdv_circle_photo_1);
-        mCirclePhoto2Sdv = findViewById(R.id.sdv_circle_photo_2);
-        mCirclePhoto3Sdv = findViewById(R.id.sdv_circle_photo_3);
-        mCirclePhoto4Sdv = findViewById(R.id.sdv_circle_photo_4);
-
         userId = getIntent().getStringExtra("userId");
 
-        final User friend = mUserDao.getUserById(userId);
-        loadData(friend);
+        final User contact = mUserDao.getUserById(userId);
+        loadData(contact);
 
-        getFriendFromServer(mUser.getUserId(), userId);
+        getContactFromServer(mUser.getUserId(), userId);
 
         mSettingIv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +213,7 @@ public class UserInfoActivity extends BaseActivity {
                 TextView mSetStarFriendTv = view.findViewById(R.id.tv_set_star_friend);
 
                 // 是否星标好友
-                if (Constant.RELA_IS_STAR_FRIEND.equals(friend.getIsStarFriend())) {
+                if (Constant.RELA_IS_STAR_FRIEND.equals(contact.getIsStarFriend())) {
                     mSetStarFriendTv.setText("取消星标朋友");
                 } else {
                     mSetStarFriendTv.setText("设为星标朋友");
@@ -213,7 +227,7 @@ public class UserInfoActivity extends BaseActivity {
 
                         mPopupWindow.dismiss();
                         Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                        intent.putExtra("userId", friend.getUserId());
+                        intent.putExtra("userId", contact.getUserId());
                         intent.putExtra("isFriend", Constant.IS_FRIEND);
                         startActivity(intent);
                     }
@@ -225,10 +239,10 @@ public class UserInfoActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
-                        if (Constant.RELA_IS_STAR_FRIEND.equals(friend.getIsStarFriend())) {
-                            updateUserStarFriend(mUser.getUserId(), friend, Constant.RELA_IS_NOT_STAR_FRIEND);
+                        if (Constant.RELA_IS_STAR_FRIEND.equals(contact.getIsStarFriend())) {
+                            updateUserStarFriend(mUser.getUserId(), contact, Constant.RELA_IS_NOT_STAR_FRIEND);
                         } else {
-                            updateUserStarFriend(mUser.getUserId(), friend, Constant.RELA_IS_STAR_FRIEND);
+                            updateUserStarFriend(mUser.getUserId(), contact, Constant.RELA_IS_STAR_FRIEND);
                         }
 
                     }
@@ -262,14 +276,14 @@ public class UserInfoActivity extends BaseActivity {
                         final Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
                         intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
                         intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                        intent.putExtra("contactId", friend.getUserId());
-                        intent.putExtra("contactNickName", friend.getUserNickName());
-                        intent.putExtra("contactAvatar", friend.getUserAvatar());
+                        intent.putExtra("contactId", contact.getUserId());
+                        intent.putExtra("contactNickName", contact.getUserNickName());
+                        intent.putExtra("contactAvatar", contact.getUserAvatar());
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                Bitmap bitmap = getBitmapFromAvatarUrl(friend.getUserAvatar());
-                                addShortcut(UserInfoActivity.this, friend.getUserNickName(), bitmap, intent);
+                                Bitmap bitmap = getBitmapFromAvatarUrl(contact.getUserAvatar());
+                                addShortcut(UserInfoActivity.this, contact.getUserNickName(), bitmap, intent);
                             }
                         }).start();
                     }
@@ -282,7 +296,7 @@ public class UserInfoActivity extends BaseActivity {
                     public void onClick(View view) {
                         mPopupWindow.dismiss();
                         final ConfirmDialog confirmDialog = new ConfirmDialog(UserInfoActivity.this, "删除联系人",
-                                "将联系人\"" + friend.getUserNickName() + "\"删除，将同时删除与该联系人的聊天记录",
+                                "将联系人\"" + contact.getUserNickName() + "\"删除，将同时删除与该联系人的聊天记录",
                                 getString(R.string.delete), getString(R.string.cancel));
                         confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
                             @Override
@@ -290,7 +304,7 @@ public class UserInfoActivity extends BaseActivity {
                                 confirmDialog.dismiss();
                                 mDialog.setMessage(getString(R.string.please_wait));
                                 mDialog.show();
-                                deleteFriend(mUser.getUserId(), friend.getUserId());
+                                deleteFriend(mUser.getUserId(), contact.getUserId());
                             }
 
                             @Override
@@ -319,8 +333,8 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", friend.getUserId());
-                intent.putExtra("isFriend", friend.getIsFriend());
+                intent.putExtra("userId", contact.getUserId());
+                intent.putExtra("isFriend", contact.getIsFriend());
                 startActivity(intent);
             }
         });
@@ -329,8 +343,8 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", friend.getUserId());
-                intent.putExtra("isFriend", friend.getIsFriend());
+                intent.putExtra("userId", contact.getUserId());
+                intent.putExtra("isFriend", contact.getIsFriend());
                 startActivity(intent);
             }
         });
@@ -339,8 +353,8 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", friend.getUserId());
-                intent.putExtra("isFriend", friend.getIsFriend());
+                intent.putExtra("userId", contact.getUserId());
+                intent.putExtra("isFriend", contact.getIsFriend());
                 startActivity(intent);
             }
         });
@@ -351,8 +365,8 @@ public class UserInfoActivity extends BaseActivity {
                 Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
                 intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
                 intent.putExtra("contactId", userId);
-                intent.putExtra("contactNickName", friend.getUserNickName());
-                intent.putExtra("contactAvatar", friend.getUserAvatar());
+                intent.putExtra("contactNickName", contact.getUserNickName());
+                intent.putExtra("contactAvatar", contact.getUserAvatar());
                 startActivity(intent);
             }
         });
@@ -361,12 +375,12 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
-                intent.putExtra("imgUrl", friend.getUserAvatar());
+                intent.putExtra("imgUrl", contact.getUserAvatar());
                 startActivity(intent);
             }
         });
 
-        mFriendsCircleRl.setOnClickListener(new View.OnClickListener() {
+        mMomentsRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class);
@@ -440,29 +454,29 @@ public class UserInfoActivity extends BaseActivity {
             // 渲染朋友圈图片
             List<String> circlePhotoList = CommonUtil.getListFromJson(user.getUserLastestCirclePhotos(), String.class);
             if (circlePhotoList.size() == 1) {
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
             } else if (circlePhotoList.size() == 2) {
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mMomentsPhoto2Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
             } else if (circlePhotoList.size() == 3) {
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mMomentsPhoto2Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                mMomentsPhoto3Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
             } else if (circlePhotoList.size() >= 4) {
-                mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
-                mCirclePhoto4Sdv.setVisibility(View.VISIBLE);
-                mCirclePhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
+                mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                mMomentsPhoto2Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                mMomentsPhoto3Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                mMomentsPhoto4Sdv.setVisibility(View.VISIBLE);
+                mMomentsPhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
             }
         }
 
@@ -526,8 +540,8 @@ public class UserInfoActivity extends BaseActivity {
      *
      * @param userId 用户ID
      */
-    public void getFriendFromServer(final String userId, final String friendId) {
-        String url = Constant.BASE_URL + "users/" + userId + "/friends/" + friendId;
+    public void getContactFromServer(final String userId, final String contactId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/friends/" + contactId;
 
         mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
             @Override
@@ -640,7 +654,7 @@ public class UserInfoActivity extends BaseActivity {
         super.onResume();
         User user = mUserDao.getUserById(userId);
         loadData(user);
-        getFriendFromServer(mUser.getUserId(), userId);
+        getContactFromServer(mUser.getUserId(), userId);
     }
 
 }
