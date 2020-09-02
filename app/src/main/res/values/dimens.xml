@@ -16,6 +16,8 @@
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="map_holder_height">480dp</dimen>
 
+    <dimen name="edit_contact_edittext_height">52dp</dimen>
+
     <!-- contacts fragment -->
     <dimen name="contacts_text_size">15.5sp</dimen>
 
