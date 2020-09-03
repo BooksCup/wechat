@@ -69,7 +69,7 @@
             android:textSize="15sp" />
 
         <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/id_flowlayout_two"
+            android:id="@+id/tfl_all_tag"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" />
