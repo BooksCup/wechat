@@ -306,5 +306,4 @@ public class UserInfoActivity extends BaseActivity {
         loadData(user);
         getContactFromServer(mUser.getUserId(), userId);
     }
-
 }

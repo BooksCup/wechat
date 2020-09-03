@@ -1,5 +1,6 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -19,6 +20,9 @@ import com.bc.wechat.utils.VolleyUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 编辑联系人(设置备注和标签)
@@ -48,6 +52,8 @@ public class EditContactActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -130,5 +136,14 @@ public class EditContactActivity extends BaseActivity {
             public void onErrorResponse(VolleyError volleyError) {
             }
         });
+    }
+
+    @OnClick({R.id.et_add_tag})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.et_add_tag:
+                startActivity(new Intent(EditContactActivity.this, AddTagActivity.class));
+                break;
+        }
     }
 }

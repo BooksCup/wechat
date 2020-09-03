@@ -116,11 +116,13 @@
             android:paddingRight="8dp">
 
             <EditText
+                android:id="@+id/et_add_tag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="#ffffff"
+                android:focusable="false"
                 android:hint="@string/sort_friend_by_tag"
                 android:paddingLeft="5dp"
                 android:textColor="#353535"
