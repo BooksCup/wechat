@@ -2,11 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
     android:layout_marginLeft="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
     android:background="@drawable/all_label_selected"
     android:text=""
-    android:textColor="@drawable/label_text_selected">
-
-</TextView>
+    android:textColor="@drawable/label_text_selected"
+    android:textSize="14sp" />

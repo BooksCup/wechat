@@ -57,16 +57,26 @@
             android:id="@+id/fl_add_tag"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#dadada" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="所有标签"
-            android:textColor="#342784"
-            android:textSize="15sp" />
+            android:textColor="@color/tips_grey"
+            android:textSize="14sp" />
 
         <com.zhy.view.flowlayout.TagFlowLayout
             android:id="@+id/tfl_all_tag"

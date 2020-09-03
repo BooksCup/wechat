@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.utils.DensityUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -30,6 +31,8 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class AddTagActivity extends BaseActivity {
+    private static final int TAG_TEXT_SIZE = 14;
+
     /**
      * 上面的FlowLayout
      */
@@ -62,7 +65,7 @@ public class AddTagActivity extends BaseActivity {
      */
     final List<Boolean> mTagStateList = new ArrayList<>();
     final Set<Integer> set = new HashSet<>();//存放选中的
-    private TagAdapter<String> tagAdapter;//标签适配器
+    private TagAdapter<String> mTagAdapter;//标签适配器
     private LinearLayout.LayoutParams params;
     private EditText editText;
 
@@ -86,7 +89,9 @@ public class AddTagActivity extends BaseActivity {
      */
     private void initView() {
         params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(20, 20, 20, 20);
+        int marginLeft = DensityUtil.dip2px(AddTagActivity.this, 10);
+        int marginTop = DensityUtil.dip2px(AddTagActivity.this, 10);
+        params.setMargins(marginLeft, marginTop, 0, 0);
         mAddTagFl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +139,7 @@ public class AddTagActivity extends BaseActivity {
         editText.setHint("添加标签");
         //设置固定宽度
         editText.setMinEms(4);
-        editText.setTextSize(12);
+        editText.setTextSize(TAG_TEXT_SIZE);
         //设置shape
         editText.setBackgroundResource(R.drawable.label_add);
         editText.setHintTextColor(Color.parseColor("#b4b4b4"));
@@ -166,7 +171,7 @@ public class AddTagActivity extends BaseActivity {
      */
     private void initAllLeblLayout() {
         //初始化适配器
-        tagAdapter = new TagAdapter<String>(mAllTagList) {
+        mTagAdapter = new TagAdapter<String>(mAllTagList) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) getLayoutInflater().inflate(R.layout.flag_adapter,
@@ -176,19 +181,18 @@ public class AddTagActivity extends BaseActivity {
             }
         };
 
-        mAllTagTfl.setAdapter(tagAdapter);
+        mAllTagTfl.setAdapter(mTagAdapter);
 
         //根据上面标签来判断下面的标签是否含有上面的标签
         for (int i = 0; i < mTagList.size(); i++) {
             for (int j = 0; j < mAllTagList.size(); j++) {
                 if (mTagList.get(i).equals(
                         mAllTagList.get(j))) {
-                    tagAdapter.setSelectedList(i);//设为选中
+                    mTagAdapter.setSelectedList(i);//设为选中
                 }
             }
         }
-        tagAdapter.notifyDataChanged();
-
+        mTagAdapter.notifyDataChanged();
 
         //给下面的标签添加监听
         mAllTagTfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
@@ -277,11 +281,11 @@ public class AddTagActivity extends BaseActivity {
                         for (int j = 0; j < mTagTextList.size(); j++) {
                             if (mTagList.get(i).equals(
                                     mTagTextList.get(j).getText())) {
-                                tagAdapter.setSelectedList(i);
+                                mTagAdapter.setSelectedList(i);
                             }
                         }
                     }
-                    tagAdapter.notifyDataChanged();
+                    mTagAdapter.notifyDataChanged();
                 }
             }
         });
@@ -309,7 +313,7 @@ public class AddTagActivity extends BaseActivity {
                 set.remove(i);
             }
         }
-        tagAdapter.setSelectedList(set);//重置选中的标签
+        mTagAdapter.setSelectedList(set);//重置选中的标签
 
     }
 
@@ -339,7 +343,7 @@ public class AddTagActivity extends BaseActivity {
      */
     private TextView getTag(String label) {
         TextView textView = new TextView(getApplicationContext());
-        textView.setTextSize(12);
+        textView.setTextSize(TAG_TEXT_SIZE);
         textView.setBackgroundResource(R.drawable.label_normal);
         textView.setTextColor(getColor(R.color.register_btn_bg_enable));
         textView.setText(label);
