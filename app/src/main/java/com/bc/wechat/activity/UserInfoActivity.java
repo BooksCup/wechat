@@ -292,7 +292,7 @@ public class UserInfoActivity extends BaseActivity {
         mVolleyUtil.httpGetRequest(url, response -> {
             User user = JSON.parseObject(response, User.class);
 
-            mUserDao.saveUser(user);
+//            mUserDao.saveUser(user);
             loadData(user);
         }, volleyError -> {
 

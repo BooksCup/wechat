@@ -36,20 +36,30 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class EditContactActivity extends BaseActivity {
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private EditText mRemarkEt;
-    private EditText mPhoneEt;
-    private EditText mDescEt;
+    @BindView(R.id.et_remark)
+    EditText mRemarkEt;
+
+    @BindView(R.id.et_phone)
+    EditText mPhoneEt;
+
+    @BindView(R.id.et_desc)
+    EditText mDescEt;
 
     private VolleyUtil mVolleyUtil;
 
     // 添加电话
-    private RelativeLayout mAddPhoneTmpRl;
-    private RelativeLayout mAddPhoneRl;
+    @BindView(R.id.rl_add_phone_tmp)
+    RelativeLayout mAddPhoneTmpRl;
+
+    @BindView(R.id.rl_add_phone)
+    RelativeLayout mAddPhoneRl;
 
     // 保存
-    private TextView mSaveTv;
+    @BindView(R.id.tv_save)
+    TextView mSaveTv;
     private User mUser;
 
     private UserDao mUserDao;
@@ -63,6 +73,7 @@ public class EditContactActivity extends BaseActivity {
     private LinearLayout.LayoutParams mParams;
 
     private String mContactId;
+    private User mContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +86,7 @@ public class EditContactActivity extends BaseActivity {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
+        mContactId = getIntent().getStringExtra("userId");
         initView();
     }
 
@@ -85,49 +97,29 @@ public class EditContactActivity extends BaseActivity {
         mParams.setMargins(marginLeft, marginTop, 0, 0);
         loadTags();
 
-
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mContactId = getIntent().getStringExtra("userId");
         final String isFriend = getIntent().getStringExtra("isFriend");
-        User user = mUserDao.getUserById(mContactId);
+        mContact = mUserDao.getUserById(mContactId);
 
-        mRemarkEt = findViewById(R.id.et_remark);
-        mPhoneEt = findViewById(R.id.et_phone);
-        mDescEt = findViewById(R.id.et_desc);
 
-        mAddPhoneTmpRl = findViewById(R.id.rl_add_phone_tmp);
-        mAddPhoneRl = findViewById(R.id.rl_add_phone);
-        mSaveTv = findViewById(R.id.tv_save);
-
-        if (TextUtils.isEmpty(user.getUserFriendRemark())) {
+        if (TextUtils.isEmpty(mContact.getUserFriendRemark())) {
             // 无备注，展示昵称
-            mRemarkEt.setText(user.getUserNickName());
+            mRemarkEt.setText(mContact.getUserNickName());
         } else {
             // 有备注，展示备注
-            mRemarkEt.setText(user.getUserFriendRemark());
+            mRemarkEt.setText(mContact.getUserFriendRemark());
         }
 
-        mPhoneEt.setText(user.getUserFriendPhone());
-        mDescEt.setText(user.getUserFriendDesc());
+        mPhoneEt.setText(mContact.getUserFriendPhone());
+        mDescEt.setText(mContact.getUserFriendDesc());
 
         if (Constant.IS_NOT_FRIEND.equals(isFriend)) {
             // 非好友不能添加电话
             mAddPhoneTmpRl.setVisibility(View.GONE);
             mAddPhoneRl.setVisibility(View.GONE);
         }
-
-        mSaveTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String remark = mRemarkEt.getText().toString();
-                String phone = mPhoneEt.getText().toString();
-                String desc = mDescEt.getText().toString();
-                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
-            }
-        });
     }
 
     public void back(View view) {
@@ -161,13 +153,19 @@ public class EditContactActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_add_tag})
+    @OnClick({R.id.rl_add_tag, R.id.tv_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_tag:
                 Intent intent = new Intent(EditContactActivity.this, AddTagActivity.class);
                 intent.putExtra("contactId", mContactId);
                 startActivity(intent);
+                break;
+            case R.id.tv_save:
+                String remark = mRemarkEt.getText().toString();
+                String phone = mPhoneEt.getText().toString();
+                String desc = mDescEt.getText().toString();
+                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
                 break;
         }
     }
@@ -195,8 +193,9 @@ public class EditContactActivity extends BaseActivity {
     }
 
     private void loadTags() {
-        List<String> selectedTagList = PreferencesUtil.getInstance().
-                getList(Constant.SP_KEY_TAG_SELECTED, String.class);
+        mContact = mUserDao.getUserById(mContactId);
+        List<String> selectedTagList = mContact.getUserContactTagList();
+
         if (null != selectedTagList && selectedTagList.size() > 0) {
             mAddTagTv.setVisibility(View.GONE);
             mAddTagFl.setVisibility(View.VISIBLE);

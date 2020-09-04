@@ -1,7 +1,9 @@
 package com.bc.wechat.entity;
 
+import com.alibaba.fastjson.JSON;
 import com.orm.SugarRecord;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User extends SugarRecord {
@@ -48,6 +50,16 @@ public class User extends SugarRecord {
     private String userFriendDesc;
 
     private String isStarFriend;
+    /**
+     * 用户标签(json格式)
+     */
+    private String userContactTags;
+
+    /**
+     * 用户标签
+     */
+    private List<String> userContactTagList;
+
 
     public String getUserId() {
         return userId;
@@ -263,5 +275,27 @@ public class User extends SugarRecord {
 
     public void setIsStarFriend(String isStarFriend) {
         this.isStarFriend = isStarFriend;
+    }
+
+    public String getUserContactTags() {
+        return userContactTags;
+    }
+
+    public void setUserContactTags(String userContactTags) {
+        this.userContactTags = userContactTags;
+    }
+
+    public List<String> getUserContactTagList() {
+        List<String> userContactTagList;
+        try {
+            userContactTagList = JSON.parseArray(this.userContactTags, String.class);
+        } catch (Exception e) {
+            userContactTagList = new ArrayList<>();
+        }
+        return userContactTagList;
+    }
+
+    public void setUserContactTagList(List<String> userContactTagList) {
+        this.userContactTagList = userContactTagList;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.DensityUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -83,11 +84,14 @@ public class AddTagActivity extends BaseActivity {
     private EditText mDefaultEt;
     private VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
+    private UserDao mUserDao;
+
     private User mUser;
     /**
      * 联系人用户ID
      */
     private String mContactId;
+    private User mContact;
 
 
     @Override
@@ -99,8 +103,11 @@ public class AddTagActivity extends BaseActivity {
 
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(AddTagActivity.this);
+        mUserDao = new UserDao();
+
         mUser = PreferencesUtil.getInstance().getUser();
         mContactId = getIntent().getStringExtra("contactId");
+        mContact = mUserDao.getUserById(mContactId);
 
         initView();
         initData();
@@ -389,12 +396,12 @@ public class AddTagActivity extends BaseActivity {
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
-                saveUserContactTags(mUser.getUserId(), mContactId, JSON.toJSONString(selectedTagList), JSON.toJSONString(mAllTagList), selectedTagList);
+                saveUserContactTags(mUser.getUserId(), mContactId, JSON.toJSONString(selectedTagList), JSON.toJSONString(mAllTagList));
                 break;
         }
     }
 
-    private void saveUserContactTags(String userId, final String contactId, final String contactTags, final String tags, List<String> selectedTagList) {
+    private void saveUserContactTags(String userId, final String contactId, final String contactTags, final String tags) {
         String url = Constant.BASE_URL + "users/" + userId + "/userContactTags";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("contactId", contactId);
@@ -403,7 +410,8 @@ public class AddTagActivity extends BaseActivity {
 
         mVolleyUtil.httpPostRequest(url, paramMap, response -> {
             mDialog.dismiss();
-            PreferencesUtil.getInstance().setList(Constant.SP_KEY_TAG_SELECTED, selectedTagList);
+            mContact.setUserContactTags(contactTags);
+            mUserDao.saveUser(mContact);
             finish();
         }, volleyError -> {
             mDialog.dismiss();
