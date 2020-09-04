@@ -16,20 +16,19 @@
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="fill_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="15dp"
+            android:layout_marginBottom="25dp"
             android:gravity="center"
             android:text="你输入的是一个无效的手机号码"
-            android:textColor="@color/grid_state_focused"
-            android:textSize="15sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginTop="15dip"
             android:background="#c5c5c5" />
 
         <LinearLayout

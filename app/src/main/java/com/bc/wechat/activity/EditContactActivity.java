@@ -57,13 +57,12 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.tv_add_tag)
     TextView mAddTagTv;
 
-    /**
-     * 上面的FlowLayout
-     */
     @BindView(R.id.fl_add_tag)
     FlowLayout mAddTagFl;
 
     private LinearLayout.LayoutParams mParams;
+
+    private String mContactId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +90,9 @@ public class EditContactActivity extends BaseActivity {
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        final String userId = getIntent().getStringExtra("userId");
+        mContactId = getIntent().getStringExtra("userId");
         final String isFriend = getIntent().getStringExtra("isFriend");
-        User user = mUserDao.getUserById(userId);
+        User user = mUserDao.getUserById(mContactId);
 
         mRemarkEt = findViewById(R.id.et_remark);
         mPhoneEt = findViewById(R.id.et_phone);
@@ -126,7 +125,7 @@ public class EditContactActivity extends BaseActivity {
                 String remark = mRemarkEt.getText().toString();
                 String phone = mPhoneEt.getText().toString();
                 String desc = mDescEt.getText().toString();
-                setRemarks(mUser.getUserId(), userId, remark, phone, desc);
+                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
             }
         });
     }
@@ -166,7 +165,9 @@ public class EditContactActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_tag:
-                startActivity(new Intent(EditContactActivity.this, AddTagActivity.class));
+                Intent intent = new Intent(EditContactActivity.this, AddTagActivity.class);
+                intent.putExtra("contactId", mContactId);
+                startActivity(intent);
                 break;
         }
     }

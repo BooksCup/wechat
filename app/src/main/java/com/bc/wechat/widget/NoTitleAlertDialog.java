@@ -101,7 +101,7 @@ public class NoTitleAlertDialog extends Dialog {
         // 获取屏幕尺寸
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         // 宽度为屏幕80%
-        layoutParams.width = (int) (displayMetrics.widthPixels * 0.8);
+        layoutParams.width = (int) (displayMetrics.widthPixels * 0.7);
         // 中央居中
         layoutParams.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(layoutParams);

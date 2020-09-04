@@ -11,17 +11,23 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.DensityUtil;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import butterknife.BindView;
@@ -73,8 +79,15 @@ public class AddTagActivity extends BaseActivity {
      * 标签适配器
      */
     private TagAdapter<String> mTagAdapter;
-    private LinearLayout.LayoutParams params;
+    private LinearLayout.LayoutParams mParams;
     private EditText mDefaultEt;
+    private VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
+    private User mUser;
+    /**
+     * 联系人用户ID
+     */
+    private String mContactId;
 
 
     @Override
@@ -83,6 +96,11 @@ public class AddTagActivity extends BaseActivity {
         setContentView(R.layout.activity_add_tag);
         ButterKnife.bind(this);
         initStatusBar();
+
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(AddTagActivity.this);
+        mUser = PreferencesUtil.getInstance().getUser();
+        mContactId = getIntent().getStringExtra("contactId");
 
         initView();
         initData();
@@ -98,10 +116,10 @@ public class AddTagActivity extends BaseActivity {
      * 初始化View
      */
     private void initView() {
-        params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int marginLeft = DensityUtil.dip2px(AddTagActivity.this, 10);
         int marginTop = DensityUtil.dip2px(AddTagActivity.this, 10);
-        params.setMargins(marginLeft, marginTop, 0, 0);
+        mParams.setMargins(marginLeft, marginTop, 0, 0);
         mAddTagFl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +172,7 @@ public class AddTagActivity extends BaseActivity {
         mDefaultEt.setBackgroundResource(R.drawable.label_add);
         mDefaultEt.setHintTextColor(Color.parseColor("#b4b4b4"));
         mDefaultEt.setTextColor(Color.parseColor("#000000"));
-        mDefaultEt.setLayoutParams(params);
+        mDefaultEt.setLayoutParams(mParams);
         //添加到layout中
         mAddTagFl.addView(mDefaultEt);
         mDefaultEt.addTextChangedListener(new TextWatcher() {
@@ -354,7 +372,7 @@ public class AddTagActivity extends BaseActivity {
         textView.setBackgroundResource(R.drawable.label_normal);
         textView.setTextColor(getColor(R.color.register_btn_bg_enable));
         textView.setText(label);
-        textView.setLayoutParams(params);
+        textView.setLayoutParams(mParams);
         return textView;
     }
 
@@ -366,9 +384,30 @@ public class AddTagActivity extends BaseActivity {
                 for (int i = 0; i < mTagTextList.size(); i++) {
                     selectedTagList.add(mTagTextList.get(i).getText().toString().replace(" ×", ""));
                 }
-                PreferencesUtil.getInstance().setList(Constant.SP_KEY_TAG_SELECTED, selectedTagList);
-                finish();
+
+                mDialog.setMessage("标签保存中...");
+                mDialog.setCanceledOnTouchOutside(false);
+                mDialog.show();
+
+                saveUserContactTags(mUser.getUserId(), mContactId, JSON.toJSONString(selectedTagList), JSON.toJSONString(mAllTagList), selectedTagList);
                 break;
         }
+    }
+
+    private void saveUserContactTags(String userId, final String contactId, final String contactTags, final String tags, List<String> selectedTagList) {
+        String url = Constant.BASE_URL + "users/" + userId + "/userContactTags";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("contactId", contactId);
+        paramMap.put("contactTags", contactTags);
+        paramMap.put("tags", tags);
+
+        mVolleyUtil.httpPostRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            PreferencesUtil.getInstance().setList(Constant.SP_KEY_TAG_SELECTED, selectedTagList);
+            finish();
+        }, volleyError -> {
+            mDialog.dismiss();
+            showNoTitleAlertDialog(AddTagActivity.this, "添加标签失败", "确定");
+        });
     }
 }
