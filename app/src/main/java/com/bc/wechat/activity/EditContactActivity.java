@@ -2,11 +2,15 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,9 +46,6 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.et_remark)
     EditText mRemarkEt;
 
-    @BindView(R.id.et_phone)
-    EditText mPhoneEt;
-
     @BindView(R.id.et_desc)
     EditText mDescEt;
 
@@ -56,6 +57,12 @@ public class EditContactActivity extends BaseActivity {
 
     @BindView(R.id.rl_add_phone)
     RelativeLayout mAddPhoneRl;
+
+    @BindView(R.id.et_phone)
+    EditText mPhoneEt;
+
+    @BindView(R.id.iv_clear_phone)
+    ImageView mClearPhoneIv;
 
     // 保存
     @BindView(R.id.tv_save)
@@ -69,6 +76,9 @@ public class EditContactActivity extends BaseActivity {
 
     @BindView(R.id.fl_add_tag)
     FlowLayout mAddTagFl;
+
+    @BindView(R.id.ll_add_phone)
+    LinearLayout mAddPhoneLl;
 
     private LinearLayout.LayoutParams mParams;
 
@@ -120,6 +130,30 @@ public class EditContactActivity extends BaseActivity {
             mAddPhoneTmpRl.setVisibility(View.GONE);
             mAddPhoneRl.setVisibility(View.GONE);
         }
+
+        mPhoneEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String phone = s.toString();
+                if (!TextUtils.isEmpty(phone)) {
+                    if (mAddPhoneLl.getChildCount() <= 1) {
+                        addPhoneView();
+                    }
+                    mClearPhoneIv.setVisibility(View.VISIBLE);
+                } else {
+                    mClearPhoneIv.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     public void back(View view) {
@@ -153,7 +187,7 @@ public class EditContactActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_add_tag, R.id.tv_save})
+    @OnClick({R.id.rl_add_tag, R.id.iv_clear_phone, R.id.tv_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_tag:
@@ -161,11 +195,15 @@ public class EditContactActivity extends BaseActivity {
                 intent.putExtra("contactId", mContactId);
                 startActivity(intent);
                 break;
+            case R.id.iv_clear_phone:
+                mPhoneEt.setText("");
+                break;
             case R.id.tv_save:
-                String remark = mRemarkEt.getText().toString();
-                String phone = mPhoneEt.getText().toString();
-                String desc = mDescEt.getText().toString();
-                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
+//                String remark = mRemarkEt.getText().toString();
+//                String phone = mPhoneEt.getText().toString();
+//                String desc = mDescEt.getText().toString();
+//                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
+                addPhoneView();
                 break;
         }
     }
@@ -209,5 +247,48 @@ public class EditContactActivity extends BaseActivity {
             mAddTagTv.setVisibility(View.VISIBLE);
             mAddTagFl.setVisibility(View.GONE);
         }
+    }
+
+    private void addPhoneView() {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                DensityUtil.dip2px(this, 58));
+        View view = LayoutInflater.from(this).inflate(R.layout.item_contact_phone, null);
+        view.setLayoutParams(lp);
+        EditText phoneEt = view.findViewById(R.id.et_phone);
+        ImageView clearPhoneIv = view.findViewById(R.id.iv_clear_phone);
+        phoneEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String phone = s.toString();
+                if (!TextUtils.isEmpty(phone)) {
+                    if (view == mAddPhoneLl.getChildAt(mAddPhoneLl.getChildCount() - 1)) {
+                        addPhoneView();
+                    }
+                    clearPhoneIv.setVisibility(View.VISIBLE);
+                } else {
+                    mAddPhoneLl.removeView(view);
+                    View lastView = mAddPhoneLl.getChildAt(mAddPhoneLl.getChildCount() - 1);
+                    EditText lastPhoneEt = lastView.findViewById(R.id.et_phone);
+                    lastPhoneEt.requestFocus();
+                    clearPhoneIv.setVisibility(View.GONE);
+                }
+            }
+        });
+        clearPhoneIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                phoneEt.setText("");
+            }
+        });
+        mAddPhoneLl.addView(view);
     }
 }

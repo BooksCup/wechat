@@ -162,22 +162,52 @@
         <RelativeLayout
             android:id="@+id/rl_add_phone"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_contact_edittext_height"
+            android:layout_height="wrap_content"
             android:background="#ffffff"
             android:paddingLeft="12dp"
             android:paddingRight="8dp">
 
-            <EditText
-                android:id="@+id/et_phone"
+            <LinearLayout
+                android:id="@+id/ll_add_phone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="#ffffff"
-                android:hint="@string/add_phone_num"
-                android:paddingLeft="5dp"
-                android:textColor="#353535"
-                android:textSize="@dimen/common_item_text_size" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_contact_edittext_height">
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:background="#ffffff"
+                        android:hint="@string/add_phone_num"
+                        android:inputType="phone"
+                        android:paddingLeft="5dp"
+                        android:textColor="#353535"
+                        android:textSize="@dimen/common_item_text_size" />
+
+                    <ImageView
+                        android:id="@+id/iv_clear_phone"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="8dp"
+                        android:src="@mipmap/icon_clear"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="#DBDBDB" />
+                </RelativeLayout>
+
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
