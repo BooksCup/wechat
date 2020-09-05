@@ -14,11 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
@@ -26,6 +23,7 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.DensityUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.bc.wechat.widget.LoadingDialog;
 import com.zhy.view.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -71,10 +69,6 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.tv_save)
     TextView mSaveTv;
 
-    private User mUser;
-
-    private UserDao mUserDao;
-
     @BindView(R.id.tv_add_tag)
     TextView mAddTagTv;
 
@@ -88,6 +82,10 @@ public class EditContactActivity extends BaseActivity {
 
     private String mContactId;
     private User mContact;
+    private User mUser;
+    private UserDao mUserDao;
+    LoadingDialog mDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +99,7 @@ public class EditContactActivity extends BaseActivity {
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
         mContactId = getIntent().getStringExtra("userId");
+        mDialog = new LoadingDialog(EditContactActivity.this);
         initView();
     }
 
@@ -164,30 +163,35 @@ public class EditContactActivity extends BaseActivity {
         finish();
     }
 
-    private void setRemarks(final String userId, final String friendId, final String remark,
-                            final String phone, final String desc) {
-        String url = Constant.BASE_URL + "users/" + userId + "/remarks";
+    /**
+     * 设置联系人
+     *
+     * @param userId    用户ID
+     * @param contactId 联系人ID
+     * @param alias     联系人备注名
+     * @param mobiles   联系人电话(可以多个号码,json格式)
+     * @param desc      联系人描述
+     */
+    private void editContact(final String userId, final String contactId, final String alias,
+                             final String mobiles, final String desc) {
+        String url = Constant.BASE_URL + "users/" + userId + "/contacts/" + contactId;
 
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("friendId", friendId);
-        paramMap.put("friendRemark", remark);
-        paramMap.put("friendPhone", phone);
-        paramMap.put("friendDesc", desc);
+        paramMap.put("contactAlias", alias);
+        paramMap.put("contactMobiles", mobiles);
+        paramMap.put("contactDesc", desc);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                User user = mUserDao.getUserById(friendId);
-                user.setUserFriendRemark(remark);
-                user.setUserFriendDesc(desc);
-                user.setUserFriendPhone(phone);
-                mUserDao.saveUser(user);
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            User user = mUserDao.getUserById(contactId);
+            user.setUserFriendRemark(alias);
+            user.setUserFriendDesc(desc);
+            user.setUserFriendPhone(mobiles);
+            mUserDao.saveUser(user);
+            finish();
+        }, volleyError -> {
+            mDialog.dismiss();
+            showNoTitleAlertDialog(EditContactActivity.this, "设置联系人失败", "确定");
         });
     }
 
@@ -203,12 +207,15 @@ public class EditContactActivity extends BaseActivity {
                 mPhoneEt.setText("");
                 break;
             case R.id.tv_save:
-//                String remark = mRemarkEt.getText().toString();
-//                String phone = mPhoneEt.getText().toString();
-//                String desc = mDescEt.getText().toString();
-//                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
-                List<String> phoneList = getPhoneList();
-                Toast.makeText(EditContactActivity.this, JSON.toJSONString(phoneList), Toast.LENGTH_SHORT).show();
+                String remark = mRemarkEt.getText().toString();
+                List<String> mobileList = getPhoneList();
+                String mobiles = JSON.toJSONString(mobileList);
+                String desc = mDescEt.getText().toString();
+
+                mDialog.setMessage("设置中...");
+                mDialog.setCanceledOnTouchOutside(false);
+                mDialog.show();
+                editContact(mUser.getUserId(), mContactId, remark, mobiles, desc);
                 break;
         }
     }
