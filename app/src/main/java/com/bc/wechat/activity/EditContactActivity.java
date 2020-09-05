@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
@@ -26,6 +28,7 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +70,7 @@ public class EditContactActivity extends BaseActivity {
     // 保存
     @BindView(R.id.tv_save)
     TextView mSaveTv;
+
     private User mUser;
 
     private UserDao mUserDao;
@@ -203,7 +207,8 @@ public class EditContactActivity extends BaseActivity {
 //                String phone = mPhoneEt.getText().toString();
 //                String desc = mDescEt.getText().toString();
 //                setRemarks(mUser.getUserId(), mContactId, remark, phone, desc);
-                addPhoneView();
+                List<String> phoneList = getPhoneList();
+                Toast.makeText(EditContactActivity.this, JSON.toJSONString(phoneList), Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -290,5 +295,21 @@ public class EditContactActivity extends BaseActivity {
             }
         });
         mAddPhoneLl.addView(view);
+    }
+
+    /**
+     * 获取所有的电话号码
+     *
+     * @return 所有的电话号码
+     */
+    private List<String> getPhoneList() {
+        List<String> phoneList = new ArrayList<>();
+        int childCount = mAddPhoneLl.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View view = mAddPhoneLl.getChildAt(i);
+            EditText phoneEt = view.findViewById(R.id.et_phone);
+            phoneList.add(phoneEt.getText().toString());
+        }
+        return phoneList;
     }
 }
