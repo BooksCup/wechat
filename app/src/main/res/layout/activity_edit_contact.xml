@@ -48,206 +48,209 @@
             android:textSize="@dimen/save_btn_text_size" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="#EDEDED"
-            android:paddingLeft="12dp">
-
-            <TextView
-                android:id="@+id/tv_remark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"
-                android:text="@string/remark_name"
-                android:textColor="#80000000"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_contact_edittext_height"
-            android:background="#ffffff"
-            android:paddingLeft="12dp"
-            android:paddingRight="8dp">
-
-            <EditText
-                android:id="@+id/et_remark"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="#ffffff"
-                android:paddingLeft="5dp"
-                android:textColor="#353535"
-                android:textSize="@dimen/common_item_text_size" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/common_bg_light_grey"
-            android:paddingLeft="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"
-                android:text="@string/tag"
-                android:textColor="#80000000"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_add_tag"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:paddingLeft="12dp"
-            android:paddingRight="8dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_add_tag"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="#EDEDED"
+                android:paddingLeft="12dp">
+
+                <TextView
+                    android:id="@+id/tv_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="5dp"
+                    android:text="@string/remark_name"
+                    android:textColor="#80000000"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/edit_contact_edittext_height"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
                 android:background="#ffffff"
-                android:clickable="false"
-                android:enabled="false"
-                android:focusable="false"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:text="@string/sort_friend_by_tag"
-                android:textColor="@color/tips_grey"
-                android:textSize="@dimen/common_item_text_size" />
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
 
-            <com.zhy.view.flowlayout.FlowLayout
-                android:id="@+id/fl_add_tag"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_add_phone_tmp"
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/common_bg_light_grey"
-            android:paddingLeft="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"
-                android:text="@string/phone_num"
-                android:textColor="#80000000"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_add_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:paddingLeft="12dp"
-            android:paddingRight="8dp">
-
-            <LinearLayout
-                android:id="@+id/ll_add_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
+                <EditText
+                    android:id="@+id/et_remark"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/edit_contact_edittext_height">
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="#ffffff"
+                    android:paddingLeft="5dp"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/common_item_text_size" />
 
-                    <EditText
-                        android:id="@+id/et_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:background="#ffffff"
-                        android:hint="@string/add_phone_num"
-                        android:inputType="phone"
-                        android:paddingLeft="5dp"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/common_item_text_size" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/iv_clear_phone"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:paddingRight="8dp"
-                        android:src="@mipmap/icon_clear"
-                        android:visibility="gone" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:layout_alignParentBottom="true"
-                        android:background="#DBDBDB" />
-                </RelativeLayout>
-
-            </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/common_bg_light_grey"
-            android:paddingLeft="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"
-                android:text="@string/description"
-                android:textColor="#80000000"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_contact_edittext_height"
-            android:background="#ffffff"
-            android:paddingLeft="12dp"
-            android:paddingRight="8dp">
-
-            <EditText
-                android:id="@+id/et_desc"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_height="28dp"
+                android:background="@color/common_bg_light_grey"
+                android:paddingLeft="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="5dp"
+                    android:text="@string/tag"
+                    android:textColor="#80000000"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_add_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="#ffffff"
-                android:hint="@string/add_description"
-                android:paddingLeft="5dp"
-                android:textColor="#353535"
-                android:textSize="@dimen/common_item_text_size" />
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_add_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/edit_contact_edittext_height"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="#ffffff"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="@string/sort_friend_by_tag"
+                    android:textColor="@color/tips_grey"
+                    android:textSize="@dimen/common_item_text_size" />
 
-    </LinearLayout>
+                <com.zhy.view.flowlayout.FlowLayout
+                    android:id="@+id/fl_add_tag"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal" />
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_add_phone_tmp"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="@color/common_bg_light_grey"
+                android:paddingLeft="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="5dp"
+                    android:text="@string/phone_num"
+                    android:textColor="#80000000"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_add_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_add_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_contact_edittext_height">
+
+                        <EditText
+                            android:id="@+id/et_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:background="#ffffff"
+                            android:hint="@string/add_phone_num"
+                            android:inputType="phone"
+                            android:paddingLeft="5dp"
+                            android:textColor="#353535"
+                            android:textSize="@dimen/common_item_text_size" />
+
+                        <ImageView
+                            android:id="@+id/iv_clear_phone"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingRight="8dp"
+                            android:src="@mipmap/icon_clear"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="#DBDBDB" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="@color/common_bg_light_grey"
+                android:paddingLeft="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="5dp"
+                    android:text="@string/description"
+                    android:textColor="#80000000"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_contact_edittext_height"
+                android:background="#ffffff"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
+
+                <EditText
+                    android:id="@+id/et_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="#ffffff"
+                    android:hint="@string/add_description"
+                    android:paddingLeft="5dp"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/common_item_text_size" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
