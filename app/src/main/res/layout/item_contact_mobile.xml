@@ -4,7 +4,7 @@
     android:layout_height="@dimen/edit_contact_edittext_height">
 
     <EditText
-        android:id="@+id/et_phone"
+        android:id="@+id/et_mobile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
@@ -17,7 +17,7 @@
         android:textSize="@dimen/common_item_text_size" />
 
     <ImageView
-        android:id="@+id/iv_clear_phone"
+        android:id="@+id/iv_clear_mobile"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_alignParentRight="true"

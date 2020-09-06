@@ -44,8 +44,8 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
-    @BindView(R.id.et_remark)
-    EditText mRemarkEt;
+    @BindView(R.id.et_alias)
+    EditText mAliasEt;
 
     @BindView(R.id.et_desc)
     EditText mDescEt;
@@ -53,17 +53,20 @@ public class EditContactActivity extends BaseActivity {
     private VolleyUtil mVolleyUtil;
 
     // 添加电话
-    @BindView(R.id.rl_add_phone_tmp)
-    RelativeLayout mAddPhoneTmpRl;
+    @BindView(R.id.rl_mobiles)
+    RelativeLayout mMobilesRl;
 
-    @BindView(R.id.rl_add_phone)
-    RelativeLayout mAddPhoneRl;
+    @BindView(R.id.rl_mobiles_container)
+    RelativeLayout mMobilesContainerRl;
 
-    @BindView(R.id.et_phone)
-    EditText mPhoneEt;
+    @BindView(R.id.ll_mobile)
+    LinearLayout mMobileLl;
 
-    @BindView(R.id.iv_clear_phone)
-    ImageView mClearPhoneIv;
+    @BindView(R.id.et_mobile)
+    EditText mMobileEt;
+
+    @BindView(R.id.iv_clear_mobile)
+    ImageView mClearMobileIv;
 
     // 保存
     @BindView(R.id.tv_save)
@@ -75,8 +78,6 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.fl_add_tag)
     FlowLayout mAddTagFl;
 
-    @BindView(R.id.ll_add_phone)
-    LinearLayout mAddPhoneLl;
 
     private LinearLayout.LayoutParams mParams;
 
@@ -119,22 +120,22 @@ public class EditContactActivity extends BaseActivity {
 
         if (TextUtils.isEmpty(mContact.getUserFriendRemark())) {
             // 无备注，展示昵称
-            mRemarkEt.setText(mContact.getUserNickName());
+            mAliasEt.setText(mContact.getUserNickName());
         } else {
             // 有备注，展示备注
-            mRemarkEt.setText(mContact.getUserFriendRemark());
+            mAliasEt.setText(mContact.getUserFriendRemark());
         }
 
-        mPhoneEt.setText(mContact.getUserFriendPhone());
+        mMobileEt.setText(mContact.getUserFriendPhone());
         mDescEt.setText(mContact.getUserFriendDesc());
 
         if (Constant.IS_NOT_FRIEND.equals(isFriend)) {
             // 非好友不能添加电话
-            mAddPhoneTmpRl.setVisibility(View.GONE);
-            mAddPhoneRl.setVisibility(View.GONE);
+            mMobilesRl.setVisibility(View.GONE);
+            mMobilesContainerRl.setVisibility(View.GONE);
         }
 
-        mPhoneEt.addTextChangedListener(new TextWatcher() {
+        mMobileEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -148,12 +149,12 @@ public class EditContactActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
                 String phone = s.toString();
                 if (!TextUtils.isEmpty(phone)) {
-                    if (mAddPhoneLl.getChildCount() <= 1) {
+                    if (mMobileLl.getChildCount() <= 1) {
                         addPhoneView();
                     }
-                    mClearPhoneIv.setVisibility(View.VISIBLE);
+                    mClearMobileIv.setVisibility(View.VISIBLE);
                 } else {
-                    mClearPhoneIv.setVisibility(View.GONE);
+                    mClearMobileIv.setVisibility(View.GONE);
                 }
             }
         });
@@ -195,7 +196,7 @@ public class EditContactActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_add_tag, R.id.iv_clear_phone, R.id.tv_save})
+    @OnClick({R.id.rl_add_tag, R.id.iv_clear_mobile, R.id.tv_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_add_tag:
@@ -203,11 +204,11 @@ public class EditContactActivity extends BaseActivity {
                 intent.putExtra("contactId", mContactId);
                 startActivity(intent);
                 break;
-            case R.id.iv_clear_phone:
-                mPhoneEt.setText("");
+            case R.id.iv_clear_mobile:
+                mMobileEt.setText("");
                 break;
             case R.id.tv_save:
-                String remark = mRemarkEt.getText().toString();
+                String alias = mAliasEt.getText().toString();
                 List<String> mobileList = getPhoneList();
                 String mobiles = JSON.toJSONString(mobileList);
                 String desc = mDescEt.getText().toString();
@@ -215,7 +216,7 @@ public class EditContactActivity extends BaseActivity {
                 mDialog.setMessage("设置中...");
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
-                editContact(mUser.getUserId(), mContactId, remark, mobiles, desc);
+                editContact(mUser.getUserId(), mContactId, alias, mobiles, desc);
                 break;
         }
     }
@@ -264,11 +265,11 @@ public class EditContactActivity extends BaseActivity {
     private void addPhoneView() {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 DensityUtil.dip2px(this, 58));
-        View view = LayoutInflater.from(this).inflate(R.layout.item_contact_phone, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.item_contact_mobile, null);
         view.setLayoutParams(lp);
-        EditText phoneEt = view.findViewById(R.id.et_phone);
-        ImageView clearPhoneIv = view.findViewById(R.id.iv_clear_phone);
-        phoneEt.addTextChangedListener(new TextWatcher() {
+        EditText mobileEt = view.findViewById(R.id.et_mobile);
+        ImageView clearMobileIv = view.findViewById(R.id.iv_clear_mobile);
+        mobileEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -282,26 +283,26 @@ public class EditContactActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
                 String phone = s.toString();
                 if (!TextUtils.isEmpty(phone)) {
-                    if (view == mAddPhoneLl.getChildAt(mAddPhoneLl.getChildCount() - 1)) {
+                    if (view == mMobileLl.getChildAt(mMobileLl.getChildCount() - 1)) {
                         addPhoneView();
                     }
-                    clearPhoneIv.setVisibility(View.VISIBLE);
+                    clearMobileIv.setVisibility(View.VISIBLE);
                 } else {
-                    mAddPhoneLl.removeView(view);
-                    View lastView = mAddPhoneLl.getChildAt(mAddPhoneLl.getChildCount() - 1);
+                    mMobileLl.removeView(view);
+                    View lastView = mMobileLl.getChildAt(mMobileLl.getChildCount() - 1);
                     EditText lastPhoneEt = lastView.findViewById(R.id.et_phone);
                     lastPhoneEt.requestFocus();
-                    clearPhoneIv.setVisibility(View.GONE);
+                    clearMobileIv.setVisibility(View.GONE);
                 }
             }
         });
-        clearPhoneIv.setOnClickListener(new View.OnClickListener() {
+        clearMobileIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                phoneEt.setText("");
+                mobileEt.setText("");
             }
         });
-        mAddPhoneLl.addView(view);
+        mMobileLl.addView(view);
     }
 
     /**
@@ -310,13 +311,13 @@ public class EditContactActivity extends BaseActivity {
      * @return 所有的电话号码
      */
     private List<String> getPhoneList() {
-        List<String> phoneList = new ArrayList<>();
-        int childCount = mAddPhoneLl.getChildCount();
+        List<String> mobileList = new ArrayList<>();
+        int childCount = mMobileLl.getChildCount();
         for (int i = 0; i < childCount; i++) {
-            View view = mAddPhoneLl.getChildAt(i);
-            EditText phoneEt = view.findViewById(R.id.et_phone);
-            phoneList.add(phoneEt.getText().toString());
+            View view = mMobileLl.getChildAt(i);
+            EditText mobileEt = view.findViewById(R.id.et_mobile);
+            mobileList.add(mobileEt.getText().toString());
         }
-        return phoneList;
+        return mobileList;
     }
 }

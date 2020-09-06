@@ -64,7 +64,6 @@
                 android:paddingLeft="12dp">
 
                 <TextView
-                    android:id="@+id/tv_remark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -83,7 +82,7 @@
                 android:paddingRight="8dp">
 
                 <EditText
-                    android:id="@+id/et_remark"
+                    android:id="@+id/et_alias"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
@@ -146,7 +145,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_add_phone_tmp"
+                android:id="@+id/rl_mobiles"
                 android:layout_width="match_parent"
                 android:layout_height="28dp"
                 android:background="@color/common_bg_light_grey"
@@ -164,7 +163,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_add_phone"
+                android:id="@+id/rl_mobiles_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
@@ -172,7 +171,7 @@
                 android:paddingRight="8dp">
 
                 <LinearLayout
-                    android:id="@+id/ll_add_phone"
+                    android:id="@+id/ll_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -182,7 +181,7 @@
                         android:layout_height="@dimen/edit_contact_edittext_height">
 
                         <EditText
-                            android:id="@+id/et_phone"
+                            android:id="@+id/et_mobile"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_alignParentLeft="true"
@@ -195,7 +194,7 @@
                             android:textSize="@dimen/common_item_text_size" />
 
                         <ImageView
-                            android:id="@+id/iv_clear_phone"
+                            android:id="@+id/iv_clear_mobile"
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:layout_alignParentRight="true"
