@@ -310,11 +310,11 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
                             PreferencesUtil.getInstance().setLogin(true);
                             // 注册jpush
                             JPushInterface.setAlias(PhoneLoginFinalActivity.this, sequence, user.getUserId());
-                            List<User> friendList = user.getFriendList();
-                            for (User userFriend : friendList) {
-                                if (null != userFriend) {
-                                    userFriend.setIsFriend(Constant.IS_FRIEND);
-                                    mUserDao.saveUser(userFriend);
+                            List<User> contactList = user.getContactList();
+                            for (User contact : contactList) {
+                                if (null != contact) {
+                                    contact.setIsFriend(Constant.IS_FRIEND);
+                                    mUserDao.saveUser(contact);
                                 }
                             }
                             startActivity(new Intent(PhoneLoginFinalActivity.this, MainActivity.class));

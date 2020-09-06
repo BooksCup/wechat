@@ -164,16 +164,16 @@ public class StrangerUserInfoActivity extends BaseActivity {
         }
 
         // 描述
-        if (!TextUtils.isEmpty(user.getUserFriendDesc())) {
+        if (!TextUtils.isEmpty(user.getUserContactDesc())) {
             mDescRl.setVisibility(View.VISIBLE);
-            mDescTv.setText(user.getUserFriendDesc());
+            mDescTv.setText(user.getUserContactDesc());
         } else {
             mDescRl.setVisibility(View.GONE);
         }
 
         // 备注
-        if (!TextUtils.isEmpty(user.getUserFriendRemark())) {
-            mNameTv.setText(user.getUserFriendRemark());
+        if (!TextUtils.isEmpty(user.getUserContactAlias())) {
+            mNameTv.setText(user.getUserContactAlias());
             mNickNameLl.setVisibility(View.VISIBLE);
             mNickNameTv.setText("昵称：" + user.getUserNickName());
         } else {

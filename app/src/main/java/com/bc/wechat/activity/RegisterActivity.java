@@ -285,7 +285,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 PreferencesUtil.getInstance().setLogin(true);
                 // 注册jpush
                 JPushInterface.setAlias(RegisterActivity.this, sequence, user.getUserId());
-                List<User> friendList = user.getFriendList();
+                List<User> friendList = user.getContactList();
                 if (null != friendList && friendList.size() > 0) {
                     for (User userFriend : friendList) {
                         if (null != userFriend) {

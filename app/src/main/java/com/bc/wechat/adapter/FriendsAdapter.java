@@ -60,17 +60,17 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         if (Constant.STAR_FRIEND.equals(friend.getUserHeader())) {
             header = Constant.STAR_FRIEND;
         } else {
-            if (TextUtils.isEmpty(friend.getUserFriendRemark())) {
+            if (TextUtils.isEmpty(friend.getUserContactAlias())) {
                 header = CommonUtil.setUserHeader(friend.getUserNickName());
             } else {
-                header = CommonUtil.setUserHeader(friend.getUserFriendRemark());
+                header = CommonUtil.setUserHeader(friend.getUserContactAlias());
             }
         }
 
-        if (TextUtils.isEmpty(friend.getUserFriendRemark())) {
+        if (TextUtils.isEmpty(friend.getUserContactAlias())) {
             viewHolder.mNameTv.setText(friend.getUserNickName());
         } else {
-            viewHolder.mNameTv.setText(friend.getUserFriendRemark());
+            viewHolder.mNameTv.setText(friend.getUserContactAlias());
         }
 
         String avatar = friend.getUserAvatar();

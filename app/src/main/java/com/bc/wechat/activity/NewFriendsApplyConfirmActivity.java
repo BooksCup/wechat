@@ -99,10 +99,10 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
         mApplyRemarkEt.setText("我是" + mUser.getUserNickName());
 
         mRemarkEt = findViewById(R.id.et_remark);
-        if (TextUtils.isEmpty(mFriend.getUserFriendRemark())) {
+        if (TextUtils.isEmpty(mFriend.getUserContactAlias())) {
             mRemarkEt.setText(mFriend.getUserNickName());
         } else {
-            mRemarkEt.setText(mFriend.getUserFriendRemark());
+            mRemarkEt.setText(mFriend.getUserContactAlias());
         }
 
         mAuthAllRl = findViewById(R.id.rl_auth_all);

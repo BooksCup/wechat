@@ -78,7 +78,6 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.fl_add_tag)
     FlowLayout mAddTagFl;
 
-
     private LinearLayout.LayoutParams mParams;
 
     private String mContactId;
@@ -86,7 +85,6 @@ public class EditContactActivity extends BaseActivity {
     private User mUser;
     private UserDao mUserDao;
     LoadingDialog mDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,15 +116,15 @@ public class EditContactActivity extends BaseActivity {
         mContact = mUserDao.getUserById(mContactId);
 
 
-        if (TextUtils.isEmpty(mContact.getUserFriendRemark())) {
+        if (TextUtils.isEmpty(mContact.getUserContactAlias())) {
             // 无备注，展示昵称
             mAliasEt.setText(mContact.getUserNickName());
         } else {
             // 有备注，展示备注
-            mAliasEt.setText(mContact.getUserFriendRemark());
+            mAliasEt.setText(mContact.getUserContactAlias());
         }
 
-        mDescEt.setText(mContact.getUserFriendDesc());
+        mDescEt.setText(mContact.getUserContactDesc());
 
         if (Constant.IS_NOT_FRIEND.equals(isFriend)) {
             // 非好友不能添加电话
@@ -146,8 +144,8 @@ public class EditContactActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String phone = s.toString();
-                if (!TextUtils.isEmpty(phone)) {
+                String mobile = s.toString();
+                if (!TextUtils.isEmpty(mobile)) {
                     if (mMobileLl.getChildCount() <= 1) {
                         addMobileView("");
                     }
@@ -185,9 +183,9 @@ public class EditContactActivity extends BaseActivity {
         mVolleyUtil.httpPutRequest(url, paramMap, response -> {
             mDialog.dismiss();
             User user = mUserDao.getUserById(contactId);
-            user.setUserFriendRemark(alias);
-            user.setUserFriendDesc(desc);
-            user.setUserFriendPhone(mobiles);
+            user.setUserContactAlias(alias);
+            user.setUserContactMobiles(mobiles);
+            user.setUserContactDesc(desc);
             mUserDao.saveUser(user);
             finish();
         }, volleyError -> {
@@ -287,8 +285,8 @@ public class EditContactActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String phone = s.toString();
-                if (!TextUtils.isEmpty(phone)) {
+                String mobile = s.toString();
+                if (!TextUtils.isEmpty(mobile)) {
                     if (view == mMobileLl.getChildAt(mMobileLl.getChildCount() - 1)) {
                         addMobileView("");
                     }
@@ -336,7 +334,10 @@ public class EditContactActivity extends BaseActivity {
     private void renderMobile() {
         List<String> mobileList;
         try {
-            mobileList = JSON.parseArray(mContact.getUserFriendPhone(), String.class);
+            mobileList = JSON.parseArray(mContact.getUserContactMobiles(), String.class);
+            if (null == mobileList) {
+                mobileList = new ArrayList<>();
+            }
         } catch (Exception e) {
             mobileList = new ArrayList<>();
         }

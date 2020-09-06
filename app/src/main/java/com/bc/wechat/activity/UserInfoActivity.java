@@ -242,24 +242,24 @@ public class UserInfoActivity extends BaseActivity {
         }
 
         // 电话号码
-        if (!TextUtils.isEmpty(user.getUserFriendPhone())) {
+        if (!TextUtils.isEmpty(user.getUserContactMobiles())) {
             mPhoneRl.setVisibility(View.VISIBLE);
-            mPhoneTv.setText(user.getUserFriendPhone());
+            mPhoneTv.setText(user.getUserContactMobiles());
         } else {
             mPhoneRl.setVisibility(View.GONE);
         }
 
         // 描述
-        if (!TextUtils.isEmpty(user.getUserFriendDesc())) {
+        if (!TextUtils.isEmpty(user.getUserContactDesc())) {
             mDescRl.setVisibility(View.VISIBLE);
-            mDescTv.setText(user.getUserFriendDesc());
+            mDescTv.setText(user.getUserContactDesc());
         } else {
             mDescRl.setVisibility(View.GONE);
         }
 
         // 备注
-        if (!TextUtils.isEmpty(user.getUserFriendRemark())) {
-            mNameTv.setText(user.getUserFriendRemark());
+        if (!TextUtils.isEmpty(user.getUserContactAlias())) {
+            mNameTv.setText(user.getUserContactAlias());
             mNickNameLl.setVisibility(View.VISIBLE);
             mNickNameTv.setText("昵称：" + user.getUserNickName());
         } else {
@@ -267,7 +267,7 @@ public class UserInfoActivity extends BaseActivity {
             mNameTv.setText(user.getUserNickName());
         }
 
-        if (TextUtils.isEmpty(user.getUserFriendDesc())) {
+        if (TextUtils.isEmpty(user.getUserContactDesc())) {
             mEditContactRl.setVisibility(View.VISIBLE);
         } else {
             mEditContactRl.setVisibility(View.GONE);
