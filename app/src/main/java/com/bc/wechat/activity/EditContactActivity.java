@@ -126,7 +126,6 @@ public class EditContactActivity extends BaseActivity {
             mAliasEt.setText(mContact.getUserFriendRemark());
         }
 
-        mMobileEt.setText(mContact.getUserFriendPhone());
         mDescEt.setText(mContact.getUserFriendDesc());
 
         if (Constant.IS_NOT_FRIEND.equals(isFriend)) {
@@ -150,7 +149,7 @@ public class EditContactActivity extends BaseActivity {
                 String phone = s.toString();
                 if (!TextUtils.isEmpty(phone)) {
                     if (mMobileLl.getChildCount() <= 1) {
-                        addPhoneView();
+                        addMobileView("");
                     }
                     mClearMobileIv.setVisibility(View.VISIBLE);
                 } else {
@@ -158,6 +157,7 @@ public class EditContactActivity extends BaseActivity {
                 }
             }
         });
+        renderMobile();
     }
 
     public void back(View view) {
@@ -209,7 +209,7 @@ public class EditContactActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 String alias = mAliasEt.getText().toString();
-                List<String> mobileList = getPhoneList();
+                List<String> mobileList = getMobileList();
                 String mobiles = JSON.toJSONString(mobileList);
                 String desc = mDescEt.getText().toString();
 
@@ -262,13 +262,19 @@ public class EditContactActivity extends BaseActivity {
         }
     }
 
-    private void addPhoneView() {
+    private void addMobileView(String mobile) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 DensityUtil.dip2px(this, 58));
         View view = LayoutInflater.from(this).inflate(R.layout.item_contact_mobile, null);
         view.setLayoutParams(lp);
         EditText mobileEt = view.findViewById(R.id.et_mobile);
         ImageView clearMobileIv = view.findViewById(R.id.iv_clear_mobile);
+        if (!TextUtils.isEmpty(mobile)) {
+            mobileEt.setText(mobile);
+            clearMobileIv.setVisibility(View.VISIBLE);
+        } else {
+            clearMobileIv.setVisibility(View.GONE);
+        }
         mobileEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -284,14 +290,14 @@ public class EditContactActivity extends BaseActivity {
                 String phone = s.toString();
                 if (!TextUtils.isEmpty(phone)) {
                     if (view == mMobileLl.getChildAt(mMobileLl.getChildCount() - 1)) {
-                        addPhoneView();
+                        addMobileView("");
                     }
                     clearMobileIv.setVisibility(View.VISIBLE);
                 } else {
                     mMobileLl.removeView(view);
                     View lastView = mMobileLl.getChildAt(mMobileLl.getChildCount() - 1);
-                    EditText lastPhoneEt = lastView.findViewById(R.id.et_phone);
-                    lastPhoneEt.requestFocus();
+                    EditText lastMobileEt = lastView.findViewById(R.id.et_mobile);
+                    lastMobileEt.requestFocus();
                     clearMobileIv.setVisibility(View.GONE);
                 }
             }
@@ -310,14 +316,40 @@ public class EditContactActivity extends BaseActivity {
      *
      * @return 所有的电话号码
      */
-    private List<String> getPhoneList() {
+    private List<String> getMobileList() {
         List<String> mobileList = new ArrayList<>();
         int childCount = mMobileLl.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = mMobileLl.getChildAt(i);
             EditText mobileEt = view.findViewById(R.id.et_mobile);
-            mobileList.add(mobileEt.getText().toString());
+            String mobile = mobileEt.getText().toString();
+            if (!TextUtils.isEmpty(mobile)) {
+                mobileList.add(mobile);
+            }
         }
         return mobileList;
+    }
+
+    /**
+     * 渲染电话
+     */
+    private void renderMobile() {
+        List<String> mobileList;
+        try {
+            mobileList = JSON.parseArray(mContact.getUserFriendPhone(), String.class);
+        } catch (Exception e) {
+            mobileList = new ArrayList<>();
+        }
+        if (mobileList.size() >= 1) {
+            mMobileEt.setText(mobileList.get(0));
+            // 渲染默认电话输入框会触发默认输入框的textChange事件,多出一个新的电话输入框,需清除
+            if (mMobileLl.getChildCount() == 2) {
+                mMobileLl.removeViewAt(1);
+            }
+            for (int i = 1; i < mobileList.size(); i++) {
+                addMobileView(mobileList.get(i));
+            }
+            addMobileView("");
+        }
     }
 }
