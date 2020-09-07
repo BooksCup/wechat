@@ -48,7 +48,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="wrap_content"
             android:background="@color/color_white">
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -60,6 +60,7 @@
                 fresco:placeholderImage="@mipmap/default_user_avatar" />
 
             <LinearLayout
+                android:id="@+id/ll_base_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -165,7 +166,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@id/ll_base_info"
+                android:layout_marginTop="20dp"
                 android:background="#DBDBDB" />
         </RelativeLayout>
 
@@ -226,10 +228,28 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:src="@mipmap/icon_right_arrow" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="20dp"
+                android:background="#DBDBDB" />
         </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp">
+
+        </LinearLayout>
+
         <RelativeLayout
-            android:id="@+id/rl_phone"
+            android:id="@+id/rl_tags"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="#ffffff"
@@ -238,22 +258,22 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/tv_phone_temp"
+                android:id="@+id/tv_tags_temp"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:paddingLeft="8dp"
-                android:text="电话号码"
+                android:text="标签"
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv_phone"
+                android:id="@+id/tv_tags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tv_phone_temp"
+                android:layout_toRightOf="@id/tv_tags_temp"
                 android:paddingLeft="10dp"
                 android:text=""
                 android:textSize="16sp" />
@@ -298,8 +318,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_desc_temp"
-                android:paddingLeft="10dp"
-                android:text="aaa"
+                android:paddingLeft="15dp"
+                android:text=""
                 android:textSize="16sp" />
 
             <ImageView
@@ -313,6 +333,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginLeft="20dp"
                 android:background="#DBDBDB" />
         </RelativeLayout>
 
