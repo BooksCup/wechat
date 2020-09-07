@@ -32,6 +32,7 @@ import com.bc.wechat.utils.DensityUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.blankj.utilcode.util.CollectionUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
@@ -81,6 +82,13 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.ll_mobiles)
     LinearLayout mMobileLl;
 
+    // 标签
+    @BindView(R.id.rl_tags)
+    RelativeLayout mTagsRl;
+
+    @BindView(R.id.tv_tags)
+    TextView mTagsTv;
+
     // 描述
     @BindView(R.id.rl_desc)
     RelativeLayout mDescRl;
@@ -98,7 +106,7 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.rl_operate)
     RelativeLayout mOperateRl;
 
-    // 朋友圈图片
+    // 朋友圈
     @BindView(R.id.sdv_moments_photo_1)
     SimpleDraweeView mMomentsPhoto1Sdv;
 
@@ -143,14 +151,14 @@ public class UserInfoActivity extends BaseActivity {
         mContact = mUserDao.getUserById(mContactId);
         loadData(mContact);
 
-        getContactFromServer(mUser.getUserId(), mContactId);
+//        getContactFromServer(mUser.getUserId(), mContactId);
     }
 
     public void back(View view) {
         finish();
     }
 
-    @OnClick({R.id.sdv_avatar, R.id.rl_edit_contact, R.id.ll_mobiles,
+    @OnClick({R.id.sdv_avatar, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
             R.id.rl_desc, R.id.rl_moments, R.id.rl_operate})
     public void onClick(View view) {
         Intent intent;
@@ -164,9 +172,11 @@ public class UserInfoActivity extends BaseActivity {
             // 进入编辑联系人页(设置备注和标签)
             // 设置备注和标签
             // 电话号码
+            // 标签
             // 描述
             case R.id.rl_edit_contact:
             case R.id.ll_mobiles:
+            case R.id.rl_tags:
             case R.id.rl_desc:
                 intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
                 intent.putExtra("userId", mContact.getUserId());
@@ -270,6 +280,15 @@ public class UserInfoActivity extends BaseActivity {
             mMobileLl.setVisibility(View.GONE);
         }
 
+        // 标签
+        List<String> userContactTagList = user.getUserContactTagList();
+        if (!CollectionUtils.isEmpty(userContactTagList)) {
+            mTagsRl.setVisibility(View.VISIBLE);
+            mTagsTv.setText(String.join(",", userContactTagList));
+        } else {
+            mTagsRl.setVisibility(View.GONE);
+        }
+
         // 描述
         if (!TextUtils.isEmpty(user.getUserContactDesc())) {
             mDescRl.setVisibility(View.VISIBLE);
@@ -279,7 +298,7 @@ public class UserInfoActivity extends BaseActivity {
         }
 
         // 电话号码,标签,描述任一信息不为空则隐藏"设置备注和标签"
-        if (!TextUtils.isEmpty(user.getUserContactDesc()) || mobileList.size() > 0) {
+        if (!TextUtils.isEmpty(user.getUserContactDesc()) || mobileList.size() > 0 || userContactTagList.size() > 0) {
             mEditContactRl.setVisibility(View.GONE);
         } else {
             mEditContactRl.setVisibility(View.VISIBLE);
@@ -315,7 +334,7 @@ public class UserInfoActivity extends BaseActivity {
         super.onResume();
         User user = mUserDao.getUserById(mContactId);
         loadData(user);
-        getContactFromServer(mUser.getUserId(), mContactId);
+//        getContactFromServer(mUser.getUserId(), mContactId);
     }
 
     private void addMobileView(int index, int mobileListSize, String mobile) {
@@ -409,7 +428,7 @@ public class UserInfoActivity extends BaseActivity {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 // 创建普通字符型ClipData
                 ClipData mClipData = ClipData.newPlainText("Label", mobile);
-                // 将ClipData内容放到系统剪贴板里。
+                // 将ClipData内容放到系统剪贴板里
                 cm.setPrimaryClip(mClipData);
                 Toast.makeText(UserInfoActivity.this, "已复制", Toast.LENGTH_SHORT).show();
             }
