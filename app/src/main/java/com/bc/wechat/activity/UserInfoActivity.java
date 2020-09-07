@@ -31,6 +31,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 用户详情
@@ -62,23 +63,20 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.iv_setting)
     ImageView mSettingIv;
 
-    @BindView(R.id.tv_desc)
-    TextView mDescTv;
-
-//    @BindView(R.id.tv_mobile_temp)
-//    TextView mPhoneTempTv;
-//
-//    @BindView(R.id.tv_mobile)
-//    TextView mPhoneTv;
-
+    // 设置备注和标签
     @BindView(R.id.rl_edit_contact)
     RelativeLayout mEditContactRl;
 
+    // 电话号码
+    @BindView(R.id.ll_mobiles)
+    LinearLayout mMobileLl;
+
+    // 描述
     @BindView(R.id.rl_desc)
     RelativeLayout mDescRl;
 
-    @BindView(R.id.ll_mobile)
-    LinearLayout mMobileLl;
+    @BindView(R.id.tv_desc)
+    TextView mDescTv;
 
     // 星标好友
     @BindView(R.id.iv_star_friends)
@@ -107,9 +105,10 @@ public class UserInfoActivity extends BaseActivity {
     RelativeLayout mMomentsRl;
 
     private User mUser;
+    private User mContact;
     private VolleyUtil mVolleyUtil;
     private UserDao mUserDao;
-    private String userId;
+    private String mContactId;
 
 
     @Override
@@ -129,74 +128,59 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        userId = getIntent().getStringExtra("userId");
+        mContactId = getIntent().getStringExtra("userId");
 
-        final User contact = mUserDao.getUserById(userId);
-        loadData(contact);
+        mContact = mUserDao.getUserById(mContactId);
+        loadData(mContact);
 
-        getContactFromServer(mUser.getUserId(), userId);
-
-        mEditContactRl.setOnClickListener(view -> {
-            Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-            intent.putExtra("userId", contact.getUserId());
-            intent.putExtra("isFriend", contact.getIsFriend());
-            startActivity(intent);
-        });
-
-        mDescRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", contact.getUserId());
-                intent.putExtra("isFriend", contact.getIsFriend());
-                startActivity(intent);
-            }
-        });
-
-//        mPhoneTempTv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-//                intent.putExtra("userId", contact.getUserId());
-//                intent.putExtra("isFriend", contact.getIsFriend());
-//                startActivity(intent);
-//            }
-//        });
-
-        mOperateRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, ChatActivity.class);
-                intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                intent.putExtra("contactId", userId);
-                intent.putExtra("contactNickName", contact.getUserNickName());
-                intent.putExtra("contactAvatar", contact.getUserAvatar());
-                startActivity(intent);
-            }
-        });
-
-        mAvatarSdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
-                intent.putExtra("imgUrl", contact.getUserAvatar());
-                startActivity(intent);
-            }
-        });
-
-        mMomentsRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
-        });
+        getContactFromServer(mUser.getUserId(), mContactId);
     }
 
     public void back(View view) {
         finish();
     }
+
+    @OnClick({R.id.sdv_avatar, R.id.rl_edit_contact, R.id.ll_mobiles,
+            R.id.rl_desc, R.id.rl_moments, R.id.rl_operate})
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            // 头像
+            case R.id.sdv_avatar:
+                intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
+                intent.putExtra("imgUrl", mContact.getUserAvatar());
+                startActivity(intent);
+                break;
+            // 进入编辑联系人页(设置备注和标签)
+            // 设置备注和标签
+            // 电话号码
+            // 描述
+            case R.id.rl_edit_contact:
+            case R.id.ll_mobiles:
+            case R.id.rl_desc:
+                intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
+                intent.putExtra("userId", mContact.getUserId());
+                intent.putExtra("isFriend", mContact.getIsFriend());
+                startActivity(intent);
+                break;
+            // 朋友圈
+            case R.id.rl_moments:
+                intent = new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class);
+                intent.putExtra("userId", mContactId);
+                startActivity(intent);
+                break;
+            // 发消息
+            case R.id.rl_operate:
+                intent = new Intent(UserInfoActivity.this, ChatActivity.class);
+                intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
+                intent.putExtra("contactId", mContactId);
+                intent.putExtra("contactNickName", mContact.getUserNickName());
+                intent.putExtra("contactAvatar", mContact.getUserAvatar());
+                startActivity(intent);
+                break;
+        }
+    }
+
 
     // 渲染数据
     private void loadData(User user) {
@@ -319,9 +303,9 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        User user = mUserDao.getUserById(userId);
+        User user = mUserDao.getUserById(mContactId);
         loadData(user);
-        getContactFromServer(mUser.getUserId(), userId);
+        getContactFromServer(mUser.getUserId(), mContactId);
     }
 
     private void addMobileView(int index, int mobileListSize, String mobile) {

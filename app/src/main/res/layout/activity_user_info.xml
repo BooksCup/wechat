@@ -238,15 +238,13 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/ll_mobile"
+            android:id="@+id/ll_mobiles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:orientation="vertical"
             android:paddingLeft="12dp"
-            android:paddingRight="8dp">
-
-        </LinearLayout>
+            android:paddingRight="8dp"></LinearLayout>
 
         <RelativeLayout
             android:id="@+id/rl_tags"
