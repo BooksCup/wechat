@@ -281,4 +281,6 @@
 
     <string name="mobile_contacts">查看手机通讯录</string>
     <string name="change_mobile">更换手机号</string>
+
+    <string name="call">呼叫</string>
 </resources>

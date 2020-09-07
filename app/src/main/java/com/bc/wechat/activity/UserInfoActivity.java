@@ -1,14 +1,21 @@
 package com.bc.wechat.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -332,6 +339,83 @@ public class UserInfoActivity extends BaseActivity {
 
         TextView mobileTv = view.findViewById(R.id.tv_mobile);
         mobileTv.setText(mobile);
+
+        mobileTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopupWindow(mobile);
+            }
+        });
+
         mMobileLl.addView(view);
+    }
+
+    /**
+     * 显示底部弹出框
+     */
+    private void showPopupWindow(String mobile) {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.popup_window_contact_phone, null);
+        // 给popwindow加上动画效果
+        LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
+        view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
+        mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
+        // 设置popwindow的宽高
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        PopupWindow mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // 使其聚集
+        mPopupWindow.setFocusable(true);
+        // 设置允许在外点击消失
+        mPopupWindow.setOutsideTouchable(true);
+
+        // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        backgroundAlpha(0.5f);  //透明度
+
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                backgroundAlpha(1f);
+            }
+        });
+        // 弹出的位置
+        mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+        // 呼叫
+        RelativeLayout mCallRl = view.findViewById(R.id.rl_call);
+        mCallRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Uri data = Uri.parse("tel:" + mobile);
+                intent.setData(data);
+                startActivity(intent);
+            }
+        });
+
+        // 取消
+        RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
+        mCancelRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * 1.0完全不透明，0.0f完全透明
+     *
+     * @param bgAlpha 透明度值
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        // 0.0-1.0
+        lp.alpha = bgAlpha;
+        getWindow().setAttributes(lp);
     }
 }
