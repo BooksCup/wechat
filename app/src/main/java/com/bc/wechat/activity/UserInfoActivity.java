@@ -1,5 +1,7 @@
 package com.bc.wechat.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
@@ -393,6 +396,22 @@ public class UserInfoActivity extends BaseActivity {
                 Uri data = Uri.parse("tel:" + mobile);
                 intent.setData(data);
                 startActivity(intent);
+            }
+        });
+
+        // 复制
+        RelativeLayout mCopyRl = view.findViewById(R.id.rl_copy);
+        mCopyRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupWindow.dismiss();
+                // 获取剪贴板管理器
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", mobile);
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                Toast.makeText(UserInfoActivity.this, "已复制", Toast.LENGTH_SHORT).show();
             }
         });
 
