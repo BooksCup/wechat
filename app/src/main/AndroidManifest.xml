@@ -113,6 +113,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
+            android:name=".activity.ContactPrivacyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
             android:name=".activity.AddTagActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
@@ -269,7 +273,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".activity.UserFriendsCircleActivity"
+            android:name=".activity.ContactMomentsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 

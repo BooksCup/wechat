@@ -158,7 +158,7 @@ public class UserInfoActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.sdv_avatar, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
+    @OnClick({R.id.sdv_avatar, R.id.rl_privacy, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
             R.id.rl_desc, R.id.rl_moments, R.id.rl_operate})
     public void onClick(View view) {
         Intent intent;
@@ -167,6 +167,11 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.sdv_avatar:
                 intent = new Intent(UserInfoActivity.this, BigImageActivity.class);
                 intent.putExtra("imgUrl", mContact.getUserAvatar());
+                startActivity(intent);
+                break;
+            // 朋友权限
+            case R.id.rl_privacy:
+                intent = new Intent(UserInfoActivity.this, ContactPrivacyActivity.class);
                 startActivity(intent);
                 break;
             // 进入编辑联系人页(设置备注和标签)
@@ -185,9 +190,9 @@ public class UserInfoActivity extends BaseActivity {
                 break;
             // 朋友圈
             case R.id.rl_moments:
-                intent = new Intent(UserInfoActivity.this, UserFriendsCircleActivity.class);
-                intent.putExtra("userId", mContactId);
-                startActivity(intent);
+//                intent = new Intent(UserInfoActivity.this, ContactMomentsActivity.class);
+//                intent.putExtra("userId", mContactId);
+//                startActivity(intent);
                 break;
             // 发消息
             case R.id.rl_operate:

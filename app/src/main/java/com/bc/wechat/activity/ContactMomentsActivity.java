@@ -31,7 +31,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class UserFriendsCircleActivity extends BaseActivity {
+public class ContactMomentsActivity extends BaseActivity {
 
     private ListView mFriendsCircleLv;
     UserFriendsCircleAdapter mAdapter;
@@ -46,7 +46,7 @@ public class UserFriendsCircleActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_friends_circle);
+        setContentView(R.layout.activity_contact_moments);
         mUserDao = new UserDao();
         mTimeStamp = 0L;
         mVolleyUtil = VolleyUtil.getInstance(this);

@@ -76,7 +76,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
+                        android:background="@mipmap/icon_switch_on"
                         android:visibility="visible" />
 
                     <ImageView
@@ -85,7 +85,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
+                        android:background="@mipmap/icon_switch_off"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -117,7 +117,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
+                        android:background="@mipmap/icon_switch_on"
                         android:visibility="visible" />
 
                     <ImageView
@@ -126,7 +126,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
+                        android:background="@mipmap/icon_switch_off"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -158,7 +158,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
+                        android:background="@mipmap/icon_switch_on"
                         android:visibility="visible" />
 
                     <ImageView
@@ -167,7 +167,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
+                        android:background="@mipmap/icon_switch_off"
                         android:visibility="invisible" />
                 </RelativeLayout>
 
@@ -195,7 +195,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/open_icon"
+                        android:background="@mipmap/icon_switch_on"
                         android:visibility="visible" />
 
                     <ImageView
@@ -204,7 +204,7 @@
                         android:layout_height="22dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@mipmap/close_icon"
+                        android:background="@mipmap/icon_switch_off"
                         android:visibility="invisible" />
                 </RelativeLayout>
             </LinearLayout>

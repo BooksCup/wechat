@@ -234,7 +234,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:background="@mipmap/open_icon"
+                    android:background="@mipmap/icon_switch_on"
                     android:visibility="gone" />
 
                 <ImageView
@@ -244,7 +244,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:background="@mipmap/close_icon"
+                    android:background="@mipmap/icon_switch_off"
                     android:visibility="visible" />
 
                 <View
@@ -279,7 +279,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:background="@mipmap/open_icon"
+                    android:background="@mipmap/icon_switch_on"
                     android:visibility="gone" />
 
                 <ImageView
@@ -289,7 +289,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="8dp"
-                    android:background="@mipmap/close_icon"
+                    android:background="@mipmap/icon_switch_off"
                     android:visibility="visible" />
             </RelativeLayout>
         </RelativeLayout>

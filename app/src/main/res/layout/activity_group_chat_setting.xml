@@ -127,14 +127,14 @@
                         android:id="@+id/iv_switch_chat_to_top"
                         android:layout_width="42dp"
                         android:layout_height="22dp"
-                        android:background="@mipmap/open_icon"
+                        android:background="@mipmap/icon_switch_on"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/iv_switch_unchat_to_top"
                         android:layout_width="42dp"
                         android:layout_height="22dp"
-                        android:background="@mipmap/close_icon"
+                        android:background="@mipmap/icon_switch_off"
                         android:visibility="visible" />
                 </LinearLayout>
             </RelativeLayout>
@@ -170,14 +170,14 @@
                         android:id="@+id/iv_switch_block_group_msg"
                         android:layout_width="42dp"
                         android:layout_height="22dp"
-                        android:background="@mipmap/open_icon"
+                        android:background="@mipmap/icon_switch_on"
                         android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/iv_switch_unblock_group_msg"
                         android:layout_width="42dp"
                         android:layout_height="22dp"
-                        android:background="@mipmap/close_icon"
+                        android:background="@mipmap/icon_switch_off"
                         android:visibility="visible" />
                 </LinearLayout>
             </RelativeLayout>
