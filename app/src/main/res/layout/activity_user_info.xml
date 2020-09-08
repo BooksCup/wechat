@@ -320,7 +320,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_desc_temp"
+                android:ellipsize="end"
                 android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:singleLine="true"
                 android:text=""
                 android:textSize="16sp" />
 
