@@ -14,6 +14,7 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
@@ -93,6 +94,8 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_apply_confirm);
         initStatusBar();
+        StatusBarUtil.setStatusBarColor(NewFriendsApplyConfirmActivity.this, R.color.status_bar_color_white);
+
         ButterKnife.bind(this);
 
         mUser = PreferencesUtil.getInstance().getUser();
