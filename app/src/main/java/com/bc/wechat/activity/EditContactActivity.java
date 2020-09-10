@@ -97,7 +97,7 @@ public class EditContactActivity extends BaseActivity {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
-        mContactId = getIntent().getStringExtra("userId");
+        mContactId = getIntent().getStringExtra("contactId");
         mDialog = new LoadingDialog(EditContactActivity.this);
         initView();
     }

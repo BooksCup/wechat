@@ -1,15 +1,20 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.UserDao;
+import com.bc.wechat.entity.User;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 用户设置
@@ -21,6 +26,9 @@ public class UserSettingActivity extends BaseActivity {
     // 设置备注和标签
     @BindView(R.id.rl_edit_contact)
     RelativeLayout mEditContactRl;
+
+    @BindView(R.id.tv_edit_contact)
+    TextView mEditContactTv;
 
     // 朋友权限
     @BindView(R.id.rl_privacy)
@@ -50,7 +58,10 @@ public class UserSettingActivity extends BaseActivity {
     @BindView(R.id.rl_delete)
     RelativeLayout mDeleteRl;
 
+    UserDao mUserDao;
+    String mContactId;
     String mIsFriend;
+    User mContact;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +69,11 @@ public class UserSettingActivity extends BaseActivity {
         setContentView(R.layout.activity_user_setting);
         ButterKnife.bind(this);
         initStatusBar();
+
+        mUserDao = new UserDao();
         mIsFriend = getIntent().getStringExtra("isFriend");
+        mContactId = getIntent().getStringExtra("contactId");
+        mContact = mUserDao.getUserById(mContactId);
         initView();
     }
 
@@ -78,5 +93,30 @@ public class UserSettingActivity extends BaseActivity {
         } else {
             // 好友
         }
+        loadData(mContact);
+    }
+
+    private void loadData(User user) {
+        mEditContactTv.setText(user.getUserContactAlias());
+    }
+
+    @OnClick({R.id.rl_edit_contact})
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.rl_edit_contact:
+                intent = new Intent(UserSettingActivity.this, EditContactActivity.class);
+                intent.putExtra("contactId", mContactId);
+                intent.putExtra("isFriend", mIsFriend);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mContact = mUserDao.getUserById(mContactId);
+        loadData(mContact);
     }
 }

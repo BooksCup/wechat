@@ -166,6 +166,8 @@ public class UserInfoActivity extends BaseActivity {
             // 用户设置
             case R.id.iv_setting:
                 intent = new Intent(UserInfoActivity.this, UserSettingActivity.class);
+                intent.putExtra("contactId", mContact.getUserId());
+                intent.putExtra("isFriend", Constant.IS_FRIEND);
                 startActivity(intent);
                 break;
             // 头像
@@ -190,7 +192,7 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.rl_tags:
             case R.id.rl_desc:
                 intent = new Intent(UserInfoActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", mContact.getUserId());
+                intent.putExtra("contactId", mContact.getUserId());
                 intent.putExtra("isFriend", mContact.getIsFriend());
                 startActivity(intent);
                 break;

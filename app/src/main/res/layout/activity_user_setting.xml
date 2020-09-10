@@ -74,6 +74,8 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="35dp"
+                        android:gravity="right"
+                        android:layout_alignParentRight="true"
                         android:layout_toRightOf="@id/tv_edit_contact_temp"
                         android:textSize="@dimen/setting_text_size" />
 
