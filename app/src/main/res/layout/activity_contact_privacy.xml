@@ -58,6 +58,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_chats_moments_werun_etc"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_contact_edittext_height"
             android:background="#ffffff"
@@ -88,6 +89,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_chats_only"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edit_contact_edittext_height"
             android:background="#ffffff"
@@ -117,83 +119,110 @@
                 android:visibility="gone" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:background="@color/common_bg_light_grey"
-            android:paddingLeft="12dp">
+        <LinearLayout
+            android:id="@+id/ll_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:paddingLeft="5dp"
-                android:text="朋友圈和视频动态"
-                android:textColor="#80000000"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_contact_edittext_height"
-            android:background="#ffffff"
-            android:paddingLeft="12dp"
-            android:paddingRight="8dp">
-
-            <TextView
-                android:id="@+id/tv_hide_my_posts"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="#ffffff"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:text="不让他看我"
-                android:textColor="#353535"
-                android:textSize="@dimen/common_item_text_size" />
+                android:layout_height="28dp"
+                android:background="@color/common_bg_light_grey"
+                android:paddingLeft="12dp">
 
-            <ImageView
-                android:id="@+id/iv_hide_my_posts"
-                android:layout_width="42dp"
-                android:layout_height="22dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:background="@mipmap/icon_switch_on"
-                android:visibility="gone" />
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="5dp"
+                    android:text="朋友圈和视频动态"
+                    android:textColor="#80000000"
+                    android:textSize="12sp" />
+            </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/edit_contact_edittext_height"
-            android:background="#ffffff"
-            android:paddingLeft="12dp"
-            android:paddingRight="8dp">
-
-            <TextView
-                android:id="@+id/tv_hide_his_posts"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_height="@dimen/edit_contact_edittext_height"
                 android:background="#ffffff"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:text="不看他"
-                android:textColor="#353535"
-                android:textSize="@dimen/common_item_text_size" />
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
 
-            <ImageView
-                android:id="@+id/iv_hide_his_posts"
-                android:layout_width="42dp"
-                android:layout_height="22dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:background="@mipmap/icon_switch_on"
-                android:visibility="gone" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_hide_my_posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="不让他看我"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/common_item_text_size" />
+
+                <ImageView
+                    android:id="@+id/iv_hide_my_posts"
+                    android:layout_width="42dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/icon_switch_on"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_show_my_posts"
+                    android:layout_width="42dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/icon_switch_off"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_contact_edittext_height"
+                android:background="#ffffff"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp">
+
+                <TextView
+                    android:id="@+id/tv_hide_his_posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="不看他"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/common_item_text_size" />
+
+                <ImageView
+                    android:id="@+id/iv_hide_his_posts"
+                    android:layout_width="42dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/icon_switch_on"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_show_his_posts"
+                    android:layout_width="42dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:background="@mipmap/icon_switch_off"
+                    android:visibility="visible" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
