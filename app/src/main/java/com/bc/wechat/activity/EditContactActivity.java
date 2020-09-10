@@ -207,6 +207,11 @@ public class EditContactActivity extends BaseActivity {
                 break;
             case R.id.tv_save:
                 String alias = mAliasEt.getText().toString();
+                if (alias.length() > 16) {
+                    showAlertDialog(EditContactActivity.this, "提示",
+                            "你输入的备注过长", "确定", true);
+                    return;
+                }
                 List<String> mobileList = getMobileList();
                 String mobiles = JSON.toJSONString(mobileList);
                 String desc = mDescEt.getText().toString();

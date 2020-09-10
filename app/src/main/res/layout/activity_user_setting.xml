@@ -58,12 +58,23 @@
                     android:paddingLeft="12dp">
 
                     <TextView
+                        android:id="@+id/tv_edit_contact_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/edit_contact"
                         android:textColor="#353535"
+                        android:textSize="@dimen/setting_text_size" />
+
+                    <TextView
+                        android:id="@+id/tv_edit_contact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="35dp"
+                        android:layout_toRightOf="@id/tv_edit_contact_temp"
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
