@@ -78,6 +78,10 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.rl_edit_contact)
     RelativeLayout mEditContactRl;
 
+    // 朋友权限
+    @BindView(R.id.ll_privacy)
+    LinearLayout mPrivacyLl;
+
     // 电话号码
     @BindView(R.id.ll_mobiles)
     LinearLayout mMobileLl;
@@ -158,7 +162,7 @@ public class UserInfoActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.iv_setting, R.id.sdv_avatar, R.id.rl_privacy, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
+    @OnClick({R.id.iv_setting, R.id.sdv_avatar, R.id.ll_privacy, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
             R.id.rl_desc, R.id.rl_moments, R.id.rl_operate})
     public void onClick(View view) {
         Intent intent;
@@ -177,7 +181,7 @@ public class UserInfoActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             // 朋友权限
-            case R.id.rl_privacy:
+            case R.id.ll_privacy:
                 intent = new Intent(UserInfoActivity.this, ContactPrivacyActivity.class);
                 intent.putExtra("contactId", mContact.getUserId());
                 startActivity(intent);
@@ -293,6 +297,32 @@ public class UserInfoActivity extends BaseActivity {
             mMobileLl.setVisibility(View.GONE);
         }
 
+        List<String> privacyList = new ArrayList<>();
+        if (Constant.PRIVACY_CHATS_MOMENTS_WERUN_ETC.equals(user.getUserContactPrivacy())) {
+            // 所有权限
+            if (Constant.HIDE_MY_POSTS.equals(user.getUserContactHideMyPosts())) {
+                privacyList.add("不让他看朋友圈");
+            }
+
+            if (Constant.HIDE_HIS_POSTS.equals(user.getUserContactHideHisPosts())) {
+                privacyList.add("不看他的朋友圈");
+            }
+
+            if (!Constant.HIDE_HIS_POSTS.equals(user.getUserContactHideHisPosts()) &&
+                    !Constant.HIDE_MY_POSTS.equals(user.getUserContactHideMyPosts())) {
+                privacyList.add("");
+            }
+
+        } else {
+            // 仅聊天
+            privacyList.add("仅聊天");
+        }
+
+        mPrivacyLl.removeAllViews();
+        for (int i = 0; i < privacyList.size(); i++) {
+            addPrivacyView(i, privacyList.size(), privacyList.get(i));
+        }
+
         // 标签
         List<String> userContactTagList = user.getUserContactTagList();
         if (!CollectionUtils.isEmpty(userContactTagList)) {
@@ -383,6 +413,34 @@ public class UserInfoActivity extends BaseActivity {
         });
 
         mMobileLl.addView(view);
+    }
+
+    private void addPrivacyView(int index, int privacyListSize, String privacy) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                DensityUtil.dip2px(this, 48));
+        View view = LayoutInflater.from(this).inflate(R.layout.item_user_info_contact_privacy, null);
+        view.setLayoutParams(lp);
+        TextView privacyTempTv = view.findViewById(R.id.tv_privacy_temp);
+        View shortDividerView = view.findViewById(R.id.view_divider_short);
+        View longDividerView = view.findViewById(R.id.view_divider_long);
+        if (index == 0) {
+            privacyTempTv.setVisibility(View.VISIBLE);
+        } else {
+            privacyTempTv.setVisibility(View.INVISIBLE);
+        }
+
+        if (index == privacyListSize - 1) {
+            longDividerView.setVisibility(View.VISIBLE);
+            shortDividerView.setVisibility(View.GONE);
+        } else {
+            longDividerView.setVisibility(View.GONE);
+            shortDividerView.setVisibility(View.VISIBLE);
+        }
+
+        TextView privacyTv = view.findViewById(R.id.tv_privacy);
+        privacyTv.setText(privacy);
+
+        mPrivacyLl.addView(view);
     }
 
     /**
