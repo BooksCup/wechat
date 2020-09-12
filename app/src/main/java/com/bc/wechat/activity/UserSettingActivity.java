@@ -37,6 +37,7 @@ import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
 
 /**
  * 用户设置
@@ -160,9 +161,10 @@ public class UserSettingActivity extends BaseActivity {
     }
 
     @OnClick({R.id.rl_edit_contact, R.id.rl_privacy, R.id.rl_add_to_home_screen,
-            R.id.iv_add_star, R.id.iv_cancel_star, R.id.iv_block, R.id.iv_cancel_block})
+            R.id.iv_add_star, R.id.iv_cancel_star, R.id.iv_block, R.id.iv_cancel_block, R.id.rl_delete})
     public void onClick(View view) {
         Intent intent;
+        ConfirmDialog confirmDialog;
         switch (view.getId()) {
             case R.id.rl_edit_contact:
                 // 设置备注和标签
@@ -179,7 +181,7 @@ public class UserSettingActivity extends BaseActivity {
                 break;
             case R.id.rl_add_to_home_screen:
                 // 添加到桌面
-                final ConfirmDialog confirmDialog = new ConfirmDialog(UserSettingActivity.this, "已尝试添加到桌面",
+                confirmDialog = new ConfirmDialog(UserSettingActivity.this, "已尝试添加到桌面",
                         "若添加失败，请前往系统设置，为微信打开\"创建桌面快捷方式\"的权限。",
                         "了解详情", getString(R.string.cancel), getColor(R.color.navy_blue));
                 confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
@@ -219,6 +221,29 @@ public class UserSettingActivity extends BaseActivity {
                 break;
             case R.id.iv_cancel_block:
                 setContactBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
+                break;
+            case R.id.rl_delete:
+                // 删除联系人
+                confirmDialog = new ConfirmDialog(UserSettingActivity.this, "删除联系人",
+                        "将联系人\"" + mContact.getUserNickName() + "\"删除，将同时删除与该联系人的聊天记录",
+                        getString(R.string.delete), getString(R.string.cancel));
+                confirmDialog.setOnDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
+                    @Override
+                    public void onOkClick() {
+                        confirmDialog.dismiss();
+                        mDialog.setMessage(getString(R.string.please_wait));
+                        mDialog.show();
+                        deleteContact(mUser.getUserId(), mContactId);
+                    }
+
+                    @Override
+                    public void onCancelClick() {
+                        confirmDialog.dismiss();
+                    }
+                });
+                // 点击空白处消失
+                confirmDialog.setCancelable(true);
+                confirmDialog.show();
                 break;
         }
     }
@@ -367,6 +392,34 @@ public class UserSettingActivity extends BaseActivity {
                 mContact.setIsBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
             }
             mUserDao.saveUser(mContact);
+        }, volleyError -> mDialog.dismiss());
+
+    }
+
+    /**
+     * 删除联系人
+     *
+     * @param userId    用户ID
+     * @param contactId 联系人ID
+     */
+    private void deleteContact(final String userId, final String contactId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/contacts/" + contactId;
+
+        mVolleyUtil.httpDeleteRequest(url, response -> {
+            mDialog.dismiss();
+            // 清除本地记录
+            // 通讯录删除
+            User user = mUserDao.getUserById(contactId);
+            User.delete(user);
+
+            // 朋友圈清除记录
+
+            // 删除会话
+            JMessageClient.deleteSingleConversation(contactId);
+
+            finish();
+            // TODO
+            // 跳转到首页第二个tab并refresh
         }, volleyError -> mDialog.dismiss());
 
     }
