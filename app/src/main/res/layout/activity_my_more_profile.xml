@@ -146,7 +146,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="@string/my_sign"
+            android:text="@string/whats_up"
             android:textColor="#353535"
             android:textSize="@dimen/common_item_text_size" />
 

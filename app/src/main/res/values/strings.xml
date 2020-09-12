@@ -138,7 +138,7 @@
     <string name="my_address">我的地址</string>
     <string name="sex">性别</string>
     <string name="region">地区</string>
-    <string name="my_sign">个性签名</string>
+    <string name="whats_up">个性签名</string>
 
     <string name="saving">正在保存</string>
     <string name="wx_id_or_phone">微信号/手机号</string>
@@ -283,4 +283,5 @@
     <string name="change_mobile">更换手机号</string>
 
     <string name="call">呼叫</string>
+    <string name="from">来源</string>
 </resources>

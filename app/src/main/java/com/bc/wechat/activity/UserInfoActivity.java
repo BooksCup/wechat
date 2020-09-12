@@ -163,7 +163,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     @OnClick({R.id.iv_setting, R.id.sdv_avatar, R.id.ll_privacy, R.id.rl_edit_contact, R.id.ll_mobiles, R.id.rl_tags,
-            R.id.rl_desc, R.id.rl_moments, R.id.rl_operate})
+            R.id.rl_desc, R.id.rl_moments, R.id.rl_more, R.id.rl_operate})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -205,6 +205,11 @@ public class UserInfoActivity extends BaseActivity {
 //                intent = new Intent(UserInfoActivity.this, ContactMomentsActivity.class);
 //                intent.putExtra("userId", mContactId);
 //                startActivity(intent);
+                break;
+            // 更多信息
+            case R.id.rl_more:
+                intent = new Intent(UserInfoActivity.this, UserInfoMoreActivity.class);
+                startActivity(intent);
                 break;
             // 发消息
             case R.id.rl_operate:
