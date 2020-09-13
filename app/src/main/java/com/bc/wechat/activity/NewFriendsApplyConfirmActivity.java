@@ -79,8 +79,9 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
 
     private User mUser;
     private UserDao mUserDao;
-    private User mFriend;
-    private String mFriendId;
+    private User mContact;
+    private String mContactId;
+    private String mFrom;
 
     private VolleyUtil mVolleyUtil;
     private LoadingDialog mDialog;
@@ -110,15 +111,16 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
         mRelaHideMyPosts = Constant.SHOW_MY_POSTS;
         mRelaHideHisPosts = Constant.SHOW_HIS_POSTS;
 
-        mFriendId = getIntent().getStringExtra("friendId");
+        mFrom = getIntent().getStringExtra("from");
+        mContactId = getIntent().getStringExtra("contactId");
 
-        mFriend = mUserDao.getUserById(mFriendId);
+        mContact = mUserDao.getUserById(mContactId);
         mApplyRemarkEt.setText("我是" + mUser.getUserNickName());
 
-        if (TextUtils.isEmpty(mFriend.getUserContactAlias())) {
-            mContactAliasEt.setText(mFriend.getUserNickName());
+        if (TextUtils.isEmpty(mContact.getUserContactAlias())) {
+            mContactAliasEt.setText(mContact.getUserNickName());
         } else {
-            mContactAliasEt.setText(mFriend.getUserContactAlias());
+            mContactAliasEt.setText(mContact.getUserContactAlias());
         }
     }
 
@@ -182,7 +184,8 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
                 String applyRemark = mApplyRemarkEt.getText().toString();
                 String relaContactAlias = mContactAliasEt.getText().toString();
 
-                addFriendApply(applyRemark, mUser.getUserId(), mFriendId, relaContactAlias, mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                addFriendApply(applyRemark, mUser.getUserId(), mContactId,
+                        mFrom, relaContactAlias, mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
                 break;
             default:
                 break;
@@ -195,16 +198,17 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
      * @param applyRemark      申请备注
      * @param fromUserId       请求人用户ID
      * @param toUserId         接收人用户ID
+     * @param relaContactFrom  好友来源
      * @param relaContactAlias 联系人备注
      * @param relaPrivacy      朋友权限 "0":聊天、朋友圈、微信运动  "1":仅聊天
      * @param relaHideMyPosts  朋友圈和视频动态 "0":可以看我 "1":不让他看我
      * @param relaHideHisPosts 朋友圈和视频动态 "0":可以看他 "1":不看他
      */
-    private void addFriendApply(String applyRemark, String fromUserId, String toUserId, String relaContactAlias,
+    private void addFriendApply(String applyRemark, String fromUserId, String toUserId, String relaContactFrom, String relaContactAlias,
                                 String relaPrivacy, String relaHideMyPosts, String relaHideHisPosts) {
         String url = Constant.BASE_URL + "friendApplies";
 
-        if (relaContactAlias.equals(mFriend.getUserNickName())) {
+        if (relaContactAlias.equals(mContact.getUserNickName())) {
             relaContactAlias = "";
         }
 
@@ -212,6 +216,7 @@ public class NewFriendsApplyConfirmActivity extends BaseActivity implements View
         paramMap.put("applyRemark", applyRemark);
         paramMap.put("fromUserId", fromUserId);
         paramMap.put("toUserId", toUserId);
+        paramMap.put("relaContactFrom", relaContactFrom);
         paramMap.put("relaContactAlias", relaContactAlias);
         paramMap.put("relaPrivacy", relaPrivacy);
         paramMap.put("relaHideMyPosts", relaHideMyPosts);

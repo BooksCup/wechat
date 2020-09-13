@@ -209,6 +209,7 @@ public class UserInfoActivity extends BaseActivity {
             // 更多信息
             case R.id.rl_more:
                 intent = new Intent(UserInfoActivity.this, UserInfoMoreActivity.class);
+                intent.putExtra("contactId", mContactId);
                 startActivity(intent);
                 break;
             // 发消息

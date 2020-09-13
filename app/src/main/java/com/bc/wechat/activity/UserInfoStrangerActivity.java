@@ -135,7 +135,8 @@ public class UserInfoStrangerActivity extends BaseActivity {
                 break;
             case R.id.rl_add:
                 intent = new Intent(UserInfoStrangerActivity.this, NewFriendsApplyConfirmActivity.class);
-                intent.putExtra("friendId", mContactId);
+                intent.putExtra("contactId", mContactId);
+                intent.putExtra("from", mFrom);
                 startActivity(intent);
                 break;
 
