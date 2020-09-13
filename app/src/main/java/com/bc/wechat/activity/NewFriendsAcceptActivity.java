@@ -1,36 +1,35 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.NetworkError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.FriendApplyDao;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.FriendApply;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.CommonUtil;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 好友申请
@@ -38,33 +37,48 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class NewFriendsAcceptActivity extends BaseActivity {
+    @BindView(R.id.ll_nick_name)
+    LinearLayout mNickNameLl;
 
-    private TextView mTitleTv;
-    private TextView mNickNameTv;
-    private SimpleDraweeView mAvatarSdv;
-    private TextView mSignTv;
-    private ImageView mSexIv;
-    private RelativeLayout mAcceptRl;
+    @BindView(R.id.tv_nick_name)
+    TextView mNickNameTv;
+
+    @BindView(R.id.tv_name)
+    TextView mNameTv;
+
+    @BindView(R.id.sdv_avatar)
+    SimpleDraweeView mAvatarSdv;
+
+    @BindView(R.id.iv_sex)
+    ImageView mSexIv;
+
+    @BindView(R.id.rl_accept)
+    RelativeLayout mAcceptRl;
 
     // 朋友圈图片
-    private SimpleDraweeView mCirclePhoto1Sdv;
-    private SimpleDraweeView mCirclePhoto2Sdv;
-    private SimpleDraweeView mCirclePhoto3Sdv;
-    private SimpleDraweeView mCirclePhoto4Sdv;
+    private SimpleDraweeView mMomentsPhoto1Sdv;
+    private SimpleDraweeView mMomentsPhoto2Sdv;
+    private SimpleDraweeView mMomentsPhoto3Sdv;
+    private SimpleDraweeView mMomentsPhoto4Sdv;
 
-    private VolleyUtil mVolleyUtil;
-    private FriendApplyDao mFriendApplyDao;
-    private UserDao mUserDao;
-    private FriendApply mFriendApply;
-
-    private LoadingDialog mDialog;
+    VolleyUtil mVolleyUtil;
+    FriendApplyDao mFriendApplyDao;
+    UserDao mUserDao;
+    FriendApply mFriendApply;
+    LoadingDialog mDialog;
+    User mContact;
+    User mUser;
+    String mContactId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friends_accept);
+        ButterKnife.bind(this);
         initStatusBar();
+        StatusBarUtil.setStatusBarColor(NewFriendsAcceptActivity.this, R.color.status_bar_color_white);
 
+        mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
         mFriendApplyDao = new FriendApplyDao();
@@ -73,44 +87,58 @@ public class NewFriendsAcceptActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        mNickNameTv = findViewById(R.id.tv_name);
-        mAvatarSdv = findViewById(R.id.sdv_avatar);
-        mSexIv = findViewById(R.id.iv_sex);
-        mSignTv = findViewById(R.id.tv_sign);
-
-        mCirclePhoto1Sdv = findViewById(R.id.sdv_circle_photo_1);
-        mCirclePhoto2Sdv = findViewById(R.id.sdv_circle_photo_2);
-        mCirclePhoto3Sdv = findViewById(R.id.sdv_circle_photo_3);
-        mCirclePhoto4Sdv = findViewById(R.id.sdv_circle_photo_4);
-
-        mAcceptRl = findViewById(R.id.rl_accept);
-
         final String applyId = getIntent().getStringExtra("applyId");
         mFriendApply = mFriendApplyDao.getFriendApplyByApplyId(applyId);
+        mContactId = mFriendApply.getFromUserId();
+        mContact = mUserDao.getUserById(mContactId);
 
-        mNickNameTv.setText(mFriendApply.getFromUserNickName());
-        if (!TextUtils.isEmpty(mFriendApply.getFromUserAvatar())) {
-            mAvatarSdv.setImageURI(Uri.parse(mFriendApply.getFromUserAvatar()));
+        loadData(mContact);
+        getContactFromServer(mUser.getUserId(), mContactId);
+    }
+
+    public void back(View view) {
+        finish();
+    }
+
+    @OnClick({R.id.iv_setting})
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.iv_setting:
+                intent = new Intent(NewFriendsAcceptActivity.this, UserSettingActivity.class);
+                intent.putExtra("contactId", mContactId);
+                intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
+                startActivity(intent);
+                break;
         }
-        if (Constant.USER_SEX_MALE.equals(mFriendApply.getFromUserSex())) {
+    }
+
+
+    private void loadData(User user) {
+        if (!TextUtils.isEmpty(user.getUserContactAlias())) {
+            mNameTv.setText(user.getUserContactAlias());
+            mNickNameLl.setVisibility(View.VISIBLE);
+            mNickNameTv.setText("昵称：" + user.getUserNickName());
+        } else {
+            mNickNameLl.setVisibility(View.GONE);
+            mNameTv.setText(user.getUserNickName());
+        }
+        if (!TextUtils.isEmpty(user.getUserAvatar())) {
+            mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
+        }
+        if (Constant.USER_SEX_MALE.equals(user.getUserSex())) {
             mSexIv.setImageResource(R.mipmap.icon_sex_male);
-        } else if (Constant.USER_SEX_FEMALE.equals(mFriendApply.getFromUserSex())) {
+        } else if (Constant.USER_SEX_FEMALE.equals(user.getUserSex())) {
             mSexIv.setImageResource(R.mipmap.icon_sex_female);
         } else {
             mSexIv.setVisibility(View.GONE);
         }
 
-        mSignTv.setText(mFriendApply.getFromUserSign());
-
-        if (!TextUtils.isEmpty(mFriendApply.getFromUserLastestCirclePhotos())) {
+        if (!TextUtils.isEmpty(user.getUserLastestCirclePhotos())) {
             // 渲染朋友圈图片
             List<String> circlePhotoList;
             try {
-                circlePhotoList = JSON.parseArray(mFriendApply.getFromUserLastestCirclePhotos(), String.class);
+                circlePhotoList = JSON.parseArray(user.getUserLastestCirclePhotos(), String.class);
                 if (null == circlePhotoList) {
                     circlePhotoList = new ArrayList<>();
                 }
@@ -119,85 +147,61 @@ public class NewFriendsAcceptActivity extends BaseActivity {
             }
             switch (circlePhotoList.size()) {
                 case 1:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
                     break;
                 case 2:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                    mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mMomentsPhoto2Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
                     break;
                 case 3:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                    mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                    mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mMomentsPhoto2Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                    mMomentsPhoto3Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
                     break;
                 case 4:
-                    mCirclePhoto1Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
-                    mCirclePhoto2Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
-                    mCirclePhoto3Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
-                    mCirclePhoto4Sdv.setVisibility(View.VISIBLE);
-                    mCirclePhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
+                    mMomentsPhoto1Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto1Sdv.setImageURI(Uri.parse(circlePhotoList.get(0)));
+                    mMomentsPhoto2Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto2Sdv.setImageURI(Uri.parse(circlePhotoList.get(1)));
+                    mMomentsPhoto3Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto3Sdv.setImageURI(Uri.parse(circlePhotoList.get(2)));
+                    mMomentsPhoto4Sdv.setVisibility(View.VISIBLE);
+                    mMomentsPhoto4Sdv.setImageURI(Uri.parse(circlePhotoList.get(3)));
                     break;
                 default:
                     break;
             }
         }
+    }
 
-        mAcceptRl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDialog.setMessage("正在处理...");
-                mDialog.show();
-                acceptFriendApply(applyId);
-            }
+    /**
+     * 从服务器获取用户最新信息
+     *
+     * @param userId 用户ID
+     */
+    public void getContactFromServer(final String userId, final String contactId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/contacts/" + contactId;
+
+        mVolleyUtil.httpGetRequest(url, response -> {
+            User user = JSON.parseObject(response, User.class);
+            mUserDao.saveUser(user);
+            loadData(user);
+        }, volleyError -> {
+
         });
     }
 
-    public void back(View view) {
-        finish();
-    }
-
-    private void acceptFriendApply(String applyId) {
-        String url = Constant.BASE_URL + "friendApplies";
-
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("applyId", applyId);
-
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                mFriendApply.setStatus(Constant.FRIEND_APPLY_STATUS_ACCEPT);
-                FriendApply.save(mFriendApply);
-
-                User user = new User();
-                user.setUserId(mFriendApply.getFromUserId());
-                user.setUserNickName(mFriendApply.getFromUserNickName());
-                user.setUserAvatar(mFriendApply.getFromUserAvatar());
-                user.setUserHeader(CommonUtil.setUserHeader(mFriendApply.getFromUserNickName()));
-                user.setUserSex(mFriendApply.getFromUserSex());
-                user.setIsFriend(Constant.IS_FRIEND);
-                mUserDao.saveUser(user);
-
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(NewFriendsAcceptActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User user = mUserDao.getUserById(mContactId);
+        loadData(user);
+        getContactFromServer(mUser.getUserId(), mContactId);
     }
 }
