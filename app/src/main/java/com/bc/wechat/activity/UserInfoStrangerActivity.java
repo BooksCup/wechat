@@ -129,7 +129,7 @@ public class UserInfoStrangerActivity extends BaseActivity {
             case R.id.rl_tags:
             case R.id.rl_desc:
                 intent = new Intent(UserInfoStrangerActivity.this, EditContactActivity.class);
-                intent.putExtra("userId", mContactId);
+                intent.putExtra("contactId", mContactId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
                 startActivity(intent);
                 break;
