@@ -235,12 +235,12 @@
                 android:id="@+id/tv_from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/tv_from_temp"
                 android:ellipsize="end"
                 android:paddingLeft="50dp"
                 android:paddingRight="15dp"
-                android:layout_alignParentRight="true"
                 android:singleLine="true"
                 android:text="对方通过搜索手机号添加"
                 android:textSize="16sp" />
@@ -253,7 +253,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_accept"
+            android:id="@+id/rl_go_confirm"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="10dp"
@@ -262,13 +262,11 @@
             android:paddingRight="12dp">
 
             <TextView
-                android:id="@+id/tv_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:paddingLeft="8dp"
-                android:text="通过验证"
+                android:text="前往验证"
                 android:textColor="#5B6784"
                 android:textSize="17sp" />
 

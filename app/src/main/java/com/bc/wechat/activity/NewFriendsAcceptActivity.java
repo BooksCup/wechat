@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -55,9 +54,6 @@ public class NewFriendsAcceptActivity extends BaseActivity {
     @BindView(R.id.tv_from)
     TextView mFromTv;
 
-    @BindView(R.id.rl_accept)
-    RelativeLayout mAcceptRl;
-
     // 朋友圈图片
     private SimpleDraweeView mMomentsPhoto1Sdv;
     private SimpleDraweeView mMomentsPhoto2Sdv;
@@ -103,7 +99,7 @@ public class NewFriendsAcceptActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.iv_setting})
+    @OnClick({R.id.iv_setting, R.id.rl_go_confirm})
     public void onClick(View view) {
         Intent intent;
         switch (view.getId()) {
@@ -111,6 +107,11 @@ public class NewFriendsAcceptActivity extends BaseActivity {
                 intent = new Intent(NewFriendsAcceptActivity.this, UserSettingActivity.class);
                 intent.putExtra("contactId", mContactId);
                 intent.putExtra("isFriend", Constant.IS_NOT_FRIEND);
+                startActivity(intent);
+                break;
+            case R.id.rl_go_confirm:
+                intent = new Intent(NewFriendsAcceptActivity.this, NewFriendsAcceptConfirmActivity.class);
+                intent.putExtra("applyId", mFriendApply.getApplyId());
                 startActivity(intent);
                 break;
         }
@@ -143,7 +144,7 @@ public class NewFriendsAcceptActivity extends BaseActivity {
         if (Constant.CONTACTS_FROM_PHONE.equals(user.getUserContactFrom())) {
             mFromTv.setText("对方通过搜索手机号添加");
         } else if (Constant.CONTACTS_FROM_WX_ID.equals(user.getUserContactFrom())) {
-
+            mFromTv.setText("对方通过搜索微信号添加");
         } else if (Constant.CONTACTS_FROM_PEOPLE_NEARBY.equals(user.getUserContactFrom())) {
 
         } else if (Constant.CONTACTS_FROM_CONTACT.equals(user.getUserContactFrom())) {

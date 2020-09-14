@@ -12,7 +12,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
-        android:background="@color/common_top_bar">
+        android:background="@color/common_top_bar_white">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@color/color_light_grey"
+                android:background="@color/bg_light_grey"
                 android:paddingLeft="12dp"
                 android:text="Zhou"
                 android:textColor="#353535"
@@ -121,16 +121,16 @@
             android:paddingRight="20dp">
 
             <RelativeLayout
-                android:id="@+id/rl_auth_all"
+                android:id="@+id/rl_chats_moments_werun_etc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_auth_all"
+                    android:id="@+id/tv_chats_moments_werun_etc"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:layout_alignParentLeft="true"
-                    android:background="@color/color_light_grey"
+                    android:background="@color/bg_light_grey"
                     android:gravity="center_vertical"
                     android:paddingLeft="12dp"
                     android:text="聊天、朋友圈、微信运动等"
@@ -138,7 +138,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/iv_auth_all"
+                    android:id="@+id/iv_chats_moments_werun_etc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -149,22 +149,22 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
-                    android:layout_below="@id/tv_auth_all"
+                    android:layout_below="@id/tv_chats_moments_werun_etc"
                     android:background="#d6d6d6" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_auth_only_chat"
+                android:id="@+id/rl_chats_only"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_auth_all">
+                android:layout_below="@+id/rl_chats_moments_werun_etc">
 
                 <TextView
-                    android:id="@+id/tv_auth_only_chat"
+                    android:id="@+id/tv_chats_only"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:layout_alignParentLeft="true"
-                    android:background="@color/color_light_grey"
+                    android:background="@color/bg_light_grey"
                     android:gravity="center_vertical"
                     android:paddingLeft="12dp"
                     android:text="仅聊天"
@@ -172,7 +172,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/iv_auth_only_chat"
+                    android:id="@+id/iv_chats_only"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -185,7 +185,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_role_temp"
+            android:id="@+id/rl_privacy_header"
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="#ffffff"
@@ -203,7 +203,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_role"
+            android:id="@+id/rl_privacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
@@ -211,16 +211,16 @@
             android:paddingRight="20dp">
 
             <RelativeLayout
-                android:id="@+id/rl_forbid_see_me"
+                android:id="@+id/rl_hide_my_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_forbid_see_me"
+                    android:id="@+id/tv_hide_my_posts"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:layout_alignParentLeft="true"
-                    android:background="@color/color_light_grey"
+                    android:background="@color/bg_light_grey"
                     android:gravity="center_vertical"
                     android:paddingLeft="12dp"
                     android:text="不让他看我"
@@ -228,7 +228,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/iv_switch_forbid_see_me"
+                    android:id="@+id/iv_hide_my_posts"
                     android:layout_width="42dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
@@ -238,7 +238,7 @@
                     android:visibility="gone" />
 
                 <ImageView
-                    android:id="@+id/iv_switch_allow_see_me"
+                    android:id="@+id/iv_show_my_posts"
                     android:layout_width="42dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
@@ -250,22 +250,22 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
-                    android:layout_below="@id/tv_forbid_see_me"
+                    android:layout_below="@id/tv_hide_my_posts"
                     android:background="#d6d6d6" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_forbid_see_him"
+                android:id="@+id/rl_hide_his_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_forbid_see_me">
+                android:layout_below="@id/rl_hide_my_posts">
 
                 <TextView
-                    android:id="@+id/tv_forbid_see_him"
+                    android:id="@+id/tv_hide_his_posts"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:layout_alignParentLeft="true"
-                    android:background="@color/color_light_grey"
+                    android:background="@color/bg_light_grey"
                     android:gravity="center_vertical"
                     android:paddingLeft="12dp"
                     android:text="不看他"
@@ -273,7 +273,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/iv_switch_forbid_see_him"
+                    android:id="@+id/iv_hide_his_posts"
                     android:layout_width="42dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
@@ -283,7 +283,7 @@
                     android:visibility="gone" />
 
                 <ImageView
-                    android:id="@+id/iv_switch_allow_see_him"
+                    android:id="@+id/iv_show_his_posts"
                     android:layout_width="42dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
