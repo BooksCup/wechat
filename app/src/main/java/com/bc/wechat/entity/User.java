@@ -44,7 +44,12 @@ public class User extends SugarRecord {
 
     private String friendSource;
 
-    // 好友相关
+    /**
+     * 联系人来源
+     */
+    private String userContactFrom;
+
+    // 联系人相关
     private String userContactMobiles;
     private String userContactAlias;
     private String userContactDesc;
@@ -268,6 +273,14 @@ public class User extends SugarRecord {
 
     public void setFriendSource(String friendSource) {
         this.friendSource = friendSource;
+    }
+
+    public String getUserContactFrom() {
+        return userContactFrom;
+    }
+
+    public void setUserContactFrom(String userContactFrom) {
+        this.userContactFrom = userContactFrom;
     }
 
     public String getUserContactMobiles() {

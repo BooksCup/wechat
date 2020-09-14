@@ -221,7 +221,7 @@
             android:paddingRight="8dp">
 
             <TextView
-                android:id="@+id/tv_source"
+                android:id="@+id/tv_from_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -231,12 +231,19 @@
                 android:textColor="#353535"
                 android:textSize="16sp" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
+            <TextView
+                android:id="@+id/tv_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_right_arrow" />
+                android:layout_toRightOf="@id/tv_from_temp"
+                android:ellipsize="end"
+                android:paddingLeft="50dp"
+                android:paddingRight="15dp"
+                android:layout_alignParentRight="true"
+                android:singleLine="true"
+                android:text="对方通过搜索手机号添加"
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"

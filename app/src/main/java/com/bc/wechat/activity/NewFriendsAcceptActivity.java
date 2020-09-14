@@ -52,6 +52,9 @@ public class NewFriendsAcceptActivity extends BaseActivity {
     @BindView(R.id.iv_sex)
     ImageView mSexIv;
 
+    @BindView(R.id.tv_from)
+    TextView mFromTv;
+
     @BindView(R.id.rl_accept)
     RelativeLayout mAcceptRl;
 
@@ -126,6 +129,8 @@ public class NewFriendsAcceptActivity extends BaseActivity {
         if (!TextUtils.isEmpty(user.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(user.getUserAvatar()));
         }
+
+        // 性别
         if (Constant.USER_SEX_MALE.equals(user.getUserSex())) {
             mSexIv.setImageResource(R.mipmap.icon_sex_male);
         } else if (Constant.USER_SEX_FEMALE.equals(user.getUserSex())) {
@@ -133,6 +138,18 @@ public class NewFriendsAcceptActivity extends BaseActivity {
         } else {
             mSexIv.setVisibility(View.GONE);
         }
+
+        // 来源
+        if (Constant.CONTACTS_FROM_PHONE.equals(user.getUserContactFrom())) {
+            mFromTv.setText("对方通过搜索手机号添加");
+        } else if (Constant.CONTACTS_FROM_WX_ID.equals(user.getUserContactFrom())) {
+
+        } else if (Constant.CONTACTS_FROM_PEOPLE_NEARBY.equals(user.getUserContactFrom())) {
+
+        } else if (Constant.CONTACTS_FROM_CONTACT.equals(user.getUserContactFrom())) {
+
+        }
+
 
         if (!TextUtils.isEmpty(user.getUserLastestCirclePhotos())) {
             // 渲染朋友圈图片
