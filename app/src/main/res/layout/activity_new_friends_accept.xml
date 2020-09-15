@@ -242,7 +242,7 @@
                 android:paddingLeft="50dp"
                 android:paddingRight="15dp"
                 android:singleLine="true"
-                android:text="对方通过搜索手机号添加"
+                android:text=""
                 android:textSize="16sp" />
 
             <View

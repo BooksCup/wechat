@@ -15,6 +15,11 @@ public class FriendApply extends SugarRecord {
     private String fromUserSign;
     private String fromUserLastestCirclePhotos;
 
+    /**
+     * 好友来源
+     */
+    private String fromUserFrom;
+
     private String status;
     private Long timeStamp;
 
@@ -104,6 +109,14 @@ public class FriendApply extends SugarRecord {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFromUserFrom() {
+        return fromUserFrom;
+    }
+
+    public void setFromUserFrom(String fromUserFrom) {
+        this.fromUserFrom = fromUserFrom;
     }
 
     public Long getTimeStamp() {

@@ -68,6 +68,7 @@ public class NewFriendsAcceptActivity extends BaseActivity {
     User mContact;
     User mUser;
     String mContactId;
+    String mContactFrom;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +91,8 @@ public class NewFriendsAcceptActivity extends BaseActivity {
         mFriendApply = mFriendApplyDao.getFriendApplyByApplyId(applyId);
         mContactId = mFriendApply.getFromUserId();
         mContact = mUserDao.getUserById(mContactId);
+        mContactFrom = mFriendApply.getFromUserFrom();
+        mContact.setUserContactFrom(mContactFrom);
 
         loadData(mContact);
         getContactFromServer(mUser.getUserId(), mContactId);
@@ -208,6 +211,7 @@ public class NewFriendsAcceptActivity extends BaseActivity {
 
         mVolleyUtil.httpGetRequest(url, response -> {
             User user = JSON.parseObject(response, User.class);
+            user.setUserContactFrom(mContactFrom);
             mUserDao.saveUser(user);
             loadData(user);
         }, volleyError -> {
@@ -219,6 +223,7 @@ public class NewFriendsAcceptActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         User user = mUserDao.getUserById(mContactId);
+        user.setUserContactFrom(mContactFrom);
         loadData(user);
         getContactFromServer(mUser.getUserId(), mContactId);
     }
