@@ -42,8 +42,6 @@ public class User extends SugarRecord {
     private String userWxIdModifyFlag;
     private String userLastestCirclePhotos;
 
-    private String friendSource;
-
     /**
      * 联系人来源
      */
@@ -265,14 +263,6 @@ public class User extends SugarRecord {
 
     public void setUserLastestCirclePhotos(String userLastestCirclePhotos) {
         this.userLastestCirclePhotos = userLastestCirclePhotos;
-    }
-
-    public String getFriendSource() {
-        return friendSource;
-    }
-
-    public void setFriendSource(String friendSource) {
-        this.friendSource = friendSource;
     }
 
     public String getUserContactFrom() {

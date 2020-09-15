@@ -218,6 +218,7 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity {
             user.setUserHeader(CommonUtil.setUserHeader(mFriendApply.getFromUserNickName()));
             user.setUserSex(mFriendApply.getFromUserSex());
             user.setIsFriend(Constant.IS_FRIEND);
+            user.setIsBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
             mUserDao.saveUser(user);
 
             Toast.makeText(NewFriendsAcceptConfirmActivity.this, "已发送", Toast.LENGTH_SHORT).show();
