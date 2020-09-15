@@ -149,7 +149,7 @@ public class NewFriendsAcceptActivity extends BaseActivity {
         } else if (Constant.CONTACTS_FROM_WX_ID.equals(user.getUserContactFrom())) {
             mFromTv.setText("对方通过搜索微信号添加");
         } else if (Constant.CONTACTS_FROM_PEOPLE_NEARBY.equals(user.getUserContactFrom())) {
-
+            mFromTv.setText("对方通过附近的人添加");
         } else if (Constant.CONTACTS_FROM_CONTACT.equals(user.getUserContactFrom())) {
 
         }

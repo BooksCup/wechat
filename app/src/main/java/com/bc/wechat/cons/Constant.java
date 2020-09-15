@@ -92,39 +92,6 @@ public class Constant {
 
     /**
      * 朋友权限（所有权限：聊天、朋友圈、微信运动等）
-     * default
-     */
-    public static final String RELA_AUTH_ALL = "0";
-
-    /**
-     * 朋友权限（仅聊天）
-     */
-    public static final String RELA_AUTH_ONLY_CHAT = "1";
-
-    /**
-     * 朋友圈和视频动态-可以看我
-     * default
-     */
-    public static final String RELA_CAN_SEE_ME = "0";
-
-    /**
-     * 朋友圈时视频动态-不让他看我
-     */
-    public static final String RELA_NOT_SEE_ME = "1";
-
-    /**
-     * 朋友圈和视频动态-可以看他
-     * default
-     */
-    public static final String RELA_CAN_SEE_HIM = "0";
-
-    /**
-     * 朋友圈时视频动态-不看他
-     */
-    public static final String RELA_NOT_SEE_HIM = "1";
-
-    /**
-     * 朋友权限（所有权限：聊天、朋友圈、微信运动等）
      */
     public static final String PRIVACY_CHATS_MOMENTS_WERUN_ETC = "0";
 

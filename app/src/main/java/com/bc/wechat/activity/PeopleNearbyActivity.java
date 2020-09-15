@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,9 +23,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -48,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 附近的人
@@ -58,13 +57,22 @@ public class PeopleNearbyActivity extends BaseActivity {
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
 
-    private LinearLayout mRootLl;
-    private TextView mTitleTv;
-    private ListView mPeopleNearbyLv;
-    private PeopleNearbyAdapter mPeopleNearbyAdapter;
-    private ImageView mSexFilterIv;
-    private ImageView mSettingIv;
+    @BindView(R.id.ll_root)
+    LinearLayout mRootLl;
 
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.lv_people_nearby)
+    ListView mPeopleNearbyLv;
+
+    @BindView(R.id.iv_sex_filter)
+    ImageView mSexFilterIv;
+
+    @BindView(R.id.iv_setting)
+    ImageView mSettingIv;
+
+    private PeopleNearbyAdapter mPeopleNearbyAdapter;
     private List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
     private VolleyUtil mVolleyUtil;
     private User mUser;
@@ -80,6 +88,8 @@ public class PeopleNearbyActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_nearby);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
         initView();
@@ -99,112 +109,104 @@ public class PeopleNearbyActivity extends BaseActivity {
         initLocationClientOptions();
         mLocationClient.start();
 
-        mSettingIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = layoutInflater.inflate(R.layout.popup_window_people_nearby_setting, null);
-                // 给popwindow加上动画效果
-                LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
-                view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
-                mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
-                // 设置popwindow的宽高
-                DisplayMetrics dm = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(dm);
-                mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mSettingIv.setOnClickListener(view -> {
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = layoutInflater.inflate(R.layout.popup_window_people_nearby_setting, null);
+            // 给popwindow加上动画效果
+            LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
+            view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
+            mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
+            // 设置popwindow的宽高
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                // 使其聚集
-                mPopupWindow.setFocusable(true);
-                // 设置允许在外点击消失
-                mPopupWindow.setOutsideTouchable(true);
+            // 使其聚集
+            mPopupWindow.setFocusable(true);
+            // 设置允许在外点击消失
+            mPopupWindow.setOutsideTouchable(true);
 
-                // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-                mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-                backgroundAlpha(0.5f);  //透明度
+            // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
+            mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+            backgroundAlpha(0.5f);  //透明度
 
-                mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        backgroundAlpha(1f);
-                    }
-                });
-                // 弹出的位置
-                mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+            mPopupWindow.setOnDismissListener(() -> backgroundAlpha(1f));
+            // 弹出的位置
+            mPopupWindow.showAtLocation(mRootLl, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
-                // 只看女生
-                RelativeLayout mFemalesOnlyRl = view.findViewById(R.id.rl_females_only);
-                mFemalesOnlyRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
+            // 只看女生
+            RelativeLayout mFemalesOnlyRl = view.findViewById(R.id.rl_females_only);
+            mFemalesOnlyRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPopupWindow.dismiss();
 
-                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
-                        mDialog.setMessage(getString(R.string.searching_people_nearby));
-                        mDialog.setCanceledOnTouchOutside(false);
-                        mDialog.show();
-                        // 获取附近的人列表(女)
-                        getPeopleNearbyList(mUser.getUserId(), Constant.USER_SEX_FEMALE);
-                    }
-                });
+                    mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                    mDialog.setMessage(getString(R.string.searching_people_nearby));
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.show();
+                    // 获取附近的人列表(女)
+                    getPeopleNearbyList(mUser.getUserId(), Constant.USER_SEX_FEMALE);
+                }
+            });
 
-                // 只看男生
-                RelativeLayout mMalesOnlyRl = view.findViewById(R.id.rl_males_only);
-                mMalesOnlyRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
+            // 只看男生
+            RelativeLayout mMalesOnlyRl = view.findViewById(R.id.rl_males_only);
+            mMalesOnlyRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPopupWindow.dismiss();
 
-                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
-                        mDialog.setMessage(getString(R.string.searching_people_nearby));
-                        mDialog.setCanceledOnTouchOutside(false);
-                        mDialog.show();
-                        // 获取附近的人列表(男)
-                        getPeopleNearbyList(mUser.getUserId(), Constant.USER_SEX_MALE);
-                    }
-                });
+                    mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                    mDialog.setMessage(getString(R.string.searching_people_nearby));
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.show();
+                    // 获取附近的人列表(男)
+                    getPeopleNearbyList(mUser.getUserId(), Constant.USER_SEX_MALE);
+                }
+            });
 
-                // 查看全部
-                RelativeLayout mViewAllRl = view.findViewById(R.id.rl_view_all);
-                mViewAllRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
+            // 查看全部
+            RelativeLayout mViewAllRl = view.findViewById(R.id.rl_view_all);
+            mViewAllRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPopupWindow.dismiss();
 
-                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
-                        mDialog.setMessage(getString(R.string.searching_people_nearby));
-                        mDialog.setCanceledOnTouchOutside(false);
-                        mDialog.show();
-                        // 获取附近的人列表(全部)
-                        getPeopleNearbyList(mUser.getUserId(), null);
-                    }
-                });
+                    mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                    mDialog.setMessage(getString(R.string.searching_people_nearby));
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.show();
+                    // 获取附近的人列表(全部)
+                    getPeopleNearbyList(mUser.getUserId(), null);
+                }
+            });
 
 
-                // 清除位置并退出
-                RelativeLayout mClearLocationRl = view.findViewById(R.id.rl_clear_location);
-                mClearLocationRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
+            // 清除位置并退出
+            RelativeLayout mClearLocationRl = view.findViewById(R.id.rl_clear_location);
+            mClearLocationRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPopupWindow.dismiss();
 
-                        mDialog = new LoadingDialog(PeopleNearbyActivity.this);
-                        mDialog.setMessage(getString(R.string.clearing));
-                        mDialog.setCanceledOnTouchOutside(false);
-                        mDialog.show();
+                    mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+                    mDialog.setMessage(getString(R.string.clearing));
+                    mDialog.setCanceledOnTouchOutside(false);
+                    mDialog.show();
 
-                        deletePositionInfo(mUser.getUserId());
-                    }
-                });
+                    deletePositionInfo(mUser.getUserId());
+                }
+            });
 
-                // 取消
-                RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
-                mCancelRl.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mPopupWindow.dismiss();
-                    }
-                });
-            }
+            // 取消
+            RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
+            mCancelRl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mPopupWindow.dismiss();
+                }
+            });
         });
     }
 
@@ -265,33 +267,26 @@ public class PeopleNearbyActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mRootLl = findViewById(R.id.ll_root);
-        mSettingIv = findViewById(R.id.iv_setting);
-        mSexFilterIv = findViewById(R.id.iv_sex_filter);
-        mPeopleNearbyLv = findViewById(R.id.lv_people_nearby);
         mPeopleNearbyAdapter = new PeopleNearbyAdapter(PeopleNearbyActivity.this,
                 R.layout.item_people_nearby, mPeopleNearbyList);
         mPeopleNearbyLv.setAdapter(mPeopleNearbyAdapter);
-        mPeopleNearbyLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                PeopleNearby peopleNearby = mPeopleNearbyList.get(position);
-                Intent intent;
-                boolean isFriend = mContactsDao.checkIsFriend(peopleNearby.getUserId());
-                if (isFriend) {
-                    intent = new Intent(PeopleNearbyActivity.this, UserInfoActivity.class);
-                } else {
-                    intent = new Intent(PeopleNearbyActivity.this, UserInfoStrangerActivity.class);
-                    intent.putExtra("source", Constant.FRIENDS_SOURCE_BY_PEOPLE_NEARBY);
-                }
-                // 判断是否为好友
+        mPeopleNearbyLv.setOnItemClickListener((parent, view, position, id) -> {
+            PeopleNearby peopleNearby = mPeopleNearbyList.get(position);
+            Intent intent;
+            boolean isFriend = mContactsDao.checkIsFriend(peopleNearby.getUserId());
+            // 判断是否为好友
+            if (isFriend) {
+                intent = new Intent(PeopleNearbyActivity.this, UserInfoActivity.class);
                 intent.putExtra("userId", peopleNearby.getUserId());
-                startActivity(intent);
+            } else {
+                intent = new Intent(PeopleNearbyActivity.this, UserInfoStrangerActivity.class);
+                intent.putExtra("contactId", peopleNearby.getUserId());
+                intent.putExtra("from", Constant.CONTACTS_FROM_PEOPLE_NEARBY);
             }
+            startActivity(intent);
         });
     }
 
@@ -348,22 +343,14 @@ public class PeopleNearbyActivity extends BaseActivity {
             paramMap.put("district", district);
         }
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                mDialog = new LoadingDialog(PeopleNearbyActivity.this);
-                mDialog.setMessage(getString(R.string.searching_people_nearby));
-                mDialog.show();
-                // 获取附近的人列表
-                getPeopleNearbyList(mUser.getUserId(), null);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-            }
-        });
+        mVolleyUtil.httpPostRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            mDialog = new LoadingDialog(PeopleNearbyActivity.this);
+            mDialog.setMessage(getString(R.string.searching_people_nearby));
+            mDialog.show();
+            // 获取附近的人列表
+            getPeopleNearbyList(mUser.getUserId(), null);
+        }, volleyError -> mDialog.dismiss());
     }
 
     /**
@@ -382,40 +369,34 @@ public class PeopleNearbyActivity extends BaseActivity {
             url = Constant.BASE_URL + "peopleNearby?userId=" + userId + "&userSex=" + userSex;
             sexFilter = true;
         }
-        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                mPeopleNearbyList = JSON.parseArray(response, PeopleNearby.class);
-                mPeopleNearbyAdapter.setData(mPeopleNearbyList);
-                mPeopleNearbyAdapter.setSexFilter(sexFilter);
-                mPeopleNearbyAdapter.notifyDataSetChanged();
+        mVolleyUtil.httpGetRequest(url, response -> {
+            mDialog.dismiss();
+            mPeopleNearbyList = JSON.parseArray(response, PeopleNearby.class);
+            mPeopleNearbyAdapter.setData(mPeopleNearbyList);
+            mPeopleNearbyAdapter.setSexFilter(sexFilter);
+            mPeopleNearbyAdapter.notifyDataSetChanged();
 
-                if (TextUtils.isEmpty(userSex)) {
-                    mSexFilterIv.setVisibility(View.GONE);
+            if (TextUtils.isEmpty(userSex)) {
+                mSexFilterIv.setVisibility(View.GONE);
+            } else {
+                if (Constant.USER_SEX_MALE.equals(userSex)) {
+                    mSexFilterIv.setVisibility(View.VISIBLE);
+                    mSexFilterIv.setImageResource(R.mipmap.icon_sex_male);
+                } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
+                    mSexFilterIv.setVisibility(View.VISIBLE);
+                    mSexFilterIv.setImageResource(R.mipmap.icon_sex_female);
                 } else {
-                    if (Constant.USER_SEX_MALE.equals(userSex)) {
-                        mSexFilterIv.setVisibility(View.VISIBLE);
-                        mSexFilterIv.setImageResource(R.mipmap.icon_sex_male);
-                    } else if (Constant.USER_SEX_FEMALE.equals(userSex)) {
-                        mSexFilterIv.setVisibility(View.VISIBLE);
-                        mSexFilterIv.setImageResource(R.mipmap.icon_sex_female);
-                    } else {
-                        mSexFilterIv.setVisibility(View.GONE);
-                    }
+                    mSexFilterIv.setVisibility(View.GONE);
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(PeopleNearbyActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(PeopleNearbyActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(PeopleNearbyActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(PeopleNearbyActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }
@@ -428,19 +409,13 @@ public class PeopleNearbyActivity extends BaseActivity {
     private void deletePositionInfo(String userId) {
         String url = Constant.BASE_URL + "peopleNearby/positionInfo?userId=" + userId;
 
-        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                PreferencesUtil.getInstance().setOpenPeopleNearby(false);
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(PeopleNearbyActivity.this, getString(R.string.clear_location_error_toast), Toast.LENGTH_SHORT).show();
-                mDialog.dismiss();
-            }
+        mVolleyUtil.httpDeleteRequest(url, response -> {
+            mDialog.dismiss();
+            PreferencesUtil.getInstance().setOpenPeopleNearby(false);
+            finish();
+        }, volleyError -> {
+            Toast.makeText(PeopleNearbyActivity.this, getString(R.string.clear_location_error_toast), Toast.LENGTH_SHORT).show();
+            mDialog.dismiss();
         });
     }
 }
