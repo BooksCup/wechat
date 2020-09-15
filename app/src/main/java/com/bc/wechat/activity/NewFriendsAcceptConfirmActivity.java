@@ -178,7 +178,7 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity {
                 mDialog.show();
 
                 String relaRemark = mRemarkEt.getText().toString();
-                acceptFriendApply(mApplyId, relaRemark, mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                acceptFriendApply(mApplyId, relaRemark, mFriendApply.getFromUserFrom(), mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
                 break;
             default:
                 break;
@@ -194,13 +194,14 @@ public class NewFriendsAcceptConfirmActivity extends BaseActivity {
      * @param relaHideMyPosts  朋友圈和视频动态 "0":可以看我 "1":不让他看我
      * @param relaHideHisPosts 朋友圈和视频动态 "0":可以看他 "1":不看他
      */
-    private void acceptFriendApply(String applyId, String relaRemark,
+    private void acceptFriendApply(String applyId, String relaRemark, String relaContactFrom,
                                    String relaPrivacy, String relaHideMyPosts, String relaHideHisPosts) {
         String url = Constant.BASE_URL + "friendApplies";
 
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("applyId", applyId);
         paramMap.put("relaRemark", relaRemark);
+        paramMap.put("relaContactFrom", relaContactFrom);
         paramMap.put("relaPrivacy", relaPrivacy);
         paramMap.put("relaHideMyPosts", relaHideMyPosts);
         paramMap.put("relaHideHisPosts", relaHideHisPosts);
