@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 
@@ -20,6 +21,9 @@ import butterknife.ButterKnife;
 public class UserInfoMoreActivity extends BaseActivity {
     @BindView(R.id.tv_whats_up)
     TextView mWhatsUpTv;
+
+    @BindView(R.id.tv_from)
+    TextView mFromTv;
 
     UserDao mUserDao;
     private String mContactId;
@@ -48,5 +52,15 @@ public class UserInfoMoreActivity extends BaseActivity {
 
     private void initView() {
         mWhatsUpTv.setText(mContact.getUserSign());
+        // 来源
+        if (Constant.CONTACTS_FROM_PHONE.equals(mContact.getUserContactFrom())) {
+            mFromTv.setText("通过搜索手机号添加");
+        } else if (Constant.CONTACTS_FROM_WX_ID.equals(mContact.getUserContactFrom())) {
+            mFromTv.setText("通过搜索微信号添加");
+        } else if (Constant.CONTACTS_FROM_PEOPLE_NEARBY.equals(mContact.getUserContactFrom())) {
+
+        } else if (Constant.CONTACTS_FROM_CONTACT.equals(mContact.getUserContactFrom())) {
+
+        }
     }
 }

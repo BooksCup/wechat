@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="15dp"
                 android:layout_toRightOf="@id/tv_whats_up_temp"
                 android:ellipsize="end"
                 android:gravity="right"
@@ -119,14 +119,6 @@
                 android:maxLines="2"
                 android:textColor="#AAAAAA"
                 android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:src="@mipmap/icon_right_arrow" />
 
             <View
                 android:layout_width="match_parent"
@@ -160,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="15dp"
                 android:layout_toRightOf="@id/tv_from_temp"
                 android:ellipsize="end"
                 android:gravity="right"
@@ -168,14 +160,6 @@
                 android:maxLines="2"
                 android:textColor="#AAAAAA"
                 android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:src="@mipmap/icon_right_arrow" />
 
             <View
                 android:layout_width="match_parent"
