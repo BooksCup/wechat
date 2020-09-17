@@ -128,15 +128,12 @@ public class AddTagActivity extends BaseActivity {
         int marginLeft = DensityUtil.dip2px(AddTagActivity.this, 10);
         int marginTop = DensityUtil.dip2px(AddTagActivity.this, 10);
         mParams.setMargins(marginLeft, marginTop, 0, 0);
-        mAddTagFl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String editTextContent = mDefaultEt.getText().toString();
-                if (TextUtils.isEmpty(editTextContent)) {
-                    tagNormal();
-                } else {
-                    addTag(mDefaultEt);
-                }
+        mAddTagFl.setOnClickListener(view -> {
+            String editTextContent = mDefaultEt.getText().toString();
+            if (TextUtils.isEmpty(editTextContent)) {
+                tagNormal();
+            } else {
+                addTag(mDefaultEt);
             }
         });
     }
@@ -223,44 +220,37 @@ public class AddTagActivity extends BaseActivity {
         mTagAdapter.notifyDataChanged();
 
         //给下面的标签添加监听
-        mAllTagTfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-            @Override
-            public boolean onTagClick(View view, int position, FlowLayout parent) {
-                if (mTagTextList.size() == 0) {
-                    mDefaultEt.setText(mAllTagList.get(position));
-                    addTag(mDefaultEt);
-                    return false;
-                }
-                List<String> list = new ArrayList<>();
-                for (int i = 0; i < mTagTextList.size(); i++) {
-                    list.add(mTagTextList.get(i).getText().toString());
-                }
-                //如果上面包含点击的标签就删除
-                if (list.contains(mAllTagList.get(position))) {
-                    for (int i = 0; i < list.size(); i++) {
-                        if (mAllTagList.get(position).equals(list.get(i))) {
-                            mAddTagFl.removeView(mTagTextList.get(i));
-                            mTagTextList.remove(i);
-                        }
-                    }
-
-                } else {
-                    mDefaultEt.setText(mAllTagList.get(position));
-                    addTag(mDefaultEt);
-                }
-
+        mAllTagTfl.setOnTagClickListener((view, position, parent) -> {
+            if (mTagTextList.size() == 0) {
+                mDefaultEt.setText(mAllTagList.get(position));
+                addTag(mDefaultEt);
                 return false;
             }
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < mTagTextList.size(); i++) {
+                list.add(mTagTextList.get(i).getText().toString());
+            }
+            //如果上面包含点击的标签就删除
+            if (list.contains(mAllTagList.get(position))) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (mAllTagList.get(position).equals(list.get(i))) {
+                        mAddTagFl.removeView(mTagTextList.get(i));
+                        mTagTextList.remove(i);
+                    }
+                }
+
+            } else {
+                mDefaultEt.setText(mAllTagList.get(position));
+                addTag(mDefaultEt);
+            }
+
+            return false;
         });
 
         //已经选中的监听
-        mAllTagTfl.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
-
-            @Override
-            public void onSelected(Set<Integer> selectPosSet) {
-                set.clear();
-                set.addAll(selectPosSet);
-            }
+        mAllTagTfl.setOnSelectListener(selectPosSet -> {
+            set.clear();
+            set.addAll(selectPosSet);
         });
     }
 
@@ -359,7 +349,6 @@ public class AddTagActivity extends BaseActivity {
         }
     }
 
-
     /**
      * 创建一个正常状态的标签
      *
@@ -389,7 +378,7 @@ public class AddTagActivity extends BaseActivity {
                 mDialog.setCanceledOnTouchOutside(false);
                 mDialog.show();
 
-                saveUserContactTags(mUser.getUserId(), mContactId, JSON.toJSONString(selectedTagList), JSON.toJSONString(mAllTagList));
+                saveUserContactTags(mUser.getUserId(), mContactId, selectedTagList, mAllTagList);
                 break;
         }
     }
@@ -397,25 +386,25 @@ public class AddTagActivity extends BaseActivity {
     /**
      * 保存用户标签
      *
-     * @param userId      用户ID
-     * @param contactId   联系人用户ID
-     * @param contactTags 联系人标签
-     * @param tags        所有标签
+     * @param userId         用户ID
+     * @param contactId      联系人用户ID
+     * @param contactTagList 联系人标签
+     * @param tagList        所有标签
      */
-    private void saveUserContactTags(String userId, final String contactId, final String contactTags, final String tags) {
+    private void saveUserContactTags(String userId, final String contactId, final List<String> contactTagList, final List<String> tagList) {
+        String unionTags = getUnionTags(contactTagList, tagList);
         String url = Constant.BASE_URL + "users/" + userId + "/userContactTags";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("contactId", contactId);
-        paramMap.put("contactTags", contactTags);
-        paramMap.put("tags", tags);
+        paramMap.put("contactTags", JSON.toJSONString(contactTagList));
+        paramMap.put("tags", unionTags);
 
         mVolleyUtil.httpPostRequest(url, paramMap, response -> {
             mDialog.dismiss();
             // 用户标签保存至本地
-            mContact.setUserContactTags(contactTags);
+            mContact.setUserContactTags(JSON.toJSONString(contactTagList));
             mUserDao.saveUser(mContact);
             // 用户所有标签保存至SharePreference中
-            String unionTags = getUnionTags(contactTags, tags);
             mUser.setUserTags(unionTags);
             PreferencesUtil.getInstance().setUser(mUser);
             finish();
@@ -428,25 +417,13 @@ public class AddTagActivity extends BaseActivity {
     /**
      * 获取标签合集(json格式)
      *
-     * @param firstTags  第一个标签集合(json格式)
-     * @param secondTags 第二个标签集合(json格式)
+     * @param firstTagList  第一个标签集合
+     * @param secondTagList 第二个标签集合
      * @return 标签合集(json格式)
      */
-    private String getUnionTags(String firstTags, String secondTags) {
-        List<String> firstTagList;
-        List<String> secondTagList;
+    private String getUnionTags(List<String> firstTagList, List<String> secondTagList) {
         Set<String> unionTagSet = new LinkedHashSet<>();
         List<String> unionTagList = new ArrayList<>();
-        try {
-            firstTagList = JSON.parseArray(firstTags, String.class);
-        } catch (Exception e) {
-            firstTagList = new ArrayList<>();
-        }
-        try {
-            secondTagList = JSON.parseArray(secondTags, String.class);
-        } catch (Exception e) {
-            secondTagList = new ArrayList<>();
-        }
         if (null != firstTagList) {
             for (String firstTag : firstTagList) {
                 unionTagSet.add(firstTag);
