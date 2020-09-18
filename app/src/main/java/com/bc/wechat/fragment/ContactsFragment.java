@@ -68,7 +68,7 @@ public class ContactsFragment extends Fragment {
         mInflater = LayoutInflater.from(getActivity());
         View headerView = mInflater.inflate(R.layout.item_contacts_header, null);
         mFriendsLv.addHeaderView(headerView);
-        View footerView = mInflater.inflate(R.layout.item_friends_footer, null);
+        View footerView = mInflater.inflate(R.layout.item_contacts_footer, null);
         mFriendsLv.addFooterView(footerView);
 
         mFriendsCountTv = footerView.findViewById(R.id.tv_total);

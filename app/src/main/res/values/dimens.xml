@@ -20,7 +20,7 @@
 
     <!-- contacts fragment -->
     <dimen name="contacts_layout_height">50dp</dimen>
-    <dimen name="contacts_text_size">15.5sp</dimen>
+    <dimen name="contacts_text_size">15sp</dimen>
 
     <!-- discover fragment -->
     <dimen name="discover_layout_height">50dp</dimen>
