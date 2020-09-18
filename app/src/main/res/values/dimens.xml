@@ -42,6 +42,7 @@
     <dimen name="me_text_margin_left">15dp</dimen>
     <dimen name="me_text_size">15.5sp</dimen>
     <dimen name="me_divider_margin_left">40dp</dimen>
+    <dimen name="me_thick_divider_height">8dp</dimen>
 
     <!-- account security activity -->
     <dimen name="account_security_text_size">15.5sp</dimen>

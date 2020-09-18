@@ -10,7 +10,6 @@
         android:id="@+id/rl_me"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginBottom="10dp"
         android:background="#ffffff"
         android:clickable="true"
         android:paddingTop="8dp"
@@ -73,6 +72,7 @@
         android:id="@+id/rl_wechat_pay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
+        android:layout_marginTop="@dimen/me_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
@@ -109,7 +109,7 @@
         android:id="@+id/rl_favorites"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/me_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
@@ -146,7 +146,7 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/me_divider_margin_left"
-            android:background="#dadada" />
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -189,7 +189,7 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/me_divider_margin_left"
-            android:background="#dadada" />
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -232,7 +232,7 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/me_divider_margin_left"
-            android:background="#dadada" />
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -275,7 +275,7 @@
         android:id="@+id/rl_settings"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/me_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
