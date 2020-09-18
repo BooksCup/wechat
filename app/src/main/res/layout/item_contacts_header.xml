@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffff"
@@ -8,18 +9,21 @@
     <RelativeLayout
         android:id="@+id/rl_new_friends"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/contacts_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
-        <ImageView
-            android:id="@+id/iv_new_friends"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_new_friends"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_contacts_new_friends" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/icon_contacts_new_friends"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <TextView
             android:id="@+id/tv_new_friends"
@@ -27,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_new_friends"
+            android:layout_toRightOf="@id/sdv_new_friends"
             android:text="@string/new_friends"
             android:textColor="#353535"
             android:textSize="@dimen/contacts_text_size" />
@@ -50,25 +54,27 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="60dp"
         android:background="#d9d9d9" />
 
     <RelativeLayout
         android:id="@+id/rl_group_chats"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/contacts_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
-        <ImageView
-            android:id="@+id/iv_group_chats"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_group_chats"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_contacts_group_chats" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/icon_contacts_group_chats"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <TextView
             android:id="@+id/tv_group_chats"
@@ -76,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_group_chats"
+            android:layout_toRightOf="@id/sdv_group_chats"
             android:text="@string/group_chats"
             android:textColor="#353535"
             android:textSize="@dimen/contacts_text_size" />
@@ -85,24 +91,26 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginLeft="60dp"
         android:background="#d9d9d9" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/contacts_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
-        <ImageView
-            android:id="@+id/iv_tags"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_tags"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_contacts_tags" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/icon_contacts_tags"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <TextView
             android:id="@+id/tv_tags"
@@ -110,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_tags"
+            android:layout_toRightOf="@id/sdv_tags"
             android:text="@string/tag"
             android:textColor="#353535"
             android:textSize="@dimen/contacts_text_size" />
@@ -119,24 +127,26 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:background="#d9d9d9" />
+        android:layout_marginLeft="60dp"
+        android:background="@color/common_divider_grey" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="@dimen/contacts_layout_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
-        <ImageView
-            android:id="@+id/iv_contacts_official_accounts"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_contacts_official_accounts"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@mipmap/icon_contacts_official_accounts" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/icon_contacts_official_accounts"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <TextView
             android:id="@+id/tv_contacts_official_accounts"
@@ -144,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@id/iv_contacts_official_accounts"
+            android:layout_toRightOf="@id/sdv_contacts_official_accounts"
             android:text="@string/official_accounts"
             android:textColor="#353535"
             android:textSize="@dimen/contacts_text_size" />
