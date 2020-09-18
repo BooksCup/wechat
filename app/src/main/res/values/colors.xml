@@ -74,4 +74,8 @@
     <color name="common_item_black">#353535</color>
 
     <color name="bg_light_grey">#F7F7F7</color>
+
+    <color name="common_divider_grey">#E5E5E5</color>
+    <color name="main_tab_bg">#F7F7F7</color>
+    <color name="common_text_color_black">#191919</color>
 </resources>

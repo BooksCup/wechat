@@ -29,7 +29,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_moments"
             android:text="@string/moments"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -45,7 +45,7 @@
         android:id="@+id/rl_scan"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/discover_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
@@ -66,7 +66,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_scan"
             android:text="@string/scan"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -82,7 +82,7 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/discover_divider_margin_left"
-            android:background="#dadada" />
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -109,7 +109,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_shake"
             android:text="@string/shake"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -125,7 +125,7 @@
         android:id="@+id/rl_top_stories"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
@@ -146,7 +146,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_top_stories"
             android:text="@string/discover_top_stories"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -162,7 +162,7 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/discover_divider_margin_left"
-            android:background="#dadada" />
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -189,7 +189,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_search"
             android:text="@string/discover_search"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -205,7 +205,7 @@
         android:id="@+id/rl_people_nearby"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/discover_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
@@ -226,7 +226,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_people_nearby"
             android:text="@string/people_nearby"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -253,7 +253,7 @@
         android:id="@+id/rl_shopping"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/discover_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
@@ -274,7 +274,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_shopping"
             android:text="@string/shopping"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -290,7 +290,7 @@
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/discover_divider_margin_left"
-            android:background="#dadada" />
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -317,7 +317,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_game"
             android:text="@string/game"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView
@@ -333,7 +333,7 @@
         android:id="@+id/rl_mini_programs"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/discover_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
@@ -354,7 +354,7 @@
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_mini_programs"
             android:text="@string/mini_programs"
-            android:textColor="#353535"
+            android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 
         <ImageView

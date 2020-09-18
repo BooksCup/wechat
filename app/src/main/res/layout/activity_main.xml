@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff"
+        android:background="@color/main_tab_bg"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -64,7 +64,6 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
-                android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
                 android:src="@drawable/bg_tab_chats" />
@@ -106,7 +105,6 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
-                android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
                 android:src="@drawable/bg_tab_contacts" />
@@ -148,7 +146,6 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
-                android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
                 android:src="@drawable/bg_tab_discover" />
@@ -178,7 +175,6 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_centerHorizontal="true"
-                android:background="#ffffff"
                 android:focusable="false"
                 android:scaleType="centerInside"
                 android:src="@drawable/bg_tab_me" />
