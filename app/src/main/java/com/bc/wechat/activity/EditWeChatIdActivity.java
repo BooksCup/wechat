@@ -12,9 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
@@ -41,6 +39,9 @@ public class EditWeChatIdActivity extends BaseActivity {
     @BindView(R.id.et_wechat_id)
     EditText mWeChatIdEt;
 
+    @BindView(R.id.v_wechat_id)
+    View mWechatIdView;
+
     @BindView(R.id.tv_save)
     TextView mSaveTv;
 
@@ -62,15 +63,12 @@ public class EditWeChatIdActivity extends BaseActivity {
         mDialog = new LoadingDialog(EditWeChatIdActivity.this);
         initView();
 
-        mSaveTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDialog.setMessage(getString(R.string.saving));
-                mDialog.show();
-                String userId = mUser.getUserId();
-                String userWxId = mWeChatIdEt.getText().toString();
-                updateUserWxId(userId, userWxId);
-            }
+        mSaveTv.setOnClickListener(view -> {
+            mDialog.setMessage(getString(R.string.saving));
+            mDialog.show();
+            String userId = mUser.getUserId();
+            String userWxId = mWeChatIdEt.getText().toString();
+            updateUserWxId(userId, userWxId);
         });
     }
 
@@ -86,6 +84,14 @@ public class EditWeChatIdActivity extends BaseActivity {
             Selection.setSelection(spanText, charSequence.length());
         }
         mWeChatIdEt.addTextChangedListener(new TextChange());
+
+        mWeChatIdEt.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                mWechatIdView.setBackgroundColor(getColor(R.color.divider_green));
+            } else {
+                mWechatIdView.setBackgroundColor(getColor(R.color.divider_grey));
+            }
+        });
     }
 
     class TextChange implements TextWatcher {
@@ -130,27 +136,21 @@ public class EditWeChatIdActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userWxId", userWxId);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
-                setResult(RESULT_OK);
-                mUser.setUserWxId(userWxId);
-                mUser.setUserWxIdModifyFlag(Constant.USER_WX_ID_MODIFY_FLAG_TRUE);
-                PreferencesUtil.getInstance().setUser(mUser);
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(EditWeChatIdActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(EditWeChatIdActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            setResult(RESULT_OK);
+            mUser.setUserWxId(userWxId);
+            mUser.setUserWxIdModifyFlag(Constant.USER_WX_ID_MODIFY_FLAG_TRUE);
+            PreferencesUtil.getInstance().setUser(mUser);
+            finish();
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(EditWeChatIdActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(EditWeChatIdActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }
