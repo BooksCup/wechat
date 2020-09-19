@@ -5,6 +5,42 @@
     android:background="@color/wechat_common_bg"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_top_bar"
+        android:layout_alignParentTop="true"
+        android:background="@color/common_top_bar">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="@string/tab_contacts"
+            android:textColor="@color/common_top_title"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:src="@drawable/main_activity_add" />
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/iv_add"
+            android:clickable="true"
+            android:src="@drawable/main_activity_search" />
+    </RelativeLayout>
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

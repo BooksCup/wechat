@@ -88,9 +88,9 @@ public class MainActivity extends BaseActivity {
     private TextView mUnreadNewMsgsNumTv;
     private TextView mUnreadNewFriendsNumTv;
 
-    private RelativeLayout mTitleRl;
-    private TextView mTitleTv;
-    private ImageView mAddIv;
+//    private RelativeLayout mTitleRl;
+//    private TextView mTitleTv;
+//    private ImageView mAddIv;
 
     User mUser;
 
@@ -137,12 +137,12 @@ public class MainActivity extends BaseActivity {
         mMainButtonTvs[3] = findViewById(R.id.tv_me);
         mMainButtonTvs[0].setTextColor(0xFF45C01A);
 
-        mTitleRl = findViewById(R.id.rl_title);
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        mAddIv = findViewById(R.id.iv_add);
+//        mTitleRl = findViewById(R.id.rl_title);
+//        mTitleTv = findViewById(R.id.tv_title);
+//        TextPaint paint = mTitleTv.getPaint();
+//        paint.setFakeBoldText(true);
+//
+//        mAddIv = findViewById(R.id.iv_add);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.rl_fragment_container, mChatsFragment)
@@ -155,18 +155,18 @@ public class MainActivity extends BaseActivity {
         mUnreadNewMsgsNumTv = findViewById(R.id.unread_msg_number);
         mUnreadNewFriendsNumTv = findViewById(R.id.unread_address_number);
 
-        mAddIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initPopupWindow();
-                if (!mPopupWindow.isShowing()) {
-                    // 以下拉方式显示popupwindow
-                    mPopupWindow.showAsDropDown(mAddIv, 0, 0);
-                } else {
-                    mPopupWindow.dismiss();
-                }
-            }
-        });
+//        mAddIv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                initPopupWindow();
+//                if (!mPopupWindow.isShowing()) {
+//                    // 以下拉方式显示popupwindow
+//                    mPopupWindow.showAsDropDown(mAddIv, 0, 0);
+//                } else {
+//                    mPopupWindow.dismiss();
+//                }
+//            }
+//        });
     }
 
     public void onTabClicked(View view) {
@@ -176,26 +176,26 @@ public class MainActivity extends BaseActivity {
                 // 主动加载一次会话
                 mChatsFragment.refreshConversationList();
                 mIndex = 0;
-                mTitleTv.setText(getString(R.string.tab_chats));
-                mTitleRl.setVisibility(View.VISIBLE);
+//                mTitleTv.setText(getString(R.string.tab_chats));
+//                mTitleRl.setVisibility(View.VISIBLE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.wechat_common_bg);
                 break;
             case R.id.rl_contacts:
                 mIndex = 1;
-                mTitleTv.setText(getString(R.string.tab_contacts));
-                mTitleRl.setVisibility(View.VISIBLE);
+//                mTitleTv.setText(getString(R.string.tab_contacts));
+//                mTitleRl.setVisibility(View.VISIBLE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.wechat_common_bg);
                 break;
             case R.id.rl_discover:
                 mIndex = 2;
-                mTitleTv.setText(getString(R.string.tab_discover));
-                mTitleRl.setVisibility(View.VISIBLE);
+//                mTitleTv.setText(getString(R.string.tab_discover));
+//                mTitleRl.setVisibility(View.VISIBLE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.wechat_common_bg);
                 break;
             case R.id.rl_me:
                 mIndex = 3;
-                mTitleTv.setText(getString(R.string.tab_me));
-                mTitleRl.setVisibility(View.GONE);
+//                mTitleTv.setText(getString(R.string.tab_me));
+//                mTitleRl.setVisibility(View.GONE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.bottom_text_color_normal);
                 break;
         }
