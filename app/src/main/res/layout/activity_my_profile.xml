@@ -3,7 +3,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ebebeb"
+    android:background="@color/wechat_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -49,7 +49,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="35dp"
-            fresco:placeholderImage="@mipmap/default_user_avatar" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,8 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -121,8 +124,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -171,8 +174,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -213,8 +216,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -248,7 +251,7 @@
         android:id="@+id/rl_address"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/me_thick_divider_height"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
