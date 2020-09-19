@@ -12,9 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
@@ -42,6 +40,9 @@ public class EditNameActivity extends BaseActivity {
     @BindView(R.id.et_nick)
     EditText mNickNameEt;
 
+    @BindView(R.id.v_nick)
+    View mNickView;
+
     @BindView(R.id.tv_save)
     TextView mSaveTv;
 
@@ -65,15 +66,12 @@ public class EditNameActivity extends BaseActivity {
         mDialog = new LoadingDialog(EditNameActivity.this);
         initView();
 
-        mSaveTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDialog.setMessage(getString(R.string.saving));
-                mDialog.show();
-                String userId = mUser.getUserId();
-                String userNickName = mNickNameEt.getText().toString();
-                updateUserNickName(userId, userNickName);
-            }
+        mSaveTv.setOnClickListener(view -> {
+            mDialog.setMessage(getString(R.string.saving));
+            mDialog.show();
+            String userId = mUser.getUserId();
+            String userNickName = mNickNameEt.getText().toString();
+            updateUserNickName(userId, userNickName);
         });
     }
 
@@ -89,6 +87,14 @@ public class EditNameActivity extends BaseActivity {
             Selection.setSelection(spanText, charSequence.length());
         }
         mNickNameEt.addTextChangedListener(new TextChange());
+
+        mNickNameEt.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                mNickView.setBackgroundColor(getColor(R.color.divider_green));
+            } else {
+                mNickView.setBackgroundColor(getColor(R.color.divider_grey));
+            }
+        });
     }
 
     public void back(View view) {
@@ -133,28 +139,22 @@ public class EditNameActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userNickName", userNickName);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
-                setResult(RESULT_OK);
-                mUser.setUserNickName(userNickName);
-                PreferencesUtil.getInstance().setUser(mUser);
-                finish();
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            setResult(RESULT_OK);
+            mUser.setUserNickName(userNickName);
+            PreferencesUtil.getInstance().setUser(mUser);
+            finish();
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(EditNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(EditNameActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(EditNameActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(EditNameActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-            }
         });
     }
 }

@@ -54,7 +54,7 @@
     <color name="setting_tips">#b5b5b6</color>
 
     <color name="register_btn_bg_disable">#ebebeb</color>
-    <color name="register_btn_bg_enable">#07C063</color>
+    <color name="register_btn_bg_enable">#06C15F</color>
     <color name="register_btn_text_disable">#b5b5b6</color>
     <color name="register_btn_text_enable">#ffffff</color>
 
@@ -78,4 +78,7 @@
     <color name="common_divider_grey">#E5E5E5</color>
     <color name="main_tab_bg">#F7F7F7</color>
     <color name="common_text_color_black">#191919</color>
+
+    <color name="divider_grey">#D8D8D8</color>
+    <color name="divider_green">#2FAF7A</color>
 </resources>

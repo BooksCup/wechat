@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg_light_grey"
+    android:background="@color/wechat_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -61,12 +61,13 @@
         android:textSize="16sp" />
 
     <View
+        android:id="@+id/v_nick"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:background="#45c01a" />
+        android:background="@color/divider_grey" />
 
     <TextView
         android:layout_width="match_parent"
@@ -75,7 +76,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="20dp"
         android:text="好名字可以让你的朋友更容易记住你。"
-        android:textColor="#AAAAAA"
+        android:textColor="#C2C2C2"
         android:textSize="14sp" />
 
 </LinearLayout>
