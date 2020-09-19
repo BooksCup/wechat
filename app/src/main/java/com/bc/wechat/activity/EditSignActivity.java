@@ -69,15 +69,12 @@ public class EditSignActivity extends BaseActivity {
         mDialog = new LoadingDialog(EditSignActivity.this);
         initView();
 
-        mSaveTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDialog.setMessage(getString(R.string.saving));
-                mDialog.show();
-                String userId = mUser.getUserId();
-                String userNickName = mSignEt.getText().toString();
-                updateUserSign(userId, userNickName);
-            }
+        mSaveTv.setOnClickListener(view -> {
+            mDialog.setMessage(getString(R.string.saving));
+            mDialog.show();
+            String userId = mUser.getUserId();
+            String userNickName = mSignEt.getText().toString();
+            updateUserSign(userId, userNickName);
         });
 
     }
@@ -155,25 +152,19 @@ public class EditSignActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userSign", userSign);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
-                mUser.setUserSign(userSign);
-                PreferencesUtil.getInstance().setUser(mUser);
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(EditSignActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(EditSignActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            mUser.setUserSign(userSign);
+            PreferencesUtil.getInstance().setUser(mUser);
+            finish();
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(EditSignActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(EditSignActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }

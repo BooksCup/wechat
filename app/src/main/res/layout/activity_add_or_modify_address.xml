@@ -62,7 +62,7 @@
             android:layout_marginLeft="20dp"
             android:text="收货人"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <EditText
             android:id="@+id/et_name"
@@ -76,7 +76,7 @@
             android:singleLine="true"
             android:textColor="#353535"
             android:textColorHint="#DDDDDD"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <ImageView
             android:id="@+id/iv_address_book"
@@ -92,9 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -109,9 +108,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="手机号..."
+            android:text="手机号码"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <EditText
             android:id="@+id/et_phone"
@@ -126,16 +125,15 @@
             android:singleLine="true"
             android:textColor="#353535"
             android:textColorHint="#DDDDDD"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <View
             android:id="@+id/vi_phone"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -150,9 +148,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="地区信..."
+            android:text="地区信息"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <EditText
             android:id="@+id/et_address_info"
@@ -167,7 +165,7 @@
             android:singleLine="true"
             android:textColor="@color/navy_blue"
             android:textColorHint="#DDDDDD"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <ImageView
             android:id="@+id/iv_location"
@@ -182,9 +180,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -199,9 +196,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="详细地..."
+            android:text="详细地址"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <EditText
             android:id="@+id/et_address_detail"
@@ -215,16 +212,15 @@
             android:singleLine="true"
             android:textColor="#353535"
             android:textColorHint="#DDDDDD"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <View
             android:id="@+id/vi_address_detail"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -239,9 +235,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="邮政编..."
+            android:text="邮政编码"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <EditText
             android:id="@+id/et_post_code"
@@ -256,15 +252,14 @@
             android:singleLine="true"
             android:textColor="#353535"
             android:textColorHint="#DDDDDD"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <View
             android:id="@+id/vi_post_code"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/divider_grey" />
     </RelativeLayout>
 </LinearLayout>
