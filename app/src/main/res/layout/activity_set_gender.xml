@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/wechat_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -80,8 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -111,13 +111,6 @@
             android:layout_marginRight="8dp"
             android:src="@mipmap/icon_correct"
             android:visibility="gone" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
     </RelativeLayout>
 
 </LinearLayout>

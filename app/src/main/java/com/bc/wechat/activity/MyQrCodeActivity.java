@@ -58,11 +58,6 @@ public class MyQrCodeActivity extends BaseActivity {
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mAvatarSdv = findViewById(R.id.sdv_avatar);
-        mNickNameTv = findViewById(R.id.tv_nick_name);
-        mSexIv = findViewById(R.id.iv_sex);
-        mQrCodeSdv = findViewById(R.id.sdv_qr_code);
-
         if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
         }

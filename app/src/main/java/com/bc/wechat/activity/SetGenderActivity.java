@@ -9,9 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
@@ -73,7 +71,6 @@ public class SetGenderActivity extends BaseActivity {
     private void initView() {
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
-
         renderSex();
     }
 
@@ -129,26 +126,20 @@ public class SetGenderActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("userSex", userSex);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
-                mUser.setUserSex(userSex);
-                PreferencesUtil.getInstance().setUser(mUser);
-                renderSex();
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(SetGenderActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(SetGenderActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        mVolleyUtil.httpPutRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            mUser.setUserSex(userSex);
+            PreferencesUtil.getInstance().setUser(mUser);
+            renderSex();
+            finish();
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(SetGenderActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(SetGenderActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }
