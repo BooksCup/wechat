@@ -79,8 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -128,8 +128,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="12dp"
-            android:background="#dadada" />
+            android:layout_marginLeft="20dp"
+            android:background="@color/common_divider_grey" />
     </RelativeLayout>
 
     <RelativeLayout
