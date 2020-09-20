@@ -10,7 +10,7 @@
         android:id="@+id/tv_header"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="#ebebeb"
+        android:background="@color/wechat_common_bg"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
         android:textColor="#888888"
@@ -38,7 +38,10 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            fresco:placeholderImage="@mipmap/default_user_avatar" />
+            fresco:actualImageScaleType="centerCrop"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            fresco:placeholderImageScaleType="centerCrop"
+            fresco:roundedCornerRadius="5dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

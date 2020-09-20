@@ -9,8 +9,6 @@ import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.PhoneContactAdapter;
 import com.bc.wechat.cons.Constant;
@@ -29,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 手机通讯录
@@ -36,9 +36,10 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class PhoneContactActivity extends BaseActivity {
-    private PhoneContactAdapter mPhoneContactAdapter;
-    private ListView mPhoneContactLv;
+    @BindView(R.id.lv_phone_contact)
+    ListView mPhoneContactLv;
 
+    private PhoneContactAdapter mPhoneContactAdapter;
     private VolleyUtil mVolleyUtil;
     private User mUser;
     private LoadingDialog mDialog;
@@ -49,9 +50,10 @@ public class PhoneContactActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_contact);
+        ButterKnife.bind(this);
+
         initStatusBar();
 
-        initView();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
@@ -64,10 +66,6 @@ public class PhoneContactActivity extends BaseActivity {
             mContactNameMap.put(phone, phoneContact.getDisplayName());
         }
         getPhoneContactList(mUser.getUserId(), JSON.toJSONString(phoneList));
-    }
-
-    private void initView() {
-        mPhoneContactLv = findViewById(R.id.lv_phone_contact);
     }
 
     public void back(View view) {
@@ -90,29 +88,20 @@ public class PhoneContactActivity extends BaseActivity {
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                final List<User> userList = JSONArray.parseArray(response, User.class);
-                for (User user : userList) {
-                    user.setUserHeader(CommonUtil.setUserHeader(mContactNameMap.get(user.getUserPhone())));
-                }
-                // 对list进行排序
-                Collections.sort(userList, new PinyinComparator() {
-                });
-
-                mPhoneContactAdapter = new PhoneContactAdapter(PhoneContactActivity.this, userList, mContactNameMap);
-                mPhoneContactLv.setAdapter(mPhoneContactAdapter);
-
-                mDialog.dismiss();
+        mVolleyUtil.httpPostRequest(url, paramMap, response -> {
+            final List<User> userList = JSONArray.parseArray(response, User.class);
+            for (User user : userList) {
+                user.setUserHeader(CommonUtil.setUserHeader(mContactNameMap.get(user.getUserPhone())));
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            // 对list进行排序
+            Collections.sort(userList, new PinyinComparator() {
+            });
 
-                mDialog.dismiss();
-            }
-        });
+            mPhoneContactAdapter = new PhoneContactAdapter(PhoneContactActivity.this, userList, mContactNameMap);
+            mPhoneContactLv.setAdapter(mPhoneContactAdapter);
+
+            mDialog.dismiss();
+        }, volleyError -> mDialog.dismiss());
     }
 
     /**
