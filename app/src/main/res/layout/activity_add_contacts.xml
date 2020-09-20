@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ebebeb"
+    android:background="@color/wechat_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true">
 
@@ -67,7 +67,7 @@
                 android:layout_alignLeft="@id/tv_search"
                 android:layout_alignBottom="@id/tv_search"
                 android:layout_margin="6dp"
-                android:src="@mipmap/a_b" />
+                android:src="@mipmap/icon_add_contacts_search" />
         </RelativeLayout>
 
         <LinearLayout
@@ -101,7 +101,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/rl_radar"
+                android:id="@+id/rl_friend_radar"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
@@ -112,19 +112,19 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_radar"
+                    android:id="@+id/iv_friend_radar"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_friend_radar" />
+                    android:src="@mipmap/icon_add_contacts_friend_radar" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_radar"
+                    android:layout_toRightOf="@id/iv_friend_radar"
                     android:text="雷达加朋友"
                     android:textColor="#353535"
                     android:textSize="16sp" />
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_radar"
+                    android:layout_toRightOf="@id/iv_friend_radar"
                     android:text="添加身边的朋友"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -148,9 +148,7 @@
                 android:layout_marginRight="12dp"
                 android:background="#DBDBDB" />
 
-
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
@@ -161,19 +159,19 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_jianqun"
+                    android:id="@+id/iv_join_private_group"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/a_9" />
+                    android:src="@mipmap/icon_add_contacts_join_private_group" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_jianqun"
+                    android:layout_toRightOf="@id/iv_join_private_group"
                     android:text="面对面建群"
                     android:textColor="#353535"
                     android:textSize="16sp" />
@@ -183,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_jianqun"
+                    android:layout_toRightOf="@id/iv_join_private_group"
                     android:text="与身边的朋友进入同一个群聊"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -214,7 +212,7 @@
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_friends_scan" />
+                    android:src="@mipmap/icon_add_contacts_scan" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -246,7 +244,6 @@
                 android:background="#DBDBDB" />
 
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
@@ -257,19 +254,19 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_lianxiren"
+                    android:id="@+id/iv_mobile_contact"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/a_1" />
+                    android:src="@mipmap/icon_add_contacts_mobile_contact" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_lianxiren"
+                    android:layout_toRightOf="@id/iv_mobile_contact"
                     android:text="手机联系人"
                     android:textColor="#353535"
                     android:textSize="16sp" />
@@ -279,7 +276,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_lianxiren"
+                    android:layout_toRightOf="@id/iv_mobile_contact"
                     android:text="邀请或添加通讯录中的朋友"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -294,7 +291,6 @@
                 android:background="#DBDBDB" />
 
             <RelativeLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@drawable/btn_list_item_bg"
@@ -305,19 +301,19 @@
                 android:paddingBottom="14dp">
 
                 <ImageView
-                    android:id="@+id/iv_ggh"
+                    android:id="@+id/iv_official_accounts"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/a_7" />
+                    android:src="@mipmap/icon_add_contacts_official_accounts" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_ggh"
+                    android:layout_toRightOf="@id/iv_official_accounts"
                     android:text="公共号"
                     android:textColor="#353535"
                     android:textSize="16sp" />
@@ -327,7 +323,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_ggh"
+                    android:layout_toRightOf="@id/iv_official_accounts"
                     android:text="获取更多资讯和服务"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />

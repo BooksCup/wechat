@@ -10,8 +10,6 @@ import android.provider.Settings;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -28,70 +26,58 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 添加朋友
  *
  * @author zhou
  */
-public class AddContactsActivity extends BaseActivity implements View.OnClickListener {
+public class AddContactsActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_SCAN = 0;
     private static final int REQUEST_CODE_CAMERA = 1;
 
-    private TextView mTitleTv;
-    private RelativeLayout mSearchRl;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private RelativeLayout mRadarRl;
-    private RelativeLayout mScanRl;
-
-
-    private LinearLayout mMyInfoLl;
-    private TextView mWxIdTv;
+    @BindView(R.id.tv_wx_id)
+    TextView mWxIdTv;
 
     private User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friends);
+        setContentView(R.layout.activity_add_contacts);
+        ButterKnife.bind(this);
+
         initStatusBar();
         mUser = PreferencesUtil.getInstance().getUser();
         initView();
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
         TextPaint paint = mTitleTv.getPaint();
         paint.setFakeBoldText(true);
 
-        mSearchRl = findViewById(R.id.rl_search);
-        mRadarRl = findViewById(R.id.rl_radar);
-        mScanRl = findViewById(R.id.rl_scan);
-
-        mMyInfoLl = findViewById(R.id.ll_my_info);
-
-        mWxIdTv = findViewById(R.id.tv_wx_id);
-
         mWxIdTv.setText("我的微信号：" + mUser.getUserWxId());
-        mSearchRl.setOnClickListener(this);
-        mRadarRl.setOnClickListener(this);
-        mScanRl.setOnClickListener(this);
-        mMyInfoLl.setOnClickListener(this);
     }
 
     public void back(View view) {
         finish();
     }
 
-    @Override
+    @OnClick({R.id.rl_search, R.id.rl_friend_radar, R.id.rl_scan, R.id.ll_my_info})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_search:
                 startActivity(new Intent(this, AddFriendsBySearchActivity.class));
                 break;
 
-            case R.id.rl_radar:
+            case R.id.rl_friend_radar:
                 startActivity(new Intent(this, AddFriendsByRadarActivity.class));
                 break;
 
