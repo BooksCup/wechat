@@ -79,7 +79,7 @@
                     android:id="@+id/rl_notifications"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/common_thick_divider_height"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
                     android:paddingLeft="12dp">
@@ -239,7 +239,7 @@
                     android:id="@+id/rl_about"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/common_thick_divider_height"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
                     android:paddingLeft="12dp">
@@ -299,7 +299,7 @@
                     android:id="@+id/rl_wechat_services"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/common_thick_divider_height"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true"
                     android:paddingLeft="12dp">
@@ -326,7 +326,7 @@
                     android:id="@+id/rl_switch_account"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/common_thick_divider_height"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true">
 
@@ -344,7 +344,7 @@
                     android:id="@+id/rl_log_out"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/common_thick_divider_height"
                     android:background="@drawable/btn_list_item_bg"
                     android:clickable="true">
 
