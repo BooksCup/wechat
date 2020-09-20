@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/wechat_common_bg"
@@ -36,7 +37,6 @@
                 android:text="@string/add_contacts"
                 android:textColor="@color/common_top_title"
                 android:textSize="16sp" />
-
         </RelativeLayout>
 
         <RelativeLayout
@@ -111,30 +111,33 @@
                 android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
-                <ImageView
-                    android:id="@+id/iv_friend_radar"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_friend_radar"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_contacts_friend_radar" />
+                    fresco:actualImageScaleType="centerCrop"
+                    fresco:placeholderImage="@mipmap/icon_add_contacts_friend_radar"
+                    fresco:placeholderImageScaleType="centerCrop"
+                    fresco:roundedCornerRadius="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_friend_radar"
+                    android:layout_toRightOf="@id/sdv_friend_radar"
                     android:text="雷达加朋友"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_friend_radar"
+                    android:layout_toRightOf="@id/sdv_friend_radar"
                     android:text="添加身边的朋友"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -144,9 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="#DBDBDB" />
+                android:layout_marginLeft="60dp"
+                android:background="@color/divider_grey" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -158,30 +160,33 @@
                 android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
-                <ImageView
-                    android:id="@+id/iv_join_private_group"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_join_private_group"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_contacts_join_private_group" />
+                    fresco:actualImageScaleType="centerCrop"
+                    fresco:placeholderImage="@mipmap/icon_add_contacts_join_private_group"
+                    fresco:placeholderImageScaleType="centerCrop"
+                    fresco:roundedCornerRadius="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_join_private_group"
+                    android:layout_toRightOf="@id/sdv_join_private_group"
                     android:text="面对面建群"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_join_private_group"
+                    android:layout_toRightOf="@id/sdv_join_private_group"
                     android:text="与身边的朋友进入同一个群聊"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -191,9 +196,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="#DBDBDB" />
+                android:layout_marginLeft="60dp"
+                android:background="@color/divider_grey" />
 
             <RelativeLayout
                 android:id="@+id/rl_scan"
@@ -206,30 +210,33 @@
                 android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
-                <ImageView
-                    android:id="@+id/iv_scan"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_scan"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_contacts_scan" />
+                    fresco:actualImageScaleType="centerCrop"
+                    fresco:placeholderImage="@mipmap/icon_add_contacts_scan"
+                    fresco:placeholderImageScaleType="centerCrop"
+                    fresco:roundedCornerRadius="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_scan"
+                    android:layout_toRightOf="@id/sdv_scan"
                     android:text="扫一扫"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_scan"
+                    android:layout_toRightOf="@id/sdv_scan"
                     android:text="扫面二维码图片"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -239,9 +246,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="#DBDBDB" />
+                android:layout_marginLeft="60dp"
+                android:background="@color/divider_grey" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -253,30 +259,33 @@
                 android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
-                <ImageView
-                    android:id="@+id/iv_mobile_contact"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_mobile_contact"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_contacts_mobile_contact" />
+                    fresco:actualImageScaleType="centerCrop"
+                    fresco:placeholderImage="@mipmap/icon_add_contacts_mobile_contact"
+                    fresco:placeholderImageScaleType="centerCrop"
+                    fresco:roundedCornerRadius="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_mobile_contact"
+                    android:layout_toRightOf="@id/sdv_mobile_contact"
                     android:text="手机联系人"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_mobile_contact"
+                    android:layout_toRightOf="@id/sdv_mobile_contact"
                     android:text="邀请或添加通讯录中的朋友"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
@@ -286,9 +295,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="#DBDBDB" />
+                android:layout_marginLeft="60dp"
+                android:background="@color/divider_grey" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -300,30 +308,33 @@
                 android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
-                <ImageView
-                    android:id="@+id/iv_official_accounts"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_official_accounts"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_add_contacts_official_accounts" />
+                    fresco:actualImageScaleType="centerCrop"
+                    fresco:placeholderImage="@mipmap/icon_add_contacts_official_accounts"
+                    fresco:placeholderImageScaleType="centerCrop"
+                    fresco:roundedCornerRadius="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_official_accounts"
+                    android:layout_toRightOf="@id/sdv_official_accounts"
                     android:text="公共号"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@id/iv_official_accounts"
+                    android:layout_toRightOf="@id/sdv_official_accounts"
                     android:text="获取更多资讯和服务"
                     android:textColor="#BBBBBB"
                     android:textSize="12sp" />
