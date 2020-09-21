@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -22,45 +21,43 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * tab - "我"
  */
 public class MeFragment extends Fragment implements View.OnClickListener {
-    private RelativeLayout mMyInfoRl;
-    private RelativeLayout mSettingRl;
-    private SimpleDraweeView mAvatarSdv;
-    private TextView mNickNameTv;
-    private TextView mWxIdTv;
+    @BindView(R.id.sdv_avatar)
+    SimpleDraweeView mAvatarSdv;
+
+    @BindView(R.id.tv_name)
+    TextView mNickNameTv;
+
+    @BindView(R.id.tv_wx_id)
+    TextView mWxIdTv;
+
     User mUser;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_me, container, false);
+        View view = inflater.inflate(R.layout.fragment_me, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        PreferencesUtil.getInstance().init(getActivity());
         mUser = PreferencesUtil.getInstance().getUser();
         initView();
 
     }
 
     private void initView() {
-        mMyInfoRl = getView().findViewById(R.id.rl_me);
-        mSettingRl = getView().findViewById(R.id.rl_settings);
-        mAvatarSdv = getView().findViewById(R.id.sdv_avatar);
-        mNickNameTv = getView().findViewById(R.id.tv_name);
-        mWxIdTv = getView().findViewById(R.id.tv_wx_id);
-
-        mMyInfoRl.setOnClickListener(this);
-        mSettingRl.setOnClickListener(this);
-        mAvatarSdv.setOnClickListener(this);
-
         mNickNameTv.setText(mUser.getUserNickName());
         String userWxId = mUser.getUserWxId() == null ? "" : mUser.getUserWxId();
         mWxIdTv.setText("微信号:" + userWxId);
@@ -71,7 +68,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
+    @OnClick({R.id.rl_me, R.id.rl_settings, R.id.sdv_avatar})
     public void onClick(View view) {
         switch (view.getId()) {
             // 个人页面
