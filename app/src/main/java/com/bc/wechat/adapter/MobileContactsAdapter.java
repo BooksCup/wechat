@@ -24,14 +24,19 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 import java.util.Map;
 
-public class PhoneContactAdapter extends BaseAdapter {
+/**
+ * 手机通讯录
+ *
+ * @author zhou
+ */
+public class MobileContactsAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<User> mUserList;
     private Map<String, String> mContactNameMap;
     private UserDao mUserDao;
 
-    public PhoneContactAdapter(Context context, List<User> userList, Map<String, String> contactNameMap) {
+    public MobileContactsAdapter(Context context, List<User> userList, Map<String, String> contactNameMap) {
         this.mContext = context;
         this.mUserList = userList;
         this.mContactNameMap = contactNameMap;
@@ -64,7 +69,7 @@ public class PhoneContactAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (null == convertView) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_phone_contact, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_mobile_contacts, null);
 
             viewHolder.mRootLl = convertView.findViewById(R.id.ll_root);
             viewHolder.mHeaderTv = convertView.findViewById(R.id.tv_header);
@@ -144,7 +149,6 @@ public class PhoneContactAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-
         LinearLayout mRootLl;
         TextView mHeaderTv;
         View mTempView;
@@ -153,6 +157,5 @@ public class PhoneContactAdapter extends BaseAdapter {
         TextView mWechatNameTv;
         Button mAddBtn;
         TextView mAddedTv;
-
     }
 }

@@ -10,9 +10,9 @@ import android.widget.ListView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
-import com.bc.wechat.adapter.PhoneContactAdapter;
+import com.bc.wechat.adapter.MobileContactsAdapter;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.entity.PhoneContact;
+import com.bc.wechat.entity.MobileContact;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.PinyinComparator;
@@ -35,11 +35,11 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class PhoneContactActivity extends BaseActivity {
-    @BindView(R.id.lv_phone_contact)
-    ListView mPhoneContactLv;
+public class MobileContactsActivity extends BaseActivity {
+    @BindView(R.id.lv_mobile_contacts)
+    ListView mMobileContactsLv;
 
-    private PhoneContactAdapter mPhoneContactAdapter;
+    private MobileContactsAdapter mMobileContactsAdapter;
     private VolleyUtil mVolleyUtil;
     private User mUser;
     private LoadingDialog mDialog;
@@ -49,7 +49,7 @@ public class PhoneContactActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_contact);
+        setContentView(R.layout.activity_mobile_contacts);
         ButterKnife.bind(this);
 
         initStatusBar();
@@ -58,14 +58,14 @@ public class PhoneContactActivity extends BaseActivity {
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
 
-        List<PhoneContact> phoneContactList = getPhoneContant();
+        List<MobileContact> mobileContactList = getMobileContants();
         List<String> phoneList = new ArrayList<>();
-        for (PhoneContact phoneContact : phoneContactList) {
-            String phone = phoneContact.getPhoneNumber().replaceAll(" ", "");
+        for (MobileContact mobileContact : mobileContactList) {
+            String phone = mobileContact.getPhoneNumber().replaceAll(" ", "");
             phoneList.add(phone);
-            mContactNameMap.put(phone, phoneContact.getDisplayName());
+            mContactNameMap.put(phone, mobileContact.getDisplayName());
         }
-        getPhoneContactList(mUser.getUserId(), JSON.toJSONString(phoneList));
+        getMobileContactList(mUser.getUserId(), JSON.toJSONString(phoneList));
     }
 
     public void back(View view) {
@@ -79,8 +79,8 @@ public class PhoneContactActivity extends BaseActivity {
      * @param phones 手机号列表(json格式)
      * @return 通讯录里的微信好友列表
      */
-    private void getPhoneContactList(String userId, String phones) {
-        String url = Constant.BASE_URL + "users/" + userId + "/phoneContact";
+    private void getMobileContactList(String userId, String phones) {
+        String url = Constant.BASE_URL + "users/" + userId + "/mobileContacts";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("phones", phones);
 
@@ -97,8 +97,8 @@ public class PhoneContactActivity extends BaseActivity {
             Collections.sort(userList, new PinyinComparator() {
             });
 
-            mPhoneContactAdapter = new PhoneContactAdapter(PhoneContactActivity.this, userList, mContactNameMap);
-            mPhoneContactLv.setAdapter(mPhoneContactAdapter);
+            mMobileContactsAdapter = new MobileContactsAdapter(MobileContactsActivity.this, userList, mContactNameMap);
+            mMobileContactsLv.setAdapter(mMobileContactsAdapter);
 
             mDialog.dismiss();
         }, volleyError -> mDialog.dismiss());
@@ -109,9 +109,9 @@ public class PhoneContactActivity extends BaseActivity {
      *
      * @return 手机所有联系人列表
      */
-    public List<PhoneContact> getPhoneContant() {
+    public List<MobileContact> getMobileContants() {
         // 取得ContentResolver
-        List<PhoneContact> phoneContactList = new ArrayList<>();
+        List<MobileContact> mobileContactList = new ArrayList<>();
         ContentResolver content = getContentResolver();
 
         // 联系人的URI
@@ -131,10 +131,10 @@ public class PhoneContactActivity extends BaseActivity {
                 String displayName = cursor.getString(displayNameColumn);
                 String phoneNumber = cursor.getString(numberColumn);
 
-                PhoneContact phoneContact = new PhoneContact(contactId, displayName, phoneNumber);
-                phoneContactList.add(phoneContact);
+                MobileContact mobileContact = new MobileContact(contactId, displayName, phoneNumber);
+                mobileContactList.add(mobileContact);
             }
         }
-        return phoneContactList;
+        return mobileContactList;
     }
 }

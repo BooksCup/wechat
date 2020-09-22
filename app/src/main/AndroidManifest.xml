@@ -353,7 +353,7 @@
             android:theme="@style/ImageTranslucentTheme" />
 
         <activity
-            android:name=".activity.PhoneContactActivity"
+            android:name=".activity.MobileContactsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
 

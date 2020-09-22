@@ -177,7 +177,7 @@ public class PhoneLinkActivity extends BaseActivity {
      * 查看手机通讯录
      */
     private void showPhoneContact() {
-        startActivity(new Intent(PhoneLinkActivity.this, PhoneContactActivity.class));
+        startActivity(new Intent(PhoneLinkActivity.this, MobileContactsActivity.class));
     }
 
 }

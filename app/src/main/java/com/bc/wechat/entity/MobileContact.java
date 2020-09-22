@@ -1,15 +1,20 @@
 package com.bc.wechat.entity;
 
-public class PhoneContact {
+/**
+ * 手机通讯录
+ *
+ * @author zhou
+ */
+public class MobileContact {
     private String contactId;
     private String displayName;
     private String phoneNumber;
 
-    public PhoneContact() {
+    public MobileContact() {
 
     }
 
-    public PhoneContact(String contactId, String displayName, String phoneNumber) {
+    public MobileContact(String contactId, String displayName, String phoneNumber) {
         this.contactId = contactId;
         this.displayName = displayName;
         this.phoneNumber = phoneNumber;
