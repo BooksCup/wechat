@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 地区
+ * 选择地区
  *
  * @author zhou
  */
@@ -109,16 +108,13 @@ public class PickRegionActivity extends BaseActivity {
         mRegionAdapter = new RegionAdapter(this, regionList);
         mRegionLv.setAdapter(mRegionAdapter);
 
-        mRegionLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Region region = regionList.get(position);
-                mRegion = region.getName();
-                mUser.setUserRegion(mRegion);
-                PreferencesUtil.getInstance().setUser(mUser);
-                modifyRegion();
-                finish();
-            }
+        mRegionLv.setOnItemClickListener((parent, view, position, id) -> {
+            Region region = regionList.get(position);
+            mRegion = region.getName();
+            mUser.setUserRegion(mRegion);
+            PreferencesUtil.getInstance().setUser(mUser);
+            modifyRegion();
+            finish();
         });
     }
 
