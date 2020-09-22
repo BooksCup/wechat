@@ -20,7 +20,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class SplashActivity extends FragmentActivity implements View.OnClickListener {
 
-    private static final int sleepTime = 2000;
+    private static final int sleepTime = 500;
 
     Button mLoginBtn;
     Button mRegisterBtn;
@@ -81,7 +81,7 @@ public class SplashActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                startActivity(new Intent(SplashActivity.this, PhoneLoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 break;
             case R.id.btn_register:
                 startActivity(new Intent(SplashActivity.this, RegisterActivity.class));

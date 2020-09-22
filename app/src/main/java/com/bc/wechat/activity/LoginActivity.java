@@ -25,7 +25,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class PhoneLoginActivity extends BaseActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -56,12 +56,12 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_login);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         initStatusBar();
         initView();
-        mDialog = new LoadingDialog(PhoneLoginActivity.this);
+        mDialog = new LoadingDialog(LoginActivity.this);
     }
 
     public void back(View view) {
@@ -123,12 +123,12 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                 mDialog.dismiss();
                 if (isValidChinesePhone) {
                     // 有效
-                    Intent intent = new Intent(PhoneLoginActivity.this, PhoneLoginFinalActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, PhoneLoginFinalActivity.class);
                     intent.putExtra("phone", phone);
                     startActivity(intent);
                 } else {
                     // 无效
-                    showAlertDialog(PhoneLoginActivity.this, "手机号码错误",
+                    showAlertDialog(LoginActivity.this, "手机号码错误",
                             "你输入的是一个无效的手机号码",
                             "确定", true);
                 }

@@ -85,7 +85,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PhoneLoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
