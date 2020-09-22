@@ -17,9 +17,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
@@ -28,7 +26,6 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.DeviceInfoUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.LoadingDialog;
@@ -38,6 +35,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
@@ -47,7 +47,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClickListener {
+public class PhoneLoginFinalActivity extends BaseActivity {
 
     private static final String TAG = "PhoneLoginFinalActivity";
     private static final String LOGIN_TYPE_PASSWORD = "0";
@@ -55,32 +55,47 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
 
     public static int sequence = 1;
 
-    private EditText mPhoneEt;
-    private EditText mPasswordEt;
+    @BindView(R.id.et_phone)
+    EditText mPhoneEt;
+
+    @BindView(R.id.et_password)
+    EditText mPasswordEt;
+
     // 登录方式
     // 1.用短信验证码登录
     // 2.用密码登录
-    private TextView mLoginTypeTv;
+    @BindView(R.id.tv_login_type)
+    TextView mLoginTypeTv;
 
-    private RelativeLayout mLoginByPasswordRl;
-    private RelativeLayout mLoginByVerificationCodeRl;
+    @BindView(R.id.rl_login_by_password)
+    RelativeLayout mLoginByPasswordRl;
 
-    private EditText mVerificationCodeEt;
+    @BindView(R.id.rl_login_by_verification_code)
+    RelativeLayout mLoginByVerificationCodeRl;
 
-    private ImageView mClearPasswordIv;
-    private ImageView mClearVerificationCodeIv;
+    @BindView(R.id.et_verification_code)
+    EditText mVerificationCodeEt;
 
-    private Button mLoginBtn;
-    private String mPhone;
+    @BindView(R.id.iv_clear_password)
+    ImageView mClearPasswordIv;
+
+    @BindView(R.id.iv_clear_verification_code)
+    ImageView mClearVerificationCodeIv;
+
+    @BindView(R.id.btn_login)
+    Button mLoginBtn;
 
     // 获取验证码
-    private TextView mGetVerificationCodeTv;
+    @BindView(R.id.tv_get_verification_code)
+    TextView mGetVerificationCodeTv;
     // 倒计时
-    private TextView mCountDownTv;
+    @BindView(R.id.tv_count_down)
+    TextView mCountDownTv;
 
-    private VolleyUtil mVolleyUtil;
+    String mPhone;
+    VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
-    private UserDao mUserDao;
+    UserDao mUserDao;
 
     private String mLoginType = LOGIN_TYPE_PASSWORD;
 
@@ -88,9 +103,9 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_login_final);
+        ButterKnife.bind(this);
 
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(PhoneLoginFinalActivity.this, R.color.bottom_text_color_normal);
         mPhone = getIntent().getStringExtra("phone");
 
         mVolleyUtil = VolleyUtil.getInstance(this);
@@ -104,34 +119,14 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
     }
 
     private void initView() {
-        mPhoneEt = findViewById(R.id.et_phone);
-        mPasswordEt = findViewById(R.id.et_password);
-        mLoginBtn = findViewById(R.id.btn_login);
-        mLoginTypeTv = findViewById(R.id.tv_login_type);
-        mLoginByPasswordRl = findViewById(R.id.rl_login_by_password);
-        mLoginByVerificationCodeRl = findViewById(R.id.rl_login_by_verification_code);
-
-        mVerificationCodeEt = findViewById(R.id.et_verification_code);
-
-        mClearPasswordIv = findViewById(R.id.iv_clear_password);
-        mClearVerificationCodeIv = findViewById(R.id.iv_clear_verification_code);
-
         mPhoneEt.setHint(mPhone);
-
-        mGetVerificationCodeTv = findViewById(R.id.tv_get_verification_code);
-        mCountDownTv = findViewById(R.id.tv_count_down);
 
         mPasswordEt.addTextChangedListener(new TextChange());
         mVerificationCodeEt.addTextChangedListener(new TextChange());
-
-        mLoginBtn.setOnClickListener(this);
-        mLoginTypeTv.setOnClickListener(this);
-        mClearPasswordIv.setOnClickListener(this);
-        mClearVerificationCodeIv.setOnClickListener(this);
-        mGetVerificationCodeTv.setOnClickListener(this);
     }
 
-    @Override
+    @OnClick({R.id.btn_login, R.id.tv_login_type, R.id.iv_clear_password, R.id.iv_clear_verification_code,
+            R.id.tv_get_verification_code})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -291,75 +286,69 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
             url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
                     + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
         }
-        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        mVolleyUtil.httpGetRequest(url, response -> {
 
-                Log.d(TAG, "server response: " + response);
-                final User user = JSON.parseObject(response, User.class);
-                Log.d(TAG, "userId:" + user.getUserId());
+            Log.d(TAG, "server response: " + response);
+            final User user = JSON.parseObject(response, User.class);
+            Log.d(TAG, "userId:" + user.getUserId());
 
-                // 登录极光im
-                JMessageClient.login(user.getUserId(), user.getUserImPassword(), new BasicCallback() {
-                    @Override
-                    public void gotResult(int responseCode, String responseMessage) {
-                        if (responseCode == 0) {
-                            // 极光im登录成功
-                            // 登录成功后设置user和isLogin至sharedpreferences中
-                            PreferencesUtil.getInstance().setUser(user);
-                            PreferencesUtil.getInstance().setLogin(true);
-                            // 注册jpush
-                            JPushInterface.setAlias(PhoneLoginFinalActivity.this, sequence, user.getUserId());
-                            List<User> contactList = user.getContactList();
-                            for (User contact : contactList) {
-                                if (null != contact) {
-                                    contact.setIsFriend(Constant.IS_FRIEND);
-                                    mUserDao.saveUser(contact);
-                                }
+            // 登录极光im
+            JMessageClient.login(user.getUserId(), user.getUserImPassword(), new BasicCallback() {
+                @Override
+                public void gotResult(int responseCode, String responseMessage) {
+                    if (responseCode == 0) {
+                        // 极光im登录成功
+                        // 登录成功后设置user和isLogin至sharedpreferences中
+                        PreferencesUtil.getInstance().setUser(user);
+                        PreferencesUtil.getInstance().setLogin(true);
+                        // 注册jpush
+                        JPushInterface.setAlias(PhoneLoginFinalActivity.this, sequence, user.getUserId());
+                        List<User> contactList = user.getContactList();
+                        for (User contact : contactList) {
+                            if (null != contact) {
+                                contact.setIsFriend(Constant.IS_FRIEND);
+                                mUserDao.saveUser(contact);
                             }
-                            startActivity(new Intent(PhoneLoginFinalActivity.this, MainActivity.class));
-                            finish();
-                        } else {
-                            // 极光im登录失败
-                            Toast.makeText(PhoneLoginFinalActivity.this,
-                                    R.string.account_or_password_error, Toast.LENGTH_SHORT)
-                                    .show();
                         }
-                        // 上面都是耗时操作
-                        mDialog.dismiss();
+                        startActivity(new Intent(PhoneLoginFinalActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        // 极光im登录失败
+                        Toast.makeText(PhoneLoginFinalActivity.this,
+                                R.string.account_or_password_error, Toast.LENGTH_SHORT)
+                                .show();
                     }
-                });
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(PhoneLoginFinalActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                    // 上面都是耗时操作
                     mDialog.dismiss();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(PhoneLoginFinalActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
-                    return;
                 }
+            });
 
-                int errorCode = volleyError.networkResponse.statusCode;
-                switch (errorCode) {
-                    case 400:
-                        if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
-                            // 手机号密码登录
-                            showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
-                                    getString(R.string.account_or_password_error), getString(R.string.ok), true);
-                        } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
-                            // 验证码登录
-                            showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
-                                    getString(R.string.verification_code_error), getString(R.string.ok), true);
-                        }
-                        break;
-                }
+        }, volleyError -> {
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(PhoneLoginFinalActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                 mDialog.dismiss();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(PhoneLoginFinalActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                mDialog.dismiss();
+                return;
             }
+
+            int errorCode = volleyError.networkResponse.statusCode;
+            switch (errorCode) {
+                case 400:
+                    if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
+                        // 手机号密码登录
+                        showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                                getString(R.string.account_or_password_error), getString(R.string.ok), true);
+                    } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
+                        // 验证码登录
+                        showAlertDialog(PhoneLoginFinalActivity.this, getString(R.string.login_error),
+                                getString(R.string.verification_code_error), getString(R.string.ok), true);
+                    }
+                    break;
+            }
+            mDialog.dismiss();
         });
     }
 
@@ -374,16 +363,6 @@ public class PhoneLoginFinalActivity extends BaseActivity implements View.OnClic
         paramMap.put("phone", phone);
         paramMap.put("serviceType", Constant.VERIFICATION_CODE_SERVICE_TYPE_LOGIN);
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-            }
-        });
+        mVolleyUtil.httpPostRequest(url, paramMap, response -> mDialog.dismiss(), volleyError -> mDialog.dismiss());
     }
 }

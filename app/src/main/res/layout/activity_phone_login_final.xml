@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/wechat_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -59,8 +59,8 @@
                 android:enabled="false"
                 android:paddingLeft="100dp"
                 android:singleLine="true"
-                android:textColorHint="#DDDDDD"
-                android:textSize="16sp" />
+                android:textColorHint="@color/common_hint_grey"
+                android:textSize="@dimen/common_item_text_size" />
 
             <TextView
                 android:layout_width="90dp"
@@ -70,13 +70,13 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/account"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="@dimen/common_item_text_size" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_alignParentBottom="true"
-                android:background="#b5b5b6" />
+                android:background="@color/divider_grey" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -95,8 +95,8 @@
                 android:inputType="textPassword"
                 android:paddingLeft="100dp"
                 android:singleLine="true"
-                android:textColorHint="#DDDDDD"
-                android:textSize="16sp" />
+                android:textColorHint="@color/common_hint_grey"
+                android:textSize="@dimen/common_item_text_size" />
 
             <TextView
                 android:id="@+id/tv_password"
@@ -107,7 +107,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/password"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
                 android:id="@+id/iv_clear_password"
@@ -143,8 +143,8 @@
                 android:inputType="number"
                 android:paddingLeft="100dp"
                 android:singleLine="true"
-                android:textColorHint="#DDDDDD"
-                android:textSize="16sp" />
+                android:textColorHint="@color/common_hint_grey"
+                android:textSize="@dimen/common_item_text_size" />
 
             <TextView
                 android:id="@+id/tv_verification_code"
@@ -155,7 +155,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/verification_code"
                 android:textColor="#353535"
-                android:textSize="16sp" />
+                android:textSize="@dimen/common_item_text_size" />
 
             <TextView
                 android:id="@+id/tv_get_verification_code"
@@ -218,7 +218,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/login_via_sms_verification_code"
                 android:textColor="@color/navy_blue"
-                android:textSize="16sp" />
+                android:textSize="@dimen/common_item_text_size" />
         </RelativeLayout>
 
         <Button
@@ -231,6 +231,6 @@
             android:paddingBottom="7dp"
             android:text="@string/login"
             android:textColor="@color/register_btn_text_enable"
-            android:textSize="17sp" />
+            android:textSize="@dimen/common_item_text_size" />
     </LinearLayout>
 </LinearLayout>
