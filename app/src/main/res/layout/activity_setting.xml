@@ -106,9 +106,8 @@
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="#dadada" />
+                        android:background="@color/divider_grey" />
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:id="@+id/rl_do_not_disturb"
@@ -140,7 +139,7 @@
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="#dadada" />
+                        android:background="@color/divider_grey" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -173,7 +172,7 @@
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="#dadada" />
+                        android:background="@color/divider_grey" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -206,7 +205,7 @@
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="#dadada" />
+                        android:background="@color/divider_grey" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -266,7 +265,7 @@
                         android:layout_height="0.1dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="#dadada" />
+                        android:background="@color/divider_grey" />
                 </RelativeLayout>
 
                 <RelativeLayout

@@ -12,11 +12,13 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
-import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.ValidateUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 登录
@@ -24,29 +26,40 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class PhoneLoginActivity extends BaseActivity implements View.OnClickListener {
-    private TextView mTitleTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private EditText mPhoneEt;
+    @BindView(R.id.et_phone)
+    EditText mPhoneEt;
 
-    private EditText mAccountEt;
-    private EditText mPasswordEt;
+    @BindView(R.id.et_account)
+    EditText mAccountEt;
 
-    private Button mNextBtn;
+    @BindView(R.id.et_password)
+    EditText mPasswordEt;
+
+    @BindView(R.id.btn_next)
+    Button mNextBtn;
+
+    @BindView(R.id.tv_login_type)
+    TextView mLoginTypeTv;
+
+    @BindView(R.id.ll_login_via_mobile_number)
+    LinearLayout mLoginViaMobileNumberLl;
+
+    @BindView(R.id.ll_login_via_wechat_id_email_qq_id)
+    LinearLayout mLoginViaWechatIdOrEmailOrQqIdLl;
+
     LoadingDialog mDialog;
-
-    private TextView mLoginTypeTv;
-    private LinearLayout mLoginViaMobileNumberLl;
-    private LinearLayout mLoginViaWechatIdOrEmailOrQqId;
-
     private String mLoginType = Constant.LOGIN_TYPE_PHONE_AND_PASSWORD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_login);
+        ButterKnife.bind(this);
 
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(PhoneLoginActivity.this, R.color.bottom_text_color_normal);
         initView();
         mDialog = new LoadingDialog(PhoneLoginActivity.this);
     }
@@ -56,27 +69,13 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-
-        mPhoneEt = findViewById(R.id.et_phone);
-
-        mAccountEt = findViewById(R.id.et_account);
-        mPasswordEt = findViewById(R.id.et_password);
-
-        mNextBtn = findViewById(R.id.btn_next);
-        mLoginTypeTv = findViewById(R.id.tv_login_type);
-        mLoginViaMobileNumberLl = findViewById(R.id.ll_login_via_mobile_number);
-        mLoginViaWechatIdOrEmailOrQqId = findViewById(R.id.ll_login_via_wechat_id_email_qq_id);
-
         mPhoneEt.addTextChangedListener(new TextChange());
         mAccountEt.addTextChangedListener(new TextChange());
         mPasswordEt.addTextChangedListener(new TextChange());
 
-        mNextBtn.setOnClickListener(this);
-        mLoginTypeTv.setOnClickListener(this);
     }
 
-    @Override
+    @OnClick({R.id.tv_login_type, R.id.btn_next})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login_type:
@@ -85,7 +84,7 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                 if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(mLoginType)) {
                     // 当前登录方式手机号登录
                     // 切换为其他账号登录
-                    mLoginViaWechatIdOrEmailOrQqId.setVisibility(View.VISIBLE);
+                    mLoginViaWechatIdOrEmailOrQqIdLl.setVisibility(View.VISIBLE);
                     mLoginViaMobileNumberLl.setVisibility(View.GONE);
 
                     mLoginType = Constant.LOGIN_TYPE_OTHER_ACCOUNTS_AND_PASSWORD;
@@ -99,7 +98,7 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
                     // 当前登录方式其他账号登录
                     // 切换为手机号登录
                     mLoginViaMobileNumberLl.setVisibility(View.VISIBLE);
-                    mLoginViaWechatIdOrEmailOrQqId.setVisibility(View.GONE);
+                    mLoginViaWechatIdOrEmailOrQqIdLl.setVisibility(View.GONE);
 
                     mLoginType = Constant.LOGIN_TYPE_PHONE_AND_PASSWORD;
                     mAccountEt.setText("");
@@ -121,14 +120,13 @@ public class PhoneLoginActivity extends BaseActivity implements View.OnClickList
 
                 // 是否有效手机号
                 boolean isValidChinesePhone = ValidateUtil.isValidChinesePhone(phone);
+                mDialog.dismiss();
                 if (isValidChinesePhone) {
-                    mDialog.dismiss();
                     // 有效
                     Intent intent = new Intent(PhoneLoginActivity.this, PhoneLoginFinalActivity.class);
                     intent.putExtra("phone", phone);
                     startActivity(intent);
                 } else {
-                    mDialog.dismiss();
                     // 无效
                     showAlertDialog(PhoneLoginActivity.this, "手机号码错误",
                             "你输入的是一个无效的手机号码",

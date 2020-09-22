@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/wechat_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -64,7 +64,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="国家/地区"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,8 +72,8 @@
                     android:layout_centerVertical="true"
                     android:paddingLeft="100dp"
                     android:text="中国大陆（+86）"
-                    android:textColor="#6FCD78"
-                    android:textSize="16sp" />
+                    android:textColor="@color/wechat_btn_green"
+                    android:textSize="@dimen/common_item_text_size" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -90,8 +90,8 @@
                     android:inputType="phone"
                     android:paddingLeft="100dp"
                     android:singleLine="true"
-                    android:textColorHint="#DDDDDD"
-                    android:textSize="16sp" />
+                    android:textColorHint="@color/common_hint_grey"
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="90dp"
@@ -101,13 +101,13 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/phone"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#b5b5b6" />
+                    android:background="@color/divider_grey" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -131,8 +131,8 @@
                     android:hint="请填写微信号/QQ号/邮箱"
                     android:paddingLeft="100dp"
                     android:singleLine="true"
-                    android:textColorHint="#DDDDDD"
-                    android:textSize="16sp" />
+                    android:textColorHint="@color/common_hint_grey"
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="90dp"
@@ -148,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#b5b5b6" />
+                    android:background="@color/divider_grey" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -165,8 +165,8 @@
                     android:inputType="textPassword"
                     android:paddingLeft="100dp"
                     android:singleLine="true"
-                    android:textColorHint="#DDDDDD"
-                    android:textSize="16sp" />
+                    android:textColorHint="@color/common_hint_grey"
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:layout_width="90dp"
@@ -176,13 +176,13 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/password"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#b5b5b6" />
+                    android:background="@color/divider_grey" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -199,7 +199,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/use_wechat_id_email_qq_id_to_login"
                 android:textColor="@color/navy_blue"
-                android:textSize="16sp" />
+                android:textSize="@dimen/common_item_text_size" />
         </RelativeLayout>
 
         <Button
@@ -213,6 +213,6 @@
             android:paddingBottom="7dp"
             android:text="@string/next"
             android:textColor="@color/register_btn_text_disable"
-            android:textSize="17sp" />
+            android:textSize="@dimen/common_item_text_size" />
     </LinearLayout>
 </LinearLayout>
