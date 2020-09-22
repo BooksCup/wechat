@@ -21,9 +21,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
@@ -33,7 +31,6 @@ import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -44,6 +41,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
@@ -55,21 +55,32 @@ import static com.bc.wechat.utils.ValidateUtil.validatePassword;
  *
  * @author zhou
  */
-public class RegisterActivity extends BaseActivity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
     public static int sequence = 1;
 
     private VolleyUtil mVolleyUtil;
 
+    @BindView(R.id.sdv_avatar)
     SimpleDraweeView mAvatarSdv;
 
+    @BindView(R.id.iv_agreement)
     ImageView mAgreementIv;
+
+    @BindView(R.id.tv_agreement)
     TextView mAgreementTv;
+
+    @BindView(R.id.et_nick_name)
     EditText mNickNameEt;
+
+    @BindView(R.id.et_phone)
     EditText mPhoneEt;
+
+    @BindView(R.id.et_password)
     EditText mPasswordEt;
 
+    @BindView(R.id.btn_register)
     Button mRegisterBtn;
 
     LoadingDialog mDialog;
@@ -89,8 +100,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
+
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(RegisterActivity.this, R.color.bottom_text_color_normal);
 
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(RegisterActivity.this);
@@ -99,17 +111,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
-        mAvatarSdv = findViewById(R.id.sdv_avatar);
-
-        mNickNameEt = findViewById(R.id.et_nick_name);
-        mPhoneEt = findViewById(R.id.et_phone);
-        mPasswordEt = findViewById(R.id.et_password);
-
-        mAgreementIv = findViewById(R.id.iv_agreement);
-        mAgreementTv = findViewById(R.id.tv_agreement);
-
-        mRegisterBtn = findViewById(R.id.btn_register);
-
         String agreement = "<font color=" + "\"" + "#AAAAAA" + "\">" + "已阅读并同意" + "</font>" + "<u>"
                 + "<font color=" + "\"" + "#576B95" + "\">" + "《软件许可及服务协议》"
                 + "</font>" + "</u>";
@@ -118,17 +119,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mNickNameEt.addTextChangedListener(new TextChange());
         mPhoneEt.addTextChangedListener(new TextChange());
         mPasswordEt.addTextChangedListener(new TextChange());
-
-        mAvatarSdv.setOnClickListener(this);
-        mRegisterBtn.setOnClickListener(this);
-        mAgreementIv.setOnClickListener(this);
     }
 
     public void back(View view) {
         finish();
     }
 
-    @Override
+    @OnClick({R.id.sdv_avatar, R.id.iv_agreement, R.id.btn_register})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sdv_avatar:
@@ -273,76 +270,67 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             paramMap.put("avatar", avatar);
         }
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                mDialog.dismiss();
-                Log.d(TAG, "server response: " + response);
-                final User user = JSON.parseObject(response, User.class);
-                Log.d(TAG, "userId:" + user.getUserId());
-                // 登录成功后设置user和isLogin至sharedpreferences中
-                PreferencesUtil.getInstance().setUser(user);
-                PreferencesUtil.getInstance().setLogin(true);
-                // 注册jpush
-                JPushInterface.setAlias(RegisterActivity.this, sequence, user.getUserId());
-                List<User> friendList = user.getContactList();
-                if (null != friendList && friendList.size() > 0) {
-                    for (User userFriend : friendList) {
-                        if (null != userFriend) {
-                            userFriend.setIsFriend(Constant.IS_FRIEND);
-                            mUserDao.saveUser(userFriend);
-                        }
+        mVolleyUtil.httpPostRequest(url, paramMap, response -> {
+            mDialog.dismiss();
+            Log.d(TAG, "server response: " + response);
+            final User user = JSON.parseObject(response, User.class);
+            Log.d(TAG, "userId:" + user.getUserId());
+            // 登录成功后设置user和isLogin至sharedpreferences中
+            PreferencesUtil.getInstance().setUser(user);
+            PreferencesUtil.getInstance().setLogin(true);
+            // 注册jpush
+            JPushInterface.setAlias(RegisterActivity.this, sequence, user.getUserId());
+            List<User> friendList = user.getContactList();
+            if (null != friendList && friendList.size() > 0) {
+                for (User userFriend : friendList) {
+                    if (null != userFriend) {
+                        userFriend.setIsFriend(Constant.IS_FRIEND);
+                        mUserDao.saveUser(userFriend);
                     }
                 }
-
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                finish();
-                // 登录极光im
-                JMessageClient.login(user.getUserId(), user.getUserImPassword(), new BasicCallback() {
-                    @Override
-                    public void gotResult(int responseCode, String responseMessage) {
-                        Log.d(TAG, "responseCode: " + responseCode + ", responseMessage: " + responseMessage);
-                    }
-                });
-
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-                if (volleyError instanceof NetworkError) {
-                    Toast.makeText(RegisterActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (volleyError instanceof TimeoutError) {
-                    Toast.makeText(RegisterActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                int errorCode = volleyError.networkResponse.statusCode;
-                switch (errorCode) {
-                    case 400:
-                        Map<String, String> headers = volleyError.networkResponse.headers;
-                        String responseCode = headers.get("responseCode");
-                        if (ResponseMsg.USER_EXISTS.getResponseCode().equals(responseCode)) {
-                            Toast.makeText(RegisterActivity.this,
-                                    R.string.user_exists, Toast.LENGTH_SHORT)
-                                    .show();
-                        } else {
-                            Toast.makeText(RegisterActivity.this,
-                                    R.string.account_or_password_error, Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                        break;
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            finish();
+            // 登录极光im
+            JMessageClient.login(user.getUserId(), user.getUserImPassword(), new BasicCallback() {
+                @Override
+                public void gotResult(int responseCode, String responseMessage) {
+                    Log.d(TAG, "responseCode: " + responseCode + ", responseMessage: " + responseMessage);
                 }
+            });
+
+        }, volleyError -> {
+            mDialog.dismiss();
+            if (volleyError instanceof NetworkError) {
+                Toast.makeText(RegisterActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
+                return;
+            } else if (volleyError instanceof TimeoutError) {
+                Toast.makeText(RegisterActivity.this, R.string.network_time_out, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int errorCode = volleyError.networkResponse.statusCode;
+            switch (errorCode) {
+                case 400:
+                    Map<String, String> headers = volleyError.networkResponse.headers;
+                    String responseCode = headers.get("responseCode");
+                    if (ResponseMsg.USER_EXISTS.getResponseCode().equals(responseCode)) {
+                        Toast.makeText(RegisterActivity.this,
+                                R.string.user_exists, Toast.LENGTH_SHORT)
+                                .show();
+                    } else {
+                        Toast.makeText(RegisterActivity.this,
+                                R.string.account_or_password_error, Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    break;
             }
         });
     }
 
     /**
      * 表单是否填充完成(昵称,手机号,密码,是否同意协议)
-     *
-     * @return true: 填充完成
-     * false: 未填充完成
      */
     private void checkSubmit() {
         boolean nickNameHasText = mNickNameEt.getText().toString().length() > 0;
