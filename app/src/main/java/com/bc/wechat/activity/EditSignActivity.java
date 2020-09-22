@@ -12,14 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkError;
-import com.android.volley.Response;
 import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
@@ -58,11 +55,8 @@ public class EditSignActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_sign);
-
         ButterKnife.bind(this);
-
         initStatusBar();
-        StatusBarUtil.setStatusBarColor(EditSignActivity.this, R.color.common_bg_light_grey);
 
         PreferencesUtil.getInstance().init(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
