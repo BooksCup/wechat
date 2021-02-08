@@ -19,9 +19,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import cn.edu.heuet.littlecurl.ninegridview.base.NineGridViewAdapter;
-import cn.edu.heuet.littlecurl.ninegridview.bean.NineGridItem;
-import cn.edu.heuet.littlecurl.ninegridview.preview.NineGridViewGroup;
 
 public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "FriendsCircleAdapter";
@@ -50,19 +47,19 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ImageView avatar = holder.itemView.findViewById(R.id.sdv_avatar);
         LinearLayout pinglun = holder.itemView.findViewById(R.id.pinglun);
 
-        NineGridViewGroup photos = holder.itemView.findViewById(R.id.gv_friends_circle_photo);
-        ArrayList<MyMedia> mediaList = recyclerViewItem.getMediaList();
-        if (mediaList != null && mediaList.size() > 0) {
-            ArrayList<NineGridItem> nineGridItemList = new ArrayList<>();
-            for (MyMedia myMedia : mediaList) {
-                String thumbnailUrl = myMedia.getImageUrl();
-                String bigImageUrl = myMedia.getImageUrl();
-                String videoUrl = myMedia.getVideoUrl();
-                nineGridItemList.add(new NineGridItem(thumbnailUrl, bigImageUrl, videoUrl));
-            }
-            NineGridViewAdapter nineGridViewAdapter = new NineGridViewAdapter(nineGridItemList);
-            photos.setAdapter(nineGridViewAdapter);
-        }
+//        NineGridViewGroup photos = holder.itemView.findViewById(R.id.gv_friends_circle_photo);
+//        ArrayList<MyMedia> mediaList = recyclerViewItem.getMediaList();
+//        if (mediaList != null && mediaList.size() > 0) {
+//            ArrayList<NineGridItem> nineGridItemList = new ArrayList<>();
+//            for (MyMedia myMedia : mediaList) {
+//                String thumbnailUrl = myMedia.getImageUrl();
+//                String bigImageUrl = myMedia.getImageUrl();
+//                String videoUrl = myMedia.getVideoUrl();
+//                nineGridItemList.add(new NineGridItem(thumbnailUrl, bigImageUrl, videoUrl));
+//            }
+//            NineGridViewAdapter nineGridViewAdapter = new NineGridViewAdapter(nineGridItemList);
+//            photos.setAdapter(nineGridViewAdapter);
+//        }
         nickname.setText(recyclerViewItem.getNickName());
         Glide.with(avatar).load(recyclerViewItem.getHeadImageUrl()).into(avatar);
         content.setText(recyclerViewItem.getContent());

@@ -36,15 +36,15 @@ public class MD5Util {
     /**
      * 字节数组转16进制字符串
      *
-     * @param b 字节数组
+     * @param bytes 字节数组
      * @return 16进制字符串
      */
-    public static String byteArrayToHexString(byte b[]) {
-        StringBuffer resultSb = new StringBuffer();
-        for (int i = 0; i < b.length; i++) {
-            resultSb.append(byteToHexString(b[i]));
+    public static String byteArrayToHexString(byte bytes[]) {
+        StringBuffer result = new StringBuffer();
+        for (int i = 0; i < bytes.length; i++) {
+            result.append(byteToHexString(bytes[i]));
         }
-        return resultSb.toString();
+        return result.toString();
     }
 
     /**

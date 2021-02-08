@@ -1,20 +1,12 @@
 package com.bc.wechat;
 
 import android.app.Application;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.widget.ImageView;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.bc.wechat.service.LocationService;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orm.SugarContext;
-//import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-//import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
-import cn.edu.heuet.littlecurl.ninegridview.preview.NineGridViewGroup;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 
@@ -51,30 +43,6 @@ public class WechatApplication extends Application {
         // 百度地图
         SDKInitializer.initialize(this);
         locationService = new LocationService(getApplicationContext());
-
-        NineGridViewGroup.setImageLoader(new GlideImageLoader());
     }
 
-    /**
-     * Glide 加载图片
-     */
-    private class GlideImageLoader implements NineGridViewGroup.ImageLoader {
-        GlideImageLoader() {
-        }
-
-        @Override
-        public void onDisplayImage(Context context, ImageView imageView, String url) {
-            Glide.with(context)
-                    .load(url)
-                    .placeholder(R.drawable.ic_default_color)   // 图片未加载时的占位图或背景色
-                    .error(R.drawable.ic_default_color)         // 图片加载失败时显示的图或背景色
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)   // 开启本地缓存
-                    .into(imageView);
-        }
-
-        @Override
-        public Bitmap getCacheImage(String url) {
-            return null;
-        }
-    }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/tv_header"
         android:layout_width="match_parent"
         android:layout_height="26dp"
-        android:background="@color/wechat_common_bg"
+        android:background="@color/app_common_bg"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
         android:textColor="#888888"

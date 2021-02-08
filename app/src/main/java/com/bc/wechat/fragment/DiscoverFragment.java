@@ -20,7 +20,6 @@ import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
-import com.bc.wechat.activity.FriendsCircleActivity;
 import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.MomentsActivity;
 import com.bc.wechat.activity.PeopleNearbyActivity;

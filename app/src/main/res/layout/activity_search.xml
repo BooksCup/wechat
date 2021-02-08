@@ -3,7 +3,7 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/wechat_common_bg"
+    android:background="@color/app_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -12,7 +12,7 @@
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_bar_height"
-        android:background="@color/wechat_common_bg">
+        android:background="@color/app_common_bg">
 
         <ImageView
             android:id="@+id/iv_back"

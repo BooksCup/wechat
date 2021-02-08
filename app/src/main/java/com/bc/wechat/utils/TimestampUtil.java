@@ -79,7 +79,7 @@ public class TimestampUtil {
                 if (hour > 6 && hour <= 12) {
                     period = "上午";
                 }
-                if (hour > 12 && hour <= 13) {
+                if (hour == 13) {
                     period = "中午";
                 }
                 if (hour > 13 && hour <= 18) {

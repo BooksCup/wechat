@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.activity.NewFriendsAcceptActivity;
 import com.bc.wechat.activity.NewFriendsAcceptConfirmActivity;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.FriendApply;

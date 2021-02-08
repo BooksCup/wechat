@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
@@ -37,7 +36,6 @@ import com.bc.wechat.entity.MyMedia;
 import com.bc.wechat.entity.RecyclerViewItem;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.widget.ImagePickerLoader;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;

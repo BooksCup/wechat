@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,19 +177,19 @@ public class MainActivity extends BaseActivity {
                 mIndex = 0;
 //                mTitleTv.setText(getString(R.string.tab_chats));
 //                mTitleRl.setVisibility(View.VISIBLE);
-                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.wechat_common_bg);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.app_common_bg);
                 break;
             case R.id.rl_contacts:
                 mIndex = 1;
 //                mTitleTv.setText(getString(R.string.tab_contacts));
 //                mTitleRl.setVisibility(View.VISIBLE);
-                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.wechat_common_bg);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.app_common_bg);
                 break;
             case R.id.rl_discover:
                 mIndex = 2;
 //                mTitleTv.setText(getString(R.string.tab_discover));
 //                mTitleRl.setVisibility(View.VISIBLE);
-                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.wechat_common_bg);
+                StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.app_common_bg);
                 break;
             case R.id.rl_me:
                 mIndex = 3;

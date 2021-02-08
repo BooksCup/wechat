@@ -352,8 +352,8 @@ public class AddTagActivity extends BaseActivity {
     /**
      * 创建一个正常状态的标签
      *
-     * @param label
-     * @return
+     * @param label 标签
+     * @return 正常状态的标签
      */
     private TextView getTag(String label) {
         TextView textView = new TextView(getApplicationContext());

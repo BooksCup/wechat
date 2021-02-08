@@ -8,7 +8,8 @@ public class Constant {
 
     //    public static final String BASE_URL = "http://49.4.25.11:8081/";
 //    public static final String BASE_URL = "http://115.159.201.120:8081/";
-    public static final String BASE_URL = "http://192.168.0.133:8081/";
+    public static final String BASE_URL = "http://172.168.0.145:8081/";
+//    public static final String BASE_URL = "http://192.168.0.133:8081/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";
@@ -200,12 +201,7 @@ public class Constant {
      */
     public static final String VERIFICATION_CODE_SERVICE_TYPE_LOGIN = "0";
 
-    /**
-     * QQ号验证
-     */
-    /**
-     * QQ号验证
-     */
+    // QQ号验证
     /**
      * 未绑定
      */
@@ -216,9 +212,7 @@ public class Constant {
      */
     public static final String QQ_ID_LINKED = "1";
 
-    /**
-     * 邮箱验证
-     */
+    // 邮箱验证
     /**
      * 未绑定
      */
