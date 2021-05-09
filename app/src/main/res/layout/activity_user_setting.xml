@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -28,10 +28,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_back"
+            android:layout_centerInParent="true"
             android:text="资料设置"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/top_bar_title_text_size" />
     </RelativeLayout>
 
     <ScrollView
@@ -64,7 +64,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/edit_contact"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <TextView
@@ -109,7 +109,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/contact_privacy"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
@@ -136,7 +136,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="把他推荐给朋友"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
@@ -155,7 +155,6 @@
                         android:background="#dadada" />
                 </RelativeLayout>
 
-
                 <RelativeLayout
                     android:id="@+id/rl_add_to_home_screen"
                     android:layout_width="match_parent"
@@ -170,7 +169,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="@string/add_to_home_screen"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
@@ -204,7 +203,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="设为星标朋友"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView
@@ -243,7 +242,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="加入黑名单"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <View
@@ -288,7 +287,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/setting_btn_margin_right"
                         android:text="投诉"
-                        android:textColor="#353535"
+                        android:textColor="@color/common_item_black"
                         android:textSize="@dimen/setting_text_size" />
 
                     <ImageView

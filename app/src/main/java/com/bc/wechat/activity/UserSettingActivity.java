@@ -48,6 +48,9 @@ public class UserSettingActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_ADD_TO_HOME_SCREEN = 1;
 
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
     // 设置备注和标签
     @BindView(R.id.rl_edit_contact)
     RelativeLayout mEditContactRl;
@@ -131,6 +134,7 @@ public class UserSettingActivity extends BaseActivity {
     }
 
     private void initView() {
+        setTitleStrokeWidth(mTitleTv);
         if (Constant.IS_NOT_FRIEND.equals(mIsFriend)) {
             // 非好友
             mPrivacyRl.setVisibility(View.GONE);
