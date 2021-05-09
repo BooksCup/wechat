@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -28,11 +28,11 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_back"
-            android:text="朋友权限"
+            android:text="@string/contact_privacy"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/top_bar_title_text_size" />
     </RelativeLayout>
 
     <LinearLayout
@@ -74,7 +74,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:text="聊天、朋友圈、微信运动等"
-                android:textColor="#353535"
+                android:textColor="@color/common_item_black"
                 android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
@@ -112,7 +112,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:text="仅聊天"
-                android:textColor="#353535"
+                android:textColor="@color/common_item_black"
                 android:textSize="@dimen/common_item_text_size" />
 
             <ImageView
@@ -166,7 +166,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:text="不让他看我"
-                    android:textColor="#353535"
+                    android:textColor="@color/common_item_black"
                     android:textSize="@dimen/common_item_text_size" />
 
                 <ImageView
@@ -214,7 +214,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:text="不看他"
-                    android:textColor="#353535"
+                    android:textColor="@color/common_item_black"
                     android:textSize="@dimen/common_item_text_size" />
 
                 <ImageView

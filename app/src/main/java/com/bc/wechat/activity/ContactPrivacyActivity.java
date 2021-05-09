@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
@@ -27,6 +28,9 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class ContactPrivacyActivity extends BaseActivity {
+
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
     // 聊天、朋友圈、微信运动等
     @BindView(R.id.iv_chats_moments_werun_etc)
@@ -60,13 +64,13 @@ public class ContactPrivacyActivity extends BaseActivity {
     String mContactId;
     User mContact;
 
-    private VolleyUtil mVolleyUtil;
+    VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
 
-    private String mRelaPrivacy;
-    private String mRelaHideMyPosts;
-    private String mRelaHideHisPosts;
+    String mRelaPrivacy;
+    String mRelaHideMyPosts;
+    String mRelaHideHisPosts;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +98,8 @@ public class ContactPrivacyActivity extends BaseActivity {
     }
 
     private void initView() {
+        setTitleStrokeWidth(mTitleTv);
+
         if (Constant.PRIVACY_CHATS_MOMENTS_WERUN_ETC.equals(mContact.getUserContactPrivacy())) {
             // 所有权限
             mChatsMomentsWerunEtcIv.setVisibility(View.VISIBLE);
@@ -126,7 +132,6 @@ public class ContactPrivacyActivity extends BaseActivity {
 
             mPrivacyLl.setVisibility(View.GONE);
         }
-
 
     }
 
@@ -224,4 +229,5 @@ public class ContactPrivacyActivity extends BaseActivity {
             mDialog.dismiss();
         });
     }
+
 }
