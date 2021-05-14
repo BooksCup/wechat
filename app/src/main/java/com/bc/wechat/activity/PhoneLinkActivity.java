@@ -46,7 +46,7 @@ public class PhoneLinkActivity extends BaseActivity {
     @BindView(R.id.btn_change_mobile)
     Button mChangeMobileBtn;
 
-    private User mUser;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

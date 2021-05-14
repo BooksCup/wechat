@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -54,8 +53,8 @@ public class ModifyPasswordActivity extends BaseActivity {
     @BindView(R.id.et_confirm_password)
     EditText mConfirmPasswordEt;
 
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
+    VolleyUtil mVolleyUtil;
+    User mUser;
     LoadingDialog mDialog;
 
     @Override
@@ -95,9 +94,6 @@ public class ModifyPasswordActivity extends BaseActivity {
      * 提交表单
      */
     private void submitForm() {
-        mDialog.setMessage(getString(R.string.sending));
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
 
         String oldPassword = mOldPasswordEt.getText().toString();
         String newPassword = mNewPasswordEt.getText().toString();
@@ -131,6 +127,10 @@ public class ModifyPasswordActivity extends BaseActivity {
                     getString(R.string.password_rules), getString(R.string.ok), true);
             return;
         }
+
+        mDialog.setMessage(getString(R.string.sending));
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
 
         modifyPassword(mUser.getUserId(), oldPassword, newPassword);
     }

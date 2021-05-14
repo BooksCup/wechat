@@ -16,12 +16,12 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="@string/tab_contacts"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/top_bar_title_text_size" />
 
         <ImageView
             android:id="@+id/iv_add"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -36,15 +37,19 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class MobileContactsActivity extends BaseActivity {
+
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
     @BindView(R.id.lv_mobile_contacts)
     ListView mMobileContactsLv;
 
-    private MobileContactsAdapter mMobileContactsAdapter;
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-    private LoadingDialog mDialog;
+    MobileContactsAdapter mMobileContactsAdapter;
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    LoadingDialog mDialog;
 
-    private Map<String, String> mContactNameMap = new HashMap<>();
+    Map<String, String> mContactNameMap = new HashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +58,13 @@ public class MobileContactsActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
 
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
 
-        List<MobileContact> mobileContactList = getMobileContants();
+        List<MobileContact> mobileContactList = getMobileContacts();
         List<String> phoneList = new ArrayList<>();
         for (MobileContact mobileContact : mobileContactList) {
             String phone = mobileContact.getPhoneNumber().replaceAll(" ", "");
@@ -109,7 +115,7 @@ public class MobileContactsActivity extends BaseActivity {
      *
      * @return 手机所有联系人列表
      */
-    public List<MobileContact> getMobileContants() {
+    public List<MobileContact> getMobileContacts() {
         // 取得ContentResolver
         List<MobileContact> mobileContactList = new ArrayList<>();
         ContentResolver content = getContentResolver();
@@ -137,4 +143,5 @@ public class MobileContactsActivity extends BaseActivity {
         }
         return mobileContactList;
     }
+
 }
