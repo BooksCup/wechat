@@ -72,4 +72,8 @@
 
     <dimen name="common_item_text_size">15.5sp</dimen>
     <dimen name="common_thick_divider_height">8dp</dimen>
+
+    <dimen name="top_bar_back_width">32dp</dimen>
+    <dimen name="top_bar_back_height">32dp</dimen>
+    <dimen name="top_bar_title_text_size">15.5sp</dimen>
 </resources>

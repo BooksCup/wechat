@@ -1,6 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.view.View;
@@ -58,7 +59,9 @@ public class SettingActivity extends BaseActivity {
 
     private void initView() {
         TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+//        paint.setFakeBoldText(true);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStrokeWidth(0.8f);//控制字体加粗的程度复制代码
     }
 
     public void back(View view) {
