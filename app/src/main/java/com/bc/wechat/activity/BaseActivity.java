@@ -3,10 +3,13 @@ package com.bc.wechat.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
@@ -162,4 +165,17 @@ public class BaseActivity extends FragmentActivity {
         int height = resources.getDimensionPixelSize(resourceId);
         return height;
     }
+
+    /**
+     * 渲染标题粗细程度
+     *
+     * @param textView 标题textView
+     */
+    protected void setTitleStrokeWidth(TextView textView) {
+        TextPaint paint = textView.getPaint();
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        // 控制字体加粗的程度
+        paint.setStrokeWidth(0.8f);
+    }
+
 }

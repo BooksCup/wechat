@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -61,8 +60,7 @@ public class PhoneLinkActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
         mPhoneTv.setText("绑定的手机号：" + mUser.getUserPhone());
     }
 

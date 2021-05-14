@@ -35,6 +35,7 @@ import static com.bc.wechat.utils.ValidateUtil.validatePassword;
  * @author zhou
  */
 public class ModifyPasswordActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -76,8 +77,7 @@ public class ModifyPasswordActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         mWechatIdEt.setText(mUser.getUserWxId());
     }

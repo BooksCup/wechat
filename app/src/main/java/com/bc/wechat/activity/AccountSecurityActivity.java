@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -72,9 +71,7 @@ public class AccountSecurityActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
+        setTitleStrokeWidth(mTitleTv);
         mWeChatIdTv.setText(mUser.getUserWxId());
         mPhoneTv.setText(mUser.getUserPhone());
     }
