@@ -34,6 +34,7 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class EditNameActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -46,7 +47,7 @@ public class EditNameActivity extends BaseActivity {
     @BindView(R.id.tv_save)
     TextView mSaveTv;
 
-    private VolleyUtil mVolleyUtil;
+    VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
 

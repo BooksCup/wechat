@@ -141,8 +141,7 @@ public class NewFriendsActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
     }
 
     @OnClick({R.id.tv_add, R.id.tv_search})

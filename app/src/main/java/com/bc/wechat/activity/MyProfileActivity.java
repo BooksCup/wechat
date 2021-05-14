@@ -55,6 +55,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class MyProfileActivity extends BaseActivity {
+
     // 头像
     @BindView(R.id.rl_avatar)
     RelativeLayout mAvatarRl;
@@ -94,15 +95,15 @@ public class MyProfileActivity extends BaseActivity {
     @BindView(R.id.iv_wx_id)
     ImageView mWxIdIv;
 
-    private VolleyUtil mVolleyUtil;
+    VolleyUtil mVolleyUtil;
 
     private static final int UPDATE_AVATAR_BY_TAKE_CAMERA = 1;
     private static final int UPDATE_AVATAR_BY_ALBUM = 2;
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
 
-    private User mUser;
-    private String mImageName;
+    User mUser;
+    String mImageName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,9 +119,7 @@ public class MyProfileActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
+        setTitleStrokeWidth(mTitleTv);
         mNickNameTv.setText(mUser.getUserNickName());
 
         String userAvatar = mUser.getUserAvatar();
