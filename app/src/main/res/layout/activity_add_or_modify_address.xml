@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -27,11 +27,11 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_back"
             android:text="新增地址"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/top_bar_title_text_size" />
 
         <TextView
             android:id="@+id/tv_save"
@@ -50,7 +50,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="52dp"
         android:background="#ffffff"
         android:clickable="true">
 
@@ -98,7 +98,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="52dp"
         android:background="#ffffff"
         android:clickable="true">
 
@@ -138,7 +138,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="52dp"
         android:background="#ffffff"
         android:clickable="true">
 
@@ -186,7 +186,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="52dp"
         android:background="#ffffff"
         android:clickable="true">
 
@@ -225,7 +225,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="52dp"
         android:background="#ffffff"
         android:clickable="true">
 

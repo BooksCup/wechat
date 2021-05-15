@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.MomentsActivity;
-import com.bc.wechat.entity.MyMedia;
 import com.bc.wechat.entity.RecyclerViewItem;
 import com.bumptech.glide.Glide;
 

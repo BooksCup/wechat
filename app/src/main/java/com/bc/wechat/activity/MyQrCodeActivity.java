@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;

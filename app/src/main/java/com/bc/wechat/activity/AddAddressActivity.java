@@ -23,7 +23,6 @@ import butterknife.OnFocusChange;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -160,8 +159,8 @@ public class AddAddressActivity extends BaseActivity {
 
     private void initView() {
         mTitleTv.setText(getString(R.string.add_address));
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+
+        setTitleStrokeWidth(mTitleTv);
 
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");

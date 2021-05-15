@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.Editable;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -166,8 +165,7 @@ public class ModifyAddressActivity extends BaseActivity {
 
     private void initView() {
         mTitleTv.setText(getString(R.string.modify_address));
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         mAddress = (Address) getIntent().getSerializableExtra("address");
 

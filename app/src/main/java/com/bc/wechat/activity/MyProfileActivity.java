@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
