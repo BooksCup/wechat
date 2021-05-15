@@ -2,9 +2,7 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,24 +14,30 @@ import com.bc.wechat.entity.Area;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
- * 省选择
+ * 选择省
  *
  * @author zhou
  */
 public class PickProvinceActivity extends BaseActivity {
-    private TextView mTitleTv;
 
-    private ListView mProvinceLv;
-    private AreaAdapter mProvinceAdapter;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private AreaDao mAreaDao;
+    @BindView(R.id.lv_area)
+    ListView mProvinceLv;
+
+    AreaAdapter mProvinceAdapter;
+    AreaDao mAreaDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_picker);
+        ButterKnife.bind(this);
         initStatusBar();
         initView();
         mAreaDao = new AreaDao();
@@ -41,14 +45,11 @@ public class PickProvinceActivity extends BaseActivity {
         final List<Area> areaList = mAreaDao.getProvinceList();
         mProvinceAdapter = new AreaAdapter(this, areaList);
         mProvinceLv.setAdapter(mProvinceAdapter);
-        mProvinceLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Area area = areaList.get(position);
-                Intent intent = new Intent(PickProvinceActivity.this, PickCityActivity.class);
-                intent.putExtra("provinceName", area.getName());
-                startActivity(intent);
-            }
+        mProvinceLv.setOnItemClickListener((parent, view, position, id) -> {
+            Area area = areaList.get(position);
+            Intent intent = new Intent(PickProvinceActivity.this, PickCityActivity.class);
+            intent.putExtra("provinceName", area.getName());
+            startActivity(intent);
         });
 
         // 压入销毁栈
@@ -61,10 +62,7 @@ public class PickProvinceActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        mProvinceLv = findViewById(R.id.lv_area);
+        setTitleStrokeWidth(mTitleTv);
     }
+
 }

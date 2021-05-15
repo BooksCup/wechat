@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="56dp"
+    android:minHeight="52dp"
     android:background="#ffffff">
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_marginBottom="12dp"
         android:text="北京市"
         android:textColor="#353535"
-        android:textSize="16sp" />
+        android:textSize="@dimen/common_item_text_size" />
 
     <ImageView
         android:layout_width="24dp"

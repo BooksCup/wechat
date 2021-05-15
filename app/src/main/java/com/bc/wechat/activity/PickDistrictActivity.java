@@ -1,9 +1,7 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,27 +14,32 @@ import com.bc.wechat.utils.PreferencesUtil;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
- * 区县选择
+ * 选择区县
  *
  * @author zhou
  */
 public class PickDistrictActivity extends BaseActivity {
-    private TextView mTitleTv;
 
-    private ListView mDistrictLv;
-    private AreaAdapter mDistrictAdapter;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private AreaDao mAreaDao;
+    @BindView(R.id.lv_area)
+    ListView mDistrictLv;
 
-    private String mProvinceName;
-    private String mCityName;
+    AreaAdapter mDistrictAdapter;
+    AreaDao mAreaDao;
+    String mProvinceName;
+    String mCityName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_area_picker);
+        ButterKnife.bind(this);
         initStatusBar();
         initView();
         PreferencesUtil.getInstance().init(this);
@@ -47,21 +50,18 @@ public class PickDistrictActivity extends BaseActivity {
         final List<Area> areaList = mAreaDao.getDistrictListByCityName(mCityName);
         mDistrictAdapter = new AreaAdapter(this, areaList);
         mDistrictLv.setAdapter(mDistrictAdapter);
-        mDistrictLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Area area = areaList.get(position);
+        mDistrictLv.setOnItemClickListener((parent, view, position, id) -> {
+            Area area = areaList.get(position);
 
-                PreferencesUtil.getInstance().setPickedProvince(mProvinceName);
-                PreferencesUtil.getInstance().setPickedCity(mCityName);
-                PreferencesUtil.getInstance().setPickedDistrict(area.getName());
-                PreferencesUtil.getInstance().setPickedPostCode(area.getPostCode());
+            PreferencesUtil.getInstance().setPickedProvince(mProvinceName);
+            PreferencesUtil.getInstance().setPickedCity(mCityName);
+            PreferencesUtil.getInstance().setPickedDistrict(area.getName());
+            PreferencesUtil.getInstance().setPickedPostCode(area.getPostCode());
 
-                // 销毁省、市、区的选择页面
-                FinishActivityManager.getManager().finishActivity(PickProvinceActivity.class);
-                FinishActivityManager.getManager().finishActivity(PickCityActivity.class);
-                FinishActivityManager.getManager().finishActivity(PickDistrictActivity.this);
-            }
+            // 销毁省、市、区的选择页面
+            FinishActivityManager.getManager().finishActivity(PickProvinceActivity.class);
+            FinishActivityManager.getManager().finishActivity(PickCityActivity.class);
+            FinishActivityManager.getManager().finishActivity(PickDistrictActivity.this);
         });
         // 压入销毁栈
         FinishActivityManager.getManager().addActivity(this);
@@ -73,10 +73,7 @@ public class PickDistrictActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        mDistrictLv = findViewById(R.id.lv_area);
+        setTitleStrokeWidth(mTitleTv);
     }
+
 }
