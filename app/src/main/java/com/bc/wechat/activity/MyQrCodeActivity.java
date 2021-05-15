@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class MyQrCodeActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -41,7 +42,7 @@ public class MyQrCodeActivity extends BaseActivity {
     @BindView(R.id.sdv_qr_code)
     SimpleDraweeView mQrCodeSdv;
 
-    private User mUser;
+    User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +56,7 @@ public class MyQrCodeActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));

@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -29,22 +29,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_back"
+            android:layout_centerInParent="true"
             android:text="我的地址"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/top_bar_title_text_size" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/setting_btn_margin_right">
 
             <ImageView
                 android:id="@+id/iv_add"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="@dimen/top_bar_back_width"
+                android:layout_height="@dimen/top_bar_back_height"
                 android:scaleType="centerInside"
                 android:src="@drawable/bg_add_address" />
         </LinearLayout>
@@ -58,4 +58,5 @@
         android:descendantFocusability="blocksDescendants"
         android:divider="@drawable/list_divider"
         android:dividerHeight="0.1dp" />
+
 </LinearLayout>

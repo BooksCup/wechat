@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -33,6 +32,7 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class EditWeChatIdActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -45,7 +45,7 @@ public class EditWeChatIdActivity extends BaseActivity {
     @BindView(R.id.tv_save)
     TextView mSaveTv;
 
-    private VolleyUtil mVolleyUtil;
+    VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
 
@@ -73,8 +73,7 @@ public class EditWeChatIdActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         mWeChatIdEt.setText(mUser.getUserWxId());
         // 光标移至最后

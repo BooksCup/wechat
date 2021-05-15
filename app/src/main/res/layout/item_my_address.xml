@@ -15,8 +15,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="12dp"
         android:text=""
-        android:textColor="#353535"
-        android:textSize="16sp" />
+        android:textColor="#151515"
+        android:textSize="@dimen/common_item_text_size" />
 
     <TextView
         android:id="@+id/tv_address_info"
@@ -25,7 +25,10 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="3dp"
+        android:textColor="#A5A5A5"
         android:layout_marginBottom="12dp"
+        android:textSize="12sp"
         android:text="" />
 
 </LinearLayout>

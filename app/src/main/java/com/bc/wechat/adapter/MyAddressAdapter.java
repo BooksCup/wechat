@@ -15,10 +15,15 @@ import com.bc.wechat.entity.Address;
 
 import java.util.List;
 
+/**
+ * 我的地址
+ *
+ * @author zhou
+ */
 public class MyAddressAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private List<Address> mAddressList;
+    Context mContext;
+    List<Address> mAddressList;
 
     public MyAddressAdapter(Context context, List<Address> addressList) {
         this.mContext = context;

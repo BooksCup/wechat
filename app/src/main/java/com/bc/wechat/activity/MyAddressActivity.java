@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +37,8 @@ import com.bc.wechat.utils.VolleyUtil;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 我的地址
@@ -45,23 +46,31 @@ import androidx.annotation.Nullable;
  * @author zhou
  */
 public class MyAddressActivity extends BaseActivity {
-    private LinearLayout mRootLl;
 
-    private TextView mTitleTv;
+    @BindView(R.id.ll_root)
+    LinearLayout mRootLl;
 
-    private ImageView mAddIv;
-    private ListView mAddressLv;
-    private MyAddressAdapter mMyAddressAdapter;
-    private User mUser;
-    private VolleyUtil mVolleyUtil;
-    private AddressDao mAddressDao;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.iv_add)
+    ImageView mAddIv;
+
+    @BindView(R.id.lv_address)
+    ListView mAddressLv;
+
+    MyAddressAdapter mMyAddressAdapter;
+    User mUser;
+    VolleyUtil mVolleyUtil;
+    AddressDao mAddressDao;
     // 弹窗
-    private PopupWindow mPopupWindow;
+    PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_address);
+        ButterKnife.bind(this);
         initStatusBar();
 
         initView();
@@ -78,21 +87,10 @@ public class MyAddressActivity extends BaseActivity {
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
-        mRootLl = findViewById(R.id.ll_root);
-
-        mAddIv = findViewById(R.id.iv_add);
-        mAddressLv = findViewById(R.id.lv_address);
-
-        mAddIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MyAddressActivity.this, AddAddressActivity.class));
-            }
-        });
+        mAddIv.setOnClickListener(view ->
+                startActivity(new Intent(MyAddressActivity.this, AddAddressActivity.class)));
     }
 
     public void back(View view) {
@@ -262,4 +260,5 @@ public class MyAddressActivity extends BaseActivity {
         lp.alpha = bgAlpha;
         getWindow().setAttributes(lp);
     }
+
 }
