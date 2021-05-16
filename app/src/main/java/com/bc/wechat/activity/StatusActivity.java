@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.bc.wechat.R;
@@ -19,6 +20,7 @@ import com.blankj.utilcode.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,9 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class StatusActivity extends BaseActivity {
+
+    @BindView(R.id.sv_bg)
+    ScrollView mBgSv;
 
     @BindView(R.id.clv_user_status)
     CustomListView mUserStatusClv;
@@ -45,9 +50,28 @@ public class StatusActivity extends BaseActivity {
         transparentStatusBar();
         setContentView(R.layout.activity_status);
         ButterKnife.bind(this);
+        setRandomBg();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mStatusGroupDao = new StatusGroupDao();
         initData();
+    }
+
+    /**
+     * 设置随机渐变色的背景
+     */
+    private void setRandomBg() {
+        int random = new Random().nextInt(3);
+        switch (random) {
+            case 0:
+                mBgSv.setBackgroundResource(R.drawable.bg_gradient_1);
+                break;
+            case 1:
+                mBgSv.setBackgroundResource(R.drawable.bg_gradient_2);
+                break;
+            case 2:
+                mBgSv.setBackgroundResource(R.drawable.bg_gradient_3);
+                break;
+        }
     }
 
     /**
