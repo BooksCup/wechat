@@ -15,10 +15,10 @@ import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CollectionUtils;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.blankj.utilcode.util.CollectionUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -34,6 +34,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class UserInfoStrangerActivity extends BaseActivity {
+
     @BindView(R.id.sdv_avatar)
     SimpleDraweeView mAvatarSdv;
 

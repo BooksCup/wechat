@@ -14,9 +14,9 @@ import com.bc.wechat.adapter.StatusGroupAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.StatusGroupDao;
 import com.bc.wechat.entity.StatusGroup;
+import com.bc.wechat.utils.CollectionUtils;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.CustomListView;
-import com.blankj.utilcode.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
