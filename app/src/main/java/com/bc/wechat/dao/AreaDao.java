@@ -11,6 +11,7 @@ import java.util.List;
  * @author zhou
  */
 public class AreaDao {
+
     /**
      * 获取所有省份列表
      *
@@ -67,4 +68,5 @@ public class AreaDao {
             return new Area();
         }
     }
+
 }

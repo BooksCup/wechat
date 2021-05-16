@@ -10,14 +10,28 @@ import java.util.List;
  * @author zhou
  */
 public class DeviceInfoDao {
+
+    /**
+     * 获取设备信息列表
+     *
+     * @return 设备信息列表
+     */
     public List<DeviceInfo> getDeviceInfoList() {
         return DeviceInfo.listAll(DeviceInfo.class);
     }
 
+    /**
+     * 清除设备信息
+     */
     public void clearDeviceInfo() {
         DeviceInfo.deleteAll(DeviceInfo.class);
     }
 
+    /**
+     * 保存设备信息
+     *
+     * @param deviceInfo 设备信息
+     */
     public void saveDeviceInfo(DeviceInfo deviceInfo) {
         DeviceInfo.save(deviceInfo);
     }
@@ -35,4 +49,5 @@ public class DeviceInfoDao {
         }
         return null;
     }
+
 }
