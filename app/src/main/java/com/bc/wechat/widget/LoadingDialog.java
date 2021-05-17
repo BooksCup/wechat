@@ -14,8 +14,9 @@ import com.bc.wechat.R;
  * @author zhou
  */
 public class LoadingDialog extends Dialog {
-    private TextView mLoadingTv;
-    private String mLoadingText;
+
+    TextView mLoadingTv;
+    String mLoadingText;
 
     /**
      * style很关键
@@ -37,4 +38,5 @@ public class LoadingDialog extends Dialog {
         LinearLayout linearLayout = findViewById(R.id.ll_loading);
         linearLayout.getBackground().setAlpha(210);
     }
+
 }

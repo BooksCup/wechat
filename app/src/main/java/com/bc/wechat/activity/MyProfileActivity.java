@@ -31,6 +31,7 @@ import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.bc.wechat.widget.LoadingDialog;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.huantansheng.easyphotos.EasyPhotos;
@@ -97,6 +98,7 @@ public class MyProfileActivity extends BaseActivity {
     ImageView mWxIdIv;
 
     VolleyUtil mVolleyUtil;
+    LoadingDialog mDialog;
 
     private static final int UPDATE_AVATAR_BY_TAKE_CAMERA = 1;
     private static final int UPDATE_AVATAR_BY_ALBUM = 2;
@@ -114,6 +116,8 @@ public class MyProfileActivity extends BaseActivity {
         ButterKnife.bind(this);
         initStatusBar();
         mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(MyProfileActivity.this);
+
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
         initView();
@@ -196,7 +200,10 @@ public class MyProfileActivity extends BaseActivity {
                     renderWxId(user);
                     break;
                 case UPDATE_USER_AVATAR:
-                    //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
+                    mDialog.setMessage("正在上传头像");
+                    mDialog.show();
+                    mDialog.setCanceledOnTouchOutside(false);
+                    // 返回对象集合: 包含图片的宽、高、大小、用户是否选中原图选项等信息
                     ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
                     if (!CollectionUtils.isEmpty(resultPhotos)) {
                         new Thread(() -> {
@@ -237,10 +244,13 @@ public class MyProfileActivity extends BaseActivity {
             public void onResponse(String s) {
                 mUser.setUserAvatar(userAvatar);
                 PreferencesUtil.getInstance().setUser(mUser);
+                mAvatarSdv.setImageURI(OssUtil.resize(userAvatar));
+                mDialog.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                mDialog.dismiss();
                 if (volleyError instanceof NetworkError) {
                     Toast.makeText(MyProfileActivity.this, R.string.network_unavailable, Toast.LENGTH_SHORT).show();
                     return;

@@ -29,6 +29,7 @@ import butterknife.OnClick;
  * tab - "我"
  */
 public class MeFragment extends Fragment implements View.OnClickListener {
+
     @BindView(R.id.sdv_avatar)
     SimpleDraweeView mAvatarSdv;
 
