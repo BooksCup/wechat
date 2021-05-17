@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
-import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -33,6 +32,7 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class EditSignActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -45,9 +45,9 @@ public class EditSignActivity extends BaseActivity {
     @BindView(R.id.tv_sign_length)
     TextView mSignLengthTv;
 
-    final int maxSignLenth = 30;
+    final int maxSignLength = 30;
 
-    private VolleyUtil mVolleyUtil;
+    VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
 
@@ -74,16 +74,15 @@ public class EditSignActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         mUser = PreferencesUtil.getInstance().getUser();
 
         mSignEt.setText(mUser.getUserSign());
         // 剩余可编辑字数
-        int leftSignLenth = maxSignLenth - mSignEt.length();
-        if (leftSignLenth >= 0) {
-            mSignLengthTv.setText(String.valueOf(leftSignLenth));
+        int leftSignLength = maxSignLength - mSignEt.length();
+        if (leftSignLength >= 0) {
+            mSignLengthTv.setText(String.valueOf(leftSignLength));
         }
 
         // 光标移至最后
@@ -121,18 +120,18 @@ public class EditSignActivity extends BaseActivity {
                 mSaveTv.setEnabled(false);
             }
 
-            int leftSignLenth = maxSignLenth - mSignEt.length();
-            if (leftSignLenth >= 0) {
-                mSignLengthTv.setText(String.valueOf(leftSignLenth));
+            int leftSignLength = maxSignLength - mSignEt.length();
+            if (leftSignLength >= 0) {
+                mSignLengthTv.setText(String.valueOf(leftSignLength));
             }
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
             // 是否填写
-            int leftSignLenth = maxSignLenth - mSignEt.length();
-            if (leftSignLenth >= 0) {
-                mSignLengthTv.setText(String.valueOf(leftSignLenth));
+            int leftSignLength = maxSignLength - mSignEt.length();
+            if (leftSignLength >= 0) {
+                mSignLengthTv.setText(String.valueOf(leftSignLength));
             }
         }
     }

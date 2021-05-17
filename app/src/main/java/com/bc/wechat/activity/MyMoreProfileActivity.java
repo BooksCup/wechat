@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,7 +45,7 @@ public class MyMoreProfileActivity extends BaseActivity {
     @BindView(R.id.tv_sign)
     TextView mSignTv;
 
-    private User mUser;
+    User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,8 +61,7 @@ public class MyMoreProfileActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         String userSex = mUser.getUserSex();
 
@@ -112,4 +110,5 @@ public class MyMoreProfileActivity extends BaseActivity {
         // 个性签名
         mSignTv.setText(user.getUserSign());
     }
+
 }

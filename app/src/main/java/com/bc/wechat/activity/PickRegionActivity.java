@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +42,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class PickRegionActivity extends BaseActivity {
+
     private static final int REQUEST_CODE_LOCATION = 1;
 
     @BindView(R.id.tv_title)
@@ -57,18 +57,18 @@ public class PickRegionActivity extends BaseActivity {
     @BindView(R.id.iv_region)
     ImageView mRegionIv;
 
-    private RegionAdapter mRegionAdapter;
+    RegionAdapter mRegionAdapter;
 
-    private String mRegion;
+    String mRegion;
 
-    public LocationClient mLocationClient = null;
-    private MyLocationListener myListener = new MyLocationListener();
+    LocationClient mLocationClient = null;
+    MyLocationListener myListener = new MyLocationListener();
     // 即使设置只定位1次也会频繁定位，待定位问题
-    private boolean mLocateFlag = false;
+    boolean mLocateFlag = false;
 
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-    private RegionDao mRegionDao;
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    RegionDao mRegionDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,8 +99,7 @@ public class PickRegionActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         final List<Region> regionList = mRegionDao.getRegionList();
         mRegionAdapter = new RegionAdapter(this, regionList);

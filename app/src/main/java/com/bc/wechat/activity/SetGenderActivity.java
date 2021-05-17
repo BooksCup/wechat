@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,6 +30,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class SetGenderActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -69,8 +69,7 @@ public class SetGenderActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
         renderSex();
     }
 
@@ -143,4 +142,5 @@ public class SetGenderActivity extends BaseActivity {
             }
         });
     }
+
 }
