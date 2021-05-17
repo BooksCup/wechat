@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,7 +12,6 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +23,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
+import com.bc.wechat.engine.GlideEngine;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.FileUtil;
@@ -32,7 +31,10 @@ import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.blankj.utilcode.util.CollectionUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.huantansheng.easyphotos.EasyPhotos;
+import com.huantansheng.easyphotos.models.album.entity.Photo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,6 +102,7 @@ public class MyProfileActivity extends BaseActivity {
     private static final int UPDATE_AVATAR_BY_ALBUM = 2;
     private static final int UPDATE_USER_NICK_NAME = 3;
     private static final int UPDATE_USER_WX_ID = 4;
+    private static final int UPDATE_USER_AVATAR = 5;
 
     User mUser;
     String mImageName;
@@ -185,43 +188,24 @@ public class MyProfileActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             final User user = PreferencesUtil.getInstance().getUser();
             switch (requestCode) {
-                case UPDATE_AVATAR_BY_TAKE_CAMERA:
-                    final File file = new File(Environment.getExternalStorageDirectory(), mImageName);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", file.getPath());
-                            if (null != imageList && imageList.size() > 0) {
-                                updateUserAvatar(user.getUserId(), imageList.get(0));
-                            }
-                        }
-                    }).start();
-                    mAvatarSdv.setImageURI(Uri.fromFile(file));
-                    break;
-                case UPDATE_AVATAR_BY_ALBUM:
-                    if (data != null) {
-                        Uri uri = data.getData();
-                        final String filePath = FileUtil.getFilePathByUri(this, uri);
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", filePath);
-                                if (null != imageList && imageList.size() > 0) {
-                                    updateUserAvatar(user.getUserId(), imageList.get(0));
-                                }
-                            }
-                        }).start();
-
-                        mAvatarSdv.setImageURI(uri);
-                    }
-                    break;
                 case UPDATE_USER_NICK_NAME:
                     // 昵称
                     mNickNameTv.setText(user.getUserNickName());
                     break;
                 case UPDATE_USER_WX_ID:
                     renderWxId(user);
+                    break;
+                case UPDATE_USER_AVATAR:
+                    //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
+                    ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
+                    if (!CollectionUtils.isEmpty(resultPhotos)) {
+                        new Thread(() -> {
+                            List<String> imageList = FileUtil.uploadFile(Constant.BASE_URL + "oss/file", resultPhotos.get(0).path);
+                            if (null != imageList && imageList.size() > 0) {
+                                updateUserAvatar(user.getUserId(), imageList.get(0));
+                            }
+                        }).start();
+                    }
                     break;
             }
         }
@@ -231,32 +215,10 @@ public class MyProfileActivity extends BaseActivity {
      * 显示修改头像对话框
      */
     private void showPhotoDialog() {
-        final AlertDialog photoDialog = new AlertDialog.Builder(this).create();
-        photoDialog.show();
-        Window window = photoDialog.getWindow();
-        window.setContentView(R.layout.dialog_alert_abandon);
-        TextView mTakePicTv = window.findViewById(R.id.tv_content1);
-        TextView mAlbumTv = window.findViewById(R.id.tv_content2);
-        mTakePicTv.setText("拍照");
-        mTakePicTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                photoDialog.dismiss();
-                String[] permissions = new String[]{"android.permission.CAMERA"};
-                requestPermissions(MyProfileActivity.this, permissions, UPDATE_AVATAR_BY_TAKE_CAMERA);
-            }
-        });
-
-        mAlbumTv.setText("相册");
-        mAlbumTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                photoDialog.dismiss();
-                String[] permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
-                requestPermissions(MyProfileActivity.this, permissions, UPDATE_AVATAR_BY_ALBUM);
-            }
-        });
-
+        EasyPhotos.createAlbum(this, true, false, GlideEngine.getInstance())
+                .setFileProviderAuthority("com.bc.wechat.fileprovider")
+                .setCount(1)//参数说明：最大可选数，默认1
+                .start(UPDATE_USER_AVATAR);
     }
 
     /**
@@ -417,4 +379,5 @@ public class MyProfileActivity extends BaseActivity {
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(intent, UPDATE_AVATAR_BY_ALBUM);
     }
+
 }

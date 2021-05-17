@@ -91,6 +91,7 @@ dependencies {
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'
     // 经典刷新头
     implementation 'com.scwang.smart:refresh-header-classics:2.0.1'
-
     implementation 'com.zhy:flowlayout-lib:1.0.3'
+
+    implementation 'com.github.HuanTanSheng:EasyPhotos:3.1.3'
 }
