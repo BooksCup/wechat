@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -29,12 +29,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="16dp">
 
         <ImageView
             android:id="@+id/iv_discover_search"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:scaleType="fitCenter"
             android:src="@mipmap/icon_discover_search" />
 
@@ -48,7 +48,7 @@
             android:layout_toRightOf="@id/iv_discover_search"
             android:text="搜一搜"
             android:textColor="@color/common_top_title"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <EditText
@@ -58,7 +58,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="12dp"
-        android:background="@color/color_white"
+        android:background="@drawable/tv_round"
         android:focusable="false"
         android:hint="搜索"
         android:maxLines="3"
@@ -67,14 +67,14 @@
         android:paddingTop="3dp"
         android:paddingRight="12dp"
         android:paddingBottom="3dp"
-        android:textSize="16sp" />
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:layout_marginRight="20dp">
 
         <TextView
@@ -86,7 +86,7 @@
             android:gravity="center"
             android:text="朋友圈"
             android:textColor="@color/navy_blue"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_width="0.1dip"
@@ -103,7 +103,7 @@
             android:gravity="center"
             android:text="文章"
             android:textColor="@color/navy_blue"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_width="0.1dip"
@@ -120,7 +120,7 @@
             android:gravity="center"
             android:text="公众号"
             android:textColor="@color/navy_blue"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -140,7 +140,7 @@
             android:gravity="center"
             android:text="小程序"
             android:textColor="@color/navy_blue"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_width="0.1dip"
@@ -157,7 +157,7 @@
             android:gravity="center"
             android:text="音乐"
             android:textColor="@color/navy_blue"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
 
         <View
             android:layout_width="0.1dip"
@@ -174,7 +174,7 @@
             android:gravity="center"
             android:text="表情"
             android:textColor="@color/navy_blue"
-            android:textSize="16sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -199,7 +199,7 @@
             android:paddingLeft="8dp"
             android:text="圈子"
             android:textColor="@color/tips_grey"
-            android:textSize="16dp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="24dp"

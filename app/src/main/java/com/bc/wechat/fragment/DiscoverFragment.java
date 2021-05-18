@@ -48,11 +48,9 @@ public class DiscoverFragment extends BaseFragment {
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
-
     // 开启"附近的人"标记
     @BindView(R.id.iv_open_people_nearby)
     ImageView mOpenPeopleNearbyIv;
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -264,4 +262,5 @@ public class DiscoverFragment extends BaseFragment {
                 break;
         }
     }
+
 }
