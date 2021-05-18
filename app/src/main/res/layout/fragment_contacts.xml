@@ -18,28 +18,29 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
             android:text="@string/tab_contacts"
             android:textColor="@color/common_top_title"
             android:textSize="@dimen/top_bar_title_text_size" />
 
         <ImageView
             android:id="@+id/iv_add"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
             android:clickable="true"
-            android:src="@drawable/main_activity_add" />
+            android:src="@mipmap/icon_main_activity_add_normal" />
 
         <ImageView
             android:id="@+id/iv_search"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/iv_add"
             android:clickable="true"
-            android:src="@drawable/main_activity_search" />
+            android:src="@mipmap/icon_main_activity_search_normal" />
     </RelativeLayout>
-
 
     <FrameLayout
         android:layout_width="match_parent"

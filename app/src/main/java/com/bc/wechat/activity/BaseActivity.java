@@ -29,6 +29,7 @@ import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.api.BasicCallback;
 
 public class BaseActivity extends FragmentActivity {
+
     private MessageDao mMessageDao;
     private User mUser;
 

@@ -1,7 +1,9 @@
 package com.bc.wechat.fragment;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,23 +36,25 @@ import androidx.fragment.app.Fragment;
  * @author zhou
  */
 public class ContactsFragment extends Fragment {
-    private FriendsAdapter mFriendsAdapter;
 
-    private ListView mFriendsLv;
-    private LayoutInflater mInflater;
+    FriendsAdapter mFriendsAdapter;
+
+    TextView mTitleTv;
+    ListView mFriendsLv;
+    LayoutInflater mInflater;
 
     // 好友总数
-    private TextView mFriendsCountTv;
+    TextView mFriendsCountTv;
 
     TextView mNewFriendsUnreadNumTv;
 
     // 好友列表
-    private List<User> mFriendList;
+    List<User> mFriendList;
 
     // 星标好友列表
-    private List<User> mStarFriendList;
+    List<User> mStarFriendList;
 
-    private UserDao mUserDao;
+    UserDao mUserDao;
 
     @Nullable
     @Override
@@ -64,6 +68,12 @@ public class ContactsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         PreferencesUtil.getInstance().init(getActivity());
         mUserDao = new UserDao();
+
+        mTitleTv = getView().findViewById(R.id.tv_title);
+        TextPaint paint = mTitleTv.getPaint();
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        // 控制字体加粗的程度
+        paint.setStrokeWidth(0.8f);
         mFriendsLv = getView().findViewById(R.id.lv_friends);
         mInflater = LayoutInflater.from(getActivity());
         View headerView = mInflater.inflate(R.layout.item_contacts_header, null);
@@ -147,6 +157,5 @@ public class ContactsFragment extends Fragment {
         mFriendsAdapter.notifyDataSetChanged();
         mFriendsCountTv.setText(mUserDao.getContactsCount() + "位联系人");
     }
-
 
 }
