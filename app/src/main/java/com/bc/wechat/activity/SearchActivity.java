@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +17,8 @@ import com.bc.wechat.utils.VolleyUtil;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 搜一搜
@@ -26,15 +27,20 @@ import androidx.annotation.Nullable;
  */
 public class SearchActivity extends BaseActivity {
 
-    private EditText mSearchEt;
-    private ListView mSearchNewsLv;
-    private SearchNewsAdapter mSearchNewsAdapter;
-    private VolleyUtil mVolleyUtil;
+    @BindView(R.id.et_search)
+    EditText mSearchEt;
+
+    @BindView(R.id.lv_search_news)
+    ListView mSearchNewsLv;
+
+    SearchNewsAdapter mSearchNewsAdapter;
+    VolleyUtil mVolleyUtil;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
 
         initStatusBar();
 
@@ -44,15 +50,13 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initView() {
-        mSearchEt = findViewById(R.id.et_search);
-        mSearchNewsLv = findViewById(R.id.lv_search_news);
 
         getHotSearchHistoryList();
 
         mSearchEt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SearchActivity.this, SearchContentActivity.class));
+//                startActivity(new Intent(SearchActivity.this, SearchContentActivity.class));
             }
         });
     }

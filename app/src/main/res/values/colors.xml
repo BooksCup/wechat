@@ -64,7 +64,7 @@
     <color name="status_bar_color_white">#ffffff</color>
     <color name="modify_password_hint_color">#cccccc</color>
     <color name="color_light_grey">#f0f0f0</color>
-    <color name="color_white">#ffffff</color>
+    <color name="color_white">#FFFFFF</color>
 
     <color name="btn_save_default_color">#E1E1E1</color>
     <color name="btn_text_default_color">#B5B5B5</color>
