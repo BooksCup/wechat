@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.activity.ChatActivity;
@@ -21,32 +22,42 @@ import com.bc.wechat.utils.PreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
-public class ChatsFragment extends Fragment {
+public class ChatsFragment extends BaseFragment {
 
-    private ListView mConversationLv;
-    private ConversationAdapter mConversationAdapter;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
+    @BindView(R.id.lv_conversation)
+    ListView mConversationLv;
+
+    ConversationAdapter mConversationAdapter;
     List<Conversation> mConversationList;
 
     private static final int REFRESH_CONVERSATION_LIST = 0x3000;
-    private UserDao mUserDao;
+    UserDao mUserDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_conversation, container, false);
+        View view = inflater.inflate(R.layout.fragment_conversation, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        setTitleStrokeWidth(mTitleTv);
+
         mUserDao = new UserDao();
-        mConversationLv = getView().findViewById(R.id.lv_conversation);
         mConversationList = JMessageClient.getConversationList();
         if (null == mConversationList) {
             mConversationList = new ArrayList<>();

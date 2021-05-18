@@ -1,9 +1,7 @@
 package com.bc.wechat.fragment;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,19 +26,24 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 通讯录
  *
  * @author zhou
  */
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends BaseFragment {
 
     FriendsAdapter mFriendsAdapter;
 
+    @BindView(R.id.tv_title)
     TextView mTitleTv;
+
+    @BindView(R.id.lv_friends)
     ListView mFriendsLv;
+
     LayoutInflater mInflater;
 
     // 好友总数
@@ -60,7 +63,9 @@ public class ContactsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_contacts, container, false);
+        View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -69,12 +74,8 @@ public class ContactsFragment extends Fragment {
         PreferencesUtil.getInstance().init(getActivity());
         mUserDao = new UserDao();
 
-        mTitleTv = getView().findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        // 控制字体加粗的程度
-        paint.setStrokeWidth(0.8f);
-        mFriendsLv = getView().findViewById(R.id.lv_friends);
+        setTitleStrokeWidth(mTitleTv);
+
         mInflater = LayoutInflater.from(getActivity());
         View headerView = mInflater.inflate(R.layout.item_contacts_header, null);
         mFriendsLv.addHeaderView(headerView);

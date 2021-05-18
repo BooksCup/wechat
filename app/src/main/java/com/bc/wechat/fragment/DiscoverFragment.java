@@ -9,14 +9,13 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
@@ -35,55 +34,45 @@ import java.util.ArrayList;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 发现
  *
  * @author zhou
  */
-public class DiscoverFragment extends Fragment implements View.OnClickListener {
-    // 朋友圈
-    private RelativeLayout mMomentsRl;
+public class DiscoverFragment extends BaseFragment {
 
-    // 扫一扫
-    private RelativeLayout mScanRl;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    // 搜一搜
-    private RelativeLayout mSearchRl;
-
-    // 附近的人
-    private RelativeLayout mPeopleNearbyRl;
 
     // 开启"附近的人"标记
-    private ImageView mOpenPeopleNearbyIv;
+    @BindView(R.id.iv_open_people_nearby)
+    ImageView mOpenPeopleNearbyIv;
 
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setTitleStrokeWidth(mTitleTv);
 
-        mOpenPeopleNearbyIv = getView().findViewById(R.id.iv_open_people_nearby);
         if (PreferencesUtil.getInstance().isOpenPeopleNearby()) {
             mOpenPeopleNearbyIv.setVisibility(View.VISIBLE);
         } else {
             mOpenPeopleNearbyIv.setVisibility(View.GONE);
         }
 
-        mMomentsRl = getView().findViewById(R.id.rl_moments);
-        mScanRl = getView().findViewById(R.id.rl_scan);
-        mSearchRl = getView().findViewById(R.id.rl_search);
-        mPeopleNearbyRl = getView().findViewById(R.id.rl_people_nearby);
-
-        mMomentsRl.setOnClickListener(this);
-        mScanRl.setOnClickListener(this);
-        mSearchRl.setOnClickListener(this);
-        mPeopleNearbyRl.setOnClickListener(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discover, container, false);
+        View view = inflater.inflate(R.layout.fragment_discover, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -254,7 +243,7 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener {
         mConfirmDialog.show();
     }
 
-    @Override
+    @OnClick({R.id.rl_moments, R.id.rl_scan, R.id.rl_search, R.id.rl_people_nearby})
     public void onClick(View view) {
         String[] permissions;
         switch (view.getId()) {
