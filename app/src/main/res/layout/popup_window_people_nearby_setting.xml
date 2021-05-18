@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_pop_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tv_round"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_females_only"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/females_only"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="@dimen/common_item_text_size" />
     </RelativeLayout>
 
     <View
@@ -33,7 +33,7 @@
     <RelativeLayout
         android:id="@+id/rl_males_only"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/males_only"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="@dimen/common_item_text_size" />
     </RelativeLayout>
 
     <View
@@ -57,7 +57,7 @@
     <RelativeLayout
         android:id="@+id/rl_view_all"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -67,8 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/view_all"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="@dimen/common_item_text_size" />
     </RelativeLayout>
 
     <View
@@ -82,7 +82,7 @@
     <RelativeLayout
         android:id="@+id/rl_greetings"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -92,8 +92,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/greetings"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="@dimen/common_item_text_size" />
     </RelativeLayout>
 
     <View
@@ -106,7 +106,7 @@
     <RelativeLayout
         android:id="@+id/rl_clear_location"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -116,8 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/clear_location"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="@dimen/common_item_text_size" />
     </RelativeLayout>
 
     <View
@@ -128,7 +128,7 @@
     <RelativeLayout
         android:id="@+id/rl_cancel"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="48dp"
         android:background="@drawable/btn_list_item_bg"
         android:clickable="true">
 
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/cancel"
-            android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textColor="@color/common_item_black"
+            android:textSize="@dimen/common_item_text_size" />
     </RelativeLayout>
 </LinearLayout>

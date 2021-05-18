@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -54,6 +53,7 @@ import butterknife.ButterKnife;
  * @author zhou
  */
 public class PeopleNearbyActivity extends BaseActivity {
+
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
 
@@ -72,17 +72,17 @@ public class PeopleNearbyActivity extends BaseActivity {
     @BindView(R.id.iv_setting)
     ImageView mSettingIv;
 
-    private PeopleNearbyAdapter mPeopleNearbyAdapter;
-    private List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-    private ContactsDao mContactsDao;
+    PeopleNearbyAdapter mPeopleNearbyAdapter;
+    List<PeopleNearby> mPeopleNearbyList = new ArrayList<>();
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    ContactsDao mContactsDao;
     LoadingDialog mDialog;
     // 即使设置只定位1次也会频繁定位，待定位问题
     private boolean mLocateFlag = false;
 
     // 弹窗
-    private PopupWindow mPopupWindow;
+    PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -182,7 +182,6 @@ public class PeopleNearbyActivity extends BaseActivity {
                 }
             });
 
-
             // 清除位置并退出
             RelativeLayout mClearLocationRl = view.findViewById(R.id.rl_clear_location);
             mClearLocationRl.setOnClickListener(new View.OnClickListener() {
@@ -267,8 +266,7 @@ public class PeopleNearbyActivity extends BaseActivity {
     }
 
     private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         mPeopleNearbyAdapter = new PeopleNearbyAdapter(PeopleNearbyActivity.this,
                 R.layout.item_people_nearby, mPeopleNearbyList);
