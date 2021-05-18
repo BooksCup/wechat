@@ -50,6 +50,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class UserInfoActivity extends BaseActivity {
+
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
 
@@ -126,11 +127,11 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.rl_moments)
     RelativeLayout mMomentsRl;
 
-    private User mUser;
-    private User mContact;
-    private VolleyUtil mVolleyUtil;
-    private UserDao mUserDao;
-    private String mContactId;
+    User mUser;
+    User mContact;
+    VolleyUtil mVolleyUtil;
+    UserDao mUserDao;
+    String mContactId;
 
 
     @Override

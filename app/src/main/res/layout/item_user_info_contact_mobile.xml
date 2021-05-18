@@ -10,9 +10,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:paddingLeft="8dp"
-        android:text="电话号码"
-        android:textColor="#353535"
-        android:textSize="16sp" />
+        android:text="@string/phone_num"
+        android:textColor="@color/common_item_black"
+        android:textSize="@dimen/common_item_text_size" />
 
     <TextView
         android:id="@+id/tv_mobile"
@@ -23,7 +23,7 @@
         android:paddingLeft="15dp"
         android:text=""
         android:textColor="@color/navy_blue"
-        android:textSize="16sp" />
+        android:textSize="@dimen/common_item_text_size" />
 
     <View
         android:id="@+id/view_divider_long"

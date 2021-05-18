@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -61,7 +61,8 @@
                     android:layout_height="64dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
-                    fresco:placeholderImage="@mipmap/default_user_avatar" />
+                    fresco:placeholderImage="@mipmap/default_user_avatar"
+                    fresco:roundedCornerRadius="5dp" />
 
                 <LinearLayout
                     android:id="@+id/ll_base_info"
@@ -179,7 +180,7 @@
                 android:id="@+id/rl_edit_contact"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="#ffffff">
+                android:background="@color/color_white">
 
                 <TextView
                     android:id="@+id/tv_edit_contact"
@@ -244,7 +245,7 @@
                     android:paddingLeft="8dp"
                     android:text="标签"
                     android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:id="@+id/tv_tags"
@@ -257,7 +258,7 @@
                     android:paddingRight="15dp"
                     android:singleLine="true"
                     android:text=""
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <ImageView
                     android:layout_width="24dp"
@@ -291,8 +292,8 @@
                     android:layout_centerVertical="true"
                     android:paddingLeft="8dp"
                     android:text="描述"
-                    android:textColor="#353535"
-                    android:textSize="16sp" />
+                    android:textColor="@color/common_item_black"
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <TextView
                     android:id="@+id/tv_desc"
@@ -305,7 +306,7 @@
                     android:paddingRight="15dp"
                     android:singleLine="true"
                     android:text=""
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/common_item_text_size" />
 
                 <ImageView
                     android:layout_width="24dp"

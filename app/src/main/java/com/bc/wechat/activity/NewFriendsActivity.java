@@ -39,6 +39,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class NewFriendsActivity extends BaseActivity {
+
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
 
@@ -218,4 +219,5 @@ public class NewFriendsActivity extends BaseActivity {
         lp.alpha = bgAlpha;
         getWindow().setAttributes(lp);
     }
+
 }

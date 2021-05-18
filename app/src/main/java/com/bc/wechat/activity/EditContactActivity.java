@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -41,6 +40,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class EditContactActivity extends BaseActivity {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -49,8 +49,6 @@ public class EditContactActivity extends BaseActivity {
 
     @BindView(R.id.et_desc)
     EditText mDescEt;
-
-    private VolleyUtil mVolleyUtil;
 
     // 添加电话
     @BindView(R.id.rl_mobiles)
@@ -78,13 +76,14 @@ public class EditContactActivity extends BaseActivity {
     @BindView(R.id.fl_add_tag)
     FlowLayout mAddTagFl;
 
-    private LinearLayout.LayoutParams mParams;
+    LinearLayout.LayoutParams mParams;
 
-    private String mContactId;
-    private User mContact;
-    private User mUser;
-    private UserDao mUserDao;
+    String mContactId;
+    User mContact;
+    User mUser;
+    UserDao mUserDao;
     LoadingDialog mDialog;
+    VolleyUtil mVolleyUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,12 +108,10 @@ public class EditContactActivity extends BaseActivity {
         mParams.setMargins(marginLeft, marginTop, 0, 0);
         loadTags();
 
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+        setTitleStrokeWidth(mTitleTv);
 
         final String isFriend = getIntent().getStringExtra("isFriend");
         mContact = mUserDao.getUserById(mContactId);
-
 
         if (TextUtils.isEmpty(mContact.getUserContactAlias())) {
             // 无备注，展示昵称

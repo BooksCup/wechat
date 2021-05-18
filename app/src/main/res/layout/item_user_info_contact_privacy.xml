@@ -10,9 +10,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:paddingLeft="8dp"
-        android:text="朋友权限"
-        android:textColor="#353535"
-        android:textSize="16sp" />
+        android:text="@string/contact_privacy"
+        android:textColor="@color/common_item_black"
+        android:textSize="@dimen/common_item_text_size" />
 
     <TextView
         android:id="@+id/tv_privacy"
@@ -22,7 +22,7 @@
         android:layout_toRightOf="@id/tv_privacy_temp"
         android:paddingLeft="15dp"
         android:text=""
-        android:textSize="16sp" />
+        android:textSize="@dimen/common_item_text_size" />
 
     <View
         android:id="@+id/view_divider_long"

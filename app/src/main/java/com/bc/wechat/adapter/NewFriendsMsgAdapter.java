@@ -24,6 +24,7 @@ import java.util.List;
  * @author zhou
  */
 public class NewFriendsMsgAdapter extends BaseAdapter {
+
     Context mContext;
     List<FriendApply> mFriendApplyList;
     int mTotal;
