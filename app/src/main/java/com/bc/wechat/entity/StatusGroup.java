@@ -7,10 +7,10 @@ import java.util.List;
  *
  * @author zhou
  */
-public class UserStatusGroup {
+public class StatusGroup {
 
     private String name;
-    private List<UserStatus> userStatusList;
+    private List<Status> statusList;
 
     public String getName() {
         return name;
@@ -20,12 +20,12 @@ public class UserStatusGroup {
         this.name = name;
     }
 
-    public List<UserStatus> getUserStatusList() {
-        return userStatusList;
+    public List<Status> getStatusList() {
+        return statusList;
     }
 
-    public void setUserStatusList(List<UserStatus> userStatusList) {
-        this.userStatusList = userStatusList;
+    public void setStatusList(List<Status> statusList) {
+        this.statusList = statusList;
     }
 
 }

@@ -9,8 +9,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.UserStatusGroup;
-import com.bc.wechat.widget.CustomGridView;
+import com.bc.wechat.entity.StatusGroup;
 
 import java.util.List;
 
@@ -20,16 +19,21 @@ import java.util.List;
  * @author zhou
  */
 public class StatusGroupAdapter extends BaseAdapter {
+
     Context context;
     int resource;
-    List<UserStatusGroup> mUserStatusGroupList;
+    List<StatusGroup> mUserStatusGroupList;
     StatusAdapter mAdapter;
 
     public StatusGroupAdapter(Context context, int resource,
-                              List<UserStatusGroup> userStatusGroupList) {
+                              List<StatusGroup> userStatusGroupList) {
         this.context = context;
         this.resource = resource;
         this.mUserStatusGroupList = userStatusGroupList;
+    }
+
+    public void setData(List<StatusGroup> dataList) {
+        this.mUserStatusGroupList = dataList;
     }
 
     @Override
@@ -42,7 +46,7 @@ public class StatusGroupAdapter extends BaseAdapter {
     }
 
     @Override
-    public UserStatusGroup getItem(int position) {
+    public StatusGroup getItem(int position) {
         if (mUserStatusGroupList == null) {
             return null;
         } else {
@@ -67,9 +71,9 @@ public class StatusGroupAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        UserStatusGroup userStatusGroup = mUserStatusGroupList.get(position);
+        StatusGroup userStatusGroup = mUserStatusGroupList.get(position);
         holder.mGroupNameTv.setText(userStatusGroup.getName());
-        mAdapter = new StatusAdapter(context, R.layout.item_user_status, userStatusGroup.getUserStatusList());
+        mAdapter = new StatusAdapter(context, R.layout.item_user_status, userStatusGroup.getStatusList());
         holder.mUserStatusGv.setHorizontalSpacing(40);
         holder.mUserStatusGv.setVerticalSpacing(40);
         holder.mUserStatusGv.setAdapter(mAdapter);
@@ -82,4 +86,5 @@ public class StatusGroupAdapter extends BaseAdapter {
         TextView mGroupNameTv;
         GridView mUserStatusGv;
     }
+
 }

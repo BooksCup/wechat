@@ -70,12 +70,15 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @OnClick({R.id.rl_me, R.id.rl_settings, R.id.sdv_avatar})
+    @OnClick({R.id.rl_me, R.id.rl_status, R.id.rl_settings, R.id.sdv_avatar})
     public void onClick(View view) {
         switch (view.getId()) {
             // 个人页面
             case R.id.rl_me:
-//                startActivity(new Intent(getActivity(), MyProfileActivity.class));
+                startActivity(new Intent(getActivity(), MyProfileActivity.class));
+                break;
+            // 状态:
+            case R.id.rl_status:
                 startActivity(new Intent(getActivity(), UserStatusActivity.class));
                 break;
             // 设置页面

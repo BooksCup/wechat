@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.entity.UserStatus;
+import com.bc.wechat.entity.Status;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ public class StatusAdapter extends BaseAdapter {
 
     Context context;
     int resource;
-    List<UserStatus> mUserStatusList;
+    List<Status> mUserStatusList;
 
-    public StatusAdapter(Context context, int resource, List<UserStatus> userStatusList) {
+    public StatusAdapter(Context context, int resource, List<Status> userStatusList) {
         this.context = context;
         this.resource = resource;
         this.mUserStatusList = userStatusList;
@@ -40,7 +40,7 @@ public class StatusAdapter extends BaseAdapter {
     }
 
     @Override
-    public UserStatus getItem(int position) {
+    public Status getItem(int position) {
         if (mUserStatusList == null) {
             return null;
         } else {
@@ -65,7 +65,7 @@ public class StatusAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        UserStatus userStatus = mUserStatusList.get(position);
+        Status userStatus = mUserStatusList.get(position);
         viewHolder.mNameTv.setText(userStatus.getName());
         int iconId = context.getResources().getIdentifier(userStatus.getIcon(),
                 "mipmap", context.getPackageName());

@@ -5,7 +5,7 @@ package com.bc.wechat.entity;
  *
  * @author zhou
  */
-public class UserStatus {
+public class Status {
 
     /**
      * 状态名
