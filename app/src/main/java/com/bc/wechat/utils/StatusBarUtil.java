@@ -3,6 +3,7 @@ package com.bc.wechat.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
@@ -60,6 +61,16 @@ public class StatusBarUtil {
             SystemBarTintManager tintManager = new SystemBarTintManager(activity);
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintResource(colorId);
+        }
+    }
+
+    public static void setStatusBarDrawable(Activity activity, Drawable drawable) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //使用SystemBarTint库使4.4版本状态栏变色，需要先将状态栏设置为透明
+            transparencyBar(activity);
+            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintDrawable(drawable);
         }
     }
 
