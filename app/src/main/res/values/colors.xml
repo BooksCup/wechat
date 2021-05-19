@@ -57,28 +57,21 @@
     <color name="register_btn_bg_enable">#06C15F</color>
     <color name="register_btn_text_disable">#B4B4B4</color>
     <color name="register_btn_text_enable">#ffffff</color>
-
     <color name="btn_red">#FC564F</color>
     <color name="tips_grey">#AAAAAA</color>
-
     <color name="status_bar_color_white">#ffffff</color>
     <color name="modify_password_hint_color">#cccccc</color>
     <color name="color_light_grey">#f0f0f0</color>
     <color name="color_white">#FFFFFF</color>
-
     <color name="btn_save_default_color">#E1E1E1</color>
     <color name="btn_text_default_color">#B5B5B5</color>
-
     <color name="common_bg_light_grey">#EBEBEB</color>
-
     <color name="common_item_black">#353535</color>
-
+    <color name="common_item_grey">#999999</color>
     <color name="bg_light_grey">#F7F7F7</color>
-
     <color name="common_divider_grey">#E5E5E5</color>
     <color name="main_tab_bg">#F7F7F7</color>
     <color name="common_text_color_black">#191919</color>
-
     <color name="divider_grey">#D8D8D8</color>
     <color name="divider_green">#2FAF7A</color>
 

@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_me"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="168dp"
         android:background="#ffffff"
         android:clickable="true"
         android:paddingTop="8dp"
@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="张三"
                 android:textColor="#353535"
-                android:textSize="18sp"
+                android:textSize="18.5sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -50,15 +50,16 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:text="微信号:"
-                android:textColor="#AAAAAA"
-                android:textSize="14sp" />
+                android:textColor="@color/common_item_grey"
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginRight="52dp"
+                android:layout_marginRight="42dp"
+                android:layout_marginBottom="2dp"
                 android:src="@mipmap/icon_qr_code" />
 
             <ImageView
@@ -69,6 +70,38 @@
                 android:layout_marginRight="8dp"
                 android:src="@mipmap/icon_right_arrow" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ll_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_name"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/sdv_avatar"
+            android:background="@drawable/bg_add_user_status"
+            android:padding="3dp">
+
+            <ImageView
+                android:id="@+id/iv_status"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="3dp"
+                android:src="@mipmap/icon_add_status" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="3dp"
+                android:layout_toRightOf="@id/iv_status"
+                android:text="状态"
+                android:textColor="@color/common_item_grey"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
