@@ -8,8 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.alibaba.fastjson.JSONArray;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.StatusGroupAdapter;
 import com.bc.wechat.cons.Constant;
@@ -24,25 +22,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 用户状态
+ * 状态
  *
- * @author
+ * @author zhou
  */
-public class UserStatusActivity extends BaseActivity {
+public class StatusActivity extends BaseActivity {
 
     @BindView(R.id.clv_user_status)
     CustomListView mUserStatusClv;
 
     StatusGroupAdapter mAdapter;
 
-    List<StatusGroup> mUserStatusGroupList = new ArrayList<>();
+    List<StatusGroup> mStatusGroupList = new ArrayList<>();
     VolleyUtil mVolleyUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         transparentStatusBar();
-        setContentView(R.layout.activity_user_status);
+        setContentView(R.layout.activity_status);
         ButterKnife.bind(this);
         mVolleyUtil = VolleyUtil.getInstance(this);
         initData();
@@ -67,24 +65,18 @@ public class UserStatusActivity extends BaseActivity {
     }
 
     public void initData() {
-        mAdapter = new StatusGroupAdapter(this, R.layout.item_user_status_group, mUserStatusGroupList);
+        mAdapter = new StatusGroupAdapter(this, R.layout.item_status_group, mStatusGroupList);
         mUserStatusClv.setAdapter(mAdapter);
-        getUserStatusGroupList();
+        getStatusGroupList();
     }
 
-    private void getUserStatusGroupList() {
+    private void getStatusGroupList() {
         String url = Constant.BASE_URL + "statusGroup";
-        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                final List<StatusGroup> userStatusGroupList = JSONArray.parseArray(response, StatusGroup.class);
-                mAdapter.setData(userStatusGroupList);
-                mAdapter.notifyDataSetChanged();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-            }
+        mVolleyUtil.httpGetRequest(url, response -> {
+            final List<StatusGroup> statusGroupList = JSONArray.parseArray(response, StatusGroup.class);
+            mAdapter.setData(statusGroupList);
+            mAdapter.notifyDataSetChanged();
+        }, volleyError -> {
         });
     }
 

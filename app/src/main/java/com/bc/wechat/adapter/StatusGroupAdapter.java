@@ -20,37 +20,37 @@ import java.util.List;
  */
 public class StatusGroupAdapter extends BaseAdapter {
 
-    Context context;
-    int resource;
-    List<StatusGroup> mUserStatusGroupList;
+    Context mContext;
+    int mResource;
+    List<StatusGroup> mStatusGroupList;
     StatusAdapter mAdapter;
 
     public StatusGroupAdapter(Context context, int resource,
-                              List<StatusGroup> userStatusGroupList) {
-        this.context = context;
-        this.resource = resource;
-        this.mUserStatusGroupList = userStatusGroupList;
+                              List<StatusGroup> statusGroupList) {
+        this.mContext = context;
+        this.mResource = resource;
+        this.mStatusGroupList = statusGroupList;
     }
 
     public void setData(List<StatusGroup> dataList) {
-        this.mUserStatusGroupList = dataList;
+        this.mStatusGroupList = dataList;
     }
 
     @Override
     public int getCount() {
-        if (mUserStatusGroupList == null) {
+        if (mStatusGroupList == null) {
             return 0;
         } else {
-            return mUserStatusGroupList.size();
+            return mStatusGroupList.size();
         }
     }
 
     @Override
     public StatusGroup getItem(int position) {
-        if (mUserStatusGroupList == null) {
+        if (mStatusGroupList == null) {
             return null;
         } else {
-            return mUserStatusGroupList.get(position);
+            return mStatusGroupList.get(position);
         }
     }
 
@@ -64,19 +64,19 @@ public class StatusGroupAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(resource, null);
-            holder.mUserStatusGv = convertView.findViewById(R.id.gv_user_status);
+            convertView = LayoutInflater.from(mContext).inflate(mResource, null);
+            holder.mStatusGv = convertView.findViewById(R.id.gv_status);
             holder.mGroupNameTv = convertView.findViewById(R.id.tv_group_name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        StatusGroup userStatusGroup = mUserStatusGroupList.get(position);
-        holder.mGroupNameTv.setText(userStatusGroup.getName());
-        mAdapter = new StatusAdapter(context, R.layout.item_user_status, userStatusGroup.getStatusList());
-        holder.mUserStatusGv.setHorizontalSpacing(40);
-        holder.mUserStatusGv.setVerticalSpacing(40);
-        holder.mUserStatusGv.setAdapter(mAdapter);
+        StatusGroup statusGroup = mStatusGroupList.get(position);
+        holder.mGroupNameTv.setText(statusGroup.getName());
+        mAdapter = new StatusAdapter(mContext, R.layout.item_status, statusGroup.getStatusList());
+        holder.mStatusGv.setHorizontalSpacing(40);
+        holder.mStatusGv.setVerticalSpacing(40);
+        holder.mStatusGv.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
         return convertView;
@@ -84,7 +84,7 @@ public class StatusGroupAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView mGroupNameTv;
-        GridView mUserStatusGv;
+        GridView mStatusGv;
     }
 
 }

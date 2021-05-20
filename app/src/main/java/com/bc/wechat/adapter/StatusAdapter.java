@@ -21,31 +21,31 @@ import java.util.List;
  */
 public class StatusAdapter extends BaseAdapter {
 
-    Context context;
-    int resource;
-    List<Status> mUserStatusList;
+    Context mContext;
+    int mResource;
+    List<Status> mStatusList;
 
-    public StatusAdapter(Context context, int resource, List<Status> userStatusList) {
-        this.context = context;
-        this.resource = resource;
-        this.mUserStatusList = userStatusList;
+    public StatusAdapter(Context context, int resource, List<Status> statusList) {
+        this.mContext = context;
+        this.mResource = resource;
+        this.mStatusList = statusList;
     }
 
     @Override
     public int getCount() {
-        if (mUserStatusList == null) {
+        if (mStatusList == null) {
             return 0;
         } else {
-            return mUserStatusList.size();
+            return mStatusList.size();
         }
     }
 
     @Override
     public Status getItem(int position) {
-        if (mUserStatusList == null) {
+        if (mStatusList == null) {
             return null;
         } else {
-            return mUserStatusList.get(position);
+            return mStatusList.get(position);
         }
     }
 
@@ -59,18 +59,18 @@ public class StatusAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(resource, null);
+            convertView = LayoutInflater.from(mContext).inflate(mResource, null);
             viewHolder.mIconIv = convertView.findViewById(R.id.iv_icon);
             viewHolder.mNameTv = convertView.findViewById(R.id.tv_name);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Status userStatus = mUserStatusList.get(position);
-        viewHolder.mNameTv.setText(userStatus.getName());
-        if (!TextUtils.isEmpty(userStatus.getIcon())) {
-            int iconId = context.getResources().getIdentifier(userStatus.getIcon(),
-                    "mipmap", context.getPackageName());
+        Status status = mStatusList.get(position);
+        viewHolder.mNameTv.setText(status.getName());
+        if (!TextUtils.isEmpty(status.getIcon())) {
+            int iconId = mContext.getResources().getIdentifier(status.getIcon(),
+                    "mipmap", mContext.getPackageName());
             viewHolder.mIconIv.setImageResource(iconId);
         }
         return convertView;
@@ -80,4 +80,5 @@ public class StatusAdapter extends BaseAdapter {
         ImageView mIconIv;
         TextView mNameTv;
     }
+
 }

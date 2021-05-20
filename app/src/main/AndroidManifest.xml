@@ -358,7 +358,7 @@
             android:theme="@style/ImageTranslucentTheme" />
 
         <activity
-            android:name=".activity.UserStatusActivity"
+            android:name=".activity.StatusActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
 

@@ -13,7 +13,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.BigImageActivity;
 import com.bc.wechat.activity.MyProfileActivity;
 import com.bc.wechat.activity.SettingActivity;
-import com.bc.wechat.activity.UserStatusActivity;
+import com.bc.wechat.activity.StatusActivity;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.OssUtil;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -79,7 +79,7 @@ public class MeFragment extends Fragment implements View.OnClickListener {
                 break;
             // 状态:
             case R.id.rl_status:
-                startActivity(new Intent(getActivity(), UserStatusActivity.class));
+                startActivity(new Intent(getActivity(), StatusActivity.class));
                 break;
             // 设置页面
             case R.id.rl_settings:
