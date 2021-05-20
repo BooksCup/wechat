@@ -1,6 +1,7 @@
 package com.bc.wechat.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +68,11 @@ public class StatusAdapter extends BaseAdapter {
         }
         Status userStatus = mUserStatusList.get(position);
         viewHolder.mNameTv.setText(userStatus.getName());
-        int iconId = context.getResources().getIdentifier(userStatus.getIcon(),
-                "mipmap", context.getPackageName());
-        viewHolder.mIconIv.setImageResource(iconId);
+        if (!TextUtils.isEmpty(userStatus.getIcon())) {
+            int iconId = context.getResources().getIdentifier(userStatus.getIcon(),
+                    "mipmap", context.getPackageName());
+            viewHolder.mIconIv.setImageResource(iconId);
+        }
         return convertView;
     }
 
