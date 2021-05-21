@@ -26,6 +26,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
@@ -182,4 +183,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         }
     }
+
 }

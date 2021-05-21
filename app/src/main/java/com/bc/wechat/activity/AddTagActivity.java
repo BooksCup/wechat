@@ -42,7 +42,11 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class AddTagActivity extends BaseActivity {
+
     private static final int TAG_TEXT_SIZE = 14;
+
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
     /**
      * 上面的FlowLayout
@@ -75,25 +79,28 @@ public class AddTagActivity extends BaseActivity {
      * 标签状态
      */
     final List<Boolean> mTagStateList = new ArrayList<>();
-    final Set<Integer> set = new HashSet<>();//存放选中的
+
+    /**
+     * 存放选中的
+     */
+    final Set<Integer> set = new HashSet<>();
 
     /**
      * 标签适配器
      */
-    private TagAdapter<String> mTagAdapter;
-    private LinearLayout.LayoutParams mParams;
-    private EditText mDefaultEt;
-    private VolleyUtil mVolleyUtil;
+    TagAdapter<String> mTagAdapter;
+    LinearLayout.LayoutParams mParams;
+    EditText mDefaultEt;
+    VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
-    private UserDao mUserDao;
+    UserDao mUserDao;
 
-    private User mUser;
+    User mUser;
     /**
      * 联系人用户ID
      */
-    private String mContactId;
-    private User mContact;
-
+    String mContactId;
+    User mContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +131,8 @@ public class AddTagActivity extends BaseActivity {
      * 初始化View
      */
     private void initView() {
+        setTitleStrokeWidth(mTitleTv);
+
         mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int marginLeft = DensityUtil.dip2px(AddTagActivity.this, 10);
         int marginTop = DensityUtil.dip2px(AddTagActivity.this, 10);
@@ -153,7 +162,6 @@ public class AddTagActivity extends BaseActivity {
             // 添加标签
             addTag(mDefaultEt);
         }
-
     }
 
     /**
@@ -315,7 +323,6 @@ public class AddTagActivity extends BaseActivity {
 
     }
 
-
     /**
      * 根据标签内容删除标签
      *
@@ -331,7 +338,6 @@ public class AddTagActivity extends BaseActivity {
         // 重置选中的标签
         mTagAdapter.setSelectedList(set);
     }
-
 
     /**
      * 标签恢复到正常状态
@@ -438,4 +444,5 @@ public class AddTagActivity extends BaseActivity {
         unionTagList.addAll(unionTagSet);
         return JSON.toJSONString(unionTagList);
     }
+
 }

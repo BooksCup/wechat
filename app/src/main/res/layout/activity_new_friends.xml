@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:text="@string/add_friends"
             android:textColor="@color/common_top_title"
