@@ -14,6 +14,9 @@ import java.util.List;
 
 /**
  * 地区工具类
+ * 用于"我的地址"-"地区信息"里的省市县及邮编信息的初始化
+ *
+ * @author zhou
  */
 public class AreaUtil {
 

@@ -64,6 +64,8 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ConversationType;
@@ -78,6 +80,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  * @author zhou
  */
 public class ChatActivity extends BaseActivity implements View.OnClickListener {
+
     private static final int REQUEST_CODE_EMPTY_HISTORY = 1;
     public static final int REQUEST_CODE_CONTEXT_MENU = 2;
     private static final int REQUEST_CODE_MAP = 3;
@@ -117,7 +120,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 
     private InputMethodManager mManager;
 
-    private TextView mFromNickNameTv;
+    @BindView(R.id.tv_from_nick_name)
+    TextView mFromNickNameTv;
 
     private LinearLayout mMoreLl;
     private LinearLayout mEmojiContainerLl;
@@ -196,6 +200,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        ButterKnife.bind(this);
         initStatusBar();
         mVolleyUtil = VolleyUtil.getInstance(this);
         JMessageClient.registerEventReceiver(this);
@@ -208,7 +213,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        mFromNickNameTv = findViewById(R.id.tv_from_nick_name);
+        setTitleStrokeWidth(mFromNickNameTv);
 
         mMessageLv = findViewById(R.id.lv_message);
 

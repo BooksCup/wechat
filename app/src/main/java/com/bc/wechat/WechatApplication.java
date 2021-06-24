@@ -10,7 +10,13 @@ import com.orm.SugarContext;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 
+/**
+ * application
+ *
+ * @author zhou
+ */
 public class WechatApplication extends Application {
+
     public static LocationService locationService;
 
     @Override

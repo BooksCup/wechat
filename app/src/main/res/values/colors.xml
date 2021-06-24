@@ -49,6 +49,7 @@
 
     <color name="navy_blue">#506484</color>
     <color name="wechat_btn_green">#07C063</color>
+    <color name="wechat_chat_bg">#95EA6B</color>
 
     <color name="setting_content">#80000000</color>
     <color name="setting_tips">#b5b5b6</color>
