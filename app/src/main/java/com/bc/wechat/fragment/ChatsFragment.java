@@ -83,9 +83,9 @@ public class ChatsFragment extends BaseFragment {
                     User user = mUserDao.getUserById(userInfo.getUserName());
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("targetType", Constant.TARGET_TYPE_SINGLE);
-                    intent.putExtra("fromUserId", user.getUserId());
-                    intent.putExtra("fromUserNickName", user.getUserNickName());
-                    intent.putExtra("fromUserAvatar", user.getUserAvatar());
+                    intent.putExtra("contactId", user.getUserId());
+                    intent.putExtra("contactNickName", user.getUserNickName());
+                    intent.putExtra("contactAvatar", user.getUserAvatar());
                     startActivity(intent);
                 } else {
                     GroupInfo groupInfo = (GroupInfo) conversation.getTargetInfo();
