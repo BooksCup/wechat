@@ -161,7 +161,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mEmojiCheckedIv;
 
     private Button mMoreBtn;
-    private Button mSendBtn;
+
+    @BindView(R.id.btn_send)
+    Button mSendBtn;
 
     private EditText mTextMsgEt;
     private RelativeLayout mTextMsgRl;
@@ -234,7 +236,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
 
         mMoreBtn = findViewById(R.id.btn_more);
-        mSendBtn = findViewById(R.id.btn_send);
 
         mTextMsgEt = findViewById(R.id.et_text_msg);
         mTextMsgRl = findViewById(R.id.rl_text_msg);
@@ -507,7 +508,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         if (mMoreLl.getVisibility() == View.VISIBLE) {
             mMoreLl.setVisibility(View.GONE);
             mEmojiNormalIv.setVisibility(View.VISIBLE);
-            mEmojiCheckedIv.setVisibility(View.INVISIBLE);
+            mEmojiCheckedIv.setVisibility(View.GONE);
         }
 
     }

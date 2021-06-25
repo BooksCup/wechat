@@ -76,4 +76,11 @@
     <dimen name="top_bar_back_width">32dp</dimen>
     <dimen name="top_bar_back_height">32dp</dimen>
     <dimen name="top_bar_title_text_size">15.5sp</dimen>
+
+    <dimen name="chat_multiple_type_icon_width">42dp</dimen>
+    <dimen name="chat_multiple_type_icon_height">42dp</dimen>
+    <dimen name="chat_multiple_type_bg_width">48dp</dimen>
+    <dimen name="chat_multiple_type_bg_height">48dp</dimen>
+    <dimen name="chat_multiple_type_text_size">11sp</dimen>
+    <dimen name="chat_multiple_type_text_margin_top">5dp</dimen>
 </resources>
