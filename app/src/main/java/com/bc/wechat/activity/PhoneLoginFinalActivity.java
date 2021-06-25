@@ -23,6 +23,7 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.DeviceInfo;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.utils.CollectionUtils;
 import com.bc.wechat.utils.DeviceInfoUtil;
 import com.bc.wechat.utils.MD5Util;
 import com.bc.wechat.utils.PreferencesUtil;
@@ -304,10 +305,12 @@ public class PhoneLoginFinalActivity extends BaseActivity {
                         // 注册jpush
                         JPushInterface.setAlias(PhoneLoginFinalActivity.this, sequence, user.getUserId());
                         List<User> contactList = user.getContactList();
-                        for (User contact : contactList) {
-                            if (null != contact) {
-                                contact.setIsFriend(Constant.IS_FRIEND);
-                                mUserDao.saveUser(contact);
+                        if (!CollectionUtils.isEmpty(contactList)) {
+                            for (User contact : contactList) {
+                                if (null != contact) {
+                                    contact.setIsFriend(Constant.IS_FRIEND);
+                                    mUserDao.saveUser(contact);
+                                }
                             }
                         }
                         startActivity(new Intent(PhoneLoginFinalActivity.this, MainActivity.class));
