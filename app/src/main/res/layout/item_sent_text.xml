@@ -20,8 +20,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_avatar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="@dimen/chat_avatar_width"
+            android:layout_height="@dimen/chat_avatar_height"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_chat_activity"

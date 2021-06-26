@@ -20,13 +20,14 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/chat_avatar_width"
+            android:layout_height="@dimen/chat_avatar_height"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:scaleType="fitXY"
-            fresco:placeholderImage="@mipmap/default_user_avatar" />
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            fresco:roundedCornerRadius="5dp" />
 
         <com.cxd.chatview.moudle.ChatView xmlns:chat="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cv_chat_content"
@@ -53,7 +54,8 @@
                 android:id="@+id/sdv_image_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                fresco:roundedCornerRadius="5dp" />
         </com.cxd.chatview.moudle.ChatView>
 
         <ProgressBar
