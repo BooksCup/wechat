@@ -83,4 +83,6 @@
     <dimen name="chat_multiple_type_bg_height">48dp</dimen>
     <dimen name="chat_multiple_type_text_size">11sp</dimen>
     <dimen name="chat_multiple_type_text_margin_top">5dp</dimen>
+
+    <dimen name="conversation_msg_text_size">13.5sp</dimen>
 </resources>

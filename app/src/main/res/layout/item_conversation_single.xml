@@ -23,7 +23,8 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerInParent="true"
-                fresco:placeholderImage="@mipmap/default_user_avatar" />
+                fresco:placeholderImage="@mipmap/default_user_avatar"
+                fresco:roundedCornerRadius="5dp" />
         </RelativeLayout>
 
         <TextView
@@ -34,7 +35,7 @@
             android:layout_toRightOf="@id/rl_avatar"
             android:text="爱久见人心"
             android:textColor="#353535"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <TextView
             android:id="@+id/tv_create_time"
@@ -68,9 +69,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="微软小冰：亲爱的 你最近好吗？？？"
+                android:text="三点几了,做撚啊做,饮茶先啦"
                 android:textColor="#AAAAAA"
-                android:textSize="14sp" />
+                android:textSize="@dimen/conversation_msg_text_size" />
         </LinearLayout>
 
         <TextView
