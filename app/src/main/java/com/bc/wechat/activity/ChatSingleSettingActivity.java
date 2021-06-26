@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -16,6 +15,8 @@ import com.bc.wechat.widget.ConfirmDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 
 /**
@@ -25,12 +26,20 @@ import cn.jpush.im.android.api.JMessageClient;
  */
 public class ChatSingleSettingActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView mTitleTv;
-    private TextView mNickNameTv;
-    private SimpleDraweeView mAvatarSdv;
-    private RelativeLayout mAddUserToGroupRl;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private RelativeLayout mClearRl;
+    @BindView(R.id.tv_nick_name)
+    TextView mNickNameTv;
+
+    @BindView(R.id.sdv_avatar)
+    SimpleDraweeView mAvatarSdv;
+
+    @BindView(R.id.rl_add_user_to_group)
+    RelativeLayout mAddUserToGroupRl;
+
+    @BindView(R.id.rl_clear)
+    RelativeLayout mClearRl;
 
     String userId;
     String userNickName;
@@ -42,6 +51,7 @@ public class ChatSingleSettingActivity extends BaseActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_chat_setting);
+        ButterKnife.bind(this);
         initStatusBar();
 
         userId = getIntent().getStringExtra("userId");
@@ -53,15 +63,7 @@ public class ChatSingleSettingActivity extends BaseActivity implements View.OnCl
     }
 
     private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        mNickNameTv = findViewById(R.id.tv_nick_name);
-        mAvatarSdv = findViewById(R.id.sdv_avatar);
-        mAddUserToGroupRl = findViewById(R.id.rl_add_user_to_group);
-
-        mClearRl = findViewById(R.id.rl_clear);
+        setTitleStrokeWidth(mTitleTv);
 
         mNickNameTv.setText(userNickName);
         if (!TextUtils.isEmpty(userAvatar)) {
@@ -111,4 +113,5 @@ public class ChatSingleSettingActivity extends BaseActivity implements View.OnCl
                 break;
         }
     }
+
 }

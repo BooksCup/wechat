@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"
@@ -28,11 +28,11 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_back"
             android:text="@string/chat_info"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/top_bar_title_text_size" />
     </RelativeLayout>
 
     <LinearLayout
@@ -54,7 +54,8 @@
                 android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="12dp"
-                fresco:placeholderImage="@mipmap/default_user_avatar" />
+                fresco:placeholderImage="@mipmap/default_user_avatar"
+                fresco:roundedCornerRadius="5dp" />
 
             <TextView
                 android:id="@+id/tv_nick_name"
