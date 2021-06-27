@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_common_bg"
@@ -86,13 +87,16 @@
             android:paddingBottom="14dp"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/iv_find"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_find"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/a_a" />
+                fresco:actualImageScaleType="centerCrop"
+                fresco:placeholderImage="@mipmap/icon_search_2"
+                fresco:placeholderImageScaleType="centerCrop"
+                fresco:roundedCornerRadius="5dp" />
 
             <TextView
                 android:id="@+id/tv_temp"
@@ -100,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/iv_find"
+                android:layout_toRightOf="@id/sdv_find"
                 android:text="搜索:"
                 android:textColor="#353535"
                 android:textSize="16sp" />
