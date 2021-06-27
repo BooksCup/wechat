@@ -49,29 +49,32 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_search"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#fff">
+        android:layout_height="35dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_search_friends_et">
 
         <TextView
             android:id="@+id/tv_search"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:paddingLeft="36dp"
-            android:singleLine="true"
+            android:gravity="center"
             android:text="@string/wx_id_or_phone"
             android:textColor="#aaaaaa"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_alignLeft="@id/tv_search"
             android:layout_centerVertical="true"
-            android:src="@mipmap/search" />
+            android:layout_margin="3dp"
+            android:layout_toLeftOf="@id/tv_search"
+            android:src="@mipmap/icon_search" />
 
     </RelativeLayout>
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,10 +26,8 @@ import com.bc.wechat.utils.ExampleUtil;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -38,7 +35,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class NewFriendsActivity extends BaseActivity2 {
+public class NewFriendsActivity extends BaseActivity {
 
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
@@ -57,22 +54,21 @@ public class NewFriendsActivity extends BaseActivity2 {
     List<FriendApply> mFriendApplyList;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_friends);
+    public int getContentView() {
+        return R.layout.activity_new_friends;
+    }
 
-        ButterKnife.bind(this);
-
+    @Override
+    public void initView() {
         initStatusBar();
-
-        registerMessageReceiver();
-        initView();
-
+        setTitleStrokeWidth(mTitleTv);
         mFriendApplyList = FriendApply.listAll(FriendApply.class, "time_stamp desc");
-
         mNewFriendsMsgAdapter = new NewFriendsMsgAdapter(this, mFriendApplyList);
         mNewFriendsMsgLv.setAdapter(mNewFriendsMsgAdapter);
+    }
 
+    @Override
+    public void initListener() {
         mNewFriendsMsgLv.setOnItemClickListener((parent, view, position, id) -> {
             FriendApply friendApply = mFriendApplyList.get(position);
             if (Constant.FRIEND_APPLY_STATUS_ACCEPT.equals(friendApply.getStatus())) {
@@ -140,17 +136,18 @@ public class NewFriendsActivity extends BaseActivity2 {
         });
     }
 
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
+    @Override
+    public void initData() {
+        registerMessageReceiver();
     }
 
-    @OnClick({R.id.tv_add, R.id.tv_search})
+    @OnClick({R.id.tv_add, R.id.rl_search})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add:
                 startActivity(new Intent(NewFriendsActivity.this, AddContactsActivity.class));
                 break;
-            case R.id.tv_search:
+            case R.id.rl_search:
                 startActivity(new Intent(NewFriendsActivity.this, AddFriendsBySearchActivity.class));
                 break;
         }
