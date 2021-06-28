@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.Stack;
 
-public class FinishActivityManager extends BaseActivity {
+public class FinishActivityManager extends BaseActivity2 {
     private FinishActivityManager() {
     }
 

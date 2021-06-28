@@ -47,7 +47,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class CreateGroupActivity extends BaseActivity {
+public class CreateGroupActivity extends BaseActivity2 {
 
     private PickContactAdapter contactAdapter;
     private ListView listView;

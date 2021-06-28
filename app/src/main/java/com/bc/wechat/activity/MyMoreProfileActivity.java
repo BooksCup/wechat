@@ -22,7 +22,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class MyMoreProfileActivity extends BaseActivity {
+public class MyMoreProfileActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

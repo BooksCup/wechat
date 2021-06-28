@@ -30,7 +30,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class NewFriendsApplyConfirmActivity extends BaseActivity implements View.OnClickListener {
+public class NewFriendsApplyConfirmActivity extends BaseActivity2 implements View.OnClickListener {
 
     // 申请备注
     @BindView(R.id.et_apply_remark)

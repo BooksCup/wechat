@@ -34,7 +34,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AddFriendsBySearchActivity extends BaseActivity {
+public class AddFriendsBySearchActivity extends BaseActivity2 {
 
     private static final String TAG = "AddFriendsBySearch";
 

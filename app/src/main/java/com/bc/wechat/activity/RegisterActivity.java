@@ -55,7 +55,7 @@ import static com.bc.wechat.utils.ValidateUtil.validatePassword;
  *
  * @author zhou
  */
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity2 {
 
     private static final String TAG = "RegisterActivity";
     public static int sequence = 1;

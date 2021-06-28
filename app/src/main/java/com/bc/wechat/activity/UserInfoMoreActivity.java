@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class UserInfoMoreActivity extends BaseActivity {
+public class UserInfoMoreActivity extends BaseActivity2 {
     @BindView(R.id.tv_whats_up)
     TextView mWhatsUpTv;
 

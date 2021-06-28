@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity2 {
 
     @BindView(R.id.et_search)
     EditText mSearchEt;

@@ -35,7 +35,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AddContactsActivity extends BaseActivity {
+public class AddContactsActivity extends BaseActivity2 {
 
     private static final int REQUEST_CODE_SCAN = 0;
     private static final int REQUEST_CODE_CAMERA = 1;

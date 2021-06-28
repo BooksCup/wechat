@@ -64,7 +64,7 @@ import androidx.core.content.ContextCompat;
  *
  * @author zhou
  */
-public class MapPickerActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class MapPickerActivity extends BaseActivity2 implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_PERMISSION_STORAGE = 0x01;
 

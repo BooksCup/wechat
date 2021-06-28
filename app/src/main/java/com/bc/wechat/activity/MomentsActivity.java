@@ -57,7 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MomentsActivity extends BaseActivity {
+public class MomentsActivity extends BaseActivity2 {
     private static final String TAG = "FriendsCircleActivity";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;

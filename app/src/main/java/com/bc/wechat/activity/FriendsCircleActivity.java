@@ -56,7 +56,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class FriendsCircleActivity extends BaseActivity {
+public class FriendsCircleActivity extends BaseActivity2 {
 
     private RelativeLayout mRootRl;
     private ImageView mAddFriendsCircleIv;

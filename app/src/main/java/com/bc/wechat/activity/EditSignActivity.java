@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class EditSignActivity extends BaseActivity {
+public class EditSignActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

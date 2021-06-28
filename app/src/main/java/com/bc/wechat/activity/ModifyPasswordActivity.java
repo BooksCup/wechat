@@ -33,7 +33,7 @@ import static com.bc.wechat.utils.ValidateUtil.validatePassword;
  *
  * @author zhou
  */
-public class ModifyPasswordActivity extends BaseActivity {
+public class ModifyPasswordActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

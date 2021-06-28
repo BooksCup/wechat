@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class PickProvinceActivity extends BaseActivity {
+public class PickProvinceActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

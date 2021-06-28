@@ -48,7 +48,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class PhoneLoginFinalActivity extends BaseActivity {
+public class PhoneLoginFinalActivity extends BaseActivity2 {
 
     private static final String TAG = "PhoneLoginFinalActivity";
     private static final String LOGIN_TYPE_PASSWORD = "0";

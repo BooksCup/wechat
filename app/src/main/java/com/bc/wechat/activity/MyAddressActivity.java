@@ -45,7 +45,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class MyAddressActivity extends BaseActivity {
+public class MyAddressActivity extends BaseActivity2 {
 
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;

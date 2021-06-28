@@ -33,7 +33,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class NewFriendsAcceptConfirmActivity extends BaseActivity {
+public class NewFriendsAcceptConfirmActivity extends BaseActivity2 {
 
     // 好友备注
     @BindView(R.id.et_remark)

@@ -21,7 +21,7 @@ import cn.jpush.im.android.api.JMessageClient;
  *
  * @author zhou
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity2 {
 
     /**
      * 标题

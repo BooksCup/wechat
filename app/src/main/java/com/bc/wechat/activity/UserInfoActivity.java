@@ -48,7 +48,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class UserInfoActivity extends BaseActivity {
+public class UserInfoActivity extends BaseActivity2 {
 
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;

@@ -44,7 +44,7 @@ import cn.jpush.im.android.api.JMessageClient;
  *
  * @author zhou
  */
-public class UserSettingActivity extends BaseActivity {
+public class UserSettingActivity extends BaseActivity2 {
 
     private static final int REQUEST_CODE_ADD_TO_HOME_SCREEN = 1;
 

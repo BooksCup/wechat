@@ -31,7 +31,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class ContactMomentsActivity extends BaseActivity {
+public class ContactMomentsActivity extends BaseActivity2 {
 
     private ListView mFriendsCircleLv;
     UserFriendsCircleAdapter mAdapter;

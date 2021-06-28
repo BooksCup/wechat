@@ -41,7 +41,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AddTagActivity extends BaseActivity {
+public class AddTagActivity extends BaseActivity2 {
 
     private static final int TAG_TEXT_SIZE = 14;
 

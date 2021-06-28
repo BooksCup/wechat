@@ -55,7 +55,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class AddAddressActivity extends BaseActivity {
+public class AddAddressActivity extends BaseActivity2 {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;

@@ -29,7 +29,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class SetGenderActivity extends BaseActivity {
+public class SetGenderActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

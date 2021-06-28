@@ -36,7 +36,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class ManageDevicesActivity extends BaseActivity {
+public class ManageDevicesActivity extends BaseActivity2 {
 
     private TextView mTitleTv;
     private ListView mDevicesLv;

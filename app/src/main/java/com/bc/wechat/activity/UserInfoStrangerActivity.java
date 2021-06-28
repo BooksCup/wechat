@@ -33,7 +33,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class UserInfoStrangerActivity extends BaseActivity {
+public class UserInfoStrangerActivity extends BaseActivity2 {
 
     @BindView(R.id.sdv_avatar)
     SimpleDraweeView mAvatarSdv;

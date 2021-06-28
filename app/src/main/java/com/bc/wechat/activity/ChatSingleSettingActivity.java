@@ -24,7 +24,7 @@ import cn.jpush.im.android.api.JMessageClient;
  *
  * @author zhou
  */
-public class ChatSingleSettingActivity extends BaseActivity implements View.OnClickListener {
+public class ChatSingleSettingActivity extends BaseActivity2 implements View.OnClickListener {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

@@ -27,7 +27,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class EmailLinkActivity extends BaseActivity implements View.OnClickListener {
+public class EmailLinkActivity extends BaseActivity2 implements View.OnClickListener {
 
     private EditText mEmailEt;
     private TextView mTipsTv;

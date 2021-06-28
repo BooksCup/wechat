@@ -41,7 +41,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class PickRegionActivity extends BaseActivity {
+public class PickRegionActivity extends BaseActivity2 {
 
     private static final int REQUEST_CODE_LOCATION = 1;
 

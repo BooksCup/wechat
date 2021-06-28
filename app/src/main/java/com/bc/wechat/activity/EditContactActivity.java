@@ -39,7 +39,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class EditContactActivity extends BaseActivity {
+public class EditContactActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

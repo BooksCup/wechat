@@ -25,7 +25,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class QqIdLinkActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener {
+public class QqIdLinkActivity extends BaseActivity2 implements View.OnClickListener, View.OnFocusChangeListener {
 
     private EditText mQqIdEt;
     private EditText mQqPasswordEt;

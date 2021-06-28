@@ -46,7 +46,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class SearchContentActivity extends BaseActivity implements View.OnClickListener {
+public class SearchContentActivity extends BaseActivity2 implements View.OnClickListener {
 
     private EditText mSearchEt;
     private ImageView mClearIv;

@@ -56,7 +56,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class MyProfileActivity extends BaseActivity {
+public class MyProfileActivity extends BaseActivity2 {
 
     // 头像
     @BindView(R.id.rl_avatar)

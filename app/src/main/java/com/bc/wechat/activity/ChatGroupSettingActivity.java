@@ -37,7 +37,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class ChatGroupSettingActivity extends BaseActivity implements View.OnClickListener {
+public class ChatGroupSettingActivity extends BaseActivity2 implements View.OnClickListener {
     private String groupId;
 
     private TextView mMemberNumTv;

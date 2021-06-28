@@ -31,7 +31,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class PhoneLinkActivity extends BaseActivity {
+public class PhoneLinkActivity extends BaseActivity2 {
     private static final int REQUEST_CODE_CONTACTS = 0;
 
     @BindView(R.id.tv_title)

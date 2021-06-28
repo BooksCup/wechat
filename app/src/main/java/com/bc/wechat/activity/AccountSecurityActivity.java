@@ -19,7 +19,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AccountSecurityActivity extends BaseActivity {
+public class AccountSecurityActivity extends BaseActivity2 {
 
     /**
      * 标题

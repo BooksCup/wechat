@@ -30,7 +30,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class MoreSecuritySettingActivity extends BaseActivity {
+public class MoreSecuritySettingActivity extends BaseActivity2 {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;

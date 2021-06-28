@@ -21,7 +21,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class UserInfoFileHelperActivity extends BaseActivity {
+public class UserInfoFileHelperActivity extends BaseActivity2 {
 
     @BindView(R.id.rl_send_message)
     RelativeLayout mSendMessageRl;

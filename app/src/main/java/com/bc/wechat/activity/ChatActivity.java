@@ -78,7 +78,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  *
  * @author zhou
  */
-public class ChatActivity extends BaseActivity implements View.OnClickListener {
+public class ChatActivity extends BaseActivity2 implements View.OnClickListener {
 
     private static final int REQUEST_CODE_EMPTY_HISTORY = 1;
     public static final int REQUEST_CODE_CONTEXT_MENU = 2;

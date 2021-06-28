@@ -22,7 +22,7 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class QqIdUnLinkActivity extends BaseActivity {
+public class QqIdUnLinkActivity extends BaseActivity2 {
 
     private Button mUnLinkQqIdBtn;
 

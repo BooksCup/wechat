@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class StatusActivity extends BaseActivity {
+public class StatusActivity extends BaseActivity2 {
 
     @BindView(R.id.sv_bg)
     ScrollView mBgSv;

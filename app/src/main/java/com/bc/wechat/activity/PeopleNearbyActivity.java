@@ -52,7 +52,7 @@ import butterknife.ButterKnife;
  *
  * @author zhou
  */
-public class PeopleNearbyActivity extends BaseActivity {
+public class PeopleNearbyActivity extends BaseActivity2 {
 
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();

@@ -53,7 +53,7 @@ import butterknife.OnFocusChange;
  *
  * @author zhou
  */
-public class ModifyAddressActivity extends BaseActivity {
+public class ModifyAddressActivity extends BaseActivity2 {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;

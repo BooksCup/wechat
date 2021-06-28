@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -8,11 +7,12 @@ import com.bc.wechat.R;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * 关于微信
+ *
+ * @author zhou
  */
 public class AboutActivity extends BaseActivity {
 
@@ -20,16 +20,23 @@ public class AboutActivity extends BaseActivity {
     ImageView ivBack;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        ButterKnife.bind(this);
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
-        initView();
+    public int getContentView() {
+        return R.layout.activity_about;
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
+        QMUIStatusBarHelper.translucent(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
 
     }
 

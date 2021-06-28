@@ -65,7 +65,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  *
  * @author zhou
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity2 {
 
     public static final int REQUEST_CODE_SCAN = 0;
     public static final int REQUEST_CODE_CAMERA = 1;

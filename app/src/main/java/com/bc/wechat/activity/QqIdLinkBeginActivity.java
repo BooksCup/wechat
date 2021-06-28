@@ -35,7 +35,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class QqIdLinkBeginActivity extends BaseActivity {
+public class QqIdLinkBeginActivity extends BaseActivity2 {
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
 

@@ -35,7 +35,7 @@ import cn.jpush.im.android.api.model.GroupInfo;
  *
  * @author zhou
  */
-public class UpdateGroupNameActivity extends BaseActivity {
+public class UpdateGroupNameActivity extends BaseActivity2 {
     String groupId;
     String oldGroupName;
     private TextView mTitleTv;

@@ -35,7 +35,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class NewFriendsAcceptActivity extends BaseActivity {
+public class NewFriendsAcceptActivity extends BaseActivity2 {
     @BindView(R.id.ll_nick_name)
     LinearLayout mNickNameLl;
 
