@@ -15,6 +15,7 @@ import butterknife.OnClick;
  * 关于微信
  */
 public class AboutActivity extends BaseActivity {
+
     @BindView(R.id.iv_back)
     ImageView ivBack;
 
@@ -40,4 +41,5 @@ public class AboutActivity extends BaseActivity {
                 break;
         }
     }
+
 }

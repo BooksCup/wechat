@@ -69,7 +69,6 @@ import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ConversationType;
-import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
@@ -702,11 +701,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
         mTextMsgEt.setText("");
     }
 
-
-    /*接收到的消息*/
-    public void onEvent(MessageEvent event) {
-        handleReceivedMessage(event.getMessage());
-    }
+//    public void onEvent(MessageEvent event) {
+//        handleReceivedMessage(event.getMessage());
+//    }
 
     @Override
     protected void onDestroy() {
@@ -769,7 +766,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
      *
      * @param msg
      */
-    private void handleReceivedMessage(cn.jpush.im.android.api.model.Message msg) {
+    @Override
+    public void handleReceivedMessage(cn.jpush.im.android.api.model.Message msg) {
         // 自己发送出的消息(接收方非自己)自己也能收到
         // 如果是自己发送的消息 则无需处理此条消息
         // 发送者

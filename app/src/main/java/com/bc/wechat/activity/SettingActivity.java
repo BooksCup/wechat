@@ -14,6 +14,7 @@ import com.bc.wechat.utils.PreferencesUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.im.android.api.JMessageClient;
 
 /**
  * 设置
@@ -21,6 +22,7 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class SettingActivity extends BaseActivity {
+
     /**
      * 标题
      */
@@ -52,6 +54,7 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         initStatusBar();
         PreferencesUtil.getInstance().init(this);
+        JMessageClient.registerEventReceiver(this);
         initView();
     }
 
@@ -94,4 +97,11 @@ public class SettingActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        JMessageClient.unRegisterEventReceiver(this);
+    }
+
 }
