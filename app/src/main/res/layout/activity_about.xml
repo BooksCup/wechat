@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="@dimen/top_back_width"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/top_bar_back_width"
+            android:layout_height="@dimen/top_bar_back_height"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:onClick="back"

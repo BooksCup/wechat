@@ -1,12 +1,10 @@
 package com.bc.wechat.activity;
 
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bc.wechat.R;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -15,9 +13,6 @@ import butterknife.OnClick;
  * @author zhou
  */
 public class AboutActivity extends BaseActivity {
-
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
 
     @Override
     public int getContentView() {

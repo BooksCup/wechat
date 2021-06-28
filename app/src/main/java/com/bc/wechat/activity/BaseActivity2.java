@@ -28,7 +28,6 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ConversationType;
@@ -45,7 +44,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity2 extends FragmentActivity {
 
     private MessageDao mMessageDao;
     private User mUser;
@@ -53,22 +52,9 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentView());
-        ButterKnife.bind(this);
-        initView();
-        initListener();
-        initData();
         mMessageDao = new MessageDao();
         mUser = PreferencesUtil.getInstance().getUser();
     }
-
-    public abstract int getContentView();
-
-    public abstract void initView();
-
-    public abstract void initListener();
-
-    public abstract void initData();
 
     @Override
     protected void onDestroy() {
@@ -112,7 +98,7 @@ public abstract class BaseActivity extends FragmentActivity {
                         User.deleteAll(User.class);
 
                         // 跳转至登录页
-                        Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(BaseActivity2.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
