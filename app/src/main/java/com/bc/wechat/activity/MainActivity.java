@@ -9,12 +9,10 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.text.TextUtils;
@@ -27,37 +25,27 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
-import com.bc.wechat.cons.Constant;
-import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.QrCodeContent;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.enums.ViewType;
 import com.bc.wechat.fragment.ChatsFragment;
 import com.bc.wechat.fragment.DiscoverFragment;
 import com.bc.wechat.fragment.ContactsFragment;
 import com.bc.wechat.fragment.MeFragment;
+import com.bc.wechat.observer.Observer;
+import com.bc.wechat.observer.ObserverManager;
 import com.bc.wechat.utils.ExampleUtil;
-import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
-import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.google.zxing.client.android.CaptureActivity2;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.content.EventNotificationContent;
-import cn.jpush.im.android.api.content.TextContent;
-import cn.jpush.im.android.api.enums.ConversationType;
-import cn.jpush.im.android.api.event.MessageEvent;
-import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 /**
@@ -65,7 +53,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  *
  * @author zhou
  */
-public class MainActivity extends BaseActivity2 {
+public class MainActivity extends BaseActivity implements Observer {
 
     public static final int REQUEST_CODE_SCAN = 0;
     public static final int REQUEST_CODE_CAMERA = 1;
@@ -97,24 +85,16 @@ public class MainActivity extends BaseActivity2 {
     // 首页弹出框
     private PopupWindow mPopupWindow;
     private View mPopupView;
+    ObserverManager mObserverManager;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initStatusBar();
-        initView();
-        JMessageClient.registerEventReceiver(this);
-        PreferencesUtil.getInstance().init(this);
-        mUser = PreferencesUtil.getInstance().getUser();
-        registerMessageReceiver();
-        refreshNewMsgsUnreadNum();
-        refreshNewFriendsUnreadNum();
-        // 进入强制刷新，防止离线消息
-        mChatsFragment.refreshConversationList();
+    public int getContentView() {
+        return R.layout.activity_main;
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
+        initStatusBar();
         mChatsFragment = new ChatsFragment();
         mContactsFragment = new ContactsFragment();
         mDiscoverFragment = new DiscoverFragment();
@@ -137,11 +117,6 @@ public class MainActivity extends BaseActivity2 {
         mMainButtonTvs[3] = findViewById(R.id.tv_me);
         mMainButtonTvs[0].setTextColor(0xFF45C01A);
 
-//        mTitleRl = findViewById(R.id.rl_title);
-//        mTitleTv = findViewById(R.id.tv_title);
-//        TextPaint paint = mTitleTv.getPaint();
-//        paint.setFakeBoldText(true);
-//
 //        mAddIv = findViewById(R.id.iv_add);
 
         getSupportFragmentManager().beginTransaction()
@@ -167,6 +142,26 @@ public class MainActivity extends BaseActivity2 {
 //                }
 //            }
 //        });
+        if (mObserverManager == null) {
+            mObserverManager = ObserverManager.getInstance();
+            mObserverManager.addObserver(this);
+        }
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+        PreferencesUtil.getInstance().init(this);
+        mUser = PreferencesUtil.getInstance().getUser();
+        registerMessageReceiver();
+        refreshNewMsgsUnreadNum();
+        refreshNewFriendsUnreadNum();
+        // 进入强制刷新，防止离线消息
+        mChatsFragment.refreshConversationList();
     }
 
     public void onTabClicked(View view) {
@@ -221,7 +216,6 @@ public class MainActivity extends BaseActivity2 {
     protected void onResume() {
         super.onResume();
         isForeground = true;
-        JMessageClient.registerEventReceiver(this);
         // 消息
         refreshNewMsgsUnreadNum();
         // 通讯录
@@ -239,7 +233,6 @@ public class MainActivity extends BaseActivity2 {
     protected void onPause() {
         super.onPause();
         isForeground = false;
-        JMessageClient.unRegisterEventReceiver(this);
     }
 
     private MessageReceiver mMessageReceiver;
@@ -260,6 +253,13 @@ public class MainActivity extends BaseActivity2 {
         filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN);
         filter.addAction(MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_ACCEPT_MAIN);
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, filter);
+    }
+
+    @Override
+    public void receiveMsg(int viewType, cn.jpush.im.android.api.model.Message msg) {
+        if (ViewType.MAIN.getType() == viewType) {
+            handleReceivedMessage(msg);
+        }
     }
 
     public class MessageReceiver extends BroadcastReceiver {
@@ -305,66 +305,71 @@ public class MainActivity extends BaseActivity2 {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        JMessageClient.unRegisterEventReceiver(this);
+        if (mObserverManager != null) {
+            mObserverManager.removeObserver(this);
+        }
     }
 
-    /*接收到的消息*/
-    public void onEvent(MessageEvent event) {
-        final cn.jpush.im.android.api.model.Message msg = event.getMessage();
-        Message message = new Message();
-        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-        String messageType = JimUtil.getMessageType(msg);
-        message.setToUserId(mUser.getUserId());
-        message.setTimestamp(new Date().getTime());
-        message.setMessageType(messageType);
-
-        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
-            // 文字
-            TextContent messageContent = (TextContent) msg.getContent();
-            message.setContent(messageContent.getText());
-        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
-            // 图片
-            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
-            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
-            message.setMessageBody(JSON.toJSONString(messageBodyMap));
-
-        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
-            // 位置
-            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
-            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
-            message.setMessageBody(JSON.toJSONString(messageBodyMap));
-        } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
-            EventNotificationContent eventNotificationContent = (EventNotificationContent) msg.getContent();
-
-            // 群加人
-            if (EventNotificationContent.EventNotificationType.group_member_added == eventNotificationContent.getEventNotificationType()) {
-                List<String> userNickNameList = eventNotificationContent.getUserDisplayNames();
-                StringBuffer stringBuffer = new StringBuffer();
-                for (String userNickName : userNickNameList) {
-                    stringBuffer.append(userNickName).append("、");
-                }
-                stringBuffer.deleteCharAt(stringBuffer.length() - 1);
-                message.setContent("你邀请" + stringBuffer.toString() + "加入了群聊");
-            }
-        }
+    /**
+     * 处理极光收到的消息
+     *
+     * @param msg 消息
+     */
+    public void handleReceivedMessage(cn.jpush.im.android.api.model.Message msg) {
+//        Message message = new Message();
+//        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
+//        String messageType = JimUtil.getMessageType(msg);
+//        message.setToUserId(mUser.getUserId());
+//        message.setTimestamp(new Date().getTime());
+//        message.setMessageType(messageType);
+//
+//        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
+//            // 文字
+//            TextContent messageContent = (TextContent) msg.getContent();
+//            message.setContent(messageContent.getText());
+//        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+//            // 图片
+//            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
+//            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
+//            message.setMessageBody(JSON.toJSONString(messageBodyMap));
+//
+//        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
+//            // 位置
+//            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
+//            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
+//            message.setMessageBody(JSON.toJSONString(messageBodyMap));
+//        } else if (Constant.MSG_TYPE_SYSTEM.equals(message.getMessageType())) {
+//            EventNotificationContent eventNotificationContent = (EventNotificationContent) msg.getContent();
+//
+//            // 群加人
+//            if (EventNotificationContent.EventNotificationType.group_member_added == eventNotificationContent.getEventNotificationType()) {
+//                List<String> userNickNameList = eventNotificationContent.getUserDisplayNames();
+//                StringBuffer stringBuffer = new StringBuffer();
+//                for (String userNickName : userNickNameList) {
+//                    stringBuffer.append(userNickName).append("、");
+//                }
+//                stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+//                message.setContent("你邀请" + stringBuffer.toString() + "加入了群聊");
+//            }
+//        }
         UserInfo fromUserInfo = msg.getFromUser();
-        message.setFromUserId(fromUserInfo.getUserName());
-
-        List<User> friendList = User.find(User.class, "user_id = ?", message.getFromUserId());
-        if (null != friendList && friendList.size() > 0) {
-            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
-        }
-
-        if (msg.getTargetType().equals(ConversationType.single)) {
-            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
-
-        } else {
-            message.setTargetType(Constant.TARGET_TYPE_GROUP);
-            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
-            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
-        }
-
-        Message.save(message);
+//        message.setFromUserId(fromUserInfo.getUserName());
+//
+//        List<User> friendList = User.find(User.class, "user_id = ?", message.getFromUserId());
+//        if (null != friendList && friendList.size() > 0) {
+//            message.setFromUserAvatar(friendList.get(0).getUserAvatar());
+//        }
+//
+//        if (msg.getTargetType().equals(ConversationType.single)) {
+//            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
+//
+//        } else {
+//            message.setTargetType(Constant.TARGET_TYPE_GROUP);
+//            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
+//            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
+//        }
+//
+//        Message.save(message);
         mChatsFragment.refreshConversationList();
 
         if (fromUserInfo.getUserName().equals(mUser.getUserId())) {
@@ -576,4 +581,5 @@ public class MainActivity extends BaseActivity2 {
         intent.putExtra(CaptureActivity2.USE_DEFUALT_ISBN_ACTIVITY, true);
         startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
+
 }
