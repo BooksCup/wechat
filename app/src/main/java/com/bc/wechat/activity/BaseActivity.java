@@ -11,33 +11,19 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.JimUtil;
 import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.widget.ConfirmDialog;
 import com.bc.wechat.widget.AlertDialog;
 import com.bc.wechat.widget.NoTitleAlertDialog;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.content.TextContent;
-import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.event.LoginStateChangeEvent;
-import cn.jpush.im.android.api.event.MessageEvent;
-import cn.jpush.im.android.api.event.OfflineMessageEvent;
-import cn.jpush.im.android.api.model.GroupInfo;
-import cn.jpush.im.android.api.model.Message;
-import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 
 /**
@@ -48,7 +34,6 @@ import cn.jpush.im.api.BasicCallback;
 public abstract class BaseActivity extends FragmentActivity {
 
     private MessageDao mMessageDao;
-    private User mUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +44,6 @@ public abstract class BaseActivity extends FragmentActivity {
         initListener();
         initData();
         mMessageDao = new MessageDao();
-        mUser = PreferencesUtil.getInstance().getUser();
     }
 
     public abstract int getContentView();
@@ -200,75 +184,6 @@ public abstract class BaseActivity extends FragmentActivity {
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         // 控制字体加粗的程度
         paint.setStrokeWidth(0.8f);
-    }
-
-    public void onEvent(OfflineMessageEvent event) {
-        List<Message> offlineMessageList = event.getOfflineMessageList();
-        for (Message message : offlineMessageList) {
-            mMessageDao.saveMessageByImMessage(message, mUser.getUserId());
-        }
-    }
-
-    public void onEvent(MessageEvent event) {
-        handleReceivedMessage(event.getMessage());
-    }
-
-    public void handleReceivedMessage(Message msg) {
-        saveMessage(msg);
-    }
-
-    private void saveMessage(Message msg) {
-        // 自己发送出的消息(接收方非自己)自己也能收到
-        // 如果是自己发送的消息 则无需处理此条消息
-        // 发送者
-        UserInfo fromUserInfo = msg.getFromUser();
-        if (fromUserInfo.getUserName().equals(mUser.getUserId())) {
-            return;
-        }
-
-        com.bc.wechat.entity.Message message = new com.bc.wechat.entity.Message();
-        message.setCreateTime(TimeUtil.getTimeStringAutoShort2(new Date().getTime(), true));
-
-        // 消息发送者信息
-        message.setFromUserId(fromUserInfo.getUserName());
-        message.setFromUserName(fromUserInfo.getNickname());
-        message.setFromUserAvatar(fromUserInfo.getAvatar());
-
-        // 群发 or 单发
-        if (msg.getTargetType().equals(ConversationType.single)) {
-            message.setTargetType(Constant.TARGET_TYPE_SINGLE);
-
-        } else {
-            message.setTargetType(Constant.TARGET_TYPE_GROUP);
-            GroupInfo groupInfo = (GroupInfo) msg.getTargetInfo();
-            message.setGroupId(String.valueOf(groupInfo.getGroupID()));
-        }
-
-        // 消息接收者信息
-        message.setToUserId(mUser.getUserId());
-
-        // 消息类型
-        message.setMessageType(JimUtil.getMessageType(msg));
-        message.setTimestamp(new Date().getTime());
-
-        if (Constant.MSG_TYPE_TEXT.equals(message.getMessageType())) {
-            // 文字
-            TextContent messageContent = (TextContent) msg.getContent();
-            message.setContent(messageContent.getText());
-        } else if (Constant.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
-            // 图片
-            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
-            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
-            message.setMessageBody(JSON.toJSONString(messageBodyMap));
-
-        } else if (Constant.MSG_TYPE_LOCATION.equals(message.getMessageType())) {
-            // 位置
-            Map<String, String> messageMap = JSON.parseObject(msg.getContent().toJson(), Map.class);
-            Map<String, Object> messageBodyMap = JSON.parseObject(messageMap.get("text"), Map.class);
-            message.setMessageBody(JSON.toJSONString(messageBodyMap));
-        }
-
-        com.bc.wechat.entity.Message.save(message);
     }
 
 }

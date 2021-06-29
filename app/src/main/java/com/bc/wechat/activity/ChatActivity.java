@@ -47,6 +47,9 @@ import com.bc.wechat.dao.MessageDao;
 import com.bc.wechat.entity.Message;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.entity.enums.MessageStatus;
+import com.bc.wechat.enums.ViewType;
+import com.bc.wechat.observer.Observer;
+import com.bc.wechat.observer.ObserverManager;
 import com.bc.wechat.utils.CommonUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.utils.JimUtil;
@@ -65,7 +68,6 @@ import java.util.Map;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.content.TextContent;
 import cn.jpush.im.android.api.enums.ConversationType;
@@ -78,7 +80,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  *
  * @author zhou
  */
-public class ChatActivity extends BaseActivity2 implements View.OnClickListener {
+public class ChatActivity extends BaseActivity implements View.OnClickListener, Observer {
 
     private static final int REQUEST_CODE_EMPTY_HISTORY = 1;
     public static final int REQUEST_CODE_CONTEXT_MENU = 2;
@@ -196,24 +198,20 @@ public class ChatActivity extends BaseActivity2 implements View.OnClickListener 
 
     private List<String> mEmojiList;
     private ViewPager mEmojiVp;
+    ObserverManager mObserverManager;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_chat;
+    }
+
+    @Override
+    public void initView() {
         initStatusBar();
         mVolleyUtil = VolleyUtil.getInstance(this);
-        JMessageClient.registerEventReceiver(this);
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mMessageDao = new MessageDao();
-        initView();
-        setUpView();
-        initCamera();
-    }
-
-    private void initView() {
         setTitleStrokeWidth(mFromNickNameTv);
 
         mMessageLv = findViewById(R.id.lv_message);
@@ -341,6 +339,24 @@ public class ChatActivity extends BaseActivity2 implements View.OnClickListener 
         mEmojiCheckedIv.setOnClickListener(this);
 
         mPressToSpeakLl.setOnTouchListener(new PressToSpeakListener());
+
+        setUpView();
+        initCamera();
+
+        if (mObserverManager == null) {
+            mObserverManager = ObserverManager.getInstance();
+            mObserverManager.addObserver(this);
+        }
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     private void setUpView() {
@@ -701,14 +717,12 @@ public class ChatActivity extends BaseActivity2 implements View.OnClickListener 
         mTextMsgEt.setText("");
     }
 
-//    public void onEvent(MessageEvent event) {
-//        handleReceivedMessage(event.getMessage());
-//    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        JMessageClient.unRegisterEventReceiver(this);
+        if (mObserverManager != null) {
+            mObserverManager.removeObserver(this);
+        }
     }
 
     private void sendMessage(String targetType, String targetId, String fromId, String msgType, String body, final int messageIndex) {
@@ -761,12 +775,18 @@ public class ChatActivity extends BaseActivity2 implements View.OnClickListener 
         mMessageLv.setSelection(mMessageLv.getCount() - 1);
     }
 
-    /**
-     * 监听极光收到的消息
-     *
-     * @param msg
-     */
     @Override
+    public void receiveMsg(int viewType, cn.jpush.im.android.api.model.Message msg) {
+        if (ViewType.CHAT.getType() == viewType) {
+            handleReceivedMessage(msg);
+        }
+    }
+
+    /**
+     * 处理极光收到的消息
+     *
+     * @param msg 消息
+     */
     public void handleReceivedMessage(cn.jpush.im.android.api.model.Message msg) {
         // 自己发送出的消息(接收方非自己)自己也能收到
         // 如果是自己发送的消息 则无需处理此条消息
@@ -818,7 +838,7 @@ public class ChatActivity extends BaseActivity2 implements View.OnClickListener 
             message.setMessageBody(JSON.toJSONString(messageBodyMap));
         }
 
-        Message.save(message);
+//        Message.save(message);
 
         if (msg.getTargetType().equals(ConversationType.single)) {
             // 单聊
@@ -1244,4 +1264,5 @@ public class ChatActivity extends BaseActivity2 implements View.OnClickListener 
             }
         }
     }
+
 }
