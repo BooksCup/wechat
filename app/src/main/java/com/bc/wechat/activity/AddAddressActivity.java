@@ -7,16 +7,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
@@ -55,7 +52,7 @@ import java.util.Map;
  *
  * @author zhou
  */
-public class AddAddressActivity extends BaseActivity2 {
+public class AddAddressActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;
@@ -99,27 +96,43 @@ public class AddAddressActivity extends BaseActivity2 {
     @BindView(R.id.vi_post_code)
     View mPostCodeVi;
 
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-
-    private LoadingDialog mDialog;
-
-    private AreaDao mAreaDao;
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    LoadingDialog mDialog;
+    AreaDao mAreaDao;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_or_modify_address);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_add_or_modify_address;
+    }
 
+    @Override
+    public void initView() {
         initStatusBar();
+        mTitleTv.setText(getString(R.string.add_address));
+        setTitleStrokeWidth(mTitleTv);
+    }
 
+    @Override
+    public void initListener() {
+        mNameEt.addTextChangedListener(new TextChange());
+        mPhoneEt.addTextChangedListener(new TextChange());
+        mAddressInfoEt.addTextChangedListener(new TextChange());
+        mAddressDetailEt.addTextChangedListener(new TextChange());
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(AddAddressActivity.this);
         mAreaDao = new AreaDao();
-        initView();
+
         PreferencesUtil.getInstance().init(this);
+        PreferencesUtil.getInstance().setPickedProvince("");
+        PreferencesUtil.getInstance().setPickedCity("");
+        PreferencesUtil.getInstance().setPickedDistrict("");
+        PreferencesUtil.getInstance().setPickedPostCode("");
     }
 
     public void back(View view) {
@@ -155,22 +168,6 @@ public class AddAddressActivity extends BaseActivity2 {
         } else {
             finish();
         }
-    }
-
-    private void initView() {
-        mTitleTv.setText(getString(R.string.add_address));
-
-        setTitleStrokeWidth(mTitleTv);
-
-        PreferencesUtil.getInstance().setPickedProvince("");
-        PreferencesUtil.getInstance().setPickedCity("");
-        PreferencesUtil.getInstance().setPickedDistrict("");
-        PreferencesUtil.getInstance().setPickedPostCode("");
-
-        mNameEt.addTextChangedListener(new TextChange());
-        mPhoneEt.addTextChangedListener(new TextChange());
-        mAddressInfoEt.addTextChangedListener(new TextChange());
-        mAddressDetailEt.addTextChangedListener(new TextChange());
     }
 
     @OnFocusChange({R.id.et_name, R.id.et_phone, R.id.et_address_detail, R.id.et_post_code})
@@ -521,4 +518,5 @@ public class AddAddressActivity extends BaseActivity2 {
         intent.putExtra("locationType", Constant.LOCATION_TYPE_AREA);
         startActivityForResult(intent, REQUEST_CODE_LOCATION);
     }
+
 }

@@ -171,26 +171,18 @@ public class MainActivity extends BaseActivity implements Observer {
                 // 主动加载一次会话
                 mChatsFragment.refreshConversationList();
                 mIndex = 0;
-//                mTitleTv.setText(getString(R.string.tab_chats));
-//                mTitleRl.setVisibility(View.VISIBLE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.app_common_bg);
                 break;
             case R.id.rl_contacts:
                 mIndex = 1;
-//                mTitleTv.setText(getString(R.string.tab_contacts));
-//                mTitleRl.setVisibility(View.VISIBLE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.app_common_bg);
                 break;
             case R.id.rl_discover:
                 mIndex = 2;
-//                mTitleTv.setText(getString(R.string.tab_discover));
-//                mTitleRl.setVisibility(View.VISIBLE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.app_common_bg);
                 break;
             case R.id.rl_me:
                 mIndex = 3;
-//                mTitleTv.setText(getString(R.string.tab_me));
-//                mTitleRl.setVisibility(View.GONE);
                 StatusBarUtil.setStatusBarColor(MainActivity.this, R.color.bottom_text_color_normal);
                 break;
         }
@@ -268,10 +260,10 @@ public class MainActivity extends BaseActivity implements Observer {
         public void onReceive(Context context, Intent intent) {
             try {
                 if (MESSAGE_RECEIVED_ACTION_ADD_FRIENDS_APPLY_MAIN.equals(intent.getAction())) {
-                    String messge = intent.getStringExtra(KEY_MESSAGE);
+                    String message = intent.getStringExtra(KEY_MESSAGE);
                     String extras = intent.getStringExtra(KEY_EXTRAS);
                     StringBuilder showMsg = new StringBuilder();
-                    showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+                    showMsg.append(KEY_MESSAGE + " : " + message + "\n");
                     if (!ExampleUtil.isEmpty(extras)) {
                         showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
                     }

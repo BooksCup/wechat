@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -19,7 +17,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AccountSecurityActivity extends BaseActivity2 {
+public class AccountSecurityActivity extends BaseActivity {
 
     /**
      * 标题
@@ -57,21 +55,27 @@ public class AccountSecurityActivity extends BaseActivity2 {
     @BindView(R.id.rl_more_settings)
     RelativeLayout mMoreSettingRl;
 
-    private User mUser;
+    User mUser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_security);
-        ButterKnife.bind(this);
-        initStatusBar();
-
-        mUser = PreferencesUtil.getInstance().getUser();
-        initView();
+    public int getContentView() {
+        return R.layout.activity_account_security;
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
+        initStatusBar();
         setTitleStrokeWidth(mTitleTv);
+        mUser = PreferencesUtil.getInstance().getUser();
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mWeChatIdTv.setText(mUser.getUserWxId());
         mPhoneTv.setText(mUser.getUserPhone());
     }
@@ -104,4 +108,5 @@ public class AccountSecurityActivity extends BaseActivity2 {
                 break;
         }
     }
+
 }
