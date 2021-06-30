@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,9 +23,7 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -34,7 +31,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AddFriendsBySearchActivity extends BaseActivity2 {
+public class AddFriendsBySearchActivity extends BaseActivity {
 
     private static final String TAG = "AddFriendsBySearch";
 
@@ -55,28 +52,30 @@ public class AddFriendsBySearchActivity extends BaseActivity2 {
     User mUser;
     UserDao mUserDao;
 
+    @Override
+    public int getContentView() {
+        return R.layout.activity_add_friends_by_search;
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friends_by_search);
-        ButterKnife.bind(this);
-
+    public void initView() {
         initStatusBar();
+    }
 
-        initView();
+    @Override
+    public void initListener() {
+        mSearchEt.addTextChangedListener(new TextChange());
+    }
+
+    @Override
+    public void initData() {
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(AddFriendsBySearchActivity.this);
         mUserDao = new UserDao();
-
         // 初始化弹出软键盘
         showKeyboard(mSearchEt);
-    }
-
-    private void initView() {
-        mSearchEt.addTextChangedListener(new TextChange());
     }
 
     @OnClick({R.id.rl_search, R.id.iv_clear})
@@ -192,4 +191,5 @@ public class AddFriendsBySearchActivity extends BaseActivity2 {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
     }
+
 }

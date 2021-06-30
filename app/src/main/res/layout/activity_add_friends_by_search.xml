@@ -14,7 +14,7 @@
         <RelativeLayout
             android:id="@+id/rl_title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_top_bar"
+            android:layout_height="42dp"
             android:background="@color/common_top_bar">
 
             <RelativeLayout
@@ -24,7 +24,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_toLeftOf="@id/tv_add"
-                android:background="#fff">
+                android:background="@drawable/bg_search_friends_et">
 
                 <ImageView
                     android:id="@+id/iv_search"
@@ -47,7 +47,7 @@
                     android:singleLine="true"
                     android:textColor="@color/common_top_title"
                     android:textColorHint="#b5b5b6"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/iv_clear"
@@ -71,7 +71,7 @@
                 android:onClick="back"
                 android:text="@string/cancel"
                 android:textColor="@color/navy_blue"
-                android:textSize="16sp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <RelativeLayout
