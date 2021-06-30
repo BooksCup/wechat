@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -23,11 +21,9 @@ import com.google.zxing.client.android.CaptureActivity2;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -35,7 +31,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AddContactsActivity extends BaseActivity2 {
+public class AddContactsActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_SCAN = 0;
     private static final int REQUEST_CODE_CAMERA = 1;
@@ -46,23 +42,27 @@ public class AddContactsActivity extends BaseActivity2 {
     @BindView(R.id.tv_wx_id)
     TextView mWxIdTv;
 
-    private User mUser;
+    User mUser;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_contacts);
-        ButterKnife.bind(this);
-
-        initStatusBar();
-        mUser = PreferencesUtil.getInstance().getUser();
-        initView();
+    public int getContentView() {
+        return R.layout.activity_add_contacts;
     }
 
-    private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
+    @Override
+    public void initView() {
+        initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
 
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+        mUser = PreferencesUtil.getInstance().getUser();
         mWxIdTv.setText("我的微信号：" + mUser.getUserWxId());
     }
 

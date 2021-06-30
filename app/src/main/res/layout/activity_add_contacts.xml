@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="@dimen/top_back_width"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/top_bar_back_width"
+                android:layout_height="@dimen/top_bar_back_height"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:onClick="back"
@@ -32,42 +32,42 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/iv_back"
                 android:text="@string/add_contacts"
                 android:textColor="@color/common_top_title"
-                android:textSize="16sp" />
+                android:textSize="@dimen/top_bar_title_text_size" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_search"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:background="#fff">
+            android:layout_height="32dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/bg_search_friends_et">
 
             <TextView
                 android:id="@+id/tv_search"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="bottom"
-                android:paddingLeft="46dp"
-                android:paddingBottom="8dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
                 android:singleLine="true"
                 android:text="@string/wechat_id_or_mobile"
                 android:textColor="#C5C5C5"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="21dp"
                 android:layout_height="22dp"
-                android:layout_alignLeft="@id/tv_search"
-                android:layout_alignBottom="@id/tv_search"
-                android:layout_margin="6dp"
-                android:src="@mipmap/icon_add_contacts_search" />
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="3dp"
+                android:layout_toLeftOf="@id/tv_search"
+                android:src="@mipmap/icon_search" />
         </RelativeLayout>
 
         <LinearLayout
@@ -84,12 +84,12 @@
                 android:layout_height="wrap_content"
                 android:text="我的微信号："
                 android:textColor="#888888"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
             <ImageView
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:src="@mipmap/icon_qr_code" />
         </LinearLayout>
@@ -108,7 +108,6 @@
                 android:clickable="true"
                 android:paddingLeft="12dp"
                 android:paddingTop="14dp"
-                android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -140,7 +139,16 @@
                     android:layout_toRightOf="@id/sdv_friend_radar"
                     android:text="添加身边的朋友"
                     android:textColor="#BBBBBB"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/icon_right_arrow" />
             </RelativeLayout>
 
             <View
@@ -157,7 +165,6 @@
                 android:clickable="true"
                 android:paddingLeft="12dp"
                 android:paddingTop="14dp"
-                android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -189,7 +196,16 @@
                     android:layout_toRightOf="@id/sdv_join_private_group"
                     android:text="与身边的朋友进入同一个群聊"
                     android:textColor="#BBBBBB"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/icon_right_arrow" />
             </RelativeLayout>
 
             <View
@@ -207,7 +223,6 @@
                 android:clickable="true"
                 android:paddingLeft="12dp"
                 android:paddingTop="14dp"
-                android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -239,7 +254,16 @@
                     android:layout_toRightOf="@id/sdv_scan"
                     android:text="扫面二维码图片"
                     android:textColor="#BBBBBB"
-                    android:textSize="12sp" />
+                    android:layout_marginTop="3dp"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/icon_right_arrow" />
             </RelativeLayout>
 
             <View
@@ -256,7 +280,6 @@
                 android:clickable="true"
                 android:paddingLeft="12dp"
                 android:paddingTop="14dp"
-                android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -287,8 +310,17 @@
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@id/sdv_mobile_contact"
                     android:text="邀请或添加通讯录中的朋友"
+                    android:layout_marginTop="3dp"
                     android:textColor="#BBBBBB"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/icon_right_arrow" />
             </RelativeLayout>
 
             <View
@@ -305,7 +337,6 @@
                 android:clickable="true"
                 android:paddingLeft="12dp"
                 android:paddingTop="14dp"
-                android:paddingRight="12dp"
                 android:paddingBottom="14dp">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -336,8 +367,17 @@
                     android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@id/sdv_official_accounts"
                     android:text="获取更多资讯和服务"
+                    android:layout_marginTop="3dp"
                     android:textColor="#BBBBBB"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@mipmap/icon_right_arrow" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
