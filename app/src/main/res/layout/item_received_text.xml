@@ -32,20 +32,21 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/chat_avatar_width"
+            android:layout_height="@dimen/chat_avatar_height"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_chat_activity"
             android:scaleType="fitXY"
-            fresco:placeholderImage="@mipmap/default_user_avatar" />
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            fresco:roundedCornerRadius="5dp" />
 
         <com.cxd.chatview.moudle.ChatView xmlns:chat="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cv_chat_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
             android:layout_toRightOf="@id/sdv_avatar"
             android:clickable="true"
             android:focusable="true"
@@ -72,7 +73,7 @@
                 android:maxWidth="216dp"
                 android:text=""
                 android:textColor="#4a4a4a"
-                android:textSize="16dp" />
+                android:textSize="@dimen/chat_msg_text_size" />
         </com.cxd.chatview.moudle.ChatView>
     </RelativeLayout>
 

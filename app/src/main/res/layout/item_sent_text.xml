@@ -40,12 +40,12 @@
             android:focusable="true"
             android:minHeight="36dp"
             android:paddingLeft="10dp"
-            android:paddingTop="9dp"
+            android:paddingTop="10dp"
             android:paddingRight="15dp"
-            android:paddingBottom="9dp"
+            android:paddingBottom="10dp"
             chat:arrow_direction="right"
-            chat:arrow_height="10dp"
-            chat:arrow_up_distance="14dp"
+            chat:arrow_height="12dp"
+            chat:arrow_up_distance="15dp"
             chat:arrow_width="5dp"
             chat:conner_radius="6dp"
             chat:fill_color="@color/wechat_chat_bg"
@@ -63,7 +63,7 @@
                 android:maxWidth="216dp"
                 android:text="你好鸭鸭"
                 android:textColor="@color/common_item_black"
-                android:textSize="14.5dp" />
+                android:textSize="@dimen/chat_msg_text_size" />
         </com.cxd.chatview.moudle.ChatView>
 
         <ProgressBar

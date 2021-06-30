@@ -82,97 +82,106 @@ import cn.jpush.im.android.api.model.UserInfo;
  */
 public class ChatActivity extends BaseActivity implements View.OnClickListener, Observer {
 
-    private static final int REQUEST_CODE_EMPTY_HISTORY = 1;
-    public static final int REQUEST_CODE_CONTEXT_MENU = 2;
-    private static final int REQUEST_CODE_MAP = 3;
-    public static final int REQUEST_CODE_TEXT = 4;
     public static final int REQUEST_CODE_VOICE = 5;
     public static final int REQUEST_CODE_IMAGE_ALBUM = 6;
     public static final int REQUEST_CODE_IMAGE_CAMERA = 7;
     public static final int REQUEST_CODE_LOCATION = 8;
-    public static final int REQUEST_CODE_NET_DISK = 9;
-    public static final int REQUEST_CODE_FILE = 10;
-    public static final int REQUEST_CODE_COPY_AND_PASTE = 11;
-    public static final int REQUEST_CODE_PICK_VIDEO = 12;
-    public static final int REQUEST_CODE_DOWNLOAD_VIDEO = 13;
-    public static final int REQUEST_CODE_VIDEO = 14;
-    public static final int REQUEST_CODE_DOWNLOAD_VOICE = 15;
-    public static final int REQUEST_CODE_SELECT_USER_CARD = 16;
-    public static final int REQUEST_CODE_SEND_USER_CARD = 17;
-    public static final int REQUEST_CODE_CAMERA = 18;
-    public static final int REQUEST_CODE_LOCAL = 19;
-    public static final int REQUEST_CODE_CLICK_DESTORY_IMG = 20;
-    public static final int REQUEST_CODE_GROUP_DETAIL = 21;
-    public static final int REQUEST_CODE_SELECT_VIDEO = 23;
-    public static final int REQUEST_CODE_SELECT_FILE = 24;
-    public static final int REQUEST_CODE_ADD_TO_BLACKLIST = 25;
 
-    public static final int RESULT_CODE_COPY = 1;
-    public static final int RESULT_CODE_DELETE = 2;
-    public static final int RESULT_CODE_FORWARD = 3;
-    public static final int RESULT_CODE_OPEN = 4;
-    public static final int RESULT_CODE_DWONLOAD = 5;
-    public static final int RESULT_CODE_TO_CLOUD = 6;
-    public static final int RESULT_CODE_EXIT_GROUP = 7;
-
-    public static final int CHATTYPE_SINGLE = 1;
-    public static final int CHATTYPE_GROUP = 2;
-    public static final String COPY_IMAGE = "EASEMOBIMG";
-
-    private InputMethodManager mManager;
+    InputMethodManager mManager;
 
     @BindView(R.id.tv_from_nick_name)
     TextView mFromNickNameTv;
 
-    private LinearLayout mMoreLl;
-    private LinearLayout mEmojiContainerLl;
+    @BindView(R.id.ll_more)
+    LinearLayout mMoreLl;
+
+    @BindView(R.id.ll_emoji_container)
+    LinearLayout mEmojiContainerLl;
 
     // 语音和文字切换
     /**
      * 切换成语音
      */
-    private Button mSetModeVoiceBtn;
+    @BindView(R.id.btn_set_mode_voice)
+    Button mSetModeVoiceBtn;
 
     /**
      * 切换成文字
      */
-    private Button mSetModeKeyboardBtn;
+    @BindView(R.id.btn_set_mode_keyboard)
+    Button mSetModeKeyboardBtn;
 
     /**
      * 按住说话
      */
-    private LinearLayout mPressToSpeakLl;
+    @BindView(R.id.ll_press_to_speak)
+    LinearLayout mPressToSpeakLl;
 
-    // 各种消息类型容器
-    private LinearLayout mBtnContainerLl;
-    // 发送图片-"相册"
-    private LinearLayout mImageAlbumLl;
-    // 发送图片-"拍照"
-    private LinearLayout mImageCameraLl;
-    // 位置
-    private LinearLayout mChatLocationLl;
+    /**
+     * 各种消息类型容器
+     */
+    @BindView(R.id.ll_btn_container)
+    LinearLayout mBtnContainerLl;
 
-    // 语音
-    private RelativeLayout mVoiceRecordingContainerRl;
-    private TextView mVoiceRecordingHintTv;
-    private ImageView mVoiceRecordingAnimIv;
-    private AnimationDrawable mVoiceReocrdingAd;
+    /**
+     * 发送图片-"相册"
+     */
+    @BindView(R.id.ll_image_album)
+    LinearLayout mImageAlbumLl;
 
-    private ImageView mEmojiNormalIv;
-    private ImageView mEmojiCheckedIv;
+    /**
+     * 发送图片-"拍照"
+     */
+    @BindView(R.id.ll_image_camera)
+    LinearLayout mImageCameraLl;
 
-    private Button mMoreBtn;
+    /**
+     * 位置
+     */
+    @BindView(R.id.ll_chat_location)
+    LinearLayout mChatLocationLl;
+
+    /**
+     * 语音
+     */
+    @BindView(R.id.rl_voice_recording_container)
+    RelativeLayout mVoiceRecordingContainerRl;
+
+    @BindView(R.id.tv_voice_recording_hint)
+    TextView mVoiceRecordingHintTv;
+
+    @BindView(R.id.iv_voice_recording_anim)
+    ImageView mVoiceRecordingAnimIv;
+
+    @BindView(R.id.iv_emoji_normal)
+    ImageView mEmojiNormalIv;
+
+    @BindView(R.id.iv_emoji_checked)
+    ImageView mEmojiCheckedIv;
+
+    @BindView(R.id.btn_more)
+    Button mMoreBtn;
 
     @BindView(R.id.btn_send)
     Button mSendBtn;
 
-    private EditText mTextMsgEt;
-    private RelativeLayout mTextMsgRl;
+    @BindView(R.id.rl_text_msg)
+    RelativeLayout mTextMsgRl;
 
-    private ImageView mSingleChatSettingIv;
+    @BindView(R.id.et_text_msg)
+    EditText mTextMsgEt;
 
-    private ListView mMessageLv;
-    private MessageAdapter mMessageAdapter;
+    List<String> mEmojiList;
+    ViewPager mEmojiVp;
+
+    @BindView(R.id.iv_setting)
+    ImageView mSingleChatSettingIv;
+
+    @BindView(R.id.lv_message)
+    ListView mMessageLv;
+
+    AnimationDrawable mVoiceRecordingAd;
+    MessageAdapter mMessageAdapter;
     List<Message> mMessageList;
 
     // intent传值
@@ -194,10 +203,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     MessageDao mMessageDao;
 
-    private String mImageName;
+    String mImageName;
 
-    private List<String> mEmojiList;
-    private ViewPager mEmojiVp;
+
     ObserverManager mObserverManager;
 
     @Override
@@ -214,33 +222,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         mMessageDao = new MessageDao();
         setTitleStrokeWidth(mFromNickNameTv);
 
-        mMessageLv = findViewById(R.id.lv_message);
-
-        mMoreLl = findViewById(R.id.ll_more);
-        mEmojiContainerLl = findViewById(R.id.ll_emoji_container);
-        mBtnContainerLl = findViewById(R.id.ll_btn_container);
-
-        mImageAlbumLl = findViewById(R.id.ll_image_album);
-        mImageCameraLl = findViewById(R.id.ll_image_camera);
-        mChatLocationLl = findViewById(R.id.ll_chat_location);
-
-        mSetModeVoiceBtn = findViewById(R.id.btn_set_mode_voice);
-        mSetModeKeyboardBtn = findViewById(R.id.btn_set_mode_keyboard);
-
-        mPressToSpeakLl = findViewById(R.id.ll_press_to_speak);
-
-        mEmojiNormalIv = findViewById(R.id.iv_emoji_normal);
-        mEmojiCheckedIv = findViewById(R.id.iv_emoji_checked);
-
-        mMoreBtn = findViewById(R.id.btn_more);
-
-        mTextMsgEt = findViewById(R.id.et_text_msg);
-        mTextMsgRl = findViewById(R.id.rl_text_msg);
-
-        mSingleChatSettingIv = findViewById(R.id.iv_setting);
-
-        mVoiceRecordingContainerRl = findViewById(R.id.rl_voice_recording_container);
-        mVoiceRecordingHintTv = findViewById(R.id.tv_voice_recording_hint);
         mVoiceRecordingAnimIv = findViewById(R.id.iv_voice_recording_anim);
 
         mTextMsgEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -1232,8 +1213,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     try {
                         v.setPressed(true);
                         // 播放动画
-                        mVoiceReocrdingAd = (AnimationDrawable) mVoiceRecordingAnimIv.getDrawable();
-                        mVoiceReocrdingAd.start();
+                        mVoiceRecordingAd = (AnimationDrawable) mVoiceRecordingAnimIv.getDrawable();
+                        mVoiceRecordingAd.start();
 
                         mVoiceRecordingContainerRl.setVisibility(View.VISIBLE);
                         mVoiceRecordingHintTv.setText(getString(R.string.move_up_to_cancel));

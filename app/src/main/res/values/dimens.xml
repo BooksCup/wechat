@@ -85,6 +85,7 @@
     <dimen name="chat_multiple_type_text_margin_top">5dp</dimen>
 
     <dimen name="conversation_msg_text_size">13.5sp</dimen>
-    <dimen name="chat_avatar_width">36dp</dimen>
-    <dimen name="chat_avatar_height">36dp</dimen>
+    <dimen name="chat_avatar_width">38dp</dimen>
+    <dimen name="chat_avatar_height">38dp</dimen>
+    <dimen name="chat_msg_text_size">15.5sp</dimen>
 </resources>
