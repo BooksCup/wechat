@@ -1,5 +1,7 @@
 package com.bc.wechat.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -184,6 +186,20 @@ public abstract class BaseActivity extends FragmentActivity {
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         // 控制字体加粗的程度
         paint.setStrokeWidth(0.8f);
+    }
+
+    /**
+     * 复制普通文本至剪切板
+     *
+     * @param plainText 普通文本
+     */
+    protected void setPlainTextClipData(String plainText) {
+        // 获取剪贴板管理器
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        // 创建普通字符型ClipData
+        ClipData mClipData = ClipData.newPlainText("Label", plainText);
+        // 将ClipData内容放到系统剪贴板里
+        cm.setPrimaryClip(mClipData);
     }
 
 }

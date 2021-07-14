@@ -32,7 +32,6 @@ import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import java.util.List;
 
@@ -73,8 +72,6 @@ public class MyAddressActivity extends BaseActivity {
     public void initView() {
         initStatusBar();
         setTitleStrokeWidth(mTitleTv);
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
     }
 
     @Override
@@ -238,6 +235,22 @@ public class MyAddressActivity extends BaseActivity {
             public void onClick(View view) {
                 mPopupWindow.dismiss();
                 deleteAddress(mUser.getUserId(), address.getAddressId());
+            }
+        });
+
+        // 复制
+        RelativeLayout mCopyAddressRl = view.findViewById(R.id.rl_copy_address);
+        mCopyAddressRl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringBuffer addressBuffer = new StringBuffer();
+                addressBuffer.append("收货人：").append(address.getName()).append("\n")
+                        .append("手机号码：").append(address.getPhone()).append("\n")
+                        .append("详细地址：").append(address.getProvince()).append(address.getCity())
+                        .append(address.getDistrict()).append(address.getDetail()).append("\n")
+                        .append("邮政编码：").append(address.getPostCode()).append("\n");
+                setPlainTextClipData(addressBuffer.toString());
+                mPopupWindow.dismiss();
             }
         });
 
