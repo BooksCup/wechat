@@ -65,12 +65,12 @@ public class MyAddressAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         StringBuffer userInfoBuffer = new StringBuffer();
-        userInfoBuffer.append(address.getAddressName()).append("，").append(address.getAddressPhone());
+        userInfoBuffer.append(address.getName()).append("，").append(address.getPhone());
         StringBuffer addressInfoBuffer = new StringBuffer();
-        addressInfoBuffer.append(address.getAddressProvince()).append(" ")
-                .append(address.getAddressCity()).append(" ")
-                .append(address.getAddressDistrict()).append(" ")
-                .append(address.getAddressDetail());
+        addressInfoBuffer.append(address.getProvince()).append(" ")
+                .append(address.getCity()).append(" ")
+                .append(address.getDistrict()).append(" ")
+                .append(address.getDetail());
         viewHolder.mUserInfoTv.setText(userInfoBuffer.toString());
         viewHolder.mAddressInfoTv.setText(addressInfoBuffer.toString());
         viewHolder.mRootLl.setOnClickListener(new View.OnClickListener() {
@@ -96,4 +96,5 @@ public class MyAddressAdapter extends BaseAdapter {
         TextView mUserInfoTv;
         TextView mAddressInfoTv;
     }
+
 }

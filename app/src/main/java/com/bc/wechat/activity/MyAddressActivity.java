@@ -3,7 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,19 +32,18 @@ import com.bc.wechat.entity.Address;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 我的地址
  *
  * @author zhou
  */
-public class MyAddressActivity extends BaseActivity2 {
+public class MyAddressActivity extends BaseActivity {
 
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
@@ -67,14 +65,26 @@ public class MyAddressActivity extends BaseActivity2 {
     PopupWindow mPopupWindow;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_address);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_my_address;
+    }
+
+    @Override
+    public void initView() {
         initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+        QMUIStatusBarHelper.translucent(this);
+        QMUIStatusBarHelper.setStatusBarLightMode(this);
+    }
 
-        initView();
+    @Override
+    public void initListener() {
+        mAddIv.setOnClickListener(view ->
+                startActivity(new Intent(MyAddressActivity.this, AddAddressActivity.class)));
+    }
 
+    @Override
+    public void initData() {
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mAddressDao = new AddressDao();
@@ -84,13 +94,6 @@ public class MyAddressActivity extends BaseActivity2 {
         mAddressLv.setAdapter(mMyAddressAdapter);
 
         getAddressListByUserId(mUser.getUserId());
-    }
-
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
-
-        mAddIv.setOnClickListener(view ->
-                startActivity(new Intent(MyAddressActivity.this, AddAddressActivity.class)));
     }
 
     public void back(View view) {
@@ -246,6 +249,7 @@ public class MyAddressActivity extends BaseActivity2 {
                 mPopupWindow.dismiss();
             }
         });
+
     }
 
     /**

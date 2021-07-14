@@ -10,16 +10,17 @@ import java.io.Serializable;
  * @author zhou
  */
 public class Address extends SugarRecord implements Serializable {
+
     private String addressId;
     private String userId;
-    private String addressName;
-    private String addressPhone;
-    private String addressProvince;
-    private String addressCity;
-    private String addressDistrict;
-    private String addressInfo;
-    private String addressDetail;
-    private String addressPostCode;
+    private String name;
+    private String phone;
+    private String province;
+    private String city;
+    private String district;
+    private String info;
+    private String detail;
+    private String postCode;
     private String createTime;
     private String modifyTime;
 
@@ -27,41 +28,40 @@ public class Address extends SugarRecord implements Serializable {
 
     }
 
-    public Address(String addressName,
-                   String addressPhone,
-                   String addressProvince,
-                   String addressCity,
-                   String addressDistrict,
-                   String addressDetail,
-                   String addressPostCode) {
-        this.addressName = addressName;
-        this.addressPhone = addressPhone;
-        this.addressProvince = addressProvince;
-        this.addressCity = addressCity;
-        this.addressDistrict = addressDistrict;
-        this.addressDetail = addressDetail;
-        this.addressPostCode = addressPostCode;
+    public Address(String name,
+                   String phone,
+                   String province,
+                   String city,
+                   String district,
+                   String detail,
+                   String postCode) {
+        this.name = name;
+        this.phone = phone;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.detail = detail;
+        this.postCode = postCode;
     }
 
     public Address(String userId,
                    String addressId,
-                   String addressName,
-                   String addressPhone,
-                   String addressProvince,
-                   String addressCity,
-                   String addressDistrict,
-                   String addressDetail,
-                   String addressPostCode) {
+                   String name,
+                   String phone,
+                   String province,
+                   String city,
+                   String district,
+                   String detail,
+                   String postCode) {
         this.userId = userId;
         this.addressId = addressId;
-        this.addressId = addressId;
-        this.addressName = addressName;
-        this.addressPhone = addressPhone;
-        this.addressProvince = addressProvince;
-        this.addressCity = addressCity;
-        this.addressDistrict = addressDistrict;
-        this.addressDetail = addressDetail;
-        this.addressPostCode = addressPostCode;
+        this.name = name;
+        this.phone = phone;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.detail = detail;
+        this.postCode = postCode;
     }
 
     public String getAddressId() {
@@ -80,68 +80,68 @@ public class Address extends SugarRecord implements Serializable {
         this.userId = userId;
     }
 
-    public String getAddressName() {
-        return addressName;
+    public String getName() {
+        return name;
     }
 
-    public void setAddressName(String addressName) {
-        this.addressName = addressName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAddressPhone() {
-        return addressPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setAddressPhone(String addressPhone) {
-        this.addressPhone = addressPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getAddressProvince() {
-        return addressProvince;
+    public String getProvince() {
+        return province;
     }
 
-    public void setAddressProvince(String addressProvince) {
-        this.addressProvince = addressProvince;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
-    public String getAddressCity() {
-        return addressCity;
+    public String getCity() {
+        return city;
     }
 
-    public void setAddressCity(String addressCity) {
-        this.addressCity = addressCity;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getAddressDistrict() {
-        return addressDistrict;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setAddressDistrict(String addressDistrict) {
-        this.addressDistrict = addressDistrict;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
-    public String getAddressInfo() {
-        return addressInfo;
+    public String getInfo() {
+        return info;
     }
 
-    public void setAddressInfo(String addressInfo) {
-        this.addressInfo = addressInfo;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
-    public String getAddressDetail() {
-        return addressDetail;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setAddressDetail(String addressDetail) {
-        this.addressDetail = addressDetail;
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
-    public String getAddressPostCode() {
-        return addressPostCode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setAddressPostCode(String addressPostCode) {
-        this.addressPostCode = addressPostCode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getCreateTime() {
@@ -159,4 +159,5 @@ public class Address extends SugarRecord implements Serializable {
     public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
+
 }

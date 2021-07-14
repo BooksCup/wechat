@@ -197,7 +197,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private String memberNum;
 
     User mUser;
-    private VolleyUtil mVolleyUtil;
+    VolleyUtil mVolleyUtil;
 
     private int mMessageIndex;
 

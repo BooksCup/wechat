@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.Editable;
@@ -40,11 +39,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
@@ -53,7 +50,7 @@ import butterknife.OnFocusChange;
  *
  * @author zhou
  */
-public class ModifyAddressActivity extends BaseActivity2 {
+public class ModifyAddressActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_CONTACTS = 0;
     private static final int REQUEST_CODE_LOCATION = 1;
@@ -105,23 +102,6 @@ public class ModifyAddressActivity extends BaseActivity2 {
     private AddressDao mAddressDao;
     private AreaDao mAreaDao;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_or_modify_address);
-        ButterKnife.bind(this);
-
-        initStatusBar();
-
-        mVolleyUtil = VolleyUtil.getInstance(this);
-        mUser = PreferencesUtil.getInstance().getUser();
-        mDialog = new LoadingDialog(ModifyAddressActivity.this);
-        mAddressDao = new AddressDao();
-        mAreaDao = new AreaDao();
-        initView();
-        PreferencesUtil.getInstance().init(this);
-    }
-
     public void back(View view) {
         String addressName = mNameEt.getText().toString();
         String addressPhone = mPhoneEt.getText().toString();
@@ -129,11 +109,11 @@ public class ModifyAddressActivity extends BaseActivity2 {
         String addressDetail = mAddressDetailEt.getText().toString();
         String addressPostCode = mPostCodeEt.getText().toString();
 
-        boolean addressNameModifyFlag = !TextUtils.isEmpty(addressName) && !mAddress.getAddressName().equals(addressName);
-        boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getAddressPhone().equals(addressPhone);
-        boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getAddressInfo().equals(addressInfo);
-        boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getAddressDetail().equals(addressDetail);
-        boolean addressPostCodeModifyFlag = !mAddress.getAddressPostCode().equals(addressPostCode);
+        boolean addressNameModifyFlag = !TextUtils.isEmpty(addressName) && !mAddress.getName().equals(addressName);
+        boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getPhone().equals(addressPhone);
+        boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getInfo().equals(addressInfo);
+        boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getDetail().equals(addressDetail);
+        boolean addressPostCodeModifyFlag = !mAddress.getPostCode().equals(addressPostCode);
 
         if (addressNameModifyFlag ||
                 addressPhoneModifyFlag ||
@@ -163,33 +143,53 @@ public class ModifyAddressActivity extends BaseActivity2 {
         }
     }
 
-    private void initView() {
+    @Override
+    public int getContentView() {
+        return R.layout.activity_add_or_modify_address;
+    }
+
+    @Override
+    public void initView() {
+        initStatusBar();
         mTitleTv.setText(getString(R.string.modify_address));
         setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+        mNameEt.addTextChangedListener(new TextChange());
+        mPhoneEt.addTextChangedListener(new TextChange());
+        mAddressInfoEt.addTextChangedListener(new TextChange());
+        mAddressDetailEt.addTextChangedListener(new TextChange());
+        mPostCodeEt.addTextChangedListener(new TextChange());
+    }
+
+    @Override
+    public void initData() {
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mUser = PreferencesUtil.getInstance().getUser();
+        mDialog = new LoadingDialog(ModifyAddressActivity.this);
+        mAddressDao = new AddressDao();
+        mAreaDao = new AreaDao();
+        PreferencesUtil.getInstance().init(this);
 
         mAddress = (Address) getIntent().getSerializableExtra("address");
 
-        mNameEt.setText(mAddress.getAddressName());
-        mPhoneEt.setText(mAddress.getAddressPhone());
-        mAddressDetailEt.setText(mAddress.getAddressDetail());
-        mPostCodeEt.setText(mAddress.getAddressPostCode());
+        mNameEt.setText(mAddress.getName());
+        mPhoneEt.setText(mAddress.getPhone());
+        mAddressDetailEt.setText(mAddress.getDetail());
+        mPostCodeEt.setText(mAddress.getPostCode());
         StringBuffer addressInfoBuffer = new StringBuffer();
-        addressInfoBuffer.append(mAddress.getAddressProvince()).append(" ")
-                .append(mAddress.getAddressCity()).append(" ")
-                .append(mAddress.getAddressDistrict());
-        mAddress.setAddressInfo(addressInfoBuffer.toString());
+        addressInfoBuffer.append(mAddress.getProvince()).append(" ")
+                .append(mAddress.getCity()).append(" ")
+                .append(mAddress.getDistrict());
+        mAddress.setInfo(addressInfoBuffer.toString());
         mAddressInfoEt.setText(addressInfoBuffer.toString());
 
         PreferencesUtil.getInstance().setPickedProvince("");
         PreferencesUtil.getInstance().setPickedCity("");
         PreferencesUtil.getInstance().setPickedDistrict("");
         PreferencesUtil.getInstance().setPickedPostCode("");
-
-        mNameEt.addTextChangedListener(new TextChange());
-        mPhoneEt.addTextChangedListener(new TextChange());
-        mAddressInfoEt.addTextChangedListener(new TextChange());
-        mAddressDetailEt.addTextChangedListener(new TextChange());
-        mPostCodeEt.addTextChangedListener(new TextChange());
     }
 
     class TextChange implements TextWatcher {
@@ -207,11 +207,11 @@ public class ModifyAddressActivity extends BaseActivity2 {
             String addressDetail = mAddressDetailEt.getText().toString();
             String addressPostCode = mPostCodeEt.getText().toString();
 
-            boolean addressNameModifyFlag = !TextUtils.isEmpty(addressName) && !mAddress.getAddressName().equals(addressName);
-            boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getAddressPhone().equals(addressPhone);
-            boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getAddressInfo().equals(addressInfo);
-            boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getAddressDetail().equals(addressDetail);
-            boolean addressPostCodeModifyFlag = !mAddress.getAddressPostCode().equals(addressPostCode);
+            boolean addressNameModifyFlag = !TextUtils.isEmpty(addressName) && !mAddress.getName().equals(addressName);
+            boolean addressPhoneModifyFlag = !TextUtils.isEmpty(addressPhone) && !mAddress.getPhone().equals(addressPhone);
+            boolean addressInfoModifyFlag = !TextUtils.isEmpty(addressInfo) && !mAddress.getInfo().equals(addressInfo);
+            boolean addressDetailModifyFlag = !TextUtils.isEmpty(addressDetail) && !mAddress.getDetail().equals(addressDetail);
+            boolean addressPostCodeModifyFlag = !mAddress.getPostCode().equals(addressPostCode);
 
             if (addressNameModifyFlag ||
                     addressPhoneModifyFlag ||
@@ -381,13 +381,13 @@ public class ModifyAddressActivity extends BaseActivity2 {
                                final String addressCity, final String addressDistrict, final String addressDetail, final String addressPostCode) {
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address/" + addressId;
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("addressName", addressName);
-        paramMap.put("addressPhone", addressPhone);
-        paramMap.put("addressProvince", addressProvince);
-        paramMap.put("addressCity", addressCity);
-        paramMap.put("addressDistrict", addressDistrict);
-        paramMap.put("addressDetail", addressDetail);
-        paramMap.put("addressPostCode", addressPostCode);
+        paramMap.put("name", addressName);
+        paramMap.put("phone", addressPhone);
+        paramMap.put("province", addressProvince);
+        paramMap.put("city", addressCity);
+        paramMap.put("district", addressDistrict);
+        paramMap.put("detail", addressDetail);
+        paramMap.put("postCode", addressPostCode);
 
         mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
             @Override
@@ -544,4 +544,5 @@ public class ModifyAddressActivity extends BaseActivity2 {
         intent.putExtra("locationType", Constant.LOCATION_TYPE_AREA);
         startActivityForResult(intent, REQUEST_CODE_LOCATION);
     }
+
 }

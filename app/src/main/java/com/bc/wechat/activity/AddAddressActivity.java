@@ -301,13 +301,13 @@ public class AddAddressActivity extends BaseActivity {
                             final String addressPostCode) {
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address";
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("addressName", addressName);
-        paramMap.put("addressPhone", addressPhone);
-        paramMap.put("addressProvince", addressProvince);
-        paramMap.put("addressCity", addressCity);
-        paramMap.put("addressDistrict", addressDistrict);
-        paramMap.put("addressDetail", addressDetail);
-        paramMap.put("addressPostCode", addressPostCode);
+        paramMap.put("name", addressName);
+        paramMap.put("phone", addressPhone);
+        paramMap.put("province", addressProvince);
+        paramMap.put("city", addressCity);
+        paramMap.put("district", addressDistrict);
+        paramMap.put("detail", addressDetail);
+        paramMap.put("postCode", addressPostCode);
 
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
