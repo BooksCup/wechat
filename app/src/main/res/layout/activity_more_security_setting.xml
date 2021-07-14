@@ -53,7 +53,7 @@
                     android:id="@+id/rl_qq_id"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -97,7 +97,7 @@
                     android:id="@+id/rl_email"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -142,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 

@@ -53,7 +53,7 @@
                     android:id="@+id/rl_edit_contact"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -99,7 +99,7 @@
                     android:id="@+id/rl_privacy"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -159,7 +159,7 @@
                     android:id="@+id/rl_add_to_home_screen"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -193,7 +193,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -232,7 +232,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -277,7 +277,7 @@
                     android:id="@+id/rl_report"
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true"
                     android:paddingLeft="12dp">
 
@@ -304,7 +304,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dip"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/btn_list_item_bg"
+                    android:background="@drawable/bg_list_item_click"
                     android:clickable="true">
 
                     <TextView

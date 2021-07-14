@@ -39,7 +39,7 @@
         android:id="@+id/rl_avatar"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -83,7 +83,7 @@
         android:id="@+id/rl_nick_name"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -132,7 +132,7 @@
         android:id="@+id/rl_wx_id"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -182,7 +182,7 @@
         android:id="@+id/rl_qr_code"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -224,7 +224,7 @@
         android:id="@+id/rl_more"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -252,7 +252,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="@dimen/me_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView

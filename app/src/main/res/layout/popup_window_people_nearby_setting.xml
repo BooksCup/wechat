@@ -10,7 +10,7 @@
         android:id="@+id/rl_females_only"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -34,7 +34,7 @@
         android:id="@+id/rl_males_only"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -58,7 +58,7 @@
         android:id="@+id/rl_view_all"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -83,7 +83,7 @@
         android:id="@+id/rl_greetings"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -107,7 +107,7 @@
         android:id="@+id/rl_clear_location"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -129,7 +129,7 @@
         android:id="@+id/rl_cancel"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView

@@ -52,7 +52,7 @@
         android:id="@+id/rl_male"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -88,7 +88,7 @@
         android:id="@+id/rl_female"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView

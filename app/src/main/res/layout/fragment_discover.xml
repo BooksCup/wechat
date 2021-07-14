@@ -46,7 +46,7 @@
         android:id="@+id/rl_moments"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -83,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="@dimen/discover_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -126,7 +126,7 @@
         android:id="@+id/rl_shake"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -163,7 +163,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="8dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -206,7 +206,7 @@
         android:id="@+id/rl_search"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -243,7 +243,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="@dimen/discover_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -291,7 +291,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="@dimen/discover_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -334,7 +334,7 @@
         android:id="@+id/rl_game"
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 
@@ -371,7 +371,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/discover_layout_height"
         android:layout_marginTop="@dimen/discover_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/discover_layout_padding_left">
 

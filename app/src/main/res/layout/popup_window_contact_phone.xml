@@ -10,7 +10,7 @@
         android:id="@+id/rl_call"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -42,7 +42,7 @@
         android:id="@+id/rl_copy"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView
@@ -64,7 +64,7 @@
         android:id="@+id/rl_cancel"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <TextView

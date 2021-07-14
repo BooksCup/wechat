@@ -109,7 +109,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
         android:layout_marginTop="@dimen/me_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
 
@@ -146,7 +146,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
         android:layout_marginTop="@dimen/me_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
 
@@ -189,7 +189,7 @@
         android:id="@+id/rl_my_posts"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
 
@@ -232,7 +232,7 @@
         android:id="@+id/rl_cards_offers"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
 
@@ -275,7 +275,7 @@
         android:id="@+id/rl_sticker_gallery"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
 
@@ -312,7 +312,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_layout_height"
         android:layout_marginTop="@dimen/me_thick_divider_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true"
         android:paddingLeft="@dimen/me_layout_padding_left">
 

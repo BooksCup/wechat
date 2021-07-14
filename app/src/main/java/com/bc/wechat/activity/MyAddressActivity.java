@@ -130,7 +130,7 @@ public class MyAddressActivity extends BaseActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                         Address address = addressList.get(position);
-                        showOperation(view, address);
+                        showOperation(address);
                         return false;
                     }
                 });
@@ -145,7 +145,7 @@ public class MyAddressActivity extends BaseActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                         Address address = addressList.get(position);
-                        showOperation(view, address);
+                        showOperation(address);
                         return false;
                     }
                 });
@@ -166,7 +166,7 @@ public class MyAddressActivity extends BaseActivity {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                         Address address = addressList.get(position);
-                        showOperation(view, address);
+                        showOperation(address);
                         return false;
                     }
                 });
@@ -186,9 +186,9 @@ public class MyAddressActivity extends BaseActivity {
     }
 
 
-    private void showOperation(View view, final Address address) {
+    private void showOperation(final Address address) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = layoutInflater.inflate(R.layout.popup_window_address_setting, null);
+        final View view = layoutInflater.inflate(R.layout.popup_window_address_setting, null);
         // 给popwindow加上动画效果
         LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
         view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
@@ -221,10 +221,10 @@ public class MyAddressActivity extends BaseActivity {
         mModifyAddressRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPopupWindow.dismiss();
                 Intent intent = new Intent(MyAddressActivity.this, ModifyAddressActivity.class);
                 intent.putExtra("address", address);
                 startActivity(intent);
+                mPopupWindow.dismiss();
             }
         });
 
@@ -233,8 +233,8 @@ public class MyAddressActivity extends BaseActivity {
         mDeleteAddressRl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPopupWindow.dismiss();
                 deleteAddress(mUser.getUserId(), address.getAddressId());
+                mPopupWindow.dismiss();
             }
         });
 

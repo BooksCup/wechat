@@ -10,7 +10,7 @@
         android:id="@+id/rl_new_friends"
         android:layout_width="match_parent"
         android:layout_height="@dimen/contacts_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -61,7 +61,7 @@
         android:id="@+id/rl_group_chats"
         android:layout_width="match_parent"
         android:layout_height="@dimen/contacts_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -97,7 +97,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/contacts_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -133,7 +133,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/contacts_layout_height"
-        android:background="@drawable/btn_list_item_bg"
+        android:background="@drawable/bg_list_item_click"
         android:clickable="true">
 
         <com.facebook.drawee.view.SimpleDraweeView
