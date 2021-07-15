@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -48,7 +47,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -56,7 +54,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class MyProfileActivity extends BaseActivity2 {
+public class MyProfileActivity extends BaseActivity {
 
     // 头像
     @BindView(R.id.rl_avatar)
@@ -110,22 +108,28 @@ public class MyProfileActivity extends BaseActivity2 {
     String mImageName;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_my_profile;
+    }
+
+    @Override
+    public void initView() {
         initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(MyProfileActivity.this);
 
         PreferencesUtil.getInstance().init(this);
         mUser = PreferencesUtil.getInstance().getUser();
-        initView();
-        initCamera();
-    }
-
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
         mNickNameTv.setText(mUser.getUserNickName());
 
         String userAvatar = mUser.getUserAvatar();
@@ -135,6 +139,7 @@ public class MyProfileActivity extends BaseActivity2 {
         }
 
         renderWxId(mUser);
+        initCamera();
     }
 
     @OnClick({R.id.rl_avatar, R.id.sdv_avatar, R.id.rl_nick_name, R.id.rl_wx_id,

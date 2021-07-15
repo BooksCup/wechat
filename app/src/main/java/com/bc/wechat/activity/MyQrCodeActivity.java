@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,14 +13,13 @@ import com.bc.wechat.utils.PreferencesUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 二维码名片
  *
  * @author zhou
  */
-public class MyQrCodeActivity extends BaseActivity2 {
+public class MyQrCodeActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -44,19 +42,24 @@ public class MyQrCodeActivity extends BaseActivity2 {
     User mUser;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_qr_code);
-        ButterKnife.bind(this);
-        initStatusBar();
-
-        mUser = PreferencesUtil.getInstance().getUser();
-        initView();
+    public int getContentView() {
+        return R.layout.activity_my_qr_code;
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
+        initStatusBar();
         setTitleStrokeWidth(mTitleTv);
+    }
 
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+        mUser = PreferencesUtil.getInstance().getUser();
         if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
             mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
         }
@@ -80,4 +83,5 @@ public class MyQrCodeActivity extends BaseActivity2 {
     public void back(View view) {
         finish();
     }
+
 }
