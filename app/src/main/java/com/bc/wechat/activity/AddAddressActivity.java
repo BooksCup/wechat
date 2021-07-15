@@ -60,9 +60,15 @@ public class AddAddressActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
+    /**
+     * 收货人
+     */
     @BindView(R.id.et_name)
     EditText mNameEt;
 
+    /**
+     * 手机号码
+     */
     @BindView(R.id.et_phone)
     EditText mPhoneEt;
 
@@ -136,14 +142,14 @@ public class AddAddressActivity extends BaseActivity {
     }
 
     public void back(View view) {
-        String addressName = mNameEt.getText().toString();
-        String addressPhone = mPhoneEt.getText().toString();
+        String name = mNameEt.getText().toString();
+        String phone = mPhoneEt.getText().toString();
         String addressInfo = mAddressInfoEt.getText().toString();
         String addressDetail = mAddressDetailEt.getText().toString();
         String addressPostCode = mPostCodeEt.getText().toString();
 
-        if (!TextUtils.isEmpty(addressName) ||
-                !TextUtils.isEmpty(addressPhone) ||
+        if (!TextUtils.isEmpty(name) ||
+                !TextUtils.isEmpty(phone) ||
                 !TextUtils.isEmpty(addressInfo) ||
                 !TextUtils.isEmpty(addressDetail) ||
                 !TextUtils.isEmpty(addressPostCode)) {
@@ -213,13 +219,13 @@ public class AddAddressActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String addressName = mNameEt.getText().toString();
-            String addressPhone = mPhoneEt.getText().toString();
+            String name = mNameEt.getText().toString();
+            String phone = mPhoneEt.getText().toString();
             String addressInfo = mAddressInfoEt.getText().toString();
             String addressDetail = mAddressDetailEt.getText().toString();
 
-            if (!TextUtils.isEmpty(addressName) &&
-                    !TextUtils.isEmpty(addressPhone) &&
+            if (!TextUtils.isEmpty(name) &&
+                    !TextUtils.isEmpty(phone) &&
                     !TextUtils.isEmpty(addressInfo) &&
                     !TextUtils.isEmpty(addressDetail)) {
                 // 可保存
@@ -248,14 +254,14 @@ public class AddAddressActivity extends BaseActivity {
             case R.id.tv_save:
                 mDialog.setMessage(getString(R.string.saving));
                 mDialog.show();
-                String addressName = mNameEt.getText().toString();
-                String addressPhone = mPhoneEt.getText().toString();
+                String name = mNameEt.getText().toString();
+                String phone = mPhoneEt.getText().toString();
                 String addressProvince = PreferencesUtil.getInstance().getPickedProvince();
                 String addressCity = PreferencesUtil.getInstance().getPickedCity();
                 String addressDistrict = PreferencesUtil.getInstance().getPickedDistrict();
                 String addressDetail = mAddressDetailEt.getText().toString();
                 String addressPostCode = mPostCodeEt.getText().toString();
-                addAddress(addressName, addressPhone, addressProvince, addressCity, addressDistrict, addressDetail, addressPostCode);
+                addAddress(name, phone, addressProvince, addressCity, addressDistrict, addressDetail, addressPostCode);
                 break;
             case R.id.iv_address_book:
                 permissions = new String[]{"android.permission.READ_CONTACTS"};
@@ -295,14 +301,14 @@ public class AddAddressActivity extends BaseActivity {
         }
     }
 
-    private void addAddress(final String addressName, final String addressPhone,
+    private void addAddress(final String name, final String phone,
                             final String addressProvince,
                             final String addressCity, final String addressDistrict, final String addressDetail,
                             final String addressPostCode) {
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/address";
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("name", addressName);
-        paramMap.put("phone", addressPhone);
+        paramMap.put("name", name);
+        paramMap.put("phone", phone);
         paramMap.put("province", addressProvince);
         paramMap.put("city", addressCity);
         paramMap.put("district", addressDistrict);
@@ -315,7 +321,7 @@ public class AddAddressActivity extends BaseActivity {
                 mDialog.dismiss();
 
                 // 持久化
-                Address address = new Address(addressName, addressPhone, addressProvince,
+                Address address = new Address(name, phone, addressProvince,
                         addressCity, addressDistrict, addressDetail, addressPostCode);
                 Address.save(address);
 

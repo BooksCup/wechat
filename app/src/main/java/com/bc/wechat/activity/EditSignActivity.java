@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.Spannable;
@@ -22,16 +21,14 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 修改个性签名
  *
  * @author zhou
  */
-public class EditSignActivity extends BaseActivity2 {
+public class EditSignActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -52,17 +49,19 @@ public class EditSignActivity extends BaseActivity2 {
     User mUser;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_sign);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_edit_sign;
+    }
+
+    @Override
+    public void initView() {
         initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
 
-        PreferencesUtil.getInstance().init(this);
-        mVolleyUtil = VolleyUtil.getInstance(this);
-        mDialog = new LoadingDialog(EditSignActivity.this);
-        initView();
-
+    @Override
+    public void initListener() {
+        mSignEt.addTextChangedListener(new TextChange());
         mSaveTv.setOnClickListener(view -> {
             mDialog.setMessage(getString(R.string.saving));
             mDialog.show();
@@ -70,12 +69,13 @@ public class EditSignActivity extends BaseActivity2 {
             String userNickName = mSignEt.getText().toString();
             updateUserSign(userId, userNickName);
         });
-
     }
 
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
-
+    @Override
+    public void initData() {
+        PreferencesUtil.getInstance().init(this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(EditSignActivity.this);
         mUser = PreferencesUtil.getInstance().getUser();
 
         mSignEt.setText(mUser.getUserSign());
@@ -91,7 +91,6 @@ public class EditSignActivity extends BaseActivity2 {
             Spannable spanText = (Spannable) charSequence;
             Selection.setSelection(spanText, charSequence.length());
         }
-        mSignEt.addTextChangedListener(new TextChange());
     }
 
     class TextChange implements TextWatcher {
