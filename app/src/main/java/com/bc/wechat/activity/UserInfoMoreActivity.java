@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,16 +8,18 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * "用户信息"-"更多信息"
  *
  * @author zhou
  */
-public class UserInfoMoreActivity extends BaseActivity2 {
+public class UserInfoMoreActivity extends BaseActivity {
+
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
+
     @BindView(R.id.tv_whats_up)
     TextView mWhatsUpTv;
 
@@ -26,31 +27,30 @@ public class UserInfoMoreActivity extends BaseActivity2 {
     TextView mFromTv;
 
     UserDao mUserDao;
-    private String mContactId;
-    private User mContact;
+    String mContactId;
+    User mContact;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info_more);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_user_info_more;
+    }
+
+    @Override
+    public void initView() {
         initStatusBar();
-
-        initData();
-        initView();
+        setTitleStrokeWidth(mTitleTv);
     }
 
-    public void back(View view) {
-        finish();
+    @Override
+    public void initListener() {
+
     }
 
-    private void initData() {
+    @Override
+    public void initData() {
         mUserDao = new UserDao();
         mContactId = getIntent().getStringExtra("contactId");
         mContact = mUserDao.getUserById(mContactId);
-    }
-
-    private void initView() {
         mWhatsUpTv.setText(mContact.getUserSign());
         // 来源
         if (Constant.CONTACTS_FROM_PHONE.equals(mContact.getUserContactFrom())) {
@@ -63,4 +63,9 @@ public class UserInfoMoreActivity extends BaseActivity2 {
 
         }
     }
+
+    public void back(View view) {
+        finish();
+    }
+
 }
