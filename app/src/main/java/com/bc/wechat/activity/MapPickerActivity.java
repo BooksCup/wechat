@@ -8,9 +8,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +50,7 @@ import com.bc.wechat.service.LocationService;
 import com.bc.wechat.utils.BitmapLoaderUtil;
 import com.bc.wechat.utils.FileUtil;
 import com.bc.wechat.widget.ConfirmDialog;
+import com.smarx.notchlib.NotchScreenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,74 +59,87 @@ import java.util.UUID;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
 
 /**
  * 地图选择器
  *
  * @author zhou
  */
-public class MapPickerActivity extends BaseActivity2 implements AdapterView.OnItemClickListener {
+public class MapPickerActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
+    private static final String TAG = MapPickerActivity.class.getCanonicalName();
     private static final int REQUEST_PERMISSION_STORAGE = 0x01;
 
     List<PoiInfo> mPoiInfoList;
-    private Point mCenterPoint;
+    Point mCenterPoint;
     // 地理编码
-    private GeoCoder mGeoCoder;
+    GeoCoder mGeoCoder;
 
     PoiInfo mCurentInfo;
 
-
     // 当前经纬度和地理位置
-    private LatLng mLocationLatLng;
-    private MapView mMapView;
+    LatLng mLocationLatLng;
 
-    private LocationService locationService;
-    private BaiduMap mBaiduMap;
+    @BindView(R.id.mv_map)
+    MapView mMapView;
 
-    private RelativeLayout mMapHolderRl;
-    private Button mSendLocationBtn;
+    LocationService locationService;
+    BaiduMap mBaiduMap;
 
-    private TextView mStatusTv;
+    @BindView(R.id.rl_map_holder)
+    RelativeLayout mMapHolderRl;
 
-    private MapPickerAdapter mMapPickerAdapter;
-    private ListView mPoiLv;
+    @BindView(R.id.btn_send_location)
+    Button mSendLocationBtn;
 
-    private boolean mSendLocation;
-    private String mLocationType;
+    @BindView(R.id.tv_status)
+    TextView mStatusTv;
 
-    private int mWidth;
-    private int mHeight;
-    private float mDensity;
-    private int mDensityDpi;
+    @BindView(R.id.lv_near_by)
+    ListView mPoiLv;
 
-    private double mLatitude;
-    private double mLongitude;
+    MapPickerAdapter mMapPickerAdapter;
+    boolean mSendLocation;
+    String mLocationType;
+
+    int mWidth;
+    int mHeight;
+    float mDensity;
+    int mDensityDpi;
+
+    double mLatitude;
+    double mLongitude;
     // 地址
     // 类似于"江苏省南京市江宁区庄排路158号"
-    private String mAddress;
+    String mAddress;
 
     // 详细地址
-    private String mAddressDetail;
+    String mAddressDetail;
 
     // 省
-    private String mProvince;
+    String mProvince;
     // 市
-    private String mCity;
+    String mCity;
     // 区，如:"江宁区"
-    private String mDistrict;
+    String mDistrict;
     // 街道，如:"庄排路"
-    private String mStreet;
+    String mStreet;
     // 门牌号，如"158号"
-    private String mStreetNumber;
-    private String mName;
-
+    String mStreetNumber;
+    String mName;
+    NotchScreenManager notchScreenManager = NotchScreenManager.getInstance();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_picker);
+    public int getContentView() {
+        return R.layout.activity_map_picker;
+    }
 
+    @Override
+    public void initView() {
+        // 支持显示到刘海区域
+        notchScreenManager.setDisplayInNotch(this);
+        getNotch();
         initStatusBar();
 
         locationService = WechatApplication.locationService;
@@ -137,63 +151,7 @@ public class MapPickerActivity extends BaseActivity2 implements AdapterView.OnIt
         mDensityDpi = displayMetrics.densityDpi;
         mWidth = displayMetrics.widthPixels;
         mHeight = displayMetrics.heightPixels;
-
         initMap();
-        initView();
-    }
-
-    private void initMap() {
-        mMapView = findViewById(R.id.mv_map);
-        mBaiduMap = mMapView.getMap();
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-        mMapView.showZoomControls(false);
-        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.zoomTo(19.0f);
-        mBaiduMap.setMapStatus(mapStatusUpdate);
-        mBaiduMap.setOnMapTouchListener(new BaiduMap.OnMapTouchListener() {
-            @Override
-            public void onTouch(MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    if (null == mCenterPoint) {
-                        return;
-                    }
-                    mCenterPoint = mBaiduMap.getMapStatus().targetScreen;
-                    LatLng currentLatLng = mBaiduMap.getProjection().fromScreenLocation(mCenterPoint);
-                    mGeoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(currentLatLng));
-                }
-            }
-        });
-
-//        mBaiduMap.setOnMapTouchListener(null);
-        // 初始化POI信息列表
-        mPoiInfoList = new ArrayList<>();
-        // 初始化当前mapView中心屏幕坐标，初始化当前地理位置
-        mCenterPoint = mBaiduMap.getMapStatus().targetScreen;
-        mLocationLatLng = mBaiduMap.getMapStatus().target;
-        // 定位
-        mBaiduMap.setMyLocationEnabled(true);
-        // 隐藏百度logo zoomControl
-        int count = mMapView.getChildCount();
-        for (int i = 0; i < count; i++) {
-            View child = mMapView.getChildAt(i);
-            if (child instanceof ImageView || child instanceof ZoomControls) {
-                child.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        mGeoCoder = GeoCoder.newInstance();
-        mGeoCoder.setOnGetGeoCodeResultListener(mGeoListener);
-
-        mPoiLv = findViewById(R.id.lv_near_by);
-        mPoiLv.setOnItemClickListener(this);
-
-        mMapPickerAdapter = new MapPickerAdapter(MapPickerActivity.this, mPoiInfoList);
-        mPoiLv.setAdapter(mMapPickerAdapter);
-    }
-
-    private void initView() {
-        mStatusTv = findViewById(R.id.tv_status);
-        mMapHolderRl = findViewById(R.id.rl_map_holder);
-        mSendLocationBtn = findViewById(R.id.btn_send_location);
 
         mSendLocation = getIntent().getBooleanExtra("sendLocation", false);
         mLocationType = getIntent().getStringExtra("locationType");
@@ -238,6 +196,78 @@ public class MapPickerActivity extends BaseActivity2 implements AdapterView.OnIt
                 // 需要动态申请存储权限
                 String[] permissions = new String[]{"android.permission.WRITE_EXTERNAL_STORAGE"};
                 requestPermissions(MapPickerActivity.this, permissions, REQUEST_PERMISSION_STORAGE);
+            }
+        });
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    private void initMap() {
+        mBaiduMap = mMapView.getMap();
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        mMapView.showZoomControls(false);
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.zoomTo(19.0f);
+        mBaiduMap.setMapStatus(mapStatusUpdate);
+        mBaiduMap.setOnMapTouchListener(new BaiduMap.OnMapTouchListener() {
+            @Override
+            public void onTouch(MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (null == mCenterPoint) {
+                        return;
+                    }
+                    mCenterPoint = mBaiduMap.getMapStatus().targetScreen;
+                    LatLng currentLatLng = mBaiduMap.getProjection().fromScreenLocation(mCenterPoint);
+                    mGeoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(currentLatLng));
+                }
+            }
+        });
+
+//        mBaiduMap.setOnMapTouchListener(null);
+        // 初始化POI信息列表
+        mPoiInfoList = new ArrayList<>();
+        // 初始化当前mapView中心屏幕坐标，初始化当前地理位置
+        mCenterPoint = mBaiduMap.getMapStatus().targetScreen;
+        mLocationLatLng = mBaiduMap.getMapStatus().target;
+        // 定位
+        mBaiduMap.setMyLocationEnabled(true);
+        // 隐藏百度logo zoomControl
+        int count = mMapView.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = mMapView.getChildAt(i);
+            if (child instanceof ImageView || child instanceof ZoomControls) {
+                child.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        mGeoCoder = GeoCoder.newInstance();
+        mGeoCoder.setOnGetGeoCodeResultListener(mGeoListener);
+
+        mPoiLv.setOnItemClickListener(this);
+
+        mMapPickerAdapter = new MapPickerAdapter(MapPickerActivity.this, mPoiInfoList);
+        mPoiLv.setAdapter(mMapPickerAdapter);
+    }
+
+    /**
+     * 获取刘海区域信息
+     */
+    private void getNotch() {
+        // 获取刘海屏信息
+        notchScreenManager.getNotchInfo(this, notchScreenInfo -> {
+            Log.i(TAG, "Is this screen notch? " + notchScreenInfo.hasNotch);
+            if (notchScreenInfo.hasNotch) {
+                for (Rect rect : notchScreenInfo.notchRects) {
+                    Log.i(TAG, "notch screen Rect =  " + rect.toShortString());
+                    // 将被遮挡的TextView左移
+                }
             }
         });
     }
@@ -453,7 +483,6 @@ public class MapPickerActivity extends BaseActivity2 implements AdapterView.OnIt
             // 发送定位信息
             sendLocationMsg();
         }
-
     }
 
     /**
@@ -517,4 +546,5 @@ public class MapPickerActivity extends BaseActivity2 implements AdapterView.OnIt
         setResult(RESULT_OK, intent);
         finish();
     }
+
 }

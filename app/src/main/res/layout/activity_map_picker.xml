@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -21,7 +20,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="10dp"
                 android:background="@mipmap/icon_top_back_default"
                 android:gravity="center"
@@ -34,7 +33,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/btn_save"
                 android:gravity="center"
