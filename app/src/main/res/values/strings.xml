@@ -284,4 +284,5 @@
 
     <string name="call">呼叫</string>
     <string name="from">来源</string>
+    <string name="voice_or_video_call">音视频通话</string>
 </resources>

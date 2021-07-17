@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -38,9 +37,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -48,7 +45,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class UserInfoActivity extends BaseActivity2 {
+public class UserInfoActivity extends BaseActivity {
 
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
@@ -126,35 +123,44 @@ public class UserInfoActivity extends BaseActivity2 {
     @BindView(R.id.rl_moments)
     RelativeLayout mMomentsRl;
 
+    @BindView(R.id.tv_operate)
+    TextView mOperateTv;
+
+    @BindView(R.id.tv_voice_or_video_call)
+    TextView mVoiceOrVideoCallTv;
+
     User mUser;
     User mContact;
     VolleyUtil mVolleyUtil;
     UserDao mUserDao;
     String mContactId;
 
+    @Override
+    public int getContentView() {
+        return R.layout.activity_user_info;
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
-        ButterKnife.bind(this);
-
+    public void initView() {
         initStatusBar();
         StatusBarUtil.setStatusBarColor(UserInfoActivity.this, R.color.status_bar_color_white);
+        setTitleStrokeWidth(mOperateTv);
+        setTitleStrokeWidth(mVoiceOrVideoCallTv);
+    }
 
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUserDao = new UserDao();
-
-        initView();
-    }
-
-    private void initView() {
         mContactId = getIntent().getStringExtra("userId");
-
         mContact = mUserDao.getUserById(mContactId);
         loadData(mContact);
-
         getContactFromServer(mUser.getUserId(), mContactId);
     }
 
@@ -533,4 +539,5 @@ public class UserInfoActivity extends BaseActivity2 {
         lp.alpha = bgAlpha;
         getWindow().setAttributes(lp);
     }
+
 }

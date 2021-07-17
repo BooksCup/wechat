@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ebebeb"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -19,7 +21,7 @@
             android:id="@+id/iv_back"
             android:layout_width="@dimen/top_bar_back_width"
             android:layout_height="@dimen/top_bar_back_height"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:onClick="back"
             android:scaleType="centerInside"
@@ -28,9 +30,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/setting_btn_margin_right">
+            android:layout_marginEnd="@dimen/setting_btn_margin_right">
 
             <ImageView
                 android:id="@+id/iv_setting"
@@ -59,7 +61,7 @@
                     android:id="@+id/sdv_avatar"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     fresco:placeholderImage="@mipmap/default_user_avatar"
                     fresco:roundedCornerRadius="5dp" />
@@ -69,23 +71,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@id/sdv_avatar"
+                    android:layout_toEndOf="@id/sdv_avatar"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/ll_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="2dp"
-                        android:layout_toRightOf="@id/sdv_avatar"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="兔八哥"
+                            android:text=""
                             android:textColor="#353535"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -94,7 +95,7 @@
                             android:id="@+id/iv_sex"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="3dp"
                             android:src="@mipmap/icon_sex_male" />
                     </LinearLayout>
@@ -103,10 +104,8 @@
                         android:id="@+id/ll_nick_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/ll_name"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@id/sdv_avatar"
                         android:orientation="horizontal"
                         android:visibility="gone">
 
@@ -123,17 +122,15 @@
                         android:id="@+id/ll_wx_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/ll_nick_name"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@id/sdv_avatar"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_wx_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="微信号："
+                            android:text=""
                             android:textColor="#aaaaaa"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -142,10 +139,8 @@
                         android:id="@+id/ll_region"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/ll_nick_name"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@id/sdv_avatar"
                         android:orientation="horizontal">
 
                         <TextView
@@ -162,9 +157,9 @@
                     android:id="@+id/iv_star_friends"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="15dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:background="@mipmap/icon_star"
                     android:visibility="visible" />
 
@@ -186,9 +181,9 @@
                     android:id="@+id/tv_edit_contact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/edit_contact"
                     android:textColor="#353535"
                     android:textSize="@dimen/common_item_text_size" />
@@ -196,16 +191,16 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@mipmap/icon_right_arrow" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:background="#DBDBDB" />
             </RelativeLayout>
 
@@ -232,18 +227,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="#ffffff"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_tags_temp"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="8dp"
-                    android:text="标签"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/tag"
                     android:textColor="#353535"
                     android:textSize="@dimen/common_item_text_size" />
 
@@ -252,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/tv_tags_temp"
+                    android:layout_toEndOf="@id/tv_tags_temp"
                     android:ellipsize="end"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -263,15 +256,16 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
                     android:src="@mipmap/icon_right_arrow" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:background="#DBDBDB" />
             </RelativeLayout>
 
@@ -280,18 +274,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="#ffffff"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp"
                 android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_desc_temp"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="8dp"
-                    android:text="描述"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/description"
                     android:textColor="@color/common_item_black"
                     android:textSize="@dimen/common_item_text_size" />
 
@@ -300,7 +292,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/tv_desc_temp"
+                    android:layout_toEndOf="@id/tv_desc_temp"
                     android:ellipsize="end"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -311,15 +303,16 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
                     android:src="@mipmap/icon_right_arrow" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:background="#DBDBDB" />
             </RelativeLayout>
 
@@ -334,10 +327,10 @@
                     android:id="@+id/tv_moments"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="20dp"
-                    android:text="朋友圈"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/moments"
                     android:textColor="#353535"
                     android:textSize="@dimen/common_item_text_size" />
 
@@ -346,8 +339,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/tv_moment"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/tv_moments"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -356,8 +349,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/sdv_moments_photo_1"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/sdv_moments_photo_1"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -366,8 +359,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/sdv_moments_photo_2"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/sdv_moments_photo_2"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -376,24 +369,24 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/sdv_moments_photo_3"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/sdv_moments_photo_3"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@mipmap/icon_right_arrow" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:background="#DBDBDB" />
             </RelativeLayout>
 
@@ -407,19 +400,19 @@
                     android:id="@+id/tv_more"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:text="更多信息"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/more_info"
                     android:textColor="#353535"
                     android:textSize="@dimen/common_item_text_size" />
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:src="@mipmap/icon_right_arrow" />
             </RelativeLayout>
 
@@ -428,14 +421,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:layout_marginTop="10dp"
-                android:background="#ffffff">
+                android:background="#ffffff"
+                tools:ignore="RelativeOverlap">
 
                 <ImageView
                     android:id="@+id/iv_operate"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/tv_operate"
+                    android:layout_toStartOf="@id/tv_operate"
                     android:src="@mipmap/icon_send_msg" />
 
                 <TextView
@@ -444,8 +438,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="8dp"
-                    android:text="发消息"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="@string/send_message"
                     android:textColor="#5B6784"
                     android:textSize="@dimen/common_item_text_size" />
 
@@ -457,27 +452,29 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_audio_vedio_call"
+                android:id="@+id/rl_voice_or_video_call"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:background="#ffffff">
+                android:background="#ffffff"
+                tools:ignore="RelativeOverlap">
 
                 <ImageView
-                    android:id="@+id/iv_audio_vedio_call"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:id="@+id/iv_voice_or_video_call"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/tv_audio_vedio_call"
-                    android:src="@mipmap/icon_audio_vedio_call" />
+                    android:layout_toStartOf="@+id/tv_voice_or_video_call"
+                    android:src="@mipmap/icon_voice_or_video_call" />
 
                 <TextView
-                    android:id="@+id/tv_audio_vedio_call"
+                    android:id="@+id/tv_voice_or_video_call"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="8dp"
-                    android:text="音视频通话"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:text="@string/voice_or_video_call"
                     android:textColor="#5B6784"
                     android:textSize="@dimen/common_item_text_size" />
 
