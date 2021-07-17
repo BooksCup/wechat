@@ -28,6 +28,12 @@
     <string name="mobile_security">手机安全防护</string>
     <string name="more_security_setting">更多安全设置</string>
 
+    <string name="user_settings">资料设置</string>
+    <string name="share_contact">把他推荐给朋友</string>
+    <string name="add_star">设为星标朋友</string>
+    <string name="block_contact">加入黑名单</string>
+    <string name="report">投诉</string>
+
     <string name="login_via_mobile_number">手机号登录</string>
     <string name="use_mobile_number_to_login">用手机号登录</string>
     <string name="login_via_wechat_id_email_qq_id">微信号/QQ号/邮箱登录</string>

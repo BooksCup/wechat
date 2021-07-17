@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Icon;
 import android.os.Build;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,9 +32,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.im.android.api.JMessageClient;
 
@@ -44,7 +41,7 @@ import cn.jpush.im.android.api.JMessageClient;
  *
  * @author zhou
  */
-public class UserSettingActivity extends BaseActivity2 {
+public class UserSettingActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_ADD_TO_HOME_SCREEN = 1;
 
@@ -112,12 +109,23 @@ public class UserSettingActivity extends BaseActivity2 {
     User mUser;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_setting);
-        ButterKnife.bind(this);
-        initStatusBar();
+    public int getContentView() {
+        return R.layout.activity_user_setting;
+    }
 
+    @Override
+    public void initView() {
+        initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mUserDao = new UserDao();
         mIsFriend = getIntent().getStringExtra("isFriend");
         mContactId = getIntent().getStringExtra("contactId");
@@ -126,15 +134,6 @@ public class UserSettingActivity extends BaseActivity2 {
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(UserSettingActivity.this);
-        initView();
-    }
-
-    public void back(View view) {
-        finish();
-    }
-
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
         if (Constant.IS_NOT_FRIEND.equals(mIsFriend)) {
             // 非好友
             mPrivacyRl.setVisibility(View.GONE);
@@ -147,6 +146,10 @@ public class UserSettingActivity extends BaseActivity2 {
             // 好友
         }
         loadData(mContact);
+    }
+
+    public void back(View view) {
+        finish();
     }
 
     private void loadData(User user) {
