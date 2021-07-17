@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_common_bg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -17,7 +19,7 @@
             android:id="@+id/iv_back"
             android:layout_width="@dimen/top_bar_back_width"
             android:layout_height="@dimen/top_bar_back_height"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:onClick="back"
             android:scaleType="centerInside"
@@ -27,8 +29,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:text="@string/settings"
             android:textColor="@color/common_top_title"
             android:textSize="@dimen/top_bar_title_text_size" />
@@ -37,326 +39,333 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadingEdge="none">
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        tools:ignore="RelativeOverlap">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rl_account_security"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="50dip"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                <RelativeLayout
-                    android:id="@+id/rl_account_security"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/account_security"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="@dimen/common_thick_divider_height"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/notifications"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:background="@color/divider_grey" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/account_security"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+            <RelativeLayout
+                android:id="@+id/rl_do_not_disturb"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/do_not_disturb"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_notifications"
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:layout_marginTop="@dimen/common_thick_divider_height"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:background="@color/divider_grey" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/notifications"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+            <RelativeLayout
+                android:id="@+id/rl_chats"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/chats"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="@color/divider_grey" />
-                </RelativeLayout>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_do_not_disturb"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:background="@color/divider_grey" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/do_not_disturb"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+            <RelativeLayout
+                android:id="@+id/rl_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/privacy"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="@color/divider_grey" />
-                </RelativeLayout>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
 
-                <RelativeLayout
-                    android:id="@+id/rl_chats"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:background="@color/divider_grey" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/chats"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+            <RelativeLayout
+                android:id="@+id/rl_general"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/general"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="@color/divider_grey" />
-                </RelativeLayout>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+            </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/rl_privacy"
+            <RelativeLayout
+                android:id="@+id/rl_about"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="@dimen/common_thick_divider_height"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/about"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+                    android:layout_height="0.1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:background="@color/divider_grey" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/privacy"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+            <RelativeLayout
+                android:id="@+id/rl_help_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/help_feedback"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="@color/divider_grey" />
-                </RelativeLayout>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+            </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/rl_general"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+            <RelativeLayout
+                android:id="@+id/rl_wechat_services"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="@dimen/common_thick_divider_height"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/general"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/setting_btn_margin_right"
+                    android:text="@string/wechat_services"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_right_arrow" />
+            </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/rl_about"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:layout_marginTop="@dimen/common_thick_divider_height"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
+            <RelativeLayout
+                android:id="@+id/rl_switch_account"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="@dimen/common_thick_divider_height"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/about"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/switch_account"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
+            <RelativeLayout
+                android:id="@+id/rl_log_out"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:layout_marginTop="@dimen/common_thick_divider_height"
+                android:background="@drawable/bg_list_item_click"
+                android:clickable="true"
+                android:focusable="true">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.1dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:background="@color/divider_grey" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_help_feedback"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/help_feedback"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_wechat_services"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:layout_marginTop="@dimen/common_thick_divider_height"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true"
-                    android:paddingLeft="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/setting_btn_margin_right"
-                        android:text="@string/wechat_services"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:src="@mipmap/icon_right_arrow" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_switch_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:layout_marginTop="@dimen/common_thick_divider_height"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/switch_account"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rl_log_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dip"
-                    android:layout_marginTop="@dimen/common_thick_divider_height"
-                    android:background="@drawable/bg_list_item_click"
-                    android:clickable="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/log_out"
-                        android:textColor="#353535"
-                        android:textSize="@dimen/setting_text_size" />
-                </RelativeLayout>
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/log_out"
+                    android:textColor="#353535"
+                    android:textSize="@dimen/setting_text_size" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

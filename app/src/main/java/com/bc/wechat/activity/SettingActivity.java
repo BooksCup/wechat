@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -20,7 +18,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class SettingActivity extends BaseActivity2 {
+public class SettingActivity extends BaseActivity {
 
     /**
      * 标题
@@ -47,17 +45,24 @@ public class SettingActivity extends BaseActivity2 {
     RelativeLayout mLogOutRl;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        ButterKnife.bind(this);
-        initStatusBar();
-        PreferencesUtil.getInstance().init(this);
-        initView();
+    public int getContentView() {
+        return R.layout.activity_setting;
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
+        initStatusBar();
         setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+        PreferencesUtil.getInstance().init(this);
     }
 
     public void back(View view) {
