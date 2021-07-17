@@ -21,6 +21,7 @@ import com.bc.wechat.R;
  * @author zhou
  */
 public class ConfirmDialog extends Dialog {
+
     private Context mContext;
 
     private TextView mTitleTv;
@@ -47,7 +48,7 @@ public class ConfirmDialog extends Dialog {
         this.mContent = content;
         this.mConfirm = confirm;
         this.mCancel = cancel;
-        initalize();
+        initialize();
     }
 
     public ConfirmDialog(Context context, String title, String content,
@@ -59,11 +60,11 @@ public class ConfirmDialog extends Dialog {
         this.mConfirm = confirm;
         this.mCancel = cancel;
         this.mOkBtnColor = okBtnColor;
-        initalize();
+        initialize();
     }
 
     // 初始化View
-    private void initalize() {
+    private void initialize() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.dialog_confirm, null);
         setContentView(view);
@@ -97,25 +98,16 @@ public class ConfirmDialog extends Dialog {
             mOkBtn.setTextColor(mOkBtnColor);
         }
 
-
-        mOkBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                if (mDialogClickListener != null) {
-                    mDialogClickListener.onOkClick();
-                }
+        mOkBtn.setOnClickListener(v -> {
+            dismiss();
+            if (mDialogClickListener != null) {
+                mDialogClickListener.onOkClick();
             }
         });
-        mCancelBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                if (mDialogClickListener != null) {
-                    mDialogClickListener.onCancelClick();
-                }
+        mCancelBtn.setOnClickListener(v -> {
+            dismiss();
+            if (mDialogClickListener != null) {
+                mDialogClickListener.onCancelClick();
             }
         });
     }
