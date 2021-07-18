@@ -3,8 +3,6 @@ package com.bc.wechat.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,9 +23,7 @@ import com.bc.wechat.entity.User;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.StatusBarUtil;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -35,7 +31,8 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class QqIdLinkBeginActivity extends BaseActivity2 {
+public class QqIdLinkBeginActivity extends BaseActivity {
+
     @BindView(R.id.ll_root)
     LinearLayout mRootLl;
 
@@ -52,29 +49,33 @@ public class QqIdLinkBeginActivity extends BaseActivity2 {
     ImageView mSettingIv;
 
     // 弹窗
-    private PopupWindow mPopupWindow;
+    PopupWindow mPopupWindow;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_link_qq_id_begin);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_link_qq_id_begin;
+    }
+
+    @Override
+    public void initView() {
         initStatusBar();
         StatusBarUtil.setStatusBarColor(QqIdLinkBeginActivity.this, R.color.status_bar_color_white);
+        setTitleStrokeWidth(mTitleTv);
+    }
 
-        initView();
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         renderView();
     }
 
     public void back(View view) {
         finish();
     }
-
-    private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-    }
-
 
     @Override
     protected void onResume() {
