@@ -14,6 +14,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.activity.NewFriendsActivity;
 import com.bc.wechat.activity.UserInfoActivity;
 import com.bc.wechat.activity.UserInfoFileHelperActivity;
+import com.bc.wechat.activity.UserInfoMyActivity;
 import com.bc.wechat.adapter.FriendsAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
@@ -58,6 +59,7 @@ public class ContactsFragment extends BaseFragment {
     List<User> mStarFriendList;
 
     UserDao mUserDao;
+    User mUser;
 
     @Nullable
     @Override
@@ -73,6 +75,7 @@ public class ContactsFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         PreferencesUtil.getInstance().init(getActivity());
         mUserDao = new UserDao();
+        mUser = PreferencesUtil.getInstance().getUser();
 
         setTitleStrokeWidth(mTitleTv);
 
@@ -122,8 +125,12 @@ public class ContactsFragment extends BaseFragment {
                     User friend = mStarFriendList.get(position - 1);
                     String userType = friend.getUserType();
                     if (Constant.USER_TYPE_REG.equals(userType)) {
-                        startActivity(new Intent(getActivity(), UserInfoActivity.class).
-                                putExtra("userId", friend.getUserId()));
+                        if (friend.getUserId().equals(mUser.getUserId())) {
+                            startActivity(new Intent(getActivity(), UserInfoMyActivity.class));
+                        } else {
+                            startActivity(new Intent(getActivity(), UserInfoActivity.class).
+                                    putExtra("userId", friend.getUserId()));
+                        }
                     } else if (Constant.USER_TYPE_WEIXIN.equals(userType)) {
                         startActivity(new Intent(getActivity(), UserInfoActivity.class).
                                 putExtra("userId", friend.getUserId()));
