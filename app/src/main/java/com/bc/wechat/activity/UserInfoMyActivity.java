@@ -34,6 +34,9 @@ public class UserInfoMyActivity extends BaseActivity {
     @BindView(R.id.tv_wx_id)
     TextView mWxIdTv;
 
+    @BindView(R.id.tv_operate)
+    TextView mOperateTv;
+
     User mUser;
 
     @Override
@@ -45,6 +48,7 @@ public class UserInfoMyActivity extends BaseActivity {
     public void initView() {
         initStatusBar();
         StatusBarUtil.setStatusBarColor(UserInfoMyActivity.this, R.color.status_bar_color_white);
+        setTitleStrokeWidth(mOperateTv);
     }
 
     @Override

@@ -19,8 +19,9 @@
             android:id="@+id/iv_back"
             android:layout_width="@dimen/top_bar_back_width"
             android:layout_height="@dimen/top_bar_back_height"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/back"
             android:onClick="back"
             android:scaleType="centerInside"
             android:src="@drawable/btn_top_back" />
@@ -44,7 +45,7 @@
                     android:id="@+id/sdv_avatar"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     fresco:placeholderImage="@mipmap/default_user_avatar"
                     fresco:roundedCornerRadius="5dp" />
@@ -54,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@id/sdv_avatar"
+                    android:layout_toEndOf="@id/sdv_avatar"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -63,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="2dp"
-                        android:layout_toRightOf="@id/sdv_avatar"
+                        android:layout_toEndOf="@id/sdv_avatar"
                         android:orientation="horizontal">
 
                         <TextView
@@ -89,9 +90,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_nick_name"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@id/sdv_avatar"
+                        android:layout_toEndOf="@id/sdv_avatar"
                         android:orientation="horizontal">
 
                         <TextView
@@ -137,8 +138,8 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp" />
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp" />
 
             <LinearLayout
                 android:id="@+id/ll_mobiles"
@@ -146,8 +147,8 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp" />
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp" />
 
             <RelativeLayout
                 android:id="@+id/rl_moments"
@@ -159,10 +160,10 @@
                     android:id="@+id/tv_moments"
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="20dp"
-                    android:text="朋友圈"
+                    android:paddingStart="20dp"
+                    android:text="@string/moments"
                     android:textColor="#353535"
                     android:textSize="@dimen/common_item_text_size" />
 
@@ -171,8 +172,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/tv_moment"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/tv_moment"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -181,8 +182,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/sdv_moments_photo_1"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/sdv_moments_photo_1"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -191,8 +192,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/sdv_moments_photo_2"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/sdv_moments_photo_2"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -201,8 +202,8 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/sdv_moments_photo_3"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/sdv_moments_photo_3"
                     android:visibility="gone"
                     fresco:placeholderImage="@mipmap/default_user_avatar" />
 
@@ -254,7 +255,7 @@
                     android:layout_width="27dp"
                     android:layout_height="27dp"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/tv_operate"
+                    android:layout_toStartOf="@id/tv_operate"
                     android:src="@mipmap/icon_send_msg" />
 
                 <TextView
@@ -263,16 +264,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
                     android:text="发消息"
                     android:textColor="#5B6784"
                     android:textSize="@dimen/common_item_text_size" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="#DBDBDB" />
             </RelativeLayout>
 
         </LinearLayout>
