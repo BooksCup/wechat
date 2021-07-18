@@ -1,12 +1,9 @@
 package com.bc.wechat.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.User;
@@ -18,59 +15,65 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 开始绑定QQ号
  *
  * @author zhou
  */
-public class QqIdLinkActivity extends BaseActivity2 implements View.OnClickListener, View.OnFocusChangeListener {
+public class QqIdLinkActivity extends BaseActivity implements View.OnFocusChangeListener {
 
-    private EditText mQqIdEt;
-    private EditText mQqPasswordEt;
-    private TextView mCompleteTv;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private View mQqIdVi;
-    private View mQqPasswordVi;
+    @BindView(R.id.et_qq_id)
+    EditText mQqIdEt;
 
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-    private LoadingDialog mDialog;
+    @BindView(R.id.et_qq_password)
+    EditText mQqPasswordEt;
+
+    @BindView(R.id.vi_qq_id)
+    View mQqIdVi;
+
+    @BindView(R.id.vi_qq_password)
+    View mQqPasswordVi;
+
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    LoadingDialog mDialog;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_link_qq_id);
+    public int getContentView() {
+        return R.layout.activity_link_qq_id;
+    }
 
+    @Override
+    public void initView() {
         initStatusBar();
         StatusBarUtil.setStatusBarColor(QqIdLinkActivity.this, R.color.bottom_text_color_normal);
+        setTitleStrokeWidth(mTitleTv);
+    }
 
+    @Override
+    public void initListener() {
+        mQqIdEt.setOnFocusChangeListener(this);
+        mQqPasswordEt.setOnFocusChangeListener(this);
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
-
-        initView();
     }
 
     public void back(View view) {
         finish();
     }
 
-    private void initView() {
-        mQqIdEt = findViewById(R.id.et_qq_id);
-        mQqPasswordEt = findViewById(R.id.et_qq_password);
-        mCompleteTv = findViewById(R.id.tv_complete);
-
-        mQqIdVi = findViewById(R.id.vi_qq_id);
-        mQqPasswordVi = findViewById(R.id.vi_qq_password);
-        mCompleteTv.setOnClickListener(this);
-
-        mQqIdEt.setOnFocusChangeListener(this);
-        mQqPasswordEt.setOnFocusChangeListener(this);
-    }
-
-    @Override
+    @OnClick({R.id.tv_complete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_complete:
@@ -120,21 +123,14 @@ public class QqIdLinkActivity extends BaseActivity2 implements View.OnClickListe
         paramMap.put("userQqId", userQqId);
         paramMap.put("userQqPassword", userQqPassword);
 
-        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
-                showAlertDialog(QqIdLinkActivity.this, "提示", "已绑定。", "确定", true);
-                mUser.setUserQqId(userQqId);
-                mUser.setUserQqPassword(userQqPassword);
-                mUser.setUserIsQqLinked(Constant.QQ_ID_LINKED);
-                PreferencesUtil.getInstance().setUser(mUser);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
-            }
-        });
+        mVolleyUtil.httpPostRequest(url, paramMap, s -> {
+            mDialog.dismiss();
+            showAlertDialog(QqIdLinkActivity.this, "提示", "已绑定。", "确定", true);
+            mUser.setUserQqId(userQqId);
+            mUser.setUserQqPassword(userQqPassword);
+            mUser.setUserIsQqLinked(Constant.QQ_ID_LINKED);
+            PreferencesUtil.getInstance().setUser(mUser);
+        }, volleyError -> mDialog.dismiss());
     }
+
 }
