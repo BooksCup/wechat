@@ -6,8 +6,8 @@ package com.bc.wechat.cons;
 public class Constant {
     public static String PICTURE_DIR = "sdcard/wechat_/pictures/";
 
-//    public static final String BASE_URL = "http://115.159.201.120:8081/";
-    public static final String BASE_URL = "http://172.168.0.145:8081/";
+    public static final String BASE_URL = "http://42.192.171.217:8082/";
+//    public static final String BASE_URL = "http://172.168.0.145:8081/";
 
     public static final String USER_SEX_MALE = "1";
     public static final String USER_SEX_FEMALE = "2";

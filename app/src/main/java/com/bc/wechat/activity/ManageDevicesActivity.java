@@ -1,9 +1,7 @@
 package com.bc.wechat.activity;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
+import butterknife.BindView;
 
 /**
  * 登录设备管理
@@ -36,24 +34,39 @@ import androidx.annotation.Nullable;
  *
  * @author zhou
  */
-public class ManageDevicesActivity extends BaseActivity2 {
+public class ManageDevicesActivity extends BaseActivity {
 
-    private TextView mTitleTv;
-    private ListView mDevicesLv;
-    private ManageDevicesAdapter mManageDevicesAdapter;
+    @BindView(R.id.tv_title)
+    TextView mTitleTv;
 
-    private DeviceInfoDao mDeviceInfoDao;
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-    private LoadingDialog mDialog;
+    @BindView(R.id.lv_devices)
+    ListView mDevicesLv;
+
+    ManageDevicesAdapter mManageDevicesAdapter;
+
+    DeviceInfoDao mDeviceInfoDao;
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    LoadingDialog mDialog;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_devices);
-        initStatusBar();
-        initView();
+    public int getContentView() {
+        return R.layout.activity_manage_devices;
+    }
 
+    @Override
+    public void initView() {
+        initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mDeviceInfoDao = new DeviceInfoDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
@@ -70,13 +83,6 @@ public class ManageDevicesActivity extends BaseActivity2 {
         finish();
     }
 
-    private void initView() {
-        mTitleTv = findViewById(R.id.tv_title);
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        mDevicesLv = findViewById(R.id.lv_devices);
-    }
 
     private void getDeviceInfoListByUserId(String userId) {
         String url = Constant.BASE_URL + "users/" + userId + "/devices";
@@ -207,4 +213,5 @@ public class ManageDevicesActivity extends BaseActivity2 {
             }
         }
     };
+
 }
