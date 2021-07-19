@@ -31,7 +31,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/save_btn_margin_right"
-            android:background="@drawable/bg_save_btn"
+            android:background="@drawable/btn_save"
             android:gravity="center"
             android:text="@string/send"
             android:textColor="#fff"

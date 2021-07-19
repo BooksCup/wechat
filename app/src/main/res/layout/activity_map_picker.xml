@@ -36,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/bg_save_btn"
+                android:background="@drawable/btn_save"
                 android:gravity="center"
                 android:onClick="sendLocation"
                 android:text="@string/complete"

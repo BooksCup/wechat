@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -19,6 +20,7 @@ import java.util.List;
  * @author zhou
  */
 public class ManageDevicesAdapter extends BaseAdapter {
+
     private Context mContext;
     private List<DeviceInfo> mLoginDeviceList;
 
@@ -61,6 +63,8 @@ public class ManageDevicesAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_devices, null);
             viewHolder.mPhoneModelTv = convertView.findViewById(R.id.tv_phone_model);
             viewHolder.mLoginTimeTv = convertView.findViewById(R.id.tv_login_time);
+            viewHolder.mMoreIv = convertView.findViewById(R.id.iv_more);
+            viewHolder.mDeleteTv = convertView.findViewById(R.id.tv_delete);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -75,11 +79,24 @@ public class ManageDevicesAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(deviceInfo.getLoginTime())) {
             viewHolder.mLoginTimeTv.setText(deviceInfo.getLoginTime().substring(2));
         }
+
+        if (deviceInfo.isEdit()) {
+            // 可编辑
+            viewHolder.mMoreIv.setVisibility(View.GONE);
+            viewHolder.mDeleteTv.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.mMoreIv.setVisibility(View.VISIBLE);
+            viewHolder.mDeleteTv.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
     class ViewHolder {
         TextView mPhoneModelTv;
         TextView mLoginTimeTv;
+        ImageView mMoreIv;
+        TextView mDeleteTv;
     }
+
 }

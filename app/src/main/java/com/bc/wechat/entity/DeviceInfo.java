@@ -43,6 +43,8 @@ public class DeviceInfo extends SugarRecord {
 
     private String loginTime;
 
+    private boolean isEdit = false;
+
     public String getDeviceId() {
         return deviceId;
     }
@@ -105,6 +107,14 @@ public class DeviceInfo extends SugarRecord {
 
     public void setLoginTime(String loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
     }
 
 }

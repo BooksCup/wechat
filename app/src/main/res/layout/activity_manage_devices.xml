@@ -32,6 +32,17 @@
             android:text="@string/manage_devices"
             android:textColor="@color/common_top_title"
             android:textSize="@dimen/top_bar_title_text_size" />
+
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="@dimen/save_btn_width"
+            android:layout_height="@dimen/save_btn_height"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/edit"
+            android:textColor="@color/common_top_title"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <LinearLayout

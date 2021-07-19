@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 登录设备管理
@@ -39,6 +40,9 @@ public class ManageDevicesActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView mTitleTv;
 
+    @BindView(R.id.tv_edit)
+    TextView mEditTv;
+
     @BindView(R.id.lv_devices)
     ListView mDevicesLv;
 
@@ -48,6 +52,7 @@ public class ManageDevicesActivity extends BaseActivity {
     VolleyUtil mVolleyUtil;
     User mUser;
     LoadingDialog mDialog;
+    boolean mIsEdit = false;
 
     @Override
     public int getContentView() {
@@ -81,6 +86,30 @@ public class ManageDevicesActivity extends BaseActivity {
 
     public void back(View view) {
         finish();
+    }
+
+    @OnClick({R.id.tv_edit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_edit:
+                List<DeviceInfo> loginDeviceList = mDeviceInfoDao.getDeviceInfoList();
+                if (mIsEdit) {
+                    mEditTv.setText("编辑");
+                    for (DeviceInfo deviceInfo : loginDeviceList) {
+                        deviceInfo.setEdit(false);
+                    }
+                    mIsEdit = false;
+                } else {
+                    mEditTv.setText("完成");
+                    for (DeviceInfo deviceInfo : loginDeviceList) {
+                        deviceInfo.setEdit(true);
+                    }
+                    mIsEdit = true;
+                }
+                mManageDevicesAdapter.setData(loginDeviceList);
+                mManageDevicesAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
 

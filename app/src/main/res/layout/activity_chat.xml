@@ -184,7 +184,7 @@
                 android:layout_height="32dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:background="@drawable/bg_save_btn"
+                android:background="@drawable/btn_save"
                 android:onClick="onClick"
                 android:text="@string/send"
                 android:textColor="#ffffff"
