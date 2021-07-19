@@ -8,6 +8,7 @@ import com.orm.SugarRecord;
  * @author zhou
  */
 public class DeviceInfo extends SugarRecord {
+
     private String deviceId;
 
     /**
@@ -105,4 +106,5 @@ public class DeviceInfo extends SugarRecord {
     public void setLoginTime(String loginTime) {
         this.loginTime = loginTime;
     }
+
 }
