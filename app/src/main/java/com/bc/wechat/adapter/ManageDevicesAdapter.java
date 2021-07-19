@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.entity.DeviceInfo;
+import com.bc.wechat.widget.NoTitleConfirmDialog;
 
 import java.util.List;
 
@@ -88,6 +89,27 @@ public class ManageDevicesAdapter extends BaseAdapter {
             viewHolder.mMoreIv.setVisibility(View.VISIBLE);
             viewHolder.mDeleteTv.setVisibility(View.GONE);
         }
+
+        viewHolder.mDeleteTv.setOnClickListener(view -> {
+            String content = "确定要将 “" + deviceInfo.getPhoneBrand() + "-" + deviceInfo.getPhoneModel() + "” 从常用设备中删除？";
+            final NoTitleConfirmDialog mNoTitleConfirmDialog = new NoTitleConfirmDialog(mContext,
+                    content,
+                    mContext.getString(R.string.delete), mContext.getString(R.string.cancel), mContext.getColor(R.color.navy_blue));
+            mNoTitleConfirmDialog.setOnDialogClickListener(new NoTitleConfirmDialog.OnDialogClickListener() {
+                @Override
+                public void onOkClick() {
+                    mNoTitleConfirmDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelClick() {
+                    mNoTitleConfirmDialog.dismiss();
+                }
+            });
+            // 点击空白处消失
+            mNoTitleConfirmDialog.setCancelable(true);
+            mNoTitleConfirmDialog.show();
+        });
 
         return convertView;
     }
