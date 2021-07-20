@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,9 +14,7 @@ import com.bc.wechat.cons.Constant;
 import com.bc.wechat.utils.ValidateUtil;
 import com.bc.wechat.widget.LoadingDialog;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -25,7 +22,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class LoginActivity extends BaseActivity2 implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -55,25 +52,30 @@ public class LoginActivity extends BaseActivity2 implements View.OnClickListener
     private String mLoginType = Constant.LOGIN_TYPE_PHONE_AND_PASSWORD;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_login;
+    }
 
+    @Override
+    public void initView() {
         initStatusBar();
-        initView();
-        mDialog = new LoadingDialog(LoginActivity.this);
     }
 
-    public void back(View view) {
-        finish();
-    }
-
-    private void initView() {
+    @Override
+    public void initListener() {
         mPhoneEt.addTextChangedListener(new TextChange());
         mAccountEt.addTextChangedListener(new TextChange());
         mPasswordEt.addTextChangedListener(new TextChange());
+    }
 
+    @Override
+    public void initData() {
+        mDialog = new LoadingDialog(LoginActivity.this);
+    }
+
+
+    public void back(View view) {
+        finish();
     }
 
     @OnClick({R.id.tv_login_type, R.id.btn_next})

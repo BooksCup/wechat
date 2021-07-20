@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,9 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
@@ -48,7 +45,7 @@ import cn.jpush.im.api.BasicCallback;
  *
  * @author zhou
  */
-public class PhoneLoginFinalActivity extends BaseActivity2 {
+public class PhoneLoginFinalActivity extends BaseActivity {
 
     private static final String TAG = "PhoneLoginFinalActivity";
     private static final String LOGIN_TYPE_PASSWORD = "0";
@@ -100,30 +97,33 @@ public class PhoneLoginFinalActivity extends BaseActivity2 {
 
     private String mLoginType = LOGIN_TYPE_PASSWORD;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_login_final);
-        ButterKnife.bind(this);
-
-        initStatusBar();
-        mPhone = getIntent().getStringExtra("phone");
-
-        mVolleyUtil = VolleyUtil.getInstance(this);
-        mDialog = new LoadingDialog(PhoneLoginFinalActivity.this);
-        mUserDao = new UserDao();
-        initView();
-    }
-
     public void back(View view) {
         finish();
     }
 
-    private void initView() {
-        mPhoneEt.setHint(mPhone);
+    @Override
+    public int getContentView() {
+        return R.layout.activity_phone_login_final;
+    }
 
+    @Override
+    public void initView() {
+        initStatusBar();
+    }
+
+    @Override
+    public void initListener() {
         mPasswordEt.addTextChangedListener(new TextChange());
         mVerificationCodeEt.addTextChangedListener(new TextChange());
+    }
+
+    @Override
+    public void initData() {
+        mPhone = getIntent().getStringExtra("phone");
+        mVolleyUtil = VolleyUtil.getInstance(this);
+        mDialog = new LoadingDialog(PhoneLoginFinalActivity.this);
+        mUserDao = new UserDao();
+        mPhoneEt.setHint(mPhone);
     }
 
     @OnClick({R.id.btn_login, R.id.tv_login_type, R.id.iv_clear_password, R.id.iv_clear_verification_code,
@@ -368,4 +368,5 @@ public class PhoneLoginFinalActivity extends BaseActivity2 {
 
         mVolleyUtil.httpPostRequest(url, paramMap, response -> mDialog.dismiss(), volleyError -> mDialog.dismiss());
     }
+
 }

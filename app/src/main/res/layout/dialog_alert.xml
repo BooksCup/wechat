@@ -8,8 +8,8 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:orientation="vertical">
 
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
             android:text="你输入的是一个无效的手机号码"
             android:textColor="@color/grid_state_focused"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#e7eded"
+                android:background="@drawable/bg_round_corner_bottom"
                 android:text="确定"
                 android:textColor="@color/navy_blue"
                 android:textSize="16sp"
