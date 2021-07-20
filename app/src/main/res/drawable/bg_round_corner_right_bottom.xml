@@ -3,8 +3,5 @@
     android:shape="rectangle">
     <!-- 填充的颜色 -->
     <solid android:color="@color/color_white" />
-    <padding
-        android:top="5dp" />
-    <corners android:radius="13dp" />
-
+    <corners android:bottomRightRadius="13dp" />
 </shape>

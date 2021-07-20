@@ -8,9 +8,8 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -19,12 +18,12 @@
             android:layout_height="70dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
             android:text="是否退出当前账号?"
             android:textColor="@color/common_top_title"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <View
             android:layout_width="match_parent"
@@ -33,9 +32,8 @@
             android:background="#c5c5c5" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dip"
-            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -45,10 +43,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#e7eded"
+                android:background="@drawable/bg_round_corner_left_bottom"
                 android:text="取消"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="@dimen/common_item_text_size"
                 android:textStyle="bold" />
 
             <!-- 确认按钮 -->
@@ -63,10 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#e7eded"
+                android:background="@drawable/bg_round_corner_right_bottom"
                 android:text="确定"
                 android:textColor="#FF0000"
-                android:textSize="16sp"
+                android:textSize="@dimen/common_item_text_size"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
