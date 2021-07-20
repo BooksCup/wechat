@@ -7,10 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.dao.DeviceInfoDao;
 import com.bc.wechat.entity.DeviceInfo;
+import com.bc.wechat.entity.User;
+import com.bc.wechat.observer.UpdateUiInterface;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.NoTitleConfirmDialog;
 
 import java.util.List;
@@ -24,10 +31,18 @@ public class ManageDevicesAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<DeviceInfo> mLoginDeviceList;
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    DeviceInfoDao mDeviceInfoDao;
+    UpdateUiInterface mUpdateUiInterface;
 
-    public ManageDevicesAdapter(Context context, List<DeviceInfo> loginDeviceList) {
+    public ManageDevicesAdapter(Context context, List<DeviceInfo> loginDeviceList, UpdateUiInterface updateUiInterface) {
         this.mContext = context;
         this.mLoginDeviceList = loginDeviceList;
+        this.mUpdateUiInterface = updateUiInterface;
+        mVolleyUtil = VolleyUtil.getInstance(mContext);
+        mUser = PreferencesUtil.getInstance().getUser();
+        mDeviceInfoDao = new DeviceInfoDao();
     }
 
     public void setData(List<DeviceInfo> dataList) {
@@ -62,6 +77,7 @@ public class ManageDevicesAdapter extends BaseAdapter {
         if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_devices, null);
+            viewHolder.mRootRl = convertView.findViewById(R.id.rl_root);
             viewHolder.mPhoneModelTv = convertView.findViewById(R.id.tv_phone_model);
             viewHolder.mLoginTimeTv = convertView.findViewById(R.id.tv_login_time);
             viewHolder.mMoreIv = convertView.findViewById(R.id.iv_more);
@@ -82,12 +98,15 @@ public class ManageDevicesAdapter extends BaseAdapter {
         }
 
         if (deviceInfo.isEdit()) {
-            // 可编辑
             viewHolder.mMoreIv.setVisibility(View.GONE);
             viewHolder.mDeleteTv.setVisibility(View.VISIBLE);
+            // ???
+            viewHolder.mRootRl.setClickable(true);
         } else {
             viewHolder.mMoreIv.setVisibility(View.VISIBLE);
             viewHolder.mDeleteTv.setVisibility(View.GONE);
+            // ???
+            viewHolder.mRootRl.setClickable(false);
         }
 
         viewHolder.mDeleteTv.setOnClickListener(view -> {
@@ -99,6 +118,7 @@ public class ManageDevicesAdapter extends BaseAdapter {
                 @Override
                 public void onOkClick() {
                     mNoTitleConfirmDialog.dismiss();
+                    deleteDeviceByDeviceId(mUser.getUserId(), deviceInfo.getDeviceId());
                 }
 
                 @Override
@@ -115,10 +135,21 @@ public class ManageDevicesAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
+        RelativeLayout mRootRl;
         TextView mPhoneModelTv;
         TextView mLoginTimeTv;
         ImageView mMoreIv;
         TextView mDeleteTv;
     }
+
+    private void deleteDeviceByDeviceId(String userId, String deviceId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/devices/" + deviceId;
+        mVolleyUtil.httpDeleteRequest(url, response -> {
+            mDeviceInfoDao.deleteDeviceInfoByDeviceId(deviceId);
+            mUpdateUiInterface.updateUi();
+        }, volleyError -> {
+        });
+    }
+
 
 }

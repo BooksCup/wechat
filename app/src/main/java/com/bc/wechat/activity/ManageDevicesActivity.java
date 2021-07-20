@@ -4,19 +4,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.ManageDevicesAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.DeviceInfoDao;
 import com.bc.wechat.entity.DeviceInfo;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.observer.UpdateUiInterface;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.EditDialog;
@@ -35,7 +33,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class ManageDevicesActivity extends BaseActivity {
+public class ManageDevicesActivity extends BaseActivity implements UpdateUiInterface {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -78,7 +76,7 @@ public class ManageDevicesActivity extends BaseActivity {
         mDialog = new LoadingDialog(this);
 
         List<DeviceInfo> loginDeviceList = mDeviceInfoDao.getDeviceInfoList();
-        mManageDevicesAdapter = new ManageDevicesAdapter(this, loginDeviceList);
+        mManageDevicesAdapter = new ManageDevicesAdapter(this, loginDeviceList, this);
         mDevicesLv.setAdapter(mManageDevicesAdapter);
 
         getDeviceInfoListByUserId(mUser.getUserId());
@@ -94,13 +92,13 @@ public class ManageDevicesActivity extends BaseActivity {
             case R.id.tv_edit:
                 List<DeviceInfo> loginDeviceList = mDeviceInfoDao.getDeviceInfoList();
                 if (mIsEdit) {
-                    mEditTv.setText("编辑");
+                    mEditTv.setText(getString(R.string.edit));
                     for (DeviceInfo deviceInfo : loginDeviceList) {
                         deviceInfo.setEdit(false);
                     }
                     mIsEdit = false;
                 } else {
-                    mEditTv.setText("完成");
+                    mEditTv.setText(getString(R.string.complete));
                     for (DeviceInfo deviceInfo : loginDeviceList) {
                         deviceInfo.setEdit(true);
                     }
@@ -112,48 +110,35 @@ public class ManageDevicesActivity extends BaseActivity {
         }
     }
 
-
     private void getDeviceInfoListByUserId(String userId) {
         String url = Constant.BASE_URL + "users/" + userId + "/devices";
-        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                final List<DeviceInfo> deviceInfoList = JSONArray.parseArray(response, DeviceInfo.class);
-                if (null != deviceInfoList && deviceInfoList.size() > 0) {
-                    // 持久化
-                    mDeviceInfoDao.clearDeviceInfo();
-                    for (DeviceInfo deviceInfo : deviceInfoList) {
-                        if (null != deviceInfo) {
-                            mDeviceInfoDao.saveDeviceInfo(deviceInfo);
-                        }
+        mVolleyUtil.httpGetRequest(url, response -> {
+            final List<DeviceInfo> deviceInfoList = JSONArray.parseArray(response, DeviceInfo.class);
+            if (null != deviceInfoList && deviceInfoList.size() > 0) {
+                // 持久化
+                mDeviceInfoDao.clearDeviceInfo();
+                for (DeviceInfo deviceInfo : deviceInfoList) {
+                    if (null != deviceInfo) {
+                        mDeviceInfoDao.saveDeviceInfo(deviceInfo);
                     }
                 }
-                mManageDevicesAdapter.setData(deviceInfoList);
-                mManageDevicesAdapter.notifyDataSetChanged();
-
-                mDevicesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        final DeviceInfo deviceInfo = deviceInfoList.get(position);
-                        openEditDialog(deviceInfo, position);
-                    }
-                });
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                final List<DeviceInfo> deviceInfoList = mDeviceInfoDao.getDeviceInfoList();
-                mManageDevicesAdapter.setData(deviceInfoList);
-                mManageDevicesAdapter.notifyDataSetChanged();
+            mManageDevicesAdapter.setData(deviceInfoList);
+            mManageDevicesAdapter.notifyDataSetChanged();
 
-                mDevicesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        final DeviceInfo deviceInfo = deviceInfoList.get(position);
-                        openEditDialog(deviceInfo, position);
-                    }
-                });
-            }
+            mDevicesLv.setOnItemClickListener((adapterView, view, position, id) -> {
+                final DeviceInfo deviceInfo = deviceInfoList.get(position);
+                openEditDialog(deviceInfo, position);
+            });
+        }, volleyError -> {
+            final List<DeviceInfo> deviceInfoList = mDeviceInfoDao.getDeviceInfoList();
+            mManageDevicesAdapter.setData(deviceInfoList);
+            mManageDevicesAdapter.notifyDataSetChanged();
+
+            mDevicesLv.setOnItemClickListener((adapterView, view, position, id) -> {
+                final DeviceInfo deviceInfo = deviceInfoList.get(position);
+                openEditDialog(deviceInfo, position);
+            });
         });
     }
 
@@ -203,33 +188,24 @@ public class ManageDevicesActivity extends BaseActivity {
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("phoneModelAlias", phoneModelAlias);
 
-        mVolleyUtil.httpPutRequest(url, paramMap, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                mDialog.dismiss();
+        mVolleyUtil.httpPutRequest(url, paramMap, s -> {
+            mDialog.dismiss();
 
-                // 更新本地数据
-                DeviceInfo originDeviceInfo = mDeviceInfoDao.getDeviceInfoByDeviceId(deviceInfo.getDeviceId());
-                if (null != originDeviceInfo) {
-                    deviceInfo.setId(originDeviceInfo.getId());
-                    mDeviceInfoDao.saveDeviceInfo(deviceInfo);
-                }
-
-                deviceInfo.setPhoneModelAlias(phoneModelAlias);
-
-                Message message = new Message();
-                message.what = 1;
-                message.arg1 = position;
-                message.obj = deviceInfo;
-                mHandler.sendMessage(message);
+            // 更新本地数据
+            DeviceInfo originDeviceInfo = mDeviceInfoDao.getDeviceInfoByDeviceId(deviceInfo.getDeviceId());
+            if (null != originDeviceInfo) {
+                deviceInfo.setId(originDeviceInfo.getId());
+                mDeviceInfoDao.saveDeviceInfo(deviceInfo);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                mDialog.dismiss();
 
-            }
-        });
+            deviceInfo.setPhoneModelAlias(phoneModelAlias);
+
+            Message message = new Message();
+            message.what = 1;
+            message.arg1 = position;
+            message.obj = deviceInfo;
+            mHandler.sendMessage(message);
+        }, volleyError -> mDialog.dismiss());
     }
 
     private Handler mHandler = new Handler() {
@@ -242,5 +218,17 @@ public class ManageDevicesActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public void updateUi() {
+        mEditTv.setText(getString(R.string.edit));
+        List<DeviceInfo> deviceInfoList = mDeviceInfoDao.getDeviceInfoList();
+        for (DeviceInfo deviceInfo : deviceInfoList) {
+            deviceInfo.setEdit(false);
+        }
+        mIsEdit = false;
+        mManageDevicesAdapter.setData(deviceInfoList);
+        mManageDevicesAdapter.notifyDataSetChanged();
+    }
 
 }

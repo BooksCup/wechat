@@ -54,11 +54,11 @@ public class EditDialog extends Dialog {
         this.mTips = tips;
         this.mConfirm = confirm;
         this.mCancel = cancel;
-        initalize();
+        initialize();
     }
 
     // 初始化View
-    private void initalize() {
+    private void initialize() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.dialog_edit, null);
         setContentView(view);

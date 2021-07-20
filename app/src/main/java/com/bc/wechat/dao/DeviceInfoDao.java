@@ -50,4 +50,13 @@ public class DeviceInfoDao {
         return null;
     }
 
+    /**
+     * 根据设备ID删除设备信息
+     *
+     * @param deviceId 设备ID
+     */
+    public void deleteDeviceInfoByDeviceId(String deviceId) {
+        DeviceInfo.deleteAll(DeviceInfo.class, "device_id = ?", deviceId);
+    }
+
 }
