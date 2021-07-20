@@ -1,8 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextPaint;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,9 +18,7 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -30,7 +26,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class MoreSecuritySettingActivity extends BaseActivity2 {
+public class MoreSecuritySettingActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -47,34 +43,38 @@ public class MoreSecuritySettingActivity extends BaseActivity2 {
     @BindView(R.id.tv_email_is_linked)
     TextView mEmailIsLinkedTv;
 
-    private VolleyUtil mVolleyUtil;
-    private User mUser;
-    private LoadingDialog mDialog;
+    VolleyUtil mVolleyUtil;
+    User mUser;
+    LoadingDialog mDialog;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_more_security_setting);
-        ButterKnife.bind(this);
-        initStatusBar();
+    public int getContentView() {
+        return R.layout.activity_more_security_setting;
+    }
 
+    @Override
+    public void initView() {
+        initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mDialog = new LoadingDialog(this);
 
         getUserFromServer(mUser.getUserId());
-        initView();
+        refreshLinkedStatus();
     }
 
     public void back(View view) {
         finish();
-    }
-
-    private void initView() {
-        TextPaint paint = mTitleTv.getPaint();
-        paint.setFakeBoldText(true);
-
-        refreshLinkedStatus();
     }
 
     /**
@@ -191,4 +191,5 @@ public class MoreSecuritySettingActivity extends BaseActivity2 {
 
         });
     }
+
 }
