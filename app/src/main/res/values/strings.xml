@@ -302,4 +302,6 @@
     <string name="find_mobile_contacts">向我推荐通讯录朋友</string>
     <string name="find_mobile_contacts_tips">开启后，为你推荐已经开通微信的手机联系人。</string>
     <string name="require_friend_request">加我为朋友时需要验证</string>
+
+    <string name="blocked_contact_tips">已添加至黑名单，你将不再收到对方的消息</string>
 </resources>

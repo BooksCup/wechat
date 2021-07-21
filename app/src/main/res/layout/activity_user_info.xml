@@ -493,6 +493,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_blocked_contact_tips"
                 android:layout_width="match_parent"
                 android:layout_height="48dp">
 
@@ -501,8 +502,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:text="已添加至黑名单，你将不再收到对方的消息"
-                    android:textColor="#AFAFAF"
+                    android:text="@string/blocked_contact_tips"
+                    android:textColor="@color/tips_grey"
                     android:textSize="13sp" />
             </RelativeLayout>
 

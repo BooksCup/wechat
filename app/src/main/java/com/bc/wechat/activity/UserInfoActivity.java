@@ -132,6 +132,9 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.tv_voice_or_video_call)
     TextView mVoiceOrVideoCallTv;
 
+    @BindView(R.id.rl_blocked_contact_tips)
+    RelativeLayout mBlockedContactTipsRl;
+
     User mUser;
     User mContact;
     VolleyUtil mVolleyUtil;
@@ -372,8 +375,10 @@ public class UserInfoActivity extends BaseActivity {
         // 是否黑名单用户
         if (Constant.CONTACT_IS_BLOCKED.equals(user.getIsBlocked())) {
             mVoiceOrVideoCallRl.setVisibility(View.GONE);
+            mBlockedContactTipsRl.setVisibility(View.VISIBLE);
         } else {
             mVoiceOrVideoCallRl.setVisibility(View.VISIBLE);
+            mBlockedContactTipsRl.setVisibility(View.GONE);
         }
 
     }

@@ -60,7 +60,7 @@
     <color name="register_btn_text_disable">#B4B4B4</color>
     <color name="register_btn_text_enable">#ffffff</color>
     <color name="btn_red">#FC564F</color>
-    <color name="tips_grey">#AAAAAA</color>
+    <color name="tips_grey">#AFAFAF</color>
     <color name="status_bar_color_white">#ffffff</color>
     <color name="modify_password_hint_color">#cccccc</color>
     <color name="color_light_grey">#f0f0f0</color>
