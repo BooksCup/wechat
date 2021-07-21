@@ -40,6 +40,10 @@ public class PrivacyActivity extends BaseActivity {
 
     }
 
+    public void back(View view) {
+        finish();
+    }
+
     @OnClick({R.id.rl_mobile_blocked_list})
     public void onClick(View view) {
         switch (view.getId()) {
