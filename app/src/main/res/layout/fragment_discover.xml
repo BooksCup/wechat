@@ -182,7 +182,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/discover_text_margin_left"
             android:layout_toRightOf="@id/iv_top_stories"
-            android:text="@string/discover_top_stories"
+            android:text="@string/top_stories"
             android:textColor="@color/common_text_color_black"
             android:textSize="@dimen/discover_text_size" />
 

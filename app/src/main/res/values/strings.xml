@@ -208,7 +208,7 @@
     <string name="shopping">购物</string>
     <string name="game">游戏</string>
     <string name="mini_programs">小程序</string>
-    <string name="discover_top_stories">看一看</string>
+    <string name="top_stories">看一看</string>
     <string name="discover_search">搜一搜</string>
 
     <string name="open_people_nearby_tips">查看附件的人功能将获取你的位置信息，你的位置信息会被保留一段时间。通过列表右上角的清除功能可随时手动清除位置信息。</string>
@@ -291,4 +291,15 @@
     <string name="call">呼叫</string>
     <string name="from">来源</string>
     <string name="voice_or_video_call">音视频通话</string>
+
+    <string name="mobile_blocked_list">通讯录黑名单</string>
+    <string name="we_run">微信运动</string>
+    <string name="channels">视频号</string>
+    <string name="chats_only">仅聊天</string>
+    <string name="privacy_manage">权限管理</string>
+    <string name="authorizations">授权管理</string>
+    <string name="methods_for_friend_me">添加我的方式</string>
+    <string name="find_mobile_contacts">向我推荐通讯录朋友</string>
+    <string name="find_mobile_contacts_tips">开启后，为你推荐已经开通微信的手机联系人。</string>
+    <string name="require_friend_request">加我为朋友时需要验证</string>
 </resources>

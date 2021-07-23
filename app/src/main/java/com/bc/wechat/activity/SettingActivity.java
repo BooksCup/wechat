@@ -69,14 +69,17 @@ public class SettingActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.rl_account_security, R.id.rl_about, R.id.rl_log_out})
+    @OnClick({R.id.rl_account_security, R.id.rl_privacy, R.id.rl_about, R.id.rl_log_out})
     public void onClick(View view) {
         switch (view.getId()) {
             // 账号与安全
             case R.id.rl_account_security:
                 startActivity(new Intent(SettingActivity.this, AccountSecurityActivity.class));
                 break;
-
+            //隐私
+            case R.id.rl_privacy:
+                startActivity(new Intent(SettingActivity.this, PrivacyActivity.class));
+                break;
             // 关于微信
             case R.id.rl_about:
                 startActivity(new Intent(SettingActivity.this, AboutActivity.class));
