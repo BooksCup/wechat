@@ -22,9 +22,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="25dp"
             android:gravity="center"
-            android:text="你输入的是一个无效的手机号码"
+            android:text=""
             android:textColor="@color/common_item_black"
-            android:textSize="16sp" />
+            android:textSize="@dimen/common_item_text_size" />
 
         <View
             android:layout_width="match_parent"
@@ -40,13 +40,13 @@
 
             <Button
                 android:id="@+id/btn_ok"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#e7eded"
-                android:text="确定"
+                android:background="@drawable/bg_round_corner_bottom"
+                android:text=""
                 android:textColor="@color/navy_blue"
-                android:textSize="16sp"
+                android:textSize="@dimen/common_item_text_size"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
