@@ -388,15 +388,14 @@ public class AddTagActivity extends BaseActivity {
      * 保存用户标签
      *
      * @param userId         用户ID
-     * @param contactId      联系人用户ID
+     * @param contactUserId  联系人用户ID
      * @param contactTagList 联系人标签
      * @param tagList        所有标签
      */
-    private void saveUserContactTags(String userId, final String contactId, final List<String> contactTagList, final List<String> tagList) {
+    private void saveUserContactTags(String userId, final String contactUserId, final List<String> contactTagList, final List<String> tagList) {
         String unionTags = getUnionTags(contactTagList, tagList);
-        String url = Constant.BASE_URL + "users/" + userId + "/userContactTags";
+        String url = Constant.BASE_URL + "users/" + userId + "/contacts/" + contactUserId + "/tags";
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("contactId", contactId);
         paramMap.put("contactTags", JSON.toJSONString(contactTagList));
         paramMap.put("tags", unionTags);
 
