@@ -353,16 +353,11 @@ public class UserSettingActivity extends BaseActivity {
      * @param isBlocked 是否加入黑名单
      */
     private void setContactBlocked(final String isBlocked) {
-        mDialog.setMessage("正在处理...");
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
-
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/contacts/" + mContactId + "/block";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("isBlocked", isBlocked);
 
         mVolleyUtil.httpPutRequest(url, paramMap, response -> {
-            mDialog.dismiss();
             if (Constant.CONTACT_IS_BLOCKED.equals(isBlocked)) {
 
                 mBlockIv.setVisibility(View.GONE);
@@ -391,11 +386,11 @@ public class UserSettingActivity extends BaseActivity {
             } else {
                 mBlockIv.setVisibility(View.VISIBLE);
                 mCancelBlockIv.setVisibility(View.GONE);
-
                 mContact.setIsBlocked(Constant.CONTACT_IS_NOT_BLOCKED);
             }
             mUserDao.saveUser(mContact);
-        }, volleyError -> mDialog.dismiss());
+        }, volleyError -> {
+        });
 
     }
 
