@@ -115,4 +115,5 @@ public class FriendsAdapter extends ArrayAdapter<User> {
         TextView mHeaderTv;
         View mTempView;
     }
+
 }

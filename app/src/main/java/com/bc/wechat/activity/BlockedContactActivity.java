@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.BlockedContactAdapter;
+import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class BlockedContactActivity extends BaseActivity {
     ListView mBlockedContactLv;
 
     BlockedContactAdapter mBlockedContactAdapter;
+    UserDao mUserDao;
     List<User> mBlockedContactList = new ArrayList<>();
 
     @Override
@@ -47,8 +49,9 @@ public class BlockedContactActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        mBlockedContactList.add(new User());
-        mBlockedContactList.add(new User());
+        mUserDao = new UserDao();
+        mBlockedContactList = mUserDao.getAllBlockedUserList();
+
         mBlockedContactAdapter = new BlockedContactAdapter(this, mBlockedContactList);
         mBlockedContactLv.setAdapter(mBlockedContactAdapter);
     }

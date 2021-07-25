@@ -62,6 +62,15 @@ public class UserDao {
     }
 
     /**
+     * 获取所有的黑名单用户列表
+     *
+     * @return 所有的好友列表
+     */
+    public List<User> getAllBlockedUserList() {
+        return User.find(User.class, "is_blocked = ?", Constant.CONTACT_IS_BLOCKED);
+    }
+
+    /**
      * 获取联系人数量,进注册好友数量,不包括系统用户
      *
      * @return 联系人数量
