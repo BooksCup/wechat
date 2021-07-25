@@ -76,6 +76,9 @@ public class UserInfoStrangerActivity extends BaseActivity {
     @BindView(R.id.rl_add)
     RelativeLayout mAddRl;
 
+    @BindView(R.id.tv_add)
+    TextView mAddTv;
+
     private UserDao mUserDao;
     private VolleyUtil mVolleyUtil;
     private User mUser;
@@ -92,6 +95,7 @@ public class UserInfoStrangerActivity extends BaseActivity {
     public void initView() {
         initStatusBar();
         StatusBarUtil.setStatusBarColor(UserInfoStrangerActivity.this, R.color.status_bar_color_white);
+        setTitleStrokeWidth(mAddTv);
     }
 
     @Override
@@ -232,4 +236,5 @@ public class UserInfoStrangerActivity extends BaseActivity {
         loadData(contact);
         getContactFromServer(mUser.getUserId(), mContactId);
     }
+
 }
