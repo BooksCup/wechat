@@ -32,13 +32,6 @@
             android:text="Mr.Jack"
             android:textColor="#353535"
             android:textSize="@dimen/contacts_text_size" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_marginStart="60dp"
-            android:layout_alignParentBottom="true"
-            android:background="#d9d9d9" />
     </RelativeLayout>
 
 </LinearLayout>

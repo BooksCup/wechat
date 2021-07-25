@@ -44,7 +44,6 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:descendantFocusability="blocksDescendants"
-        android:divider="#ffffff"
-        android:dividerHeight="0dp" />
+        android:divider="@drawable/divider_blocked_contact" />
 
 </LinearLayout>
