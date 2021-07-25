@@ -155,15 +155,25 @@ public class UserSettingActivity extends BaseActivity {
     private void loadData(User user) {
         // 备注
         mEditContactTv.setText(user.getUserContactAlias());
-        // 星标好友
+        // 是否星标好友
         if (Constant.CONTACT_IS_STARRED.equals(user.getIsStarred())) {
             // 是
             mAddStarIv.setVisibility(View.GONE);
             mCancelStarIv.setVisibility(View.VISIBLE);
         } else {
-            // 非
+            // 否
             mAddStarIv.setVisibility(View.VISIBLE);
             mCancelStarIv.setVisibility(View.GONE);
+        }
+        // 是否加入黑名单
+        if (Constant.CONTACT_IS_BLOCKED.equals(user.getIsBlocked())) {
+            // 是
+            mBlockIv.setVisibility(View.GONE);
+            mCancelBlockIv.setVisibility(View.VISIBLE);
+        } else {
+            // 否
+            mBlockIv.setVisibility(View.VISIBLE);
+            mCancelBlockIv.setVisibility(View.GONE);
         }
     }
 
