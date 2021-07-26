@@ -151,6 +151,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />
         <activity
+            android:name=".activity.BlockedContactActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImageTranslucentTheme" />
+        <activity
             android:name=".activity.ManageDevicesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ImageTranslucentTheme" />

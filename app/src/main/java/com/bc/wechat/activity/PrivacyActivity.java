@@ -1,10 +1,13 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * "设置" - "隐私"
@@ -35,6 +38,16 @@ public class PrivacyActivity extends BaseActivity {
     @Override
     public void initData() {
 
+    }
+
+    @OnClick({R.id.rl_mobile_blocked_list})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            // 通讯录黑名单
+            case R.id.rl_mobile_blocked_list:
+                startActivity(new Intent(PrivacyActivity.this, BlockedContactActivity.class));
+                break;
+        }
     }
 
 }
