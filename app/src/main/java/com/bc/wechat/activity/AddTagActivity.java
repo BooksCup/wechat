@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -33,7 +32,6 @@ import java.util.Map;
 import java.util.Set;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -41,7 +39,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class AddTagActivity extends BaseActivity2 {
+public class AddTagActivity extends BaseActivity {
 
     private static final int TAG_TEXT_SIZE = 14;
 
@@ -103,12 +101,23 @@ public class AddTagActivity extends BaseActivity2 {
     User mContact;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_tag);
-        ButterKnife.bind(this);
-        initStatusBar();
+    public int getContentView() {
+        return R.layout.activity_add_tag;
+    }
 
+    @Override
+    public void initView() {
+        initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(AddTagActivity.this);
         mUserDao = new UserDao();
@@ -116,22 +125,6 @@ public class AddTagActivity extends BaseActivity2 {
         mUser = PreferencesUtil.getInstance().getUser();
         mContactId = getIntent().getStringExtra("contactId");
         mContact = mUserDao.getUserById(mContactId);
-
-        initView();
-        initData();
-        initEditText();
-        initAllTagLayout();
-    }
-
-    public void back(View view) {
-        finish();
-    }
-
-    /**
-     * 初始化View
-     */
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
 
         mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int marginLeft = DensityUtil.dip2px(AddTagActivity.this, 10);
@@ -145,12 +138,7 @@ public class AddTagActivity extends BaseActivity2 {
                 addTag(mDefaultEt);
             }
         });
-    }
 
-    /**
-     * 初始化数据
-     */
-    private void initData() {
         // 初始化好友标签
         mTagList = mContact.getUserContactTagList();
         // 初始化所有标签
@@ -162,6 +150,13 @@ public class AddTagActivity extends BaseActivity2 {
             // 添加标签
             addTag(mDefaultEt);
         }
+
+        initEditText();
+        initAllTagLayout();
+    }
+
+    public void back(View view) {
+        finish();
     }
 
     /**

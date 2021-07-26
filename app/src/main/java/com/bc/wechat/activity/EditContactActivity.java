@@ -1,7 +1,6 @@
 package com.bc.wechat.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -39,7 +37,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class EditContactActivity extends BaseActivity2 {
+public class EditContactActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -86,29 +84,33 @@ public class EditContactActivity extends BaseActivity2 {
     VolleyUtil mVolleyUtil;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_contact);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_edit_contact;
+    }
 
+    @Override
+    public void initView() {
         initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
 
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         mUserDao = new UserDao();
         mContactId = getIntent().getStringExtra("contactId");
         mDialog = new LoadingDialog(EditContactActivity.this);
-        initView();
-    }
-
-    private void initView() {
         mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int marginLeft = DensityUtil.dip2px(EditContactActivity.this, 10);
         int marginTop = DensityUtil.dip2px(EditContactActivity.this, 10);
         mParams.setMargins(marginLeft, marginTop, 0, 0);
         loadTags();
-
-        setTitleStrokeWidth(mTitleTv);
 
         final String isFriend = getIntent().getStringExtra("isFriend");
         mContact = mUserDao.getUserById(mContactId);
@@ -153,6 +155,7 @@ public class EditContactActivity extends BaseActivity2 {
             }
         });
         renderMobile();
+
     }
 
     public void back(View view) {
