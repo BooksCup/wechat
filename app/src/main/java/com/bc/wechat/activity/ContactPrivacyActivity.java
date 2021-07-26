@@ -1,6 +1,5 @@
 package com.bc.wechat.activity;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,9 +16,7 @@ import com.bc.wechat.widget.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -27,7 +24,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class ContactPrivacyActivity extends BaseActivity2 {
+public class ContactPrivacyActivity extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView mTitleTv;
@@ -61,44 +58,46 @@ public class ContactPrivacyActivity extends BaseActivity2 {
     ImageView mShowHisPostsIv;
 
     UserDao mUserDao;
-    String mContactId;
+    String mContactUserId;
     User mContact;
 
     VolleyUtil mVolleyUtil;
     LoadingDialog mDialog;
     User mUser;
 
-    String mRelaPrivacy;
-    String mRelaHideMyPosts;
-    String mRelaHideHisPosts;
+    String mPrivacy;
+    String mHideMyPosts;
+    String mHideHisPosts;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_privacy);
-        initStatusBar();
-        ButterKnife.bind(this);
-
-        initData();
-        initView();
+    public int getContentView() {
+        return R.layout.activity_contact_privacy;
     }
 
-    private void initData() {
+    @Override
+    public void initView() {
+        initStatusBar();
+        setTitleStrokeWidth(mTitleTv);
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mUserDao = new UserDao();
-        mContactId = getIntent().getStringExtra("contactId");
-        mContact = mUserDao.getUserById(mContactId);
+        mContactUserId = getIntent().getStringExtra("contactId");
+        mContact = mUserDao.getUserById(mContactUserId);
 
         mUser = PreferencesUtil.getInstance().getUser();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mDialog = new LoadingDialog(ContactPrivacyActivity.this);
 
-        mRelaPrivacy = mContact.getUserContactPrivacy();
-        mRelaHideHisPosts = mContact.getUserContactHideHisPosts();
-        mRelaHideMyPosts = mContact.getUserContactHideMyPosts();
-    }
-
-    private void initView() {
-        setTitleStrokeWidth(mTitleTv);
+        mPrivacy = mContact.getUserContactPrivacy();
+        mHideMyPosts = mContact.getUserContactHideMyPosts();
+        mHideHisPosts = mContact.getUserContactHideHisPosts();
 
         if (Constant.PRIVACY_CHATS_MOMENTS_WERUN_ETC.equals(mContact.getUserContactPrivacy())) {
             // 所有权限
@@ -132,7 +131,6 @@ public class ContactPrivacyActivity extends BaseActivity2 {
 
             mPrivacyLl.setVisibility(View.GONE);
         }
-
     }
 
     public void back(View view) {
@@ -144,89 +142,91 @@ public class ContactPrivacyActivity extends BaseActivity2 {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_chats_moments_werun_etc:
-                mRelaPrivacy = Constant.PRIVACY_CHATS_MOMENTS_WERUN_ETC;
+                mPrivacy = Constant.PRIVACY_CHATS_MOMENTS_WERUN_ETC;
 
                 mChatsMomentsWerunEtcIv.setVisibility(View.VISIBLE);
                 mChatsOnlyIv.setVisibility(View.GONE);
 
                 mPrivacyLl.setVisibility(View.VISIBLE);
 
-                updateContactPrivacy(mUser.getUserId(), mContactId,
-                        mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                updateContactPrivacy(mUser.getUserId(), mContactUserId,
+                        mPrivacy, mHideMyPosts, mHideHisPosts);
                 break;
             case R.id.rl_chats_only:
-                mRelaPrivacy = Constant.PRIVACY_CHATS_ONLY;
+                mPrivacy = Constant.PRIVACY_CHATS_ONLY;
 
                 mChatsMomentsWerunEtcIv.setVisibility(View.GONE);
                 mChatsOnlyIv.setVisibility(View.VISIBLE);
 
                 mPrivacyLl.setVisibility(View.GONE);
 
-                updateContactPrivacy(mUser.getUserId(), mContactId,
-                        mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                updateContactPrivacy(mUser.getUserId(), mContactUserId,
+                        mPrivacy, mHideMyPosts, mHideHisPosts);
                 break;
 
             case R.id.iv_hide_my_posts:
-                mRelaHideMyPosts = Constant.SHOW_MY_POSTS;
+                mHideMyPosts = Constant.SHOW_MY_POSTS;
 
                 mShowMyPostsIv.setVisibility(View.VISIBLE);
                 mHideMyPostsIv.setVisibility(View.GONE);
 
-                updateContactPrivacy(mUser.getUserId(), mContactId,
-                        mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                updateContactPrivacy(mUser.getUserId(), mContactUserId,
+                        mPrivacy, mHideMyPosts, mHideHisPosts);
                 break;
             case R.id.iv_show_my_posts:
-                mRelaHideMyPosts = Constant.HIDE_MY_POSTS;
+                mHideMyPosts = Constant.HIDE_MY_POSTS;
 
                 mShowMyPostsIv.setVisibility(View.GONE);
                 mHideMyPostsIv.setVisibility(View.VISIBLE);
 
-                updateContactPrivacy(mUser.getUserId(), mContactId,
-                        mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                updateContactPrivacy(mUser.getUserId(), mContactUserId,
+                        mPrivacy, mHideMyPosts, mHideHisPosts);
                 break;
 
             case R.id.iv_hide_his_posts:
-                mRelaHideHisPosts = Constant.SHOW_HIS_POSTS;
+                mHideHisPosts = Constant.SHOW_HIS_POSTS;
 
                 mShowHisPostsIv.setVisibility(View.VISIBLE);
                 mHideHisPostsIv.setVisibility(View.GONE);
 
-                updateContactPrivacy(mUser.getUserId(), mContactId,
-                        mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                updateContactPrivacy(mUser.getUserId(), mContactUserId,
+                        mPrivacy, mHideMyPosts, mHideHisPosts);
                 break;
             case R.id.iv_show_his_posts:
-                mRelaHideHisPosts = Constant.HIDE_HIS_POSTS;
+                mHideHisPosts = Constant.HIDE_HIS_POSTS;
 
                 mShowHisPostsIv.setVisibility(View.GONE);
                 mHideHisPostsIv.setVisibility(View.VISIBLE);
 
-                updateContactPrivacy(mUser.getUserId(), mContactId,
-                        mRelaPrivacy, mRelaHideMyPosts, mRelaHideHisPosts);
+                updateContactPrivacy(mUser.getUserId(), mContactUserId,
+                        mPrivacy, mHideMyPosts, mHideHisPosts);
                 break;
         }
     }
 
-    private void updateContactPrivacy(String userId, final String contactId,
-                                      final String relaPrivacy, final String relaHideMyPosts, final String relaHideHisPosts) {
-        mDialog.setMessage("正在处理...");
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
-
-        String url = Constant.BASE_URL + "users/" + userId + "/userContactPrivacy";
+    /**
+     * 设置朋友权限
+     *
+     * @param userId        用户ID
+     * @param contactUserId 联系人用户ID
+     * @param privacy       朋友权限
+     * @param hideMyPosts   不让他看我
+     * @param hideHisPosts  不看他
+     */
+    private void updateContactPrivacy(String userId, final String contactUserId,
+                                      final String privacy, final String hideMyPosts, final String hideHisPosts) {
+        String url = Constant.BASE_URL + "users/" + userId + "/contacts/" + contactUserId + "/privacy";
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("contactId", contactId);
-        paramMap.put("relaPrivacy", relaPrivacy);
-        paramMap.put("relaHideMyPosts", relaHideMyPosts);
-        paramMap.put("relaHideHisPosts", relaHideHisPosts);
+        paramMap.put("privacy", privacy);
+        paramMap.put("hideMyPosts", hideMyPosts);
+        paramMap.put("hideHisPosts", hideHisPosts);
 
         mVolleyUtil.httpPutRequest(url, paramMap, s -> {
-            mDialog.dismiss();
-            mContact.setUserContactPrivacy(relaPrivacy);
-            mContact.setUserContactHideMyPosts(relaHideMyPosts);
-            mContact.setUserContactHideHisPosts(relaHideHisPosts);
+            mContact.setUserContactPrivacy(privacy);
+            mContact.setUserContactHideMyPosts(hideMyPosts);
+            mContact.setUserContactHideHisPosts(hideHisPosts);
             mUserDao.saveUser(mContact);
         }, volleyError -> {
-            mDialog.dismiss();
         });
     }
 
