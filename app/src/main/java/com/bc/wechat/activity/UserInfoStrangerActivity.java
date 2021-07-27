@@ -2,7 +2,6 @@ package com.bc.wechat.activity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,9 +22,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -33,7 +30,7 @@ import butterknife.OnClick;
  *
  * @author zhou
  */
-public class UserInfoStrangerActivity extends BaseActivity2 {
+public class UserInfoStrangerActivity extends BaseActivity {
 
     @BindView(R.id.sdv_avatar)
     SimpleDraweeView mAvatarSdv;
@@ -87,21 +84,26 @@ public class UserInfoStrangerActivity extends BaseActivity2 {
     private String mFrom;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info_stranger);
-        ButterKnife.bind(this);
+    public int getContentView() {
+        return R.layout.activity_user_info_stranger;
+    }
 
+    @Override
+    public void initView() {
         initStatusBar();
         StatusBarUtil.setStatusBarColor(UserInfoStrangerActivity.this, R.color.status_bar_color_white);
+    }
 
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mUserDao = new UserDao();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
-        initView();
-    }
-
-    private void initView() {
         mContactId = getIntent().getStringExtra("contactId");
         mFrom = getIntent().getStringExtra("from");
         // 加载本地数据

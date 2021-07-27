@@ -322,16 +322,11 @@ public class UserSettingActivity extends BaseActivity {
      * @param isStarred 是否星标好友
      */
     private void setContactStarred(final String isStarred) {
-        mDialog.setMessage("正在处理...");
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.show();
-
         String url = Constant.BASE_URL + "users/" + mUser.getUserId() + "/contacts/" + mContactId + "/star";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("isStarred", isStarred);
 
         mVolleyUtil.httpPutRequest(url, paramMap, response -> {
-            mDialog.dismiss();
             if (Constant.CONTACT_IS_STARRED.equals(isStarred)) {
 
                 mAddStarIv.setVisibility(View.GONE);
@@ -347,7 +342,8 @@ public class UserSettingActivity extends BaseActivity {
                 Toast.makeText(UserSettingActivity.this, "已取消星标朋友", Toast.LENGTH_SHORT).show();
             }
             mUserDao.saveUser(mContact);
-        }, volleyError -> mDialog.dismiss());
+        }, volleyError -> {
+        });
 
     }
 
