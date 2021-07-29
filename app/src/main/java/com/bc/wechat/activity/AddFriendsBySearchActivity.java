@@ -140,23 +140,28 @@ public class AddFriendsBySearchActivity extends BaseActivity {
             User user = JSON.parseObject(response, User.class);
             mUserDao.saveUser(user);
             Log.d(TAG, "userId:" + user.getUserId());
-            if (Constant.IS_FRIEND.equals(user.getIsFriend())) {
-                // 好友，进入用户详情页
-                Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoActivity.class);
-                intent.putExtra("userId", user.getUserId());
+            if (userId.equals(user.getUserId())) {
+                Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoMyActivity.class);
                 startActivity(intent);
             } else {
-                String from = "";
-                if (user.getUserPhone().equals(keyword)) {
-                    from = Constant.CONTACTS_FROM_PHONE;
-                } else if (user.getUserWxId().equals(keyword)) {
-                    from = Constant.CONTACTS_FROM_WX_ID;
+                if (Constant.IS_FRIEND.equals(user.getIsFriend())) {
+                    // 好友，进入用户详情页
+                    Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoActivity.class);
+                    intent.putExtra("userId", user.getUserId());
+                    startActivity(intent);
+                } else {
+                    String from = "";
+                    if (user.getUserPhone().equals(keyword)) {
+                        from = Constant.CONTACTS_FROM_PHONE;
+                    } else if (user.getUserWxId().equals(keyword)) {
+                        from = Constant.CONTACTS_FROM_WX_ID;
+                    }
+                    // 陌生人，进入陌生人详情页
+                    Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoStrangerActivity.class);
+                    intent.putExtra("contactId", user.getUserId());
+                    intent.putExtra("from", from);
+                    startActivity(intent);
                 }
-                // 陌生人，进入陌生人详情页
-                Intent intent = new Intent(AddFriendsBySearchActivity.this, UserInfoStrangerActivity.class);
-                intent.putExtra("contactId", user.getUserId());
-                intent.putExtra("from", from);
-                startActivity(intent);
             }
             mDialog.dismiss();
         }, volleyError -> {
