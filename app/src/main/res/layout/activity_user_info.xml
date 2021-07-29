@@ -5,7 +5,7 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ebebeb"
+    android:background="#eeeeee"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
@@ -211,8 +211,8 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp" />
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp" />
 
             <LinearLayout
                 android:id="@+id/ll_mobiles"
@@ -220,8 +220,8 @@
                 android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="8dp" />
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp" />
 
             <RelativeLayout
                 android:id="@+id/rl_tags"
@@ -425,25 +425,28 @@
                 android:background="#ffffff"
                 tools:ignore="RelativeOverlap">
 
-                <ImageView
-                    android:id="@+id/iv_operate"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/tv_operate"
-                    android:src="@mipmap/icon_send_msg" />
-
-                <TextView
-                    android:id="@+id/tv_operate"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="@string/send_message"
-                    android:textColor="#5B6784"
-                    android:textSize="@dimen/common_item_text_size" />
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_operate"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@mipmap/icon_send_msg" />
+
+                    <TextView
+                        android:id="@+id/tv_operate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="@string/send_message"
+                        android:textColor="#5B6784"
+                        android:textSize="@dimen/common_item_text_size" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -459,31 +462,48 @@
                 android:background="#ffffff"
                 tools:ignore="RelativeOverlap">
 
-                <ImageView
-                    android:id="@+id/iv_voice_or_video_call"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/tv_voice_or_video_call"
-                    android:src="@mipmap/icon_voice_or_video_call" />
-
-                <TextView
-                    android:id="@+id/tv_voice_or_video_call"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:layout_centerVertical="true"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:text="@string/voice_or_video_call"
-                    android:textColor="#5B6784"
-                    android:textSize="@dimen/common_item_text_size" />
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/iv_voice_or_video_call"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@mipmap/icon_voice_or_video_call" />
+
+                    <TextView
+                        android:id="@+id/tv_voice_or_video_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="@string/voice_or_video_call"
+                        android:textColor="#5B6784"
+                        android:textSize="@dimen/common_item_text_size" />
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
                     android:background="#DBDBDB" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:text="已添加至黑名单，你将不再收到对方的消息"
+                    android:textColor="#AFAFAF"
+                    android:textSize="13sp" />
             </RelativeLayout>
 
         </LinearLayout>

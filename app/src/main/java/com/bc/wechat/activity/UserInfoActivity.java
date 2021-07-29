@@ -126,6 +126,9 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.tv_operate)
     TextView mOperateTv;
 
+    @BindView(R.id.rl_voice_or_video_call)
+    RelativeLayout mVoiceOrVideoCallRl;
+
     @BindView(R.id.tv_voice_or_video_call)
     TextView mVoiceOrVideoCallTv;
 
@@ -365,6 +368,14 @@ public class UserInfoActivity extends BaseActivity {
         } else {
             mStarFriendsIv.setVisibility(View.GONE);
         }
+
+        // 是否黑名单用户
+        if (Constant.CONTACT_IS_BLOCKED.equals(user.getIsBlocked())) {
+            mVoiceOrVideoCallRl.setVisibility(View.GONE);
+        } else {
+            mVoiceOrVideoCallRl.setVisibility(View.VISIBLE);
+        }
+
     }
 
     /**
