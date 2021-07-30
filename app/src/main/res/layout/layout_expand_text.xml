@@ -8,7 +8,7 @@
         android:id="@+id/contentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_232323"
+        android:textColor="@color/color_moments_default_cover"
         android:textSize="14sp"
         android:text="" />
 

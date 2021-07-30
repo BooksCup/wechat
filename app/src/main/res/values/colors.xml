@@ -78,7 +78,6 @@
     <color name="divider_green">#2FAF7A</color>
 
     <color name="common_hint_grey">#A5A5A5</color>
-
     <!--    朋友圈相关-->
     <color name="transparent">#00000000</color>
     <color name="default_clickable_color">#cccccc</color>
@@ -86,7 +85,7 @@
     <color name="c697A9F">#697A9F</color>
     <color name="praise_item_selector_default">#cccccc</color>
     <color name="praise_item">#8290AF</color>
-    <color name="color_232323">#232323</color>
+    <color name="color_moments_default_cover">#232323</color>
     <color name="cf2f2f2">#f2f2f2</color>
     <color name="color_grey_cccccc">#f7f7f7</color>
     <color name="common_divider">#dfdfdd</color>

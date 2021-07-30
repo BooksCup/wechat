@@ -91,7 +91,7 @@ public class ExploreDongtaiAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         } else if (viewType == TYPE_VIDEO) {
             return new VideotViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_videos_item, parent, false));
         } else if (viewType == TYPE_HEADER) {
-            return new HeadViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_head_item, parent, false));
+            return new HeadViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_header, parent, false));
 
         } else {//默认text
             return new TextViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_txt_item, parent, false));

@@ -1,328 +1,402 @@
 package com.bc.wechat.activity;
 
-
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.DisplayMetrics;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bc.wechat.R;
-import com.bc.wechat.adapter.MomentsAdapter;
-import com.bc.wechat.entity.Location;
-import com.bc.wechat.entity.MyMedia;
-import com.bc.wechat.entity.RecyclerViewItem;
-import com.bc.wechat.entity.User;
-import com.bc.wechat.utils.PreferencesUtil;
-import com.bc.wechat.widget.ImagePickerLoader;
-import com.blankj.utilcode.util.ToastUtils;
-import com.bumptech.glide.Glide;
-import com.lwkandroid.imagepicker.ImagePicker;
-import com.lwkandroid.imagepicker.data.ImageBean;
-import com.lwkandroid.imagepicker.data.ImagePickType;
-import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
-import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshHeader;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.simple.SimpleMultiListener;
-import com.scwang.smart.refresh.layout.util.SmartUtil;
+import com.bc.wechat.moments.adapter.ExploreDongtaiAdapter;
+import com.bc.wechat.moments.adapter.Utils;
+import com.bc.wechat.moments.bean.ExploreDongtaiBean;
+import com.bc.wechat.moments.bean.ExplorePostDianzanBean;
+import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
+import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
+import com.bc.wechat.moments.utils.CustomDotIndexProvider;
+import com.bc.wechat.moments.utils.CustomLoadingUIProvider;
+import com.bc.wechat.moments.utils.GlideSimpleLoader;
+import com.bc.wechat.moments.utils.KeyboardUtil;
+import com.bc.wechat.moments.widget.LikePopupWindow;
+import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
+import com.bc.wechat.utils.StatusBarUtil;
+import com.bc.wechat.views.CustomProgressDrawable;
+import com.bc.wechat.views.CustomSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import byc.imagewatcher.ImageWatcher;
+import byc.imagewatcher.ImageWatcherHelper;
 
-public class MomentsActivity extends BaseActivity2 {
-    private static final String TAG = "FriendsCircleActivity";
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout refreshLayout;
-    @BindView(R.id.parallax)
-    ImageView parallax;
-    @BindView(R.id.scrollView)
-    NestedScrollView scrollView;
-    @BindView(R.id.rv_list)
-    RecyclerView rvList;
-    @BindView(R.id.qtb_topbar)
-    Toolbar topbar;
-    @BindView(R.id.iv_camera)
-    ImageView ivCamera;
-    @BindView(R.id.tv_nickname)
-    TextView tvNickname;
-    @BindView(R.id.sdv_avatar)
-    QMUIRadiusImageView sdvAvatar;
-    @BindView(R.id.cover)
-    LinearLayout cover;
-    @BindView(R.id.fl_root)
-    FrameLayout flRoot;
-    private int mOffset = 0;
-    private int mScrollY = 0;
-    int time = 0;
-    private User mUser;
-    MomentsAdapter mAdapter;
-    LinearLayoutManager linearLayoutManager;
-    private final int REQUEST_CODE_PICKER = 100;
-    ArrayList<MyMedia> photos = new ArrayList<>();
-    private ArrayList<RecyclerViewItem> recyclerViewItemList = new ArrayList<>();
+/**
+ * 朋友圈
+ *
+ * @author zhou
+ */
+public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_listener, ImageWatcher.OnPictureLongPressListener {
 
-    private InputMethodManager mManager;
-    //弹窗
-    private PopupWindow mPopupWindow;
+    @BindView(R.id.srl_refresh)
+    CustomSwipeRefreshLayout mRefreshSrl;
+
+    private RecyclerView mRecyclerView;
+
+    private ExploreDongtaiAdapter adapter;
+    private List<ExploreDongtaiBean> mList = new ArrayList<>();
+
+    private LinearLayout llComment;
+    private EditText etComment;
+    private TextView tvSend;
+
+    public ImageWatcherHelper iwHelper;//方式二
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moments);
-
-        initStatusBar();
-
         ButterKnife.bind(this);
-        PreferencesUtil.getInstance().init(this);
-        mUser = PreferencesUtil.getInstance().getUser();
-        QMUIStatusBarHelper.translucent(this);
-        QMUIStatusBarHelper.setStatusBarLightMode(this);
-        initView();
-    }
+        StatusBarUtil.setStatusBarColor(MomentsActivity.this, R.color.color_moments_default_cover);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-    private void initView() {
-        loadMyTestDate();
-        Glide.with(sdvAvatar).load(mUser.getUserAvatar()).into(sdvAvatar);
-        tvNickname.setText(mUser.getUserNickName());
-        topbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        parallax.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ToastUtils.showShort("Sdfasfadsfasf");
-            }
-        });
-        RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
-        refreshLayout.setOnMultiListener(new SimpleMultiListener() {
-            @Override
-            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-                super.onHeaderMoving(header, isDragging, percent, offset, headerHeight, maxDragHeight);
-                mOffset = offset / 2;
-                parallax.setTranslationY(mOffset - mScrollY);
-                topbar.setAlpha(1 - Math.min(percent, 1));
-            }
+        llComment = findViewById(R.id.ll_comment);
+        etComment = findViewById(R.id.et_comment);
+        tvSend = findViewById(R.id.tv_send_comment);
+        boolean isTranslucentStatus = false;
+        //        新的初始化方式二，不再需要在布局文件中加入<ImageWatcher>标签 减少布局嵌套
+        iwHelper = ImageWatcherHelper.with(this, new GlideSimpleLoader()) // 一般来讲， ImageWatcher 需要占据全屏的位置
+                .setTranslucentStatus(!isTranslucentStatus ? Utils.calcStatusBarHeight(this) : 0) // 如果不是透明状态栏，你需要给ImageWatcher标记 一个偏移值，以修正点击ImageView查看的启动动画的Y轴起点的不正确
+                .setErrorImageRes(R.mipmap.error_picture) // 配置error图标 如果不介意使用lib自带的图标，并不一定要调用这个API
+                .setOnPictureLongPressListener(this)
+                .setOnStateChangedListener(new ImageWatcher.OnStateChangedListener() {
+                    @Override
+                    public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag) {
+                        Log.e("IW", "onStateChangeUpdate [" + position + "][" + uri + "][" + animatedValue + "][" + actionTag + "]");
+                    }
 
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                Log.d(TAG, "onRefresh: " + "刷新");
-                refreshLayout.finishRefresh(3000);
-            }
+                    @Override
+                    public void onStateChanged(ImageWatcher imageWatcher, int position, Uri uri, int actionTag) {
+                        if (actionTag == ImageWatcher.STATE_ENTER_DISPLAYING) {
+                            //  Toast.makeText(getApplicationContext(), "点击了图片 [" + position + "]" + uri + "", Toast.LENGTH_SHORT).show();
+                        } else if (actionTag == ImageWatcher.STATE_EXIT_HIDING) {
+                            //  Toast.makeText(getApplicationContext(), "退出了查看大图", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setIndexProvider(new CustomDotIndexProvider())//自定义页码指示器（默认数字）
+                .setLoadingUIProvider(new CustomLoadingUIProvider()); // 自定义LoadingUI
 
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                time = time + 1;
-            }
-        });
-        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            private int lastScrollY = 0;
-            private int h = SmartUtil.dp2px(300);
-            private int color = ContextCompat.getColor(getApplicationContext(), R.color.design_default_color_on_secondary) & 0x00ffffff;
 
+        setData();
+
+        adapter = new ExploreDongtaiAdapter(mList, this, this);
+        adapter.setIwHelper(iwHelper);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
+        mRecyclerView.setAdapter(adapter);
+        setHeader(mRecyclerView);
+        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (lastScrollY < h) {
-                    scrollY = Math.min(h, scrollY);
-                    mScrollY = scrollY > h ? h : scrollY;
-                    parallax.setTranslationY(mOffset - mScrollY);
-//                    QMUIStatusBarHelper.translucent(MomentsActivity.this);
-                    topbar.setBackgroundColor(getColor(R.color.moments_common_bg));
-                }
-                if (scrollY < 300) {
-                    topbar.setBackgroundColor(0);
-                }
-                lastScrollY = scrollY;
+            public boolean onTouch(View v, MotionEvent event) {
+                hideInput();
+                return false;
             }
         });
 
-        mAdapter = new MomentsAdapter(recyclerViewItemList, this);
-        linearLayoutManager = new LinearLayoutManager(this);
-        rvList.setLayoutManager(linearLayoutManager);
-        rvList.setAdapter(mAdapter);
-        topbar.setBackgroundColor(0);
+        CustomProgressDrawable drawable = new CustomProgressDrawable(this, mRefreshSrl);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.moments_refresh_icon);
+        drawable.setBitmap(bitmap);
+
+        mRefreshSrl.setProgressView(drawable);
+        mRefreshSrl.setBackgroundColor(Color.BLACK);
+        mRefreshSrl.setProgressBackgroundColorSchemeColor(Color.TRANSPARENT);//背景设置透明
+        mRefreshSrl.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        mRefreshSrl.setRefreshing(false);
+                    }
+                };
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        handler.sendEmptyMessage(0);
+                    }
+                }).start();
+            }
+        });
     }
 
-    // 自定义的测试数据（假装这是网络请求并解析后的数据）
-    private void loadMyTestDate() {
-        // 先构造MyMedia
-        String imgUrl1 = "https://i0.hdslb.com/bfs/album/0b6e13b1028b9a7426990034488b4af04b54c719.png";
-        String imgUrl2 = "https://i0.hdslb.com/bfs/album/7db905515628e6c18d8a61f4369a505f1ab0dec2.jpg";
-        String imgUrl3 = "https://i0.hdslb.com/bfs/album/f26eba49f3a8c8fc394f629aba27c7e1da812698.png";
-        // 视频内容：敲架子鼓
-        String videoUrl1 = "http://jzvd.nathen.cn/c6e3dc12a1154626b3476d9bf3bd7266/6b56c5f0dc31428083757a45764763b0-5287d2089db37e62345123a1be272f8b.mp4";
-        // 视频内容：感受到鸭力
-        String videoUrl2 = "http://gslb.miaopai.com/stream/w95S1LIlrb4Hi4zGbAtC4TYx0ta4BVKr-PXjuw__.mp4?vend=miaopai&ssig=8f20ca2d86ec365f0f777b769184f8aa&time_stamp=1574944581588&mpflag=32&unique_id=1574940981591448";
-        // 视频内容：狗崽子
-        String videoUrl4 = "http://gslb.miaopai.com/stream/7-5Q7kCzeec9tu~9XvZAxNizNAL1TJC7KtJCuw__.mp4?vend=miaopai&ssig=82b42debfc2a51569bafe6ac7a993d89&time_stamp=1574944868488&mpflag=32&unique_id=1574940981591448";
-        String videoUrl3 = videoUrl4;
-
-        MyMedia myMedia1 = new MyMedia(imgUrl1, videoUrl1);
-        MyMedia myMedia2 = new MyMedia(imgUrl2);
-        MyMedia myMedia3 = new MyMedia(imgUrl3, videoUrl2);
-        MyMedia myMedia4 = new MyMedia(imgUrl1, videoUrl3);
-        MyMedia myMedia5 = new MyMedia(imgUrl3, videoUrl4);
-        // 再构造mediaList
-        // 1张图片
-        ArrayList<MyMedia> mediaList1 = new ArrayList<>();
-        mediaList1.add(myMedia2);
-        // 2张图片
-        ArrayList<MyMedia> mediaList2 = new ArrayList<>();
-        mediaList2.add(myMedia1);
-        mediaList2.add(myMedia2);
-        // 4张图片
-        ArrayList<MyMedia> mediaList4 = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            mediaList4.add(myMedia1);
-            mediaList4.add(myMedia2);
-        }
-        // 10张图片
-        ArrayList<MyMedia> mediaList10 = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            mediaList10.add(myMedia1);
-            mediaList10.add(myMedia2);
-            mediaList10.add(myMedia3);
-            mediaList10.add(myMedia4);
-            mediaList10.add(myMedia5);
-        }
-
-        Location location = new Location();
-        location.setAddress("Test Address");
-        // 最后构造EvaluationItem
-        final RecyclerViewItem recyclerViewItem1 = new RecyclerViewItem(mediaList1, "河北经贸大学自强社是在校学生处指导、学生资助管理中心主办下，于2008年4月15日注册成立的，一个以在校学生为主体的学生公益社团。历经十年的发展，在学生处、学生资助管理中心的大力支持下，在每一届自强人的团结努力下，自强社已经由成... ", "2019-11-02",
-                "10080", "自强社", location, imgUrl1);
-        final RecyclerViewItem recyclerViewItem2 = new RecyclerViewItem(mediaList2, "河北经贸大学信息技术学院成立于1996年，由原计算机系/经济信息系合并组建而成，是我校建设的第一批学院。", "2019-11-02",
-                "10080", "信息技术学院", location, imgUrl2);
-        final RecyclerViewItem recyclerViewItem4 = new RecyclerViewItem(mediaList4, "河北经贸大学信息技术学院成立于1996年，由原计算机系/经济信息系合并组建而成，是我校建设的第一批学院。", "2019-11-02",
-                "10080", "信息技术学院", location, imgUrl2);
-        final RecyclerViewItem recyclerViewItem10 = new RecyclerViewItem(mediaList10, "河北经贸大学雷雨话剧社是河北经贸大学唯一以话剧为主，兼小品，相声等多种表演艺术形式，由一批热爱表演，热爱话剧，热爱中国传统艺术与当代流行艺术结合的同学共同组成的文艺类大型社团。雷雨话剧社坚持以追求话剧“更新颖”、“更大型”、“更专业”为奋斗目标，坚持在继承传统文化和前辈的演出经验... ", "2019-11-02",
-                "10080", "雷雨话剧社", location, imgUrl3);
-        recyclerViewItemList.add(recyclerViewItem1);
-        recyclerViewItemList.add(recyclerViewItem2);
-        recyclerViewItemList.add(recyclerViewItem4);
-        recyclerViewItemList.add(recyclerViewItem10);
+    private void setHeader(RecyclerView view) {
+        View header = LayoutInflater.from(this).inflate(R.layout.item_my_moments_header, view, false);
+        adapter.setHeaderView(header);
     }
 
-    @OnClick({R.id.sdv_avatar, R.id.iv_camera, R.id.cover})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.sdv_avatar:
-                ToastUtils.showShort("点击了头像");
-                break;
-            case R.id.iv_camera:
-                showPop(view);
-                break;
-            case R.id.cover:
-                new ImagePicker()
-                        .cachePath(Environment.getExternalStorageDirectory().getAbsolutePath())
-                        .pickType(ImagePickType.MULTI)
-                        .displayer(new ImagePickerLoader())
-                        .maxNum(1)
-                        .start(MomentsActivity.this, REQUEST_CODE_PICKER);
-                break;
-        }
+    public void setData() {
+        //文字示例
+        ExploreDongtaiBean bean = new ExploreDongtaiBean();
+        bean.setType(1);
+        bean.setCreattime(System.currentTimeMillis());
+        bean.setId(469);
+        bean.setUserid(28);
+        bean.setNickname("悠麦尔");
+        bean.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
+        bean.setWrittenwords("测试内容\nf\nw\nss");
+        bean.setLikeuself(1);
+//        "altnickname":"",
+//                "altuserid":"",
+//                "content":"八菱科技",
+//                "creattime":1608632610000,
+//                "friendid":468,
+//                "id":60,
+//                "userid":28,
+//                "usernickname":"污嫚尔"
+//    }
+        List<ExplorePostPinglunBean> evea = new ArrayList<>();
+        ExplorePostPinglunBean pinglunBean = new ExplorePostPinglunBean();
+        pinglunBean.setId(60);
+        pinglunBean.setUserid(28);
+        pinglunBean.setUsernickname("悠麦尔");
+        pinglunBean.setContent("hello word");
+        pinglunBean.setCreattime(1608632610000l);
+        pinglunBean.setFriendid(468);
+        evea.add(pinglunBean);
+
+        ExplorePostPinglunBean pinglunBean1 = new ExplorePostPinglunBean();
+        pinglunBean1.setId(60);
+        pinglunBean1.setUserid(29);
+        pinglunBean1.setUsernickname("老鹰");
+        pinglunBean1.setContent("你好");
+        pinglunBean1.setCreattime(1608632610000l);
+        pinglunBean1.setFriendid(468);
+        pinglunBean1.setAltuserid(28 + "");
+        pinglunBean1.setAltnickname("悠麦尔");
+        evea.add(pinglunBean1);
+
+        bean.setEvea(evea);
+
+        List<ExplorePostDianzanBean> fabulous = new ArrayList<>();//点赞列表
+        ExplorePostDianzanBean dianzanBean = new ExplorePostDianzanBean();
+        dianzanBean.setCreattime(1608958770000l);
+        dianzanBean.setFriendid(468);
+        dianzanBean.setId(294);
+        dianzanBean.setUserid(28);
+        dianzanBean.setUsernickname("umr");
+        fabulous.add(dianzanBean);
+
+        ExplorePostDianzanBean dianzanBean1 = new ExplorePostDianzanBean();
+        dianzanBean1.setCreattime(1608958770001l);
+        dianzanBean1.setFriendid(468);
+        dianzanBean1.setId(295);
+        dianzanBean1.setUserid(29);
+        dianzanBean1.setUsernickname("悠麦尔");
+        fabulous.add(dianzanBean1);
+
+        bean.setFabulous(fabulous);
+        mList.add(bean);
+        //图片示例
+        ExploreDongtaiBean bean1 = new ExploreDongtaiBean();
+        bean1.setType(2);
+        bean1.setCreattime(System.currentTimeMillis());
+        bean1.setId(469);
+        bean1.setUserid(28);
+        bean1.setNickname("悠麦尔");
+        bean1.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
+        bean1.setWrittenwords("测试内容\nf\nw\nss");
+        bean1.setLikeuself(1);
+        bean1.setThumbnail("https://image.renlaibang.com/Fhn9WrrxQBPO0IAm395oD3f-k2ZD,https://image.renlaibang.com/Fpbcw0AeZIB3gs7unQIvCAL7Gd0e,https://image.renlaibang.com/Fp5mQrZYnhSRoKayTsPEaBO18Wrt,https://image.renlaibang.com/Ft4S9melEv7AG4QZQKPRZXJltJOk,https://image.renlaibang.com/FgiOlNKk71GfgzunMvRXwi1zzIPp,https://image.renlaibang.com/FrbthQNvH4Y9yM4T_QfydcJhZEiY,https://image.renlaibang.com/Fkvw8YZtmg8kICNRgagrcA53NVvk");
+        bean1.setImgs("https://image.renlaibang.com/FiP9T9ncrNL-AH45IMhQaZgqwwSk,https://image.renlaibang.com/Fpbcw0AeZIB3gs7unQIvCAL7Gd0e,https://image.renlaibang.com/Fp5mQrZYnhSRoKayTsPEaBO18Wrt,https://image.renlaibang.com/Fv4GWEHOMvdMkBHz12XWxtEJMSd1,https://image.renlaibang.com/FgiOlNKk71GfgzunMvRXwi1zzIPp,https://image.renlaibang.com/FhAkT41j6Ma5wGRmYcm4MQF2NjSt,https://image.renlaibang.com/Fj8opkB-dS_Jmg-K41oWRhJQs0i0");
+        mList.add(bean1);
+        //视频示例
+        ExploreDongtaiBean bean2 = new ExploreDongtaiBean();
+        bean2.setType(3);
+        bean2.setCreattime(System.currentTimeMillis());
+        bean2.setId(469);
+        bean2.setUserid(28);
+        bean2.setNickname("悠麦尔");
+        bean2.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
+        bean2.setWrittenwords("测试内容\nf\nw\nss");
+        bean2.setLikeuself(1);
+        bean2.setThumbnail("https://image.renlaibang.com/FmQdWZrmemYUMGrnNFfewz6t4HAR");
+        bean2.setVideos("https://image.renlaibang.com/FkHt1Sft6H0zrhAzwWWfdwrw0h4L");
+        mList.add(bean2);
     }
 
-
+    //评论
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            List<ImageBean> list = data.getParcelableArrayListExtra(ImagePicker.INTENT_RESULT_DATA);
-            for (ImageBean imageBean : list) {
-                Glide.with(parallax).load(imageBean.getImagePath()).into(parallax);
-            }
-        }
+    public void onPinlunEdit(View view, int friendid, String userid, String userName) {
+        showPinglunPopupWindow1(view, friendid, userid, userName);
     }
 
-    private void showPop(View view) {
-        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = layoutInflater.inflate(R.layout.popup_window_add_friends_circle, null);
-        // 给popwindow加上动画效果
-        LinearLayout mPopRootLl = view.findViewById(R.id.ll_pop_root);
-        view.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in));
-        mPopRootLl.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.push_bottom_in));
-        // 设置popwindow的宽高
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        mPopupWindow = new PopupWindow(view, dm.widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+    //点击昵称，头像
+    @Override
+    public void onClickUser(String userid) {
 
-        // 使其聚集
-        mPopupWindow.setFocusable(true);
-        // 设置允许在外点击消失
-        mPopupWindow.setOutsideTouchable(true);
+    }
 
-        // 这个是为了点击“返回Back”也能使其消失，并且并不会影响你的背景
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        backgroundAlpha(0.5f);  //透明度
+    //点击评论点赞按钮
+    @Override
+    public void onClickEdit(View view, int position) {
+        //评论弹框
+        showLikePopupWindow(view, position);
+    }
 
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+    //点击删除朋友圈按钮
+    @Override
+    public void deletePengyouquan(int id) {
+
+    }
+
+    //删除评论按钮
+    @Override
+    public void deleteMypinglun(int ids, ExplorePostPinglunBean id) {
+
+    }
+
+    //点击图片
+    @Override
+    public void imageOnclick() {
+
+    }
+
+    //点击视频
+    @Override
+    public void videoOnclick(String img, String httpUrl) {
+        hideInput();
+        Intent dynamicHaoyou = new Intent(this, ExploreVideoPlayer.class);
+        dynamicHaoyou.putExtra("typeImg", img);
+        dynamicHaoyou.putExtra("typeHttpUrl", httpUrl);
+        startActivity(dynamicHaoyou);
+    }
+
+    public void hideInput() {
+        llComment.setVisibility(View.GONE);
+        KeyboardUtil.hideSoftInput(this, etComment);
+    }
+
+    private LikePopupWindow likePopupWindow;
+
+    private void showLikePopupWindow(final View view, int position) {
+        //item 底部y坐标
+        final int mBottomY = getCoordinateY(view) + view.getHeight();
+        if (likePopupWindow == null) {
+            likePopupWindow = new LikePopupWindow(this, 0);//0.1,分别代表是否点赞
+        }
+        likePopupWindow.setOnPraiseOrCommentClickListener(new OnPraiseOrCommentClickListener() {
             @Override
-            public void onDismiss() {
-                backgroundAlpha(1f);
+            public void onPraiseClick(int position) {
+                //调用点赞接口
+                likePopupWindow.dismiss();
             }
-        });
-        // 弹出的位置
-        mPopupWindow.showAtLocation(flRoot, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
-        // 取消
-        RelativeLayout mCancelRl = view.findViewById(R.id.rl_cancel);
-        RelativeLayout mAddByAlbum = view.findViewById(R.id.rl_add_by_album);
-        mCancelRl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mPopupWindow.dismiss();
+            public void onCommentClick(int position) {
+                llComment.setVisibility(View.VISIBLE);
+                etComment.requestFocus();
+                etComment.setHint("说点什么");
+
+                KeyboardUtil.showSoftInput(MomentsActivity.this);
+                likePopupWindow.dismiss();
+                etComment.setText("");
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        int y = getCoordinateY(llComment);// - 20;
+                        //评论时滑动到对应item底部和输入框顶部对齐
+                        mRecyclerView.smoothScrollBy(0, mBottomY - y);
+                    }
+                }, 300);
             }
-        });
-        mAddByAlbum.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(FriendsCircleActivity.this, FriendsCircleSendActivity.class);
-//                startActivity(intent);
+            public void onClickFrendCircleTopBg() {
+
             }
-        });
+
+            @Override
+            public void onDeleteItem(String id, int position) {
+
+            }
+
+        }).setTextView(0).setCurrentPosition(position);
+        if (likePopupWindow.isShowing()) {
+            likePopupWindow.dismiss();
+        } else {
+            likePopupWindow.showPopupWindow(view);
+        }
     }
 
     /**
-     * 设置添加屏幕的背景透明度
-     * 1.0完全不透明，0.0f完全透明
+     * 获取控件左上顶点Y坐标
      *
-     * @param bgAlpha 透明度值
+     * @param view
+     * @return
      */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        // 0.0-1.0
-        lp.alpha = bgAlpha;
-        getWindow().setAttributes(lp);
+    private int getCoordinateY(View view) {
+        int[] coordinate = new int[2];
+        view.getLocationOnScreen(coordinate);
+        return coordinate[1];
+    }
+
+    @Override
+    public void onPictureLongPress(ImageView v, Uri uri, int pos) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        //方式二
+        if (!iwHelper.handleBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    //当前我给谁发评论，
+    private void showPinglunPopupWindow1(View view, int friendid, String userid, String username) {
+        //item 底部y坐标
+        final int mBottomY = getCoordinateY(view) + view.getHeight();
+
+        llComment.setVisibility(View.VISIBLE);
+        etComment.requestFocus();
+        if (userid == null || userid.equals("")) {//回复这条评论的发送人，楼主
+            etComment.setHint("说点什么");
+        } else {
+            etComment.setHint("回复:" + username);//回复这个人
+        }
+
+        KeyboardUtil.showSoftInput(this, etComment);
+        etComment.setText("");
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int y = getCoordinateY(llComment);// - 20;
+                //评论时滑动到对应item底部和输入框顶部对齐
+                mRecyclerView.smoothScrollBy(0, mBottomY - y);
+            }
+        }, 300);
+
     }
 }
