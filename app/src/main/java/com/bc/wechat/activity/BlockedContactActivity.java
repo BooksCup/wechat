@@ -1,11 +1,13 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.BlockedContactAdapter;
+import com.bc.wechat.cons.Constant;
 import com.bc.wechat.dao.UserDao;
 import com.bc.wechat.entity.User;
 
@@ -54,6 +56,22 @@ public class BlockedContactActivity extends BaseActivity {
 
         mBlockedContactAdapter = new BlockedContactAdapter(this, mBlockedContactList);
         mBlockedContactLv.setAdapter(mBlockedContactAdapter);
+
+        mBlockedContactLv.setOnItemClickListener((parent, view, position, id) -> {
+            User blockedContact = mBlockedContactList.get(position);
+            String isFriend = blockedContact.getIsFriend();
+            if (Constant.IS_FRIEND.equals(isFriend)) {
+                Intent intent = new Intent(BlockedContactActivity.this, UserInfoActivity.class);
+                intent.putExtra("userId", blockedContact.getUserId());
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(BlockedContactActivity.this, UserInfoStrangerActivity.class);
+                intent.putExtra("contactId", blockedContact.getUserId());
+                intent.putExtra("from", blockedContact.getUserContactFrom());
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void back(View view) {
