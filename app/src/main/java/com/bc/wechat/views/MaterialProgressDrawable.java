@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.views;
+package com.bc.wechat.views;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,9 +27,6 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-/**
- * Created by lbf on 2016/7/24.
- */
 public class MaterialProgressDrawable extends Drawable implements Animatable {
     private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
     private static final Interpolator MATERIAL_INTERPOLATOR = new FastOutSlowInInterpolator();
@@ -80,7 +77,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     /**
      * The list of animators operating on this drawable.
      */
-    private final ArrayList<Animation> mAnimators = new ArrayList<Animation>();
+    private final ArrayList<Animation> mAnimators = new ArrayList<>();
 
     /**
      * The indicator ring, used to manage animation state.
@@ -788,4 +785,5 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
             mCallback.invalidateDrawable(null);
         }
     }
+
 }

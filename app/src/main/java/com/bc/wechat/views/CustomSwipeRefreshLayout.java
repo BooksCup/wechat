@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.views;
+package com.bc.wechat.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.core.view.MotionEventCompat;
@@ -27,12 +28,8 @@ import androidx.core.view.NestedScrollingParentHelper;
 import androidx.core.view.ViewCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-/**
- * Created by lbf on 2016/7/24.
- */
 public class CustomSwipeRefreshLayout extends ViewGroup implements NestedScrollingParent,
         NestedScrollingChild {
-
 
     // Maps to ProgressBar.Large style
     public static final int LARGE = MaterialProgressDrawable.LARGE;
@@ -1168,6 +1165,7 @@ public class CustomSwipeRefreshLayout extends ViewGroup implements NestedScrolli
      * triggers a refresh should implement this interface.
      */
     public interface OnRefreshListener {
-        public void onRefresh();
+        void onRefresh();
     }
+
 }

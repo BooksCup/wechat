@@ -1,2 +1,4 @@
 include ':ninegridview'
 include ':app', ':LibZxing'
+include ':imagewatcher'
+include ':qsvideoplayer'

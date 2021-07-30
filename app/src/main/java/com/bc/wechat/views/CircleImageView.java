@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.views;
+package com.bc.wechat.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,9 +13,6 @@ import android.widget.ImageView;
 
 import androidx.core.view.ViewCompat;
 
-/**
- * Created by lbf on 2016/7/24.
- */
 public class CircleImageView extends ImageView {
 
     private static final int KEY_SHADOW_COLOR = 0x1E000000;
