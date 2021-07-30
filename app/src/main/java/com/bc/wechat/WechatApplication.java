@@ -1,6 +1,7 @@
 package com.bc.wechat;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
 import com.baidu.mapapi.SDKInitializer;
@@ -35,6 +36,8 @@ import cn.jpush.im.android.api.model.UserInfo;
  */
 public class WechatApplication extends Application implements Observer {
 
+    // 全局Context
+    private static Context mContext;
     public static LocationService locationService;
     ObserverManager manager;
     User mUser;
@@ -42,6 +45,7 @@ public class WechatApplication extends Application implements Observer {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = getApplicationContext();
 
         mUser = PreferencesUtil.getInstance().getUser();
         Fresco.initialize(this);
@@ -162,6 +166,10 @@ public class WechatApplication extends Application implements Observer {
     @Override
     public void receiveMsg(int viewType, Message msg) {
 
+    }
+
+    public static Context getContext() {
+        return mContext;
     }
 
 }
