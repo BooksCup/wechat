@@ -6,7 +6,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.moments.widget.NineGridView;
 
 
-public class ImgViewHolder extends ComViewHolder {
+public class ImgViewHolder extends BaseViewHolder {
     public NineGridView nineGridView;
 
     public ImgViewHolder(View itemView) {

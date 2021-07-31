@@ -12,7 +12,7 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/dongtai_portrait"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -47,7 +47,7 @@
 
             </RelativeLayout>
 
-            <com.bc.wechat.moments.widget.ExpandTextView
+            <com.bc.wechat.widget.ExpandTextView
                 android:id="@+id/dongtai_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"

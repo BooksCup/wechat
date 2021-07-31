@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,12 +15,14 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/dongtai_portrait"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp" />
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            fresco:placeholderImage="@mipmap/default_user_avatar"
+            fresco:roundedCornerRadius="5dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,84 +39,83 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_centerVertical="true"
                     android:id="@+id/dongtai_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="昵称"
-                    android:textColor="#333333"
-                    android:textSize="16sp"
-                    android:singleLine="true"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
                     android:maxWidth="200dp"
-                    android:ellipsize="end" />
-
+                    android:singleLine="true"
+                    android:text="昵称"
+                    android:textColor="@color/navy_blue"
+                    android:textSize="@dimen/common_item_text_size" />
             </RelativeLayout>
 
-            <com.bc.wechat.moments.widget.ExpandTextView
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+            <com.bc.wechat.widget.ExpandTextView
                 android:id="@+id/dongtai_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <RelativeLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <TextView
-                    android:layout_centerVertical="true"
                     android:id="@+id/dongtai_tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="刚刚" />
 
                 <TextView
-                    android:layout_centerVertical="true"
                     android:id="@+id/dongtai_tv_delete"
-                    android:layout_marginLeft="17dp"
-                    android:layout_toRightOf="@+id/dongtai_tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="17dp"
+                    android:layout_toRightOf="@+id/dongtai_tv_time"
                     android:text="删除" />
 
                 <ImageView
-                    android:layout_centerVertical="true"
                     android:id="@+id/dongtai_tv_plugs"
-                    android:layout_alignParentRight="true"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/comments_drawable_blue" />
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_marginTop="8dp"
                 android:id="@+id/dongtai_rv_all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#F5F5F5">
+                android:layout_marginTop="8dp"
+                android:background="#F5F5F5"
+                android:orientation="vertical">
 
                 <com.bc.wechat.moments.widget.PraiseListView
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
                     android:id="@+id/dongtai_rv_like"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
                     android:textColor="@color/black"
+                    android:textSize="14sp"
                     app:item_color="@color/praise_item" />
 
                 <com.bc.wechat.moments.widget.CommentsView
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginTop="8dp"
                     android:id="@+id/dongtai_rv_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
                     app:item_color="@color/praise_item" />
             </LinearLayout>
 
@@ -126,4 +130,5 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/common_divider" />
+
 </LinearLayout>

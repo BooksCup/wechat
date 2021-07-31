@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.bc.wechat.R;
 
 
-public class VideotViewHolder extends ComViewHolder {
+public class VideotViewHolder extends BaseViewHolder {
 
     public ImageView videos;
 

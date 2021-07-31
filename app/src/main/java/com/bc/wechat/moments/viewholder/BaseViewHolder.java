@@ -5,17 +5,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import com.bc.wechat.R;
 import com.bc.wechat.moments.widget.CommentsView;
-import com.bc.wechat.moments.widget.ExpandTextView;
 import com.bc.wechat.moments.widget.PraiseListView;
+import com.bc.wechat.widget.ExpandTextView;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 基础viewHolder
+ *
+ * @author zhou
+ */
+public class BaseViewHolder extends RecyclerView.ViewHolder {
 
-public class ComViewHolder extends RecyclerView.ViewHolder {
-    public ImageView portrait;//发布人头像
+    public SimpleDraweeView portrait;//发布人头像
     public TextView nickname;//发布人昵称
     public ExpandTextView content;//文字内容
     public TextView time;//发布时间
@@ -26,9 +31,9 @@ public class ComViewHolder extends RecyclerView.ViewHolder {
     public CommentsView pinglunList;//评论列表
     public View dongtaiDriver;
 
-    public ComViewHolder(View itemView) {
+    public BaseViewHolder(View itemView) {
         super(itemView);
-        portrait = (ImageView) itemView.findViewById(R.id.dongtai_portrait);
+        portrait = itemView.findViewById(R.id.dongtai_portrait);
         nickname = (TextView) itemView.findViewById(R.id.dongtai_nickname);
         content = (ExpandTextView) itemView.findViewById(R.id.dongtai_content);
         time = (TextView) itemView.findViewById(R.id.dongtai_tv_time);
@@ -39,4 +44,5 @@ public class ComViewHolder extends RecyclerView.ViewHolder {
         linearLayoutAll = (LinearLayout) itemView.findViewById(R.id.dongtai_rv_all);
         dongtaiDriver = (View) itemView.findViewById(R.id.dongtai_driver);
     }
+
 }

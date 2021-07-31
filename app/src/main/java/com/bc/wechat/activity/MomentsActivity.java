@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.moments.adapter.ExploreDongtaiAdapter;
+import com.bc.wechat.adapter.MomentsAdapter;
 import com.bc.wechat.moments.adapter.Utils;
 import com.bc.wechat.moments.bean.ExploreDongtaiBean;
 import com.bc.wechat.moments.bean.ExplorePostDianzanBean;
@@ -56,7 +56,7 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
 
     private RecyclerView mRecyclerView;
 
-    private ExploreDongtaiAdapter adapter;
+    private MomentsAdapter mAdapter;
     private List<ExploreDongtaiBean> mList = new ArrayList<>();
 
     private LinearLayout llComment;
@@ -103,11 +103,11 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
 
         setData();
 
-        adapter = new ExploreDongtaiAdapter(mList, this, this);
-        adapter.setIwHelper(iwHelper);
+        mAdapter = new MomentsAdapter(mList, this, this);
+        mAdapter.setIwHelper(iwHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
         setHeader(mRecyclerView);
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -152,7 +152,7 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
 
     private void setHeader(RecyclerView view) {
         View header = LayoutInflater.from(this).inflate(R.layout.item_my_moments_header, view, false);
-        adapter.setHeaderView(header);
+        mAdapter.setHeaderView(header);
     }
 
     public void setData() {
