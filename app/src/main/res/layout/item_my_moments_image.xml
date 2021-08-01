@@ -88,8 +88,8 @@
 
                 <ImageView
                     android:id="@+id/iv_comment"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
+                    android:layout_width="30dp"
+                    android:layout_height="18dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:src="@mipmap/icon_comment" />
