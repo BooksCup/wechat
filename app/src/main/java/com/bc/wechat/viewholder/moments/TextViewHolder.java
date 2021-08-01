@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.viewholder;
+package com.bc.wechat.viewholder.moments;
 
 import android.view.View;
 

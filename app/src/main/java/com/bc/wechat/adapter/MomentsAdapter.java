@@ -23,11 +23,11 @@ import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
 import com.bc.wechat.moments.utils.TimeUtil;
-import com.bc.wechat.moments.viewholder.BaseViewHolder;
-import com.bc.wechat.moments.viewholder.HeadViewHolder;
-import com.bc.wechat.moments.viewholder.ImgViewHolder;
-import com.bc.wechat.moments.viewholder.TextViewHolder;
-import com.bc.wechat.moments.viewholder.VideotViewHolder;
+import com.bc.wechat.viewholder.moments.BaseViewHolder;
+import com.bc.wechat.viewholder.moments.HeadViewHolder;
+import com.bc.wechat.viewholder.moments.ImgViewHolder;
+import com.bc.wechat.viewholder.moments.TextViewHolder;
+import com.bc.wechat.viewholder.moments.VideotViewHolder;
 import com.bc.wechat.moments.widget.CommentsView;
 import com.bc.wechat.moments.widget.NineGridView;
 import com.bc.wechat.moments.widget.PraiseListView;
@@ -85,7 +85,6 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mHeaderView = headerView;
         notifyItemInserted(0);
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -184,11 +183,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         // 处理公用部分
         final BaseViewHolder viewHolder = (BaseViewHolder) viewHolder1;
-        //头像
+        // 头像
         if (!TextUtils.isEmpty(dongtaiBean.getHandimg())) {
             viewHolder.mAvatarSdv.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
         }
-        //昵称
+        // 昵称
         viewHolder.mNickNameTv.setText(dongtaiBean.getNickname());
         viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,8 +201,8 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 onclickUser(mList.get(position).getUserid() + "");
             }
         });
-        //内容
-        viewHolder.content.setText(dongtaiBean.getWrittenwords());
+        // 内容
+        viewHolder.mContentEtv.setText(dongtaiBean.getWrittenwords());
         if (dongtaiBean.getFabulous() != null && dongtaiBean.getFabulous().size() > 0 ||
                 dongtaiBean.getEvea() != null && dongtaiBean.getEvea().size() > 0) {
             viewHolder.linearLayoutAll.setVisibility(View.VISIBLE);
@@ -271,13 +270,13 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.linearLayoutAll.setVisibility(View.GONE);
         }
         if ((dongtaiBean.getUserid() + "").equals("我自己 ")) {
-            viewHolder.delete.setVisibility(View.VISIBLE);
+            viewHolder.mDeleteTv.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.delete.setVisibility(View.GONE);
+            viewHolder.mDeleteTv.setVisibility(View.GONE);
         }
         if (dongtaiBean.getCreattime() != 0) {
             String time = TimeUtil.converTime1(mContent, dongtaiBean.getCreattime());
-            viewHolder.time.setText(time + "");
+            viewHolder.mTimeTv.setText(time + "");
         }
         viewHolder.dianzanPinglun.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,7 +286,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         });
-        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mDeleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (expandFoldListener != null) {

@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.viewholder;
+package com.bc.wechat.viewholder.moments;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -14,4 +14,5 @@ public class VideotViewHolder extends BaseViewHolder {
         super(itemView);
         videos = (ImageView) itemView.findViewById(R.id.dongtai_videos);
     }
+
 }

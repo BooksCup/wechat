@@ -51,7 +51,7 @@
             </RelativeLayout>
 
             <com.bc.wechat.widget.ExpandTextView
-                android:id="@+id/dongtai_content"
+                android:id="@+id/etv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -66,20 +66,20 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/dongtai_tv_time"
+                    android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="刚刚" />
 
                 <TextView
-                    android:id="@+id/dongtai_tv_delete"
+                    android:id="@+id/tv_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="17dp"
-                    android:layout_toRightOf="@+id/dongtai_tv_time"
-                    android:text="删除" />
+                    android:layout_marginStart="17dp"
+                    android:layout_toEndOf="@+id/tv_time"
+                    android:text="@string/delete" />
 
                 <ImageView
                     android:id="@+id/dongtai_tv_plugs"
