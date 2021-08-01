@@ -30,7 +30,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public TextView mTimeTv;
     // 删除
     public TextView mDeleteTv;
-    public ImageView dianzanPinglun;//点赞评论按钮
+    // 点赞评论按钮
+    public ImageView mCommentIv;
     public LinearLayout linearLayoutAll;//点赞评论的背景
     public PraiseListView dianzanList;//点赞列表
     public CommentsView pinglunList;//评论列表
@@ -43,7 +44,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         mContentEtv = itemView.findViewById(R.id.etv_content);
         mTimeTv = itemView.findViewById(R.id.tv_time);
         mDeleteTv = itemView.findViewById(R.id.tv_delete);
-        dianzanPinglun = (ImageView) itemView.findViewById(R.id.dongtai_tv_plugs);
+        mCommentIv = itemView.findViewById(R.id.iv_comment);
         dianzanList = (PraiseListView) itemView.findViewById(R.id.dongtai_rv_like);
         pinglunList = (CommentsView) itemView.findViewById(R.id.dongtai_rv_comment);
         linearLayoutAll = (LinearLayout) itemView.findViewById(R.id.dongtai_rv_all);

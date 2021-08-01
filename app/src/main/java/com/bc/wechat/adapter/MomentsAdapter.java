@@ -278,7 +278,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             String time = TimeUtil.converTime1(mContent, dongtaiBean.getCreattime());
             viewHolder.mTimeTv.setText(time + "");
         }
-        viewHolder.dianzanPinglun.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (expandFoldListener != null) {
