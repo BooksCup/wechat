@@ -7,14 +7,12 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.bc.wechat.utils.SimpleWeakObjectPool;
 
-
 /**
- * @author zhaojin
- * @date 2018/8/10
  * 图片九宫格
+ *
+ * @author zhou
  */
 public class NineGridView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
     private NineGridAdapter mAdapter;
@@ -235,4 +233,5 @@ public class NineGridView extends ViewGroup implements ViewGroup.OnHierarchyChan
     public interface OnImageClickListener {
         void onImageClick(int position, View view);
     }
+
 }

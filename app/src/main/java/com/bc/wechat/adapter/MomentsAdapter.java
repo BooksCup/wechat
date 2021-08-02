@@ -34,7 +34,6 @@ import com.bc.wechat.moments.widget.PraiseListView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -91,7 +90,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_IMAGE) {
-            return new ImgViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_img_item, parent, false));
+            return new ImgViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_image, parent, false));
         } else if (viewType == TYPE_VIDEO) {
             return new VideotViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_videos_item, parent, false));
         } else if (viewType == TYPE_HEADER) {
