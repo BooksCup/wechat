@@ -92,7 +92,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType == TYPE_IMAGE) {
             return new ImgViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_image, parent, false));
         } else if (viewType == TYPE_VIDEO) {
-            return new VideotViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_videos_item, parent, false));
+            return new VideotViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_video, parent, false));
         } else if (viewType == TYPE_HEADER) {
             return new HeadViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_header, parent, false));
         } else {
@@ -186,17 +186,17 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final BaseViewHolder viewHolder = (BaseViewHolder) viewHolder1;
         //头像
         if (!TextUtils.isEmpty(dongtaiBean.getHandimg())) {
-            viewHolder.portrait.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
+            viewHolder.mAvatarSdv.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
         }
         //昵称
-        viewHolder.nickname.setText(dongtaiBean.getNickname());
-        viewHolder.portrait.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mNickNameTv.setText(dongtaiBean.getNickname());
+        viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onclickUser(mList.get(position).getUserid() + "");
             }
         });
-        viewHolder.nickname.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mNickNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onclickUser(mList.get(position).getUserid() + "");

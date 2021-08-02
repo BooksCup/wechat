@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/dongtai_portrait"
+            android:id="@+id/sdv_avatar"
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:layout_marginStart="12dp"
@@ -37,14 +37,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/dongtai_nickname"
+                    android:id="@+id/tv_nick_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:ellipsize="end"
                     android:maxWidth="200dp"
                     android:singleLine="true"
-                    android:text="昵称"
                     android:textColor="@color/navy_blue"
                     android:textSize="@dimen/common_item_text_size" />
 

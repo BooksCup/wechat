@@ -20,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
-    public SimpleDraweeView portrait;//发布人头像
-    public TextView nickname;//发布人昵称
+    // 发布人头像
+    public SimpleDraweeView mAvatarSdv;
+    // 发布人昵称
+    public TextView mNickNameTv;
     public ExpandTextView content;//文字内容
     public TextView time;//发布时间
     public TextView delete;//删除
@@ -33,8 +35,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder(View itemView) {
         super(itemView);
-        portrait = itemView.findViewById(R.id.dongtai_portrait);
-        nickname = (TextView) itemView.findViewById(R.id.dongtai_nickname);
+        mAvatarSdv = itemView.findViewById(R.id.sdv_avatar);
+        mNickNameTv = itemView.findViewById(R.id.tv_nick_name);
         content = (ExpandTextView) itemView.findViewById(R.id.dongtai_content);
         time = (TextView) itemView.findViewById(R.id.dongtai_tv_time);
         delete = (TextView) itemView.findViewById(R.id.dongtai_tv_delete);
