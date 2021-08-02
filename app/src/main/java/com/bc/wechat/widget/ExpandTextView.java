@@ -17,12 +17,13 @@ import com.bc.wechat.R;
  * @author zhou
  */
 public class ExpandTextView extends LinearLayout {
-    // 最大的行数
-    public static final int DEFAULT_MAX_LINES = 3;
-    private TextView contentText;
-    private TextView textState;
 
-    private int showLines;
+    // 最大的行数(默认)
+    public static final int DEFAULT_MAX_LINES = 3;
+    private TextView mContentTv;
+    private TextView mStateTv;
+
+    private int mShowLines;
 
     private ExpandStatusListener expandStatusListener;
     private boolean isExpand;
@@ -47,29 +48,26 @@ public class ExpandTextView extends LinearLayout {
     private void initView() {
         setOrientation(LinearLayout.VERTICAL);
         LayoutInflater.from(getContext()).inflate(R.layout.layout_expand_text, this);
-        contentText = (TextView) findViewById(R.id.contentText);
-        if (showLines > 0) {
-            contentText.setMaxLines(showLines);
+        mContentTv = findViewById(R.id.tv_content);
+        if (mShowLines > 0) {
+            mContentTv.setMaxLines(mShowLines);
         }
 
-        textState = (TextView) findViewById(R.id.textState);
-        textState.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String textStr = textState.getText().toString().trim();
-                if ("全文".equals(textStr)) {
-                    contentText.setMaxLines(Integer.MAX_VALUE);
-                    textState.setText("收起");
-                    setExpand(true);
-                } else {
-                    contentText.setMaxLines(showLines);
-                    textState.setText("全文");
-                    setExpand(false);
-                }
-                //通知外部状态已变更
-                if (expandStatusListener != null) {
-                    expandStatusListener.statusChange(isExpand());
-                }
+        mStateTv = findViewById(R.id.tv_state);
+        mStateTv.setOnClickListener(view -> {
+            String textStr = mStateTv.getText().toString().trim();
+            if ("全文".equals(textStr)) {
+                mContentTv.setMaxLines(Integer.MAX_VALUE);
+                mStateTv.setText("收起");
+                setExpand(true);
+            } else {
+                mContentTv.setMaxLines(mShowLines);
+                mStateTv.setText("全文");
+                setExpand(false);
+            }
+            //通知外部状态已变更
+            if (expandStatusListener != null) {
+                expandStatusListener.statusChange(isExpand());
             }
         });
     }
@@ -77,40 +75,37 @@ public class ExpandTextView extends LinearLayout {
     private void initAttrs(AttributeSet attrs) {
         TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ExpandTextView, 0, 0);
         try {
-            showLines = typedArray.getInt(R.styleable.ExpandTextView_showLines, DEFAULT_MAX_LINES);
+            mShowLines = typedArray.getInt(R.styleable.ExpandTextView_showLines, DEFAULT_MAX_LINES);
         } finally {
             typedArray.recycle();
         }
     }
 
     public void setText(final CharSequence content) {
-        contentText.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        mContentTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
             @Override
             public boolean onPreDraw() {
                 // 避免重复监听
-                contentText.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                int linCount = contentText.getLineCount();
-                if (linCount > showLines) {
+                mContentTv.getViewTreeObserver().removeOnPreDrawListener(this);
+                int linCount = mContentTv.getLineCount();
+                if (linCount > mShowLines) {
 
                     if (isExpand) {
-                        contentText.setMaxLines(Integer.MAX_VALUE);
-                        textState.setText("收起");
+                        mContentTv.setMaxLines(Integer.MAX_VALUE);
+                        mStateTv.setText("收起");
                     } else {
-                        contentText.setMaxLines(showLines);
-                        textState.setText("全文");
+                        mContentTv.setMaxLines(mShowLines);
+                        mStateTv.setText("全文");
                     }
-                    textState.setVisibility(View.VISIBLE);
+                    mStateTv.setVisibility(View.VISIBLE);
                 } else {
-                    textState.setVisibility(View.GONE);
+                    mStateTv.setVisibility(View.GONE);
                 }
                 return true;
             }
-
-
         });
-        contentText.setText(content);
+        mContentTv.setText(content);
     }
 
     public void setExpand(boolean isExpand) {
@@ -126,7 +121,6 @@ public class ExpandTextView extends LinearLayout {
     }
 
     public interface ExpandStatusListener {
-
         void statusChange(boolean isExpand);
     }
 

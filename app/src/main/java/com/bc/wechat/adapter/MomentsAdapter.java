@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.adapter;
+package com.bc.wechat.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,13 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.bc.wechat.R;
+import com.bc.wechat.moments.adapter.NineImageAdapter;
 import com.bc.wechat.moments.bean.ExploreDongtaiBean;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
 import com.bc.wechat.moments.utils.TimeUtil;
-import com.bc.wechat.moments.viewholder.ComViewHolder;
+import com.bc.wechat.moments.viewholder.BaseViewHolder;
 import com.bc.wechat.moments.viewholder.HeadViewHolder;
 import com.bc.wechat.moments.viewholder.ImgViewHolder;
 import com.bc.wechat.moments.viewholder.TextViewHolder;
@@ -47,11 +49,13 @@ import byc.imagewatcher.ImageWatcherHelper;
 import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
- * 动态
+ * 朋友圈
  */
-public class ExploreDongtaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     public static final int TYPE_HEADER = 0;   //helder
-    public static final int TYPE_TEXT = 1;   //文本
+    // 文本
+    public static final int TYPE_TEXT = 1;
     public static final int TYPE_IMAGE = 2; //图片
     public static final int TYPE_VIDEO = 3; //视频
     public static final int TYPE_WEB = 4;  //网页
@@ -66,7 +70,7 @@ public class ExploreDongtaiAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private DrawableTransitionOptions mDrawableTransitionOptions;
     private ImageWatcherHelper iwHelper;
 
-    public ExploreDongtaiAdapter(List<ExploreDongtaiBean> list, Activity context, Explore_dongtai1_listener expandFoldListener) {
+    public MomentsAdapter(List<ExploreDongtaiBean> list, Activity context, Explore_dongtai1_listener expandFoldListener) {
         mContent = context;
         this.mList = list;
         this.expandFoldListener = expandFoldListener;
@@ -92,9 +96,9 @@ public class ExploreDongtaiAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return new VideotViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_videos_item, parent, false));
         } else if (viewType == TYPE_HEADER) {
             return new HeadViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_header, parent, false));
-
-        } else {//默认text
-            return new TextViewHolder(mContent.getLayoutInflater().inflate(R.layout.explore_pengyouquan_txt_item, parent, false));
+        } else {
+            // 默认text
+            return new TextViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_text, parent, false));
         }
     }
 
@@ -179,10 +183,12 @@ public class ExploreDongtaiAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
             }
         }
-        //处理其他公用部分
-        final ComViewHolder viewHolder = (ComViewHolder) viewHolder1;
+        // 处理公用部分
+        final BaseViewHolder viewHolder = (BaseViewHolder) viewHolder1;
         //头像
-        loadImage(mContent, dongtaiBean.getHandimg(), viewHolder.portrait);
+        if (!TextUtils.isEmpty(dongtaiBean.getHandimg())) {
+            viewHolder.portrait.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
+        }
         //昵称
         viewHolder.nickname.setText(dongtaiBean.getNickname());
         viewHolder.portrait.setOnClickListener(new View.OnClickListener() {
@@ -329,23 +335,23 @@ public class ExploreDongtaiAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-    //    加载网络图片圆角
-    public void loadImage(Context context, String path, ImageView imageView) {
-        RoundedCorners roundedCorners = new RoundedCorners(20);//数字为圆角度数
-        RequestOptions coverRequestOptions = new RequestOptions()
-                .transforms(new CenterCrop(), roundedCorners)//, roundedCorners
-//                .error(R.mipmap.default_img)//加载错误显示
-//                .placeholder(R.mipmap.default_img)//加载中显示
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全部
-//                .skipMemoryCache(true)
-                ;//不做内存缓存
-
-        //Glide 加载图片简单用法
-        Glide.with(context)
-                .load(path)
-                .apply(coverRequestOptions)
-                .into(imageView);
-    }
+//    //    加载网络图片圆角
+//    public void loadImage(Context context, String path, ImageView imageView) {
+//        RoundedCorners roundedCorners = new RoundedCorners(20);//数字为圆角度数
+//        RequestOptions coverRequestOptions = new RequestOptions()
+//                .transforms(new CenterCrop(), roundedCorners)//, roundedCorners
+////                .error(R.mipmap.default_img)//加载错误显示
+////                .placeholder(R.mipmap.default_img)//加载中显示
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全部
+////                .skipMemoryCache(true)
+//                ;//不做内存缓存
+//
+//        //Glide 加载图片简单用法
+//        Glide.with(context)
+//                .load(path)
+//                .apply(coverRequestOptions)
+//                .into(imageView);
+//    }
 
 
     //不带圆角，目前视频使用
