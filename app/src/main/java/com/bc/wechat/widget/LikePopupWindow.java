@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.widget;
+package com.bc.wechat.widget;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -11,31 +11,29 @@ import android.widget.TextView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.moments.adapter.Utils;
-
+import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
 
 /**
- * @作者: njb
- * @时间: 2019/7/24 11:32
- * @描述: 点赞评论popup
+ * 朋友圈点赞评论窗口
+ *
+ * @author zhou
  */
 public class LikePopupWindow extends PopupWindow implements View.OnClickListener {
-    private Context mContext;
 
     private OnPraiseOrCommentClickListener mOnPraiseOrCommentClickListener;
-
     private int mPopupWindowHeight;
     private int mPopupWindowWidth;
     private int mCurrentPosition;
     private TextView commentPopupText;
 
     public LikePopupWindow(Context context, int isLike) {
-        View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_like, null);
+        View contentView = LayoutInflater.from(context).inflate(R.layout.popup_window_like, null);
         this.setContentView(contentView);
         contentView.findViewById(R.id.ll_like).setOnClickListener(this);
         contentView.findViewById(R.id.ll_comment).setOnClickListener(this);
         //不设置宽高将无法显示popupWindow
         this.mPopupWindowHeight = Utils.dp2px(40);
-        this.mPopupWindowWidth = Utils.dp2px(200);
+        this.mPopupWindowWidth = Utils.dp2px(180);
         this.setHeight(mPopupWindowHeight);
         this.setWidth(mPopupWindowWidth);
         // 设置SelectPicPopupWindow弹出窗体可点击
@@ -58,7 +56,7 @@ public class LikePopupWindow extends PopupWindow implements View.OnClickListener
     }
 
     public LikePopupWindow setTextView(int isLike) {
-        commentPopupText.setText(isLike == 0 ? "点赞" : "取消点赞");
+        commentPopupText.setText(isLike == 0 ? "赞" : "取消");
         return this;
     }
 
@@ -95,4 +93,5 @@ public class LikePopupWindow extends PopupWindow implements View.OnClickListener
             }
         }
     }
+
 }
