@@ -306,4 +306,6 @@
     <string name="blocked_contact_tips">已添加至黑名单，你将不再收到对方的消息</string>
 
     <string name="copied" translatable="false">已复制</string>
+    <string name="like">赞</string>
+    <string name="comment">评论</string>
 </resources>

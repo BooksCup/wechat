@@ -75,7 +75,6 @@ public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView 
         notifyDataSetChanged();
     }
 
-
     public void notifyDataSetChanged() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
         if (datas != null && datas.size() > 0) {
@@ -94,12 +93,9 @@ public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView 
                 }
             }
         }
-
         setText(builder);
-
         setMovementMethod(new CircleMovementMethod(itemSelectorColor));
     }
-
 
     private SpannableString setImageSpan() {
         String text = "  ";

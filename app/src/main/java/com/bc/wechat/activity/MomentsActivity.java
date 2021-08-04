@@ -28,7 +28,7 @@ import com.bc.wechat.moments.utils.CustomDotIndexProvider;
 import com.bc.wechat.moments.utils.CustomLoadingUIProvider;
 import com.bc.wechat.moments.utils.GlideSimpleLoader;
 import com.bc.wechat.moments.utils.KeyboardUtil;
-import com.bc.wechat.moments.widget.LikePopupWindow;
+import com.bc.wechat.widget.LikePopupWindow;
 import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.views.CustomProgressDrawable;
