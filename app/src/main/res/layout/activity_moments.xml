@@ -3,18 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.bc.wechat.views.CustomSwipeRefreshLayout
-        android:id="@+id/srl_refresh"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ebebeb"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/white"
-            android:id="@+id/recyclerView"
+        <RelativeLayout
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/top_bar_height"
+            android:background="@color/common_top_bar"
+            android:visibility="gone">
 
-    </com.bc.wechat.views.CustomSwipeRefreshLayout>
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="@dimen/top_bar_back_width"
+                android:layout_height="@dimen/top_bar_back_height"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:onClick="back"
+                android:scaleType="centerInside"
+                android:src="@drawable/btn_top_back" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="@string/user_settings"
+                android:textColor="@color/common_top_title"
+                android:textSize="@dimen/top_bar_title_text_size" />
+        </RelativeLayout>
+
+        <com.bc.wechat.views.CustomSwipeRefreshLayout
+            android:id="@+id/srl_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+        </com.bc.wechat.views.CustomSwipeRefreshLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_comment"

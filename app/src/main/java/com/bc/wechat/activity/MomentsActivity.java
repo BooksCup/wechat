@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
@@ -33,6 +34,7 @@ import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.views.CustomProgressDrawable;
 import com.bc.wechat.views.CustomSwipeRefreshLayout;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,10 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
     @BindView(R.id.srl_refresh)
     CustomSwipeRefreshLayout mRefreshSrl;
 
+    @BindView(R.id.rl_title)
+    RelativeLayout mTitleRl;
+
+    SimpleDraweeView mAvatarSdv;
     private RecyclerView mRecyclerView;
 
     private MomentsAdapter mAdapter;
@@ -106,9 +112,9 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
         mAdapter = new MomentsAdapter(mList, this, this);
         mAdapter.setIwHelper(iwHelper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this));
         mRecyclerView.setAdapter(mAdapter);
         setHeader(mRecyclerView);
+
         mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -152,6 +158,7 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
 
     private void setHeader(RecyclerView view) {
         View header = LayoutInflater.from(this).inflate(R.layout.item_my_moments_header, view, false);
+        mAvatarSdv = header.findViewById(R.id.sdv_avatar);
         mAdapter.setHeaderView(header);
     }
 
@@ -399,4 +406,5 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
         }, 300);
 
     }
+
 }
