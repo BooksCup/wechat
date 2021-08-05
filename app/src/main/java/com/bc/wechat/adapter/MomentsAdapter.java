@@ -27,7 +27,7 @@ import com.bc.wechat.viewholder.moments.BaseViewHolder;
 import com.bc.wechat.viewholder.moments.HeadViewHolder;
 import com.bc.wechat.viewholder.moments.ImgViewHolder;
 import com.bc.wechat.viewholder.moments.TextViewHolder;
-import com.bc.wechat.viewholder.moments.VideotViewHolder;
+import com.bc.wechat.viewholder.moments.VideoViewHolder;
 import com.bc.wechat.moments.widget.CommentsView;
 import com.bc.wechat.moments.widget.NineGridView;
 import com.bc.wechat.moments.widget.PraiseListView;
@@ -49,6 +49,8 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
  * 朋友圈
+ *
+ * @author zhou
  */
 public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -91,7 +93,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType == TYPE_IMAGE) {
             return new ImgViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_image, parent, false));
         } else if (viewType == TYPE_VIDEO) {
-            return new VideotViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_video, parent, false));
+            return new VideoViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_video, parent, false));
         } else if (viewType == TYPE_HEADER) {
             return new HeadViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_header, parent, false));
         } else {
@@ -106,18 +108,18 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder1, final int pos) {
-        if (viewHolder1 instanceof HeadViewHolder) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int pos) {
+        if (viewHolder instanceof HeadViewHolder) {
             return;
         }
-        final int position = getRealPosition(viewHolder1);
+        final int position = getRealPosition(viewHolder);
         ExploreDongtaiBean dongtaiBean = mList.get(position);
-        if (viewHolder1 instanceof TextViewHolder) {
+        if (viewHolder instanceof TextViewHolder) {
             //将数据添加到布局中
-            TextViewHolder textViewHolder = (TextViewHolder) viewHolder1;
-        } else if (viewHolder1 instanceof ImgViewHolder) {
+            TextViewHolder textViewHolder = (TextViewHolder) viewHolder;
+        } else if (viewHolder instanceof ImgViewHolder) {
             //将数据添加到另一个布局中
-            final ImgViewHolder imgViewHolder = (ImgViewHolder) viewHolder1;
+            final ImgViewHolder imgViewHolder = (ImgViewHolder) viewHolder;
             imgViewHolder.nineGridView.setSingleImageSize(80, 120);
             if (dongtaiBean.getThumbnail() != null && !dongtaiBean.getThumbnail().equals("")) {
                 //,分割开的数据取出来
@@ -154,9 +156,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
             }
-        } else if (viewHolder1 instanceof VideotViewHolder) {
+        } else if (viewHolder instanceof VideoViewHolder) {
             //将数据添加到另一个布局中
-            VideotViewHolder videotViewHolder = (VideotViewHolder) viewHolder1;
+            VideoViewHolder videoViewHolder = (VideoViewHolder) viewHolder;
             System.out.println("");
             if (dongtaiBean.getThumbnail() == null || dongtaiBean.getThumbnail().equals("")) {
 
@@ -164,14 +166,14 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String suoluetuUrl = "";
                 if (dongtaiBean.getThumbnail().contains(",")) {
                     String temp[] = dongtaiBean.getThumbnail().split(",");
-                    loadImage1(mContent, temp[0], videotViewHolder.videos);
+                    loadImage1(mContent, temp[0], videoViewHolder.videos);
                     suoluetuUrl = temp[0];
                 } else {
-                    loadImage1(mContent, dongtaiBean.getThumbnail(), videotViewHolder.videos);
+                    loadImage1(mContent, dongtaiBean.getThumbnail(), videoViewHolder.videos);
                     suoluetuUrl = dongtaiBean.getThumbnail();
                 }
                 final String suoluetuUrl1 = suoluetuUrl;
-                videotViewHolder.videos.setOnClickListener(new View.OnClickListener() {
+                videoViewHolder.videos.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (expandFoldListener != null) {
@@ -182,38 +184,38 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         // 处理公用部分
-        final BaseViewHolder viewHolder = (BaseViewHolder) viewHolder1;
+        final BaseViewHolder baseViewHolder = (BaseViewHolder) viewHolder;
         // 头像
         if (!TextUtils.isEmpty(dongtaiBean.getHandimg())) {
-            viewHolder.mAvatarSdv.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
+            baseViewHolder.mAvatarSdv.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
         }
         // 昵称
-        viewHolder.mNickNameTv.setText(dongtaiBean.getNickname());
-        viewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
+        baseViewHolder.mNickNameTv.setText(dongtaiBean.getNickname());
+        baseViewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onclickUser(mList.get(position).getUserid() + "");
             }
         });
-        viewHolder.mNickNameTv.setOnClickListener(new View.OnClickListener() {
+        baseViewHolder.mNickNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onclickUser(mList.get(position).getUserid() + "");
             }
         });
         // 内容
-        viewHolder.mContentEtv.setText(dongtaiBean.getWrittenwords());
+        baseViewHolder.mContentEtv.setText(dongtaiBean.getWrittenwords());
         if (dongtaiBean.getFabulous() != null && dongtaiBean.getFabulous().size() > 0 ||
                 dongtaiBean.getEvea() != null && dongtaiBean.getEvea().size() > 0) {
-            viewHolder.linearLayoutAll.setVisibility(View.VISIBLE);
+            baseViewHolder.linearLayoutAll.setVisibility(View.VISIBLE);
 
             //点赞列表
 
             if (dongtaiBean.getFabulous() != null && dongtaiBean.getFabulous().size() > 0) {
-                viewHolder.dianzanList.setVisibility(View.VISIBLE);
+                baseViewHolder.dianzanList.setVisibility(View.VISIBLE);
 
-                viewHolder.dianzanList.setDatas(dongtaiBean.getFabulous());
-                viewHolder.dianzanList.setOnItemClickListener(new PraiseListView.OnItemClickListener() {
+                baseViewHolder.dianzanList.setDatas(dongtaiBean.getFabulous());
+                baseViewHolder.dianzanList.setOnItemClickListener(new PraiseListView.OnItemClickListener() {
                     @Override
                     public void onClick(int position) {
                         onclickUser(mList.get(position).getFabulous().get(position).getUserid() + "");
@@ -221,23 +223,23 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
 //                viewHolder.dianzanList.notifyDataSetChanged();错误
             } else {
-                viewHolder.dianzanList.setVisibility(View.GONE);
+                baseViewHolder.dianzanList.setVisibility(View.GONE);
 
             }
             //评论列表
             if (dongtaiBean.getEvea() != null && dongtaiBean.getEvea().size() > 0) {
                 System.out.println("评论是否显示1");
-                viewHolder.pinglunList.setVisibility(View.VISIBLE);
-                viewHolder.pinglunList.setList(dongtaiBean.getEvea());
-                viewHolder.pinglunList.setOnCommentListener(new CommentsView.CommentListener() {
+                baseViewHolder.pinglunList.setVisibility(View.VISIBLE);
+                baseViewHolder.pinglunList.setList(dongtaiBean.getEvea());
+                baseViewHolder.pinglunList.setOnCommentListener(new CommentsView.CommentListener() {
                     @SuppressLint("NewApi")
                     @Override
                     public void CommentClick(View view, int position, ExplorePostPinglunBean bean) {
                         //如果点击得 是自己
                         if (bean.getCommentsUser().getUserId().equals("我自己")) {
                             //如果是自己发的，可以删除,请求网络，返回数据刷新页面
-                            showDeletePopWindow(viewHolder.pinglunList, mList.get(position).getId(), (bean),
-                                    viewHolder.getLayoutPosition() - 1, position);
+                            showDeletePopWindow(baseViewHolder.pinglunList, mList.get(position).getId(), (bean),
+                                    baseViewHolder.getLayoutPosition() - 1, position);
                         } else {
                             //不相同则开始回复，这里需要判断是回复说说的发布者，还是评论者，，
                             if (expandFoldListener != null) {
@@ -252,7 +254,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void CommentLongClick(View view, int position1, ExplorePostPinglunBean bean) {
                         System.out.println("当前长按点击弹出复制框");
-                        showCopyPopWindow(viewHolder.pinglunList, bean.getContent());
+                        showCopyPopWindow(baseViewHolder.pinglunList, bean.getContent());
                     }
 
                     @Override
@@ -261,24 +263,24 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
 //
-                viewHolder.pinglunList.notifyDataSetChanged();
+                baseViewHolder.pinglunList.notifyDataSetChanged();
             } else {
                 System.out.println("评论是否显示2");
-                viewHolder.pinglunList.setVisibility(View.GONE);
+                baseViewHolder.pinglunList.setVisibility(View.GONE);
             }
         } else {
-            viewHolder.linearLayoutAll.setVisibility(View.GONE);
+            baseViewHolder.linearLayoutAll.setVisibility(View.GONE);
         }
         if ((dongtaiBean.getUserid() + "").equals("我自己 ")) {
-            viewHolder.mDeleteTv.setVisibility(View.VISIBLE);
+            baseViewHolder.mDeleteTv.setVisibility(View.VISIBLE);
         } else {
-            viewHolder.mDeleteTv.setVisibility(View.GONE);
+            baseViewHolder.mDeleteTv.setVisibility(View.GONE);
         }
         if (dongtaiBean.getCreattime() != 0) {
             String time = TimeUtil.converTime1(mContent, dongtaiBean.getCreattime());
-            viewHolder.mTimeTv.setText(time + "");
+            baseViewHolder.mTimeTv.setText(time + "");
         }
-        viewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
+        baseViewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (expandFoldListener != null) {
@@ -286,7 +288,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         });
-        viewHolder.mDeleteTv.setOnClickListener(new View.OnClickListener() {
+        baseViewHolder.mDeleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (expandFoldListener != null) {
