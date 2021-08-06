@@ -115,8 +115,8 @@
                 android:background="#F5F5F5"
                 android:orientation="vertical">
 
-                <com.bc.wechat.moments.widget.PraiseListView
-                    android:id="@+id/dongtai_rv_like"
+                <com.bc.wechat.widget.MomentsLikeListView
+                    android:id="@+id/lv_like"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"

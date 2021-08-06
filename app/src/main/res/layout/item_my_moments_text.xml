@@ -58,7 +58,7 @@
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:textSize="@dimen/common_item_text_size" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -70,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:textSize="11sp"
                     android:text="刚刚" />
 
                 <TextView
@@ -95,18 +96,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="#F5F5F5"
+                android:background="@drawable/bg_moments_like_and_comment"
                 android:orientation="vertical">
 
-                <com.bc.wechat.moments.widget.PraiseListView
-                    android:id="@+id/dongtai_rv_like"
+                <com.bc.wechat.widget.MomentsLikeListView
+                    android:id="@+id/lv_like"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginRight="4dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/navy_blue"
                     android:textSize="14sp"
-                    app:item_color="@color/praise_item" />
+                    android:textStyle="bold"
+                    app:item_color="@color/navy_blue" />
 
                 <com.bc.wechat.moments.widget.CommentsView
                     android:id="@+id/dongtai_rv_comment"

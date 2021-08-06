@@ -308,4 +308,7 @@
     <string name="copied" translatable="false">已复制</string>
     <string name="like">赞</string>
     <string name="comment">评论</string>
+
+    <string name="show_more">全文</string>
+    <string name="show_less">收起</string>
 </resources>

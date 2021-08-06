@@ -20,13 +20,13 @@ public class ExpandTextView extends LinearLayout {
 
     // 最大的行数(默认)
     public static final int DEFAULT_MAX_LINES = 3;
-    private TextView mContentTv;
-    private TextView mStateTv;
+    TextView mContentTv;
+    TextView mStateTv;
 
-    private int mShowLines;
+    int mShowLines;
 
-    private ExpandStatusListener expandStatusListener;
-    private boolean isExpand;
+    ExpandStatusListener expandStatusListener;
+    boolean isExpand;
 
     public ExpandTextView(Context context) {
         super(context);
@@ -55,14 +55,14 @@ public class ExpandTextView extends LinearLayout {
 
         mStateTv = findViewById(R.id.tv_state);
         mStateTv.setOnClickListener(view -> {
-            String textStr = mStateTv.getText().toString().trim();
-            if ("全文".equals(textStr)) {
+            String state = mStateTv.getText().toString().trim();
+            if (getContext().getString(R.string.show_more).equals(state)) {
                 mContentTv.setMaxLines(Integer.MAX_VALUE);
-                mStateTv.setText("收起");
+                mStateTv.setText(getContext().getString(R.string.show_less));
                 setExpand(true);
             } else {
                 mContentTv.setMaxLines(mShowLines);
-                mStateTv.setText("全文");
+                mStateTv.setText(getContext().getString(R.string.show_more));
                 setExpand(false);
             }
             //通知外部状态已变更
@@ -73,7 +73,8 @@ public class ExpandTextView extends LinearLayout {
     }
 
     private void initAttrs(AttributeSet attrs) {
-        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.ExpandTextView, 0, 0);
+        TypedArray typedArray = getContext().getTheme().
+                obtainStyledAttributes(attrs, R.styleable.ExpandTextView, 0, 0);
         try {
             mShowLines = typedArray.getInt(R.styleable.ExpandTextView_showLines, DEFAULT_MAX_LINES);
         } finally {
@@ -93,10 +94,10 @@ public class ExpandTextView extends LinearLayout {
 
                     if (isExpand) {
                         mContentTv.setMaxLines(Integer.MAX_VALUE);
-                        mStateTv.setText("收起");
+                        mStateTv.setText(getContext().getString(R.string.show_less));
                     } else {
                         mContentTv.setMaxLines(mShowLines);
-                        mStateTv.setText("全文");
+                        mStateTv.setText(getContext().getString(R.string.show_more));
                     }
                     mStateTv.setVisibility(View.VISIBLE);
                 } else {

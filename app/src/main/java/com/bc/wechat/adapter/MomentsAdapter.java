@@ -30,7 +30,7 @@ import com.bc.wechat.viewholder.moments.TextViewHolder;
 import com.bc.wechat.viewholder.moments.VideoViewHolder;
 import com.bc.wechat.moments.widget.CommentsView;
 import com.bc.wechat.moments.widget.NineGridView;
-import com.bc.wechat.moments.widget.PraiseListView;
+import com.bc.wechat.widget.MomentsLikeListView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -212,10 +212,10 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //点赞列表
 
             if (dongtaiBean.getFabulous() != null && dongtaiBean.getFabulous().size() > 0) {
-                baseViewHolder.dianzanList.setVisibility(View.VISIBLE);
+                baseViewHolder.mLikeLv.setVisibility(View.VISIBLE);
 
-                baseViewHolder.dianzanList.setDatas(dongtaiBean.getFabulous());
-                baseViewHolder.dianzanList.setOnItemClickListener(new PraiseListView.OnItemClickListener() {
+                baseViewHolder.mLikeLv.setDatas(dongtaiBean.getFabulous());
+                baseViewHolder.mLikeLv.setOnItemClickListener(new MomentsLikeListView.OnItemClickListener() {
                     @Override
                     public void onClick(int position) {
                         onclickUser(mList.get(position).getFabulous().get(position).getUserid() + "");
@@ -223,7 +223,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
 //                viewHolder.dianzanList.notifyDataSetChanged();错误
             } else {
-                baseViewHolder.dianzanList.setVisibility(View.GONE);
+                baseViewHolder.mLikeLv.setVisibility(View.GONE);
 
             }
             //评论列表
