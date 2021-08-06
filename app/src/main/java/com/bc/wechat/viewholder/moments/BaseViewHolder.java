@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
-import com.bc.wechat.moments.widget.CommentsView;
+import com.bc.wechat.widget.CommentsView;
 import com.bc.wechat.widget.ExpandTextView;
 import com.bc.wechat.widget.MomentsLikeListView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -14,7 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * 基础viewHolder
+ * 朋友圈基础viewHolder
  *
  * @author zhou
  */
@@ -35,7 +35,8 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public LinearLayout linearLayoutAll;//点赞评论的背景
     // 点赞列表
     public MomentsLikeListView mLikeLv;
-    public CommentsView pinglunList;//评论列表
+    // 评论列表
+    public CommentsView mCommentsCv;
     public View dongtaiDriver;
 
     public BaseViewHolder(View itemView) {
@@ -47,7 +48,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         mDeleteTv = itemView.findViewById(R.id.tv_delete);
         mCommentIv = itemView.findViewById(R.id.iv_comment);
         mLikeLv = itemView.findViewById(R.id.lv_like);
-        pinglunList = (CommentsView) itemView.findViewById(R.id.dongtai_rv_comment);
+        mCommentsCv = itemView.findViewById(R.id.cv_comment);
         linearLayoutAll = (LinearLayout) itemView.findViewById(R.id.dongtai_rv_all);
         dongtaiDriver = (View) itemView.findViewById(R.id.dongtai_driver);
     }

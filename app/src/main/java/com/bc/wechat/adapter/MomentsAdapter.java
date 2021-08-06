@@ -28,7 +28,7 @@ import com.bc.wechat.viewholder.moments.HeadViewHolder;
 import com.bc.wechat.viewholder.moments.ImgViewHolder;
 import com.bc.wechat.viewholder.moments.TextViewHolder;
 import com.bc.wechat.viewholder.moments.VideoViewHolder;
-import com.bc.wechat.moments.widget.CommentsView;
+import com.bc.wechat.widget.CommentsView;
 import com.bc.wechat.moments.widget.NineGridView;
 import com.bc.wechat.widget.MomentsLikeListView;
 import com.bumptech.glide.Glide;
@@ -54,12 +54,16 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  */
 public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int TYPE_HEADER = 0;   //helder
+    // header
+    public static final int TYPE_HEADER = 0;
     // 文本
     public static final int TYPE_TEXT = 1;
-    public static final int TYPE_IMAGE = 2; //图片
-    public static final int TYPE_VIDEO = 3; //视频
-    public static final int TYPE_WEB = 4;  //网页
+    // 图片
+    public static final int TYPE_IMAGE = 2;
+    // 视频
+    public static final int TYPE_VIDEO = 3;
+    // 网页
+    public static final int TYPE_WEB = 4;
 
     private View mHeaderView;
 
@@ -123,7 +127,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             imgViewHolder.nineGridView.setSingleImageSize(80, 120);
             if (dongtaiBean.getThumbnail() != null && !dongtaiBean.getThumbnail().equals("")) {
                 //,分割开的数据取出来
-                List<String> result = new ArrayList<String>();
+                List<String> result = new ArrayList<>();
                 if (dongtaiBean.getThumbnail().indexOf(",") >= 0) {
                     // 字符串中有逗号  即：str = "a,b,c"
                     result = Arrays.asList(dongtaiBean.getThumbnail().split(","));
@@ -229,16 +233,16 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //评论列表
             if (dongtaiBean.getEvea() != null && dongtaiBean.getEvea().size() > 0) {
                 System.out.println("评论是否显示1");
-                baseViewHolder.pinglunList.setVisibility(View.VISIBLE);
-                baseViewHolder.pinglunList.setList(dongtaiBean.getEvea());
-                baseViewHolder.pinglunList.setOnCommentListener(new CommentsView.CommentListener() {
+                baseViewHolder.mCommentsCv.setVisibility(View.VISIBLE);
+                baseViewHolder.mCommentsCv.setList(dongtaiBean.getEvea());
+                baseViewHolder.mCommentsCv.setOnCommentListener(new CommentsView.CommentListener() {
                     @SuppressLint("NewApi")
                     @Override
                     public void CommentClick(View view, int position, ExplorePostPinglunBean bean) {
                         //如果点击得 是自己
                         if (bean.getCommentsUser().getUserId().equals("我自己")) {
                             //如果是自己发的，可以删除,请求网络，返回数据刷新页面
-                            showDeletePopWindow(baseViewHolder.pinglunList, mList.get(position).getId(), (bean),
+                            showDeletePopWindow(baseViewHolder.mCommentsCv, mList.get(position).getId(), (bean),
                                     baseViewHolder.getLayoutPosition() - 1, position);
                         } else {
                             //不相同则开始回复，这里需要判断是回复说说的发布者，还是评论者，，
@@ -254,7 +258,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void CommentLongClick(View view, int position1, ExplorePostPinglunBean bean) {
                         System.out.println("当前长按点击弹出复制框");
-                        showCopyPopWindow(baseViewHolder.pinglunList, bean.getContent());
+                        showCopyPopWindow(baseViewHolder.mCommentsCv, bean.getContent());
                     }
 
                     @Override
@@ -263,10 +267,10 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
 //
-                baseViewHolder.pinglunList.notifyDataSetChanged();
+                baseViewHolder.mCommentsCv.notifyDataSetChanged();
             } else {
                 System.out.println("评论是否显示2");
-                baseViewHolder.pinglunList.setVisibility(View.GONE);
+                baseViewHolder.mCommentsCv.setVisibility(View.GONE);
             }
         } else {
             baseViewHolder.linearLayoutAll.setVisibility(View.GONE);

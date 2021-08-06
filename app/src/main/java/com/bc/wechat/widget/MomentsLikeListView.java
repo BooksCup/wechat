@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.widget;
+package com.bc.wechat.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,13 +19,14 @@ import com.bc.wechat.moments.spannable.SpannableClickable;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 /**
- * @作者: njb
- * @时间: 2019/7/22 19:04
- * @描述: 点赞列表
+ * 朋友圈点赞列表
+ *
+ * @author zhou
  */
-public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView {
+public class MomentsLikeListView extends androidx.appcompat.widget.AppCompatTextView {
 
     private int itemColor;
     private int itemSelectorColor;
@@ -40,26 +41,28 @@ public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView 
         this.onItemClickListener = onItemClickListener;
     }
 
-    public PraiseListView(Context context) {
+    public MomentsLikeListView(Context context) {
         super(context);
     }
 
-    public PraiseListView(Context context, AttributeSet attrs) {
+    public MomentsLikeListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(attrs);
     }
 
-    public PraiseListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MomentsLikeListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(attrs);
     }
 
     private void initAttrs(AttributeSet attrs) {
-        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.PraiseListView, 0, 0);
+        TypedArray typedArray = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.MomentsLikeListView, 0, 0);
         try {
-            //textview的默认颜色
-            itemColor = typedArray.getColor(R.styleable.PraiseListView_item_color, getResources().getColor(R.color.c697A9F));
-            itemSelectorColor = typedArray.getColor(R.styleable.PraiseListView_item_selector_color, getResources().getColor(R.color.praise_item_selector_default));
+            // textview的默认颜色
+            itemColor = typedArray.getColor(R.styleable.MomentsLikeListView_item_color,
+                    ContextCompat.getColor(getContext(), R.color.navy_blue));
+            itemSelectorColor = typedArray.getColor(R.styleable.MomentsLikeListView_item_selector_color,
+                    ContextCompat.getColor(getContext(), R.color.praise_item_selector_default));
 
         } finally {
             typedArray.recycle();
@@ -85,9 +88,7 @@ public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView 
                 item = datas.get(i);
                 if (item != null) {
                     builder.append(setClickableSpan(item.getUsernickname(), i));
-                    System.out.println("当前 i:" + i + "   " + (datas.size() - 1));
                     if (i != (datas.size() - 1)) {
-                        System.out.println("当前 i1:" + i + "   " + (datas.size() - 1));
                         builder.append(",");
                     }
                 }
@@ -100,7 +101,7 @@ public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView 
     private SpannableString setImageSpan() {
         String text = "  ";
         SpannableString imgSpanText = new SpannableString(text);
-        Drawable drawable = getContext().getResources().getDrawable(R.drawable.heart_drawable_blue);
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.icon_like);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         ImageSpan imageSpan = new ImageSpan(drawable);
         imgSpanText.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -130,4 +131,5 @@ public class PraiseListView extends androidx.appcompat.widget.AppCompatTextView 
     public interface OnItemClickListener {
         void onClick(int position);
     }
+
 }

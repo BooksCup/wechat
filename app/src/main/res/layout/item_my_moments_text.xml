@@ -70,8 +70,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:textSize="11sp"
-                    android:text="刚刚" />
+                    android:text="刚刚"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tv_delete"
@@ -111,14 +111,14 @@
                     android:textStyle="bold"
                     app:item_color="@color/navy_blue" />
 
-                <com.bc.wechat.moments.widget.CommentsView
-                    android:id="@+id/dongtai_rv_comment"
+                <com.bc.wechat.widget.CommentsView
+                    android:id="@+id/cv_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="4dp"
-                    app:item_color="@color/praise_item" />
+                    app:item_color="@color/navy_blue" />
             </LinearLayout>
 
             <View

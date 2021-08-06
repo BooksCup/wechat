@@ -125,8 +125,8 @@
                     android:textSize="14sp"
                     app:item_color="@color/praise_item" />
 
-                <com.bc.wechat.moments.widget.CommentsView
-                    android:id="@+id/dongtai_rv_comment"
+                <com.bc.wechat.widget.CommentsView
+                    android:id="@+id/cv_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
