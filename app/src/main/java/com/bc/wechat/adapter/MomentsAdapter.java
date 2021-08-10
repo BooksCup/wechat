@@ -19,13 +19,15 @@ import android.widget.Toast;
 import com.bc.wechat.R;
 import com.bc.wechat.entity.Moments;
 import com.bc.wechat.entity.MomentsComment;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.moments.adapter.NineImageAdapter;
 import com.bc.wechat.moments.bean.ExploreDongtaiBean;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
-import com.bc.wechat.moments.utils.TimeUtil;
 import com.bc.wechat.utils.CollectionUtils;
+import com.bc.wechat.utils.PreferencesUtil;
+import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.viewholder.moments.BaseViewHolder;
 import com.bc.wechat.viewholder.moments.HeadViewHolder;
 import com.bc.wechat.viewholder.moments.ImgViewHolder;
@@ -77,9 +79,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private RequestOptions mRequestOptions;
     private DrawableTransitionOptions mDrawableTransitionOptions;
     private ImageWatcherHelper iwHelper;
+    User mUser;
 
     public MomentsAdapter(List<Moments> mMomentsList, Activity context, Explore_dongtai1_listener expandFoldListener) {
         mContent = context;
+        mUser = PreferencesUtil.getInstance().getUser();
         this.mMomentsList = mMomentsList;
         this.expandFoldListener = expandFoldListener;
         this.mRequestOptions = new RequestOptions().centerCrop();
@@ -276,15 +280,15 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             baseViewHolder.mLikeAndCommentLl.setVisibility(View.GONE);
         }
-//        if ((dongtaiBean.getUserid() + "").equals("我自己 ")) {
-//            baseViewHolder.mDeleteTv.setVisibility(View.VISIBLE);
-//        } else {
-//            baseViewHolder.mDeleteTv.setVisibility(View.GONE);
-//        }
-//        if (dongtaiBean.getCreattime() != 0) {
-//            String time = TimeUtil.converTime1(mContent, dongtaiBean.getCreattime());
-//            baseViewHolder.mTimeTv.setText(time + "");
-//        }
+        if (moments.getUserId().equals(mUser.getUserId())) {
+            baseViewHolder.mDeleteTv.setVisibility(View.VISIBLE);
+        } else {
+            baseViewHolder.mDeleteTv.setVisibility(View.GONE);
+        }
+        if (moments.getTimestamp() != 0) {
+            String prettyTime = TimeUtil.getMomentPrettyTime(moments.getTimestamp());
+            baseViewHolder.mTimeTv.setText(prettyTime);
+        }
         baseViewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -328,7 +332,6 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
     }
-
 
     @Override
     public int getItemCount() {

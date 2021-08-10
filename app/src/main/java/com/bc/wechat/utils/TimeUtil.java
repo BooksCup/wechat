@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class TimeUtil {
+
     /**
      * 返回指定pattern样的日期时间字符串。
      *
@@ -33,7 +34,7 @@ public class TimeUtil {
      * <p>
      * 2）7天之外（即>7天）的逻辑：直接显示完整日期时间。
      *
-     * @param srcDateTime         要处理的源日期时间对象
+     * @param srcDateTime     要处理的源日期时间对象
      * @param mustIncludeTime true表示输出的格式里一定会包含“时间:分钟”，否则不包含（参考微信，不包含时分的情况，用于首页“消息”中显示时）
      * @return 输出格式形如：“10:30”、“昨天 12:04”、“前天 20:51”、“星期二”、“2019/2/21 12:09”等形式
      * @author 即时通讯网([url = http : / / www.52im.net]http : / / www.52im.net[ / url])
@@ -127,4 +128,41 @@ public class TimeUtil {
         }
         return ret;
     }
+
+    /**
+     * 获取朋友圈的发布显示时间
+     *
+     * @param timestamp 发布时间戳
+     * @return 发布显示时间
+     */
+    public static String getMomentPrettyTime(long timestamp) {
+        long nowTimestamp = System.currentTimeMillis() / 1000;
+        // 与现在时间相差秒数
+        long timeDifference = nowTimestamp - timestamp / 1000;
+
+        long secondTime = timeDifference;
+        long minuteTime = secondTime / 60;
+        long hoursTime = minuteTime / 60;
+
+        long dayTime = hoursTime / 24;
+        long monthTime = dayTime / 30;
+        long yearTime = monthTime / 12;
+
+        if (1 <= yearTime) {
+            return yearTime + "年前";
+        } else if (1 <= monthTime) {
+            return monthTime + "月前";
+        } else if (1 <= dayTime) {
+            return dayTime + "天前";
+        } else if (1 <= hoursTime) {
+            return hoursTime + "小时前";
+        } else if (1 <= minuteTime) {
+            return minuteTime + "分钟前";
+        } else if (1 <= secondTime) {
+            return secondTime + "秒前";
+        } else {
+            return "刚刚";
+        }
+    }
+
 }
