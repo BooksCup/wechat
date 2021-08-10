@@ -60,7 +60,7 @@
                 android:textSize="16sp" />
 
             <com.bc.wechat.moments.widget.NineGridView
-                android:id="@+id/dongtai_layout_nine"
+                android:id="@+id/gv_photos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:sapcing="4dp" />
@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="刚刚" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tv_delete"
@@ -84,7 +84,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="17dp"
                     android:layout_toEndOf="@+id/tv_time"
-                    android:text="@string/delete" />
+                    android:text="@string/delete"
+                    android:textSize="11sp" />
 
                 <ImageView
                     android:id="@+id/iv_comment"

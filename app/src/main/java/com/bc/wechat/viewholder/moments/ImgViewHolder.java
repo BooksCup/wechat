@@ -5,13 +5,18 @@ import android.view.View;
 import com.bc.wechat.R;
 import com.bc.wechat.moments.widget.NineGridView;
 
+/**
+ * 九宫格图片
+ *
+ * @author zhou
+ */
 public class ImgViewHolder extends BaseViewHolder {
 
-    public NineGridView nineGridView;
+    public NineGridView mPhotosGv;
 
     public ImgViewHolder(View itemView) {
         super(itemView);
-        nineGridView = (NineGridView) itemView.findViewById(R.id.dongtai_layout_nine);
+        mPhotosGv = (NineGridView) itemView.findViewById(R.id.gv_photos);
     }
 
 }

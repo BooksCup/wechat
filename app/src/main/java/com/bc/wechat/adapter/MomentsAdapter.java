@@ -26,6 +26,7 @@ import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
 import com.bc.wechat.utils.CollectionUtils;
+import com.bc.wechat.utils.JsonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.viewholder.moments.BaseViewHolder;
@@ -136,42 +137,26 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (viewHolder instanceof ImgViewHolder) {
             //将数据添加到另一个布局中
             final ImgViewHolder imgViewHolder = (ImgViewHolder) viewHolder;
-            imgViewHolder.nineGridView.setSingleImageSize(80, 120);
-//            if (dongtaiBean.getThumbnail() != null && !dongtaiBean.getThumbnail().equals("")) {
-//                //,分割开的数据取出来
-//                List<String> result = new ArrayList<>();
-//                if (dongtaiBean.getThumbnail().indexOf(",") >= 0) {
-//                    // 字符串中有逗号  即：str = "a,b,c"
-//                    result = Arrays.asList(dongtaiBean.getThumbnail().split(","));
-//                } else {
-//                    result.add(dongtaiBean.getThumbnail());
-//                }
-//
-//                List<String> result1 = new ArrayList<String>();
-//                if (dongtaiBean.getImgs().indexOf(",") >= 0) {
-//                    // 字符串中有逗号  即：str = "a,b,c"
-//                    result1 = Arrays.asList(dongtaiBean.getThumbnail().split(","));
-//                } else {
-//                    result1.add(dongtaiBean.getThumbnail());
-//                }
-//                final List<Uri> tempYuantu = getImageUriList(result1);
-//                imgViewHolder.nineGridView.setAdapter(new NineImageAdapter(mContent,
-//                        mRequestOptions, mDrawableTransitionOptions, result));
-//                imgViewHolder.nineGridView.setOnImageClickListener(new NineGridView.OnImageClickListener() {
-//                    @Override
-//                    public void onImageClick(int position, View view) {
-//                        if (iwHelper != null) {
-//                            iwHelper.show((ImageView) view, imgViewHolder.nineGridView.getImageViews(),
-//                                    tempYuantu);
-//                        }
-//                        if (expandFoldListener != null) {
-//                            //返回主页去弹出评论
-//                            expandFoldListener.imageOnclick();//刷新
-//
-//                        }
-//                    }
-//                });
-//            }
+            imgViewHolder.mPhotosGv.setSingleImageSize(80, 120);
+            if (!TextUtils.isEmpty(moments.getPhotos())) {
+                List<String> photoList = JsonUtil.jsonArrayToList(moments.getPhotos(), String.class);
+                final List<Uri> photoUriList = getPhotoUriList(photoList);
+                imgViewHolder.mPhotosGv.setAdapter(new NineImageAdapter(mContent,
+                        mRequestOptions, mDrawableTransitionOptions, photoList));
+                imgViewHolder.mPhotosGv.setOnImageClickListener(new NineGridView.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(int position, View view) {
+                        if (iwHelper != null) {
+                            iwHelper.show((ImageView) view, imgViewHolder.mPhotosGv.getImageViews(),
+                                    photoUriList);
+                        }
+                        if (expandFoldListener != null) {
+                            // 返回主页去弹出评论
+                            expandFoldListener.imageOnclick();
+                        }
+                    }
+                });
+            }
         } else if (viewHolder instanceof VideoViewHolder) {
             //将数据添加到另一个布局中
             VideoViewHolder videoViewHolder = (VideoViewHolder) viewHolder;
@@ -457,14 +442,14 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return contentView;
     }
 
-    public List<Uri> getImageUriList(List<String> files) {
-        List<Uri> imageUriList = new ArrayList<>();
-        if (files != null && files.size() > 0) {
-            for (String str : files) {
-                imageUriList.add(Uri.parse(str));
+    public List<Uri> getPhotoUriList(List<String> photoList) {
+        List<Uri> photoUriList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(photoList)) {
+            for (String photo : photoList) {
+                photoUriList.add(Uri.parse(photo));
             }
         }
-        return imageUriList;
+        return photoUriList;
     }
 
 }

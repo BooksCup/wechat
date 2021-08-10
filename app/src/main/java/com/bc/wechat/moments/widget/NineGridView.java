@@ -15,6 +15,7 @@ import com.bc.wechat.utils.SimpleWeakObjectPool;
  * @author zhou
  */
 public class NineGridView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
+
     private NineGridAdapter mAdapter;
     private OnImageClickListener mListener;
     private int mRows;
