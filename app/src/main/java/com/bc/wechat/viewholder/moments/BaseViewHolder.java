@@ -32,12 +32,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public TextView mDeleteTv;
     // 点赞评论按钮
     public ImageView mCommentIv;
-    public LinearLayout linearLayoutAll;//点赞评论的背景
+    // 点赞评论
+    public LinearLayout mLikeAndCommentLl;
     // 点赞列表
     public MomentsLikeListView mLikeLv;
     // 评论列表
     public CommentsView mCommentsCv;
-    public View dongtaiDriver;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -49,8 +49,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         mCommentIv = itemView.findViewById(R.id.iv_comment);
         mLikeLv = itemView.findViewById(R.id.lv_like);
         mCommentsCv = itemView.findViewById(R.id.cv_comment);
-        linearLayoutAll = (LinearLayout) itemView.findViewById(R.id.dongtai_rv_all);
-        dongtaiDriver = (View) itemView.findViewById(R.id.dongtai_driver);
+        mLikeAndCommentLl = itemView.findViewById(R.id.ll_like_and_comment);
     }
 
 }

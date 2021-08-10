@@ -17,12 +17,15 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.bc.wechat.R;
+import com.bc.wechat.entity.Moments;
+import com.bc.wechat.entity.MomentsComment;
 import com.bc.wechat.moments.adapter.NineImageAdapter;
 import com.bc.wechat.moments.bean.ExploreDongtaiBean;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
 import com.bc.wechat.moments.utils.TimeUtil;
+import com.bc.wechat.utils.CollectionUtils;
 import com.bc.wechat.viewholder.moments.BaseViewHolder;
 import com.bc.wechat.viewholder.moments.HeadViewHolder;
 import com.bc.wechat.viewholder.moments.ImgViewHolder;
@@ -68,19 +71,24 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private View mHeaderView;
 
     private Activity mContent;
-    private List<ExploreDongtaiBean> mList;
+    private List<Moments> mMomentsList;
     private Explore_dongtai1_listener expandFoldListener;
 
     private RequestOptions mRequestOptions;
     private DrawableTransitionOptions mDrawableTransitionOptions;
     private ImageWatcherHelper iwHelper;
 
-    public MomentsAdapter(List<ExploreDongtaiBean> list, Activity context, Explore_dongtai1_listener expandFoldListener) {
+    public MomentsAdapter(List<Moments> mMomentsList, Activity context, Explore_dongtai1_listener expandFoldListener) {
         mContent = context;
-        this.mList = list;
+        this.mMomentsList = mMomentsList;
         this.expandFoldListener = expandFoldListener;
         this.mRequestOptions = new RequestOptions().centerCrop();
         this.mDrawableTransitionOptions = DrawableTransitionOptions.withCrossFade();
+    }
+
+    public void setData(List<Moments> momentsList) {
+        this.mMomentsList = momentsList;
+        notifyDataSetChanged();
     }
 
     public void setIwHelper(ImageWatcherHelper iwHelper) {
@@ -117,7 +125,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return;
         }
         final int position = getRealPosition(viewHolder);
-        ExploreDongtaiBean dongtaiBean = mList.get(position);
+        Moments moments = mMomentsList.get(position);
         if (viewHolder instanceof TextViewHolder) {
             //将数据添加到布局中
             TextViewHolder textViewHolder = (TextViewHolder) viewHolder;
@@ -125,140 +133,134 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //将数据添加到另一个布局中
             final ImgViewHolder imgViewHolder = (ImgViewHolder) viewHolder;
             imgViewHolder.nineGridView.setSingleImageSize(80, 120);
-            if (dongtaiBean.getThumbnail() != null && !dongtaiBean.getThumbnail().equals("")) {
-                //,分割开的数据取出来
-                List<String> result = new ArrayList<>();
-                if (dongtaiBean.getThumbnail().indexOf(",") >= 0) {
-                    // 字符串中有逗号  即：str = "a,b,c"
-                    result = Arrays.asList(dongtaiBean.getThumbnail().split(","));
-                } else {
-                    result.add(dongtaiBean.getThumbnail());
-                }
-
-                List<String> result1 = new ArrayList<String>();
-                if (dongtaiBean.getImgs().indexOf(",") >= 0) {
-                    // 字符串中有逗号  即：str = "a,b,c"
-                    result1 = Arrays.asList(dongtaiBean.getThumbnail().split(","));
-                } else {
-                    result1.add(dongtaiBean.getThumbnail());
-                }
-                final List<Uri> tempYuantu = getImageUriList(result1);
-                imgViewHolder.nineGridView.setAdapter(new NineImageAdapter(mContent,
-                        mRequestOptions, mDrawableTransitionOptions, result));
-                imgViewHolder.nineGridView.setOnImageClickListener(new NineGridView.OnImageClickListener() {
-                    @Override
-                    public void onImageClick(int position, View view) {
-                        if (iwHelper != null) {
-                            iwHelper.show((ImageView) view, imgViewHolder.nineGridView.getImageViews(),
-                                    tempYuantu);
-                        }
-                        if (expandFoldListener != null) {
-                            //返回主页去弹出评论
-                            expandFoldListener.imageOnclick();//刷新
-
-                        }
-                    }
-                });
-            }
+//            if (dongtaiBean.getThumbnail() != null && !dongtaiBean.getThumbnail().equals("")) {
+//                //,分割开的数据取出来
+//                List<String> result = new ArrayList<>();
+//                if (dongtaiBean.getThumbnail().indexOf(",") >= 0) {
+//                    // 字符串中有逗号  即：str = "a,b,c"
+//                    result = Arrays.asList(dongtaiBean.getThumbnail().split(","));
+//                } else {
+//                    result.add(dongtaiBean.getThumbnail());
+//                }
+//
+//                List<String> result1 = new ArrayList<String>();
+//                if (dongtaiBean.getImgs().indexOf(",") >= 0) {
+//                    // 字符串中有逗号  即：str = "a,b,c"
+//                    result1 = Arrays.asList(dongtaiBean.getThumbnail().split(","));
+//                } else {
+//                    result1.add(dongtaiBean.getThumbnail());
+//                }
+//                final List<Uri> tempYuantu = getImageUriList(result1);
+//                imgViewHolder.nineGridView.setAdapter(new NineImageAdapter(mContent,
+//                        mRequestOptions, mDrawableTransitionOptions, result));
+//                imgViewHolder.nineGridView.setOnImageClickListener(new NineGridView.OnImageClickListener() {
+//                    @Override
+//                    public void onImageClick(int position, View view) {
+//                        if (iwHelper != null) {
+//                            iwHelper.show((ImageView) view, imgViewHolder.nineGridView.getImageViews(),
+//                                    tempYuantu);
+//                        }
+//                        if (expandFoldListener != null) {
+//                            //返回主页去弹出评论
+//                            expandFoldListener.imageOnclick();//刷新
+//
+//                        }
+//                    }
+//                });
+//            }
         } else if (viewHolder instanceof VideoViewHolder) {
             //将数据添加到另一个布局中
             VideoViewHolder videoViewHolder = (VideoViewHolder) viewHolder;
-            System.out.println("");
-            if (dongtaiBean.getThumbnail() == null || dongtaiBean.getThumbnail().equals("")) {
-
-            } else {
-                String suoluetuUrl = "";
-                if (dongtaiBean.getThumbnail().contains(",")) {
-                    String temp[] = dongtaiBean.getThumbnail().split(",");
-                    loadImage1(mContent, temp[0], videoViewHolder.videos);
-                    suoluetuUrl = temp[0];
-                } else {
-                    loadImage1(mContent, dongtaiBean.getThumbnail(), videoViewHolder.videos);
-                    suoluetuUrl = dongtaiBean.getThumbnail();
-                }
-                final String suoluetuUrl1 = suoluetuUrl;
-                videoViewHolder.videos.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (expandFoldListener != null) {
-                            expandFoldListener.videoOnclick(suoluetuUrl1, mList.get(position).getVideos());
-                        }
-                    }
-                });
-            }
+//            if (dongtaiBean.getThumbnail() == null || dongtaiBean.getThumbnail().equals("")) {
+//
+//            } else {
+//                String suoluetuUrl = "";
+//                if (dongtaiBean.getThumbnail().contains(",")) {
+//                    String temp[] = dongtaiBean.getThumbnail().split(",");
+//                    loadImage1(mContent, temp[0], videoViewHolder.videos);
+//                    suoluetuUrl = temp[0];
+//                } else {
+//                    loadImage1(mContent, dongtaiBean.getThumbnail(), videoViewHolder.videos);
+//                    suoluetuUrl = dongtaiBean.getThumbnail();
+//                }
+//                final String suoluetuUrl1 = suoluetuUrl;
+//                videoViewHolder.videos.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if (expandFoldListener != null) {
+//                            expandFoldListener.videoOnclick(suoluetuUrl1, mList.get(position).getVideos());
+//                        }
+//                    }
+//                });
+//            }
         }
         // 处理公用部分
         final BaseViewHolder baseViewHolder = (BaseViewHolder) viewHolder;
         // 头像
-        if (!TextUtils.isEmpty(dongtaiBean.getHandimg())) {
-            baseViewHolder.mAvatarSdv.setImageURI(Uri.parse(dongtaiBean.getHandimg()));
+        if (!TextUtils.isEmpty(moments.getUserAvatar())) {
+            baseViewHolder.mAvatarSdv.setImageURI(Uri.parse(moments.getUserAvatar()));
         }
         // 昵称
-        baseViewHolder.mNickNameTv.setText(dongtaiBean.getNickname());
+        baseViewHolder.mNickNameTv.setText(moments.getUserNickName());
         baseViewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onclickUser(mList.get(position).getUserid() + "");
+                onclickUser(moments.getUserId());
             }
         });
         baseViewHolder.mNickNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onclickUser(mList.get(position).getUserid() + "");
+                onclickUser(moments.getUserId());
             }
         });
         // 内容
-        baseViewHolder.mContentEtv.setText(dongtaiBean.getWrittenwords());
-        if (dongtaiBean.getFabulous() != null && dongtaiBean.getFabulous().size() > 0 ||
-                dongtaiBean.getEvea() != null && dongtaiBean.getEvea().size() > 0) {
-            baseViewHolder.linearLayoutAll.setVisibility(View.VISIBLE);
-
-            //点赞列表
-
-            if (dongtaiBean.getFabulous() != null && dongtaiBean.getFabulous().size() > 0) {
+        baseViewHolder.mContentEtv.setText(moments.getContent());
+        if (!CollectionUtils.isEmpty(moments.getLikeUserList())
+                || !CollectionUtils.isEmpty(moments.getMomentsCommentList())) {
+            baseViewHolder.mLikeAndCommentLl.setVisibility(View.VISIBLE);
+            // 点赞列表
+            if (!CollectionUtils.isEmpty(moments.getLikeUserList())) {
                 baseViewHolder.mLikeLv.setVisibility(View.VISIBLE);
 
-                baseViewHolder.mLikeLv.setDatas(dongtaiBean.getFabulous());
+                baseViewHolder.mLikeLv.setData(moments.getLikeUserList());
                 baseViewHolder.mLikeLv.setOnItemClickListener(new MomentsLikeListView.OnItemClickListener() {
                     @Override
                     public void onClick(int position) {
-                        onclickUser(mList.get(position).getFabulous().get(position).getUserid() + "");
+//                        onclickUser(mList.get(position).getFabulous().get(position).getUserid() + "");
                     }
                 });
-//                viewHolder.dianzanList.notifyDataSetChanged();错误
             } else {
                 baseViewHolder.mLikeLv.setVisibility(View.GONE);
 
             }
-            //评论列表
-            if (dongtaiBean.getEvea() != null && dongtaiBean.getEvea().size() > 0) {
-                System.out.println("评论是否显示1");
+            // 评论列表
+            if (!CollectionUtils.isEmpty(moments.getMomentsCommentList())) {
                 baseViewHolder.mCommentsCv.setVisibility(View.VISIBLE);
-                baseViewHolder.mCommentsCv.setList(dongtaiBean.getEvea());
+                baseViewHolder.mCommentsCv.setData(moments.getMomentsCommentList());
                 baseViewHolder.mCommentsCv.setOnCommentListener(new CommentsView.CommentListener() {
                     @SuppressLint("NewApi")
                     @Override
-                    public void CommentClick(View view, int position, ExplorePostPinglunBean bean) {
-                        //如果点击得 是自己
-                        if (bean.getCommentsUser().getUserId().equals("我自己")) {
-                            //如果是自己发的，可以删除,请求网络，返回数据刷新页面
-                            showDeletePopWindow(baseViewHolder.mCommentsCv, mList.get(position).getId(), (bean),
-                                    baseViewHolder.getLayoutPosition() - 1, position);
-                        } else {
-                            //不相同则开始回复，这里需要判断是回复说说的发布者，还是评论者，，
-                            if (expandFoldListener != null) {
-                                //返回主页去弹出评论
-                                expandFoldListener.onPinlunEdit(view, mList.get(position).getId(),
-                                        bean.getCommentsUser().getUserId(), bean.getCommentsUser().getUserName());//谁对谁回复，需要判断
-                            }
-                        }
+                    public void CommentClick(View view, int position, MomentsComment momentsComment) {
+//                        //如果点击得 是自己
+//                        if (bean.getCommentsUser().getUserId().equals("我自己")) {
+//                            //如果是自己发的，可以删除,请求网络，返回数据刷新页面
+//                            showDeletePopWindow(baseViewHolder.mCommentsCv, mList.get(position).getId(), (bean),
+//                                    baseViewHolder.getLayoutPosition() - 1, position);
+//                        } else {
+//                            //不相同则开始回复，这里需要判断是回复说说的发布者，还是评论者，，
+//                            if (expandFoldListener != null) {
+//                                //返回主页去弹出评论
+//                                expandFoldListener.onPinlunEdit(view, mList.get(position).getId(),
+//                                        bean.getCommentsUser().getUserId(), bean.getCommentsUser().getUserName());//谁对谁回复，需要判断
+//                            }
+//                        }
                     }
 
                     @SuppressLint("NewApi")
                     @Override
-                    public void CommentLongClick(View view, int position1, ExplorePostPinglunBean bean) {
-                        System.out.println("当前长按点击弹出复制框");
-                        showCopyPopWindow(baseViewHolder.mCommentsCv, bean.getContent());
+                    public void CommentLongClick(View view, int position1, MomentsComment momentsComment) {
+                        showCopyPopWindow(baseViewHolder.mCommentsCv, momentsComment.getContent());
                     }
 
                     @Override
@@ -269,21 +271,20 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //
                 baseViewHolder.mCommentsCv.notifyDataSetChanged();
             } else {
-                System.out.println("评论是否显示2");
                 baseViewHolder.mCommentsCv.setVisibility(View.GONE);
             }
         } else {
-            baseViewHolder.linearLayoutAll.setVisibility(View.GONE);
+            baseViewHolder.mLikeAndCommentLl.setVisibility(View.GONE);
         }
-        if ((dongtaiBean.getUserid() + "").equals("我自己 ")) {
-            baseViewHolder.mDeleteTv.setVisibility(View.VISIBLE);
-        } else {
-            baseViewHolder.mDeleteTv.setVisibility(View.GONE);
-        }
-        if (dongtaiBean.getCreattime() != 0) {
-            String time = TimeUtil.converTime1(mContent, dongtaiBean.getCreattime());
-            baseViewHolder.mTimeTv.setText(time + "");
-        }
+//        if ((dongtaiBean.getUserid() + "").equals("我自己 ")) {
+//            baseViewHolder.mDeleteTv.setVisibility(View.VISIBLE);
+//        } else {
+//            baseViewHolder.mDeleteTv.setVisibility(View.GONE);
+//        }
+//        if (dongtaiBean.getCreattime() != 0) {
+//            String time = TimeUtil.converTime1(mContent, dongtaiBean.getCreattime());
+//            baseViewHolder.mTimeTv.setText(time + "");
+//        }
         baseViewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -292,23 +293,23 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
         });
-        baseViewHolder.mDeleteTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (expandFoldListener != null) {
-                    expandFoldListener.deletePengyouquan(mList.get(position).getId());
-                }
-            }
-        });
+//        baseViewHolder.mDeleteTv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (expandFoldListener != null) {
+//                    expandFoldListener.deletePengyouquan(mList.get(position).getId());
+//                }
+//            }
+//        });
     }
 
     public int getItemViewType(int position) {
         if (mHeaderView == null) {
-            if (mList.get(position).getType() == 1) {
+            if ("1".equals(mMomentsList.get(position).getType())) {
                 return TYPE_TEXT;
-            } else if (mList.get(position).getType() == 2) {
+            } else if ("2".equals(mMomentsList.get(position).getType())) {
                 return TYPE_IMAGE;
-            } else if (mList.get(position).getType() == 3) {
+            } else if ("3".equals(mMomentsList.get(position).getType())) {
                 return TYPE_VIDEO;
             } else {
                 return TYPE_TEXT;
@@ -316,11 +317,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             if (position == 0) {
                 return TYPE_HEADER;
-            } else if (mList.get(position - 1).getType() == 1) {
+            } else if ("1".equals(mMomentsList.get(position - 1).getType())) {
                 return TYPE_TEXT;
-            } else if (mList.get(position - 1).getType() == 2) {
+            } else if ("2".equals(mMomentsList.get(position - 1).getType())) {
                 return TYPE_IMAGE;
-            } else if (mList.get(position - 1).getType() == 3) {
+            } else if ("3".equals(mMomentsList.get(position - 1).getType())) {
                 return TYPE_VIDEO;
             } else {
                 return TYPE_TEXT;
@@ -332,9 +333,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         if (mHeaderView != null) {
-            return mList.size() + 1;
+            return mMomentsList.size() + 1;
         } else {
-            return mList.size();
+            return mMomentsList.size();
         }
     }
 
@@ -462,4 +463,5 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return imageUriList;
     }
+
 }

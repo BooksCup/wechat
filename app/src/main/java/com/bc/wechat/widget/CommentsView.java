@@ -1,6 +1,7 @@
 package com.bc.wechat.widget;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -13,14 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.entity.MomentsComment;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.bean.UserBean;
 import com.bc.wechat.moments.spannable.CircleMovementMethod;
 import com.bc.wechat.moments.spannable.ClickableSpan1;
+import com.bc.wechat.utils.CollectionUtils;
 
+import java.time.format.TextStyle;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 
 /**
@@ -31,7 +36,7 @@ import androidx.annotation.Nullable;
 public class CommentsView extends LinearLayout {
 
     private Context mContext;
-    private List<ExplorePostPinglunBean> mDatas;
+    private List<MomentsComment> mCommentList;
     private CommentListener onCommentListener;
 
     public CommentsView(Context context) {
@@ -48,13 +53,8 @@ public class CommentsView extends LinearLayout {
         this.mContext = context;
     }
 
-    /**
-     * 设置评论列表信息
-     *
-     * @param list
-     */
-    public void setList(List<ExplorePostPinglunBean> list) {
-        mDatas = list;
+    public void setData(List<MomentsComment> commentList) {
+        this.mCommentList = commentList;
     }
 
 
@@ -65,12 +65,12 @@ public class CommentsView extends LinearLayout {
 
     public void notifyDataSetChanged() {
         removeAllViews();
-        if (mDatas == null || mDatas.size() <= 0) {
+        if (CollectionUtils.isEmpty(mCommentList)) {
             return;
         }
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, 10, 0, 10);
-        for (int i = 0; i < mDatas.size(); i++) {
+        for (int i = 0; i < mCommentList.size(); i++) {
             View view = getView(i);
             if (view == null) {
                 throw new NullPointerException("listview item layout is null, please check getView()...");
@@ -80,43 +80,43 @@ public class CommentsView extends LinearLayout {
     }
 
     private View getView(final int position) {
-        final ExplorePostPinglunBean item = mDatas.get(position);
-        UserBean userBean = new UserBean();
-        UserBean replyUser;
-        if (!TextUtils.isEmpty(item.getAltuserid()) && !TextUtils.isEmpty(item.getAltnickname())) {
-            userBean.setUserId(item.getAltuserid());
-            userBean.setUserName(item.getAltnickname());
-            item.setReplyUser(userBean);
-        }
-        replyUser = item.getReplyUser();
-        boolean hasReply = false;   // 是否有回复
-        if (replyUser != null) {
-            hasReply = true;
-        }
+        final MomentsComment item = mCommentList.get(position);
+//        UserBean userBean = new UserBean();
+//        UserBean replyUser;
+//        if (!TextUtils.isEmpty(item.getAltuserid()) && !TextUtils.isEmpty(item.getAltnickname())) {
+//            userBean.setUserId(item.getAltuserid());
+//            userBean.setUserName(item.getAltnickname());
+//            item.setReplyUser(userBean);
+//        }
+//        replyUser = item.getReplyUser();
+//        boolean hasReply = false;   // 是否有回复
+//        if (replyUser != null) {
+//            hasReply = true;
+//        }
         TextView textView = new TextView(mContext);
         textView.setTextSize(15);
         textView.setTextColor(0xff686868);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-
-        UserBean userComBean = new UserBean();
-        if (item.getUserid() != 0 && item.getUsernickname() != null) {
-            userComBean.setUserId(item.getUserid() + "");
-            userComBean.setUserName(item.getUsernickname());
-            item.setCommentsUser(userComBean);
-        }
-
-        UserBean comUser = item.getCommentsUser();
-
-        String name = comUser.getUserName();
-        if (hasReply) {
-            builder.append(setClickableSpan(name, item.getCommentsUser()));
+//
+//        UserBean userComBean = new UserBean();
+//        if (item.getUserid() != 0 && item.getUsernickname() != null) {
+//            userComBean.setUserId(item.getUserid() + "");
+//            userComBean.setUserName(item.getUsernickname());
+//            item.setCommentsUser(userComBean);
+//        }
+//
+//        UserBean comUser = item.getCommentsUser();
+//
+//        String name = comUser.getUserName();
+        if (!TextUtils.isEmpty(item.getReplyToUserId())) {
+            builder.append(setClickableSpan(item.getUserNickName(), item.getUserId()));
             builder.append("回复");
-            builder.append(setClickableSpan(replyUser.getUserName(), item.getReplyUser()));
+            builder.append(setClickableSpan(item.getReplyToUserNickName(), item.getReplyToUserId()));
         } else {
-            builder.append(setClickableSpan(name, item.getCommentsUser()));
+            builder.append(setClickableSpan(item.getUserNickName(), item.getUserId()));
         }
         builder.append(" : ");
-        builder.append(setClickableSpanContent(textView, item.getContent(), position, userBean.getUserId(), item));
+        builder.append(setClickableSpanContent(textView, item.getContent(), position, item));
         textView.setText(builder);
         // 设置点击背景色
         textView.setHighlightColor(getResources().getColor(android.R.color.transparent));
@@ -131,20 +131,20 @@ public class CommentsView extends LinearLayout {
      * @param position
      * @return
      */
-    public SpannableString setClickableSpanContent(final View view, final String item, final int position, String user_id, final ExplorePostPinglunBean bean) {
+    public SpannableString setClickableSpanContent(final View view, final String item, final int position, final MomentsComment momentsComment) {
         final SpannableString string = new SpannableString(item);
         ClickableSpan1 span = new ClickableSpan1() {
             @Override
             public void onClick(View widget) {
                 if (onCommentListener != null) {
-                    onCommentListener.CommentClick(view, position, bean);
+                    onCommentListener.CommentClick(view, position, momentsComment);
                 }
             }
 
             @Override
             public void onLongClick(View widget) {
                 if (onCommentListener != null) {
-                    onCommentListener.CommentLongClick(view, position, bean);
+                    onCommentListener.CommentLongClick(view, position, momentsComment);
                 }
             }
 
@@ -162,27 +162,30 @@ public class CommentsView extends LinearLayout {
 
     /**
      * 设置评论用户名字点击事件
-     *
-     * @param item
-     * @param bean
-     * @return
+     * <p>
+     * //     * @param item
+     * //     * @param bean
+     * //     * @return
      */
-    public SpannableString setClickableSpan(final String item, final UserBean bean) {
+    public SpannableString setClickableSpan(final String item, final String userId) {
         final SpannableString string = new SpannableString(item);
         ClickableSpan span = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
                 if (onCommentListener != null) {
-                    onCommentListener.toUser(bean.getUserId());
+                    onCommentListener.toUser(userId);
                 }
             }
 
             @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
+            public void updateDrawState(TextPaint paint) {
+                super.updateDrawState(paint);
                 // 设置显示的用户名文本颜色
-                ds.setColor(getResources().getColor(R.color.c697A9F));
-                ds.setUnderlineText(false);
+                paint.setColor(ContextCompat.getColor(getContext(), R.color.navy_blue));
+                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                // 控制字体加粗的程度
+                paint.setStrokeWidth(0.8f);
+                paint.setUnderlineText(false);
             }
         };
 
@@ -196,9 +199,9 @@ public class CommentsView extends LinearLayout {
     }
 
     public interface CommentListener {
-        void CommentClick(View view, int position1, ExplorePostPinglunBean bean);
+        void CommentClick(View view, int position1, MomentsComment momentsComment);
 
-        void CommentLongClick(View view, int position1, ExplorePostPinglunBean bean);
+        void CommentLongClick(View view, int position1, MomentsComment momentsComment);
 
         void toUser(String userid);
     }

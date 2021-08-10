@@ -12,9 +12,10 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.bc.wechat.R;
-import com.bc.wechat.moments.bean.ExplorePostDianzanBean;
+import com.bc.wechat.entity.User;
 import com.bc.wechat.moments.spannable.CircleMovementMethod;
 import com.bc.wechat.moments.spannable.SpannableClickable;
+import com.bc.wechat.utils.CollectionUtils;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MomentsLikeListView extends androidx.appcompat.widget.AppCompatText
 
     private int itemColor;
     private int itemSelectorColor;
-    private List<ExplorePostDianzanBean> datas;
+    private List<User> mLikeUserList;
     private OnItemClickListener onItemClickListener;
 
     public OnItemClickListener getOnItemClickListener() {
@@ -69,26 +70,26 @@ public class MomentsLikeListView extends androidx.appcompat.widget.AppCompatText
         }
     }
 
-    public List<ExplorePostDianzanBean> getDatas() {
-        return datas;
+    public List<User> getData() {
+        return mLikeUserList;
     }
 
-    public void setDatas(List<ExplorePostDianzanBean> datas) {
-        this.datas = datas;
+    public void setData(List<User> likeUserList) {
+        this.mLikeUserList = likeUserList;
         notifyDataSetChanged();
     }
 
     public void notifyDataSetChanged() {
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        if (datas != null && datas.size() > 0) {
+        if (!CollectionUtils.isEmpty(mLikeUserList)) {
             //添加点赞图标
             builder.append(setImageSpan());
-            ExplorePostDianzanBean item = null;
-            for (int i = 0; i < datas.size(); i++) {
-                item = datas.get(i);
+            User item;
+            for (int i = 0; i < mLikeUserList.size(); i++) {
+                item = mLikeUserList.get(i);
                 if (item != null) {
-                    builder.append(setClickableSpan(item.getUsernickname(), i));
-                    if (i != (datas.size() - 1)) {
+                    builder.append(setClickableSpan(item.getUserNickName(), i));
+                    if (i != (mLikeUserList.size() - 1)) {
                         builder.append(",");
                     }
                 }

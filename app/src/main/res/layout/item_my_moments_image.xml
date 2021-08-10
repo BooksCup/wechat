@@ -96,7 +96,7 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/dongtai_rv_all"
+                android:id="@+id/ll_like_and_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

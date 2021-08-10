@@ -12,14 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bc.wechat.R;
 import com.bc.wechat.adapter.MomentsAdapter;
+import com.bc.wechat.cons.Constant;
+import com.bc.wechat.entity.Address;
+import com.bc.wechat.entity.Moments;
 import com.bc.wechat.moments.adapter.Utils;
 import com.bc.wechat.moments.bean.ExploreDongtaiBean;
 import com.bc.wechat.moments.bean.ExplorePostDianzanBean;
@@ -29,6 +36,7 @@ import com.bc.wechat.moments.utils.CustomDotIndexProvider;
 import com.bc.wechat.moments.utils.CustomLoadingUIProvider;
 import com.bc.wechat.moments.utils.GlideSimpleLoader;
 import com.bc.wechat.moments.utils.KeyboardUtil;
+import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LikePopupWindow;
 import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
 import com.bc.wechat.utils.StatusBarUtil;
@@ -63,7 +71,7 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
     private RecyclerView mRecyclerView;
 
     private MomentsAdapter mAdapter;
-    private List<ExploreDongtaiBean> mList = new ArrayList<>();
+    private List<Moments> mList = new ArrayList<>();
 
     private LinearLayout llComment;
     private EditText etComment;
@@ -71,11 +79,14 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
 
     public ImageWatcherHelper iwHelper;//方式二
 
+    VolleyUtil mVolleyUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moments);
         ButterKnife.bind(this);
+        mVolleyUtil = VolleyUtil.getInstance(this);
         StatusBarUtil.setStatusBarColor(MomentsActivity.this, R.color.color_moments_default_cover);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
@@ -107,7 +118,7 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
                 .setLoadingUIProvider(new CustomLoadingUIProvider()); // 自定义LoadingUI
 
 
-        setData();
+//        setData();
 
         mAdapter = new MomentsAdapter(mList, this, this);
         mAdapter.setIwHelper(iwHelper);
@@ -154,6 +165,8 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
                 }).start();
             }
         });
+
+        getFriendMomentsListByUserId("ba6dc3a8a9b24bddbddce0b252e001e6");
     }
 
     private void setHeader(RecyclerView view) {
@@ -162,95 +175,95 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
         mAdapter.setHeaderView(header);
     }
 
-    public void setData() {
-        //文字示例
-        ExploreDongtaiBean bean = new ExploreDongtaiBean();
-        bean.setType(1);
-        bean.setCreattime(System.currentTimeMillis());
-        bean.setId(469);
-        bean.setUserid(28);
-        bean.setNickname("悠麦尔");
-        bean.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
-        bean.setWrittenwords("测试内容\nf\nw\nss");
-        bean.setLikeuself(1);
-//        "altnickname":"",
-//                "altuserid":"",
-//                "content":"八菱科技",
-//                "creattime":1608632610000,
-//                "friendid":468,
-//                "id":60,
-//                "userid":28,
-//                "usernickname":"污嫚尔"
+//    public void setData() {
+//        //文字示例
+//        ExploreDongtaiBean bean = new ExploreDongtaiBean();
+//        bean.setType(1);
+//        bean.setCreattime(System.currentTimeMillis());
+//        bean.setId(469);
+//        bean.setUserid(28);
+//        bean.setNickname("悠麦尔");
+//        bean.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
+//        bean.setWrittenwords("测试内容\nf\nw\nss");
+//        bean.setLikeuself(1);
+////        "altnickname":"",
+////                "altuserid":"",
+////                "content":"八菱科技",
+////                "creattime":1608632610000,
+////                "friendid":468,
+////                "id":60,
+////                "userid":28,
+////                "usernickname":"污嫚尔"
+////    }
+//        List<ExplorePostPinglunBean> evea = new ArrayList<>();
+//        ExplorePostPinglunBean pinglunBean = new ExplorePostPinglunBean();
+//        pinglunBean.setId(60);
+//        pinglunBean.setUserid(28);
+//        pinglunBean.setUsernickname("悠麦尔");
+//        pinglunBean.setContent("hello word");
+//        pinglunBean.setCreattime(1608632610000l);
+//        pinglunBean.setFriendid(468);
+//        evea.add(pinglunBean);
+//
+//        ExplorePostPinglunBean pinglunBean1 = new ExplorePostPinglunBean();
+//        pinglunBean1.setId(60);
+//        pinglunBean1.setUserid(29);
+//        pinglunBean1.setUsernickname("老鹰");
+//        pinglunBean1.setContent("你好");
+//        pinglunBean1.setCreattime(1608632610000l);
+//        pinglunBean1.setFriendid(468);
+//        pinglunBean1.setAltuserid(28 + "");
+//        pinglunBean1.setAltnickname("悠麦尔");
+//        evea.add(pinglunBean1);
+//
+//        bean.setEvea(evea);
+//
+//        List<ExplorePostDianzanBean> fabulous = new ArrayList<>();//点赞列表
+//        ExplorePostDianzanBean dianzanBean = new ExplorePostDianzanBean();
+//        dianzanBean.setCreattime(1608958770000l);
+//        dianzanBean.setFriendid(468);
+//        dianzanBean.setId(294);
+//        dianzanBean.setUserid(28);
+//        dianzanBean.setUsernickname("umr");
+//        fabulous.add(dianzanBean);
+//
+//        ExplorePostDianzanBean dianzanBean1 = new ExplorePostDianzanBean();
+//        dianzanBean1.setCreattime(1608958770001l);
+//        dianzanBean1.setFriendid(468);
+//        dianzanBean1.setId(295);
+//        dianzanBean1.setUserid(29);
+//        dianzanBean1.setUsernickname("悠麦尔");
+//        fabulous.add(dianzanBean1);
+//
+//        bean.setFabulous(fabulous);
+//        mList.add(bean);
+//        //图片示例
+//        ExploreDongtaiBean bean1 = new ExploreDongtaiBean();
+//        bean1.setType(2);
+//        bean1.setCreattime(System.currentTimeMillis());
+//        bean1.setId(469);
+//        bean1.setUserid(28);
+//        bean1.setNickname("悠麦尔");
+//        bean1.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
+//        bean1.setWrittenwords("测试内容\nf\nw\nss");
+//        bean1.setLikeuself(1);
+//        bean1.setThumbnail("https://image.renlaibang.com/Fhn9WrrxQBPO0IAm395oD3f-k2ZD,https://image.renlaibang.com/Fpbcw0AeZIB3gs7unQIvCAL7Gd0e,https://image.renlaibang.com/Fp5mQrZYnhSRoKayTsPEaBO18Wrt,https://image.renlaibang.com/Ft4S9melEv7AG4QZQKPRZXJltJOk,https://image.renlaibang.com/FgiOlNKk71GfgzunMvRXwi1zzIPp,https://image.renlaibang.com/FrbthQNvH4Y9yM4T_QfydcJhZEiY,https://image.renlaibang.com/Fkvw8YZtmg8kICNRgagrcA53NVvk");
+//        bean1.setImgs("https://image.renlaibang.com/FiP9T9ncrNL-AH45IMhQaZgqwwSk,https://image.renlaibang.com/Fpbcw0AeZIB3gs7unQIvCAL7Gd0e,https://image.renlaibang.com/Fp5mQrZYnhSRoKayTsPEaBO18Wrt,https://image.renlaibang.com/Fv4GWEHOMvdMkBHz12XWxtEJMSd1,https://image.renlaibang.com/FgiOlNKk71GfgzunMvRXwi1zzIPp,https://image.renlaibang.com/FhAkT41j6Ma5wGRmYcm4MQF2NjSt,https://image.renlaibang.com/Fj8opkB-dS_Jmg-K41oWRhJQs0i0");
+//        mList.add(bean1);
+//        //视频示例
+//        ExploreDongtaiBean bean2 = new ExploreDongtaiBean();
+//        bean2.setType(3);
+//        bean2.setCreattime(System.currentTimeMillis());
+//        bean2.setId(469);
+//        bean2.setUserid(28);
+//        bean2.setNickname("悠麦尔");
+//        bean2.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
+//        bean2.setWrittenwords("测试内容\nf\nw\nss");
+//        bean2.setLikeuself(1);
+//        bean2.setThumbnail("https://image.renlaibang.com/FmQdWZrmemYUMGrnNFfewz6t4HAR");
+//        bean2.setVideos("https://image.renlaibang.com/FkHt1Sft6H0zrhAzwWWfdwrw0h4L");
+//        mList.add(bean2);
 //    }
-        List<ExplorePostPinglunBean> evea = new ArrayList<>();
-        ExplorePostPinglunBean pinglunBean = new ExplorePostPinglunBean();
-        pinglunBean.setId(60);
-        pinglunBean.setUserid(28);
-        pinglunBean.setUsernickname("悠麦尔");
-        pinglunBean.setContent("hello word");
-        pinglunBean.setCreattime(1608632610000l);
-        pinglunBean.setFriendid(468);
-        evea.add(pinglunBean);
-
-        ExplorePostPinglunBean pinglunBean1 = new ExplorePostPinglunBean();
-        pinglunBean1.setId(60);
-        pinglunBean1.setUserid(29);
-        pinglunBean1.setUsernickname("老鹰");
-        pinglunBean1.setContent("你好");
-        pinglunBean1.setCreattime(1608632610000l);
-        pinglunBean1.setFriendid(468);
-        pinglunBean1.setAltuserid(28 + "");
-        pinglunBean1.setAltnickname("悠麦尔");
-        evea.add(pinglunBean1);
-
-        bean.setEvea(evea);
-
-        List<ExplorePostDianzanBean> fabulous = new ArrayList<>();//点赞列表
-        ExplorePostDianzanBean dianzanBean = new ExplorePostDianzanBean();
-        dianzanBean.setCreattime(1608958770000l);
-        dianzanBean.setFriendid(468);
-        dianzanBean.setId(294);
-        dianzanBean.setUserid(28);
-        dianzanBean.setUsernickname("umr");
-        fabulous.add(dianzanBean);
-
-        ExplorePostDianzanBean dianzanBean1 = new ExplorePostDianzanBean();
-        dianzanBean1.setCreattime(1608958770001l);
-        dianzanBean1.setFriendid(468);
-        dianzanBean1.setId(295);
-        dianzanBean1.setUserid(29);
-        dianzanBean1.setUsernickname("悠麦尔");
-        fabulous.add(dianzanBean1);
-
-        bean.setFabulous(fabulous);
-        mList.add(bean);
-        //图片示例
-        ExploreDongtaiBean bean1 = new ExploreDongtaiBean();
-        bean1.setType(2);
-        bean1.setCreattime(System.currentTimeMillis());
-        bean1.setId(469);
-        bean1.setUserid(28);
-        bean1.setNickname("悠麦尔");
-        bean1.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
-        bean1.setWrittenwords("测试内容\nf\nw\nss");
-        bean1.setLikeuself(1);
-        bean1.setThumbnail("https://image.renlaibang.com/Fhn9WrrxQBPO0IAm395oD3f-k2ZD,https://image.renlaibang.com/Fpbcw0AeZIB3gs7unQIvCAL7Gd0e,https://image.renlaibang.com/Fp5mQrZYnhSRoKayTsPEaBO18Wrt,https://image.renlaibang.com/Ft4S9melEv7AG4QZQKPRZXJltJOk,https://image.renlaibang.com/FgiOlNKk71GfgzunMvRXwi1zzIPp,https://image.renlaibang.com/FrbthQNvH4Y9yM4T_QfydcJhZEiY,https://image.renlaibang.com/Fkvw8YZtmg8kICNRgagrcA53NVvk");
-        bean1.setImgs("https://image.renlaibang.com/FiP9T9ncrNL-AH45IMhQaZgqwwSk,https://image.renlaibang.com/Fpbcw0AeZIB3gs7unQIvCAL7Gd0e,https://image.renlaibang.com/Fp5mQrZYnhSRoKayTsPEaBO18Wrt,https://image.renlaibang.com/Fv4GWEHOMvdMkBHz12XWxtEJMSd1,https://image.renlaibang.com/FgiOlNKk71GfgzunMvRXwi1zzIPp,https://image.renlaibang.com/FhAkT41j6Ma5wGRmYcm4MQF2NjSt,https://image.renlaibang.com/Fj8opkB-dS_Jmg-K41oWRhJQs0i0");
-        mList.add(bean1);
-        //视频示例
-        ExploreDongtaiBean bean2 = new ExploreDongtaiBean();
-        bean2.setType(3);
-        bean2.setCreattime(System.currentTimeMillis());
-        bean2.setId(469);
-        bean2.setUserid(28);
-        bean2.setNickname("悠麦尔");
-        bean2.setHandimg("https://image.renlaibang.com/Fpi0bpgGfdUP1zC5FUdMxZaSowos");
-        bean2.setWrittenwords("测试内容\nf\nw\nss");
-        bean2.setLikeuself(1);
-        bean2.setThumbnail("https://image.renlaibang.com/FmQdWZrmemYUMGrnNFfewz6t4HAR");
-        bean2.setVideos("https://image.renlaibang.com/FkHt1Sft6H0zrhAzwWWfdwrw0h4L");
-        mList.add(bean2);
-    }
 
     //评论
     @Override
@@ -405,6 +418,31 @@ public class MomentsActivity extends BaseActivity2 implements Explore_dongtai1_l
             }
         }, 300);
 
+    }
+
+    private void getFriendMomentsListByUserId(String userId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/friendMoments";
+        mVolleyUtil.httpGetRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                final List<Moments> momentsList = JSONArray.parseArray(response, Moments.class);
+                mAdapter.setData(momentsList);
+//                mMyAddressAdapter.setData(addressList);
+//                mMyAddressAdapter.notifyDataSetChanged();
+//                mAddressLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//                    @Override
+//                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Address address = addressList.get(position);
+//                        showOperation(address);
+//                        return false;
+//                    }
+//                });
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
     }
 
 }
