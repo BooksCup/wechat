@@ -3,7 +3,7 @@ package com.bc.wechat.viewholder.moments;
 import android.view.View;
 
 import com.bc.wechat.R;
-import com.bc.wechat.moments.widget.NineGridView;
+import com.bc.wechat.widget.NineGridView;
 
 /**
  * 九宫格图片

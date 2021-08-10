@@ -59,7 +59,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
-            <com.bc.wechat.moments.widget.NineGridView
+            <com.bc.wechat.widget.NineGridView
                 android:id="@+id/gv_photos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

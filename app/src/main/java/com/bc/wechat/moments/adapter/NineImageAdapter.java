@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.bc.wechat.R;
 import com.bc.wechat.moments.utils.ScreenUtils;
-import com.bc.wechat.moments.widget.NineGridView;
+import com.bc.wechat.widget.NineGridView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;

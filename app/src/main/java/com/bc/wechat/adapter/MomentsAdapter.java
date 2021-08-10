@@ -35,8 +35,8 @@ import com.bc.wechat.viewholder.moments.ImgViewHolder;
 import com.bc.wechat.viewholder.moments.TextViewHolder;
 import com.bc.wechat.viewholder.moments.VideoViewHolder;
 import com.bc.wechat.widget.CommentsView;
-import com.bc.wechat.moments.widget.NineGridView;
 import com.bc.wechat.widget.MomentsLikeListView;
+import com.bc.wechat.widget.NineGridView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -44,7 +44,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
