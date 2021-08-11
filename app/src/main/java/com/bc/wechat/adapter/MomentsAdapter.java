@@ -20,8 +20,6 @@ import com.bc.wechat.R;
 import com.bc.wechat.entity.Moments;
 import com.bc.wechat.entity.MomentsComment;
 import com.bc.wechat.entity.User;
-import com.bc.wechat.moments.adapter.NineImageAdapter;
-import com.bc.wechat.moments.bean.ExploreDongtaiBean;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
@@ -138,10 +136,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final ImgViewHolder imgViewHolder = (ImgViewHolder) viewHolder;
             imgViewHolder.mPhotosGv.setSingleImageSize(80, 120);
             if (!TextUtils.isEmpty(moments.getPhotos())) {
+                List<String> thumbnailList = JsonUtil.jsonArrayToList(moments.getThumbnails(), String.class);
                 List<String> photoList = JsonUtil.jsonArrayToList(moments.getPhotos(), String.class);
                 final List<Uri> photoUriList = getPhotoUriList(photoList);
                 imgViewHolder.mPhotosGv.setAdapter(new NineImageAdapter(mContent,
-                        mRequestOptions, mDrawableTransitionOptions, photoList));
+                        mRequestOptions, mDrawableTransitionOptions, thumbnailList));
                 imgViewHolder.mPhotosGv.setOnImageClickListener(new NineGridView.OnImageClickListener() {
                     @Override
                     public void onImageClick(int position, View view) {

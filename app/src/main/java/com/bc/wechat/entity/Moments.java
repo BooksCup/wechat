@@ -16,7 +16,9 @@ public class Moments {
     private String userNickName;
     private String userAvatar;
     private String content;
+    private String thumbnails;
     private String photos;
+    private String videos;
     private String createTime;
     private Long timestamp;
 
@@ -78,12 +80,28 @@ public class Moments {
         this.content = content;
     }
 
+    public String getThumbnails() {
+        return thumbnails;
+    }
+
+    public void setThumbnails(String thumbnails) {
+        this.thumbnails = thumbnails;
+    }
+
     public String getPhotos() {
         return photos;
     }
 
     public void setPhotos(String photos) {
         this.photos = photos;
+    }
+
+    public String getVideos() {
+        return videos;
+    }
+
+    public void setVideos(String videos) {
+        this.videos = videos;
     }
 
     public String getCreateTime() {
@@ -117,4 +135,5 @@ public class Moments {
     public void setMomentsCommentList(List<MomentsComment> momentsCommentList) {
         this.momentsCommentList = momentsCommentList;
     }
+
 }
