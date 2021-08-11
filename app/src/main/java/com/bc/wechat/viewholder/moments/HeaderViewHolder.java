@@ -5,9 +5,14 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HeadViewHolder extends RecyclerView.ViewHolder {
+/**
+ * 头ViewHolder
+ *
+ * @author zhou
+ */
+public class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-    public HeadViewHolder(@NonNull View itemView) {
+    public HeaderViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 

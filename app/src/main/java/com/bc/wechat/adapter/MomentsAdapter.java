@@ -20,6 +20,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.entity.Moments;
 import com.bc.wechat.entity.MomentsComment;
 import com.bc.wechat.entity.User;
+import com.bc.wechat.enums.MomentsType;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
@@ -28,8 +29,8 @@ import com.bc.wechat.utils.JsonUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.TimeUtil;
 import com.bc.wechat.viewholder.moments.BaseViewHolder;
-import com.bc.wechat.viewholder.moments.HeadViewHolder;
-import com.bc.wechat.viewholder.moments.ImgViewHolder;
+import com.bc.wechat.viewholder.moments.HeaderViewHolder;
+import com.bc.wechat.viewholder.moments.ImageViewHolder;
 import com.bc.wechat.viewholder.moments.TextViewHolder;
 import com.bc.wechat.viewholder.moments.VideoViewHolder;
 import com.bc.wechat.widget.CommentsView;
@@ -105,11 +106,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_IMAGE) {
-            return new ImgViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_image, parent, false));
+            return new ImageViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_image, parent, false));
         } else if (viewType == TYPE_VIDEO) {
             return new VideoViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_video, parent, false));
         } else if (viewType == TYPE_HEADER) {
-            return new HeadViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_header, parent, false));
+            return new HeaderViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_header, parent, false));
         } else {
             // 默认text
             return new TextViewHolder(mContent.getLayoutInflater().inflate(R.layout.item_my_moments_text, parent, false));
@@ -123,7 +124,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int pos) {
-        if (viewHolder instanceof HeadViewHolder) {
+        if (viewHolder instanceof HeaderViewHolder) {
             return;
         }
         final int position = getRealPosition(viewHolder);
@@ -131,9 +132,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewHolder instanceof TextViewHolder) {
             //将数据添加到布局中
             TextViewHolder textViewHolder = (TextViewHolder) viewHolder;
-        } else if (viewHolder instanceof ImgViewHolder) {
+        } else if (viewHolder instanceof ImageViewHolder) {
             //将数据添加到另一个布局中
-            final ImgViewHolder imgViewHolder = (ImgViewHolder) viewHolder;
+            final ImageViewHolder imgViewHolder = (ImageViewHolder) viewHolder;
             imgViewHolder.mPhotosGv.setSingleImageSize(80, 120);
             if (!TextUtils.isEmpty(moments.getPhotos())) {
                 List<String> thumbnailList = JsonUtil.jsonArrayToList(moments.getThumbnails(), String.class);
@@ -286,11 +287,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public int getItemViewType(int position) {
         if (mHeaderView == null) {
-            if ("1".equals(mMomentsList.get(position).getType())) {
+            if (MomentsType.TEXT.getType().equals(mMomentsList.get(position).getType())) {
                 return TYPE_TEXT;
-            } else if ("2".equals(mMomentsList.get(position).getType())) {
+            } else if (MomentsType.IMAGE.getType().equals(mMomentsList.get(position).getType())) {
                 return TYPE_IMAGE;
-            } else if ("3".equals(mMomentsList.get(position).getType())) {
+            } else if (MomentsType.VIDEO.getType().equals(mMomentsList.get(position).getType())) {
                 return TYPE_VIDEO;
             } else {
                 return TYPE_TEXT;
@@ -298,11 +299,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             if (position == 0) {
                 return TYPE_HEADER;
-            } else if ("1".equals(mMomentsList.get(position - 1).getType())) {
+            } else if (MomentsType.TEXT.getType().equals(mMomentsList.get(position - 1).getType())) {
                 return TYPE_TEXT;
-            } else if ("2".equals(mMomentsList.get(position - 1).getType())) {
+            } else if (MomentsType.IMAGE.getType().equals(mMomentsList.get(position - 1).getType())) {
                 return TYPE_IMAGE;
-            } else if ("3".equals(mMomentsList.get(position - 1).getType())) {
+            } else if (MomentsType.VIDEO.getType().equals(mMomentsList.get(position - 1).getType())) {
                 return TYPE_VIDEO;
             } else {
                 return TYPE_TEXT;

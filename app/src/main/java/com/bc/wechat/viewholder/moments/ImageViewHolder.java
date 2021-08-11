@@ -6,15 +6,15 @@ import com.bc.wechat.R;
 import com.bc.wechat.widget.NineGridView;
 
 /**
- * 九宫格图片
+ * 图片ViewHolder
  *
  * @author zhou
  */
-public class ImgViewHolder extends BaseViewHolder {
+public class ImageViewHolder extends BaseViewHolder {
 
     public NineGridView mPhotosGv;
 
-    public ImgViewHolder(View itemView) {
+    public ImageViewHolder(View itemView) {
         super(itemView);
         mPhotosGv = (NineGridView) itemView.findViewById(R.id.gv_photos);
     }

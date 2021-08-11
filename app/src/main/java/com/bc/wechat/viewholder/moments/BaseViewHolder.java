@@ -14,7 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * 朋友圈基础viewHolder
+ * 朋友圈基础ViewHolder
  *
  * @author zhou
  */
