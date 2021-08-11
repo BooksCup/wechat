@@ -158,28 +158,22 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (viewHolder instanceof VideoViewHolder) {
             //将数据添加到另一个布局中
             VideoViewHolder videoViewHolder = (VideoViewHolder) viewHolder;
-//            if (dongtaiBean.getThumbnail() == null || dongtaiBean.getThumbnail().equals("")) {
-//
-//            } else {
-//                String suoluetuUrl = "";
-//                if (dongtaiBean.getThumbnail().contains(",")) {
-//                    String temp[] = dongtaiBean.getThumbnail().split(",");
-//                    loadImage1(mContent, temp[0], videoViewHolder.videos);
-//                    suoluetuUrl = temp[0];
-//                } else {
-//                    loadImage1(mContent, dongtaiBean.getThumbnail(), videoViewHolder.videos);
-//                    suoluetuUrl = dongtaiBean.getThumbnail();
-//                }
-//                final String suoluetuUrl1 = suoluetuUrl;
-//                videoViewHolder.videos.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (expandFoldListener != null) {
-//                            expandFoldListener.videoOnclick(suoluetuUrl1, mList.get(position).getVideos());
-//                        }
-//                    }
-//                });
-//            }
+            if (!TextUtils.isEmpty(moments.getThumbnails())) {
+                List<String> thumbnailList = JsonUtil.jsonArrayToList(moments.getThumbnails(), String.class);
+                if (!CollectionUtils.isEmpty(thumbnailList)) {
+                    loadVideoThumbnail(mContent, thumbnailList.get(0), videoViewHolder.videos);
+                }
+                videoViewHolder.videos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (expandFoldListener != null) {
+                            if (!CollectionUtils.isEmpty(thumbnailList)) {
+                                expandFoldListener.videoOnclick(thumbnailList.get(0), mMomentsList.get(position).getVideo());
+                            }
+                        }
+                    }
+                });
+            }
         }
         // 处理公用部分
         final BaseViewHolder baseViewHolder = (BaseViewHolder) viewHolder;
@@ -344,9 +338,8 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //                .into(imageView);
 //    }
 
-
-    //不带圆角，目前视频使用
-    public void loadImage1(Context context, String path, ImageView imageView) {
+    // 加载视频缩略图
+    public void loadVideoThumbnail(Context context, String path, ImageView imageView) {
 //        RoundedCorners roundedCorners = new RoundedCorners(20);//数字为圆角度数
         RequestOptions coverRequestOptions = new RequestOptions()
                 .transforms(new CenterCrop())//, roundedCorners

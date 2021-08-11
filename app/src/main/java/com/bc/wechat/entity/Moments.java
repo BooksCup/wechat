@@ -18,7 +18,7 @@ public class Moments {
     private String content;
     private String thumbnails;
     private String photos;
-    private String videos;
+    private String video;
     private String createTime;
     private Long timestamp;
 
@@ -96,12 +96,12 @@ public class Moments {
         this.photos = photos;
     }
 
-    public String getVideos() {
-        return videos;
+    public String getVideo() {
+        return video;
     }
 
-    public void setVideos(String videos) {
-        this.videos = videos;
+    public void setVideo(String video) {
+        this.video = video;
     }
 
     public String getCreateTime() {

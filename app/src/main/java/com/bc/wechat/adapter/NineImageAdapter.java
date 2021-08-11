@@ -1,4 +1,4 @@
-package com.bc.wechat.moments.adapter;
+package com.bc.wechat.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.moments.adapter.Utils;
 import com.bc.wechat.moments.utils.ScreenUtils;
 import com.bc.wechat.widget.NineGridView;
 import com.bumptech.glide.Glide;
@@ -17,12 +18,10 @@ import java.util.List;
 
 import androidx.core.content.ContextCompat;
 
-
 /**
- * 作者: njb
- * 时间: 2019/7/23 15:35
- * 描述: 图片列表适配器
- * 来源
+ * 九宫格图片适配器
+ *
+ * @author zhou
  */
 public class NineImageAdapter implements NineGridView.NineGridAdapter<String> {
 
@@ -88,4 +87,5 @@ public class NineImageAdapter implements NineGridView.NineGridAdapter<String> {
         }
         return imageView;
     }
+
 }
