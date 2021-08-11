@@ -5,14 +5,18 @@ import android.widget.ImageView;
 
 import com.bc.wechat.R;
 
-
+/**
+ * 视频ViewHolder
+ *
+ * @author zhou
+ */
 public class VideoViewHolder extends BaseViewHolder {
 
-    public ImageView videos;
+    public ImageView mVideoThumbnailIv;
 
     public VideoViewHolder(View itemView) {
         super(itemView);
-        videos = (ImageView) itemView.findViewById(R.id.dongtai_videos);
+        mVideoThumbnailIv = (ImageView) itemView.findViewById(R.id.iv_video_thumbnail);
     }
 
 }

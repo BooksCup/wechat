@@ -161,9 +161,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (!TextUtils.isEmpty(moments.getThumbnails())) {
                 List<String> thumbnailList = JsonUtil.jsonArrayToList(moments.getThumbnails(), String.class);
                 if (!CollectionUtils.isEmpty(thumbnailList)) {
-                    loadVideoThumbnail(mContent, thumbnailList.get(0), videoViewHolder.videos);
+                    loadVideoThumbnail(mContent, thumbnailList.get(0), videoViewHolder.mVideoThumbnailIv);
                 }
-                videoViewHolder.videos.setOnClickListener(new View.OnClickListener() {
+                videoViewHolder.mVideoThumbnailIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (expandFoldListener != null) {
