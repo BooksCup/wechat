@@ -29,4 +29,16 @@
         fresco:placeholderImage="@mipmap/default_user_avatar"
         fresco:roundedCornerRadius="5dp" />
 
+    <TextView
+        android:id="@+id/tv_nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_toStartOf="@id/sdv_avatar"
+        android:textColor="@color/white"
+        android:layout_marginEnd="5dp"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
 </RelativeLayout>

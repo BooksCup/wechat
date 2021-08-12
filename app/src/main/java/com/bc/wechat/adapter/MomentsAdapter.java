@@ -22,7 +22,7 @@ import com.bc.wechat.entity.MomentsComment;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.enums.MomentsType;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
-import com.bc.wechat.moments.listener.Explore_dongtai1_listener;
+import com.bc.wechat.listener.MomentsListener;
 import com.bc.wechat.moments.utils.PopupWindowUtil;
 import com.bc.wechat.utils.CollectionUtils;
 import com.bc.wechat.utils.JsonUtil;
@@ -73,18 +73,18 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Activity mContent;
     private List<Moments> mMomentsList;
-    private Explore_dongtai1_listener expandFoldListener;
+    MomentsListener mMomentsListener;
 
     private RequestOptions mRequestOptions;
     private DrawableTransitionOptions mDrawableTransitionOptions;
     private ImageWatcherHelper iwHelper;
     User mUser;
 
-    public MomentsAdapter(List<Moments> mMomentsList, Activity context, Explore_dongtai1_listener expandFoldListener) {
+    public MomentsAdapter(List<Moments> mMomentsList, Activity context, MomentsListener momentsListener) {
         mContent = context;
         mUser = PreferencesUtil.getInstance().getUser();
         this.mMomentsList = mMomentsList;
-        this.expandFoldListener = expandFoldListener;
+        this.mMomentsListener = momentsListener;
         this.mRequestOptions = new RequestOptions().centerCrop();
         this.mDrawableTransitionOptions = DrawableTransitionOptions.withCrossFade();
     }
@@ -125,6 +125,11 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int pos) {
         if (viewHolder instanceof HeaderViewHolder) {
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
+            if (!TextUtils.isEmpty(mUser.getUserAvatar())) {
+                headerViewHolder.mAvatarSdv.setImageURI(Uri.parse(mUser.getUserAvatar()));
+            }
+            headerViewHolder.mNickNameTv.setText(mUser.getUserNickName());
             return;
         }
         final int position = getRealPosition(viewHolder);
@@ -149,9 +154,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             iwHelper.show((ImageView) view, imgViewHolder.mPhotosGv.getImageViews(),
                                     photoUriList);
                         }
-                        if (expandFoldListener != null) {
+                        if (mMomentsListener != null) {
                             // 返回主页去弹出评论
-                            expandFoldListener.imageOnclick();
+                            mMomentsListener.imageOnclick();
                         }
                     }
                 });
@@ -167,9 +172,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 videoViewHolder.mVideoThumbnailIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (expandFoldListener != null) {
+                        if (mMomentsListener != null) {
                             if (!CollectionUtils.isEmpty(thumbnailList)) {
-                                expandFoldListener.videoOnclick(thumbnailList.get(0), mMomentsList.get(position).getVideo());
+                                mMomentsListener.videoOnclick(thumbnailList.get(0), mMomentsList.get(position).getVideo());
                             }
                         }
                     }
@@ -184,18 +189,8 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         // 昵称
         baseViewHolder.mNickNameTv.setText(moments.getUserNickName());
-        baseViewHolder.mAvatarSdv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclickUser(moments.getUserId());
-            }
-        });
-        baseViewHolder.mNickNameTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onclickUser(moments.getUserId());
-            }
-        });
+        baseViewHolder.mAvatarSdv.setOnClickListener(view -> toUserInfo(moments.getUserId()));
+        baseViewHolder.mNickNameTv.setOnClickListener(view -> toUserInfo(moments.getUserId()));
         // 内容
         baseViewHolder.mContentEtv.setText(moments.getContent());
         if (!CollectionUtils.isEmpty(moments.getLikeUserList())
@@ -247,7 +242,7 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     @Override
                     public void toUser(String userid) {
-                        onclickUser(userid);
+                        toUserInfo(userid);
                     }
                 });
 //
@@ -270,8 +265,8 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         baseViewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (expandFoldListener != null) {
-                    expandFoldListener.onClickEdit(view, position);
+                if (mMomentsListener != null) {
+                    mMomentsListener.onClickEdit(view, position);
                 }
             }
         });
@@ -360,9 +355,14 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    private void onclickUser(String userid) {
-        if (expandFoldListener != null) {
-            expandFoldListener.onClickUser(userid);
+    /**
+     * 进入用户详情页
+     *
+     * @param userId 用户ID
+     */
+    private void toUserInfo(String userId) {
+        if (null != mMomentsListener) {
+            mMomentsListener.toUserInfo(userId);
         }
     }
 
@@ -424,8 +424,8 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onClick(View view) {
                 if (mPopupWindow != null) {
                     mPopupWindow.dismiss();
-                    if (expandFoldListener != null) {
-                        expandFoldListener.deleteMypinglun(ids, id);
+                    if (mMomentsListener != null) {
+                        mMomentsListener.deleteMypinglun(ids, id);
                     }
                 }
             }
