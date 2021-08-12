@@ -35,15 +35,17 @@ import com.bc.wechat.moments.utils.GlideSimpleLoader;
 import com.bc.wechat.moments.utils.KeyboardUtil;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
-import com.bc.wechat.widget.LikePopupWindow;
-import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
+import com.bc.wechat.widget.LikeAndCommentPopupWindow;
+import com.bc.wechat.listener.LikeOrCommentClickListener;
 import com.bc.wechat.utils.StatusBarUtil;
 import com.bc.wechat.views.CustomProgressDrawable;
 import com.bc.wechat.views.CustomSwipeRefreshLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,11 +71,12 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
     private RecyclerView mRecyclerView;
 
     private MomentsAdapter mAdapter;
-    private List<Moments> mList = new ArrayList<>();
+    List<Moments> mList = new ArrayList<>();
 
     private LinearLayout llComment;
     private EditText etComment;
     private TextView tvSend;
+    LikeAndCommentPopupWindow mLikeAndCommentPopupWindow;
 
     public ImageWatcherHelper iwHelper;//方式二
 
@@ -197,11 +200,16 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
         }
     }
 
-    //点击评论点赞按钮
+    /**
+     * 点击，弹出弹框，包含点赞，评论
+     *
+     * @param view     view
+     * @param position 位置
+     */
     @Override
-    public void onClickEdit(View view, int position) {
-        //评论弹框
-        showLikePopupWindow(view, position);
+    public void onClickLikeAndComment(View view, int position) {
+        // 点赞评论弹框
+        showLikeAndCommentPopupWindow(view, position);
     }
 
     //点击删除朋友圈按钮
@@ -237,19 +245,26 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
         KeyboardUtil.hideSoftInput(this, etComment);
     }
 
-    private LikePopupWindow likePopupWindow;
-
-    private void showLikePopupWindow(final View view, int position) {
+    /**
+     * 显示点赞评论弹框
+     *
+     * @param view     view
+     * @param position 位置
+     */
+    private void showLikeAndCommentPopupWindow(final View view, int position) {
         //item 底部y坐标
         final int mBottomY = getCoordinateY(view) + view.getHeight();
-        if (likePopupWindow == null) {
-            likePopupWindow = new LikePopupWindow(this, 0);//0.1,分别代表是否点赞
+        if (mLikeAndCommentPopupWindow == null) {
+            mLikeAndCommentPopupWindow = new LikeAndCommentPopupWindow(this, 0);//0.1,分别代表是否点赞
         }
-        likePopupWindow.setOnPraiseOrCommentClickListener(new OnPraiseOrCommentClickListener() {
+        mLikeAndCommentPopupWindow.setLikeAndCommentPopupWindow(new LikeOrCommentClickListener() {
+
             @Override
-            public void onPraiseClick(int position) {
-                //调用点赞接口
-                likePopupWindow.dismiss();
+            public void onLikeClick(int position) {
+                // 调用点赞接口
+                mLikeAndCommentPopupWindow.dismiss();
+                Moments moments = mList.get(position);
+                likeMoments(moments.getUserId(), moments.getMomentsId());
             }
 
             @Override
@@ -259,7 +274,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
                 etComment.setHint("说点什么");
 
                 KeyboardUtil.showSoftInput(MomentsActivity.this);
-                likePopupWindow.dismiss();
+                mLikeAndCommentPopupWindow.dismiss();
                 etComment.setText("");
                 view.postDelayed(new Runnable() {
                     @Override
@@ -282,10 +297,10 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
             }
 
         }).setTextView(0).setCurrentPosition(position);
-        if (likePopupWindow.isShowing()) {
-            likePopupWindow.dismiss();
+        if (mLikeAndCommentPopupWindow.isShowing()) {
+            mLikeAndCommentPopupWindow.dismiss();
         } else {
-            likePopupWindow.showPopupWindow(view);
+            mLikeAndCommentPopupWindow.showPopupWindow(view);
         }
     }
 
@@ -346,6 +361,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
             @Override
             public void onResponse(String response) {
                 final List<Moments> momentsList = JSONArray.parseArray(response, Moments.class);
+                mList = momentsList;
                 mAdapter.setData(momentsList);
 //                mMyAddressAdapter.setData(addressList);
 //                mMyAddressAdapter.notifyDataSetChanged();
@@ -357,6 +373,27 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 //                        return false;
 //                    }
 //                });
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+    }
+
+    /**
+     * 朋友圈点赞
+     *
+     * @param userId
+     */
+    private void likeMoments(String userId, String momentsId) {
+        String url = Constant.BASE_URL + "users/" + userId + "/moments/" + momentsId + "/like";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("likeUserId", mUser.getUserId());
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
             }
         }, new Response.ErrorListener() {
             @Override

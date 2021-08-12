@@ -10,23 +10,23 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bc.wechat.R;
+import com.bc.wechat.listener.LikeOrCommentClickListener;
 import com.bc.wechat.moments.adapter.Utils;
-import com.bc.wechat.moments.widget.OnPraiseOrCommentClickListener;
 
 /**
  * 朋友圈点赞评论窗口
  *
  * @author zhou
  */
-public class LikePopupWindow extends PopupWindow implements View.OnClickListener {
+public class LikeAndCommentPopupWindow extends PopupWindow implements View.OnClickListener {
 
-    private OnPraiseOrCommentClickListener mOnPraiseOrCommentClickListener;
+    LikeOrCommentClickListener mLikeOrCommentClickListener;
     private int mPopupWindowHeight;
     private int mPopupWindowWidth;
     private int mCurrentPosition;
     private TextView commentPopupText;
 
-    public LikePopupWindow(Context context, int isLike) {
+    public LikeAndCommentPopupWindow(Context context, int isLike) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_window_like, null);
         this.setContentView(contentView);
         contentView.findViewById(R.id.ll_like).setOnClickListener(this);
@@ -50,18 +50,18 @@ public class LikePopupWindow extends PopupWindow implements View.OnClickListener
         setTextView(isLike);
     }
 
-    public LikePopupWindow setCurrentPosition(int currentPosition) {
+    public LikeAndCommentPopupWindow setCurrentPosition(int currentPosition) {
         mCurrentPosition = currentPosition;
         return this;
     }
 
-    public LikePopupWindow setTextView(int isLike) {
+    public LikeAndCommentPopupWindow setTextView(int isLike) {
         commentPopupText.setText(isLike == 0 ? "赞" : "取消");
         return this;
     }
 
-    public LikePopupWindow setOnPraiseOrCommentClickListener(OnPraiseOrCommentClickListener onPraiseOrCommentClickListener) {
-        mOnPraiseOrCommentClickListener = onPraiseOrCommentClickListener;
+    public LikeAndCommentPopupWindow setLikeAndCommentPopupWindow(LikeOrCommentClickListener likeOrCommentClickListener) {
+        this.mLikeOrCommentClickListener = likeOrCommentClickListener;
         return this;
     }
 
@@ -83,13 +83,13 @@ public class LikePopupWindow extends PopupWindow implements View.OnClickListener
         dismiss();
         int i = v.getId();
         if (i == R.id.ll_like) {
-            if (mOnPraiseOrCommentClickListener != null) {
-                mOnPraiseOrCommentClickListener.onPraiseClick(mCurrentPosition);
+            if (mLikeOrCommentClickListener != null) {
+                mLikeOrCommentClickListener.onLikeClick(mCurrentPosition);
             }
 
         } else if (i == R.id.ll_comment) {
-            if (mOnPraiseOrCommentClickListener != null) {
-                mOnPraiseOrCommentClickListener.onCommentClick(mCurrentPosition);
+            if (mLikeOrCommentClickListener != null) {
+                mLikeOrCommentClickListener.onCommentClick(mCurrentPosition);
             }
         }
     }

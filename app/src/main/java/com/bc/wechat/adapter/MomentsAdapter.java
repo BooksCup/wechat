@@ -262,12 +262,9 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             String prettyTime = TimeUtil.getMomentPrettyTime(moments.getTimestamp());
             baseViewHolder.mTimeTv.setText(prettyTime);
         }
-        baseViewHolder.mCommentIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mMomentsListener != null) {
-                    mMomentsListener.onClickEdit(view, position);
-                }
+        baseViewHolder.mCommentIv.setOnClickListener(view -> {
+            if (mMomentsListener != null) {
+                mMomentsListener.onClickLikeAndComment(view, position);
             }
         });
 //        baseViewHolder.mDeleteTv.setOnClickListener(new View.OnClickListener() {

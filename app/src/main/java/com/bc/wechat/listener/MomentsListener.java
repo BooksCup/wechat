@@ -1,19 +1,32 @@
-package com.bc.wechat.moments.listener;
+package com.bc.wechat.listener;
 
 import android.view.View;
 
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
 
-
-public interface Explore_dongtai1_listener {
+/**
+ * 朋友圈监听器
+ *
+ * @author zhou
+ */
+public interface MomentsListener {
     //点击一个内容，回复评论
     void onPinlunEdit(View view, int friendid, String userid, String userName);
 
-    //点击一个昵称和头像，，返回到个人资料里去，如果是自己就查看资料，
-    void onClickUser(String userid);
+    /**
+     * 进入用户详情页
+     *
+     * @param userId 用户ID
+     */
+    void toUserInfo(String userId);
 
-    //点击，弹出弹框，包含点赞，评论
-    void onClickEdit(View view, int position);
+    /**
+     * 点击，弹出弹框，包含点赞，评论
+     *
+     * @param view     view
+     * @param position 位置
+     */
+    void onClickLikeAndComment(View view, int position);
 
     //删除我发的朋友圈
     void deletePengyouquan(int id);
@@ -26,4 +39,5 @@ public interface Explore_dongtai1_listener {
 
     //视频呗点击了,缩略图网址与视频地址网址
     void videoOnclick(String img, String httpUrl);
+
 }
