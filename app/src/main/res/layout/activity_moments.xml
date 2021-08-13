@@ -55,9 +55,9 @@
     <LinearLayout
         android:id="@+id/ll_comment"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background="#f6f6f6"
+        android:background="#ebebeb"
         android:elevation="3dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -65,38 +65,40 @@
 
         <EditText
             android:id="@+id/et_comment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginBottom="6dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_comment_bg"
-            android:ellipsize="end"
-            android:hint="说点什么"
-            android:maxLength="300"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColorHint="#a2a2a2"
-            android:textSize="13sp" />
+            android:background="@drawable/bg_chat_et"
+            android:maxLines="3"
+            android:minHeight="36dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:textCursorDrawable="@drawable/cursor_chat_et"
+            android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_send_comment"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
+        <ImageView
+            android:layout_width="28dip"
+            android:layout_height="28dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|right"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_chat_emoji"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="52dp"
+            android:layout_height="32dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/shape_comment"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:text="发送"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+            android:layout_marginRight="8dp"
+            android:background="@drawable/btn_save"
+            android:onClick="onClick"
+            android:text="@string/send"
+            android:textColor="#ffffff"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <byc.imagewatcher.ImageWatcher

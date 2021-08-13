@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -76,7 +77,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
     private LinearLayout llComment;
     private EditText etComment;
-    private TextView tvSend;
+    Button tvSend;
     LikeAndCommentPopupWindow mLikeAndCommentPopupWindow;
 
     public ImageWatcherHelper iwHelper;//方式二
@@ -96,7 +97,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
         llComment = findViewById(R.id.ll_comment);
         etComment = findViewById(R.id.et_comment);
-        tvSend = findViewById(R.id.tv_send_comment);
+        tvSend = findViewById(R.id.btn_send);
         boolean isTranslucentStatus = false;
         //        新的初始化方式二，不再需要在布局文件中加入<ImageWatcher>标签 减少布局嵌套
         iwHelper = ImageWatcherHelper.with(this, new GlideSimpleLoader()) // 一般来讲， ImageWatcher 需要占据全屏的位置
@@ -345,7 +346,6 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
     private void showPinglunPopupWindow1(View view, int friendid, String userid, String username) {
         //item 底部y坐标
         final int mBottomY = getCoordinateY(view) + view.getHeight();
-
         llComment.setVisibility(View.VISIBLE);
         etComment.requestFocus();
         if (userid == null || userid.equals("")) {//回复这条评论的发送人，楼主
@@ -353,17 +353,15 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
         } else {
             etComment.setHint("回复:" + username);//回复这个人
         }
-
-        KeyboardUtil.showSoftInput(this, etComment);
         etComment.setText("");
-        view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int y = getCoordinateY(llComment);// - 20;
-                //评论时滑动到对应item底部和输入框顶部对齐
-                mRecyclerView.smoothScrollBy(0, mBottomY - y);
-            }
-        }, 300);
+//        view.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                int y = getCoordinateY(llComment);// - 20;
+//                //评论时滑动到对应item底部和输入框顶部对齐
+//                mRecyclerView.smoothScrollBy(0, mBottomY - y);
+//            }
+//        }, 300);
 
     }
 
