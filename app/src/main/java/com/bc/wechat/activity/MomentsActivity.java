@@ -270,9 +270,13 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
             @Override
             public void onLikeClick(int position) {
-                // 调用点赞接口
                 mLikeAndCommentPopupWindow.dismiss();
-                likeMoments(moments.getUserId(), moments.getMomentsId(), position);
+                // 调用点赞和取消点赞接口
+                if (mLikeAndCommentPopupWindow.isLike() == 0) {
+                    likeMoments(moments.getUserId(), moments.getMomentsId(), position);
+                } else {
+                    unLikeMoments(moments.getUserId(), moments.getMomentsId(), position);
+                }
             }
 
             @Override
@@ -304,7 +308,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
             }
 
-        }).setTextView(isLike).setCurrentPosition(position);
+        }).setIsLike(isLike).setTextView(isLike).setCurrentPosition(position);
         if (mLikeAndCommentPopupWindow.isShowing()) {
             mLikeAndCommentPopupWindow.dismiss();
         } else {
@@ -392,7 +396,9 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
     /**
      * 朋友圈点赞
      *
-     * @param userId
+     * @param userId    用户ID
+     * @param momentsId 朋友圈ID
+     * @param position  位置
      */
     private void likeMoments(String userId, String momentsId, int position) {
         String url = Constant.BASE_URL + "users/" + userId + "/moments/" + momentsId + "/like";
@@ -404,6 +410,32 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
                 Moments moments = mList.get(position);
                 List<User> likeUserList = moments.getLikeUserList();
                 likeUserList.add(mUser);
+                moments.setLikeUserList(likeUserList);
+                mAdapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+    }
+
+    /**
+     * 朋友圈取消点赞
+     *
+     * @param userId    用户ID
+     * @param momentsId 朋友圈ID
+     * @param position  位置
+     */
+    private void unLikeMoments(String userId, String momentsId, int position) {
+        String url = Constant.BASE_URL + "users/" + userId + "/moments/"
+                + momentsId + "/like?likeUserId=" + mUser.getUserId();
+        mVolleyUtil.httpDeleteRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Moments moments = mList.get(position);
+                List<User> likeUserList = moments.getLikeUserList();
+                likeUserList.remove(mUser);
                 moments.setLikeUserList(likeUserList);
                 mAdapter.notifyDataSetChanged();
             }

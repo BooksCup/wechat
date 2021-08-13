@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="#F5F5F5"
+                android:background="@drawable/bg_moments_like_and_comment"
                 android:orientation="vertical">
 
                 <com.bc.wechat.widget.MomentsLikeListView
@@ -111,6 +111,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
                     android:textColor="@color/navy_blue"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -121,7 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginRight="4dp"
                     app:item_color="@color/praise_item" />
             </LinearLayout>

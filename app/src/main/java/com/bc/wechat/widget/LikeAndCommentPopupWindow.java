@@ -25,6 +25,7 @@ public class LikeAndCommentPopupWindow extends PopupWindow implements View.OnCli
     private int mPopupWindowWidth;
     private int mCurrentPosition;
     private TextView commentPopupText;
+    int mIsLike;
 
     public LikeAndCommentPopupWindow(Context context, int isLike) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.popup_window_like, null);
@@ -47,11 +48,21 @@ public class LikeAndCommentPopupWindow extends PopupWindow implements View.OnCli
         ColorDrawable dw = new ColorDrawable(0x00000000);
         this.setBackgroundDrawable(dw);
         commentPopupText = contentView.findViewById(R.id.tv_like);
+        mIsLike = isLike;
         setTextView(isLike);
     }
 
     public LikeAndCommentPopupWindow setCurrentPosition(int currentPosition) {
         mCurrentPosition = currentPosition;
+        return this;
+    }
+
+    public int isLike() {
+        return mIsLike;
+    }
+
+    public LikeAndCommentPopupWindow setIsLike(int isLike) {
+        this.mIsLike = isLike;
         return this;
     }
 
