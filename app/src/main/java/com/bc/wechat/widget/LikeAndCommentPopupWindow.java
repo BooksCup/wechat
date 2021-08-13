@@ -55,6 +55,12 @@ public class LikeAndCommentPopupWindow extends PopupWindow implements View.OnCli
         return this;
     }
 
+    /**
+     * 设置点赞text
+     *
+     * @param isLike 是否点赞 0:未点赞 1:已点赞
+     * @return 设置过点赞text的窗口
+     */
     public LikeAndCommentPopupWindow setTextView(int isLike) {
         commentPopupText.setText(isLike == 0 ? "赞" : "取消");
         return this;

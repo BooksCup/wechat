@@ -209,7 +209,6 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
             } else {
                 baseViewHolder.mLikeLv.setVisibility(View.GONE);
-
             }
             // 评论列表
             if (!CollectionUtils.isEmpty(moments.getMomentsCommentList())) {

@@ -33,6 +33,7 @@ import com.bc.wechat.moments.utils.CustomDotIndexProvider;
 import com.bc.wechat.moments.utils.CustomLoadingUIProvider;
 import com.bc.wechat.moments.utils.GlideSimpleLoader;
 import com.bc.wechat.moments.utils.KeyboardUtil;
+import com.bc.wechat.utils.CollectionUtils;
 import com.bc.wechat.utils.PreferencesUtil;
 import com.bc.wechat.utils.VolleyUtil;
 import com.bc.wechat.widget.LikeAndCommentPopupWindow;
@@ -252,10 +253,18 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
      * @param position 位置
      */
     private void showLikeAndCommentPopupWindow(final View view, int position) {
+        Moments moments = mList.get(position);
         //item 底部y坐标
+        int isLike = 0;
+        if (!CollectionUtils.isEmpty(moments.getLikeUserList())) {
+            if (moments.getLikeUserList().contains(mUser)) {
+                isLike = 1;
+            }
+        }
+
         final int mBottomY = getCoordinateY(view) + view.getHeight();
         if (mLikeAndCommentPopupWindow == null) {
-            mLikeAndCommentPopupWindow = new LikeAndCommentPopupWindow(this, 0);//0.1,分别代表是否点赞
+            mLikeAndCommentPopupWindow = new LikeAndCommentPopupWindow(this, isLike);
         }
         mLikeAndCommentPopupWindow.setLikeAndCommentPopupWindow(new LikeOrCommentClickListener() {
 
@@ -263,8 +272,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
             public void onLikeClick(int position) {
                 // 调用点赞接口
                 mLikeAndCommentPopupWindow.dismiss();
-                Moments moments = mList.get(position);
-                likeMoments(moments.getUserId(), moments.getMomentsId());
+                likeMoments(moments.getUserId(), moments.getMomentsId(), position);
             }
 
             @Override
@@ -296,7 +304,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
             }
 
-        }).setTextView(0).setCurrentPosition(position);
+        }).setTextView(isLike).setCurrentPosition(position);
         if (mLikeAndCommentPopupWindow.isShowing()) {
             mLikeAndCommentPopupWindow.dismiss();
         } else {
@@ -386,14 +394,18 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
      *
      * @param userId
      */
-    private void likeMoments(String userId, String momentsId) {
+    private void likeMoments(String userId, String momentsId, int position) {
         String url = Constant.BASE_URL + "users/" + userId + "/moments/" + momentsId + "/like";
         Map<String, String> paramMap = new HashMap<>();
         paramMap.put("likeUserId", mUser.getUserId());
         mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                Moments moments = mList.get(position);
+                List<User> likeUserList = moments.getLikeUserList();
+                likeUserList.add(mUser);
+                moments.setLikeUserList(likeUserList);
+                mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override

@@ -6,7 +6,13 @@ import com.orm.SugarRecord;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户
+ *
+ * @author zhou
+ */
 public class User extends SugarRecord {
+
     private String userId;
     private String userWxId;
 
@@ -386,4 +392,23 @@ public class User extends SugarRecord {
     public void setUserTagList(List<String> userTagList) {
         this.userTagList = userTagList;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+        if (!userId.equals(other.getUserId())) {
+            return false;
+        }
+        return true;
+    }
+
 }
