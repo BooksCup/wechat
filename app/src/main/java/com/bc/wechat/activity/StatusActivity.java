@@ -1,11 +1,12 @@
 package com.bc.wechat.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSONArray;
@@ -23,14 +24,13 @@ import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 状态
  *
  * @author zhou
  */
-public class StatusActivity extends BaseActivity2 {
+public class StatusActivity extends BaseActivity {
 
     @BindView(R.id.sv_bg)
     ScrollView mBgSv;
@@ -45,18 +45,32 @@ public class StatusActivity extends BaseActivity2 {
     StatusGroupDao mStatusGroupDao;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getContentView() {
+        return R.layout.activity_status;
+    }
+
+    @Override
+    public void initView() {
         transparentStatusBar();
-        setContentView(R.layout.activity_status);
-        ButterKnife.bind(this);
         mBgSv.setFocusable(true);
         mBgSv.setFocusableInTouchMode(true);
         mBgSv.requestFocus();
         setRandomBg();
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
         mVolleyUtil = VolleyUtil.getInstance(this);
         mStatusGroupDao = new StatusGroupDao();
-        initData();
+        mStatusGroupList = mStatusGroupDao.getStatusGroupList();
+        mAdapter = new StatusGroupAdapter(this, R.layout.item_status_group, mStatusGroupList);
+        mUserStatusClv.setAdapter(mAdapter);
+        getStatusGroupList();
     }
 
     /**
@@ -78,7 +92,8 @@ public class StatusActivity extends BaseActivity2 {
     }
 
     public void back(View view) {
-        finish();
+//        finish();
+        startActivity(new Intent(StatusActivity.this, AddStatusActivity.class));
     }
 
     /**
@@ -97,13 +112,6 @@ public class StatusActivity extends BaseActivity2 {
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-    }
-
-    public void initData() {
-        mStatusGroupList = mStatusGroupDao.getStatusGroupList();
-        mAdapter = new StatusGroupAdapter(this, R.layout.item_status_group, mStatusGroupList);
-        mUserStatusClv.setAdapter(mAdapter);
-        getStatusGroupList();
     }
 
     /**
