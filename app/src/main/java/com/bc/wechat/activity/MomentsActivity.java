@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.android.volley.Response;
@@ -26,6 +26,7 @@ import com.bc.wechat.R;
 import com.bc.wechat.adapter.MomentsAdapter;
 import com.bc.wechat.cons.Constant;
 import com.bc.wechat.entity.Moments;
+import com.bc.wechat.entity.MomentsComment;
 import com.bc.wechat.entity.User;
 import com.bc.wechat.moments.adapter.Utils;
 import com.bc.wechat.moments.bean.ExplorePostPinglunBean;
@@ -53,6 +54,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import byc.imagewatcher.ImageWatcher;
 import byc.imagewatcher.ImageWatcherHelper;
 
@@ -63,27 +65,33 @@ import byc.imagewatcher.ImageWatcherHelper;
  */
 public class MomentsActivity extends BaseActivity2 implements MomentsListener, ImageWatcher.OnPictureLongPressListener {
 
-    @BindView(R.id.srl_refresh)
-    CustomSwipeRefreshLayout mRefreshSrl;
+    @BindView(R.id.srl_moments)
+    CustomSwipeRefreshLayout mMomentsSrl;
 
     @BindView(R.id.rl_title)
     RelativeLayout mTitleRl;
 
     SimpleDraweeView mAvatarSdv;
-    private RecyclerView mRecyclerView;
+
+    @BindView(R.id.rv_moments)
+    RecyclerView mMomentsRv;
 
     private MomentsAdapter mAdapter;
     List<Moments> mList = new ArrayList<>();
 
     private LinearLayout llComment;
     private EditText etComment;
+
+    @BindView(R.id.btn_send)
     Button tvSend;
+
     LikeAndCommentPopupWindow mLikeAndCommentPopupWindow;
 
     public ImageWatcherHelper iwHelper;//方式二
 
     VolleyUtil mVolleyUtil;
     User mUser;
+    MomentsComment mMomentsComment = new MomentsComment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +101,6 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
         mVolleyUtil = VolleyUtil.getInstance(this);
         mUser = PreferencesUtil.getInstance().getUser();
         StatusBarUtil.setStatusBarColor(MomentsActivity.this, R.color.color_moments_default_cover);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         llComment = findViewById(R.id.ll_comment);
         etComment = findViewById(R.id.et_comment);
@@ -127,11 +134,11 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
         mAdapter = new MomentsAdapter(mList, this, this);
         mAdapter.setIwHelper(iwHelper);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAdapter);
-        setHeader(mRecyclerView);
+        mMomentsRv.setLayoutManager(new LinearLayoutManager(this));
+        mMomentsRv.setAdapter(mAdapter);
+        setHeader(mMomentsRv);
 
-        mRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+        mMomentsRv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 hideInput();
@@ -139,14 +146,14 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
             }
         });
 
-        CustomProgressDrawable drawable = new CustomProgressDrawable(this, mRefreshSrl);
+        CustomProgressDrawable drawable = new CustomProgressDrawable(this, mMomentsSrl);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.moments_refresh_icon);
         drawable.setBitmap(bitmap);
 
-        mRefreshSrl.setProgressView(drawable);
-        mRefreshSrl.setBackgroundColor(Color.BLACK);
-        mRefreshSrl.setProgressBackgroundColorSchemeColor(Color.TRANSPARENT);//背景设置透明
-        mRefreshSrl.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener() {
+        mMomentsSrl.setProgressView(drawable);
+        mMomentsSrl.setBackgroundColor(Color.BLACK);
+        mMomentsSrl.setProgressBackgroundColorSchemeColor(Color.TRANSPARENT);//背景设置透明
+        mMomentsSrl.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -154,7 +161,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
                     @Override
                     public void handleMessage(Message msg) {
                         super.handleMessage(msg);
-                        mRefreshSrl.setRefreshing(false);
+                        mMomentsSrl.setRefreshing(false);
                     }
                 };
                 new Thread(new Runnable() {
@@ -168,21 +175,33 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
                         handler.sendEmptyMessage(0);
                     }
                 }).start();
+
             }
         });
 
         getFriendMomentsListByUserId(mUser.getUserId());
     }
 
+    @OnClick({R.id.btn_send})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_send:
+                addComment(mMomentsComment.getUserId(), mMomentsComment.getMomentsId(),
+                        mMomentsComment.getReplyToUserId(), etComment.getText().toString(), 1);
+                break;
+        }
+    }
+
     private void setHeader(RecyclerView view) {
         View header = LayoutInflater.from(this).inflate(R.layout.item_my_moments_header, view, false);
+        mAvatarSdv = header.findViewById(R.id.sdv_avatar);
         mAdapter.setHeaderView(header);
     }
 
     //评论
     @Override
     public void onPinlunEdit(View view, int friendid, String userid, String userName) {
-        showPinglunPopupWindow1(view, friendid, userid, userName);
+        showCommentWindow(view, userid, userName, null);
     }
 
     /**
@@ -282,21 +301,8 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
 
             @Override
             public void onCommentClick(int position) {
-                llComment.setVisibility(View.VISIBLE);
-                etComment.requestFocus();
-                etComment.setHint("说点什么");
-
-                KeyboardUtil.showSoftInput(MomentsActivity.this);
                 mLikeAndCommentPopupWindow.dismiss();
-                etComment.setText("");
-                view.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        int y = getCoordinateY(llComment);// - 20;
-                        //评论时滑动到对应item底部和输入框顶部对齐
-                        mRecyclerView.smoothScrollBy(0, mBottomY - y);
-                    }
-                }, 300);
+                showCommentWindow(view, null, null, moments);
             }
 
             @Override
@@ -342,27 +348,30 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
         }
     }
 
-    //当前我给谁发评论，
-    private void showPinglunPopupWindow1(View view, int friendid, String userid, String username) {
+    private void showCommentWindow(View view, String userId, String userName, Moments moments) {
         //item 底部y坐标
         final int mBottomY = getCoordinateY(view) + view.getHeight();
         llComment.setVisibility(View.VISIBLE);
         etComment.requestFocus();
-        if (userid == null || userid.equals("")) {//回复这条评论的发送人，楼主
-            etComment.setHint("说点什么");
+        if (TextUtils.isEmpty(userId)) {
+            // 回复这条评论的发送人，楼主
+            etComment.setHint("评论");
         } else {
-            etComment.setHint("回复:" + username);//回复这个人
+            // 回复这个人
+            etComment.setHint("回复:" + userName);
         }
         etComment.setText("");
-//        view.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                int y = getCoordinateY(llComment);// - 20;
-//                //评论时滑动到对应item底部和输入框顶部对齐
-//                mRecyclerView.smoothScrollBy(0, mBottomY - y);
-//            }
-//        }, 300);
-
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int y = getCoordinateY(llComment);// - 20;
+                //评论时滑动到对应item底部和输入框顶部对齐
+                mMomentsRv.smoothScrollBy(0, mBottomY - y);
+            }
+        }, 300);
+        mMomentsComment.setMomentsId(moments.getMomentsId());
+        mMomentsComment.setReplyToUserId(userId);
+        mMomentsComment.setUserId(moments.getUserId());
     }
 
     private void getFriendMomentsListByUserId(String userId) {
@@ -373,16 +382,6 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
                 final List<Moments> momentsList = JSONArray.parseArray(response, Moments.class);
                 mList = momentsList;
                 mAdapter.setData(momentsList);
-//                mMyAddressAdapter.setData(addressList);
-//                mMyAddressAdapter.notifyDataSetChanged();
-//                mAddressLv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//                    @Override
-//                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                        Address address = addressList.get(position);
-//                        showOperation(address);
-//                        return false;
-//                    }
-//                });
             }
         }, new Response.ErrorListener() {
             @Override
@@ -436,6 +435,33 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
                 likeUserList.remove(mUser);
                 moments.setLikeUserList(likeUserList);
                 mAdapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+            }
+        });
+    }
+
+    /**
+     * 朋友圈点赞
+     *
+     * @param userId    用户ID
+     * @param momentsId 朋友圈ID
+     * @param position  位置
+     */
+    private void addComment(String userId, String momentsId, String replyToUserId,
+                            String content, int position) {
+        String url = Constant.BASE_URL + "users/" + userId + "/moments/" + momentsId + "/comment";
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("commentUserId", mUser.getUserId());
+        if (!TextUtils.isEmpty(replyToUserId)) {
+            paramMap.put("replyToUserId", replyToUserId);
+        }
+        paramMap.put("content", content);
+        mVolleyUtil.httpPostRequest(url, paramMap, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
             }
         }, new Response.ErrorListener() {
             @Override

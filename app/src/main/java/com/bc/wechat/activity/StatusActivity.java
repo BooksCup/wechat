@@ -50,6 +50,9 @@ public class StatusActivity extends BaseActivity2 {
         transparentStatusBar();
         setContentView(R.layout.activity_status);
         ButterKnife.bind(this);
+        mBgSv.setFocusable(true);
+        mBgSv.setFocusableInTouchMode(true);
+        mBgSv.requestFocus();
         setRandomBg();
         mVolleyUtil = VolleyUtil.getInstance(this);
         mStatusGroupDao = new StatusGroupDao();
@@ -72,6 +75,10 @@ public class StatusActivity extends BaseActivity2 {
                 mBgSv.setBackgroundResource(R.drawable.bg_gradient_3);
                 break;
         }
+    }
+
+    public void back(View view) {
+        finish();
     }
 
     /**

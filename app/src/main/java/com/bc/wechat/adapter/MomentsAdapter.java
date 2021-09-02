@@ -218,19 +218,19 @@ public class MomentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @SuppressLint("NewApi")
                     @Override
                     public void CommentClick(View view, int position, MomentsComment momentsComment) {
-//                        //如果点击得 是自己
-//                        if (bean.getCommentsUser().getUserId().equals("我自己")) {
-//                            //如果是自己发的，可以删除,请求网络，返回数据刷新页面
+                        //如果点击得 是自己
+                        if (momentsComment.getUserId().equals(mUser.getUserId())) {
+                            //如果是自己发的，可以删除,请求网络，返回数据刷新页面
 //                            showDeletePopWindow(baseViewHolder.mCommentsCv, mList.get(position).getId(), (bean),
 //                                    baseViewHolder.getLayoutPosition() - 1, position);
-//                        } else {
-//                            //不相同则开始回复，这里需要判断是回复说说的发布者，还是评论者，，
-//                            if (expandFoldListener != null) {
-//                                //返回主页去弹出评论
-//                                expandFoldListener.onPinlunEdit(view, mList.get(position).getId(),
-//                                        bean.getCommentsUser().getUserId(), bean.getCommentsUser().getUserName());//谁对谁回复，需要判断
-//                            }
-//                        }
+                        } else {
+                            // 不相同则开始回复，这里需要判断是回复说说的发布者，还是评论者
+                            if (null != mMomentsListener) {
+                                //返回主页去弹出评论
+                                mMomentsListener.onPinlunEdit(view, 1,
+                                        momentsComment.getUserId(), momentsComment.getUserNickName());//谁对谁回复，需要判断
+                            }
+                        }
                     }
 
                     @SuppressLint("NewApi")

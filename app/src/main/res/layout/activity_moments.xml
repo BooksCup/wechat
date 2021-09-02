@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ebebeb"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -39,12 +39,12 @@
         </RelativeLayout>
 
         <com.bc.wechat.views.CustomSwipeRefreshLayout
-            android:id="@+id/srl_refresh"
+            android:id="@+id/srl_moments"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/rv_moments"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white" />
@@ -73,15 +73,16 @@
             android:background="@drawable/bg_chat_et"
             android:maxLines="3"
             android:minHeight="36dp"
+            android:paddingStart="8dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             android:textCursorDrawable="@drawable/cursor_chat_et"
             android:textSize="15sp" />
 
         <ImageView
-            android:layout_width="28dip"
-            android:layout_height="28dip"
-            android:layout_alignParentRight="true"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical|right"
             android:scaleType="fitXY"
@@ -95,7 +96,6 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/btn_save"
-            android:onClick="onClick"
             android:text="@string/send"
             android:textColor="#ffffff"
             android:textSize="13sp" />

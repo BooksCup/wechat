@@ -185,7 +185,6 @@ public class MyAddressActivity extends BaseActivity {
         });
     }
 
-
     private void showOperation(final Address address) {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = layoutInflater.inflate(R.layout.popup_window_address_setting, null);
