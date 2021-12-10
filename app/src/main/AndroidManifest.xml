@@ -293,6 +293,12 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".activity.ExploreVideoPlayer"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".activity.ContactMomentsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
@@ -431,7 +437,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
 
         <service
             android:name="cn.jpush.android.service.PushService"
