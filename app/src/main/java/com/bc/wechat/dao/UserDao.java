@@ -57,7 +57,7 @@ public class UserDao {
      * @return 所有的好友列表
      */
     public List<User> getAllFriendList() {
-        return User.find(User.class, "is_friend = ? and is_blocked = ?",
+        return User.findWithQuery(User.class, "select * from user where is_friend = ? and is_blocked = ?",
                 Constant.IS_FRIEND, Constant.CONTACT_IS_NOT_BLOCKED);
     }
 
