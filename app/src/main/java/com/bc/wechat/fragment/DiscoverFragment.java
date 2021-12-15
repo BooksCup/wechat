@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
 import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.MomentsActivity;
+import com.bc.wechat.activity.MpActivity;
 import com.bc.wechat.activity.PeopleNearbyActivity;
 import com.bc.wechat.activity.SearchActivity;
 import com.bc.wechat.activity.UserInfoActivity;
@@ -241,7 +242,8 @@ public class DiscoverFragment extends BaseFragment {
         mConfirmDialog.show();
     }
 
-    @OnClick({R.id.rl_moments, R.id.rl_scan, R.id.rl_search, R.id.rl_people_nearby})
+    @OnClick({R.id.rl_moments, R.id.rl_scan, R.id.rl_search,
+            R.id.rl_people_nearby, R.id.rl_mini_programs})
     public void onClick(View view) {
         String[] permissions;
         switch (view.getId()) {
@@ -259,6 +261,9 @@ public class DiscoverFragment extends BaseFragment {
                 // 动态申请定位权限
                 permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
                 requestPerms(getActivity(), permissions, MainActivity.REQUEST_CODE_LOCATION);
+                break;
+            case R.id.rl_mini_programs:
+                startActivity(new Intent(getActivity(), MpActivity.class));
                 break;
         }
     }

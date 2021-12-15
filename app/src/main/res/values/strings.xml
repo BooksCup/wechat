@@ -311,4 +311,9 @@
 
     <string name="show_more">全文</string>
     <string name="show_less">收起</string>
+
+    <string name="mp_nearby">附近的小程序</string>
+    <string name="mp_popular">大家在用</string>
+    <string name="my_orders">我的订单</string>
+    <string name="my_mp">我的小程序</string>
 </resources>

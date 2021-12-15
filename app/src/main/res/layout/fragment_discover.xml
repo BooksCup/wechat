@@ -58,7 +58,7 @@
                 android:layout_height="@dimen/discover_layout_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_moments"
@@ -95,7 +95,7 @@
                 android:layout_marginTop="@dimen/discover_thick_divider_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_scan"
@@ -138,7 +138,7 @@
                 android:layout_height="@dimen/discover_layout_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_shake"
@@ -175,7 +175,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_top_stories"
@@ -218,7 +218,7 @@
                 android:layout_height="@dimen/discover_layout_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_search"
@@ -255,7 +255,7 @@
                 android:layout_marginTop="@dimen/discover_thick_divider_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_people_nearby"
@@ -303,7 +303,7 @@
                 android:layout_marginTop="@dimen/discover_thick_divider_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_shopping"
@@ -346,7 +346,7 @@
                 android:layout_height="@dimen/discover_layout_height"
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
-                android:paddingLeft="@dimen/discover_layout_padding_left">
+                android:paddingLeft="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_game"
@@ -384,7 +384,7 @@
                 android:background="@drawable/bg_list_item_click"
                 android:clickable="true"
                 android:focusable="true"
-                android:paddingStart="@dimen/discover_layout_padding_left">
+                android:paddingStart="@dimen/discover_layout_padding_start">
 
                 <ImageView
                     android:id="@+id/iv_mini_programs"
