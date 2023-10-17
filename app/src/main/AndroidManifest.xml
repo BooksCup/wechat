@@ -293,7 +293,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.ExploreVideoPlayer"
+            android:name=".activity.VideoPlayerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustResize" />

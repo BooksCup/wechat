@@ -278,8 +278,10 @@ public class PhoneLoginFinalActivity extends BaseActivity {
         DeviceInfo deviceInfo = DeviceInfoUtil.getInstance().getDeviceInfo(PhoneLoginFinalActivity.this);
         String url;
         if (Constant.LOGIN_TYPE_PHONE_AND_PASSWORD.equals(loginType)) {
+//            url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
+//                    + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
             url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
-                    + "&password=" + MD5Util.encode(password, "utf8") + "&deviceInfo=" + JSON.toJSONString(deviceInfo);
+                    + "&password=" + MD5Util.encode(password, "utf8");
         } else if (Constant.LOGIN_TYPE_PHONE_AND_VERIFICATION_CODE.equals(loginType)) {
             url = Constant.BASE_URL + "users/login?phone=" + phone + "&loginType=" + loginType
                     + "&verificationCode=" + verificationCode + "&deviceInfo=" + JSON.toJSONString(deviceInfo);

@@ -255,7 +255,7 @@ public class MomentsActivity extends BaseActivity2 implements MomentsListener, I
     @Override
     public void videoOnclick(String img, String httpUrl) {
         hideInput();
-        Intent dynamicHaoyou = new Intent(this, ExploreVideoPlayer.class);
+        Intent dynamicHaoyou = new Intent(this, VideoPlayerActivity.class);
         dynamicHaoyou.putExtra("typeImg", img);
         dynamicHaoyou.putExtra("typeHttpUrl", httpUrl);
         startActivity(dynamicHaoyou);

@@ -21,8 +21,12 @@ import org.song.videoplayer.media.BaseMedia;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-public class ExploreVideoPlayer extends AppCompatActivity {
+/**
+ * 视频播放器
+ *
+ * @author zhou
+ */
+public class VideoPlayerActivity extends AppCompatActivity {
     private String typeImg = "";
     private String typeHttpUrl = "";
 
@@ -72,9 +76,9 @@ public class ExploreVideoPlayer extends AppCompatActivity {
                 if (what == DemoQSVideoView.EVENT_CONTROL_VIEW && mode == IVideoPlayer.MODE_WINDOW_NORMAL) {
                     if (Build.VERSION.SDK_INT >= 19) {
                         if (extra[0] == 0)//状态栏隐藏/显示
-                            Util.CLEAR_FULL(ExploreVideoPlayer.this);
+                            Util.CLEAR_FULL(VideoPlayerActivity.this);
                         else
-                            Util.SET_FULL(ExploreVideoPlayer.this);
+                            Util.SET_FULL(VideoPlayerActivity.this);
                     }
                 }
                 //系统浮窗点击退出退出activity

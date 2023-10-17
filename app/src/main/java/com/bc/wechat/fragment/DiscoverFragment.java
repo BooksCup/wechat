@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.wechat.R;
+import com.bc.wechat.activity.VideoPlayerActivity;
 import com.bc.wechat.activity.MainActivity;
 import com.bc.wechat.activity.MomentsActivity;
 import com.bc.wechat.activity.MpActivity;
@@ -243,7 +244,7 @@ public class DiscoverFragment extends BaseFragment {
     }
 
     @OnClick({R.id.rl_moments, R.id.rl_scan, R.id.rl_search,
-            R.id.rl_people_nearby, R.id.rl_mini_programs})
+            R.id.rl_people_nearby, R.id.rl_game, R.id.rl_mini_programs})
     public void onClick(View view) {
         String[] permissions;
         switch (view.getId()) {
@@ -261,6 +262,12 @@ public class DiscoverFragment extends BaseFragment {
                 // 动态申请定位权限
                 permissions = new String[]{"android.permission.ACCESS_FINE_LOCATION"};
                 requestPerms(getActivity(), permissions, MainActivity.REQUEST_CODE_LOCATION);
+                break;
+            case R.id.rl_game:
+                Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+                intent.putExtra("typeImg", "https://videopic-76314.picgzc.qpic.cn/wy_screenshot_311a7fac3a75bc81ce8cd5c0a55b3f406c672f00.jpeg/640");
+                intent.putExtra("typeHttpUrl", "https://njc-download.weiyun.com/ftn_handler/23c632d734756b1c9f362bf96ad656d5dc0a9e770c82b26a92d03ce5acfeb3b7/1.%E9%80%8F%E8%BF%87%E7%BB%93%E6%9E%84%E7%9C%8B%E4%B8%96%E7%95%8C%EF%BC%8C%E6%B4%9E%E6%82%89%E4%BA%8B%E7%89%A9%E6%9C%AC%E8%B4%A8.mp4?fname=1.%E9%80%8F%E8%BF%87%E7%BB%93%E6%9E%84%E7%9C%8B%E4%B8%96%E7%95%8C%EF%BC%8C%E6%B4%9E%E6%82%89%E4%BA%8B%E7%89%A9%E6%9C%AC%E8%B4%A8.mp4&from=30111&version=3.3.3.3");
+                startActivity(intent);
                 break;
             case R.id.rl_mini_programs:
                 startActivity(new Intent(getActivity(), MpActivity.class));
